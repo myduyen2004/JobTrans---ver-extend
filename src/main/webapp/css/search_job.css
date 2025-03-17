@@ -1,0 +1,50 @@
+.banner_title{
+    background-image: url(../wp-content/uploads/2021/09/breadcrumb-bg.jpg);
+    background-size: 100%;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.switch{
+    position: relative;
+    display: inline-block;
+    width: 33px;
+    height: 18px;
+    margin: 0 10px;
+}
+
+.slider{
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.switch input{display: none}
+
+.slider:before{
+    position: absolute;
+    content: "";
+    height: 15px;
+    width: 15px;
+    left: 1.5px;
+    bottom: 1.5px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50px;
+}
+
+input:checked + .slider{
+    background-color: #6787FE;
+}
+
+input:checked + .slider:before{
+    transform: translateX(15px);
+}
