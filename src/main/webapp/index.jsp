@@ -55,7 +55,7 @@
                                                                      src="wp-content/uploads/2021/09/logo.png"
                                                                      class="custom-logo" alt="ProLancer"
                                                                      decoding="async" srcset=""
-                                                                     sizes="(max-width: 500px) 100vw, 500px"/></a></div>
+                                                                     sizes="(max-width: 500px) 100vw, 500px "/></a></div>
 
         <ul class="navigation"><!--Keep This Empty / Menu will come through Javascript--></ul>
         <div class="text-center">
