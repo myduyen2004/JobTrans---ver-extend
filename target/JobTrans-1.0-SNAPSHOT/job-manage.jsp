@@ -36,7 +36,7 @@
 <!--Mobile Navigation Toggler-->
 <div class="off-canvas-menu-bar">
     <div class="container">
-        <div class="row">
+        <div class="row"
             <div class="col-6 my-auto">
                 <a href="../index.html" class="custom-logo-link" rel="home"><img width="500" height="71"
                                                                                  src="../wp-content/uploads/2021/09/logo.png"
