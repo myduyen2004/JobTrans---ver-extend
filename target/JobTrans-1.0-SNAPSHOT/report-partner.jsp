@@ -148,7 +148,7 @@
             <div class="col-xl-3 position-relative">
 
                 <div class="filter-box">
-                    <label>Taskbar</label>
+                    <%@include file="includes/task-bar.jsp" %>
                 </div>
                 </form>
 
