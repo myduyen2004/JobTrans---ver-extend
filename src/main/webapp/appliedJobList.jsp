@@ -137,8 +137,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-6 my-auto">
-                    <a href="../index.html" class="custom-logo-link" rel="home"><img width="500" height="71"
-                            src="../wp-content/uploads/2021/09/logo.png" class="custom-logo" alt="ProLancer"
+                    <a href="" class="custom-logo-link" rel="home"><img width="500" height="71"
+                            src="./wp-content/uploads/2021/09/logo.png" class="custom-logo" alt="ProLancer"
                             decoding="async"
                             srcset="https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo.png 500w, https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo-300x43.png 300w"
                             sizes="(max-width: 500px) 100vw, 500px" /></a>

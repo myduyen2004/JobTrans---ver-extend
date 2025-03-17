@@ -9,7 +9,7 @@
 					<div class="elementor-column elementor-col-20 elementor-top-column elementor-element elementor-element-7e8ec4b2" data-id="7e8ec4b2" data-element_type="column">
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-a107d09 elementor-widget elementor-widget-image" data-id="a107d09" data-element_type="widget" data-widget_type="image.default">
-															<img src="wp-content/uploads/2021/09/logo.png" class="attachment-full wp-image-2903" alt="" srcset=""  />															</div>
+															<img src="/JobTrans/wp-content/uploads/2021/09/logo.png" class="attachment-full wp-image-2903" alt="" srcset=""  />															</div>
 				<div class="elementor-element elementor-element-a538944 elementor-widget elementor-widget-heading" data-id="a538944" data-element_type="widget" data-widget_type="heading.default">
 <a href="https://themebing.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4d3e383d3d223f390d3d3f22212c232e283f632e2220"></a></p>				</div>
 				<div class="elementor-element elementor-element-c31635a elementor-widget elementor-widget-shortcode" data-id="c31635a" data-element_type="widget" data-widget_type="shortcode.default">
