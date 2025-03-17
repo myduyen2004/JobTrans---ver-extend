@@ -23,6 +23,7 @@
   <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
   <!-- custom Css-->
   <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
+
 </head>
 <body>
 
@@ -32,7 +33,12 @@
 <header>
   Để đó xíu lafm
 </header>
+    <style>
+        .site-footer {
+            background-color: #0F1B63 !important;
+        }
 
+    </style>
   <!-- removeNotificationModal -->
   <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
