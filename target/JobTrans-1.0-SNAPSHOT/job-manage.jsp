@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="profile" href="https://gmpg.org/xfn/11">
 
-    <title>Quản lí Công việc [Tên công việc] &#8211; JobTrans</title>
+    <title>Quản lí Công việc [Tên công việc] &#8211; JobTrans </title>
     <meta name='robots' content='max-image-preview:large'/>
     <link rel="icon" type="image/png" href="wp-content/uploads/2021/09/logo.png">
 </head>
@@ -105,7 +105,7 @@
     <div class="container">
         <div class="row justify-content-center ">
             <div class="col-xl-3 position-relative">
-                TASKBAR
+                <%@include file="includes/task-bar.jsp" %>
             </div>
             <div class="search-result col-lg-8">
                 <div style="display: flex; justify-content: center; margin-bottom: 50px;">
