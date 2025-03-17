@@ -161,3 +161,9 @@
 			</div>
 		</div>
 	</footer>
+<style>
+	.site-footer .copyright-bar {
+		background-color: #0F1B63 !important;
+	}
+
+</style>

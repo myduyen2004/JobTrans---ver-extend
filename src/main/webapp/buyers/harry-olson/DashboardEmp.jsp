@@ -366,9 +366,14 @@
 <!-- Begin page -->
 <div id="layout-wrapper">
 
-<header>
-  Để đó xíu lafm
-</header>
+    <section class="pb-95 bg-gray">
+        <section>
+            <div class="breadcrumbs">
+                <div class="col-md-12 my-auto">
+                    <h1 style="text-align: center;color:white">Dashboard người dùng</h1>
+                </div>
+
+        </section>
 
   <!-- removeNotificationModal -->
   <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">

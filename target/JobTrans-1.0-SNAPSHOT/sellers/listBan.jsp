@@ -1,15 +1,23 @@
-<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
+<html lang="en-US">
 
 <!-- Mirrored from themebing.com/wp/prolancer/sellers/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Jan 2025 09:34:59 GMT -->
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 <head>
-<%@include file="../includes/header.jsp" %>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
 	
 	<title>Sellers &#8211; ProLancer</title>
 <meta name='robots' content='max-image-preview:large' />
+	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+	<link rel='dns-prefetch' href='http://www.gstatic.com/' />
+<link rel='dns-prefetch' href='http://fonts.googleapis.com/' />
+<link rel='preconnect' href='https://fonts.gstatic.com/' crossorigin />
+<link rel="alternate" type="application/rss+xml" title="ProLancer &raquo; Feed" href="../feed/index.html" />
+<link rel="alternate" type="application/rss+xml" title="ProLancer &raquo; Comments Feed" href="../comments/feed/index.html" />
+<link rel="alternate" type="application/rss+xml" title="ProLancer &raquo; Sellers Feed" href="feed/index.html" />
 <script type="text/javascript">
 /* <![CDATA[ */
 window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/themebing.com\/wp\/prolancer\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.7.1"}};
@@ -31,15 +39,6 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
 		padding: 0 !important;
 	}
 </style>
-
-<style>
-   .breadcrumbs {
-    text-align: center;
-}        
-    
-    
-</style>
-   
 <link rel='stylesheet' id='wp-block-library-css' href='../wp-includes/css/dist/block-library/style.min9704.css?ver=6.7.1' type='text/css' media='all' />
 <style id='classic-theme-styles-inline-css' type='text/css'>
 /*! This file is auto-generated */
@@ -244,7 +243,91 @@ var woocommerce_params = {"ajax_url":"\/wp\/prolancer\/wp-admin\/admin-ajax.php"
 		</div>
 		
 	<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-    <!-- #masthead -->
+
+    <header>
+    	
+	    <div class="site-header sticky-header">
+	        <div class="container">
+	            <div class="row">
+	            		            		<div class="col-xl-3 col-md-3 my-auto">
+	            			<div class="logo">
+			                    <a href="../index.html" class="custom-logo-link" rel="home"><img width="500" height="71" src="../wp-content/uploads/2021/09/logo.png" class="custom-logo" alt="ProLancer" decoding="async" srcset="https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo.png 500w, https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo-300x43.png 300w" sizes="(max-width: 500px) 100vw, 500px" /></a>		                    </div>
+	            		</div>
+	            		            	
+	                <div class="col-xl-7 col-md-7 my-auto">
+	                    <div class="primary-menu d-none d-lg-inline-block">
+	                        <nav class="desktop-menu">
+	                            <ul id="menu-primary" class="menu"><li id="menu-item-2318" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-has-children menu-item-2318"><a  href="../index.html">Home</a>
+<ul class="sub-menu">
+	<li id="menu-item-3045" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-3045"><a  href="../index.html" class="dropdown-mega-menu-toggle">Home 1</a><div class="mega-menu-content"></div></li>
+	<li id="menu-item-3044" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3044"><a  href="../home-2/index.html" class="dropdown-mega-menu-toggle">Home 2</a><div class="mega-menu-content"></div></li>
+	<li id="menu-item-3043" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3043"><a  href="../home-3/index.html" class="dropdown-mega-menu-toggle">Home 3</a><div class="mega-menu-content"></div></li>
+	<li id="menu-item-3042" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3042"><a  href="../home-4/index.html" class="dropdown-mega-menu-toggle">Home 4</a><div class="mega-menu-content"></div></li>
+</ul>
+</li>
+<li id="menu-item-26" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-26"><a  href="../projects/index.html">Browse Jobs</a>
+<ul class="sub-menu">
+	<li id="menu-item-718" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-718"><a  href="../projects/index.html" class="dropdown-mega-menu-toggle">Project Right Sidebar</a><div class="mega-menu-content"></div></li>
+	<li id="menu-item-391" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-391"><a  href="../projects/index95ca.html?projects-layout=projects_left_sidebar" class="dropdown-mega-menu-toggle">Project Left Sidebar</a><div class="mega-menu-content"></div></li>
+	<li id="menu-item-716" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-716"><a  href="../projects/index1399.html?projects-layout=projects_fullwidth" class="dropdown-mega-menu-toggle">Project Full Width</a><div class="mega-menu-content"></div></li>
+	<li id="menu-item-390" class="menu-item menu-item-type-post_type menu-item-object-projects menu-item-390"><a  href="../projects/graphic-designer-for-ongoing-job/index.html" class="dropdown-mega-menu-toggle">Project Details</a><div class="mega-menu-content"></div></li>
+</ul>
+</li>
+<li id="menu-item-27" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-27"><a  href="../services/index.html">Services</a>
+<ul class="sub-menu">
+	<li id="menu-item-392" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-392"><a  href="../services/index.html" class="dropdown-mega-menu-toggle">Service Right Sidebar</a><div class="mega-menu-content"></div></li>
+	<li id="menu-item-714" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-714"><a  href="../services/index2efa.html?services-layout=services_left_sidebar" class="dropdown-mega-menu-toggle">Service Left Sidebar</a><div class="mega-menu-content"></div></li>
+	<li id="menu-item-715" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-715"><a  href="../services/index886d.html?services-layout=services_fullwidth" class="dropdown-mega-menu-toggle">Service Full Width</a><div class="mega-menu-content"></div></li>
+	<li id="menu-item-389" class="menu-item menu-item-type-post_type menu-item-object-services menu-item-389"><a  href="../services/i-will-be-your-android-app-developer-for-android-app-development/index.html" class="dropdown-mega-menu-toggle">Service Details</a><div class="mega-menu-content"></div></li>
+</ul>
+</li>
+<li id="menu-item-20" class="menu-item menu-item-type-post_type menu-item-object-page current_page_parent menu-item-has-children menu-item-20"><a  href="../blog/index.html">Blog</a>
+<ul class="sub-menu">
+	<li id="menu-item-386" class="menu-item menu-item-type-post_type menu-item-object-page current_page_parent menu-item-386"><a  href="../blog/index.html" class="dropdown-mega-menu-toggle">Blog Right Sidebar</a><div class="mega-menu-content"></div></li>
+	<li id="menu-item-724" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-724"><a  href="../blog/index2727.html?blog-layout=blog_left_sidebar" class="dropdown-mega-menu-toggle">Blog Left Sidebar</a><div class="mega-menu-content"></div></li>
+	<li id="menu-item-725" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-725"><a  href="../blog/index225c.html?blog-layout=blog_fullwidth" class="dropdown-mega-menu-toggle">Blog Full Width</a><div class="mega-menu-content"></div></li>
+	<li id="menu-item-385" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-385"><a  href="../can-i-make-a-career-out-of-freelancing/index.html" class="dropdown-mega-menu-toggle">Post Details</a><div class="mega-menu-content"></div></li>
+</ul>
+</li>
+<li id="menu-item-382" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-382"><a  href="../about/index.html">About</a></li>
+<li id="menu-item-373" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-ancestor current-menu-parent menu-item-has-children menu-item-373"><a  href="#">Pages</a>
+<ul class="sub-menu">
+	<li id="menu-item-37" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-37"><a  href="../how-it-works/index.html" class="dropdown-mega-menu-toggle">How it works</a><div class="mega-menu-content"></div></li>
+	<li id="menu-item-3720" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-3720"><a  href="../buyers/index.html" class="dropdown-mega-menu-toggle">Buyers</a><div class="mega-menu-content"></div>
+	<ul class="sub-menu">
+		<li id="menu-item-393" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-393"><a  href="../buyers/index.html" class="dropdown-mega-menu-toggle">Buyer Right Sidebar</a><div class="mega-menu-content"></div></li>
+		<li id="menu-item-720" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-720"><a  href="../buyers/indexdd5d.html?buyers-layout=buyers_left_sidebar" class="dropdown-mega-menu-toggle">Buyer Left Sidebar</a><div class="mega-menu-content"></div></li>
+		<li id="menu-item-721" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-721"><a  href="../buyers/index001a.html?buyers-layout=buyers_fullwidth" class="dropdown-mega-menu-toggle">Buyer Full Width</a><div class="mega-menu-content"></div></li>
+		<li id="menu-item-388" class="menu-item menu-item-type-post_type menu-item-object-buyers menu-item-388"><a  href="../buyers/harry-olson/index.html" class="dropdown-mega-menu-toggle">Buyer Details</a><div class="mega-menu-content"></div></li>
+	</ul>
+</li>
+	<li id="menu-item-3721" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current-menu-ancestor current-menu-parent menu-item-has-children menu-item-3721"><a  href="index.html" class="dropdown-mega-menu-toggle">Sellers</a><div class="mega-menu-content"></div>
+	<ul class="sub-menu">
+		<li id="menu-item-394" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item menu-item-394"><a  href="index.html" class="dropdown-mega-menu-toggle">Seller Right Sidebar</a><div class="mega-menu-content"></div></li>
+		<li id="menu-item-722" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-722"><a  href="index7e1e.html?sellers-layout=sellers_left_sidebar" class="dropdown-mega-menu-toggle">Seller Left Sidebar</a><div class="mega-menu-content"></div></li>
+		<li id="menu-item-723" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-723"><a  href="index5fbc.html?sellers-layout=sellers_full_width" class="dropdown-mega-menu-toggle">Seller Full Width</a><div class="mega-menu-content"></div></li>
+		<li id="menu-item-387" class="menu-item menu-item-type-post_type menu-item-object-sellers menu-item-387"><a  href="david-parker/index.html" class="dropdown-mega-menu-toggle">Seller Details</a><div class="mega-menu-content"></div></li>
+	</ul>
+</li>
+	<li id="menu-item-376" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-376"><a  href="../faq/index.html" class="dropdown-mega-menu-toggle">FAQ</a><div class="mega-menu-content"></div></li>
+	<li id="menu-item-380" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-380"><a  href="../404.html" class="dropdown-mega-menu-toggle">404</a><div class="mega-menu-content"></div></li>
+</ul>
+</li>
+<li id="menu-item-40" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-40"><a  href="../contact/index.html">Contact</a></li>
+</ul>	                        </nav>                      
+	                    </div>
+	                </div>
+	                	                <div class="col-xl-2 col-md-2 my-auto">
+	                		                    <div class="header-btn d-none d-lg-block">
+	                        <a href="../frontend-dashboard/index6f28.html?fed=dashboard">
+	                            Dashboard	                        </a>
+	                    </div>
+	                		                </div> 
+	                      
+	            </div>
+	        </div>
+	    </div>
+	</header><!-- #masthead -->
 
 	<!--Mobile Navigation Toggler-->
 	<div class="off-canvas-menu-bar">
@@ -281,229 +364,570 @@ var woocommerce_params = {"ajax_url":"\/wp\/prolancer\/wp-admin\/admin-ajax.php"
 				<div class="container">
 					<div class="row">
 						<div class="col-md-12 my-auto">
-                                                    <h1>Danh sách người dùng bị chặn</h1>
+							<h1>
+						    	  Sellers						    </h1>
+							<ul class="trail-items" itemscope itemtype="http://schema.org/BreadcrumbList"><li class="trail-item trail-begin"><a href="../index.html"><span itemprop="name">Home</span></a><meta itemprop="position" content="1" /></li><li class="trail-item trail-end"><span itemprop="item"><span itemprop="name">Sellers</span></span><meta itemprop="position" content="2" /></li></ul>						</div>
 					</div>
-                                        </div>
 					
 				</div>
 			</div>	
-                            
 		</section>	
-        <style>
-   /* The Modal (background) */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
-}
-
-/* Modal Content */
-.modal-content-popup {
-    background-color: white;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border-radius: 5px;
-    width: 40%; /* Could be more or less, depending on screen size */
-}
-
-/* Close button */
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-
-}
-
-form {
-    border: 2px solid #6787FE; /* Viền màu xanh */
-    padding: 15px;
-    border-radius: 8px; /* Bo góc */
-}
-
-.border-bottom {
-    border-bottom: 1px solid #ddd; /* Đường kẻ giữa các dòng */
-    padding-bottom: 10px;
-}
-        </style>
-        <script>
-                    // Open the modal
-function openFilterPopup() {
-    document.getElementById('filterModal').style.display = 'block';
-}
-
-// Close the modal
-function closeFilterPopup() {
-    document.getElementById('filterModal').style.display = 'none';
-}
-
-// Close the modal when clicking outside of it
-window.onclick = function(event) {
-    var modal = document.getElementById('filterModal');
-    if (event.target == modal) {
-        modal.style.display = 'none';
-    }
-}
-
-                    
-        </script>
-        
-            <!-- Action Buttons -->
-            <div class="row" style="margin: 30px">
-             <div class="col-xl-12" style="text-align: right; margin-bottom: 15px;">
-        <!-- Button to open the modal -->
-<button class="button ripple-effect" onclick="openFilterPopup()">Chọn tiêu chí lọc</button>
-
-<!-- The Modal -->
-<div id="filterModal" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content-popup">
-        <span class="close" onclick="closeFilterPopup()">&times;</span>
-        <h3 style="text-align: center">Chọn tiêu chí lọc người dùng</h3>
-        <form action="AccountManagement" method="get" class="border p-3 rounded>
-           <div class="row text-center my-2">
-        <div class="col-md-12 d-flex align-items-center justify-content-between my-2">
-            <label for="reportUser" class="flex-grow-1 text-start">Báo cáo người dùng</label>
-            <input type="checkbox" id="reportUser" name="options[]" value="viewSeeker">
-        </div>
-        <div class="col-md-12 d-flex align-items-center justify-content-between my-2">
-            <label for="reportProject" class="flex-grow-1 text-start">Báo cáo dự án</label>
-            <input type="checkbox" id="reportProject" name="options[]" value="viewEmployer">
-        </div>
-        <div class="col-md-12 d-flex align-items-center justify-content-between my-2">
-            <label for="numPerPage" class="flex-grow-1 text-start">Số người trên mỗi trang</label>
-            <input type="number" id="numPerPage" name="numPerPage" min="1" class="form-control w-25">
-        </div>
-        <div class="col-md-12 my-2">
-            <button type="submit" class="button ripple-effect btn-block">Xác nhận</button>
-        </div>
-    </div>
-        </form>
-    </div>
-</div>
-</div>
-    </div>
-</div
+	
 	
 <section class="section-padding">
 	<div class="container">
 		<div class="row justify-content-center ">
-			<div class="search-result col-xl-8 border p-3 rounded" >
+			<div class="search-result col-xl-8">
 				        <div class="prolancer-seller-item style-2">
-           
-                                              <div class="row" style="margin-bottom: 10px;margin-top: 10px">
+            <div class="row">
                 <div class="col-md-3 my-auto">
                     <a href="harry-olson/index.html">
                         <img src="../wp-content/uploads/2021/04/pexels-pixabay-220453-300x300.jpg" alt="" />                    </a>
                 </div>
-                <div class="col-md-4 my-auto">
+                <div class="col-md-6 my-auto">
                    <div class="seller-content">
-                       
+                        <h4 >Graphich Designer</h4>
                         <h3 class="mb-2"><a href="harry-olson/index.html">Harry Olson</a><i class="fas fa-check-circle verified" title="Verified"></i></h3>
                         
-                        <p class="mb-4">Nhóm dự án</p>
+                        <p class="mb-4">Member since May 2021</p>
 
-                     
+                        <ul class="list-inline mb-lg-0">
+                                                            <li class="list-inline-item"><i class="fad fa-users-medical"></i>Student</b></li>
+                                                                                        <li class="list-inline-item"><i class="fas fa-map-marked-alt"></i>Australia</b></li>
+                                                    </ul>
                    </div>
                 </div>
-                <div class="col-md-5 my-auto text-center" >
-             
-                        <div class ="row-container">
-                       <div class="d-flex justify-content-center">      
-                            <div class="col-md-6 my-auto">
-                        <a href="../buyers/bayley-robertson/reportUser.jsp" class="prolancer-rgb-btn"style="padding-left:30px;padding-right:30px; " >Xem chi tiết </a>
-                        </div>
-                            <div class="col-md-6 my-auto">
-            <a href="harry-olson/index.html" class="prolancer-rgb-btn" style="background-color:  red" > Chặn </a>   
-            </div>
+                <div class="col-md-3 my-auto text-center">
+                                        <div class="seller-hourly-rate">
+                        <h5><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#36;</span>40.00</bdi></span></h5>
+                        <span>(Hourly rate)</span>
                     </div>
-           </div>
-                </div>
-            </div> 
-                                            <div class="row" style="margin-bottom: 10px;margin-top: 10px">
-                <div class="col-md-3 my-auto">
-                    <a href="harry-olson/index.html">
-                        <img src="../wp-content/uploads/2021/04/pexels-pixabay-220453-300x300.jpg" alt="" />                    </a>
-                </div>
-                <div class="col-md-4 my-auto">
-                   <div class="seller-content">
-                       
-                        <h3 class="mb-2"><a href="harry-olson/index.html">Harry Olson</a><i class="fas fa-check-circle verified" title="Verified"></i></h3>
-                        
-                        <p class="mb-4">Nhóm dự án</p>
-
-                     
-                   </div>
-                </div>
-                <div class="col-md-5 my-auto text-center" >
-             
-                        <div class ="row-container">
-                       <div class="d-flex justify-content-center">      
-                            <div class="col-md-6 my-auto">
-                        <a href="harry-olson/index.html" class="prolancer-rgb-btn" style="padding-left:30px;padding-right:30px; ">Xem chi tiết </a>
-                        </div>
-                            <div class="col-md-6 my-auto">
-            <a href="harry-olson/index.html" class="prolancer-rgb-btn" style="background-color:  red"> Chặn </a>   
+                                    <div class="star-rating mx-auto mb-4">
+                <span style="width:90%"></span>
             </div>
-                    </div>
-           </div>
-                </div>
-            </div>
-                                            <div class="row" style="margin-bottom: 10px;margin-top: 10px">
-                <div class="col-md-3 my-auto">
-                    <a href="harry-olson/index.html">
-                        <img src="../wp-content/uploads/2021/04/pexels-pixabay-220453-300x300.jpg" alt="" />                    </a>
-                </div>
-                <div class="col-md-4 my-auto">
-                   <div class="seller-content">
-                       
-                        <h3 class="mb-2"><a href="harry-olson/index.html">Harry Olson</a><i class="fas fa-check-circle verified" title="Verified"></i></h3>
-                        
-                        <p class="mb-4">Nhóm dự án</p>
-
-                     
-                   </div>
-                </div>
-                <div class="col-md-5 my-auto text-center" >
-             
-                        <div class ="row-container">
-                       <div class="d-flex justify-content-center">      
-                            <div class="col-md-6 my-auto">
-                                <a href="harry-olson/index.html" class="prolancer-rgb-btn" style="padding-left:30px;padding-right:30px; ">Xem chi tiết </a>
-                        </div>
-                            <div class="col-md-6 my-auto">
-            <a href="harry-olson/index.html" class="prolancer-rgb-btn" style="background-color:  red"> Chặn </a>   
-            </div>
-                    </div>
-           </div>
+            <a href="harry-olson/index.html" class="prolancer-rgb-btn">Hire me</a>
                 </div>
             </div>
         </div>
-      
+            <div class="prolancer-seller-item style-2">
+            <div class="row">
+                <div class="col-md-3 my-auto">
+                    <a href="david-parker/index.html">
+                        <img src="../wp-content/uploads/2021/04/pexels-andrea-piacquadio-3777566-300x300.jpg" alt="" />                    </a>
+                </div>
+                <div class="col-md-6 my-auto">
+                   <div class="seller-content">
+                        <h4 >Android Developer</h4>
+                        <h3 class="mb-2"><a href="david-parker/index.html">David Parker</a><i class="fas fa-check-circle verified" title="Verified"></i></h3>
+                        
+                        <p class="mb-4">Member since May 2021</p>
+
+                        <ul class="list-inline mb-lg-0">
+                                                            <li class="list-inline-item"><i class="fad fa-users-medical"></i>Individual</b></li>
+                                                                                        <li class="list-inline-item"><i class="fas fa-map-marked-alt"></i>Qatar</b></li>
+                                                    </ul>
+                   </div>
+                </div>
+                <div class="col-md-3 my-auto text-center">
+                                        <div class="seller-hourly-rate">
+                        <h5><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#36;</span>25.00</bdi></span></h5>
+                        <span>(Hourly rate)</span>
+                    </div>
+                                    <div class="star-rating mx-auto mb-4">
+                <span style="width:94%"></span>
+            </div>
+            <a href="david-parker/index.html" class="prolancer-rgb-btn">Hire me</a>
+                </div>
+            </div>
+        </div>
+            <div class="prolancer-seller-item style-2">
+            <div class="row">
+                <div class="col-md-3 my-auto">
+                    <a href="chenai-simon/index.html">
+                        <img src="../wp-content/uploads/2021/04/pexels-andrea-piacquadio-874158-300x300.jpg" alt="" />                    </a>
+                </div>
+                <div class="col-md-6 my-auto">
+                   <div class="seller-content">
+                        <h4 >SEO Specialist</h4>
+                        <h3 class="mb-2"><a href="chenai-simon/index.html">Chenai Simon</a><i class="fas fa-check-circle verified" title="Verified"></i></h3>
+                        
+                        <p class="mb-4">Member since May 2021</p>
+
+                        <ul class="list-inline mb-lg-0">
+                                                            <li class="list-inline-item"><i class="fad fa-users-medical"></i>Group</b></li>
+                                                                                        <li class="list-inline-item"><i class="fas fa-map-marked-alt"></i>Australia</b></li>
+                                                    </ul>
+                   </div>
+                </div>
+                <div class="col-md-3 my-auto text-center">
+                                        <div class="seller-hourly-rate">
+                        <h5><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#36;</span>55.00</bdi></span></h5>
+                        <span>(Hourly rate)</span>
+                    </div>
+                                    <div class="star-rating mx-auto mb-4">
+                <span style="width:89.090909090909%"></span>
+            </div>
+            <a href="chenai-simon/index.html" class="prolancer-rgb-btn">Hire me</a>
+                </div>
+            </div>
+        </div>
+            <div class="prolancer-seller-item style-2">
+            <div class="row">
+                <div class="col-md-3 my-auto">
+                    <a href="bayley-robert/index.html">
+                        <img src="../wp-content/uploads/2021/04/pexels-mentatdgt-1138903-300x300.jpg" alt="" />                    </a>
+                </div>
+                <div class="col-md-6 my-auto">
+                   <div class="seller-content">
+                        <h4 >Front End Developer</h4>
+                        <h3 class="mb-2"><a href="bayley-robert/index.html">Bayley Robert</a></h3>
+                        
+                        <p class="mb-4">Member since May 2021</p>
+
+                        <ul class="list-inline mb-lg-0">
+                                                            <li class="list-inline-item"><i class="fad fa-users-medical"></i>Student</b></li>
+                                                                                        <li class="list-inline-item"><i class="fas fa-map-marked-alt"></i>Germany</b></li>
+                                                    </ul>
+                   </div>
+                </div>
+                <div class="col-md-3 my-auto text-center">
+                                        <div class="seller-hourly-rate">
+                        <h5><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#36;</span>35.00</bdi></span></h5>
+                        <span>(Hourly rate)</span>
+                    </div>
+                                    <div class="star-rating mx-auto mb-4">
+                <span style="width:92.727272727273%"></span>
+            </div>
+            <a href="bayley-robert/index.html" class="prolancer-rgb-btn">Hire me</a>
+                </div>
+            </div>
+        </div>
+            <div class="prolancer-seller-item style-2">
+            <div class="row">
+                <div class="col-md-3 my-auto">
+                    <a href="farhan-khan/index.html">
+                        <img src="../wp-content/uploads/2021/04/pexels-luis-quintero-1793305-300x300.jpg" alt="" />                    </a>
+                </div>
+                <div class="col-md-6 my-auto">
+                   <div class="seller-content">
+                        <h4 >CEO of Prolancer</h4>
+                        <h3 class="mb-2"><a href="farhan-khan/index.html">Farhan Khan</a></h3>
+                        
+                        <p class="mb-4">Member since Apr 2021</p>
+
+                        <ul class="list-inline mb-lg-0">
+                                                            <li class="list-inline-item"><i class="fad fa-users-medical"></i>Company</b></li>
+                                                                                        <li class="list-inline-item"><i class="fas fa-map-marked-alt"></i>India</b></li>
+                                                    </ul>
+                   </div>
+                </div>
+                <div class="col-md-3 my-auto text-center">
+                                        <div class="seller-hourly-rate">
+                        <h5><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#36;</span>40.00</bdi></span></h5>
+                        <span>(Hourly rate)</span>
+                    </div>
+                                    <div class="star-rating mx-auto mb-4">
+                <span style="width:0%"></span>
+            </div>
+            <a href="farhan-khan/index.html" class="prolancer-rgb-btn">Hire me</a>
+                </div>
+            </div>
+        </div>
     
 					<div class="text-center">
 										</div>
 
 							</div>
-			        	
+			        		<div class="col-xl-4 position-relative">
+        			<aside id="secondary" class="widget-area">
+	        			<div id="prolancer_filter_by_attribute-4" class="widget widget_prolancer_filter_by_attribute"><h4 class="widget-title">Filter by Attribute</h4>				<form id="seller-search-form" enctype="multipart/form-data" data-nonce="112e646a38">
+
+					<div class="filter-box">
+						<label>Hourly Rate</label>
+						<div class="price-range" data-max-value="55"></div>
+						<div class="row">
+							<input type="hidden" class="from-price" name="price-from">
+							<input type="hidden" class="to-price" name="price-to">
+							<div class="col-sm-6"><input type="number" class="from-price form-control text-center" name="price-from" disabled></div>
+							<div class="col-sm-6"><input type="number" class="to-price form-control text-center" name="price-to" disabled></div>
+						</div>						
+					</div>
+					
+					<div class="filter-box">
+						<label>Skills</label>
+						<div class="checkbox-items">
+															<div class="form-check form-switch">
+								  <input class="form-check-input" type="checkbox" id="211" name="seller_skills[]" value="211">
+								  <label class="form-check-label" for="211">Actor</label>
+								</div>
+															<div class="form-check form-switch">
+								  <input class="form-check-input" type="checkbox" id="212" name="seller_skills[]" value="212">
+								  <label class="form-check-label" for="212">Android Developer</label>
+								</div>
+															<div class="form-check form-switch">
+								  <input class="form-check-input" type="checkbox" id="213" name="seller_skills[]" value="213">
+								  <label class="form-check-label" for="213">Computer Operator</label>
+								</div>
+															<div class="form-check form-switch">
+								  <input class="form-check-input" type="checkbox" id="214" name="seller_skills[]" value="214">
+								  <label class="form-check-label" for="214">Content writter</label>
+								</div>
+															<div class="form-check form-switch">
+								  <input class="form-check-input" type="checkbox" id="215" name="seller_skills[]" value="215">
+								  <label class="form-check-label" for="215">Data Entry</label>
+								</div>
+															<div class="form-check form-switch">
+								  <input class="form-check-input" type="checkbox" id="216" name="seller_skills[]" value="216">
+								  <label class="form-check-label" for="216">Director</label>
+								</div>
+															<div class="form-check form-switch">
+								  <input class="form-check-input" type="checkbox" id="217" name="seller_skills[]" value="217">
+								  <label class="form-check-label" for="217">Front End Developer</label>
+								</div>
+															<div class="form-check form-switch">
+								  <input class="form-check-input" type="checkbox" id="218" name="seller_skills[]" value="218">
+								  <label class="form-check-label" for="218">Full Stack Developer</label>
+								</div>
+															<div class="form-check form-switch">
+								  <input class="form-check-input" type="checkbox" id="219" name="seller_skills[]" value="219">
+								  <label class="form-check-label" for="219">Graphich Designer</label>
+								</div>
+															<div class="form-check form-switch">
+								  <input class="form-check-input" type="checkbox" id="220" name="seller_skills[]" value="220">
+								  <label class="form-check-label" for="220">IOS Developer</label>
+								</div>
+															<div class="form-check form-switch">
+								  <input class="form-check-input" type="checkbox" id="221" name="seller_skills[]" value="221">
+								  <label class="form-check-label" for="221">Link Building</label>
+								</div>
+															<div class="form-check form-switch">
+								  <input class="form-check-input" type="checkbox" id="222" name="seller_skills[]" value="222">
+								  <label class="form-check-label" for="222">Musician</label>
+								</div>
+															<div class="form-check form-switch">
+								  <input class="form-check-input" type="checkbox" id="223" name="seller_skills[]" value="223">
+								  <label class="form-check-label" for="223">QA Speciallist</label>
+								</div>
+															<div class="form-check form-switch">
+								  <input class="form-check-input" type="checkbox" id="224" name="seller_skills[]" value="224">
+								  <label class="form-check-label" for="224">React Native Developer</label>
+								</div>
+															<div class="form-check form-switch">
+								  <input class="form-check-input" type="checkbox" id="225" name="seller_skills[]" value="225">
+								  <label class="form-check-label" for="225">Research</label>
+								</div>
+															<div class="form-check form-switch">
+								  <input class="form-check-input" type="checkbox" id="226" name="seller_skills[]" value="226">
+								  <label class="form-check-label" for="226">SEO Specialist</label>
+								</div>
+															<div class="form-check form-switch">
+								  <input class="form-check-input" type="checkbox" id="227" name="seller_skills[]" value="227">
+								  <label class="form-check-label" for="227">Singer</label>
+								</div>
+															<div class="form-check form-switch">
+								  <input class="form-check-input" type="checkbox" id="228" name="seller_skills[]" value="228">
+								  <label class="form-check-label" for="228">Support Agent</label>
+								</div>
+															<div class="form-check form-switch">
+								  <input class="form-check-input" type="checkbox" id="229" name="seller_skills[]" value="229">
+								  <label class="form-check-label" for="229">Unity 2D Developer</label>
+								</div>
+															<div class="form-check form-switch">
+								  <input class="form-check-input" type="checkbox" id="230" name="seller_skills[]" value="230">
+								  <label class="form-check-label" for="230">Unity 3D Developer</label>
+								</div>
+															<div class="form-check form-switch">
+								  <input class="form-check-input" type="checkbox" id="231" name="seller_skills[]" value="231">
+								  <label class="form-check-label" for="231">Unity Developer</label>
+								</div>
+															<div class="form-check form-switch">
+								  <input class="form-check-input" type="checkbox" id="232" name="seller_skills[]" value="232">
+								  <label class="form-check-label" for="232">Video Editor</label>
+								</div>
+															<div class="form-check form-switch">
+								  <input class="form-check-input" type="checkbox" id="233" name="seller_skills[]" value="233">
+								  <label class="form-check-label" for="233">Website Analyst</label>
+								</div>
+								
+						</div>		
+					</div>
+
+					<div class="filter-box">
+						<label>Seller Type</label>
+						<div class="checkbox-items">
+															<div class="form-check form-switch">
+								  <input class="form-check-input" type="checkbox" id="269" name="seller_type[]" value="269">
+								  <label class="form-check-label" for="269">Company</label>
+								</div>
+															<div class="form-check form-switch">
+								  <input class="form-check-input" type="checkbox" id="270" name="seller_type[]" value="270">
+								  <label class="form-check-label" for="270">Group</label>
+								</div>
+															<div class="form-check form-switch">
+								  <input class="form-check-input" type="checkbox" id="271" name="seller_type[]" value="271">
+								  <label class="form-check-label" for="271">Individual</label>
+								</div>
+															<div class="form-check form-switch">
+								  <input class="form-check-input" type="checkbox" id="272" name="seller_type[]" value="272">
+								  <label class="form-check-label" for="272">Student</label>
+								</div>
+								
+						</div>		
+					</div>
+
+					<div class="filter-box">
+						<label>Locations</label>
+						<select name="seller_locations" class="form-select">
+							<option value="">Locations</option>
+															<option value="248">Abu Dhabi</option>
+															<option value="250">Arad, Bahrain</option>
+															<option value="234">Australia</option>
+															<option value="249">Bahrain</option>
+															<option value="237">Berlin</option>
+															<option value="256">California</option>
+															<option value="258">Citrus Heights</option>
+															<option value="242">Delhi</option>
+															<option value="238">Frankfurt</option>
+															<option value="236">Germany</option>
+															<option value="239">Hamburg</option>
+															<option value="240">Hesse</option>
+															<option value="241">India</option>
+															<option value="251">Muharraq</option>
+															<option value="244">Pakistan</option>
+															<option value="245">Punjab</option>
+															<option value="243">Punjab</option>
+															<option value="253">Qatar</option>
+															<option value="252">Riffa</option>
+															<option value="257">Sacramento</option>
+															<option value="254">Sharjah</option>
+															<option value="246">Sindh</option>
+															<option value="247">UAE</option>
+															<option value="255">USA</option>
+															<option value="235">Victoria</option>
+													</select>
+					</div>
+
+					<div class="filter-box">
+						<label>Languages</label>
+						<select name="seller_languages" class="form-select">
+							<option value="">Languages</option>
+															<option value="259">Arabic</option>
+															<option value="260">Chinese</option>
+															<option value="261">English</option>
+															<option value="262">French</option>
+															<option value="263">Hindi</option>
+															<option value="264">Japanese</option>
+															<option value="265">Spanish</option>
+															<option value="266">Urdu</option>
+													</select>
+					</div>
+				</form>
+			
+			</div>	        		</aside>
+        		</div>
             		</div>
 	</div>
 </section>
 
-<%@include file="/includes/footer.jsp" %>
+	<footer id="colophon" class="site-footer">
+				<div data-elementor-type="page" data-elementor-id="1803" class="elementor elementor-1803">
+						<section class="elementor-section elementor-top-section elementor-element elementor-element-7f9f1d9b elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="7f9f1d9b" data-element_type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-20 elementor-top-column elementor-element elementor-element-7e8ec4b2" data-id="7e8ec4b2" data-element_type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-a107d09 elementor-widget elementor-widget-image" data-id="a107d09" data-element_type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img width="500" height="71" src="../wp-content/uploads/2021/09/logo.png" class="attachment-full size-full wp-image-2903" alt="" srcset="https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo.png 500w, https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo-300x43.png 300w" sizes="(max-width: 500px) 100vw, 500px" />															</div>
+				</div>
+				<div class="elementor-element elementor-element-a538944 elementor-widget elementor-widget-heading" data-id="a538944" data-element_type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<p class="elementor-heading-title elementor-size-default">328 Queensberry Street, North Melbourne VIC
+3051, Australia.
+<a href="https://themebing.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="51222421213e23251121233e3d303f3234237f323e3c">[email&#160;protected]</a></p>				</div>
+				</div>
+				<div class="elementor-element elementor-element-c31635a elementor-widget elementor-widget-shortcode" data-id="c31635a" data-element_type="widget" data-widget_type="shortcode.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-shortcode"><script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>(function() {
+	window.mc4wp = window.mc4wp || {
+		listeners: [],
+		forms: {
+			on: function(evt, cb) {
+				window.mc4wp.listeners.push(
+					{
+						event   : evt,
+						callback: cb
+					}
+				);
+			}
+		}
+	}
+})();
+</script><!-- Mailchimp for WordPress v4.9.20 - https://wordpress.org/plugins/mailchimp-for-wp/ --><form id="mc4wp-form-1" class="mc4wp-form mc4wp-form-3343" method="post" data-id="3343" data-name="Form" ><div class="mc4wp-form-fields"><input type="email" name="EMAIL" placeholder="Your email address" required /><input type="submit" value="Sign up" /></div><label style="display: none !important;">Leave this field empty if you're human: <input type="text" name="_mc4wp_honeypot" value="" tabindex="-1" autocomplete="off" /></label><input type="hidden" name="_mc4wp_timestamp" value="1736760663" /><input type="hidden" name="_mc4wp_form_id" value="3343" /><input type="hidden" name="_mc4wp_form_element_id" value="mc4wp-form-1" /><div class="mc4wp-response"></div></form><!-- / Mailchimp for WordPress Plugin --></div>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-20 elementor-top-column elementor-element elementor-element-5e8198a" data-id="5e8198a" data-element_type="column">
+			<div class="elementor-widget-wrap">
+							</div>
+		</div>
+				<div class="elementor-column elementor-col-20 elementor-top-column elementor-element elementor-element-5fd83ebb" data-id="5fd83ebb" data-element_type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-434baca1 elementor-widget elementor-widget-heading" data-id="434baca1" data-element_type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h3 class="elementor-heading-title elementor-size-default">Categories</h3>				</div>
+				</div>
+				<div class="elementor-element elementor-element-58e6ebf3 elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list" data-id="58e6ebf3" data-element_type="widget" data-widget_type="icon-list.default">
+				<div class="elementor-widget-container">
+							<ul class="elementor-icon-list-items">
+							<li class="elementor-icon-list-item">
+											<a href="#">
 
+											<span class="elementor-icon-list-text">Video & Animation</span>
+											</a>
+									</li>
+								<li class="elementor-icon-list-item">
+											<a href="#">
+
+											<span class="elementor-icon-list-text">Digital Marketing</span>
+											</a>
+									</li>
+								<li class="elementor-icon-list-item">
+											<a href="#">
+
+											<span class="elementor-icon-list-text">Graphics & Design</span>
+											</a>
+									</li>
+								<li class="elementor-icon-list-item">
+											<a href="#">
+
+											<span class="elementor-icon-list-text">Programming & Tech</span>
+											</a>
+									</li>
+								<li class="elementor-icon-list-item">
+											<a href="#">
+
+											<span class="elementor-icon-list-text">Business</span>
+											</a>
+									</li>
+						</ul>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-20 elementor-top-column elementor-element elementor-element-2b4f8341" data-id="2b4f8341" data-element_type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-526a75a3 elementor-widget elementor-widget-heading" data-id="526a75a3" data-element_type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h3 class="elementor-heading-title elementor-size-default">Community
+</h3>				</div>
+				</div>
+				<div class="elementor-element elementor-element-31cca992 elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list" data-id="31cca992" data-element_type="widget" data-widget_type="icon-list.default">
+				<div class="elementor-widget-container">
+							<ul class="elementor-icon-list-items">
+							<li class="elementor-icon-list-item">
+											<a href="#">
+
+											<span class="elementor-icon-list-text">Video & Animation</span>
+											</a>
+									</li>
+								<li class="elementor-icon-list-item">
+											<a href="#">
+
+											<span class="elementor-icon-list-text">Digital Marketing</span>
+											</a>
+									</li>
+								<li class="elementor-icon-list-item">
+											<a href="#">
+
+											<span class="elementor-icon-list-text">Graphics & Design</span>
+											</a>
+									</li>
+								<li class="elementor-icon-list-item">
+											<a href="#">
+
+											<span class="elementor-icon-list-text">Business</span>
+											</a>
+									</li>
+								<li class="elementor-icon-list-item">
+											<a href="#">
+
+											<span class="elementor-icon-list-text">Programming & Tech</span>
+											</a>
+									</li>
+						</ul>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-20 elementor-top-column elementor-element elementor-element-254b21e4" data-id="254b21e4" data-element_type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-1e29f9cf elementor-widget elementor-widget-heading" data-id="1e29f9cf" data-element_type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h3 class="elementor-heading-title elementor-size-default">Support</h3>				</div>
+				</div>
+				<div class="elementor-element elementor-element-1e947ef elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list" data-id="1e947ef" data-element_type="widget" data-widget_type="icon-list.default">
+				<div class="elementor-widget-container">
+							<ul class="elementor-icon-list-items">
+							<li class="elementor-icon-list-item">
+											<a href="#">
+
+											<span class="elementor-icon-list-text">Business</span>
+											</a>
+									</li>
+								<li class="elementor-icon-list-item">
+											<a href="#">
+
+											<span class="elementor-icon-list-text">Graphics & Design</span>
+											</a>
+									</li>
+								<li class="elementor-icon-list-item">
+											<a href="#">
+
+											<span class="elementor-icon-list-text">Digital Marketing</span>
+											</a>
+									</li>
+								<li class="elementor-icon-list-item">
+											<a href="#">
+
+											<span class="elementor-icon-list-text">Programming & Tech</span>
+											</a>
+									</li>
+								<li class="elementor-icon-list-item">
+											<a href="#">
+
+											<span class="elementor-icon-list-text">Video & Animation</span>
+											</a>
+									</li>
+						</ul>
+						</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				</div>
+		
+
+		<div class="copyright-bar">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-sm-7 text-start">
+						<p>
+						Copyright © 2025 ProLancer All Rights Reserved.						</p>
+					</div>
+											<div class="col-sm-5 currency-footer">
+															<img src="../wp-content/uploads/2021/04/visa.png" alt="">
+															<img src="../wp-content/uploads/2021/04/mastercard.png" alt="">
+															<img src="../wp-content/uploads/2021/04/paypal.png" alt="">
+															<img src="../wp-content/uploads/2021/04/jcb.png" alt="">
+															<img src="../wp-content/uploads/2021/04/discover.png" alt="">
+													</div>
+										
+				</div>
+			</div>
+		</div>
+	</footer>
 
 	<!--======= Back to Top =======-->
 	<div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
@@ -521,9 +945,7 @@ const urlFields = document.querySelectorAll('.mc4wp-form input[type="url"]')
 for (let j = 0; j < urlFields.length; j++) {
   urlFields[j].addEventListener('blur', maybePrefixUrlField)
 }
-})();</script>
-
-<script type='text/javascript'>
+})();</script>			<script type='text/javascript'>
 				const lazyloadRunObserver = () => {
 					const lazyloadBackgrounds = document.querySelectorAll( `.e-con.e-parent:not(.e-lazyloaded)` );
 					const lazyloadBackgroundObserver = new IntersectionObserver( ( entries ) => {
