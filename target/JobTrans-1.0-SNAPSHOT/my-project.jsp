@@ -11,7 +11,7 @@
 	
 	<title>Công việc của tôi &#8211; ProLancer</title>
 <meta name='robots' content='max-image-preview:large' />
-	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+	<style>img:is([sizes="auto" ], [sizes^="auto," ]) { contain-intrinsic-size: 3000px 1500px }</style>
 
 	<link rel="icon" type="image/png" href="wp-content/uploads/2021/09/logo.png">
 </head>
