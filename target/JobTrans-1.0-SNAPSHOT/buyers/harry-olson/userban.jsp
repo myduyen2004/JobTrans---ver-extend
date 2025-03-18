@@ -5,7 +5,7 @@
 <!-- Mirrored from themebing.com/wp/prolancer/buyers/harry-olson/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Jan 2025 09:34:54 GMT -->
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 <head>
-    <%@include file="/includes/header.jsp" %>
+    <%@include file="/includes/header-login-01.jsp" %>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
@@ -14,8 +14,7 @@
 <meta name='robots' content='max-image-preview:large' />
 	
 	<link rel='dns-prefetch' href='http://www.gstatic.com/' />
-<link rel='dns-prefetch' href='http://fonts.googleapis.com/' />
-<link rel='preconnect' href='https://fonts.gstatic.com/' crossorigin />
+
 <link rel="alternate" type="application/rss+xml" title="ProLancer &raquo; Feed" href="../../feed/index.html" />
 <link rel="alternate" type="application/rss+xml" title="ProLancer &raquo; Comments Feed" href="../../comments/feed/index.html" />
 <script type="text/javascript">
@@ -72,7 +71,7 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
 <link rel='stylesheet' id='bootstrap-css' href='../../wp-content/themes/prolancer/assets/css/bootstrap.min9704.css?ver=6.7.1' type='text/css' media='all' />
 <link rel='stylesheet' id='prolancer-style-css' href='../../wp-content/themes/prolancer/style9704.css?ver=6.7.1' type='text/css' media='all' />
 <style id='prolancer-style-inline-css' type='text/css'>
-	
+
 	.featured-post,.notifications-widget .notifications-button span,.wp-block-search .wp-block-search__button,.sellers .slick-arrow.fa-chevron-left,.sellers .slick-arrow.fa-chevron-right,.buyers .slick-arrow.fa-chevron-left,.buyers .slick-arrow.fa-chevron-right,.services .slick-arrow.fa-chevron-left,.services .slick-arrow.fa-chevron-right,.projects .slick-arrow.fa-chevron-left,.projects .slick-arrow.fa-chevron-right,.page-links a.post-page-numbers,.my-account-widget i,.brands_form input[type="submit"],.header-btn a:hover,.top-header .ajax-search-form button,.service-widget .skills a:hover,.follow-button:hover,.message-button:hover,.progress-bar,.irs--round .irs-from,.irs--round .irs-to,.irs--round .irs-bar,.prolancer-rgb-btn:hover,.skills-required a:hover,.select2-container--default .select2-selection--multiple .select2-selection__choice,.message_sender,.feds-user-profile a,.shopping-cart-widget i,.countdown-date span,.preview-btn li a:hover,#backtotop i,.product-item-content .add_to_cart_button:hover,.product-item-content .added_to_cart:hover,.comment-navigation .nav-links a,.select-items div:hover,.same-as-selected,.mean-container .mean-nav ul li a.mean-expand:hover,button,input[type="button"],.widget_price_filter .ui-slider .ui-slider-range,.widget_price_filter .ui-slider .ui-slider-handle,input[type="reset"],.off-canvas-menu .navigation li>a:hover,.off-canvas-menu .navigation .dropdown-btn:hover,.off-canvas-menu .navigation li .cart-contents,input[type="submit"],.prolancer-search-btn,.video-item .view-detail,.widget-product-details .widget-add-to-cart .variations .value .variation-radios [type="radio"]:checked+label:after,.single-product .product_meta .tagged_as a:hover,.single-product .product_meta .posted_in a:hover,.widget-product-details .widget-add-to-cart .variations .value .variation-radios [type="radio"]:not(:checked)+label:after,.widget_shopping_cart_content .button,.banner2 .banner-cat .cat-count,ul.banner-button li:first-child a,ul.banner-button li a:hover,.prolancer-pricing-table.recommended,.prolancer-pricing-table a:hover,.wedocs-single-wrap .wedocs-sidebar ul.doc-nav-list>li.current_page_parent>a,.wedocs-single-wrap .wedocs-sidebar ul.doc-nav-list>li.current_page_item>a,.wedocs-single-wrap .wedocs-sidebar ul.doc-nav-list>li.current_page_ancestor>a,.primary-menu ul li .children li.current-menu-item>a,.recent-themes-widget,.newest-filter ul li.select-cat,.download-filter ul li.select-cat,input[type="button"],input[type="reset"],input[type="submit"],.checkout-button,.tag-cloud-link:hover,.prolancer-btn,.prolancer-btn.bordered:hover,.post-navigation .nav-previous a,.post-navigation .nav-next a,.blog-btn .btn:hover,.mean-container .mean-nav,.recent-theme-item .permalink,.banner-item-btn a,.meta-attributes li span a:hover,.theme-item-price span,.error-404 a,.product-item-image .onsale,.theme-item-btn a:hover,.theme-banner-btn a,.comment-list .comment-reply-link,.comment-form input[type=submit],.pagination .nav-links .page-numbers.current,.pagination .nav-links .page-numbers:hover,.excerpt-date,.woocommerce-MyAccount-navigation li.is-active a,.primary-menu ul li .children li a:hover,.header-btn .sub-menu li a:hover,a.product_type_variable,a.product_type_simple,a.product_type_external,a.product_type_grouped,a.add_to_cart_button,a.added_to_cart,.tags>a:hover,.single-post .post-share ul li a:hover,.playerContainer .seekBar .outer .inner,.playerContainer .volumeControl .outer .inner {
 		background: #6787FE;
 	}
@@ -270,9 +269,10 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
             min-width: 80px;
         }
 
-           </style>	
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap">
-<script type="text/javascript" src="../../wp-includes/js/jquery/jquery-migrate.min5589.js?ver=3.4.1" id="jquery-migrate-js"></script>
+           </style>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Poppins:700%7CRubik&amp;display=swap&amp;ver=1735374379" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:700%7CRubik&amp;display=swap&amp;ver=1735374379" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:700%7CRubik&amp;display=swap&amp;ver=1735374379" /></noscript><script type="text/javascript" src="../../wp-includes/js/jquery/jquery.minf43b.js?ver=3.7.1" id="jquery-core-js"></script>
+
+    <script type="text/javascript" src="../../wp-includes/js/jquery/jquery-migrate.min5589.js?ver=3.4.1" id="jquery-migrate-js"></script>
 <script type="text/javascript" src="../../wp-content/plugins/prolancer-element/assets/js/richtext.min47a7.js?ver=1.4.5" id="richtext-js"></script>
 <script type="text/javascript" src="../../wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min22b2.js?ver=2.7.0-wc.9.5.1" id="jquery-blockui-js" defer="defer" data-wp-strategy="defer"></script>
 <script type="text/javascript" id="wc-add-to-cart-js-extra">
@@ -317,14 +317,12 @@ var woocommerce_params = {"ajax_url":"\/wp\/prolancer\/wp-admin\/admin-ajax.php"
 				}
 			</style>
 			<style class='wp-fonts-local' type='text/css'>
-@font-face{font-family:Inter;font-style:normal;font-weight:300 900;font-display:fallback;src:url('../../wp-content/plugins/woocommerce/assets/fonts/Inter-VariableFont_slnt%2cwght.woff2') format('woff2');font-stretch:normal;}
-@font-face{font-family:Cardo;font-style:normal;font-weight:400;font-display:fallback;src:url('../../wp-content/plugins/woocommerce/assets/fonts/cardo_normal_400.woff2') format('woff2');}
 </style>
 <link rel="icon" href="../../wp-content/uploads/2021/09/cropped-thumbnail-32x32.png" sizes="32x32" />
 <link rel="icon" href="../../wp-content/uploads/2021/09/cropped-thumbnail-192x192.png" sizes="192x192" />
 <link rel="apple-touch-icon" href="../../wp-content/uploads/2021/09/cropped-thumbnail-180x180.png" />
 <meta name="msapplication-TileImage" content="https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/cropped-thumbnail-270x270.png" />
-<style id="prolancer_opt-dynamic-css" title="dynamic-css" class="redux-options-output">h1,h2,h3,h4,h5,h6{font-family:Poppins;font-weight:700;font-style:normal;color:#333333;}body,p{font-family:Rubik;line-height:28px;font-weight:normal;font-style:normal;color:#4A6375;font-size:16px;}.custom-logo-link img{width:150px;}.breadcrumbs{background-color:#333333;background-image:url('../../wp-content/uploads/2021/09/breadcrumb-bg.jpg');}</style>	
+<style id="prolancer_opt-dynamic-css" title="dynamic-css" class="redux-options-output">h1,h2,h3,h4,h5,h6{font-family:Inter;font-weight:700;font-style:normal;color:#333333;}body,p{font-family:Inter;line-height:28px;font-weight:normal;font-style:normal;color:#4A6375;font-size:16px;}.custom-logo-link img{width:150px;}.breadcrumbs{background-color:#333333;background-image:url('../../wp-content/uploads/2021/09/breadcrumb-bg.jpg');}</style>
 </head>
 
 <body class="buyers-template-default single single-buyers postid-177 wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
@@ -427,7 +425,7 @@ var woocommerce_params = {"ajax_url":"\/wp\/prolancer\/wp-admin\/admin-ajax.php"
                     </div>
             </div>
         	<div class="row justify-content-center">
-        		<div class="col-xl-8">
+        		<div class="col-xl-9">
                     <div class="white-padding">
                         <ul class="nav nav-tabs mb-3">
                             <li class="nav-item">
@@ -446,35 +444,39 @@ var woocommerce_params = {"ajax_url":"\/wp\/prolancer\/wp-admin\/admin-ajax.php"
                                      
                                             
 <form method="POST" action="feedback" enctype="multipart/form-data">
-    <div class="content with-padding padding-bottom-10" style="border: 2px solid #ddd;padding: 10px">
-        <div class="row">
-            <div class="headline" style="text-align:center;margin-bottom: 30px;border-bottom: 1px solid #ccc;">
-                <h3><i class="icon-feather-folder-plus"></i> Tên dự án: Dự án tiếng Hàn</h3>
+        <div class="row" style="text-align: center">
+            <div class="container" style="margin-left: 41px;">
+
+
+            <div style="width: 1062px; height: 508px; position: relative">
+
+                <div style="width: 943px; height: 406px; left: 0px; top: 0px; position: absolute; background: white; border-radius: 14px; border: 2px #D9D9D9 solid"></div>
+                <div style="left: 348px; top: 154px; position: absolute; color: black; font-size: 20px; font-family: Inter; font-weight: 600; line-height: 20px; word-wrap: break-word">Nội dung chi tiết báo cáo</div>
+                <div style="left: 357px; top: 89px; position: absolute; color: black; font-size: 20px; font-family: Inter; font-weight: 400; line-height: 20px; word-wrap: break-word">Vi phạm nội dung: </div>
+                <div style="left: 73px; top: 89px; position: absolute; color: black; font-size: 20px; font-family: Inter; font-weight: 400; line-height: 20px; word-wrap: break-word">Người tố cáo : Vũ </div>
+                <div style="width: 250px; height: 20px; left: 343px; top: 21px; position: absolute; color: black; font-size: 20px; font-family: Inter; font-weight: 600; line-height: 20px; word-wrap: break-word">Tên dự án: Dịch tiếng Hàn</div>
+                <div style="width: 943px; height: 0px; left: 0px; top: 63px; position: absolute; outline: 2px #D9D9D9 solid; outline-offset: -1px"></div>
+                <div style="width: 943px; height: 0px; left: 1px; top: 135px; position: absolute; outline: 2px #D9D9D9 solid; outline-offset: -1px"></div>
+                <div style="width: 72px; height: 0px; left: 306px; top: 63px; position: absolute; transform: rotate(90deg); transform-origin: top left; outline: 2px #D9D9D9 solid; outline-offset: -1px"></div>
+                <div style="width: 943px; height: 0px; left: 0px; top: 193px; position: absolute; outline: 2px #D9D9D9 solid; outline-offset: -1px"></div>
+                <div style="width: 220px; height: 45px; left: 600px; top: 463px; position: absolute">
+                    <div style="width: 220px; height: 45px; left: 0px; top: 0px; position: absolute; background: #E22529; border-radius: 15px"></div>
+<%--  button--%>
+                    <div style="width: 462px; height: 45px; position: relative">
+                        <div style="width: 220px; height: 45px; left: 242px; top: 0px; position: absolute; background: #6787FE; border-radius: 15px"></div>
+                        <div style="left: 268px; top: 13px; position: absolute; color: black; font-size: 20px; font-family: Inter; font-weight: 400; line-height: 20px; word-wrap: break-word">Xác nhận báo cáo </div>
+                        <div style="width: 220px; height: 45px; left: 0px; top: 0px; position: absolute">
+                            <div style="width: 220px; height: 45px; left: 0px; top: 0px; position: absolute; background: #E22529; border-radius: 15px"></div>
+                            <div style="left: 22px; top: 13px; position: absolute; color: black; font-size: 20px; font-family: Inter; font-weight: 400; line-height: 20px; word-wrap: break-word">Tố cáo người dùng</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Người khiếu nại -->
-            <div class="col-xl-12" style="margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
-                <h5><strong>Người khiếu nại:</strong> Nguyễn Hữu Quang</h5>
+
             </div>
-
-            <!-- Vi phạm nội dung -->
-            <div class="col-xl-12" style="margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
-                <h5><strong>Vi phạm nội dung:</strong> Dùng điện thoại trong giờ học tiếng Hàn</h5>
-            </div>
-
-            <!-- Nội dung khiếu nại -->
-            <div class="col-xl-12" style="margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
-                <h5><strong>Nội dung khiếu nại:</strong></h5>
-                <p>Sử dụng điện thoại trong giờ học, gây mất trật tự lớp học.</p>
-            </div>
-
-            <!-- Nút gửi -->
-           <div class="col-xl-12" style="text-align: right; margin-top: 30px;">
-    <button type="submit" class="button ripple-effect big" style="background-color: red; color: white; border: none;">Chặn người dùng</button>
-</div>
-
         </div>
-    </div>
+
 </form>
 
 
@@ -595,9 +597,6 @@ for (let j = 0; j < urlFields.length; j++) {
 <link rel='stylesheet' id='widget-icon-list-css' href='../../wp-content/uploads/elementor/css/custom-widget-icon-list.mindc89.css?ver=1734726326' type='text/css' media='all' />
 <link rel='stylesheet' id='elementor-icons-css' href='../../wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.min705c.css?ver=5.34.0' type='text/css' media='all' />
 <link rel='stylesheet' id='elementor-post-1806-css' href='../../wp-content/uploads/elementor/css/post-180621ee.css?ver=1734726327' type='text/css' media='all' />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"></noscript>
-
 <script type="text/javascript" src="../../wp-includes/js/dist/hooks.min4fdd.js?ver=4d63a3d491d11ffd8ac6" id="wp-hooks-js"></script>
 <script type="text/javascript" src="../../wp-includes/js/dist/i18n.minc33c.js?ver=5e580eb46a90c2b997e6" id="wp-i18n-js"></script>
 <script type="text/javascript" id="wp-i18n-js-after">

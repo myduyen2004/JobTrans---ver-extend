@@ -9,13 +9,11 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
-	
+
 	<title>Harry Olson &#8211; ProLancer</title>
 <meta name='robots' content='max-image-preview:large' />
-	
+
 	<link rel='dns-prefetch' href='http://www.gstatic.com/' />
-<link rel='dns-prefetch' href='http://fonts.googleapis.com/' />
-<link rel='preconnect' href='https://fonts.gstatic.com/' crossorigin />
 <link rel="alternate" type="application/rss+xml" title="ProLancer &raquo; Feed" href="../../feed/index.html" />
 <link rel="alternate" type="application/rss+xml" title="ProLancer &raquo; Comments Feed" href="../../comments/feed/index.html" />
 <script type="text/javascript">
@@ -25,6 +23,7 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
 !function(i,n){var o,s,e;function c(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function p(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data),r=(e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0),new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data));return t.every(function(e,t){return e===r[t]})}function u(e,t,n){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\uddfa\ud83c\uddf3","\ud83c\uddfa\u200b\ud83c\uddf3")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!n(e,"\ud83d\udc26\u200d\u2b1b","\ud83d\udc26\u200b\u2b1b")}return!1}function f(e,t,n){var r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):i.createElement("canvas"),a=r.getContext("2d",{willReadFrequently:!0}),o=(a.textBaseline="top",a.font="600 32px Arial",{});return e.forEach(function(e){o[e]=t(a,e,n)}),o}function t(e){var t=i.createElement("script");t.src=e,t.defer=!0,i.head.appendChild(t)}"undefined"!=typeof Promise&&(o="wpEmojiSettingsSupports",s=["flag","emoji"],n.supports={everything:!0,everythingExceptFlag:!0},e=new Promise(function(e){i.addEventListener("DOMContentLoaded",e,{once:!0})}),new Promise(function(t){var n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),p.toString()].join(",")+"));",r=new Blob([e],{type:"text/javascript"}),a=new Worker(URL.createObjectURL(r),{name:"wpTestEmojiSupports"});return void(a.onmessage=function(e){c(n=e.data),a.terminate(),t(n)})}catch(e){}c(n=f(s,u,p))}t(n)}).then(function(e){for(var t in e)n.supports[t]=e[t],n.supports.everything=n.supports.everything&&n.supports[t],"flag"!==t&&(n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&n.supports[t]);n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&!n.supports.flag,n.DOMReady=!1,n.readyCallback=function(){n.DOMReady=!0}}).then(function(){return e}).then(function(){var e;n.supports.everything||(n.readyCallback(),(e=n.source||{}).concatemoji?t(e.concatemoji):e.wpemoji&&e.twemoji&&(t(e.twemoji),t(e.wpemoji)))}))}((window,document),window._wpemojiSettings);
 /* ]]> */
 </script>
+
 <style id='wp-emoji-styles-inline-css' type='text/css'>
 
 	img.wp-smiley, img.emoji {
@@ -39,6 +38,7 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
 		padding: 0 !important;
 	}
 </style>
+
 <link rel='stylesheet' id='wp-block-library-css' href='../../wp-includes/css/dist/block-library/style.min9704.css?ver=6.7.1' type='text/css' media='all' />
 <style id='classic-theme-styles-inline-css' type='text/css'>
 /*! This file is auto-generated */
@@ -64,7 +64,7 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
 <style id='woocommerce-inline-inline-css' type='text/css'>
 .woocommerce form .form-row .required { visibility: visible; }
 </style>
-<link rel='stylesheet' id='prolancer-fonts-css' href='https://fonts.googleapis.com/css?family=Rubik%3A300%2C400%2C500%2C700%2C900&amp;subset=latin%2Clatin-ext&amp;display=fallback&amp;ver=6.7.1' type='text/css' media='all' />
+	<link rel='stylesheet' id='prolancer-fonts-css' href='https://fonts.googleapis.com/css?family=Rubik%3A300%2C400%2C500%2C700%2C900&amp;subset=latin%2Clatin-ext&amp;display=fallback&amp;ver=6.7.1' type='text/css' media='all' />
 <link rel='stylesheet' id='animate-css' href='../../wp-content/themes/prolancer/assets/css/animate.min9704.css?ver=6.7.1' type='text/css' media='all' />
 <link rel='stylesheet' id='prolancer-default-css' href='../../wp-content/themes/prolancer/assets/css/default9704.css?ver=6.7.1' type='text/css' media='all' />
 <link rel='stylesheet' id='magnific-popup-css' href='../../wp-content/themes/prolancer/assets/css/magnific-popup.min9704.css?ver=6.7.1' type='text/css' media='all' />
@@ -269,12 +269,20 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
             align-items: flex-start;
             min-width: 80px;
         }
-           </style>	
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap">
-<script type="text/javascript" src="../../wp-includes/js/jquery/jquery-migrate.min5589.js?ver=3.4.1" id="jquery-migrate-js"></script>
-<script type="text/javascript" src="../../wp-content/plugins/prolancer-element/assets/js/richtext.min47a7.js?ver=1.4.5" id="richtext-js"></script>
-<script type="text/javascript" src="../../wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min22b2.js?ver=2.7.0-wc.9.5.1" id="jquery-blockui-js" defer="defer" data-wp-strategy="defer"></script>
-<script type="text/javascript" id="wc-add-to-cart-js-extra">
+		.container-row {
+			margin-bottom: 0 !important;
+			padding-bottom: 0 !important;
+		}
+
+		.col-xl-12 {
+			border-bottom: none !important;
+		}
+           </style>
+	<link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Poppins:700%7CRubik&amp;display=swap&amp;ver=1735374379" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:700%7CRubik&amp;display=swap&amp;ver=1735374379" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:700%7CRubik&amp;display=swap&amp;ver=1735374379" /></noscript><script type="text/javascript" src="../../wp-includes/js/jquery/jquery.minf43b.js?ver=3.7.1" id="jquery-core-js"></script>
+	<script type="text/javascript" src="../../wp-includes/js/jquery/jquery-migrate.min5589.js?ver=3.4.1" id="jquery-migrate-js"></script>
+	<script type="text/javascript" src="../../wp-content/plugins/prolancer-element/assets/js/richtext.min47a7.js?ver=1.4.5" id="richtext-js"></script>
+	<script type="text/javascript" src="../../wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min22b2.js?ver=2.7.0-wc.9.5.1" id="jquery-blockui-js" defer="defer" data-wp-strategy="defer"></script>
+	<script type="text/javascript" id="wc-add-to-cart-js-extra">
 /* <![CDATA[ */
 var wc_add_to_cart_params = {"ajax_url":"\/wp\/prolancer\/wp-admin\/admin-ajax.php","wc_ajax_url":"\/wp\/prolancer\/?wc-ajax=%%endpoint%%","i18n_view_cart":"View cart","cart_url":"https:\/\/themebing.com\/wp\/prolancer\/cart\/","is_cart":"","cart_redirect_after_add":"no"};
 /* ]]> */
@@ -316,14 +324,13 @@ var woocommerce_params = {"ajax_url":"\/wp\/prolancer\/wp-admin\/admin-ajax.php"
 				}
 			</style>
 			<style class='wp-fonts-local' type='text/css'>
-@font-face{font-family:Inter;font-style:normal;font-weight:300 900;font-display:fallback;src:url('../../wp-content/plugins/woocommerce/assets/fonts/Inter-VariableFont_slnt%2cwght.woff2') format('woff2');font-stretch:normal;}
-@font-face{font-family:Cardo;font-style:normal;font-weight:400;font-display:fallback;src:url('../../wp-content/plugins/woocommerce/assets/fonts/cardo_normal_400.woff2') format('woff2');}
+
 </style>
 <link rel="icon" href="../../wp-content/uploads/2021/09/cropped-thumbnail-32x32.png" sizes="32x32" />
 <link rel="icon" href="../../wp-content/uploads/2021/09/cropped-thumbnail-192x192.png" sizes="192x192" />
 <link rel="apple-touch-icon" href="../../wp-content/uploads/2021/09/cropped-thumbnail-180x180.png" />
 <meta name="msapplication-TileImage" content="https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/cropped-thumbnail-270x270.png" />
-<style id="prolancer_opt-dynamic-css" title="dynamic-css" class="redux-options-output">h1,h2,h3,h4,h5,h6{font-family:Poppins;font-weight:700;font-style:normal;color:#333333;}body,p{font-family:Rubik;line-height:28px;font-weight:normal;font-style:normal;color:#4A6375;font-size:16px;}.custom-logo-link img{width:150px;}.breadcrumbs{background-color:#333333;background-image:url('../../wp-content/uploads/2021/09/breadcrumb-bg.jpg');}</style>	
+<style id="prolancer_opt-dynamic-css" title="dynamic-css" class="redux-options-output">h1,h2,h3,h4,h5,h6{font-family:Inter;font-weight:700;font-style:normal;color:#333333;}body,p{font-family:Inter;line-height:28px;font-weight:normal;font-style:normal;color:#4A6375;font-size:16px;}.custom-logo-link img{width:150px;}.breadcrumbs{background-color:#333333;background-image:url('../../wp-content/uploads/2021/09/breadcrumb-bg.jpg');}</style>
 </head>
 
 <body class="buyers-template-default single single-buyers postid-177 wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
@@ -373,13 +380,13 @@ var woocommerce_params = {"ajax_url":"\/wp\/prolancer\/wp-admin\/admin-ajax.php"
   <section>
 			<div class="breadcrumbs">
 			<div class="col-md-12 my-auto">
-                            <h2 style="text-align: center;color:white">Thông tin tài khoản Admin</h2>
+                            <h1 style="text-align: center;color:white">Thông tin tài khoản Admin</h1>
 					</div>	
                             
 		</section>
 
         	<div class="row justify-content-center">
-        		<div class="col-xl-8">
+        		<div class="col-xl-12">
                     <div class="white-padding">
                         
                         
@@ -389,21 +396,67 @@ var woocommerce_params = {"ajax_url":"\/wp\/prolancer\/wp-admin\/admin-ajax.php"
                                                     <h1 style="text-align: center">Thông tin cơ bản</h1>
 					</div>
                                                 <div class="container-row">
-                                                        <div class="col-md-4 my-auto">
-                                            <img src="../wp-content/uploads/2021/04/pexels-andrea-piacquadio-874158-200x200.jpg"
-                                alt="Avatar" class="avatar">
-                                            
-                                        </div>
-                                                           <div class="col-md-6 my-auto">
-                                            <div class="col-xl-12" style="margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
-                <h5><strong>Họ và tên: </strong> Nguyễn Hữu Quang</h5>
-            </div>
-                                            
-                                        </div>        
-                                            </div>
-                                       
-					
-				</div>
+
+
+														<div class="col-xl-12" style="margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
+															<div class="row">
+																<div class="col-4">
+																	<div style="width: 227px; height: 382px; position: relative">
+																		<img style="width: 227px; height: 227px; left: 0px; top: 0px; position: absolute; border-radius: 300px" src="https://placehold.co/227x227" />
+																		<div style="width: 165px; height: 44px; left: 31px; top: 293px; position: absolute">
+																			<div style="width: 165px; height: 44px; left: 0px; top: 0px; position: absolute; background: #6787FE; border-radius: 20px"></div>
+																			<div style="left: 26px; top: 10px; position: absolute; color: white; font-size: 20px; font-family: Rubik; font-weight: 500; word-wrap: break-word">Thay avatar</div>
+																		</div>
+																		<div style="left: 5px; top: 358px; position: absolute; color: #7F7A7A; font-size: 20px; font-family: Inter; font-weight: 800; word-wrap: break-word">Thành viên từ 6/2024</div>
+																		<div style="left: 47px; top: 248px; position: absolute; color: black; font-size: 20px; font-family: Rubik; font-weight: 500; word-wrap: break-word">Nguyễn Văn A </div>
+																	</div>
+
+																</div>
+																<div class="col-8">
+																	<div style="width: 825px; height: 640px; position: relative">
+																		<div style="width: 109px; height: 34px; left: 407px; top: 394px; position: absolute">
+																			<div style="width: 109px; height: 34px; left: 0px; top: 0px; position: absolute">
+																				<div style="width: 109px; height: 34px; left: 0px; top: 0px; position: absolute; background: #6787FE; border-radius: 20px"></div>
+																				<div style="left: 9px; top: 7px; position: absolute; color: white; font-size: 16px; font-family: Rubik; font-weight: 500; word-wrap: break-word">Xem chi tiết</div>
+																			</div>
+																		</div>
+																		<div style="width: 825px; height: 640px; left: 0px; top: 0px; position: absolute">
+																			<div style="width: 825px; height: 640px; left: 0px; top: 0px; position: absolute">
+																				<div style="left: 2px; top: 173px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word">Ngày, tháng, năm sinh </div>
+																				<div style="left: 365px; top: 248px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">Admin</div>
+																				<div style="left: 365px; top: 323px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">Nam</div>
+																				<div style="left: 365px; top: 540px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">099999999</div>
+																				<div style="left: 365px; top: 467px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">ngva@gmail.com</div>
+																				<div style="width: 30px; height: 27px; left: 366px; top: 396px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">10 </div>
+																				<div style="width: 825px; height: 640px; left: 0px; top: 0px; position: absolute">
+																					<div style="width: 165px; height: 44px; left: 660px; top: 0px; position: absolute">
+																						<div style="width: 165px; height: 44px; left: 0px; top: 0px; position: absolute; background: #6787FE; border-radius: 20px"></div>
+																						<div style="left: 17px; top: 12px; position: absolute; color: white; font-size: 20px; font-family: Rubik; font-weight: 500; word-wrap: break-word">Sửa thông tin</div>
+																					</div>
+																					<div style="left: 2px; top: 106px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word">Họ và tên</div>
+																					<div style="left: 2px; top: 467px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word">Email</div>
+																					<div style="width: 264px; height: 29px; left: 2px; top: 396px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word">Tố cáo chưa phê duyệt</div>
+																					<div style="left: 0px; top: 540px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word">SĐT</div>
+																					<div style="left: 2px; top: 248px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word">Loại tài khoản</div>
+																					<div style="left: 2px; top: 323px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word">Giới tính</div>
+																					<div style="left: 365px; top: 106px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">Nguyễn Văn A</div>
+																					<div style="left: 366px; top: 173px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">22- 02- 2002</div>
+																					<div style="left: 2px; top: 612px; position: absolute; color: black; font-size: 24px; font-family: Rubik; font-weight: 500; word-wrap: break-word">Địa chỉ </div>
+																					<div style="left: 366px; top: 611px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">FPT comlex Ngũ Hành Sơn</div>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+
+
+
+															</div>
+
+													</div>
+
+
+
+												</div>
 			</div>
                         <div class="tab-content">                       
                             <div class="tab-pane fade active show" id="about-me" role="tabpanel">
@@ -478,7 +531,6 @@ for (let j = 0; j < urlFields.length; j++) {
 <link rel='stylesheet' id='widget-icon-list-css' href='../../wp-content/uploads/elementor/css/custom-widget-icon-list.mindc89.css?ver=1734726326' type='text/css' media='all' />
 <link rel='stylesheet' id='elementor-icons-css' href='../../wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.min705c.css?ver=5.34.0' type='text/css' media='all' />
 <link rel='stylesheet' id='elementor-post-1806-css' href='../../wp-content/uploads/elementor/css/post-180621ee.css?ver=1734726327' type='text/css' media='all' />
-<link rel='stylesheet' id='google-fonts-1-css' href='https://fonts.googleapis.com/css?family=Rubik%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CPoppins%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CRoboto+Slab%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CRoboto%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic&amp;display=auto&amp;ver=6.7.1' type='text/css' media='all' />
 <script type="text/javascript" src="../../wp-includes/js/dist/hooks.min4fdd.js?ver=4d63a3d491d11ffd8ac6" id="wp-hooks-js"></script>
 <script type="text/javascript" src="../../wp-includes/js/dist/i18n.minc33c.js?ver=5e580eb46a90c2b997e6" id="wp-i18n-js"></script>
 <script type="text/javascript" id="wp-i18n-js-after">
