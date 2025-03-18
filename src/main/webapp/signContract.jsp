@@ -1098,9 +1098,7 @@
                                     heightLeft -= pageHeight;
                                 }
 
-                                // Tạo tên file PDF từ mã hợp đồng
-                                // const contractId = document.getElementById('contract-id').textContent;
-                                // const filename = `Hop_Dong_${contractId}_${new Date().toISOString().slice(0,10)}.pdf`;
+
                                 const filename = `Hop_Dong_1.pdf`;
 
                                 // Lưu file PDF
