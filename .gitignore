@@ -1,20 +1,30 @@
+# Thư mục build của Maven
 target/
 
-# IntelliJ IDEA
+# Cấu hình của IntelliJ IDEA
 .idea/
 *.iml
 
-# NetBeans
+# Cấu hình của NetBeans
 nbproject/
 nb-configuration.xml
 
-# Eclipse
+# Cấu hình của Eclipse
 .project
 .classpath
 .settings/
-# Logs
+
+# Thư mục cache Maven
+.mvn/
+mvnw
+mvnw.cmd
+
+# File log và debug
 logs/
 *.log
 
-# Cache
-.mvn/
+# File tạm của hệ điều hành
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

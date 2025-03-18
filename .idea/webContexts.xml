@@ -7,9 +7,11 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/detailsJobGreeting.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/favoriteJobList.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/includes/footer.jsp" value="file://$PROJECT_DIR$/src/main/webapp/includes" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/includes/header-login.jsp" value="file://$PROJECT_DIR$/src/main/webapp/includes" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/includes/header.jsp" value="file://$PROJECT_DIR$/src/main/webapp/includes" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/job_post_detail_employee.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/login-and-register/index.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/loginAndRegister.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/manage/admin/DashboardAdmin.jsp" value="file://$PROJECT_DIR$/src/main/webapp/manage/admin" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/manage/admin/inforAdmin.jsp" value="file://$PROJECT_DIR$/src/main/webapp/manage/admin" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/signContract.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />

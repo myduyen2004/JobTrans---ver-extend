@@ -26,7 +26,7 @@
         </div>
     </div>
 </div>
-<%@include file="includes/header-login.jsp" %><!-- #masthead -->
+<%@include file="includes/header.jsp" %><!-- #masthead -->
 <!--Mobile Navigation Toggler-->
 <div class="off-canvas-menu-bar">
     <div class="container">
