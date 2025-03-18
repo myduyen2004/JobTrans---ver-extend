@@ -1,0 +1,504 @@
+/* CSS for Dashboard Sidebar */
+
+
+.dashboard-sidebar {
+    
+    width: 250px;
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.dashboard-sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dashboard-sidebar ul li {
+    padding: 10px 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.dashboard-sidebar ul li:hover {
+    background: #f5f5f5;
+    border-radius: 5px;
+}
+
+.dashboard-sidebar ul li a {
+    text-decoration: none;
+    color: black;
+    display: block;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown ul {
+    display: none;
+    padding-left: 20px;
+}
+
+.dropdown.active ul {
+    display: block;
+}
+
+.logout {
+    color: red;
+    font-weight: bold;
+}
+
+.container_cv{
+    display: flex;
+}
+.cv_header{
+    width: 39%; 
+}
+.cv_header img{
+    width: 200%;
+}
+.cv_box{
+    display: flex;
+    border: solid black 1px;
+    margin-top: 30px;
+    margin-left: 50px;
+   
+    width: 70%;
+    background-color:#339999;
+ 
+}
+
+
+
+.cv_picture_avatar img {
+    width: 230px;
+    height: 230px;
+    background-color: #d3d3d3;
+    border-radius: 50%;
+    border: 2px solid white;
+    margin-left: 15%;
+    margin-top: 15%;
+}
+.cv_information h2{
+    color: white;
+    margin-left: 11%;
+}
+.cv_information input{
+    margin-left: 11%;
+}
+.cv_destination h2{
+    color: white;
+    margin-left: 11%;
+}
+.cv_destination textArea{
+    margin-left: 11%;
+    height: 500px;
+}
+.cv_body{
+    
+    background-color: white;
+    border: 2px solid black
+   
+    
+}
+.cv_body h1{
+    color: #000000b3;
+}
+/*.cv_body h2{
+    border: solid 1px #0000004d;
+    background-color: #0000004d;
+    color: white;
+    border-radius: 20px;
+    
+    padding-left: 10px;
+    margin-left: 20px;
+    
+}*/
+
+.first_body{
+    display: flex;
+}
+
+
+  .first_body button{
+      margin-right: 30px;
+    margin-top: 30px;
+    height: 25px;
+    width: 50px; /* Chỉnh padding: trên-dưới ít hơn, trái-phải nhiều hơn */
+    line-height: 1; /* Căn chữ không bị dư thừa trên dưới */
+    border: 1px solid black; /* Viền đen */
+    border-radius: 20px; /* Bo góc mềm mại */
+    background: white; /* Màu nền */
+    font-size: 10px;
+}
+
+
+.resume-section-content{
+    width: 65%;
+    margin-left: 30px;
+}
+.resume-section-content input{
+    margin-bottom: 5px;
+}
+.resume-section-content select{
+    margin-bottom: 5px;
+}
+.cv_controller{
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-left: 10px;
+    border: 1px #d3d3d3 solid;
+    padding-bottom: 10px;
+    border-radius: 20px;
+    }   
+.main-infor h1{
+    margin-left: 10%;
+    font-family: 'Roboto';
+    margin-top: 20%;
+    font-size: 50px;
+    color:#336666;
+    
+    }
+
+
+    .title{
+       margin-left: 10%;
+    font-family: 'Roboto';
+    
+    font-size: 25px;
+    color:#336666;
+    }
+    
+
+ .info-card {
+           
+            color: white;
+            padding: 20px;
+            
+            width: 320px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .info-item i {
+            margin-right: 10px;
+            color: #f3a712;
+        }
+        .info-text {
+            font-size: 16px;
+        }
+        
+        
+        
+        
+        
+           .skills-container {
+            width: 320px;
+        }
+      
+        .skill {
+            margin: 15px 0;
+        }
+        .skill button{
+            width: 30px;
+        }
+        
+        .skill-name {
+            margin-top: 35px;
+            color: white;
+            font-size: 17px;
+          
+            margin-bottom: 5px;
+            margin-left: 13%;
+            font-family: 'Roboto', sans-serif;
+            
+        }
+        .progress-bar {
+            width: 85%;
+            height: 8px;
+            background-color: #5c738a;
+            border-radius: 5px;
+            position: relative;
+            margin-left: 13%;
+        }
+        .progress {
+            height: 100%;
+            background-color: white;
+            border-radius: 5px;
+            transition: width 0.5s ease-in-out;
+        }
+        .skills-container h2{
+            margin-left: 13%;
+            color: white;
+        }
+        .more_infor h2{
+            margin-top: 35px;
+            font-size: 22px;
+            margin-left: 12%;
+            color: white;
+            font-family: 'Roboto', sans-serif;
+        }
+        .infor{
+            color: white;
+            margin-left: 8%;
+            
+        }
+        
+        
+          .career-goal {
+            margin-right: 20px;
+            color: #2c3e50;
+            margin-top: 50px;
+            margin-left: 25px;
+            font-family: 'Roboto';
+        }
+        .career-goal h2 {
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .career-goal hr {
+            width: 100%;
+            height: 3px;
+            background-color: #2c3e50;
+            border: none;
+            margin-bottom: 15px;
+        }
+        .career-goal p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #4a4a4a;
+        }
+        
+        
+        
+        
+       
+        .education {
+            width: 700px;
+            color: #2c3e50;
+            margin-top: 50px;
+            margin-left: 25px;
+        }
+        .education h2 {
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-family: 'Roboto';
+        }
+        .education hr {
+            width: 100%;
+            height: 3px;
+            background-color: #2c3e50;
+            border: none;
+            margin-bottom: 15px;
+        }
+        .education .school {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .education .date {
+            font-size: 16px;
+            color: #555;
+        }
+        .education .timeline {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+            margin-left: 100px;
+           
+        }
+        .education .timeline .dot {
+            width: 10px;
+            height: 10px;
+            background-color: black;
+            border-radius: 50%;
+            margin-right: 10px;
+            position: relative;
+            
+        }
+        .education .timeline .dot::after {
+            content: "";
+            position: absolute;
+            width: 2px;
+            height: 40px;
+            background-color: black;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .education .timeline .content {
+            font-size: 18px;
+            font-weight: bold;
+            
+        }
+        .education .timeline ul {
+            font-size: 16px;
+            color: #4a4a4a;
+            padding-left: 20px;
+        }
+        
+        .education button{
+            border: solid 1px #0000004d;
+    background-color: #339999;
+    border-radius: 20px;
+    margin-left: 20px;
+    
+    margin-top: 28px;
+    height: 25px;
+    margin-bottom: 21px;
+    width: 50px;
+    color: white;
+        }
+        
+        
+        
+        .chung_chi {
+            width: 700px;
+            color: #2c3e50;
+            margin-top: 50px;
+            margin-left: 25px;
+        }
+        .chung_chi h2 {
+            font-family: 'Roboto';
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .chung_chi hr {
+            width: 100%;
+            height: 3px;
+            background-color: #2c3e50;
+            border: none;
+            margin-bottom: 15px;
+        }
+        .chung_chi .name_cc {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .chung_chi .date {
+            font-size: 16px;
+            color: #555;
+        }
+        .chung_chi .timeline {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+            margin-left: 100px;
+           
+        }
+ 
+   
+        .chung_chi.timeline .content {
+            font-size: 18px;
+            font-weight: bold;
+            
+        }
+        .chung_chi.timeline ul {
+            font-size: 16px;
+            color: #4a4a4a;
+            padding-left: 20px;
+        }
+         .company {
+            width: 700px;
+            color: #2c3e50;
+            margin-top: 50px;
+            margin-left: 25px;
+        }
+        .company h2 {
+            font-family: 'Roboto';
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .company hr {
+            width: 100%;
+            height: 3px;
+            background-color: #2c3e50;
+            border: none;
+            margin-bottom: 15px;
+        }
+        .company .name_conpany {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .company .date {
+            font-size: 16px;
+            color: #555;
+        }
+        .company .timeline {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+            margin-left: 100px;
+        }
+        .company button{
+                border: solid 1px #0000004d;
+    background-color: #339999;
+    border-radius: 20px;
+    margin-left: 20px;
+    
+    margin-top: 28px;
+    height: 25px;
+    margin-bottom: 21px;
+    width: 50px;
+    color: white;
+            }
+           
+        
+        .chung_chi button{
+            border: solid 1px #0000004d;
+    background-color: #339999;
+    border-radius: 20px;
+    margin-left: 20px;
+    
+    margin-top: 28px;
+    height: 25px;
+    margin-bottom: 21px;
+    width: 50px;
+    color: white;
+        }
+ 
+   
+        .company .timeline .content {
+            font-size: 18px;
+            font-weight: bold;
+            
+        }
+        .company .timeline ul {
+            font-size: 16px;
+            color: #4a4a4a;
+            padding-left: 20px;
+        }
+        .tieu_muc{
+            margin-top: 10px;
+            margin-left: 100px;
+        }
+        
+        .header_cv button{
+          font-size: 18px;  
+          background: #339999;
+          padding-left: 37px;
+          padding-right: 37px;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          color: white;
+    
+        }
+        .how_write{
+            width: 80px;
+            margin-top: 20px;
+            margin-left: 10px;
+            border-radius: 20px;
+            
+            
+        }
+        
