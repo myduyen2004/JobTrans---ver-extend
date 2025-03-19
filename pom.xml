@@ -53,8 +53,11 @@
             <artifactId>javax.mail</artifactId>
             <version>1.6.2</version> <!-- Hoặc phiên bản mới nhất -->
         </dependency>
-
-
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>12.4.2.jre11</version> <!-- Hoặc phiên bản mới nhất -->
+        </dependency>
     </dependencies>
 
     <build>
