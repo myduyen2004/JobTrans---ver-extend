@@ -291,6 +291,10 @@
     .btn:hover {
         opacity: 0.8;
     }
+
+    #dropdown-menu ul li:hover {
+        background: #f0f0f0;
+    }
 </style>
 <style>
     @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
@@ -392,9 +396,18 @@
                             </div>
 
                             <!-- Ảnh đại diện -->
-                            <div style="width: 18%; text-align: right;">
-                                <img src="wp-content/uploads/2021/04/pexels-mentatdgt-1138903-80x80.jpg" alt="Avatar"
+                            <div style="width: 18%; text-align: right; position: relative;">
+                                <img id="avatar-img" src="wp-content/uploads/2021/04/pexels-mentatdgt-1138903-80x80.jpg" alt="Avatar"
                                      style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid #4a6375;">
+                                <!-- Dropdown menu -->
+                                <div id="dropdown-menu"
+                                     style="display: none; position: absolute; top: 60px; right: 0; background: white; border: 1px solid #ccc; border-radius: 5px; width: 200px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); z-index: 100; ">
+                                    <ul style="list-style: none; padding: 10px; margin: 0;">
+                                        <li style="padding: 8px; cursor: pointer; border-bottom: 1px solid #eee;"><a style="all: unset;" href="acc-manage?action=viewAdminAccount">Thông tin cá nhân</a></li>
+                                        <li style="padding: 8px; cursor: pointer; border-bottom: 1px solid #eee;">Cài đặt</li>
+                                        <li style="padding: 8px; cursor: pointer;">Đăng xuất</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -403,6 +416,23 @@
         </div>
     </div>
 </header><!-- #masthead -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const avatar = document.getElementById("avatar-img");
+        const dropdownMenu = document.getElementById("dropdown-menu");
+
+        avatar.addEventListener("click", function (event) {
+            event.stopPropagation();
+            dropdownMenu.style.display = (dropdownMenu.style.display === "block") ? "none" : "block";
+        });
+
+        document.addEventListener("click", function (event) {
+            if (!avatar.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.style.display = "none";
+            }
+        });
+    });
+</script>
 <script>
     window.addEventListener("scroll", function () {
         let menuItem = document.getElementById("menu-item-27");
