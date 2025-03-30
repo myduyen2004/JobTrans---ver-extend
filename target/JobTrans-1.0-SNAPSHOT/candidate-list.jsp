@@ -11,7 +11,7 @@
 	<link rel="profile" href="https://gmpg.org/xfn/11">
 	
 	<title>DANH SÁCH ỨNG VIÊN &#8211; JobTrans</title>
-<meta name='robots' content='max-image-preview:large' />
+	<meta name='robots' content='max-image-preview:large' />
 	<link rel="icon" type="image/png" href="wp-content/uploads/2021/09/logo.png">
 
 </head>
@@ -260,4 +260,5 @@
 
 	<!--======= Back to Top =======-->
 	<div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
+</body>
 </html>

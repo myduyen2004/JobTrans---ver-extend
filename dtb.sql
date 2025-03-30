@@ -1,4 +1,5 @@
-﻿
+CREATE DATABASE JobTransnew
+GO
 USE JobTransnew;
 GO
 CREATE TABLE Account (
