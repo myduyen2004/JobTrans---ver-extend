@@ -11,11 +11,10 @@
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1">
-            <link rel="profile" href="https://gmpg.org/xfn/11"> 
+            <link rel="profile" href="https://gmpg.org/xfn/11">
 
             <title>Projects &#8211; ProLancer</title>
             <meta name='robots' content='max-image-preview:large' />
-
             <style id="prolancer_opt-dynamic-css" title="dynamic-css" class="redux-options-output">
                 .profile {
                     width: 350px;
@@ -275,9 +274,10 @@
                     mask-image: var(--svg);
                 }
             </style>
+
         </head>
 
-        <body
+        <div
             class="archive post-type-archive post-type-archive-projects wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
 
             <!-- Preloading -->
@@ -292,8 +292,11 @@
 
             <%@include file="includes/header-login-01.jsp" %>
 
-                <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+            <%@include file="includes/sidebar.jsp" %>
 
+                <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+<%--            Lưu ý khi chèn taskbar nhớ chèn theo thẻ này--%>
+            <div class="row main-content" id="mainContent">
                 <section>
                     <div class="breadcrumbs">
                         <div class="container">
@@ -333,7 +336,7 @@
                                 <p class="member-since">Thành viên từ 6/2024</p>
                             </div>
                             <div class="info col-xl-6">
-                                <h2>Thông tin cơ bản</h2>
+                                <h2 style="margin-bottom: 20px;">Thông tin cơ bản</h2>
                                 <div class="info-grid">
                                     <p>Họ và tên</p>
                                     <p>Nguyễn Văn A</p>
@@ -460,6 +463,8 @@
                         </div>
                     </div>
                 </section>
+            </div>
+        </div>
 
                 <%@include file="includes/footer.jsp" %>
                     <!--======= Back to Top =======-->
