@@ -11,7 +11,7 @@
 	
 	<title>Công việc của tôi &#8211; ProLancer</title>
 <meta name='robots' content='max-image-preview:large' />
-	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+	<style>img:is([sizes="auto" ], [sizes^="auto," ]) { contain-intrinsic-size: 3000px 1500px }</style>
 
 	<link rel="icon" type="image/png" href="wp-content/uploads/2021/09/logo.png">
 </head>
@@ -110,7 +110,7 @@
 							</div>
 			        		<div class="col-xl-3 position-relative">
         			<aside id="secondary" class="widget-area">
-	        			<div id="prolancer_filter_by_attribute-2" class="widget widget_prolancer_filter_by_attribute"><h4 class="widget-title">Taskbar</h4>			
+	        			<div id="prolancer_filter_by_attribute-2" class="widget widget_prolancer_filter_by_attribute"><%@include file="includes/task-bar.jsp" %>
 				
 			
 			</div>	        		</aside>

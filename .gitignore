@@ -1,1 +1,30 @@
-/JobTrans/target/
+# Thư mục build của Maven
+target/
+
+# Cấu hình của IntelliJ IDEA
+.idea/
+*.iml
+
+# Cấu hình của NetBeans
+nbproject/
+nb-configuration.xml
+
+# Cấu hình của Eclipse
+.project
+.classpath
+.settings/
+
+# Thư mục cache Maven
+.mvn/
+mvnw
+mvnw.cmd
+
+# File log và debug
+logs/
+*.log
+
+# File tạm của hệ điều hành
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

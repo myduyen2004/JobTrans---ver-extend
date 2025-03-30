@@ -348,7 +348,7 @@
             <div class="row">
                 <div class="col-xl-2 col-md-3 my-auto">
                     <div class="logo">
-                        <a href="index.html"  rel="home" aria-current="page"><img width="80" height="71" src="/JobTrans/wp-content/uploads/2021/09/logo.png" class="custom-logo" alt="ProLancer" decoding="async" srcset="" sizes="(max-width: 500px) 100vw, 500px" /></a>		                    </div>
+                        <a href=""  rel="home" aria-current="page"><img width="80" height="71" src="wp-content/uploads/2021/09/logo.png" class="custom-logo" alt="JobTrans" decoding="async" srcset="" sizes="(max-width: 500px) 100vw, 500px" /></a>		                    </div>
                 </div>
 
                 <div class="col-xl-6 col-md-7 my-auto">
@@ -393,7 +393,7 @@
 
                             <!-- Ảnh đại diện -->
                             <div style="width: 18%; text-align: right;">
-                                <img src="/JobTrans/wp-content/uploads/2021/04/pexels-mentatdgt-1138903-80x80.jpg" alt="Avatar"
+                                <img src="wp-content/uploads/2021/04/pexels-mentatdgt-1138903-80x80.jpg" alt="Avatar"
                                      style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid #4a6375;">
                             </div>
                         </div>
