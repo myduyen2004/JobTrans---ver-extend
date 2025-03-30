@@ -63,6 +63,12 @@
             <artifactId>mssql-jdbc</artifactId>
             <version>12.4.2.jre11</version> <!-- Hoặc phiên bản mới nhất -->
         </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.15</version>
+        </dependency>
+
     </dependencies>
 
     <build>

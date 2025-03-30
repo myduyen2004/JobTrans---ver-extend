@@ -15,6 +15,8 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/manage/admin/DashboardAdmin.jsp" value="file://$PROJECT_DIR$/src/main/webapp/manage/admin" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/manage/admin/inforAdmin.jsp" value="file://$PROJECT_DIR$/src/main/webapp/manage/admin" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/signContract.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/vnpay-return.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/vnpay.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
       </map>
     </option>
   </component>

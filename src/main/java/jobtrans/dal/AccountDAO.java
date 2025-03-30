@@ -6,6 +6,7 @@ import jobtrans.utils.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -144,8 +145,50 @@ public class AccountDAO {
     public Account getAccountByName(String name) {
         return null;
     }
-    public Account getAccountByEmail(String email) {
-        return null;
+    public Account getUserByEmail(String email) {
+        Account account = null;
+        String sql = "SELECT * FROM Account WHERE email = ?";
+
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                account = new Account(
+                        rs.getInt("account_id"),
+                        rs.getString("account_name"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("phone"),
+                        rs.getString("avatar"),
+                        rs.getString("bio"),
+                        rs.getString("address"),
+                        rs.getDate("date_of_birth"),
+                        rs.getString("gender"),
+                        rs.getString("specialist"),
+                        rs.getInt("experience_years"),
+                        rs.getString("education"),
+                        rs.getInt("point"),
+                        rs.getBoolean("verified_account"),
+                        rs.getBoolean("verified_link"),
+                        rs.getInt("tag_complete"),
+                        rs.getInt("tag_debt"),
+                        rs.getInt("count"),
+                        rs.getString("role"),
+                        rs.getString("type"),
+                        rs.getString("signature"),
+                        rs.getString("status")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return account;
     }
     public int getNumberOfAccounts() {
         return 0;
