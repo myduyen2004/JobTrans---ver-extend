@@ -1,21 +1,24 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
-
-<!-- Mirrored from themebing.com/wp/prolancer/login-and-register/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Jan 2025 09:39:25 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 <head>
-    <meta charset="UTF-8">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Đăng nhập &#8211; Jobtrans</title>
     <meta name='robots' content='max-image-preview:large' />
     <style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+    <!-- Boxicons CSS -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
     <link rel='dns-prefetch' href='http://www.gstatic.com/' />
     <link rel='dns-prefetch' href='http://fonts.googleapis.com/' />
     <link rel='preconnect' href='https://fonts.gstatic.com/' crossorigin />
-    <link rel="alternate" type="application/rss+xml" title="ProLancer &raquo; Feed" href="../feed/index.html" />
-    <link rel="alternate" type="application/rss+xml" title="ProLancer &raquo; Comments Feed" href="../comments/feed/index.html" />
+    <link rel="alternate" type="application/rss+xml" title="ProLancer &raquo; Feed" href="${pageContext.request.contextPath}/feed/index.html" />
+    <link rel="alternate" type="application/rss+xml" title="ProLancer &raquo; Comments Feed" href="${pageContext.request.contextPath}/comments/feed/index.html" />
     <script type="text/javascript">
         /* <![CDATA[ */
         window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/themebing.com\/wp\/prolancer\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.7.1"}};
@@ -47,27 +50,27 @@
         :where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
         :root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}
     </style>
-    <link rel='stylesheet' id='contact-form-7-css' href='../wp-content/plugins/contact-form-7/includes/css/styles5b21.css?ver=6.0.2' type='text/css' media='all' />
-    <link rel='stylesheet' id='richtext-css' href='../wp-content/plugins/prolancer-element/assets/css/richtext.min9704.css?ver=6.7.1' type='text/css' media='all' />
-    <link rel='stylesheet' id='prolancer-select2-css' href='../wp-content/plugins/prolancer-element/assets/css/select2.min9704.css?ver=6.7.1' type='text/css' media='all' />
-    <link rel='stylesheet' id='prolancer-dashboard-css' href='../wp-content/plugins/prolancer-element/assets/css/dashboard9704.css?ver=6.7.1' type='text/css' media='all' />
-    <link rel='stylesheet' id='slick-theme-css' href='../wp-content/plugins/prolancer-element/assets/css/slick-theme9704.css?ver=6.7.1' type='text/css' media='all' />
-    <link rel='stylesheet' id='prolancer-plugins-css' href='../wp-content/plugins/prolancer-element/assets/css/plugins9704.css?ver=6.7.1' type='text/css' media='all' />
-    <link rel='stylesheet' id='prolancer-plugin-css' href='../wp-content/plugins/prolancer-element/assets/css/plugin9704.css?ver=6.7.1' type='text/css' media='all' />
-    <link rel='stylesheet' id='prolancer-mega-menu-css' href='../wp-content/plugins/prolancer-element/inc/mega-menu/assets/css/mega-menu9704.css?ver=6.7.1' type='text/css' media='all' />
-    <link rel='stylesheet' id='woocommerce-layout-css' href='../wp-content/plugins/woocommerce/assets/css/woocommerce-layout0c46.css?ver=9.5.1' type='text/css' media='all' />
-    <link rel='stylesheet' id='woocommerce-smallscreen-css' href='../wp-content/plugins/woocommerce/assets/css/woocommerce-smallscreen0c46.css?ver=9.5.1' type='text/css' media='only screen and (max-width: 768px)' />
-    <link rel='stylesheet' id='woocommerce-general-css' href='../wp-content/plugins/woocommerce/assets/css/woocommerce0c46.css?ver=9.5.1' type='text/css' media='all' />
+    <link rel='stylesheet' id='contact-form-7-css' href='${pageContext.request.contextPath}/wp-content/plugins/contact-form-7/includes/css/styles5b21.css?ver=6.0.2' type='text/css' media='all' />
+    <link rel='stylesheet' id='richtext-css' href='${pageContext.request.contextPath}/wp-content/plugins/prolancer-element/assets/css/richtext.min9704.css?ver=6.7.1' type='text/css' media='all' />
+    <link rel='stylesheet' id='prolancer-select2-css' href='${pageContext.request.contextPath}/wp-content/plugins/prolancer-element/assets/css/select2.min9704.css?ver=6.7.1' type='text/css' media='all' />
+
+    <link rel='stylesheet' id='slick-theme-css' href='${pageContext.request.contextPath}/wp-content/plugins/prolancer-element/assets/css/slick-theme9704.css?ver=6.7.1' type='text/css' media='all' />
+    <link rel='stylesheet' id='prolancer-plugins-css' href='${pageContext.request.contextPath}/wp-content/plugins/prolancer-element/assets/css/plugins9704.css?ver=6.7.1' type='text/css' media='all' />
+    <link rel='stylesheet' id='prolancer-plugin-css' href='${pageContext.request.contextPath}/wp-content/plugins/prolancer-element/assets/css/plugin9704.css?ver=6.7.1' type='text/css' media='all' />
+    <link rel='stylesheet' id='prolancer-mega-menu-css' href='${pageContext.request.contextPath}/wp-content/plugins/prolancer-element/inc/mega-menu/assets/css/mega-menu9704.css?ver=6.7.1' type='text/css' media='all' />
+    <link rel='stylesheet' id='woocommerce-layout-css' href='${pageContext.request.contextPath}/wp-content/plugins/woocommerce/assets/css/woocommerce-layout0c46.css?ver=9.5.1' type='text/css' media='all' />
+    <link rel='stylesheet' id='woocommerce-smallscreen-css' href='${pageContext.request.contextPath}/wp-content/plugins/woocommerce/assets/css/woocommerce-smallscreen0c46.css?ver=9.5.1' type='text/css' media='only screen and (max-width: 768px)' />
+    <link rel='stylesheet' id='woocommerce-general-css' href='${pageContext.request.contextPath}/wp-content/plugins/woocommerce/assets/css/woocommerce0c46.css?ver=9.5.1' type='text/css' media='all' />
     <style id='woocommerce-inline-inline-css' type='text/css'>
         .woocommerce form .form-row .required { visibility: visible; }
     </style>
     <link rel='stylesheet' id='prolancer-fonts-css' href='https://fonts.googleapis.com/css?family=Rubik%3A300%2C400%2C500%2C700%2C900&amp;subset=latin%2Clatin-ext&amp;display=fallback&amp;ver=6.7.1' type='text/css' media='all' />
-    <link rel='stylesheet' id='animate-css' href='../wp-content/themes/prolancer/assets/css/animate.min9704.css?ver=6.7.1' type='text/css' media='all' />
-    <link rel='stylesheet' id='prolancer-default-css' href='../wp-content/themes/prolancer/assets/css/default9704.css?ver=6.7.1' type='text/css' media='all' />
-    <link rel='stylesheet' id='magnific-popup-css' href='../wp-content/themes/prolancer/assets/css/magnific-popup.min9704.css?ver=6.7.1' type='text/css' media='all' />
-    <link rel='stylesheet' id='fontawesome-css' href='../wp-content/themes/prolancer/assets/css/fontawesome.min9704.css?ver=6.7.1' type='text/css' media='all' />
-    <link rel='stylesheet' id='bootstrap-css' href='../wp-content/themes/prolancer/assets/css/bootstrap.min9704.css?ver=6.7.1' type='text/css' media='all' />
-    <link rel='stylesheet' id='prolancer-style-css' href='../wp-content/themes/prolancer/style9704.css?ver=6.7.1' type='text/css' media='all' />
+    <link rel='stylesheet' id='animate-css' href='${pageContext.request.contextPath}/wp-content/themes/prolancer/assets/css/animate.min9704.css?ver=6.7.1' type='text/css' media='all' />
+    <link rel='stylesheet' id='prolancer-default-css' href='${pageContext.request.contextPath}/wp-content/themes/prolancer/assets/css/default9704.css?ver=6.7.1' type='text/css' media='all' />
+    <link rel='stylesheet' id='magnific-popup-css' href='${pageContext.request.contextPath}/wp-content/themes/prolancer/assets/css/magnific-popup.min9704.css?ver=6.7.1' type='text/css' media='all' />
+    <link rel='stylesheet' id='fontawesome-css' href='${pageContext.request.contextPath}/wp-content/themes/prolancer/assets/css/fontawesome.min9704.css?ver=6.7.1' type='text/css' media='all' />
+    <link rel='stylesheet' id='bootstrap-css' href='${pageContext.request.contextPath}/wp-content/themes/prolancer/assets/css/bootstrap.min9704.css?ver=6.7.1' type='text/css' media='all' />
+    <link rel='stylesheet' id='prolancer-style-css' href='${pageContext.request.contextPath}/wp-content/themes/prolancer/style9704.css?ver=6.7.1' type='text/css' media='all' />
     <style id='prolancer-style-inline-css' type='text/css'>
 
         .featured-post,.notifications-widget .notifications-button span,.wp-block-search .wp-block-search__button,.sellers .slick-arrow.fa-chevron-left,.sellers .slick-arrow.fa-chevron-right,.buyers .slick-arrow.fa-chevron-left,.buyers .slick-arrow.fa-chevron-right,.services .slick-arrow.fa-chevron-left,.services .slick-arrow.fa-chevron-right,.projects .slick-arrow.fa-chevron-left,.projects .slick-arrow.fa-chevron-right,.page-links a.post-page-numbers,.my-account-widget i,.brands_form input[type="submit"],.header-btn a:hover,.top-header .ajax-search-form button,.service-widget .skills a:hover,.follow-button:hover,.message-button:hover,.progress-bar,.irs--round .irs-from,.irs--round .irs-to,.irs--round .irs-bar,.prolancer-rgb-btn:hover,.skills-required a:hover,.select2-container--default .select2-selection--multiple .select2-selection__choice,.message_sender,.feds-user-profile a,.shopping-cart-widget i,.countdown-date span,.preview-btn li a:hover,#backtotop i,.product-item-content .add_to_cart_button:hover,.product-item-content .added_to_cart:hover,.comment-navigation .nav-links a,.select-items div:hover,.same-as-selected,.mean-container .mean-nav ul li a.mean-expand:hover,button,input[type="button"],.widget_price_filter .ui-slider .ui-slider-range,.widget_price_filter .ui-slider .ui-slider-handle,input[type="reset"],.off-canvas-menu .navigation li>a:hover,.off-canvas-menu .navigation .dropdown-btn:hover,.off-canvas-menu .navigation li .cart-contents,input[type="submit"],.prolancer-search-btn,.video-item .view-detail,.widget-product-details .widget-add-to-cart .variations .value .variation-radios [type="radio"]:checked+label:after,.single-product .product_meta .tagged_as a:hover,.single-product .product_meta .posted_in a:hover,.widget-product-details .widget-add-to-cart .variations .value .variation-radios [type="radio"]:not(:checked)+label:after,.widget_shopping_cart_content .button,.banner2 .banner-cat .cat-count,ul.banner-button li:first-child a,ul.banner-button li a:hover,.prolancer-pricing-table.recommended,.prolancer-pricing-table a:hover,.wedocs-single-wrap .wedocs-sidebar ul.doc-nav-list>li.current_page_parent>a,.wedocs-single-wrap .wedocs-sidebar ul.doc-nav-list>li.current_page_item>a,.wedocs-single-wrap .wedocs-sidebar ul.doc-nav-list>li.current_page_ancestor>a,.primary-menu ul li .children li.current-menu-item>a,.recent-themes-widget,.newest-filter ul li.select-cat,.download-filter ul li.select-cat,input[type="button"],input[type="reset"],input[type="submit"],.checkout-button,.tag-cloud-link:hover,.prolancer-btn,.prolancer-btn.bordered:hover,.post-navigation .nav-previous a,.post-navigation .nav-next a,.blog-btn .btn:hover,.mean-container .mean-nav,.recent-theme-item .permalink,.banner-item-btn a,.meta-attributes li span a:hover,.theme-item-price span,.error-404 a,.product-item-image .onsale,.theme-item-btn a:hover,.theme-banner-btn a,.comment-list .comment-reply-link,.comment-form input[type=submit],.pagination .nav-links .page-numbers.current,.pagination .nav-links .page-numbers:hover,.excerpt-date,.woocommerce-MyAccount-navigation li.is-active a,.primary-menu ul li .children li a:hover,.header-btn .sub-menu li a:hover,a.product_type_variable,a.product_type_simple,a.product_type_external,a.product_type_grouped,a.add_to_cart_button,a.added_to_cart,.tags>a:hover,.single-post .post-share ul li a:hover,.playerContainer .seekBar .outer .inner,.playerContainer .volumeControl .outer .inner {
@@ -178,38 +181,38 @@
         }
 
     </style>
-    <link rel='stylesheet' id='elementor-icons-css' href='../wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.min705c.css?ver=5.34.0' type='text/css' media='all' />
-    <link rel='stylesheet' id='elementor-frontend-css' href='../wp-content/uploads/elementor/css/custom-frontend.mindc89.css?ver=1734726326' type='text/css' media='all' />
-    <link rel='stylesheet' id='elementor-post-1806-css' href='../wp-content/uploads/elementor/css/post-180621ee.css?ver=1734726327' type='text/css' media='all' />
-    <link rel='stylesheet' id='widget-heading-css' href='../wp-content/plugins/elementor/assets/css/widget-heading.min7ac2.css?ver=3.26.3' type='text/css' media='all' />
-    <link rel='stylesheet' id='e-shapes-css' href='../wp-content/plugins/elementor/assets/css/conditionals/shapes.min7ac2.css?ver=3.26.3' type='text/css' media='all' />
-    <link rel='stylesheet' id='elementor-post-3477-css' href='../wp-content/uploads/elementor/css/post-34777e0e.css?ver=1734737299' type='text/css' media='all' />
+    <link rel='stylesheet' id='elementor-icons-css' href='${pageContext.request.contextPath}/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.min705c.css?ver=5.34.0' type='text/css' media='all' />
+    <link rel='stylesheet' id='elementor-frontend-css' href='${pageContext.request.contextPath}/wp-content/uploads/elementor/css/custom-frontend.mindc89.css?ver=1734726326' type='text/css' media='all' />
+    <link rel='stylesheet' id='elementor-post-1806-css' href='${pageContext.request.contextPath}/wp-content/uploads/elementor/css/post-180621ee.css?ver=1734726327' type='text/css' media='all' />
+    <link rel='stylesheet' id='widget-heading-css' href='${pageContext.request.contextPath}/wp-content/plugins/elementor/assets/css/widget-heading.min7ac2.css?ver=3.26.3' type='text/css' media='all' />
+    <link rel='stylesheet' id='e-shapes-css' href='${pageContext.request.contextPath}/wp-content/plugins/elementor/assets/css/conditionals/shapes.min7ac2.css?ver=3.26.3' type='text/css' media='all' />
+    <link rel='stylesheet' id='elementor-post-3477-css' href='${pageContext.request.contextPath}/wp-content/uploads/elementor/css/post-34777e0e.css?ver=1734737299' type='text/css' media='all' />
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap">
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><script type="text/javascript" src="../wp-includes/js/jquery/jquery.minf43b.js?ver=3.7.1" id="jquery-core-js"></script>
-    <script type="text/javascript" src="../wp-includes/js/jquery/jquery-migrate.min5589.js?ver=3.4.1" id="jquery-migrate-js"></script>
-    <script type="text/javascript" src="../wp-content/plugins/prolancer-element/assets/js/richtext.min47a7.js?ver=1.4.5" id="richtext-js"></script>
-    <script type="text/javascript" src="../wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min22b2.js?ver=2.7.0-wc.9.5.1" id="jquery-blockui-js" defer="defer" data-wp-strategy="defer"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><script type="text/javascript" src="${pageContext.request.contextPath}/wp-includes/js/jquery/jquery.minf43b.js?ver=3.7.1" id="jquery-core-js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/wp-includes/js/jquery/jquery-migrate.min5589.js?ver=3.4.1" id="jquery-migrate-js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/wp-content/plugins/prolancer-element/assets/js/richtext.min47a7.js?ver=1.4.5" id="richtext-js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min22b2.js?ver=2.7.0-wc.9.5.1" id="jquery-blockui-js" defer="defer" data-wp-strategy="defer"></script>
     <script type="text/javascript" id="wc-add-to-cart-js-extra">
         /* <![CDATA[ */
         var wc_add_to_cart_params = {"ajax_url":"\/wp\/prolancer\/wp-admin\/admin-ajax.php","wc_ajax_url":"\/wp\/prolancer\/?wc-ajax=%%endpoint%%","i18n_view_cart":"View cart","cart_url":"https:\/\/themebing.com\/wp\/prolancer\/cart\/","is_cart":"","cart_redirect_after_add":"no"};
         /* ]]> */
     </script>
-    <script type="text/javascript" src="../wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart.min0c46.js?ver=9.5.1" id="wc-add-to-cart-js" defer="defer" data-wp-strategy="defer"></script>
-    <script type="text/javascript" src="../wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.mineaec.js?ver=2.1.4-wc.9.5.1" id="js-cookie-js" defer="defer" data-wp-strategy="defer"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart.min0c46.js?ver=9.5.1" id="wc-add-to-cart-js" defer="defer" data-wp-strategy="defer"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.mineaec.js?ver=2.1.4-wc.9.5.1" id="js-cookie-js" defer="defer" data-wp-strategy="defer"></script>
     <script type="text/javascript" id="woocommerce-js-extra">
         /* <![CDATA[ */
         var woocommerce_params = {"ajax_url":"\/wp\/prolancer\/wp-admin\/admin-ajax.php","wc_ajax_url":"\/wp\/prolancer\/?wc-ajax=%%endpoint%%"};
         /* ]]> */
     </script>
-    <script type="text/javascript" src="../wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min0c46.js?ver=9.5.1" id="woocommerce-js" defer="defer" data-wp-strategy="defer"></script>
-    <script type="text/javascript" src="../wp-content/themes/prolancer/assets/js/popper.min47a7.js?ver=1.4.5" id="popper-js"></script>
-    <link rel="https://api.w.org/" href="../wp-json/index.html" /><link rel="alternate" title="JSON" type="application/json" href="../wp-json/wp/v2/pages/3477.json" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="../xmlrpc0db0.html?rsd" />
+    <script type="text/javascript" src="${pageContext.request.contextPath}/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min0c46.js?ver=9.5.1" id="woocommerce-js" defer="defer" data-wp-strategy="defer"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/wp-content/themes/prolancer/assets/js/popper.min47a7.js?ver=1.4.5" id="popper-js"></script>
+    <link rel="https://api.w.org/" href="${pageContext.request.contextPath}/wp-json/index.html" /><link rel="alternate" title="JSON" type="application/json" href="${pageContext.request.contextPath}/wp-json/wp/v2/pages/3477.json" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="${pageContext.request.contextPath}/xmlrpc0db0.html?rsd" />
     <meta name="generator" content="WordPress 6.7.1" />
     <meta name="generator" content="WooCommerce 9.5.1" />
     <link rel="canonical" href="index.html" />
-    <link rel='shortlink' href='../index000a.html?p=3477' />
-    <link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="../wp-json/oembed/1.0/embedfc55.json?url=https%3A%2F%2Fthemebing.com%2Fwp%2Fprolancer%2Flogin-and-register%2F" />
-    <link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="../wp-json/oembed/1.0/embed9d81?url=https%3A%2F%2Fthemebing.com%2Fwp%2Fprolancer%2Flogin-and-register%2F&amp;format=xml" />
+    <link rel='shortlink' href='${pageContext.request.contextPath}/index000a.html?p=3477' />
+    <link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="${pageContext.request.contextPath}/wp-json/oembed/1.0/embedfc55.json?url=https%3A%2F%2Fthemebing.com%2Fwp%2Fprolancer%2Flogin-and-register%2F" />
+    <link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="${pageContext.request.contextPath}/wp-json/oembed/1.0/embed9d81?url=https%3A%2F%2Fthemebing.com%2Fwp%2Fprolancer%2Flogin-and-register%2F&amp;format=xml" />
     <meta name="generator" content="Redux 4.5.4" />	<noscript><style>.woocommerce-product-gallery{ opacity: 1 !important; }</style></noscript>
     <meta name="generator" content="Elementor 3.26.3; features: additional_custom_breakpoints; settings: css_print_method-external, google_font-enabled, font_display-auto">
     <style>
@@ -231,15 +234,16 @@
         }
     </style>
     <style class='wp-fonts-local' type='text/css'>
-        @font-face{font-family:Inter;font-style:normal;font-weight:300 900;font-display:fallback;src:url('../wp-content/plugins/woocommerce/assets/fonts/Inter-VariableFont_slnt%2cwght.woff2') format('woff2');font-stretch:normal;}
-        @font-face{font-family:Cardo;font-style:normal;font-weight:400;font-display:fallback;src:url('../wp-content/plugins/woocommerce/assets/fonts/cardo_normal_400.woff2') format('woff2');}
+        @font-face{font-family:Inter;font-style:normal;font-weight:300 900;font-display:fallback;src:url('${pageContext.request.contextPath}/wp-content/plugins/woocommerce/assets/fonts/Inter-VariableFont_slnt%2cwght.woff2') format('woff2');font-stretch:normal;}
+        @font-face{font-family:Cardo;font-style:normal;font-weight:400;font-display:fallback;src:url('${pageContext.request.contextPath}/wp-content/plugins/woocommerce/assets/fonts/cardo_normal_400.woff2') format('woff2');}
     </style>
-    <link rel="icon" href="../wp-content/uploads/2021/09/cropped-thumbnail-32x32.png" sizes="32x32" />
-    <link rel="icon" href="../wp-content/uploads/2021/09/cropped-thumbnail-192x192.png" sizes="192x192" />
-    <link rel="apple-touch-icon" href="../wp-content/uploads/2021/09/cropped-thumbnail-180x180.png" />
+    <link rel="icon" href="${pageContext.request.contextPath}/wp-content/uploads/2021/09/logo.png" sizes="32x32" />
+    <link rel="icon" href="${pageContext.request.contextPath}/wp-content/uploads/2021/09/logo.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="w${pageContext.request.contextPath}/p-content/uploads/2021/09/logo.png" />
     <meta name="msapplication-TileImage" content="https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/cropped-thumbnail-270x270.png" />
-    <style id="prolancer_opt-dynamic-css" title="dynamic-css" class="redux-options-output">h1,h2,h3,h4,h5,h6{font-family:Inter;font-weight:700;font-style:normal;color:#333333;}body,p{font-family:Rubik;line-height:28px;font-weight:normal;font-style:normal;color:#4A6375;font-size:16px;}.custom-logo-link img{width:150px;}.breadcrumbs{background-color:#333333;background-image:url('../wp-content/uploads/2021/09/breadcrumb-bg.jpg');}</style>	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" /></head>
+    <style id="prolancer_opt-dynamic-css" title="dynamic-css" class="redux-options-output">h1,h2,h3,h4,h5,h6{font-family:Inter;font-weight:700;font-style:normal;color:#333333;}body,p{font-family:Rubik;line-height:28px;font-weight:normal;font-style:normal;color:#4A6375;font-size:16px;}.custom-logo-link img{width:150px;}.breadcrumbs{background-color:#333333;background-image:url('${pageContext.request.contextPath}/wp-content/uploads/2021/09/breadcrumb-bg.jpg');}</style>	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" /></head>
 <body class="page-template page-template-elementor_canvas page page-id-3477 wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-template-canvas elementor-kit-1806 elementor-page elementor-page-3477">
+
 <div data-elementor-type="wp-page" data-elementor-id="3477" class="elementor elementor-3477">
     <section class="elementor-section elementor-top-section elementor-element elementor-element-949510a elementor-section-height-full elementor-section-boxed elementor-section-height-default elementor-section-items-middle" data-id="949510a" data-element_type="section" data-settings="{&quot;background_background&quot;:&quot;gradient&quot;,&quot;shape_divider_bottom&quot;:&quot;mountains&quot;}">
         <div class="elementor-shape elementor-shape-bottom" data-negative="false">
@@ -277,7 +281,7 @@
                     <div class="elementor-element elementor-element-761afa1 elementor-widget elementor-widget-login_and_register" data-id="761afa1" data-element_type="widget" data-widget_type="login_and_register.default">
                         <div class="elementor-widget-container">
                             <div class="login-and-register">
-                                <a href="../index.html" class="custom-logo-link" rel="home"><img decoding="async" width="500" height="71" src="../wp-content/uploads/2021/09/JobtransLogo.png" class="custom-logo" alt="ProLancer" ></a>         <nav class="mb-3">
+                                <a href="/JobTrans/index.jsp" class="custom-logo-link" rel="home"><img decoding="async" width="500" height="71" src="${pageContext.request.contextPath}/wp-content/uploads/2021/09/JobtransLogo.png" class="custom-logo" alt="ProLancer" ></a>         <nav class="mb-3">
                                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
                                     <div class="nav-link active" data-bs-toggle="tab" data-bs-target="#login"aria-controls="nav-home" aria-selected="true">Đăng nhập</div>
                                     <div class="nav-link" data-bs-toggle="tab" data-bs-target="#register" aria-controls="nav-profile" aria-selected="false">Đăng ký</div>
@@ -285,46 +289,52 @@
                             </nav>
                                 <div class="tab-content" id="nav-tabContent">
                                     <div class="tab-pane fade show active" id="login" role="tabpanel">
-                                        <form id="login-form">
-                                            <input type="text" name="username" placeholder="Tên đăng nhập">
-                                            <input type="password" name="password" placeholder="Mật khẩu">
-                                            <a href="#" id="login-submit" data-nonce="b341788b2c" class="prolancer-btn">Đăng nhập</a>
+                                        <form action="/JobTrans/login" id="login-form" method="post" >
+                                            <input type="text" name="emailaddress" placeholder="Địa chỉ email" >
+
+                                            <input type="password"  name="password" placeholder="Mật khẩu" >
+
+                                            <button id="login-submit" class="prolancer-btn" type="submit">Đăng nhập</button>
                                         </form>
-                                        <div style="display: flex; gap: 16px; align-items: center;">
-                                            <a href="../wp-loginc2b6.html?action=lostpassword" class="mt-4 pt-2 lost-password" alt="Lost password">
+                                        <div style="display: flex; align-items: center; gap: 20px;margin-top: 48px;">
+                                            <a href="${pageContext.request.contextPath}/wp-loginc2b6.html?action=lostpassword"
+                                               class="lost-password"
+                                               style="text-decoration: none; color: inherit;">
                                                 Quên mật khẩu
                                             </a>
-                                            <a href="../wp-loginc2b6.html?action=lostpassword" class="mt-4 pt-2 lost-password" alt="Lost password">
+
+                                            <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/JobTrans/login&response_type=code&client_id=907520357121-f3uva6g9h5qq1anbsdfatm21bf1pfu8p.apps.googleusercontent.com&approval_prompt=force"
+                                               class="google-login"
+                                               style="text-decoration: none; color: inherit; display: flex; align-items: center;">
                                                 Đăng nhập bằng Google
                                             </a>
                                         </div>
+
+                                        <c:if test="${not empty error}">
+                                            <p style="color: red;"><c:out value="${error}"/></p>
+                                        </c:if>
                                     </div>
                                     <div class="tab-pane fade" id="register" role="tabpanel">
-                                        <form id="register-form">
-                                            <div style="width: 301px; height: 74px; position: relative;padding-bottom: 30px;margin-bottom: 30px">
-                                                <!-- Button 1 -->
-                                                <button class="custom-button" style="padding-right:0px;padding-left:0px;left: 177px; top: 5px; position: absolute;" type="button" onclick="buttonClickHandler('Nhóm dự án')">
-                                                    Nhóm dự án
-                                                </button>
+                                        <form method="post" id="register-account-form" action="/JobTrans/register">
+                                            <div style="width: 301px; height: 74px; position: relative; padding-bottom: 10px; ">
+                                                <button class="custom-button" id="group"  value="group" style="padding-right: 0px; padding-left: 0px; left: 177px; top: 5px; position: absolute;" type="button" onclick="updateRole('Nhóm dự án')">Nhóm dự án</button>
+                                                <button class="custom-button" id="individual" value="individual" style="padding-right: 0px; padding-left: 0px; left: 0px; top: 0px; position: absolute;" type="button" onclick="updateRole('Cá nhân')">Cá nhân</buttonid>
 
-                                                <!-- Button 2 -->
-                                                <button class="custom-button" style="padding-right:0px;padding-left:0px;left: 0px; top: 0px; position: absolute;" type="button" onclick="buttonClickHandler('Người tìm việc')">
-                                                    Người tìm việc
-                                                </button>
+                                                    <input type="hidden" name="account-type-radio" id="account-type-radio" value="">
 
-                                                <!-- Button 3 -->
-                                                <button class="custom-button" style="padding-right:0px;padding-left:0px;left: 88px; top: 47px; position: absolute;" type="button" onclick="buttonClickHandler('Nhà tuyển dụng')">
-                                                    Nhà tuyển dụng
-                                                </button>
                                             </div>
-
-                                            <!-- Form Fields -->
-                                            <input type="text" name="Username" placeholder="Tên đăng nhập">
-                                            <input type="email" name="email" placeholder="Email">
-                                            <input type="password" name="password" placeholder="Mật khẩu">
-                                            <input type="password" name="Repassword" placeholder="Nhập lại mật khẩu">
-                                            <a href="#" id="register-submit" data-nonce="054bcfec78" class="prolancer-btn">Đăng ký</a>
+                                            <input type="hidden" class="input-text with-border" name="cmd" id="cmd" value="1"/>
+                                            <small id="account-type-error" style="color: red; display: none;">Vui lòng chọn loại tài khoản.</small>
+                                            <input type="text" name="accountName" placeholder="Tên đăng nhập">
+                                            <input type="email" name="email-register" id="emailaddress-register" placeholder="Email">
+                                            <small id="email-error" style="color: red; display: none;">Không đúng định dạng mail</small>
+                                            <input type="password" name="password-register" id="password-register" placeholder="Mật khẩu">
+                                            <small id="password-error" style="color: red; display: none;">Mật khẩu ít nhất phải có 8 ký tự</small>
+                                            <input type="password" name="Repassword" id="password-repeat-register" placeholder="Nhập lại mật khẩu">
+                                            <small id="password-repeat-error" style="color: red; display: none;">Mật khẩu không khớp</small>
+                                            <button id="register-submit" class="prolancer-btn" type="submit">Đăng ký</button>
                                         </form>
+
 
                                         <style>
                                             /* Custom button styles */
@@ -356,18 +366,100 @@
                                         </style>
 
                                         <script>
-                                            // Manage button active state
+                                            function updateRole(role) {
+                                                document.getElementById('account-type-radio').value = role;
+                                                buttonClickHandler(role); // Update button active state
+                                            }
+
                                             function buttonClickHandler(buttonText) {
-                                                // Remove active state from all buttons
                                                 const buttons = document.querySelectorAll('.custom-button');
                                                 buttons.forEach(button => button.classList.remove('active'));
 
-                                                // Find the clicked button and add active class
                                                 const clickedButton = Array.from(buttons).find(button => button.textContent.trim() === buttonText);
                                                 if (clickedButton) {
                                                     clickedButton.classList.add('active');
                                                 }
                                             }
+
+                                        </script>
+
+                                        <script>
+                                            document.addEventListener('DOMContentLoaded', function() {
+                                                const loginSubmit = document.getElementById('login-submit');
+                                                const loginForm = document.getElementById('login-form');
+
+                                                loginSubmit.addEventListener('click', function(event) {
+                                                    loginForm.submit(); // Submit form ngay lập tức
+                                                });
+                                            });
+                                        </script>
+
+                                        <script >
+                                            document.addEventListener('DOMContentLoaded', function() {
+                                                const registerForm = document.getElementById('register-account-form');
+                                                if (registerForm) {
+                                                    document.getElementById('register-submit').addEventListener('click', function(event) {
+                                                        validateAndSubmit();
+                                                    });
+                                                }
+                                            });
+
+                                            //register
+                                            function validateAndSubmit() {
+                                                let isValid = true;
+
+                                                // Lấy giá trị từ form
+                                                const email = document.getElementById('emailaddress-register').value;
+                                                const password = document.getElementById('password-register').value;
+                                                const passwordRepeat = document.getElementById('password-repeat-register').value;
+
+                                                // Kiểm tra loại tài khoản
+
+                                                const accountType = document.getElementById('account-type-radio').value;
+
+                                                if (!accountType) {
+
+                                                    document.getElementById('account-type-error').style.display = 'block';
+
+                                                    isValid = false;
+
+                                                } else {
+
+                                                    document.getElementById('account-type-error').style.display = 'none';
+
+                                                }
+
+                                                // Kiểm tra email
+                                                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                                                if (!emailRegex.test(email)) {
+                                                    document.getElementById('email-error').style.display = 'block';
+                                                    isValid = false;
+                                                } else {
+                                                    document.getElementById('email-error').style.display = 'none';
+                                                }
+
+                                                // Kiểm tra độ dài mật khẩu
+                                                if (password.length < 8) {
+                                                    document.getElementById('password-error').style.display = 'block';
+                                                    isValid = false;
+                                                } else {
+                                                    document.getElementById('password-error').style.display = 'none';
+                                                }
+
+                                                // Kiểm tra mật khẩu trùng khớp
+                                                if (password !== passwordRepeat) {
+                                                    document.getElementById('password-repeat-error').style.display = 'block';
+                                                    isValid = false;
+                                                } else {
+                                                    document.getElementById('password-repeat-error').style.display = 'none';
+                                                }
+
+                                                // Gửi form nếu hợp lệ
+                                                if (isValid) {
+                                                    document.getElementById('register-account-form').submit();
+                                                }
+                                            }
+
                                         </script>
                                     </div>
                                 </div>
@@ -379,6 +471,7 @@
         </div>
     </section>
 </div>
+</body>
 <script type='text/javascript'>
     const lazyloadRunObserver = () => {
         const lazyloadBackgrounds = document.querySelectorAll( `.e-con.e-parent:not(.e-lazyloaded)` );
@@ -405,6 +498,7 @@
         document.addEventListener( event, lazyloadRunObserver );
     } );
 </script>
+
 <script type='text/javascript'>
     (function () {
         var c = document.body.className;
@@ -412,16 +506,16 @@
         document.body.className = c;
     })();
 </script>
-<link rel='stylesheet' id='wc-blocks-style-css' href='../wp-content/plugins/woocommerce/assets/client/blocks/wc-blocksfbdf.css?ver=wc-9.5.1' type='text/css' media='all' />
-<link rel='stylesheet' id='redux-custom-fonts-css' href='../wp-content/uploads/redux/custom-fonts/fontsc27f.css?ver=1736760920' type='text/css' media='all' />
-<script type="text/javascript" src="../wp-includes/js/dist/hooks.min4fdd.js?ver=4d63a3d491d11ffd8ac6" id="wp-hooks-js"></script>
-<script type="text/javascript" src="../wp-includes/js/dist/i18n.minc33c.js?ver=5e580eb46a90c2b997e6" id="wp-i18n-js"></script>
+<link rel='stylesheet' id='wc-blocks-style-css' href='${pageContext.request.contextPath}/wp-content/plugins/woocommerce/assets/client/blocks/wc-blocksfbdf.css?ver=wc-9.5.1' type='text/css' media='all' />
+<link rel='stylesheet' id='redux-custom-fonts-css' href='${pageContext.request.contextPath}/wp-content/uploads/redux/custom-fonts/fontsc27f.css?ver=1736760920' type='text/css' media='all' />
+<script type="text/javascript" src="${pageContext.request.contextPath}/wp-includes/js/dist/hooks.min4fdd.js?ver=4d63a3d491d11ffd8ac6" id="wp-hooks-js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/wp-includes/js/dist/i18n.minc33c.js?ver=5e580eb46a90c2b997e6" id="wp-i18n-js"></script>
 <script type="text/javascript" id="wp-i18n-js-after">
     /* <![CDATA[ */
     wp.i18n.setLocaleData( { 'text direction\u0004ltr': [ 'ltr' ] } );
     /* ]]> */
 </script>
-<script type="text/javascript" src="../wp-content/plugins/contact-form-7/includes/swv/js/index5b21.js?ver=6.0.2" id="swv-js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/wp-content/plugins/contact-form-7/includes/swv/js/index5b21.js?ver=6.0.2" id="swv-js"></script>
 <script type="text/javascript" id="contact-form-7-js-before">
     /* <![CDATA[ */
     var wpcf7 = {
@@ -432,53 +526,53 @@
     };
     /* ]]> */
 </script>
-<script type="text/javascript" src="../wp-content/plugins/contact-form-7/includes/js/index5b21.js?ver=6.0.2" id="contact-form-7-js"></script>
-<script type="text/javascript" src="../../../../www.gstatic.com/charts/loader47a7.js?ver=1.4.5" id="charts-js"></script>
-<script type="text/javascript" src="../wp-content/plugins/prolancer-element/assets/js/rating47a7.js?ver=1.4.5" id="rating-js"></script>
-<script type="text/javascript" src="../wp-content/plugins/prolancer-element/assets/js/sweetalert2.min47a7.js?ver=1.4.5" id="sweetalert2-js"></script>
-<script type="text/javascript" src="../wp-content/plugins/prolancer-element/assets/js/select2.min47a7.js?ver=1.4.5" id="prolancer-select2-js"></script>
-<script type="text/javascript" src="../wp-content/plugins/prolancer-element/assets/js/plugins47a7.js?ver=1.4.5" id="prolancer-plugins-js"></script>
-<script type="text/javascript" src="../wp-includes/js/jquery/ui/core.minb37e.js?ver=1.13.3" id="jquery-ui-core-js"></script>
-<script type="text/javascript" src="../wp-includes/js/jquery/ui/mouse.minb37e.js?ver=1.13.3" id="jquery-ui-mouse-js"></script>
-<script type="text/javascript" src="../wp-includes/js/jquery/ui/sortable.minb37e.js?ver=1.13.3" id="jquery-ui-sortable-js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/wp-content/plugins/contact-form-7/includes/js/index5b21.js?ver=6.0.2" id="contact-form-7-js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/www.gstatic.com/charts/loader47a7.js?ver=1.4.5" id="charts-js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/wp-content/plugins/prolancer-element/assets/js/rating47a7.js?ver=1.4.5" id="rating-js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/wp-content/plugins/prolancer-element/assets/js/sweetalert2.min47a7.js?ver=1.4.5" id="sweetalert2-js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/wp-content/plugins/prolancer-element/assets/js/select2.min47a7.js?ver=1.4.5" id="prolancer-select2-js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/wp-content/plugins/prolancer-element/assets/js/plugins47a7.js?ver=1.4.5" id="prolancer-plugins-js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/wp-includes/js/jquery/ui/core.minb37e.js?ver=1.13.3" id="jquery-ui-core-js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/wp-includes/js/jquery/ui/mouse.minb37e.js?ver=1.13.3" id="jquery-ui-mouse-js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/wp-includes/js/jquery/ui/sortable.minb37e.js?ver=1.13.3" id="jquery-ui-sortable-js"></script>
 <script type="text/javascript" id="prolancer-app-js-extra">
     /* <![CDATA[ */
     var prolancer_page_views = {"data":""};
     /* ]]> */
 </script>
-<script type="text/javascript" src="../wp-content/plugins/prolancer-element/assets/js/app47a7.js?ver=1.4.5" id="prolancer-app-js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/wp-content/plugins/prolancer-element/assets/js/app47a7.js?ver=1.4.5" id="prolancer-app-js"></script>
 <script type="text/javascript" id="prolancer-main-js-extra">
     /* <![CDATA[ */
     var prolancerAjaxUrlObj = {"ajaxurl":"https:\/\/themebing.com\/wp\/prolancer\/wp-admin\/admin-ajax.php","logo":"https:\/\/themebing.com\/wp\/prolancer\/wp-content\/uploads\/2021\/09\/logo.png","alt_logo":"https:\/\/themebing.com\/wp\/prolancer\/wp-content\/uploads\/2021\/09\/logo-alt.png"};
     /* ]]> */
 </script>
-<script type="text/javascript" src="../wp-content/themes/prolancer/assets/js/main47a7.js?ver=1.4.5" id="prolancer-main-js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/wp-content/themes/prolancer/assets/js/main47a7.js?ver=1.4.5" id="prolancer-main-js"></script>
 <script type="text/javascript" id="prolancer-plugin-js-extra">
     /* <![CDATA[ */
     var prolancerPluginAjaxObj = {"ajaxurl":"https:\/\/themebing.com\/wp\/prolancer\/wp-admin\/admin-ajax.php"};
     /* ]]> */
 </script>
-<script type="text/javascript" src="../wp-content/plugins/prolancer-element/assets/js/plugin47a7.js?ver=1.4.5" id="prolancer-plugin-js"></script>
-<script type="text/javascript" src="../wp-content/plugins/prolancer-element/inc/mega-menu/assets/js/mega-menu47a7.js?ver=1.4.5" id="prolancer-mega-menu-js"></script>
-<script type="text/javascript" src="../wp-content/themes/prolancer/assets/js/bootstrap.min47a7.js?ver=1.4.5" id="bootstrap-js"></script>
-<script type="text/javascript" src="../wp-content/themes/prolancer/assets/js/jquery.magnific-popup.min47a7.js?ver=1.4.5" id="magnific-popup-js"></script>
-<script type="text/javascript" src="../wp-content/themes/prolancer/assets/js/skip-link-focus-fix47a7.js?ver=1.4.5" id="prolancer-skip-link-focus-fix-js"></script>
-<script type="text/javascript" src="../wp-content/plugins/woocommerce/assets/js/sourcebuster/sourcebuster.min0c46.js?ver=9.5.1" id="sourcebuster-js-js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/wp-content/plugins/prolancer-element/assets/js/plugin47a7.js?ver=1.4.5" id="prolancer-plugin-js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/wp-content/plugins/prolancer-element/inc/mega-menu/assets/js/mega-menu47a7.js?ver=1.4.5" id="prolancer-mega-menu-js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/wp-content/themes/prolancer/assets/js/bootstrap.min47a7.js?ver=1.4.5" id="bootstrap-js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/wp-content/themes/prolancer/assets/js/jquery.magnific-popup.min47a7.js?ver=1.4.5" id="magnific-popup-js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/wp-content/themes/prolancer/assets/js/skip-link-focus-fix47a7.js?ver=1.4.5" id="prolancer-skip-link-focus-fix-js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/wp-content/plugins/woocommerce/assets/js/sourcebuster/sourcebuster.min0c46.js?ver=9.5.1" id="sourcebuster-js-js"></script>
 <script type="text/javascript" id="wc-order-attribution-js-extra">
     /* <![CDATA[ */
     var wc_order_attribution = {"params":{"lifetime":1.0e-5,"session":30,"base64":false,"ajaxurl":"https:\/\/themebing.com\/wp\/prolancer\/wp-admin\/admin-ajax.php","prefix":"wc_order_attribution_","allowTracking":true},"fields":{"source_type":"current.typ","referrer":"current_add.rf","utm_campaign":"current.cmp","utm_source":"current.src","utm_medium":"current.mdm","utm_content":"current.cnt","utm_id":"current.id","utm_term":"current.trm","utm_source_platform":"current.plt","utm_creative_format":"current.fmt","utm_marketing_tactic":"current.tct","session_entry":"current_add.ep","session_start_time":"current_add.fd","session_pages":"session.pgs","session_count":"udata.vst","user_agent":"udata.uag"}};
     /* ]]> */
 </script>
-<script type="text/javascript" src="../wp-content/plugins/woocommerce/assets/js/frontend/order-attribution.min0c46.js?ver=9.5.1" id="wc-order-attribution-js"></script>
-<script type="text/javascript" src="../wp-content/plugins/elementor/assets/js/webpack.runtime.min7ac2.js?ver=3.26.3" id="elementor-webpack-runtime-js"></script>
-<script type="text/javascript" src="../wp-content/plugins/elementor/assets/js/frontend-modules.min7ac2.js?ver=3.26.3" id="elementor-frontend-modules-js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/wp-content/plugins/woocommerce/assets/js/frontend/order-attribution.min0c46.js?ver=9.5.1" id="wc-order-attribution-js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/wp-content/plugins/elementor/assets/js/webpack.runtime.min7ac2.js?ver=3.26.3" id="elementor-webpack-runtime-js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/wp-content/plugins/elementor/assets/js/frontend-modules.min7ac2.js?ver=3.26.3" id="elementor-frontend-modules-js"></script>
 <script type="text/javascript" id="elementor-frontend-js-before">
     /* <![CDATA[ */
     var elementorFrontendConfig = {"environmentMode":{"edit":false,"wpPreview":false,"isScriptDebug":false},"i18n":{"shareOnFacebook":"Share on Facebook","shareOnTwitter":"Share on Twitter","pinIt":"Pin it","download":"Download","downloadImage":"Download image","fullscreen":"Fullscreen","zoom":"Zoom","share":"Share","playVideo":"Play Video","previous":"Previous","next":"Next","close":"Close","a11yCarouselPrevSlideMessage":"Previous slide","a11yCarouselNextSlideMessage":"Next slide","a11yCarouselFirstSlideMessage":"This is the first slide","a11yCarouselLastSlideMessage":"This is the last slide","a11yCarouselPaginationBulletMessage":"Go to slide"},"is_rtl":false,"breakpoints":{"xs":0,"sm":480,"md":769,"lg":993,"xl":1440,"xxl":1600},"responsive":{"breakpoints":{"mobile":{"label":"Mobile Portrait","value":768,"default_value":767,"direction":"max","is_enabled":true},"mobile_extra":{"label":"Mobile Landscape","value":880,"default_value":880,"direction":"max","is_enabled":false},"tablet":{"label":"Tablet Portrait","value":992,"default_value":1024,"direction":"max","is_enabled":true},"tablet_extra":{"label":"Tablet Landscape","value":1200,"default_value":1200,"direction":"max","is_enabled":false},"laptop":{"label":"Laptop","value":1200,"default_value":1366,"direction":"max","is_enabled":true},"widescreen":{"label":"Widescreen","value":1400,"default_value":2400,"direction":"min","is_enabled":true}},"hasCustomBreakpoints":true},"version":"3.26.3","is_static":false,"experimentalFeatures":{"additional_custom_breakpoints":true,"e_swiper_latest":true,"e_nested_atomic_repeaters":true,"e_onboarding":true,"e_css_smooth_scroll":true,"home_screen":true,"landing-pages":true,"nested-elements":true,"editor_v2":true,"link-in-bio":true,"floating-buttons":true},"urls":{"assets":"https:\/\/themebing.com\/wp\/prolancer\/wp-content\/plugins\/elementor\/assets\/","ajaxurl":"https:\/\/themebing.com\/wp\/prolancer\/wp-admin\/admin-ajax.php","uploadUrl":"https:\/\/themebing.com\/wp\/prolancer\/wp-content\/uploads"},"nonces":{"floatingButtonsClickTracking":"d146a643f2"},"swiperClass":"swiper","settings":{"page":[],"editorPreferences":[]},"kit":{"active_breakpoints":["viewport_mobile","viewport_tablet","viewport_laptop","viewport_widescreen"],"viewport_mobile":768,"viewport_tablet":992,"viewport_laptop":1200,"viewport_widescreen":1400,"global_image_lightbox":"yes","lightbox_enable_counter":"yes","lightbox_enable_fullscreen":"yes","lightbox_enable_zoom":"yes","lightbox_enable_share":"yes","lightbox_title_src":"title","lightbox_description_src":"description"},"post":{"id":3477,"title":"Login%20and%20register%20%E2%80%93%20ProLancer","excerpt":"","featuredImage":false}};
     /* ]]> */
 </script>
-<script type="text/javascript" src="../wp-content/plugins/elementor/assets/js/frontend.min7ac2.js?ver=3.26.3" id="elementor-frontend-js"></script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9014653e6eac48e8',t:'MTczNjc2MDkyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='../../../cdn-cgi/challenge-platform/h/b/scripts/jsd/e0c90b6a3ed1/maind41d.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script type="text/javascript" src="${pageContext.request.contextPath}/wp-content/plugins/elementor/assets/js/frontend.min7ac2.js?ver=3.26.3" id="elementor-frontend-js"></script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9014653e6eac48e8',t:'MTczNjc2MDkyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='${pageContext.request.contextPath}/${pageContext.request.contextPath}/${pageContext.request.contextPath}/cdn-cgi/challenge-platform/h/b/scripts/jsd/e0c90b6a3ed1/maind41d.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 
 <!-- Mirrored from themebing.com/wp/prolancer/login-and-register/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Jan 2025 09:39:31 GMT -->
 </html>

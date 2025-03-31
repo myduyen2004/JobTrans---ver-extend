@@ -26,15 +26,34 @@ public class Account {
     private String type;
     private String signature;
     private String status;
+    private String oauth_provider;
+    private String oauthId;
+
 
     // Constructor không tham số
     public Account() {}
 
     // Constructor có tham số
-    public Account(int accountId, String accountName, String email, String password, String phone, String avatar,
-                   String bio, String address, Date dateOfBirth, String gender, String specialist, int experienceYears,
-                   String education, int point, boolean verifiedAccount, boolean verifiedLink, int tagComplete,
-                   int tagDebt, int count, String role, String type, String signature, String status) {
+
+
+    public Account(String accountName, String email, String avatar, String password, String role, String status, String oauth_provider, String oauthId) {
+        this.accountName = accountName;
+        this.email = email;
+        this.avatar = avatar;
+        this.password = password;
+        this.role = role;
+        this.status = status;
+        this.oauth_provider = oauth_provider;
+        this.oauthId = oauthId;
+    }
+
+
+    // Constructor cho tài khoản OAuth
+    public Account(String accountName, String email, String avatar, String status, String oauth_provider, String oauthId) {
+        this(accountName, email, avatar, null, null, status, oauth_provider, oauthId);
+    }
+
+    public Account(int accountId, String accountName, String email, String password, String phone, String avatar, String bio, String address, Date dateOfBirth, String gender, String specialist, int experienceYears, String education, int point, boolean verifiedAccount, boolean verifiedLink, int tagComplete, int tagDebt, int count, String role, String type, String signature, String status) {
         this.accountId = accountId;
         this.accountName = accountName;
         this.email = email;
@@ -58,6 +77,50 @@ public class Account {
         this.type = type;
         this.signature = signature;
         this.status = status;
+    }
+
+    public Account(int accountId, String accountName, String email, String password, String phone, String avatar, String bio, String address, Date dateOfBirth, String gender, String specialist, int experienceYears, String education, int point, boolean verifiedAccount, boolean verifiedLink, int tagComplete, int tagDebt, int count, String role, String type, String signature, String status, String oauth_provider, String oauthId) {
+        this.accountId = accountId;
+        this.accountName = accountName;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.avatar = avatar;
+        this.bio = bio;
+        this.address = address;
+        this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
+        this.specialist = specialist;
+        this.experienceYears = experienceYears;
+        this.education = education;
+        this.point = point;
+        this.verifiedAccount = verifiedAccount;
+        this.verifiedLink = verifiedLink;
+        this.tagComplete = tagComplete;
+        this.tagDebt = tagDebt;
+        this.count = count;
+        this.role = role;
+        this.type = type;
+        this.signature = signature;
+        this.status = status;
+        this.oauth_provider = oauth_provider;
+        this.oauthId = oauthId;
+    }
+
+    public String getOauthId() {
+        return oauthId;
+    }
+
+    public void setOauthId(String oauthId) {
+        this.oauthId = oauthId;
+    }
+
+    public String getOauth_provider() {
+        return oauth_provider;
+    }
+
+    public void setOauth_provider(String oauth_provider) {
+        this.oauth_provider = oauth_provider;
     }
 
     // Getter và Setter
@@ -271,6 +334,8 @@ public class Account {
                 ", type='" + type + '\'' +
                 ", signature='" + signature + '\'' +
                 ", status='" + status + '\'' +
+                ", oauth_provider='" + oauth_provider + '\'' +
+                ", oauthId='" + oauthId + '\'' +
                 '}';
     }
 }

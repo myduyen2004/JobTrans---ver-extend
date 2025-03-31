@@ -1,4 +1,4 @@
-﻿CREATE DATABASE JobTransnew
+CREATE DATABASE JobTransnew
 GO
 USE JobTransnew;
 GO

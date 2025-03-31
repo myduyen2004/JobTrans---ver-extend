@@ -272,7 +272,7 @@
 	                	                
 					<div class="col-xl-2 col-md-2 my-auto">
 	                		                    <div class="header-btn d-none d-lg-block">
-	                        <a href="frontend-dashboard/index6f28.html?fed=dashboard">
+	                        <a href="./authentication/loginAndRegister.jsp">
 	                            Đăng nhập	                        </a>
 	                    </div>
 	                		                </div> 

@@ -122,6 +122,46 @@
             class="elementor-section elementor-top-section elementor-element elementor-element-935e7d1 elementor-section-boxed elementor-section-height-default elementor-section-height-default"
             data-id="935e7d1" data-element_type="section"
             data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+
+
+<%--        chon role--%>
+
+
+        <div class="intro-banner" data-background-image="images/home-background.jpg">
+            <div class="container">
+                <%
+                    Object role = session.getAttribute("role");
+                    Object account = session.getAttribute("account");
+
+                    if (role == null && account !=null) {
+
+
+                %>
+
+                <!-- Search Bar -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="intro-banner-search-form margin-top-95" style="text-align: center;">
+                                <div class="intro-search-field with-autocomplete">
+                                <label for="autocomplete-input" class="field-title ripple-effect">Bạn muốn trở thành: </label>
+                                <form action="role" method="post">
+                                    <input name="email" value="${email}" type="hidden">
+                                    <button type="submit" name="role" value="Individual" class="btn seeker" style="background-color: #6787fe; border: none; color: white; padding: 10px 20px; margin: 5px; border-radius: 5px;">Cá nhân</button>
+                                    <button type="submit" name="role" value="Group" class="btn employer" style="background-color: #6787fe; border: none; color: white; padding: 10px 20px; margin: 5px; border-radius: 5px;">Nhóm dự án</button>
+
+                                </form>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <%}else{%>
+                <!-- Intro Headline -->
+
+                <%
+                    }  // ĐÓNG LẠI if-else
+                %>
+
         <div class="elementor-container elementor-column-gap-default">
             <div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-cf582c5"
                  data-id="cf582c5" data-element_type="column">
@@ -1176,8 +1216,15 @@
             </div>
         </div>
     </div>
+    <script>
+        // Kiểm tra xem có thông báo thành công hay không
+        <% if (request.getAttribute("success") != null) { %>
+        toastr.success('<%= request.getAttribute("success") %>');
+        <% } %>
+    </script>
 </section>
 </div>
+
 <br></br>
 
 <%@include file="includes/footer.jsp" %>

@@ -18,6 +18,19 @@
     </properties>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.cedarsoftware/java-util -->
+        <dependency>
+            <groupId>com.cedarsoftware</groupId>
+            <artifactId>java-util</artifactId>
+            <version>1.8.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
@@ -48,6 +61,8 @@
             <artifactId>fluent-hc</artifactId>
             <version>4.5.14</version> <!-- Hoặc phiên bản mới nhất -->
         </dependency>
+
+
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
