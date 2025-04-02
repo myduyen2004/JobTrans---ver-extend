@@ -65,8 +65,8 @@ public class GroupMember {
         this.bio = bio;
     }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
+    public java.sql.Date getDateOfBirth() {
+        return (java.sql.Date) dateOfBirth;
     }
 
     public void setDateOfBirth(Date dateOfBirth) {

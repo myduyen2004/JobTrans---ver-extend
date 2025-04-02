@@ -40,11 +40,11 @@ CREATE TABLE Group_Member (
     experience_years INT,
     status NVARCHAR(50),
     education NVARCHAR(255),
-    
+
     -- Thiết lập khóa ngoại liên kết với bảng Account
-    CONSTRAINT FK_GroupMember_Account FOREIGN KEY (account_id) 
-    REFERENCES Account(account_id) 
-    ON DELETE CASCADE 
+    CONSTRAINT FK_GroupMember_Account FOREIGN KEY (account_id)
+    REFERENCES Account(account_id)
+    ON DELETE CASCADE
     ON UPDATE CASCADE
 );
 -- Tạo bảng Notification
@@ -342,8 +342,6 @@ CREATE TABLE JobReport (
     FOREIGN KEY (reported_by) REFERENCES Account(account_id)
 );
 
-
-
 -- Tạo bảng Transaction (đặt tên trong dấu ngoặc vuông)
 CREATE TABLE [Transaction] (
     transaction_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -363,7 +361,7 @@ CREATE TABLE [Transaction] (
     CONSTRAINT FK_Transaction_Receiver FOREIGN KEY (receiver_id) 
     REFERENCES Account(account_id) ,
 
-    CONSTRAINT FK_Transaction_Job FOREIGN KEY (job_id) 
+    CONSTRAINT FK_Transaction_Job FOREIGN KEY (job_id) xx
     REFERENCES Job(job_id) 
 );
 CREATE TABLE Contract (
@@ -397,3 +395,7 @@ CREATE TABLE Contract (
 	job_deposit_B_text NVARCHAR(200),
 	FOREIGN KEY (job_id) REFERENCES Job(job_id) ON DELETE CASCADE
 );
+
+--31/03 Thêm thuộc tính số lượng người của table Account
+ALTER TABLE Account ADD member_count INT NOT NULL DEFAULT 0;
+

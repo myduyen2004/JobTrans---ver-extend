@@ -356,7 +356,7 @@
                                 </div>
                             </div>
                             <div class="buttons col-xl-2">
-                                <button class="edit-btn">Sửa thông tin</button>
+                                <button class="edit-btn" onclick="editMember(1)" >Sửa thông tin</button>
                                 <button class="detail-btn" style="margin-top: 290px;">Xem chi tiết</button>
                                 <button class="wallet-btn" style="margin-top: 11px;">Quản lí ví tiền</button>
                             </div>
@@ -465,6 +465,12 @@
                     <!--======= Back to Top =======-->
                     <div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
         </body>
+
+        <script>
+            function editMember(memberId) {
+                window.location.href = 'profile?action=editProfile&accountId=' + accountId;
+            }
+        </script>
 
         <!-- Mirrored from themebing.com/wp/prolancer/projects/?projects-layout=projects_left_sidebar by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Jan 2025 09:33:35 GMT -->
 
