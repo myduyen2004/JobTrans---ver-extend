@@ -106,7 +106,7 @@
                                                             <div style="left: 365px; top: 323px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">${accountAd.gender}</div>
                                                             <div style="left: 365px; top: 540px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">${accountAd.phone}</div>
                                                             <div style="left: 365px; top: 467px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">${accountAd.email}</div>
-                                                            <div style="width: 30px; height: 27px; left: 366px; top: 396px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">10 </div>
+                                                            <div style="width: 30px; height: 27px; left: 366px; top: 396px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">${numUnprocess} </div>
                                                             <div style="width: 825px; height: 640px; left: 0px; top: 0px; position: absolute">
                                                                 <div style="width: 165px; height: 44px; left: 660px; top: 0px; position: absolute">
                                                                     <div style="width: 165px; height: 44px; left: 0px; top: 0px; position: absolute; background: #6787FE; border-radius: 20px"></div>

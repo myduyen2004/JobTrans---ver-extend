@@ -67,7 +67,9 @@ public class AccountManagement extends HttpServlet {
         if(id != null){
             int accId = id;
             Account account = accountDAO.getAccountByIdandRole(accId, "admin");
+            int numUnprocess = accountDAO.getNumberOfUnprocessedReports();
             req.setAttribute("accountAd", account);
+            req.setAttribute("numUnprocess", numUnprocess);
             req.getRequestDispatcher("inforAdmin.jsp").forward(req, resp);
         }else{
             resp.getWriter().println("Không tìm thấy ID trong session.");

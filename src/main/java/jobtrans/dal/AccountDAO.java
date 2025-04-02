@@ -181,4 +181,26 @@ public class AccountDAO {
         return null;
     }
 
+    /**
+     *
+     * @return Number of unprocess report
+     */
+    public int getNumberOfUnprocessedReports(){
+        String query = "select count(*) as unProccessReport from AccountReport where status = N'Chưa xử lý'";
+
+        int num = 0;
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                num = rs.getInt("unProccessReport");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
+        return num;
+    }
 }
