@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static jobtrans.dal.AccountDAO.getMd5;
 
 @WebServlet(name="LoginServlet", urlPatterns={"/login"})
 
@@ -54,14 +53,17 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("role",account.getRole());
             response.sendRedirect("index.jsp");
         }else{
-            account =new Account(userName,email,"/img/anhcv/OIP.jpg","true","Google",code);
-
+            account =new Account(userName,email,avatar,"true","Google",code);
+            account.setPoint(0);
             accountDAO.addUserByLoginGoogle(account);
+            request.setAttribute("home", "home");
             session.setAttribute("accountId", account.getAccountId());
             session.setAttribute("account", email);
             session.setAttribute("userName", account.getAccountName());
             session.setAttribute("email", account.getEmail());
             session.setAttribute("avatarUrl", account.getAvatar());
+            session.setAttribute("point", account.getPoint());
+            session.setAttribute("role",account.getRole());
             response.sendRedirect("index.jsp");
         }
     }
@@ -73,7 +75,6 @@ public class LoginServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         String mail = request.getParameter("emailaddress");
         String password = request.getParameter("password");
-        String hashedPassword = getMd5(password);
         HttpSession session = request.getSession();
         response.getWriter().print(mail);
 
@@ -81,9 +82,7 @@ public class LoginServlet extends HttpServlet {
         // In mail và password ra console
         System.out.println("Email: " + mail);
         System.out.println("Password (raw): " + password); // Chỉ in password raw trong quá trình debug, không nên trong production
-        System.out.println("Password (hashed): " + hashedPassword);
         Account account = accountDAO.checkLogin(mail, password);
-        System.out.println(account);
         if (account != null && account.getAccountId() != 0 && account.getEmail() != null) {
             if (request.getParameter("remember") != null) {
                 String remember = request.getParameter("remember");
@@ -92,6 +91,7 @@ public class LoginServlet extends HttpServlet {
                 CookieUtils.add("cookrem", remember, 15, response);
             }
             session.setAttribute("account", mail);
+            request.setAttribute("home", "home");
             Account acc = accountDAO.getAccountByEmail(mail);
             session.setAttribute("userId", acc.getAccountId());
             System.out.println(acc.getAccountId()+acc.getAccountName());
@@ -99,13 +99,12 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("email", acc.getEmail());
             session.setAttribute("avatarUrl", acc.getAvatar());
             session.setAttribute("role", acc.getRole());
+            session.setAttribute("point", acc.getPoint());
             request.setAttribute("success", "Đăng nhập thành công!");
-            response.sendRedirect("index.jsp");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
 
         }else{
-
             request.setAttribute("error", "Đăng nhập thất bại!");
-            System.out.println("hehe");
             request.getRequestDispatcher("authentication/loginAndRegister.jsp").forward(request, response);
         }
     }

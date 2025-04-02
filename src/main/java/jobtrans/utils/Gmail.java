@@ -16,6 +16,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jobtrans.config.Configuration;
+import jobtrans.controller.web.authentication.ForgotPassword;
 
 /**
  *
@@ -166,4 +167,44 @@ public class Gmail {
             }
         }
     }
+//    private static boolean sendVerificationMail(String userName, String subject, String email, String code) {
+//        try {
+//            new Gmail(email)
+//                    .setContentType("text/html; charset=UTF-8")
+//                    .setSubject(subject)
+//                    .initMacro()
+//                    .appendMacro("NAME", userName)
+//                    .appendMacro("CODE", code)
+//                    .sendTemplate(new URL("http://localhost:8080/JobTrans/mail-noti/verify-account.jsp"));
+//
+//            // Nếu không có lỗi, trả về true
+//            return true;
+//        } catch (MalformedURLException ex) {
+//            Logger.getLogger(ForgotPassword.class.getName()).log(Level.SEVERE, null, ex);
+//            // Nếu gặp lỗi, trả về false
+//            return false;
+//        } catch (Exception ex) {
+//            Logger.getLogger(ForgotPassword.class.getName()).log(Level.SEVERE, "Lỗi khi gửi email: ", ex);
+//            // Nếu gặp lỗi khác, trả về false
+//            return false;
+//        }
+//    }
+//
+//    public static void main(String[] args) {
+//        String otpvalue = RandomGenerator.randString(RandomGenerator.NUMERIC_CHARACTER, 6);
+//
+//        // Tạo một thread mới để gửi email
+//        new Thread(() -> {
+//            boolean emailSent = sendVerificationMail("Duyen", "Xác thực đăng kí", "vtmyduyen3103@gmail.com", otpvalue);
+//
+//            // Kiểm tra kết quả và log thông báo
+//            if (emailSent) {
+//                System.out.println("Email đã được gửi thành công.");
+//            } else {
+//                System.out.println("Gửi email thất bại.");
+//            }
+//        }).start();
+//    }
+
 }
+

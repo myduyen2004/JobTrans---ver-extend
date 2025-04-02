@@ -5,9 +5,9 @@
 --%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
-<!-- Coding By CodingNepal - codingnepalweb.com -->
-<html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -117,12 +117,10 @@
 </head>
 <body>
 <div class="container">
-    <header>
-        <i class="bx bxs-check-shield"></i>
-    </header>
+    <% request.setCharacterEncoding("UTF-8"); %>
     <h4>XÁC THỰC MÃ OTP</h4>
     <form action="/JobTrans/register" method="post">
-        Mã xác thực đã được gửi đến email của bạn ${email}
+        <p>Mã xác thực đã được gửi đến email của bạn ${email}</p>
         <input type="hidden" name="email" value="${email}">
         <br><br>
         <input type="hidden" name="cmd" value="2">
@@ -134,7 +132,7 @@
             <input type="number" name="otp5" disabled />
             <input type="number" name="otp6" disabled />
         </div>
-        <button>Verify OTP</button>
+        <button>Xác thực OTP</button>
     </form>
 </div>
 </body>
@@ -195,4 +193,3 @@
     toastr.error('<%= request.getAttribute("error") %>');
     <% } %>
 </script>
-</html>

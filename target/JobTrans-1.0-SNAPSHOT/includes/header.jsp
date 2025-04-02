@@ -163,6 +163,7 @@
 	}
 
 
+
 </style>
 <link rel='stylesheet' id='elementor-icons-css' href='wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.min705c.css?ver=5.34.0' type='text/css' media='all' />
 <link rel='stylesheet' id='elementor-frontend-css' href='wp-content/uploads/elementor/css/custom-frontend.mindc89.css?ver=1734726326' type='text/css' media='all' />
@@ -237,50 +238,271 @@
 		font-family: 'Inter', sans-serif;
 	}
 </style>
+<style>
+	/* Dropdown menu container */
+	#dropdown-menu {
+		display: none;
+		position: absolute;
+		top: 60px;
+		right: 0; /* Căn sát mép phải */
+		background: white;
+		border-radius: 12px;
+		width: 250px;
+		box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+		z-index: 1000;
+		overflow: hidden;
+		opacity: 0;
+		transform: translateY(-10px);
+		transition: opacity 0.3s ease, transform 0.3s ease;
+	}
+
+	/* List styling */
+	#dropdown-menu ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	/* Dropdown items */
+	#dropdown-menu li {
+		display: flex;
+		align-items: center;
+		padding: 14px 18px;
+		cursor: pointer;
+		transition: background 0.3s, transform 0.2s ease-in-out;
+		font-weight: 500;
+		text-align: left;
+		border-bottom: 1px solid #f0f2ff;
+	}
+
+	/* Background màu xen kẽ */
+	#dropdown-menu li:nth-child(odd) {
+		background: #f8f9ff;
+	}
+
+	/* Hover effect */
+	#dropdown-menu li:hover {
+		background: linear-gradient(90deg, #6787fe, #9baeff);
+		color: white;
+		transform: scale(1.05);
+	}
+
+	/* Icon styling */
+	#dropdown-menu li i {
+		margin-right: 14px;
+		color: #6787fe;
+		font-size: 20px;
+		transition: color 0.3s ease;
+	}
+
+	/* Hover đổi màu icon */
+	#dropdown-menu li:hover i {
+		color: white;
+	}
+
+	/* Style for the links */
+	#dropdown-menu li a {
+		all: unset;
+		display: block;
+		font-family: 'Roboto', 'Segoe UI', Arial, sans-serif;
+		font-size: 16px;
+		font-weight: 20px;
+	}
+
+	/* Hover effect for links */
+	#dropdown-menu li:hover a {
+		color: white;
+	}
+
+	/* Last item no border */
+	#dropdown-menu li:last-child {
+		border-bottom: none;
+	}
+	#dropdown-toggle {
+		width: 48px;
+		height: 48px;
+		border-radius: 50%;
+		border: 2px solid #6787fe;
+		cursor: pointer !important; /* Đảm bảo luôn có con trỏ bàn tay */
+		transition: transform 0.2s ease-in-out;
+	}
+
+	/* Khi avatar được click, vẫn giữ hiệu ứng */
+	#dropdown-toggle:active,
+	#dropdown-toggle:focus {
+		cursor: pointer !important;
+	}
+</style>
+
 <header>
     	
 	    <div class="site-header sticky-header">
 	        <div class="container">
 	            <div class="row">
-	            		            		<div class="col-xl-3 col-md-3 my-auto">
-	            			<div class="logo">
-			                    <a href=""  rel="home" aria-current="page"><img width="80" height="71" src="wp-content/uploads/2021/09/logo.png" class="custom-logo" alt="JobTrans" decoding="async" srcset="" sizes="(max-width: 500px) 100vw, 500px" /></a>		                    </div>
-	            		</div>
-	            		            	
-	                <div class="col-xl-7 col-md-7 my-auto">
-	                    <div class="primary-menu d-none d-lg-inline-block">
-	                        <nav class="desktop-menu">
-	                            <ul id="menu-primary" class="menu"><li id="menu-item-2318" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-2316 current_page_item current-menu-ancestor current-menu-parent current_page_parent current_page_ancestor menu-item-2318"><a  href="index.html">Trang chủ</a></li>
-<li id="menu-item-26" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-26"><a  href="projects/index.html">Công việc</a>
-<ul class="sub-menu">
-	<li id="menu-item-391" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-391"><a  href="projects/index95ca.html?projects-layout=projects_left_sidebar" class="dropdown-mega-menu-toggle">Công nghệ & IT</a><div class="mega-menu-content"></div></li>
-	<li id="menu-item-391" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-391"><a  href="projects/index95ca.html?projects-layout=projects_left_sidebar" class="dropdown-mega-menu-toggle">Marketing</a><div class="mega-menu-content"></div></li>
-	<li id="menu-item-391" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-391"><a  href="projects/index95ca.html?projects-layout=projects_left_sidebar" class="dropdown-mega-menu-toggle">Design</a><div class="mega-menu-content"></div></li>
-	<li id="menu-item-391" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-391"><a  href="projects/index95ca.html?projects-layout=projects_left_sidebar" class="dropdown-mega-menu-toggle">Dịch thuật</a><div class="mega-menu-content"></div></li>
-	<li id="menu-item-391" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-391"><a  href="projects/index95ca.html?projects-layout=projects_left_sidebar" class="dropdown-mega-menu-toggle">Tư vấn, Coaching</a><div class="mega-menu-content"></div></li>
-	<li id="menu-item-391" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-391"><a  href="projects/index95ca.html?projects-layout=projects_left_sidebar" class="dropdown-mega-menu-toggle">Khác</a><div class="mega-menu-content"></div></li>
-</ul>
-</li>
-<li id="menu-item-27" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-27"><a  href="services/index.html">Tạo CV</a>
-</li>
-<li id="menu-item-20" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-20"><a  href="blog/index.html">Chính sách</a>
-</li>
-<li id="menu-item-382" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-382"><a  href="about/index.html">Về chúng tôi</a></li>
-</ul>	                        </nav>                      
-	                    </div>
-	                </div>
-	                	                
-					<div class="col-xl-2 col-md-2 my-auto">
+					<div class="col-xl-2 col-md-3 my-auto">
+						<div class="logo">
+							<a href="index.html"  rel="home" aria-current="page"><img width="80" height="71" src="wp-content/uploads/2021/09/logo.png" class="custom-logo" alt="ProLancer" decoding="async" srcset="" sizes="(max-width: 500px) 100vw, 500px" /></a>		                    </div>
+					</div>
+
+					<div class="col-xl-6 col-md-7 my-auto">
+						<div class="primary-menu d-none d-lg-inline-block">
+							<nav class="desktop-menu" >
+								<ul id="menu-primary" class="menu"><li id="menu-item-2318" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-2316 current_page_item current-menu-ancestor current-menu-parent current_page_parent current_page_ancestor menu-item-2318"><a  href="index.html">Trang chủ</a></li>
+									<li id="menu-item-26" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-26"><a  href="projects/index.html">Công việc</a>
+										<ul class="sub-menu">
+											<li id="menu-item-391" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-391"><a href="../projects/my-project?projects-layout=projects_left_sidebar" class="dropdown-mega-menu-toggle">Công nghệ & IT</a><div class="mega-menu-content"></div></li>
+											<li id="menu-item-391" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-391"><a href="../projects/my-project?projects-layout=projects_left_sidebar" class="dropdown-mega-menu-toggle">Marketing</a><div class="mega-menu-content"></div></li>
+											<li id="menu-item-391" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-391"><a href="../projects/my-project?projects-layout=projects_left_sidebar" class="dropdown-mega-menu-toggle">Design</a><div class="mega-menu-content"></div></li>
+											<li id="menu-item-391" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-391"><a href="../projects/my-project?projects-layout=projects_left_sidebar" class="dropdown-mega-menu-toggle">Dịch thuật</a><div class="mega-menu-content"></div></li>
+											<li id="menu-item-391" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-391"><a href="../projects/my-project?projects-layout=projects_left_sidebar" class="dropdown-mega-menu-toggle">Tư vấn, Coaching</a><div class="mega-menu-content"></div></li>
+											<li id="menu-item-391" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-391"><a href="../projects/my-project?projects-layout=projects_left_sidebar" class="dropdown-mega-menu-toggle">Khác</a><div class="mega-menu-content"></div></li>
+										</ul>
+									</li>
+									<li id="menu-item-27" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-27"><a  href="services/index.html">Tạo CV</a>
+									</li>
+									<li id="menu-item-20" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-20"><a  href="blog/index.html">Chính sách</a>
+									</li>
+									<li id="menu-item-382" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-382"><a  href="about/index.html">Về chúng tôi</a></li>
+								</ul>	                        </nav>
+						</div>
+					</div>
+					<%
+						Object account = session.getAttribute("account");
+						Object home = session.getAttribute("home");
+						if (account == null || "".equals(account)) {
+					%>
+					<div class="col-xl-3 col-md-2 my-auto">
 	                		                    <div class="header-btn d-none d-lg-block">
 	                        <a href="./authentication/loginAndRegister.jsp">
 	                            Đăng nhập	                        </a>
 	                    </div>
-	                		                </div> 
-	                      
+	                </div>
+	                <%}else if (home == null) {%>
+					<div id="menu-item-27" class="col-xl-4 col-md-2 my-auto">
+						<div class="header-btn d-none d-lg-block">
+							<div class="user-card"
+								 style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 10px; transition: all 0.3s;">
+
+								<!-- Icon chat và thông báo (sát với tên) -->
+								<div style="display: flex; align-items: center; gap: 60px; margin-left: 50px;">
+									<i class="fa fa-comments icon" style="font-size: 22px; color: white; transition: color 0.3s;"></i>
+									<i class="fa fa-bell icon" style="font-size: 22px; color: white; transition: color 0.3s;"></i>
+								</div>
+
+								<!-- Tên và điểm (giữ nguyên chỗ cũ) -->
+								<div style="flex: 1; text-align: center;">
+									<h2 id="user-name" style="color: white; font-size: 18px; font-weight: bold; margin: 0;"><%=(String)session.getAttribute("userName")%></h2>
+									<p id="user-score" style="color: white; font-size: 14px; margin: 0;">Điểm: <%=session.getAttribute("point")%></p>
+								</div>
+
+								<!-- Ảnh đại diện -->
+								<div style="width: 18%; text-align: right; position: relative;">
+									<!-- Avatar để mở dropdown -->
+									<!-- Avatar để mở dropdown -->
+									<!-- Avatar để mở dropdown -->
+									<img id="dropdown-toggle" src="wp-content/uploads/2021/04/pexels-mentatdgt-1138903-80x80.jpg" alt="Avatar"
+										 style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid #6787fe; cursor: pointer;">
+
+									<!-- Dropdown Menu -->
+									<div id="dropdown-menu">
+										<ul>
+											<li><i class="fas fa-user"></i> <a href="acc-manage?action=viewAdminAccount">Thông tin cá nhân</a></li>
+											<li><i class="fas fa-wallet"></i> <a href="#">Ví của tôi</a></li>
+											<li><i class="fas fa-briefcase"></i> <a href="#">Quản lý công việc</a></li>
+											<li><i class="fas fa-cog"></i> <a href="#">Cài đặt</a></li>
+											<li><i class="fas fa-sign-out-alt"></i> <a href="logout">Đăng xuất</a></li>
+										</ul>
+									</div>
+								</div>
+
+									<!-- FontAwesome Icons -->
+									<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+
+
+
+
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<%}else{%>
+					<div id="menu-item-27" class="col-xl-4 col-md-2 my-auto">
+						<div class="header-btn d-none d-lg-block">
+							<div class="user-card"
+								 style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 10px; transition: all 0.3s;">
+
+								<!-- Icon chat và thông báo (sát với tên) -->
+								<div style="display: flex; align-items: center; gap: 60px; margin-left: 50px;">
+									<i class="fa fa-comments icon" style="font-size: 22px; color: #4a6375; transition: color 0.3s;"></i>
+									<i class="fa fa-bell icon" style="font-size: 22px; color: #4a6375; transition: color 0.3s;"></i>
+								</div>
+
+								<!-- Tên và điểm (giữ nguyên chỗ cũ) -->
+								<div style="flex: 1; text-align: center;">
+									<h2 id="user-name-01" style="color: #4a6375; font-size: 18px; font-weight: 00; margin: 0"><%=(String)session.getAttribute("userName")%>>>></h2>
+									<p id="user-score-01" style="color: #4a6375; font-size: 14px; margin: 0;">Điểm: 100</p>
+								</div>
+
+								<!-- Ảnh đại diện -->
+								<div style="width: 18%; text-align: right; position: relative;">
+									<img id="avatar-img" src="wp-content/uploads/2021/04/pexels-mentatdgt-1138903-80x80.jpg" alt="Avatar"
+										 style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid #4a6375;">
+									<div id="dropdown-menu">
+										<ul>
+											<li><i class="fas fa-user"></i> <a href="acc-manage?action=viewAdminAccount">Thông tin cá nhân</a></li>
+											<li><i class="fas fa-wallet"></i> <a href="#">Ví của tôi</a></li>
+											<li><i class="fas fa-briefcase"></i> <a href="#">Quản lý công việc</a></li>
+											<li><i class="fas fa-cog"></i> <a href="#">Cài đặt</a></li>
+											<li><i class="fas fa-sign-out-alt"></i> <a href="logout">Đăng xuất</a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<%}%>
 	            </div>
 	        </div>
 	    </div>
 	</header>
+<script>
+	document.getElementById("dropdown-toggle").addEventListener("click", function() {
+		this.style.cursor = "pointer"; // Đảm bảo luôn có con trỏ bàn tay
+	});
+
+	document.addEventListener("DOMContentLoaded", function () {
+		const toggleBtn = document.getElementById("dropdown-toggle");
+		const dropdownMenu = document.getElementById("dropdown-menu");
+
+		// Toggle dropdown visibility
+		toggleBtn.addEventListener("click", function (event) {
+			event.stopPropagation();
+			if (dropdownMenu.style.display === "block") {
+				dropdownMenu.style.opacity = "0";
+				dropdownMenu.style.transform = "translateY(-10px)";
+				setTimeout(() => dropdownMenu.style.display = "none", 300);
+			} else {
+				dropdownMenu.style.display = "block";
+				dropdownMenu.style.right = 0; // Căn sát mép phải
+				setTimeout(() => {
+					dropdownMenu.style.opacity = "1";
+					dropdownMenu.style.transform = "translateY(0)";
+				}, 10);
+			}
+		});
+
+		// Close dropdown when clicking outside
+		document.addEventListener("click", function (event) {
+			if (!dropdownMenu.contains(event.target) && event.target !== toggleBtn) {
+				dropdownMenu.style.opacity = "0";
+				dropdownMenu.style.transform = "translateY(-10px)";
+				setTimeout(() => dropdownMenu.style.display = "none", 300);
+			}
+		});
+	});
+</script>
 <script>
 	window.addEventListener("scroll", function () {
 		let menuItem = document.getElementById("menu-item-27");
@@ -302,6 +524,50 @@
 			icons.forEach(icon => icon.style.color = "white");
 		}
 	});
+</script>
+<script>
+	window.addEventListener("scroll", function () {
+		let menuItem = document.getElementById("menu-item-27");
+		let icons = document.querySelectorAll(".icon");
+		let userName = document.getElementById("user-name-01");
+		let userScore = document.getElementById("user-score-01");
+
+		if (window.scrollY > 50) {
+			menuItem.style.background = "white";
+			menuItem.style.boxShadow = "0px 4px 10px rgba(0, 0, 0, 0.1)";
+			userName.style.color = "#4a6375";
+			userScore.style.color = "#4a6375";
+			icons.forEach(icon => icon.style.color = "#4a6375");
+		} else {
+			menuItem.style.background = "transparent";
+			menuItem.style.boxShadow = "none";
+			userName.style.color = "white";
+			userScore.style.color = "white";
+			icons.forEach(icon => icon.style.color = "white");
+		}
+	});
+</script>
+<script>
+window.addEventListener("scroll", function () {
+let menuItem = document.getElementById("menu-item-27");
+let icons = document.querySelectorAll(".icon-01");
+let userName = document.getElementById("user-name-01");
+let userScore = document.getElementById("user-score-01");
+
+if (window.scrollY > 50) {
+menuItem.style.background = "white";
+menuItem.style.boxShadow = "0px 4px 10px rgba(0, 0, 0, 0.1)";
+userName.style.color = "#4a6375";
+userScore.style.color = "#4a6375";
+icons.forEach(icon => icon.style.color = "#4a6375");
+} else {
+menuItem.style.background = "transparent";
+menuItem.style.boxShadow = "none";
+userName.style.color = "#4a6375";
+userScore.style.color = "#4a6375";
+icons.forEach(icon => icon.style.color = "#4a6375");
+}
+});
 </script>
 <script>(function() {function maybePrefixUrlField () {
 	const value = this.value.trim()

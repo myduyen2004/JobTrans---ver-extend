@@ -19,12 +19,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static jobtrans.dal.AccountDAO.getMd5;
-
 @WebServlet(name="RegisterServlet", urlPatterns={"/register"})
-
-
-
 
 public class RegisterServlet extends HttpServlet {
     Account account = new Account();
@@ -58,9 +53,13 @@ public class RegisterServlet extends HttpServlet {
             String password = request.getParameter("password-register");
             String role = request.getParameter("account-type-radio");
             String status = "true";
-            String hashedPassword = getMd5(password);
-            account = new Account(accountName, email, "/img/anhcv/OIP.jpg", hashedPassword, role, status, null, null);
-
+            Account account = new Account();
+            account.setAccountName(accountName);
+            account.setEmail(email);
+            account.setPassword(password);
+            account.setRole(role);
+            account.setStatus(status);
+            account.setPoint(0);
             if (acd.checkExistEmail(email) == false) {
                 String otpvalue = RandomGenerator.randString(RandomGenerator.NUMERIC_CHARACTER, 6);
                 new Thread(() -> {
@@ -70,9 +69,7 @@ public class RegisterServlet extends HttpServlet {
                 request.setAttribute("success", "Vui lòng kiểm tra email để xác nhận đăng kí!");
                 mySession.setAttribute(email, otpvalue);
                 mySession.setAttribute("account", account);
-                response.getWriter().print(otpvalue);
-                response.getWriter().print(email);
-                response.getWriter().print(account);
+                request.setCharacterEncoding("UTF-8");
                 request.getRequestDispatcher("verify-otp-1.jsp").forward(request, response);
             } else {
 
@@ -90,6 +87,14 @@ public class RegisterServlet extends HttpServlet {
             if (otp.equals(code)) {
                 acd.addUserByRegister(account1);
                 System.out.println(account1.toString());
+                request.setAttribute("home", "home");
+                mySession.setAttribute("accountId", account1.getAccountId());
+                mySession.setAttribute("account", account1.getEmail());
+                mySession.setAttribute("userName", account1.getAccountName());
+                mySession.setAttribute("email", account1.getEmail());
+                mySession.setAttribute("avatarUrl", account1.getAvatar());
+                mySession.setAttribute("point", account1.getPoint());
+                mySession.setAttribute("role",account1.getRole());
                 request.setAttribute("success", "Thành công! Hãy đăng nhập để tiếp tục");
                 request.getRequestDispatcher("index.jsp").forward(request, response);
             } else {

@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> 0c3795ad54f77f9675c321cd89aacef7410e7e2d
 <%-- 
     Document   : wallet
     Created on : Mar 4, 2025, 10:23:59 AM
@@ -416,10 +412,6 @@
 
 <!--======= Back to Top =======-->
 <div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
-<<<<<<< HEAD
-=======
->>>>>>> 7bdf65aac501206287114c7f46e4c8cc19f3abca
->>>>>>> 0c3795ad54f77f9675c321cd89aacef7410e7e2d
 
 </body>
 

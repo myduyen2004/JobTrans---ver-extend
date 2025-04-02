@@ -168,20 +168,20 @@ public class AccountDAO {
 
     }
 
-    public static String getMd5(String input) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] messageDigest = md.digest(input.getBytes());
-            BigInteger no = new BigInteger(1, messageDigest);
-            String hashtext = no.toString(16);
-            while (hashtext.length() < 32) {
-                hashtext = "0" + hashtext;
-            }
-            return hashtext;
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    public static String getMd5(String input) {
+//        try {
+//            MessageDigest md = MessageDigest.getInstance("MD5");
+//            byte[] messageDigest = md.digest(input.getBytes());
+//            BigInteger no = new BigInteger(1, messageDigest);
+//            String hashtext = no.toString(16);
+//            while (hashtext.length() < 32) {
+//                hashtext = "0" + hashtext;
+//            }
+//            return hashtext;
+//        } catch (NoSuchAlgorithmException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     public boolean updateRole(String role, String email) {
         String query = "UPDATE Account SET role = ? WHERE email = ?";
@@ -247,13 +247,9 @@ public class AccountDAO {
     }
 
     public boolean addUserByLoginGoogle(Account account) {
-        String query = "INSERT INTO [dbo].[Account]\n" +
-                "           ([account_name]\n" +
-                "           ,[email]\n" +
-                "           ,[avatar]\n" +
-                "           ,[status]\n" +
-                "           ,[oauth_provider]\n" +
-                "           ,[oauth_id])VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO [dbo].[Account] " +
+                "([account_name], [email], [avatar], [status], [oauth_provider], [oauth_id], [point]) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try {
             Connection con = dbConnection.openConnection();
@@ -265,7 +261,7 @@ public class AccountDAO {
             ps.setString(4, account.getStatus());
             ps.setString(5, account.getOauth_provider());
             ps.setString(6, account.getOauthId());
-
+            ps.setInt(7, 0); // Thêm cột point với giá trị mặc định là 0
 
             int rowsInserted = ps.executeUpdate();
             if (rowsInserted > 0) {
@@ -277,6 +273,94 @@ public class AccountDAO {
 
         return false;
     }
+
+    public Account getAccountByName(String name) {
+        return null;
+    }
+    public Account getUserByEmail(String email) {
+        Account account = null;
+        String sql = "SELECT * FROM Account WHERE email = ?";
+
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                account = new Account(
+                        rs.getInt("account_id"),
+                        rs.getString("account_name"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("phone"),
+                        rs.getString("avatar"),
+                        rs.getString("bio"),
+                        rs.getString("address"),
+                        rs.getDate("date_of_birth"),
+                        rs.getString("gender"),
+                        rs.getString("specialist"),
+                        rs.getInt("experience_years"),
+                        rs.getString("education"),
+                        rs.getInt("point"),
+                        rs.getBoolean("verified_account"),
+                        rs.getBoolean("verified_link"),
+                        rs.getInt("tag_complete"),
+                        rs.getInt("tag_debt"),
+                        rs.getInt("count"),
+                        rs.getString("role"),
+                        rs.getString("type"),
+                        rs.getString("signature"),
+                        rs.getString("status")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return account;
+    }
+
+    public Account getAccountById(int id) {
+        String query = "SELECT * FROM Account where account_id = ?";
+
+        Account acc = new Account();
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                acc.setAccountId(rs.getInt("account_id"));
+                acc.setAccountName(rs.getString("account_name"));
+                acc.setEmail(rs.getString("email"));
+                acc.setPhone(rs.getString("phone"));
+                acc.setAvatar(rs.getString("avatar"));
+                acc.setBio(rs.getString("bio"));
+                acc.setAddress(rs.getString("address"));
+                acc.setDateOfBirth(rs.getDate("date_of_birth"));
+                acc.setGender(rs.getString("gender"));
+                acc.setSpecialist(rs.getString("specialist"));
+                acc.setExperienceYears(rs.getInt("experience_years"));
+                acc.setEducation(rs.getString("education"));
+                acc.setPoint(rs.getInt("point"));
+                acc.setVerifiedAccount(rs.getBoolean("verified_account"));
+                acc.setVerifiedLink(rs.getBoolean("verified_link"));
+                acc.setTagComplete(rs.getInt("tag_complete"));
+                acc.setTagDebt(rs.getInt("tag_debt"));
+                acc.setCount(rs.getInt("count"));
+                acc.setRole(rs.getString("role"));
+                acc.setType(rs.getString("type"));
+                acc.setSignature(rs.getString("signature"));
+                acc.setStatus(rs.getString("status"));
+            }
+        } catch (Exception e) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return acc;
+    }
+
     public Account getAccountByIdandRole(int id, String role) {
         String query = "SELECT * FROM Account where account_id = ? and role = ?";
 
@@ -355,53 +439,6 @@ public class AccountDAO {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, e);
         }
         return accs;
-    }
-    public Account getAccountByName(String name) {
-        return null;
-    }
-    public Account getUserByEmail(String email) {
-        Account account = null;
-        String sql = "SELECT * FROM Account WHERE email = ?";
-
-        try (Connection conn = dbConnection.openConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, email);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                account = new Account(
-                        rs.getInt("account_id"),
-                        rs.getString("account_name"),
-                        rs.getString("email"),
-                        rs.getString("password"),
-                        rs.getString("phone"),
-                        rs.getString("avatar"),
-                        rs.getString("bio"),
-                        rs.getString("address"),
-                        rs.getDate("date_of_birth"),
-                        rs.getString("gender"),
-                        rs.getString("specialist"),
-                        rs.getInt("experience_years"),
-                        rs.getString("education"),
-                        rs.getInt("point"),
-                        rs.getBoolean("verified_account"),
-                        rs.getBoolean("verified_link"),
-                        rs.getInt("tag_complete"),
-                        rs.getInt("tag_debt"),
-                        rs.getInt("count"),
-                        rs.getString("role"),
-                        rs.getString("type"),
-                        rs.getString("signature"),
-                        rs.getString("status")
-                );
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return account;
     }
     
 

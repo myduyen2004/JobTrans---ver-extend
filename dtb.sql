@@ -397,3 +397,8 @@ CREATE TABLE Contract (
 	job_deposit_B_text NVARCHAR(200),
 	FOREIGN KEY (job_id) REFERENCES Job(job_id) ON DELETE CASCADE
 );
+ALTER TABLE Account
+ADD oauth_provider NVARCHAR(MAX);
+
+ALTER TABLE Account
+ADD oauth_id NVARCHAR(MAX);
