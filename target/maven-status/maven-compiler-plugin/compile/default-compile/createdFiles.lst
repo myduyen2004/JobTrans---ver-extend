@@ -10,6 +10,7 @@ jobtrans\utils\DateTimeUtils.class
 jobtrans\utils\Gmail.class
 jobtrans\model\Experience.class
 jobtrans\utils\Gmail$1.class
+jobtrans\exception\NoRandomCommandException.class
 jobtrans\controller\web\payment\Payment.class
 jobtrans\controller\web\authentication\LogoutServlet.class
 jobtrans\controller\web\cv\CVServlet.class
@@ -23,6 +24,7 @@ jobtrans\utils\GoogleLogin.class
 jobtrans\config\Configuration.class
 jobtrans\config\Iconstant.class
 jobtrans\dal\TransactionDAO.class
+jobtrans\utils\RandomGenerator.class
 jobtrans\controller\web\authentication\RoleServlet.class
 jobtrans\controller\web\authentication\LoginServlet.class
 jobtrans\utils\DBConnection.class
