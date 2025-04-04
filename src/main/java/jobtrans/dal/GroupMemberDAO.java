@@ -196,4 +196,33 @@ public class GroupMemberDAO {
 //        return lowestMemberId;
 //    }
 
-}
+        public static void main(String[] args) {
+            // Tạo đối tượng GroupMember để cập nhật thông tin
+            GroupMember member = new GroupMember();
+
+            member.setMemberId(1);
+            member.setMemberName("Nguyen Van A");
+            member.setBio("Giới thiệu bản thân");
+            member.setDateOfBirth(new java.util.Date(1990, 4, 15)); // Ngày sinh 15 tháng 4, 1990 (lưu ý sử dụng (1990-1900) vì Date có lỗi về năm)
+            member.setSpecialist("Lập trình viên");
+            member.setGender("Nam");
+            member.setExperienceYears(5);
+            member.setEducation("Cử nhân Công nghệ Thông tin");
+
+            // Gọi phương thức updateMember để cập nhật thông tin thành viên
+            GroupMemberDAO memberDAO = new GroupMemberDAO();
+            try {
+                boolean isUpdated = memberDAO.updateMember(member);
+                if (isUpdated) {
+                    System.out.println("Cập nhật thông tin thành viên thành công.");
+                } else {
+                    System.out.println("Cập nhật thông tin thành viên không thành công.");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("Có lỗi trong quá trình cập nhật.");
+            }
+        }
+    }
+
+

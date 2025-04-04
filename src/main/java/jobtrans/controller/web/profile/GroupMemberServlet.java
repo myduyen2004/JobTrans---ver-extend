@@ -23,7 +23,7 @@ import java.util.List;
 import static org.apache.http.client.utils.DateUtils.formatDate;
 import static org.apache.http.client.utils.DateUtils.parseDate;
 
-@WebServlet(name="GroupMemberServlet", urlPatterns={"/group"})
+@WebServlet(name = "GroupMemberServlet", urlPatterns = {"/group"})
 
 
 public class GroupMemberServlet extends HttpServlet {
@@ -101,7 +101,9 @@ public class GroupMemberServlet extends HttpServlet {
 
     private void updateMemberInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
         int memberId = Integer.parseInt(request.getParameter("memberId"));
+        System.out.println(memberId);
         GroupMember member = groupMemberDAO.getMemberByMemberId(memberId);
+        System.out.println(member.toString());
 
         // Update member information from form data
         member.setMemberName(request.getParameter("memberName"));
@@ -117,8 +119,7 @@ public class GroupMemberServlet extends HttpServlet {
             }
         }
 
-        member.setGender(request.getParameter("gender"));
-
+//        member.setGender(request.getParameter("gender"));
         String experienceYearsStr = request.getParameter("experienceYears");
         if (experienceYearsStr != null && !experienceYearsStr.isEmpty()) {
             member.setExperienceYears(Integer.parseInt(experienceYearsStr));
@@ -137,9 +138,80 @@ public class GroupMemberServlet extends HttpServlet {
         } else {
             request.setAttribute("error", "Failed to update member information.");
         }
-
+        request.setAttribute("error", new Error("Lỗi xảy ra"));
         response.sendRedirect(request.getContextPath() + "/group?action=showUpdateGroup&account_id=" + member.getAccountId());
     }
+//private void updateMemberInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//    // Lấy memberId từ request
+//    String memberIdStr = request.getParameter("memberId");
+//    if (memberIdStr == null || memberIdStr.isEmpty()) {
+//        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+//        response.getWriter().write("{\"error\": \"Missing memberId\"}");
+//        return;
+//    }
+//
+//    int memberId = Integer.parseInt(memberIdStr);
+//    GroupMember member = groupMemberDAO.getMemberByMemberId(memberId);
+//
+//    // Kiểm tra nếu member không tồn tại
+//    if (member == null) {
+//        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+//        response.getWriter().write("{\"error\": \"Member not found\"}");
+//        return;
+//    }
+//
+//    // Cập nhật thông tin từ form
+//    String memberName = request.getParameter("memberName");
+//    if (memberName != null && !memberName.trim().isEmpty()) {
+//        member.setMemberName(memberName);
+//    }
+//
+//    // Xử lý ngày sinh (nếu có)
+//    String dateOfBirthStr = request.getParameter("dateOfBirth");
+//    if (dateOfBirthStr != null && !dateOfBirthStr.isEmpty()) {
+//        try {
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//            Date dateOfBirth = dateFormat.parse(dateOfBirthStr);
+//            member.setDateOfBirth(new java.sql.Date(dateOfBirth.getTime()));
+//        } catch (ParseException e) {
+//            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+//            response.getWriter().write("{\"error\": \"Invalid date format\"}");
+//            return;
+//        }
+//    }
+//
+//    // Cập nhật các trường thông tin khác
+//    String experienceYearsStr = request.getParameter("experienceYears");
+//    if (experienceYearsStr != null && !experienceYearsStr.isEmpty()) {
+//        try {
+//            int experienceYears = Integer.parseInt(experienceYearsStr);
+//            member.setExperienceYears(experienceYears);
+//        } catch (NumberFormatException e) {
+//            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+//            response.getWriter().write("{\"error\": \"Invalid experience years\"}");
+//            return;
+//        }
+//    }
+//
+//    member.setEducation(request.getParameter("education"));
+//    member.setBio(request.getParameter("bio"));
+//    member.setSpecialist(request.getParameter("specialist"));
+//
+//    // Cập nhật member vào database
+//    boolean updated = groupMemberDAO.updateMember(member);
+//
+//    // Trả về phản hồi dạng JSON
+//    response.setContentType("application/json");
+//    response.setCharacterEncoding("UTF-8");
+//
+//    if (updated) {
+//        response.getWriter().write("{\"success\": true, \"message\": \"Member updated successfully\"}");
+//    } else {
+//        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//        response.getWriter().write("{\"success\": false, \"message\": \"Failed to update member information\"}");
+//    }
+//}
+
 
     private void getMemberDetail(HttpServletRequest request, HttpServletResponse response) throws Exception {
         int memberId = Integer.parseInt(request.getParameter("memberId"));

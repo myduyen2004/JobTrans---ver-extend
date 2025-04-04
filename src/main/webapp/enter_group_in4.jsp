@@ -10,7 +10,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
-
 <html>
 <head>
     <jsp:useBean id="accountDao" class="jobtrans.dal.AccountDAO" scope="page">
@@ -131,7 +130,7 @@
         </c:forEach>
     </div>
 
-    <form id="memberForm" class="d-flex flex-col justify-content-center" method="post" action="group?action=update">
+    <form id="memberForm" class="d-flex flex-col justify-content-center" method="post" action="group">
         <input type="hidden" name="action" value="update">
         <input type="hidden" name="memberId" id="memberId" value="${not empty selectedMember ? selectedMember.memberId : ''}">
         <input type="hidden" name="accountId" value="${not empty selectedMember ? selectedMember.accountId : ''}">
@@ -154,16 +153,10 @@
                     <label class="block text-gray-700">
                         Giới tính:
                     </label>
-<%--                    <div class="flex items-center space-x-4">--%>
-<%--                        <label class="flex items-center">--%>
-<%--                            <input value="Nam" checked="" class="form-radio text-blue-500" name="gender" type="radio"/>--%>
-<%--                            <span class="ml-2">Nam</span>--%>
-<%--                        </label>--%>
-<%--                        <label class="flex items-center">--%>
-<%--                            <input value="Nữ" class="form-radio text-blue-500" name="gender" type="radio"/>--%>
-<%--                            <span class="ml-2">Nữ</span>--%>
-<%--                        </label>--%>
-<%--                    </div>--%>
+<%--                    <select id="genderSelect" name="gender" class="...">--%>
+<%--                        <option value="Nam" ${selectedMember.gender == 'Nam' ? 'selected' : ''}>Nam</option>--%>
+<%--                        <option value="Nữ" ${selectedMember.gender == 'Nữ' ? 'selected' : ''}>Nữ</option>--%>
+<%--                    </select>--%>
                 </div>
                 <div>
                     <label class="block text-gray-700">
@@ -189,7 +182,6 @@
                     </label>
                     <input id="specialist" name="specialist" class="w-full border border-blue-300 rounded-lg p-2" type="text" value="${selectedMember.specialist}"/>
                 </div>
-<%--                <input type="hidden" name="memberId" id="memberIdField" value="">--%>
             </div>
         </div>
         <button class="text-white px-4 py-2" type="submit" style="margin:10px auto; background-color: #6787FE; border: solid 2px #6787FE; border-radius: 15px;">
@@ -215,31 +207,13 @@
 </script>
 <script>
     function formatDateForInput(gmtString) {
-        if (!gmtString) return '';
 
         try {
-            // Xử lý cả 2 trường hợp: GMT string và các định dạng khác
+            if (!gmtString) return '';
+            // Phương án 2: Dùng Date object nếu định dạng khác
             const date = new Date(gmtString);
-
-            // Nếu là chuỗi GMT dạng "Mon, 14 May 1990 17:00:00 GMT"
-            if (gmtString.includes('GMT') && isNaN(date.getTime())) {
-                const parts = gmtString.split(' ');
-                if (parts.length >= 4) {
-                    const day = parts[1].padStart(2, '0');
-                    const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-                    const month = String(monthNames.indexOf(parts[2]) + 1).padStart(2, '0');
-                    const year = parts[3];
-                    return `${year}-${month}-${day}`;
-                }
-                return '';
-            }
-
-            // Xử lý các định dạng Date thông thường
             if (!isNaN(date.getTime())) {
-                // Điều chỉnh theo múi giờ địa phương
-                const offset = date.getTimezoneOffset() * 60000;
-                const localDate = new Date(date.getTime() - offset);
-                return localDate.toISOString().split('T')[0];
+                return date.toISOString().split('T')[0];
             }
 
             return '';
@@ -247,6 +221,39 @@
             console.error("Date parsing error:", e);
             return '';
         }
+
+        // if (!gmtString) return '';
+
+        <%--try {--%>
+        <%--    // Xử lý cả 2 trường hợp: GMT string và các định dạng khác--%>
+        <%--    const date = new Date(gmtString);--%>
+
+        <%--    // Nếu là chuỗi GMT dạng "Mon, 14 May 1990 17:00:00 GMT"--%>
+        <%--    if (gmtString.includes('GMT') && isNaN(date.getTime())) {--%>
+        <%--        const parts = gmtString.split(' ');--%>
+        <%--        if (parts.length >= 4) {--%>
+        <%--            const day = parts[1].padStart(2, '0');--%>
+        <%--            const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];--%>
+        <%--            const month = String(monthNames.indexOf(parts[2]) + 1).padStart(2, '0');--%>
+        <%--            const year = parts[3];--%>
+        <%--            return `${year}-${month}-${day}`;--%>
+        <%--        }--%>
+        <%--        return '';--%>
+        <%--    }--%>
+
+        <%--    // Xử lý các định dạng Date thông thường--%>
+        <%--    if (!isNaN(date.getTime())) {--%>
+        <%--        // Điều chỉnh theo múi giờ địa phương--%>
+        <%--        const offset = date.getTimezoneOffset() * 60000;--%>
+        <%--        const localDate = new Date(date.getTime() - offset);--%>
+        <%--        return localDate.toISOString().split('T')[0];--%>
+        <%--    }--%>
+
+        <%--    return '';--%>
+        <%--} catch (e) {--%>
+        <%--    console.error("Date parsing error:", e);--%>
+        <%--    return '';--%>
+        <%--}--%>
     }
 </script>
 <script>
@@ -314,45 +321,38 @@
         });
     }
 </script>
-<script>
-    document.getElementById('memberForm').addEventListener('submit', function(e) {
-        e.preventDefault();
+<%--<script>--%>
+<%--    document.getElementById('memberForm').addEventListener('submit', function(e) {--%>
+<%--        e.preventDefault();--%>
 
-        // Lấy giá trị ngày và thêm timezone UTC
-        const dateInput = document.getElementById('dateOfBirth').value;
-        const formData = new FormData(this);
-        formData.set('dateOfBirth', dateInput + 'T00:00:00Z'); // Thêm timezone UTC
+<%--        // Lấy giá trị ngày từ input và gửi nguyên giá trị (không parse qua Date)--%>
+<%--        const dateInput = document.getElementById('dateOfBirth').value;--%>
+<%--        const formData = new FormData(this);--%>
+<%--        formData.set('dateOfBirth', dateInput + 'T00:00:00Z');--%>
 
-        // Gửi dữ liệu bằng AJAX
-        fetch(this.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            }
-        })
-            .then(response => {
-                if (!response.ok) {
-                    return response.text().then(text => {
-                        throw new Error(`HTTP error! status: ${response.status}, body: ${text}`);
-                    });
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    alert('Cập nhật thành công!');
-                    // Cập nhật lại thông tin thành viên
-                    const currentMemberId = document.getElementById('memberId').value;
-                    selectMember(currentMemberId);
-                } else {
-                    alert('Lỗi: ' + (data.message || 'Không rõ nguyên nhân'));
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Có lỗi khi cập nhật: ' + error.message);
-            });
-    });    </script>
+<%--        console.log()--%>
+<%--        console.log('Dữ liệu submit:', Object.fromEntries(formData.entries()));--%>
+<%--        console.log(this.action)--%>
+
+<%--        // Gửi dữ liệu bằng AJAX--%>
+<%--        fetch(this.action, {--%>
+<%--            method: 'POST',--%>
+<%--            body: formData,--%>
+<%--            credentials: 'include'--%>
+<%--        })--%>
+<%--            .then(response => response.json())--%>
+<%--            .then(data => {--%>
+<%--                if (data.success) {--%>
+<%--                    alert('Cập nhật thành công!');--%>
+<%--                } else {--%>
+<%--                    alert('Lỗi: ' + data.message);--%>
+<%--                }--%>
+<%--            })--%>
+<%--            .catch(error => {--%>
+<%--                console.error('Error:', error);--%>
+<%--                alert('Có lỗi khi cập nhật:');--%>
+<%--            });--%>
+<%--    });--%>
+<%--</script>--%>
 </body>
 </html>
