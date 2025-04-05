@@ -112,7 +112,7 @@ public class GroupMemberDAO {
             ps.setString(2, member.getBio());
             ps.setDate(3, member.getDateOfBirth());
             ps.setString(4, member.getSpecialist());
-            ps.setString(5, member.getGender());
+            ps.setNString(5, member.getGender());
             ps.setInt(6, member.getExperienceYears());
             ps.setString(7, member.getEducation());
             ps.setInt(8, member.getMemberId());

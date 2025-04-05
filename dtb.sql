@@ -364,6 +364,7 @@ CREATE TABLE [Transaction] (
     CONSTRAINT FK_Transaction_Job FOREIGN KEY (job_id) xx
     REFERENCES Job(job_id) 
 );
+
 CREATE TABLE Contract (
     contract_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
     job_id INT NOT NULL,
@@ -398,4 +399,3 @@ CREATE TABLE Contract (
 
 --31/03 Thêm thuộc tính số lượng người của table Account
 ALTER TABLE Account ADD member_count INT NOT NULL DEFAULT 0;
-

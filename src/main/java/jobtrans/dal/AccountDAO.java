@@ -63,7 +63,7 @@ public class AccountDAO {
         }
         return ac;
     }
-//    public Account getAccountByName(String name) {}
+//    public Account getAccountByEmail(String email) {}
     public Account getAccountByEmail(String email) {
         Account ac = null;
         String query = "SELECT * FROM Users WHERE email = ?";
@@ -148,6 +148,55 @@ public class AccountDAO {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, e);
         }
     }
+
+    // Đếm số Job đã hoàn thành
+    public int countCompletedJobs(int account_id) {
+        String query = "SELECT COUNT(*) FROM Job WHERE status = N'Đã hoàn thành' and account_id = ?";
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    // Đếm số Job đang thực hiện
+    public int countInProgressJobs(int account_id) {
+        String query = "SELECT COUNT(*) FROM Job WHERE status = N'Đang thực hiện' and account_id = ?";
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    // Đếm tổng số greetings
+    public int countTotalGreetings(int account_id) {
+        String query = "SELECT COUNT(*) FROM JobGreeting where account_id = ?";
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 
 
 //    public static String getMd5(String input) {

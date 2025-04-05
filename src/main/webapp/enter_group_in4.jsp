@@ -1,17 +1,11 @@
-
-<%--
-    Document   : enter_user_in4
-    Created on : Mar 13, 2025, 8:19:45 AM
-    Author     : ADM
---%>
-
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
+
     <jsp:useBean id="accountDao" class="jobtrans.dal.AccountDAO" scope="page">
         <jsp:setProperty name="accountDao" property="*" />
     </jsp:useBean>
@@ -22,7 +16,6 @@
 <%--        jobtrans.model.Account account = accountDao.getAccountById(accountId);--%>
 <%--    %>--%>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -48,7 +41,6 @@
         <div class="uil-ripple-css"><div></div><div></div></div>
     </div>
 </div>
-
 
 <!--banner-->
 <div class="py-4 banner_title" style="position: relative">
@@ -96,16 +88,16 @@
             </div>
             <div class="col-3 space-y-5 px-4">
                 <div class="row flex flex-row align-content-center" style="background-color: #6787FE50; border-radius: 20px; height: 58px;">
-                    <div class="col-10">Proposal:</div>
-<%--                    <div class="col-2">${account.proposals}</div>--%>
+                    <div class="col-10">Số lời chào giá:</div>
+                    <div class="col-2">${accountDao.countTotalGreetings(2)}</div>
                 </div>
                 <div class="row flex flex-row align-content-center" style="background-color: #6787FE50; border-radius: 20px; height: 58px;">
-                    <div class="col-10">Ongoing Project:</div>
-<%--                    <div class="col-2">${account.ongoingProjects}</div>--%>
+                    <div class="col-10">Công việc diễn ra:</div>
+                    <div class="col-2">${accountDao.countInProgressJobs(2)}</div>
                 </div>
                 <div class="row flex flex-row align-content-center" style="background-color: #6787FE50; border-radius: 20px; height: 58px;">
-                    <div class="col-10">Completed Project:</div>
-<%--                    <div class="col-2">${account.completedProjects}</div>--%>
+                    <div class="col-10">Công việc hoàn thành:</div>
+                    <div class="col-2">${accountDao.countCompletedJobs(2)}</div>
                 </div>
             </div>
         </div>
@@ -130,7 +122,7 @@
         </c:forEach>
     </div>
 
-    <form id="memberForm" class="d-flex flex-col justify-content-center" method="post" action="group">
+    <form id="memberForm" class="d-flex flex-col justify-content-center" method="post" action="group" accept-charset="UTF-8">
         <input type="hidden" name="action" value="update">
         <input type="hidden" name="memberId" id="memberId" value="${not empty selectedMember ? selectedMember.memberId : ''}">
         <input type="hidden" name="accountId" value="${not empty selectedMember ? selectedMember.accountId : ''}">
@@ -153,10 +145,12 @@
                     <label class="block text-gray-700">
                         Giới tính:
                     </label>
-<%--                    <select id="genderSelect" name="gender" class="...">--%>
-<%--                        <option value="Nam" ${selectedMember.gender == 'Nam' ? 'selected' : ''}>Nam</option>--%>
-<%--                        <option value="Nữ" ${selectedMember.gender == 'Nữ' ? 'selected' : ''}>Nữ</option>--%>
-<%--                    </select>--%>
+
+                    <select id="gender" name="gender" class="">
+                        <option value="Nam" ${selectedMember.gender == 'Nam' ? 'selected' : ''}>Nam</option>
+                        <option value="Nữ" ${selectedMember.gender == 'Nữ' ? 'selected' : ''}>Nữ</option>
+                    </select>
+
                 </div>
                 <div>
                     <label class="block text-gray-700">
@@ -221,39 +215,6 @@
             console.error("Date parsing error:", e);
             return '';
         }
-
-        // if (!gmtString) return '';
-
-        <%--try {--%>
-        <%--    // Xử lý cả 2 trường hợp: GMT string và các định dạng khác--%>
-        <%--    const date = new Date(gmtString);--%>
-
-        <%--    // Nếu là chuỗi GMT dạng "Mon, 14 May 1990 17:00:00 GMT"--%>
-        <%--    if (gmtString.includes('GMT') && isNaN(date.getTime())) {--%>
-        <%--        const parts = gmtString.split(' ');--%>
-        <%--        if (parts.length >= 4) {--%>
-        <%--            const day = parts[1].padStart(2, '0');--%>
-        <%--            const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];--%>
-        <%--            const month = String(monthNames.indexOf(parts[2]) + 1).padStart(2, '0');--%>
-        <%--            const year = parts[3];--%>
-        <%--            return `${year}-${month}-${day}`;--%>
-        <%--        }--%>
-        <%--        return '';--%>
-        <%--    }--%>
-
-        <%--    // Xử lý các định dạng Date thông thường--%>
-        <%--    if (!isNaN(date.getTime())) {--%>
-        <%--        // Điều chỉnh theo múi giờ địa phương--%>
-        <%--        const offset = date.getTimezoneOffset() * 60000;--%>
-        <%--        const localDate = new Date(date.getTime() - offset);--%>
-        <%--        return localDate.toISOString().split('T')[0];--%>
-        <%--    }--%>
-
-        <%--    return '';--%>
-        <%--} catch (e) {--%>
-        <%--    console.error("Date parsing error:", e);--%>
-        <%--    return '';--%>
-        <%--}--%>
     }
 </script>
 <script>
@@ -321,38 +282,5 @@
         });
     }
 </script>
-<%--<script>--%>
-<%--    document.getElementById('memberForm').addEventListener('submit', function(e) {--%>
-<%--        e.preventDefault();--%>
-
-<%--        // Lấy giá trị ngày từ input và gửi nguyên giá trị (không parse qua Date)--%>
-<%--        const dateInput = document.getElementById('dateOfBirth').value;--%>
-<%--        const formData = new FormData(this);--%>
-<%--        formData.set('dateOfBirth', dateInput + 'T00:00:00Z');--%>
-
-<%--        console.log()--%>
-<%--        console.log('Dữ liệu submit:', Object.fromEntries(formData.entries()));--%>
-<%--        console.log(this.action)--%>
-
-<%--        // Gửi dữ liệu bằng AJAX--%>
-<%--        fetch(this.action, {--%>
-<%--            method: 'POST',--%>
-<%--            body: formData,--%>
-<%--            credentials: 'include'--%>
-<%--        })--%>
-<%--            .then(response => response.json())--%>
-<%--            .then(data => {--%>
-<%--                if (data.success) {--%>
-<%--                    alert('Cập nhật thành công!');--%>
-<%--                } else {--%>
-<%--                    alert('Lỗi: ' + data.message);--%>
-<%--                }--%>
-<%--            })--%>
-<%--            .catch(error => {--%>
-<%--                console.error('Error:', error);--%>
-<%--                alert('Có lỗi khi cập nhật:');--%>
-<%--            });--%>
-<%--    });--%>
-<%--</script>--%>
 </body>
 </html>

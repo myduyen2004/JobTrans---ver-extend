@@ -66,7 +66,11 @@ public class GroupMember {
     }
 
     public java.sql.Date getDateOfBirth() {
-        return (java.sql.Date) dateOfBirth;
+        return new java.sql.Date(dateOfBirth.getTime());
+    }
+
+    public Date getUtilsDateOfBirth(){
+        return dateOfBirth;
     }
 
     public void setDateOfBirth(Date dateOfBirth) {
