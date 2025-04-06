@@ -1,0 +1,55 @@
+body {
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    background-color: #f4f4f4;
+}
+
+.banner_title{
+    background-image: url(../wp-content/uploads/2021/09/breadcrumb-bg.jpg);
+    background-size: 100%;
+    font-family: 'Poppins', sans-serif;
+    font-size: 40px;
+    height: 300px;
+    display: flex;
+    align-items: center;
+}
+
+.container_main_employee {
+    margin: 10px auto;
+    max-width: 1200px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+}
+.content {
+    width: 65%;
+}
+.sidebar {
+    width: 30%;
+    background: #f8f8f8;
+    padding: 20px;
+    border-radius: 10px;
+}
+.header-title{
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.content-list{
+    padding-left: 30px;
+}
+
+.content-list li{
+    font-size: 18px;
+    color: #4A6375;
+}
+
+.file-attachment {
+    background-color: #E8EBEC;
+    padding: 10px;
+    border-radius: 5px;
+    width: 330px;
+}
