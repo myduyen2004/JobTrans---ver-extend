@@ -1,4 +1,5 @@
-<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="jobtrans.model.Account" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <script type="text/javascript">
     /* <![CDATA[ */
     window._wpemojiSettings = {
@@ -453,6 +454,8 @@
         font-size: 1.5em;
         line-height: 1.6;
     }
+
+
 </style>
 <link rel='stylesheet' id='contact-form-7-css'
       href='wp-content/plugins/contact-form-7/includes/css/styles5b21.css?ver=6.0.2' type='text/css' media='all'/>
@@ -867,6 +870,18 @@ body, p {
         cursor: pointer !important;
     }
 </style>
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+    }
+</style>
 
 <header>
 
@@ -875,7 +890,7 @@ body, p {
             <div class="row">
                 <div class="col-xl-2 col-md-3 my-auto">
                     <div class="logo">
-                        <a href="index.html" rel="home" aria-current="page"><img width="80" height="71"
+                        <a href="home" rel="home" aria-current="page"><img width="80" height="71"
                                                                                  src="wp-content/uploads/2021/09/logo.png"
                                                                                  class="custom-logo" alt="ProLancer"
                                                                                  decoding="async" srcset=""
@@ -933,32 +948,31 @@ body, p {
                                     </ul>
                                 </li>
                                 <li
-                                    class="menu-item menu-item-type-custom menu-item-object-custom menu-item-27"><a
+                                        class="menu-item menu-item-type-custom menu-item-object-custom menu-item-27"><a
                                         href="services/index.html">Tạo CV</a>
                                 </li>
                                 <li id="menu-item-20"
                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-20"><a
-                                        href="blog/index.html">Chính sách</a>
+                                        href="policy.jsp">Chính sách</a>
                                 </li>
                                 <li id="menu-item-382"
                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-382"><a
-                                        href="about/index.html">Về chúng tôi</a></li>
+                                        href="about-me.jsp">Về chúng tôi</a></li>
                             </ul>
                         </nav>
                     </div>
                 </div>
                 <%
-                    Object account = session.getAttribute("account");
-                    Object home = session.getAttribute("home");
+                    Account account = (Account) session.getAttribute("sessionAccount");
                     if (account == null || "".equals(account)) {
                 %>
                 <div class="col-xl-3 col-md-2 my-auto">
                     <div class="header-btn d-none d-lg-block">
-                        <a href="./authentication/loginAndRegister.jsp">
+                        <a href="login-and-register.jsp">
                             Đăng nhập </a>
                     </div>
                 </div>
-                <%} else if (home == null) {%>
+                <%} else {%>
                 <div id="menu-item-27" class="col-xl-4 col-md-2 my-auto">
                     <div class="header-btn d-none d-lg-block">
                         <div class="user-card"
@@ -975,10 +989,10 @@ body, p {
                             <!-- Tên và điểm (giữ nguyên chỗ cũ) -->
                             <div style="flex: 1; text-align: center;">
                                 <h2 id="user-name"
-                                    style="color: white; font-size: 18px; font-weight: bold; margin: 0;"><%=(String) session.getAttribute("userName")%>
+                                    style="color: white; font-size: 18px; font-weight: bold; margin: 0;"><%=account.getAccountName()%>
                                 </h2>
                                 <p id="user-score" style="color: white; font-size: 14px; margin: 0;">
-                                    Điểm: <%=session.getAttribute("point")%>
+                                    Điểm: <%=account.getPoint()%>
                                 </p>
                             </div>
 
@@ -988,17 +1002,26 @@ body, p {
                                 <!-- Avatar để mở dropdown -->
                                 <!-- Avatar để mở dropdown -->
                                 <img id="dropdown-toggle"
-                                     src="wp-content/uploads/2021/04/pexels-mentatdgt-1138903-80x80.jpg" alt="Avatar"
+                                     src="<%=account.getAvatar()%>" alt="Avatar"
                                      style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid #6787fe; cursor: pointer;">
 
                                 <!-- Dropdown Menu -->
                                 <div id="dropdown-menu">
                                     <ul>
+
+                                        <%if (account.getType().equals("Individual")){%>
                                         <li><i class="fas fa-user"></i> <a href="acc-manage?action=viewAdminAccount">Thông
                                             tin cá nhân</a></li>
+                                        <li><i class="fas fa-user-edit"></i> <a href="profile?action=loadUpdateProfile">Chỉnh sửa thông tin</a></li>
+                                        <%}else{%>
+                                        <li><i class="fas fa-users"></i> <a href="acc-manage?action=viewAdminAccount">Thông
+                                            tin nhóm</a></li>
+                                        <li><i class="fas fa-cog"></i> <a href="profile?action=loadUpdateProfile">Chỉnh sửa thông tin chung</a></li>
+                                        <li><i class="fas fa-users-cog"></i> <a href="group?action=showUpdateGroup">Chỉnh sửa thông tin nhóm</a></li>
+                                        <%}%>
                                         <li><i class="fas fa-wallet"></i> <a href="#">Ví của tôi</a></li>
                                         <li><i class="fas fa-briefcase"></i> <a href="#">Quản lý công việc</a></li>
-                                        <li><i class="fas fa-cog"></i> <a href="#">Cài đặt</a></li>
+
                                         <li><i class="fas fa-sign-out-alt"></i> <a href="logout">Đăng xuất</a></li>
                                     </ul>
                                 </div>
@@ -1012,48 +1035,7 @@ body, p {
                     </div>
                 </div>
             </div>
-            <%} else {%>
-            <div id="menu-item-27" class="col-xl-4 col-md-2 my-auto">
-                <div class="header-btn d-none d-lg-block">
-                    <div class="user-card"
-                         style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 10px; transition: all 0.3s;">
-
-                        <!-- Icon chat và thông báo (sát với tên) -->
-                        <div style="display: flex; align-items: center; gap: 60px; margin-left: 50px;">
-                            <i class="fa fa-comments icon"
-                               style="font-size: 22px; color: #4a6375; transition: color 0.3s;"></i>
-                            <i class="fa fa-bell icon"
-                               style="font-size: 22px; color: #4a6375; transition: color 0.3s;"></i>
-                        </div>
-
-                        <!-- Tên và điểm (giữ nguyên chỗ cũ) -->
-                        <div style="flex: 1; text-align: center;">
-                            <h2 id="user-name-02"
-                                style="color: #4a6375; font-size: 18px; font-weight: 00; margin: 0"><%=(String) session.getAttribute("userName")%>
-                                >>></h2>
-                            <p id="user-score-02" style="color: #4a6375; font-size: 14px; margin: 0;">Điểm: 100</p>
-                        </div>
-
-                        <!-- Ảnh đại diện -->
-                        <div style="width: 18%; text-align: right; position: relative;">
-                            <img id="avatar-img" src="wp-content/uploads/2021/04/pexels-mentatdgt-1138903-80x80.jpg"
-                                 alt="Avatar"
-                                 style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid #4a6375;">
-                            <div id="dropdown-menu">
-                                <ul>
-                                    <li><i class="fas fa-user"></i> <a href="acc-manage?action=viewAdminAccount">Thông
-                                        tin cá nhân</a></li>
-                                    <li><i class="fas fa-wallet"></i> <a href="#">Ví của tôi</a></li>
-                                    <li><i class="fas fa-briefcase"></i> <a href="#">Quản lý công việc</a></li>
-                                    <li><i class="fas fa-cog"></i> <a href="#">Cài đặt</a></li>
-                                    <li><i class="fas fa-sign-out-alt"></i> <a href="logout">Đăng xuất</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <%}%>
+            <%} %>
         </div>
     </div>
     </div>
@@ -1485,4 +1467,3 @@ body, p {
         }
     }
 })();</script>
-</body>

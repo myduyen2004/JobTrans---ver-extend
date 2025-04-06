@@ -2,15 +2,12 @@ package jobtrans.dal;
 
 import jobtrans.model.Account;
 import jobtrans.utils.DBConnection;
+import jobtrans.utils.ImgHandler;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -71,8 +68,9 @@ public class AccountDAO {
     }
 
     public boolean addUserByRegister(Account account) {
-        String query = "INSERT INTO Account (account_name, email, password, avatar, status)\n" +
-                "VALUES (?, ?, ?, ?,?)";
+        ImgHandler imgHandler = new ImgHandler();
+        String query = "INSERT INTO Account (account_name, email, password, avatar, type, status, point)\n" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
             Connection con = dbConnection.openConnection();
             PreparedStatement ps = con.prepareStatement(query);
@@ -81,7 +79,9 @@ public class AccountDAO {
             ps.setNString(2, account.getEmail());         // Email
             ps.setNString(3, account.getPassword());      // Mật khẩu
             ps.setString(4, account.getAvatar());         // Avatar
-            ps.setString(5, account.getStatus());        // Trạng thái
+            ps.setString(5, account.getType());        // Role
+            ps.setNString(6, "Đang hoạt động");
+            ps.setInt(7, 0);
 
             int rowsInserted = ps.executeUpdate();
             if (rowsInserted > 0) {
@@ -167,30 +167,14 @@ public class AccountDAO {
         return false;
 
     }
-
-//    public static String getMd5(String input) {
-//        try {
-//            MessageDigest md = MessageDigest.getInstance("MD5");
-//            byte[] messageDigest = md.digest(input.getBytes());
-//            BigInteger no = new BigInteger(1, messageDigest);
-//            String hashtext = no.toString(16);
-//            while (hashtext.length() < 32) {
-//                hashtext = "0" + hashtext;
-//            }
-//            return hashtext;
-//        } catch (NoSuchAlgorithmException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
-    public boolean updateRole(String role, String email) {
-        String query = "UPDATE Account SET role = ? WHERE email = ?";
+    public boolean updateType(String type, String email) {
+        String query = "UPDATE Account SET type = ? WHERE email = ?";
 
         try {
             Connection con = dbConnection.openConnection();
             PreparedStatement ps = con.prepareStatement(query);
 
-            ps.setString(1, role);
+            ps.setString(1, type);
             ps.setString(2, email);
 
             int rowsUpdated = ps.executeUpdate();
@@ -258,7 +242,7 @@ public class AccountDAO {
             ps.setString(1, account.getAccountName());
             ps.setString(2, account.getEmail());
             ps.setString(3, account.getAvatar());
-            ps.setString(4, account.getStatus());
+            ps.setNString(4, account.getStatus());
             ps.setString(5, account.getOauth_provider());
             ps.setString(6, account.getOauthId());
             ps.setInt(7, 0); // Thêm cột point với giá trị mặc định là 0
@@ -439,6 +423,79 @@ public class AccountDAO {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, e);
         }
         return accs;
+    }
+    public boolean updateAccount(Account account) {
+        String query = "UPDATE Account SET account_name = ?, date_of_birth = ?, type = ?, gender = ?, " +
+                "specialist = ?, email = ?, phone = ?, bio = ?, avatar = ? WHERE account_id = ?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setNString(1, account.getAccountName());
+            ps.setDate(2, new java.sql.Date(account.getDateOfBirth().getTime()));
+            ps.setNString(3, account.getType());
+            ps.setNString(4, account.getGender());
+            ps.setNString(5, account.getSpecialist());
+            ps.setString(6, account.getEmail());
+            ps.setString(7, account.getPhone());
+            ps.setNString(8, account.getBio());
+            ps.setString(9, account.getAvatar());
+            ps.setInt(10, account.getAccountId());
+
+            int rowsUpdated = ps.executeUpdate();
+            if (rowsUpdated > 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return false;
+    }
+    public int countCompletedJobs(int account_id) {
+        String query = "SELECT COUNT(*) FROM Job WHERE status = N'Đã hoàn thành' and account_id = ?";
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    // Đếm số Job đang thực hiện
+    public int countInProgressJobs(int account_id) {
+        String query = "SELECT COUNT(*) FROM Job WHERE status = N'Đang thực hiện' and account_id = ?";
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    // Đếm tổng số greetings
+    public int countTotalGreetings(int account_id) {
+        String query = "SELECT COUNT(*) FROM JobGreeting where account_id = ?";
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
     
 

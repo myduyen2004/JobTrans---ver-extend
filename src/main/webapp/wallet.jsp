@@ -234,7 +234,7 @@
             </div>
         </div>
 
-        <%@include file="includes/header-login-01.jsp" %>
+        <%@include file="includes/header-01.jsp" %>
 
         <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
 

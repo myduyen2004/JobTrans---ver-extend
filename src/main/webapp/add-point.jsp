@@ -4,7 +4,7 @@
     Author     : mac
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -51,8 +51,10 @@
         }
     </style>
 </head>
-<body style="background-image: url('img/anh_background_CV/anh5.webp');
+
+<body style="background-image: url('');
                  background-size: cover;">
+<%@include file="includes/header-01.jsp" %>
 
     <div class="box" >
     <div class="box-header">Điều khoản cộng điểm</div>
@@ -69,6 +71,6 @@
         <li>Tạo tài khoản (+10 điểm)</li>
     </ul>
 </div>
-
+    <%@include file="includes/footer.jsp" %>
 </body>
 </html>

@@ -1,4 +1,5 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="jobtrans.model.Account" %>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
@@ -286,8 +287,16 @@
             <div class="dashboard-nav">
                 <div class="dashboard-nav-inner">
                     <ul data-submenu-title="Tài khoản">
+<%--                        <%--%>
+<%--                            if (account.getType().equals("Individual")){%>--%>
+                        <li><a href="acc-manage?action=viewAdminAccount"><i class="fas fa-user"></i> Thông tin tài khoản</a></li>
+                        <li><a href="profile?action=loadUpdateProfile"><i class="fas fa-user-edit"></i> Sửa thông tin</a></li>
+<%--                        <%}else{%>--%>
+                        <li><a href="acc-manage?action=viewAdminAccount"><i class="fas fa-user"></i> Thông tin nhóm</a></li>
+                        <li><a href="group?action=showUpdateGroup"><i class="fas fa-user-edit"></i> Sửa thông tin nhóm</a></li>
+<%--                        <%}%>--%>
                         <li><a href=""><i class="fas fa-wallet"></i> Nạp tiền vào ví</a></li>
-                        <li><a href=""><i class="fas fa-user-edit"></i> Sửa thông tin</a></li>
+
                         <li><a href=""><i class="fas fa-key"></i> Đổi mật khẩu</a></li>
                         <li><a href=""><i class="fas fa-building"></i> Danh sách nhà tuyển dụng</a></li>
                         <div class="dropdown" style="padding: 12px 15px">
@@ -304,7 +313,7 @@
                                 <li><a href=""><i class="fas fa-download"></i> Tải CV</a></li>
                             </ul>
                         </div>
-                        <li class="logout"><a href=""><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a></li>
+                        <li class="logout"><a href="logout"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a></li>
                     </ul>
 
 
@@ -345,7 +354,4 @@
             });
         });
     });
-
-
-
 </script>

@@ -74,7 +74,7 @@
         </div>
     </div>
 
-    <%@include file="includes/header-login-01.jsp" %>
+    <%@include file="includes/header-01.jsp" %>
     <%@include file="includes/sidebar.jsp" %>
 
     <a class="skip-link screen-reader-text" href="#content">Skip to content</a>

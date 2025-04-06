@@ -29,7 +29,7 @@
 <body>
 
 
-<%@include file="includes/header-login-01.jsp"%>
+<%@include file="includes/header-01.jsp"%>
 
 <div class="py-4 banner_title">
     <h1 class="text-white font-weight-bold" style="padding-left: 50px;">Danh sách người dùng</h1>
@@ -45,7 +45,7 @@
                         <c:set var="activeUser" value="false" />
 
                         <c:forEach items="${list}" var="o">
-                            <c:if test="${o.status eq 'đang hoạt động'}">
+                            <c:if test="${o.status eq 'Đang hoạt động'}">
                                 <c:set var="activeUser" value="true" />
                             </c:if>
                         </c:forEach>
@@ -53,7 +53,7 @@
                         <c:if test="${activeUser}">
                             <h3>Người dùng đang hoạt động</h3>
                             <c:forEach items="${list}" var="o" varStatus="status">
-                                <c:if test="${o.status eq 'đang hoạt động'}">
+                                <c:if test="${o.status eq 'Đang hoạt động'}">
                                     <div class="prolancer-seller-item style-2">
                                         <div class="row">
                                             <div class="col-3 my-auto">

@@ -1,13 +1,14 @@
 package jobtrans.utils;
-import java.io.IOException;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import jobtrans.config.Iconstant;
 import jobtrans.model.GoogleAccount;
-import java.io.IOException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
+
+import java.io.IOException;
 
 /**
  *

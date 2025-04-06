@@ -65,7 +65,11 @@ public class GroupMember {
         this.bio = bio;
     }
 
-    public Date getDateOfBirth() {
+    public java.sql.Date getDateOfBirth() {
+        return new java.sql.Date(dateOfBirth.getTime());
+    }
+
+    public Date getUtilsDateOfBirth(){
         return dateOfBirth;
     }
 

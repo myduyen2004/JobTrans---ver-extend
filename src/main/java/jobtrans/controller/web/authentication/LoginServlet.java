@@ -1,6 +1,5 @@
 package jobtrans.controller.web.authentication;
 
-import jobtrans.controller.admin.AccountManagement;
 import jobtrans.dal.AccountDAO;
 import jobtrans.model.Account;
 import jobtrans.model.GoogleAccount;
@@ -28,10 +27,8 @@ public class LoginServlet extends HttpServlet {
         String code = request.getParameter("code");
         String error = request.getParameter("error");
         HttpSession session = request.getSession();
-
-        // neu nguoi dung huy uy quyen
         if (error != null) {
-            request.getRequestDispatcher("loginAndRegister.jsp").forward(request, response);
+            request.getRequestDispatcher("login-and-register.jsp").forward(request, response);
         }
         GoogleLogin gg = new GoogleLogin();
         String accessToken = gg.getToken(code);
@@ -45,26 +42,19 @@ public class LoginServlet extends HttpServlet {
         Account account = new Account();
         if (accountDAO.checkExistEmail(email)) {
             account = accountDAO.getAccountByEmail(email);
-            session.setAttribute("accountId", account.getAccountId());
-            session.setAttribute("account", email);
-            session.setAttribute("userName", account.getAccountName());
-            session.setAttribute("email", account.getEmail());
-            session.setAttribute("avatarUrl", account.getAvatar());
-            session.setAttribute("role",account.getRole());
-            response.sendRedirect("index.jsp");
+            session.setAttribute("sessionAccount", account);
+            response.sendRedirect("home");
         }else{
-            account =new Account(userName,email,avatar,"true","Google",code);
+            account =new Account(userName,email,avatar,"Đang hoạt động","Google",code);
             account.setPoint(0);
             accountDAO.addUserByLoginGoogle(account);
-            request.setAttribute("home", "home");
-            session.setAttribute("accountId", account.getAccountId());
-            session.setAttribute("account", email);
-            session.setAttribute("userName", account.getAccountName());
-            session.setAttribute("email", account.getEmail());
-            session.setAttribute("avatarUrl", account.getAvatar());
-            session.setAttribute("point", account.getPoint());
-            session.setAttribute("role",account.getRole());
-            response.sendRedirect("index.jsp");
+            session.setAttribute("sessionAccount", account);
+            if(account.getRole() == null){
+                response.sendRedirect("type");
+            }else{
+                response.sendRedirect("home");
+            }
+
         }
     }
 
@@ -93,19 +83,13 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("account", mail);
             request.setAttribute("home", "home");
             Account acc = accountDAO.getAccountByEmail(mail);
-            session.setAttribute("userId", acc.getAccountId());
-            System.out.println(acc.getAccountId()+acc.getAccountName());
-            session.setAttribute("userName", acc.getAccountName());
-            session.setAttribute("email", acc.getEmail());
-            session.setAttribute("avatarUrl", acc.getAvatar());
-            session.setAttribute("role", acc.getRole());
-            session.setAttribute("point", acc.getPoint());
             request.setAttribute("success", "Đăng nhập thành công!");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            session.setAttribute("sessionAccount", account);
+            response.sendRedirect("home");
 
         }else{
             request.setAttribute("error", "Đăng nhập thất bại!");
-            request.getRequestDispatcher("authentication/loginAndRegister.jsp").forward(request, response);
+            request.getRequestDispatcher("login-and-register.jsp").forward(request, response);
         }
     }
 

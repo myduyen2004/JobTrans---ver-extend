@@ -1,8 +1,9 @@
 package jobtrans.utils;
 
+import jobtrans.config.Configuration;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
-import jobtrans.config.Configuration;
 
 public class DBConnection implements Configuration{
     private static DBConnection instance;

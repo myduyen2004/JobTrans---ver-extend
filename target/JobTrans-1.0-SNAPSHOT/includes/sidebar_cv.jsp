@@ -109,5 +109,5 @@ body {
                 text.classList.toggle('hidden');
             });
         }
-    </script>
+</script>
 </html>
