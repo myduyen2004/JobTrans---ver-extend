@@ -311,11 +311,8 @@ public class Account {
                 ", type='" + type + '\'' +
                 ", signature='" + signature + '\'' +
                 ", status='" + status + '\'' +
-<<<<<<< HEAD
                 ", oauth_provider='" + oauth_provider + '\'' +
                 ", oauthId='" + oauthId + '\'' +
-=======
->>>>>>> 7bdf65aac501206287114c7f46e4c8cc19f3abca
                 '}';
     }
 }
