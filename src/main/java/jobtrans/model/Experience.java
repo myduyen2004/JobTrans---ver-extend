@@ -4,21 +4,23 @@ import java.util.Date;
 
 public class Experience {
     private int experienceId;
-    private int cvId; // Liên kết với CV
+    private int cvId;
     private String companyName;
     private Date startAt;
     private Date endAt;
     private String customCompany;
     private String jobPosition;
-    private String address;
+    private String address; // Bổ sung trường address để khớp database
     private String description;
+    private String achievement;
 
     // Constructor không tham số
-    public Experience() {}
 
-    // Constructor có tham số đầy đủ
-    public Experience(int experienceId, int cvId, String companyName, Date startAt, Date endAt,
-                      String customCompany, String jobPosition, String address, String description) {
+
+    public Experience() {
+    }
+
+    public Experience(int experienceId, int cvId, String companyName, Date startAt, Date endAt, String customCompany, String jobPosition, String address, String description, String achievement) {
         this.experienceId = experienceId;
         this.cvId = cvId;
         this.companyName = companyName;
@@ -28,9 +30,11 @@ public class Experience {
         this.jobPosition = jobPosition;
         this.address = address;
         this.description = description;
+        this.achievement = achievement;
     }
 
     // Getter và Setter
+
     public int getExperienceId() {
         return experienceId;
     }
@@ -103,7 +107,15 @@ public class Experience {
         this.description = description;
     }
 
-    // Phương thức toString để hiển thị thông tin kinh nghiệm làm việc
+    public String getAchievement() {
+        return achievement;
+    }
+
+    public void setAchievement(String achievement) {
+        this.achievement = achievement;
+    }
+
+
     @Override
     public String toString() {
         return "Experience{" +
@@ -116,6 +128,7 @@ public class Experience {
                 ", jobPosition='" + jobPosition + '\'' +
                 ", address='" + address + '\'' +
                 ", description='" + description + '\'' +
+                ", achievement='" + achievement + '\'' +
                 '}';
     }
 }

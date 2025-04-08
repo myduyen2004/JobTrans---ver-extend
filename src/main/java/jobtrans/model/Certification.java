@@ -5,20 +5,22 @@ import java.util.Date;
 public class Certification {
     private int certificationId;
     private String certificationName;
-    private Date year;
+    private Date awardYear;
     private String customCertification;
     private String description;
 
-    // Constructor
-    public Certification(int certificationId, String certificationName, Date year, String customCertification, String description) {
+    public Certification() {
+    }
+
+    public Certification(int certificationId, String certificationName, Date awardYear, String customCertification, String description) {
         this.certificationId = certificationId;
         this.certificationName = certificationName;
-        this.year = year;
+        this.awardYear = awardYear;
         this.customCertification = customCertification;
         this.description = description;
     }
+    // Getters and Setters
 
-    // Getter và Setter
     public int getCertificationId() {
         return certificationId;
     }
@@ -35,12 +37,12 @@ public class Certification {
         this.certificationName = certificationName;
     }
 
-    public Date getYear() {
-        return year;
+    public Date getAwardYear() {
+        return awardYear;
     }
 
-    public void setYear(Date year) {
-        this.year = year;
+    public void setAwardYear(Date awardYear) {
+        this.awardYear = awardYear;
     }
 
     public String getCustomCertification() {
@@ -64,7 +66,7 @@ public class Certification {
         return "Certification{" +
                 "certificationId=" + certificationId +
                 ", certificationName='" + certificationName + '\'' +
-                ", year=" + year +
+                ", awardYear=" + awardYear +
                 ", customCertification='" + customCertification + '\'' +
                 ", description='" + description + '\'' +
                 '}';

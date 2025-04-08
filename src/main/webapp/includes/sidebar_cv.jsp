@@ -31,12 +31,14 @@ body {
 .sidebar {
     width: 100px;
     background: #fff;
-    height: 100vh;
+    height: 80vh;
     padding: 10px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-left: auto;
+    margin-top: 20px;
 }
 
 .sidebar ul {
@@ -68,6 +70,37 @@ body {
 .shrink {
     margin-top: auto;
 }
+    ul li {
+        text-align: left;
+        cursor: pointer; /* hiện bàn tay khi hover */
+        padding: 5px;
+    }
+
+    ul li:hover {
+        background-color: #f2f2f2; /* hiệu ứng hover */
+    }
+
+
+    .menu {
+        list-style: none;
+    }
+
+    .dropdown-content {
+        display: none;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        border: 1px solid #ccc;
+    }
+
+    .dropdown-content li {
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+
+    .dropdown-content li:hover {
+        background-color: #f2f2f2;
+    }
     </style>
 <body>
     <div class="sidebar">
@@ -85,17 +118,35 @@ body {
                 <span>Thêm mục</span>
             </li>
             <li>
+
                 <i class="fas fa-file-invoice"></i>
-                <span>CV mẫu</span>
+                <a><span>Tạo CV</span></a>
+
             </li>
+
+
+
+
+            <ul class="menu">
+                <li class="dropdown">
+                    <i class="fas fa-file-export menu-icon"></i>
+        <span onclick="toggleMenu()">Đổi Background
+            <i class="fas fa-caret-down"></i>
+        </span>
+
+             <li>
+                    <ul id="colorMenu" class="dropdown-content">
+                        <li  onclick="changeBg('blue')">Xanh</li>
+                        <li onclick="changeBg('red')">Đỏ</li>
+                        <li onclick="changeBg('var(--primary)')">Nguyên bản</li>
+                    </ul>
+                </li>
+            </ul>
             <li>
-                <i class="fas fa-language"></i>
-                <span>Đổi ngôn ngữ</span>
+                <i class="fas fa-arrow-left"></i>
+                <a href="cv?action=type"><span>Quay lại</span></a>
             </li>
-            <li class="shrink">
-                <i class="fas fa-chevron-up"></i>
-                <span>Rút gọn</span>
-            </li>
+
         </ul>
     </div>
 </body>
@@ -110,4 +161,20 @@ body {
             });
         }
     </script>
+<script>
+    function changeBg(color) {
+        document.body.style.backgroundColor = color;
+    }
+</script>
+<script>
+    function toggleMenu() {
+        var menu = document.getElementById("colorMenu");
+        menu.style.display = (menu.style.display === "block") ? "none" : "block";
+    }
+
+    function changeBg(color) {
+        document.querySelector('.cv-sidebar').style.background = color;
+    }
+</script>
+
 </html>

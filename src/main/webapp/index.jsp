@@ -826,7 +826,7 @@
                                          data-id="5f8511b" data-element_type="widget"
                                          data-widget_type="heading.default">
                                         <div class="elementor-widget-container">
-                                            <h2 class="elementor-heading-title elementor-size-default">TOP 5 Thành
+                                            <h2 class="elementor-heading-title elementor-size-default">TOP 100 Thành
                                                 viên</h2></div>
                                     </div>
                                     <div class="elementor-element elementor-element-c9f4a35 elementor-widget elementor-widget-heading"
@@ -1942,15 +1942,14 @@
                                          data-id="5f8511b" data-element_type="widget"
                                          data-widget_type="heading.default">
                                         <div class="elementor-widget-container">
-                                            <h2 class="elementor-heading-title elementor-size-default">TOP 5 Thành
-                                                viên</h2></div>
+                                            <h2 class="elementor-heading-title elementor-size-default">Top freelance xuất sắc</h2></div>
                                     </div>
                                     <div class="elementor-element elementor-element-c9f4a35 elementor-widget elementor-widget-heading"
                                          data-id="c9f4a35" data-element_type="widget"
                                          data-widget_type="heading.default">
                                         <div class="elementor-widget-container">
-                                            <p class="elementor-heading-title elementor-size-default">Danh sách thành
-                                                viên có số điểm uy tín cao trên hệ thống</p></div>
+                                            <p class="elementor-heading-title elementor-size-default">Dưới đây là danh sách các nền tảng freelance uy tín và chất lượng hàng đầu,
+                                                đảm bảo độ tin cậy hàng đầu và giúp bạn hoàn thành công việc một cách hiệu quả nhất</p></div>
                                     </div>
                                 </div>
                             </div>
@@ -1974,140 +1973,46 @@
                                         <div class="elementor-widget-container">
 
                                             <div class="row justify-content-center ">
-                                                <!-- Item -->
-                                                <div class="col-xl-3 col-lg-4 col-md-6 ">
-                                                    <div class="prolancer-seller-item style-1 text-center">
-                                                        <div class="seller-item-images">
-                                                            <a href="sellers/harry-olson/index.html">
-                                                                <img decoding="async"
-                                                                     src="wp-content/uploads/2021/04/pexels-pixabay-220453-300x300.jpg"
-                                                                     alt=""/> </a>
-                                                        </div>
-                                                        <div class="seller-content">
-                                                            <h2 class="mb-2"><a href="sellers/harry-olson/index.html">Harry
-                                                                Olson</a><i class="fas fa-check-circle verified"
-                                                                            title="Verified"></i></h2>
-                                                            <div class="seller-hourly-rate">
-                                                                <h4>Hourly rate: <span
-                                                                        class="woocommerce-Price-amount amount"><bdi><span
-                                                                        class="woocommerce-Price-currencySymbol">&#36;</span>40.00</bdi></span>
-                                                                </h4>
-                                                            </div>
-                                                            <div class="star-rating">
-                                                                <span style="width:90%"></span>
-                                                            </div>
-                                                            <ul class="list-inline">
-                                                                <li class="list-inline-item"><i
-                                                                        class="fas fa-user-shield"></i><span>Student</span>
-                                                                </li>
-                                                                <li class="list-inline-item"><i
-                                                                        class="fas fa-globe-asia"></i><span>Australia</span>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- Item -->
-                                                <div class="col-xl-3 col-lg-4 col-md-6 ">
-                                                    <div class="prolancer-seller-item style-1 text-center">
-                                                        <div class="seller-item-images">
-                                                            <a href="sellers/harry-olson/index.html">
-                                                                <img decoding="async"
-                                                                     src="wp-content/uploads/2021/04/pexels-pixabay-220453-300x300.jpg"
-                                                                     alt=""/> </a>
-                                                        </div>
-                                                        <div class="seller-content">
-                                                            <h2 class="mb-2"><a href="sellers/harry-olson/index.html">Harry
-                                                                Olson</a><i class="fas fa-check-circle verified"
-                                                                            title="Verified"></i></h2>
-                                                            <div class="seller-hourly-rate">
-                                                                <h4>Hourly rate: <span
-                                                                        class="woocommerce-Price-amount amount"><bdi><span
-                                                                        class="woocommerce-Price-currencySymbol">&#36;</span>40.00</bdi></span>
-                                                                </h4>
-                                                            </div>
-                                                            <div class="star-rating">
-                                                                <span style="width:90%"></span>
-                                                            </div>
-                                                            <ul class="list-inline">
-                                                                <li class="list-inline-item"><i
-                                                                        class="fas fa-user-shield"></i><span>Student</span>
-                                                                </li>
-                                                                <li class="list-inline-item"><i
-                                                                        class="fas fa-globe-asia"></i><span>Australia</span>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- Item -->
-                                                <div class="col-xl-3 col-lg-4 col-md-6 ">
-                                                    <div class="prolancer-seller-item style-1 text-center">
-                                                        <div class="seller-item-images">
-                                                            <a href="sellers/harry-olson/index.html">
-                                                                <img decoding="async"
-                                                                     src="wp-content/uploads/2021/04/pexels-pixabay-220453-300x300.jpg"
-                                                                     alt=""/> </a>
-                                                        </div>
-                                                        <div class="seller-content">
-                                                            <h2 class="mb-2"><a href="sellers/harry-olson/index.html">Harry
-                                                                Olson</a><i class="fas fa-check-circle verified"
-                                                                            title="Verified"></i></h2>
-                                                            <div class="seller-hourly-rate">
-                                                                <h4>Hourly rate: <span
-                                                                        class="woocommerce-Price-amount amount"><bdi><span
-                                                                        class="woocommerce-Price-currencySymbol">&#36;</span>40.00</bdi></span>
-                                                                </h4>
-                                                            </div>
-                                                            <div class="star-rating">
-                                                                <span style="width:90%"></span>
-                                                            </div>
-                                                            <ul class="list-inline">
-                                                                <li class="list-inline-item"><i
-                                                                        class="fas fa-user-shield"></i><span>Student</span>
-                                                                </li>
-                                                                <li class="list-inline-item"><i
-                                                                        class="fas fa-globe-asia"></i><span>Australia</span>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- Item -->
-                                                <div class="col-xl-3 col-lg-4 col-md-6 ">
-                                                    <div class="prolancer-seller-item style-1 text-center">
-                                                        <div class="seller-item-images">
-                                                            <a href="sellers/harry-olson/index.html">
-                                                                <img decoding="async"
-                                                                     src="wp-content/uploads/2021/04/pexels-pixabay-220453-300x300.jpg"
-                                                                     alt=""/> </a>
-                                                        </div>
-                                                        <div class="seller-content">
-                                                            <h2 class="mb-2"><a href="sellers/harry-olson/index.html">Harry
-                                                                Olson</a><i class="fas fa-check-circle verified"
-                                                                            title="Verified"></i></h2>
-                                                            <div class="seller-hourly-rate">
-                                                                <h4>Hourly rate: <span
-                                                                        class="woocommerce-Price-amount amount"><bdi><span
-                                                                        class="woocommerce-Price-currencySymbol">&#36;</span>40.00</bdi></span>
-                                                                </h4>
-                                                            </div>
-                                                            <div class="star-rating">
-                                                                <span style="width:90%"></span>
-                                                            </div>
-                                                            <ul class="list-inline">
-                                                                <li class="list-inline-item"><i
-                                                                        class="fas fa-user-shield"></i><span>Student</span>
-                                                                </li>
-                                                                <li class="list-inline-item"><i
-                                                                        class="fas fa-globe-asia"></i><span>Australia</span>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
 
+
+                                                <!-- Item -->
+
+                                                <!-- Item -->
+                                                <div class="col-xl-3 col-lg-4 col-md-6 ">
+                                                    <div class="prolancer-seller-item style-1 text-center">
+                                                        <div class="seller-item-images">
+                                                            <a href="sellers/harry-olson/index.html">
+                                                                <img decoding="async"
+                                                                     src="wp-content/uploads/2021/04/pexels-pixabay-220453-300x300.jpg"
+                                                                     alt=""/> </a>
+                                                        </div>
+                                                        <div class="seller-content">
+                                                            <h2 class="mb-2"><a href="sellers/harry-olson/index.html">Harry
+                                                                Olson</a><i class="fas fa-check-circle verified"
+                                                                            title="Verified"></i></h2>
+                                                            <div class="seller-hourly-rate">
+                                                                <h4>Hourly rate: <span
+                                                                        class="woocommerce-Price-amount amount"><bdi><span
+                                                                        class="woocommerce-Price-currencySymbol">&#36;</span>40.00</bdi></span>
+                                                                </h4>
+                                                            </div>
+                                                            <div class="star-rating">
+                                                                <span style="width:90%"></span>
+                                                            </div>
+                                                            <ul class="list-inline">
+                                                                <li class="list-inline-item"><i
+                                                                        class="fas fa-user-shield"></i><span>Student</span>
+                                                                </li>
+                                                                <li class="list-inline-item"><i
+                                                                        class="fas fa-globe-asia"></i><span>Australia</span>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <a href="home?action=top100"><button>Top 100 freelance -></button></a>
                                         </div>
                                     </div>
                                 </div>

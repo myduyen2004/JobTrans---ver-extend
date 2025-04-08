@@ -932,10 +932,26 @@ body, p {
                                         </li>
                                     </ul>
                                 </li>
-                                <li
-                                    class="menu-item menu-item-type-custom menu-item-object-custom menu-item-27"><a
-                                        href="services/index.html">Tạo CV</a>
+                                <li id="menu-item-26"
+                                    class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-26">
+                                    <a href="projects/index.html">CV</a>
+                                    <ul class="sub-menu">
+                                        <li id="menu-item-391"
+                                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-391">
+                                            <a href="cv?action=type"
+                                               class="dropdown-mega-menu-toggle">Tạo CV</a>
+                                            <div class="mega-menu-content"></div>
+                                        </li>
+                                        <li id="menu-item-391"
+                                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-391">
+                                            <a href="cv?action=list"
+                                               class="dropdown-mega-menu-toggle">My CV</a>
+                                            <div class="mega-menu-content"></div>
+                                        </li>
+
+                                    </ul>
                                 </li>
+
                                 <li id="menu-item-20"
                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-20"><a
                                         href="blog/index.html">Chính sách</a>
