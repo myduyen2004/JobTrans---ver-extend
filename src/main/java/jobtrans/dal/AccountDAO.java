@@ -440,8 +440,58 @@ public class AccountDAO {
         }
         return accs;
     }
-    
 
+    public List<Account> getTop4AccountByPoint() {
+        List<Account> list = new ArrayList<>();
+        String sql = "SELECT TOP 4 * FROM Account ORDER BY point DESC";
+
+        try (Connection con = dbConnection.openConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Account acc = new Account();
+                acc.setAccountId(rs.getInt("account_id"));
+                acc.setAccountName(rs.getString("account_name"));
+                acc.setEmail(rs.getString("email"));
+                acc.setPhone(rs.getString("phone"));
+                acc.setPoint(rs.getInt("point"));
+                acc.setRole(rs.getString("role"));
+                acc.setAvatar(rs.getString("avatar"));
+                // thêm các field cần thiết khác
+                list.add(acc);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Account> getTop100AccountByPoint() {
+        List<Account> list = new ArrayList<>();
+        String sql = "SELECT TOP 100 * FROM Account ORDER BY point DESC";
+
+        try (Connection con = dbConnection.openConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Account acc = new Account();
+                acc.setAccountId(rs.getInt("account_id"));
+                acc.setAccountName(rs.getString("account_name"));
+                acc.setEmail(rs.getString("email"));
+                acc.setPhone(rs.getString("phone"));
+                acc.setPoint(rs.getInt("point"));
+                acc.setRole(rs.getString("role"));
+                acc.setAvatar(rs.getString("avatar"));
+                // thêm các field cần thiết khác
+                list.add(acc);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 //    public Account getAccountById(int id) {}
 //    public Account getAccountByName(String name) {}
 
