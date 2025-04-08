@@ -48,8 +48,17 @@ public class AccountManagement extends HttpServlet {
         HttpSession session = req.getSession();
         if (session.getAttribute("sessionAccount") != null) {
             List<Account> list = accountDAO.getAccountUser();
+//            int page = req.getParameter("page") == null ? 1 : Integer.parseInt(req.getParameter("page"));
+//            int recordsPerPage = 5;
+//            int start = (page - 1) * recordsPerPage;
+//            int end = Math.min(start + recordsPerPage, list.size());
+//            List<Account> pageList = list.subList(start, end);
+
             req.setAttribute("list", list);
+//            req.setAttribute("currentPage", page);
+//            req.setAttribute("totalPages", (int) Math.ceil((double) list.size() / recordsPerPage));
             req.getRequestDispatcher("user-manage.jsp").forward(req, resp);
+
         } else {
             resp.sendRedirect("home");
         }
