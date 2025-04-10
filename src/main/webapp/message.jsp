@@ -29,9 +29,7 @@
     </div>
 </div>
 
-<%@include file="includes/header-01.jsp"%>
 
-<%--main chatn box--%>
 <div class="m-3 p-2" style="background-color: #D9D9D950; border-radius: 15px;">
     <h2 class="mt-3 mb-3 ml-3" style="background-color: #6787FE; padding: 5px 10px 5px 10px; color: white; text-align: center; width: 500px; border-radius: 30px; font-size: 20px;">
         Đoạn chat - Lập trình web bán hàng
@@ -68,10 +66,6 @@
     </div>
 </div>
 
-<%@include file="includes/footer.jsp"%>
-
-<!--======= Back to Top =======-->
-<div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const chatBody = document.getElementById("chatBody");

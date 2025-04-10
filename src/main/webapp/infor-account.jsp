@@ -1,5 +1,3 @@
-<%-- Document : favoriteListJob Created on : Mar 2, 2025, 4:13:55 PM Author : qn407 --%>
-
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en-US">
@@ -277,207 +275,157 @@
         body {
             overflow-x: hidden;
         }
+
         .container {
             max-width: 100%;
         }
 
     </style>
 </head>
-<div
-        class="archive post-type-archive post-type-archive-projects wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
-    <div id="preloader">
-        <div class="spinner">
-            <div class="uil-ripple-css">
-                <div></div>
-                <div></div>
+<body>
+<section class="section-padding">
+    <div class="container">
+        <div class="justify-content-center col-xl-12" style="display: flex;">
+            <div class="profile col-xl-4">
+                <img class="avatar"
+                     src="../wp-content/uploads/2021/04/pexels-andrea-piacquadio-874158-200x200.jpg"
+                     alt="Avatar">
+                <div class="stars">
+                    <span>★★★★★</span>
+                </div>
+                <button class="avatar-btn">Thay avatar</button>
+                <p class="member-since">Thành viên từ 6/2024</p>
+            </div>
+            <div class="info col-xl-6">
+                <h2 style="margin-bottom: 20px;">Thông tin cơ bản</h2>
+                <div class="info-grid">
+                    <p>Họ và tên</p>
+                    <p>Nguyễn Văn A</p>
+                    <p>Ngày, tháng, năm sinh</p>
+                    <p>22-02-2002</p>
+                    <p>Loại tài khoản</p>
+                    <p>Cá nhân</p>
+                    <p>Giới tính</p>
+                    <p>Nam</p>
+                    <p>Chuyên môn</p>
+                    <p>IT, CNTT</p>
+                    <p>Điểm uy tín</p>
+                    <p>100</p>
+                    <p>Số dư</p>
+                    <p>3.000.000 VNĐ</p>
+                    <p>Email</p>
+                    <p>ngva@gmail.com</p>
+                    <p>SĐT</p>
+                    <p>099999999</p>
+                </div>
+            </div>
+            <div class="buttons col-xl-2">
+                <button class="edit-btn">Sửa thông tin</button>
+                <button class="detail-btn" style="margin-top: 290px;">Xem chi tiết</button>
+                <button class="wallet-btn" style="margin-top: 11px;">Quản lí ví tiền</button>
             </div>
         </div>
     </div>
-    <%@include file="includes/header-01.jsp" %>
-
-    <%@include file="includes/sidebar.jsp" %>
-
-    <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-    <%--            Lưu ý khi chèn taskbar nhớ chèn theo thẻ này--%>
-    <div class="row main-content" id="mainContent">
-        <section>
-            <div class="breadcrumbs">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12 my-auto">
-                            <h1>
-                                Thông tin cơ bản </h1>
-                            <ul class="trail-items" itemscope itemtype="http://schema.org/BreadcrumbList">
-                                <li class="trail-item trail-begin"><a href="../index.html"><span
-                                        itemprop="name">Tài khoản</span></a>
-                                    <meta itemprop="position" content="1"/>
-                                </li>
-                                <li class="trail-item trail-end"><span itemprop="item"><span
-                                        itemprop="name">Thông tin cơ bản</span></span>
-                                    <meta itemprop="position" content="2"/>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-
-        <section class="section-padding">
-            <div class="container">
-                <div class="justify-content-center col-xl-12" style="display: flex;">
-                    <div class="profile col-xl-4">
-                        <img class="avatar"
-                             src="../wp-content/uploads/2021/04/pexels-andrea-piacquadio-874158-200x200.jpg"
-                             alt="Avatar">
-                        <div class="stars">
-                            <span>★★★★★</span>
-                        </div>
-                        <button class="avatar-btn">Thay avatar</button>
-                        <p class="member-since">Thành viên từ 6/2024</p>
-                    </div>
-                    <div class="info col-xl-6">
-                        <h2 style="margin-bottom: 20px;">Thông tin cơ bản</h2>
-                        <div class="info-grid">
-                            <p>Họ và tên</p>
-                            <p>Nguyễn Văn A</p>
-                            <p>Ngày, tháng, năm sinh</p>
-                            <p>22-02-2002</p>
-                            <p>Loại tài khoản</p>
-                            <p>Cá nhân</p>
-                            <p>Giới tính</p>
-                            <p>Nam</p>
-                            <p>Chuyên môn</p>
-                            <p>IT, CNTT</p>
-                            <p>Điểm uy tín</p>
-                            <p>100</p>
-                            <p>Số dư</p>
-                            <p>3.000.000 VNĐ</p>
-                            <p>Email</p>
-                            <p>ngva@gmail.com</p>
-                            <p>SĐT</p>
-                            <p>099999999</p>
-                        </div>
-                    </div>
-                    <div class="buttons col-xl-2">
-                        <button class="edit-btn">Sửa thông tin</button>
-                        <button class="detail-btn" style="margin-top: 290px;">Xem chi tiết</button>
-                        <button class="wallet-btn" style="margin-top: 11px;">Quản lí ví tiền</button>
-                    </div>
-                </div>
-            </div>
-            <div class="intro-container">
-                <div class="intro-title">Giới thiệu chung</div>
-                <div class="intro-text">
-                    Xin chào! Tôi là Nguyễn Văn A, một freelancer IT chuyên về phát triển web và backend.
-                    Với 5 năm kinh nghiệm, tôi giúp khách hàng xây dựng hệ thống hiệu quả, tối ưu hiệu suất và
-                    bảo mật.
-                    Nếu bạn cần một freelancer chuyên nghiệp, hãy liên hệ với tôi!
-                </div>
-            </div>
-
-            <div class="container">
-                <div class="justify-content-center" style="padding: 0 20px;">
-                    <div class="reviews-container">
-                        <div class="reviews-title">Các đánh giá đã nhận được</div>
-                        <div class="review-item">
-                            <img class="review-avatar"
-                                 src="../wp-content/uploads/2021/04/pexels-andrea-piacquadio-874158-200x200.jpg"
-                                 alt="Avatar">
-                            <div class="review-content">
-                                <div class="review-name">Daniel - Tạo Web SEO</div>
-                                <div class="review-stars">★★★★★</div>
-                                <div class="review-text">I loved the design that was made will come back for
-                                    more!!
-                                    You should get your designs from her, super great!!!
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="review-item">
-                            <img class="review-avatar"
-                                 src="../wp-content/uploads/2021/04/pexels-andrea-piacquadio-874158-200x200.jpg"
-                                 alt="Avatar">
-                            <div class="review-content">
-                                <div class="review-name">Daniel - Tạo Web SEO</div>
-                                <div class="review-stars">★★★★★</div>
-                                <div class="review-text">I loved the design that was made will come back for
-                                    more!!
-                                    You should get your designs from her, super great!!!
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="review-item">
-                            <img class="review-avatar"
-                                 src="../wp-content/uploads/2021/04/pexels-andrea-piacquadio-874158-200x200.jpg"
-                                 alt="Avatar">
-                            <div class="review-content">
-                                <div class="review-name">Daniel - Tạo Web SEO</div>
-                                <div class="review-stars">★★★★★</div>
-                                <div class="review-text">I loved the design that was made will come back for
-                                    more!!
-                                    You should get your designs from her, super great!!!
-                                </div>
-                            </div>
-                        </div>
-                        <div class="reviews-title">
-                            <button class="view-more-btn">Xem thêm</button>
-                        </div>
-                    </div>
-
-                    <div style="margin-left: 30px;">
-                        <div class="report-title">Thông tin báo cáo</div>
-
-                        <div class="report-content">
-                            <div class="report-icon material-symbols--report-outline"></div>
-                            <p class="report-text">
-                                I loved the design that was made will come back for more!! You should get your
-                                designs from her, super great!!!
-                                I loved the design that was made will come back for more!! You should get your
-                                designs from her, super great!!!
-                                I loved the design that was made will come back for more!! You should get your
-                                designs from her, super great!!!
-                            </p>
-                        </div>
-
-                        <div class="report-content">
-                            <div class="report-icon material-symbols--report-outline"></div>
-                            <p class="report-text">
-                                I loved the design that was made will come back for more!! You should get your
-                                designs from her, super great!!!
-                            </p>
-                        </div>
-
-                        <div class="report-content">
-                            <div class="report-icon material-symbols--report-outline"></div>
-                            <p class="report-text">
-                                I loved the design that was made will come back for more!! You should get your
-                                designs from her, super great!!!
-                                I loved the design that was made will come back for more!! You should get your
-                                designs from her, super great!!!
-                                I loved the design that was made will come back for more!! You should get your
-                                designs from her, super great!!!
-                            </p>
-                        </div>
-                        <div class="reviews-title" style="margin-right: 60px;">
-                            <button class="view-more-btn">Xem thêm</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <%@include file="includes/footer.jsp" %>
+    <div class="intro-container">
+        <div class="intro-title">Giới thiệu chung</div>
+        <div class="intro-text">
+            Xin chào! Tôi là Nguyễn Văn A, một freelancer IT chuyên về phát triển web và backend.
+            Với 5 năm kinh nghiệm, tôi giúp khách hàng xây dựng hệ thống hiệu quả, tối ưu hiệu suất và
+            bảo mật.
+            Nếu bạn cần một freelancer chuyên nghiệp, hãy liên hệ với tôi!
+        </div>
     </div>
-</div>
 
+    <div class="container">
+        <div class="justify-content-center" style="padding: 0 20px;">
+            <div class="reviews-container">
+                <div class="reviews-title">Các đánh giá đã nhận được</div>
+                <div class="review-item">
+                    <img class="review-avatar"
+                         src="../wp-content/uploads/2021/04/pexels-andrea-piacquadio-874158-200x200.jpg"
+                         alt="Avatar">
+                    <div class="review-content">
+                        <div class="review-name">Daniel - Tạo Web SEO</div>
+                        <div class="review-stars">★★★★★</div>
+                        <div class="review-text">I loved the design that was made will come back for
+                            more!!
+                            You should get your designs from her, super great!!!
+                        </div>
+                    </div>
+                </div>
 
-<!--======= Back to Top =======-->
-<div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
+                <div class="review-item">
+                    <img class="review-avatar"
+                         src="../wp-content/uploads/2021/04/pexels-andrea-piacquadio-874158-200x200.jpg"
+                         alt="Avatar">
+                    <div class="review-content">
+                        <div class="review-name">Daniel - Tạo Web SEO</div>
+                        <div class="review-stars">★★★★★</div>
+                        <div class="review-text">I loved the design that was made will come back for
+                            more!!
+                            You should get your designs from her, super great!!!
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-item">
+                    <img class="review-avatar"
+                         src="../wp-content/uploads/2021/04/pexels-andrea-piacquadio-874158-200x200.jpg"
+                         alt="Avatar">
+                    <div class="review-content">
+                        <div class="review-name">Daniel - Tạo Web SEO</div>
+                        <div class="review-stars">★★★★★</div>
+                        <div class="review-text">I loved the design that was made will come back for
+                            more!!
+                            You should get your designs from her, super great!!!
+                        </div>
+                    </div>
+                </div>
+                <div class="reviews-title">
+                    <button class="view-more-btn">Xem thêm</button>
+                </div>
+            </div>
+
+            <div style="margin-left: 30px;">
+                <div class="report-title">Thông tin báo cáo</div>
+
+                <div class="report-content">
+                    <div class="report-icon material-symbols--report-outline"></div>
+                    <p class="report-text">
+                        I loved the design that was made will come back for more!! You should get your
+                        designs from her, super great!!!
+                        I loved the design that was made will come back for more!! You should get your
+                        designs from her, super great!!!
+                        I loved the design that was made will come back for more!! You should get your
+                        designs from her, super great!!!
+                    </p>
+                </div>
+
+                <div class="report-content">
+                    <div class="report-icon material-symbols--report-outline"></div>
+                    <p class="report-text">
+                        I loved the design that was made will come back for more!! You should get your
+                        designs from her, super great!!!
+                    </p>
+                </div>
+
+                <div class="report-content">
+                    <div class="report-icon material-symbols--report-outline"></div>
+                    <p class="report-text">
+                        I loved the design that was made will come back for more!! You should get your
+                        designs from her, super great!!!
+                        I loved the design that was made will come back for more!! You should get your
+                        designs from her, super great!!!
+                        I loved the design that was made will come back for more!! You should get your
+                        designs from her, super great!!!
+                    </p>
+                </div>
+                <div class="reviews-title" style="margin-right: 60px;">
+                    <button class="view-more-btn">Xem thêm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 </body>
-
-<!-- Mirrored from themebing.com/wp/prolancer/projects/?projects-layout=projects_left_sidebar by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Jan 2025 09:33:35 GMT -->
-
 </html>

@@ -212,23 +212,7 @@
 </head>
 
 
-<body
-    class="archive post-type-archive post-type-archive-projects wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
-
-    <!-- Preloading -->
-    <div id="preloader">
-        <div class="spinner">
-            <div class="uil-ripple-css">
-                <div></div>
-                <div></div>
-            </div>
-        </div>
-    </div>
-    <%@include file="includes/header-01.jsp" %>
-    <%@include file="includes/sidebar.jsp" %>
-    
-
-    <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+<body>
 
     <div class="row main-content" id="mainContent">
 
@@ -310,15 +294,6 @@
             </div>
         </div>
     </section>
-        <%@include file="includes/footer.jsp" %>
-
     </div>
-
-    <!--======= Back to Top =======-->
-    <div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
-
 </body>
-
-<!-- Mirrored from themebing.com/wp/prolancer/projects/?projects-layout=projects_left_sidebar by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Jan 2025 09:33:35 GMT -->
-
 </html>

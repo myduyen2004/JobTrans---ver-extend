@@ -11,15 +11,21 @@ import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 //import jobtrans.dal.GroupMemberDAO;
 //import jobtrans.model.GroupMember;
 //import org.mindrot.jbcrypt.BCrypt;
 import jobtrans.dal.AccountDAO;
+import jobtrans.dal.TransactionDAO;
 import jobtrans.model.Account;
+import jobtrans.model.Transaction;
 
-@WebServlet(name="ProfileServlet", urlPatterns={"/profile"})
+@WebServlet(name = "ProfileServlet", urlPatterns = {"/profile"})
 @MultipartConfig
 
 public class ProfileServlet extends HttpServlet {
@@ -35,7 +41,7 @@ public class ProfileServlet extends HttpServlet {
 //                changePassword(request, response);
                 break;
             case "wallet":
-//                loadWallet(request, response);
+                loadWallet(request, response);
                 break;
             case "addWallet":
 //                addWallet(request, response);
@@ -125,6 +131,7 @@ public class ProfileServlet extends HttpServlet {
             response.getWriter().print(e.getMessage());
         }
     }
+
     private String getFileName(Part part) {
         String contentDispositionHeader = part.getHeader("content-disposition");
         String[] elements = contentDispositionHeader.split(";");
@@ -145,6 +152,7 @@ public class ProfileServlet extends HttpServlet {
         }
         return false;
     }
+
     private void loadUpdateProfile(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
@@ -161,7 +169,7 @@ public class ProfileServlet extends HttpServlet {
         }
     }
 
-//    private void changePassword(HttpServletRequest request, HttpServletResponse response)
+    //    private void changePassword(HttpServletRequest request, HttpServletResponse response)
 //            throws ServletException, IOException {
 //        HttpSession session = request.getSession();
 //        String email = (String) session.getAttribute("account");
@@ -209,5 +217,17 @@ public class ProfileServlet extends HttpServlet {
 //        request.getRequestDispatcher("profile?action=view").forward(request, response);
 //    }
 //}
-
+    private void loadWallet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            HttpSession session = request.getSession();
+            Account account = (Account) session.getAttribute("sessionAccount");
+            AccountDAO accountDAO = new AccountDAO();
+            List<Transaction> trans = accountDAO.getTransactionsByUserId(account.getAccountId());
+            request.setAttribute("trans", trans);
+            request.getRequestDispatcher("wallet.jsp").forward(request, response);
+        } catch (Exception e) {
+            response.sendRedirect("404.html");
+        }
+    }
 }

@@ -7,14 +7,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/png" href="wp-content/uploads/2021/09/logo.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <title>Chỉnh sửa thông tin &#8211; JobTrans</title>
     <meta name='robots' content='max-image-preview:large' />
 
@@ -193,22 +185,8 @@
     </style>
 </head>
 
-<body
-        class="archive post-type-archive post-type-archive-projects wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
+<body>
 
-<!-- Preloading -->
-<div id="preloader">
-    <div class="spinner">
-        <div class="uil-ripple-css">
-            <div></div>
-            <div></div>
-        </div>
-    </div>
-</div>
-
-<%@include file="includes/header-01.jsp" %>
-<%@include file="includes/sidebar.jsp" %>
-<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
 <div class="row main-content" id="mainContent">
 <section>
     <div class="breadcrumbs">
@@ -297,11 +275,7 @@
     </div>
 </section>
 
-<%@include file="includes/footer.jsp" %>
 </div>
-
-<!--======= Back to Top =======-->
-<div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
 </body>
 <script>
     // Lấy ngày hôm nay

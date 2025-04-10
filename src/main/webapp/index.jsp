@@ -9,7 +9,6 @@
 
     <title>JobTrans &#8211; Nền tảng hỗ trợ thuê, làm việc cho freelancer</title>
     <meta name='robots' content='max-image-preview:large'/>
-    <link rel="icon" type="image/png" href="wp-content/uploads/2021/09/logo.png">
     <style>
         .btn-style {
             padding: 12px 24px;
@@ -37,7 +36,6 @@
     </style>
 </head>
 <body class="home page-template page-template-custom-page-without-breadcrumb page-template-custom-page-without-breadcrumb-php page page-id-2316 wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806 elementor-page elementor-page-2316">
-<%@include file="includes/header.jsp" %><!-- #masthead -->
 <div data-elementor-type="wp-page" data-elementor-id="2316" class="elementor elementor-2316">
     <section
             class="elementor-section elementor-top-section elementor-element elementor-element-0f85891 elementor-section-boxed elementor-section-height-default elementor-section-height-default"
@@ -1094,7 +1092,6 @@
     <div class="elementor-widget-wrap elementor-element-populated">
     </div>
 </div>
-<%@include file="includes/footer.jsp" %>
 
 <!--======= Back to Top =======-->
 </body>

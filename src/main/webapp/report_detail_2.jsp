@@ -25,16 +25,6 @@
 
 <body>
 
-<!-- Preloading -->
-<div id="preloader">
-    <div class="spinner">
-        <div class="uil-ripple-css"><div></div><div></div></div>
-    </div>
-</div>
-
-<%@include file="includes/header-01.jsp"%>
-
-<!-- Tố cáo ngườu dùng -->
 <div class="text-center py-4 banner_title">
     <h1 class="h2 text-white font-weight-medium">Thông tin người dùng</h1>
 </div>
@@ -133,14 +123,6 @@
         <a href="#" class="confirm text-center pt-1">Xác nhận báo cáo</a>
     </div>
 </div>
-
-<!--======= Back to Top =======-->
-<div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
-
-<%@include file="includes/footer.jsp"%>
-
-<!--======= Back to Top =======-->
-<div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
 </body>
 </html>
 

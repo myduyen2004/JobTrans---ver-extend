@@ -1,9 +1,3 @@
-<%--
-    Document   : post_list
-    Created on : Mar 13, 2025, 10:45:02 AM
-    Author     : ADM
---%>
-
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en-US">
@@ -26,17 +20,6 @@
 </head>
 
 <body>
-
-<!-- Preloading -->
-<div id="preloader">
-    <div class="spinner">
-        <div class="uil-ripple-css"><div></div><div></div></div>
-    </div>
-</div>
-
-<%@include file="includes/header-01.jsp"%>
-
-<!-- Tố cáo ngườu dùng -->
 <div class="py-4 banner_title">
     <h1 class="text-white font-weight-bold" style="padding-left: 50px;">Projects</h1>
 </div>
@@ -384,12 +367,5 @@
         </aside>
     </div>
 </main>
-<!--======= Back to Top =======-->
-<div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
-
-<%@include file="includes/footer.jsp"%>
-
-<!--======= Back to Top =======-->
-<div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
 </body>
 </html>

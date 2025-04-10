@@ -77,9 +77,9 @@ public class AccountManagement extends HttpServlet {
         Account account = (Account) session.getAttribute("sessionAccount");
         int id = account.getAccountId();
         if (account != null) {
-                account = accountDAO.getAccountByIdandRole(id, "Admin");
-                req.setAttribute("accountAd", account);
-                req.getRequestDispatcher("infor-admin.jsp").forward(req, resp);
+            account = accountDAO.getAccountByIdandRole(id, "Admin");
+            req.setAttribute("accountAd", account);
+            req.getRequestDispatcher("infor-admin.jsp").forward(req, resp);
 
         } else {
             resp.sendRedirect("home");
