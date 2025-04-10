@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Context docBase="/Users/mac/Desktop/cong_JobTrans/JobTrans-extend/src/main/webapp" path="/JobTrans">
+  <Resources cacheMaxSize="10240">
+    <PreResources base="/Users/mac/Desktop/cong_JobTrans/JobTrans-extend/target/classes" className="org.apache.catalina.webresources.DirResourceSet" webAppMount="/WEB-INF/classes"/>
+    <PostResources base="/Users/mac/.m2/repository/com/cedarsoftware/java-util/1.8.0/java-util-1.8.0.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/java-util-1.8.0.jar"/>
+    <PostResources base="/Users/mac/.m2/repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/commons-logging-1.1.1.jar"/>
+    <PostResources base="/Users/mac/.m2/repository/com/cedarsoftware/json-io/2.4.1/json-io-2.4.1.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/json-io-2.4.1.jar"/>
+    <PostResources base="/Users/mac/.m2/repository/javax/servlet/jstl/1.2/jstl-1.2.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/jstl-1.2.jar"/>
+    <PostResources base="/Users/mac/.m2/repository/org/apache/httpcomponents/fluent-hc/4.5.14/fluent-hc-4.5.14.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/fluent-hc-4.5.14.jar"/>
+    <PostResources base="/Users/mac/.m2/repository/org/apache/httpcomponents/httpclient/4.5.14/httpclient-4.5.14.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/httpclient-4.5.14.jar"/>
+    <PostResources base="/Users/mac/.m2/repository/org/apache/httpcomponents/httpcore/4.4.16/httpcore-4.4.16.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/httpcore-4.4.16.jar"/>
+    <PostResources base="/Users/mac/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/gson-2.10.1.jar"/>
+    <PostResources base="/Users/mac/.m2/repository/com/sun/mail/javax.mail/1.6.2/javax.mail-1.6.2.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/javax.mail-1.6.2.jar"/>
+    <PostResources base="/Users/mac/.m2/repository/com/microsoft/sqlserver/mssql-jdbc/12.4.2.jre11/mssql-jdbc-12.4.2.jre11.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/mssql-jdbc-12.4.2.jre11.jar"/>
+    <PostResources base="/Users/mac/.m2/repository/commons-codec/commons-codec/1.15/commons-codec-1.15.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/commons-codec-1.15.jar"/>
+    <PostResources base="/Users/mac/.m2/repository/javax/activation/activation/1.1.1/activation-1.1.1.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/activation-1.1.1.jar"/>
+    <PostResources base="/Users/mac/.m2/repository/org/apache/httpcomponents/client5/httpclient5-fluent/5.2.1/httpclient5-fluent-5.2.1.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/httpclient5-fluent-5.2.1.jar"/>
+    <PostResources base="/Users/mac/.m2/repository/org/slf4j/slf4j-api/1.7.36/slf4j-api-1.7.36.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/slf4j-api-1.7.36.jar"/>
+    <PostResources base="/Users/mac/.m2/repository/javax/mail/javax.mail-api/1.6.2/javax.mail-api-1.6.2.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/javax.mail-api-1.6.2.jar"/>
+    <PostResources base="/Users/mac/.m2/repository/org/apache/httpcomponents/core5/httpcore5/5.2.1/httpcore5-5.2.1.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/httpcore5-5.2.1.jar"/>
+    <PostResources base="/Users/mac/.m2/repository/org/apache/httpcomponents/client5/httpclient5/5.2.1/httpclient5-5.2.1.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/httpclient5-5.2.1.jar"/>
+    <PostResources base="/Users/mac/.m2/repository/org/apache/httpcomponents/core5/httpcore5-h2/5.2/httpcore5-h2-5.2.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/httpcore5-h2-5.2.jar"/>
+  </Resources>
+</Context>

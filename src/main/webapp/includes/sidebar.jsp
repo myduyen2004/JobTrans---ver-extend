@@ -302,7 +302,7 @@
                         <div class="dropdown" style="padding: 12px 15px">
                             <a href="#"><i class="fas fa-briefcase"></i> Quản Lí Công Việc <i class="fa fa-chevron-down"></i></a>
                             <ul>
-                                <li><a href=""><i class="fas fa-list"></i> Danh Sách Các Việc Đã Ứng Tuyển</a></li>
+                                <li><a href="job?action=view-applied"><i class="fas fa-list"></i> Danh Sách Các Việc Đã Ứng Tuyển</a></li>
                                 <li><a href=""><i class="fas fa-tasks"></i> Công Việc Của Tôi</a></li>
                             </ul>
                         </div>
