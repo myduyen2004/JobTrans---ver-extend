@@ -31,7 +31,7 @@
 
 <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
 
-<%@include file="includes/header-login-01.jsp" %>
+<%@include file="includes/header-01.jsp" %>
 
 <!--Mobile Navigation Toggler-->
 <div class="off-canvas-menu-bar">
@@ -104,44 +104,53 @@
     <div class="container">
         <div class="row justify-content-center flex-row-reverse">
             <div class="search-result col-xl-9">
-                <h1>BÁO CÁO CÔNG VIỆC</h1>
+                <h1 style="margin-bottom: 40px" >BÁO CÁO CÔNG VIỆC</h1>
                 <div class="row">
-                    <div style="margin-top: auto; font-weight: bolder;" class="col-xl-3">Nội dung báo cáo</div>
+                    <div style=" font-weight: bolder;" class="col-xl-3">Nội dung báo cáo</div>
                     <div class="col-xl-9">
-                        <select id="hoi-dong">
-                            <option value="">Tùy chọn</option>
+                        <select id="hoi-dong" required>
+                            <option value="" disabled selected>Tùy chọn</option>
                             <option value="thai-do">Thái độ làm việc</option>
                             <option value="dao-van">Đạo văn</option>
                             <option value="qua-han">Quá hạn làm việc</option>
                             <option value="tiet-lo">Tiết lộ thông tin</option>
                             <option value="kem-chat-luong">Sản phẩm kém chất lượng</option>
+                            <option value="khac">Khác</option>
                         </select>
                     </div>
+
                 </div>
                 <div style="margin-top: 20px;" class="row">
-                    <div style="margin-top: auto; font-weight: bolder;" class="col-xl-3">Nội dung chi tiết</div>
+                    <div style="font-weight: bolder;" class="col-xl-3">Nội dung chi tiết</div>
                     <div class="col-xl-9">
-                        <textarea id="noi-dung"></textarea>
+                        <textarea id="noi-dung" placeholder="Chi tiết về nội dung vi phạm"></textarea>
                     </div>
                 </div>
                 <div style="margin-top: 30px;" class="row">
                     <div class="row">
-                        <div style="margin-top: auto; font-weight: bolder;" class="col-xl-3 form-label">Tập chứng minh
-                            đính kèm
-                        </div>
-                        <div class="form-input col-xl-9">
-                            <div class="file-upload">
-                                <input type="file" id="file-upload" multiple class="file-input">
+                        <!-- HTML -->
+                        <div class="evidence-section d-flex align-items-start">
+                            <label class="evidence col-xl-3" style="font-weight: bold;">Bằng chứng:</label>
 
-                            </div>
-                            <div class="file-list" id="file-list">
-                                <!-- Danh sách file sẽ hiển thị ở đây -->
+                            <div class="form-input col-xl-9">
+                                <div class="file-upload">
+                                    <input type="file" id="file-upload" multiple class="file-input" hidden>
+                                    <button type="button"  style="width: 735px" class="upload-btn" onclick="document.getElementById('file-upload').click();">
+                                        <span class="material-symbols--upload"></span> Upload bằng chứng cụ thể
+                                    </button>
+                                </div>
+                                <div class="file-list" id="file-list">
+                                    <!-- Danh sách file sẽ hiển thị ở đây -->
+                                </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <div style="display: flex; justify-content: center; margin-top: 20px;">
-                    <button style="background-color: #E93115;" class="btn-submit">Gửi báo cáo</button>
+                    <button class="btn-submit" style="
+    margin-top: 30px;
+">Gửi báo cáo</button>
                 </div>
 
             </div>

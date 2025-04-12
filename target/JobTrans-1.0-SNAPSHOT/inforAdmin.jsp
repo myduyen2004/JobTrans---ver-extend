@@ -10,8 +10,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Harry Olson &#8211; ProLancer</title>
 <meta name='robots' content='max-image-preview:large' />
-
-	</head>
+		</head>
 
 <body class="buyers-template-default single single-buyers postid-177 wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
 	 	
@@ -83,46 +82,46 @@
 																<div class="col-4">
 																	<div style="width: 227px; height: 382px; position: relative">
 																		<img style="width: 227px; height: 227px; left: 0px; top: 0px; position: absolute; border-radius: 300px" src="https://placehold.co/227x227" />
-																		<div style="width: 165px; height: 44px; left: 31px; top: 293px; position: absolute">
-																			<div style="width: 165px; height: 44px; left: 0px; top: 0px; position: absolute; background: #6787FE; border-radius: 20px"></div>
-																			<div style="left: 26px; top: 10px; position: absolute; color: white; font-size: 20px; font-family: Rubik; font-weight: 500; word-wrap: break-word">Thay avatar</div>
-																		</div>
+																		<button style="width: 165px;height: 44px;left: 31px;top: 293px;position: absolute;background: #6787FE;border-radius: 20px;border: none;cursor: pointer;padding-right: 20px;padding-left: 20px;">
+																			<div style="color: white; font-size: 20px; font-family: Rubik; font-weight: 500; text-align: center; line-height: 44px;">Thay avatar</div>
+																		</button>
 																		<div style="left: 5px; top: 358px; position: absolute; color: #7F7A7A; font-size: 20px; font-family: Inter; font-weight: 800; word-wrap: break-word">Thành viên từ 6/2024</div>
-																		<div style="left: 47px; top: 248px; position: absolute; color: black; font-size: 20px; font-family: Rubik; font-weight: 500; word-wrap: break-word">Nguyễn Văn A </div>
+																		<div style="left: 47px; top: 248px; position: absolute; color: black; font-size: 20px; font-family: Rubik; font-weight: 500; word-wrap: break-word">Nguyễn Văn A</div>
 																	</div>
-
 																</div>
 																<div class="col-8">
 																	<div style="width: 825px; height: 640px; position: relative">
-																		<div style="width: 109px; height: 34px; left: 407px; top: 394px; position: absolute">
-																			<div style="width: 109px; height: 34px; left: 0px; top: 0px; position: absolute">
-																				<div style="width: 109px; height: 34px; left: 0px; top: 0px; position: absolute; background: #6787FE; border-radius: 20px"></div>
-																				<div style="left: 9px; top: 7px; position: absolute; color: white; font-size: 16px; font-family: Rubik; font-weight: 500; word-wrap: break-word">Xem chi tiết</div>
-																			</div>
-																		</div>
-																		<div style="width: 825px; height: 640px; left: 0px; top: 0px; position: absolute">
+																		<div style="width: 825px; height: 640px; position: relative">
 																			<div style="width: 825px; height: 640px; left: 0px; top: 0px; position: absolute">
-																				<div style="left: 2px; top: 173px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word">Ngày, tháng, năm sinh </div>
-																				<div style="left: 365px; top: 248px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">Admin</div>
-																				<div style="left: 365px; top: 323px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">Nam</div>
-																				<div style="left: 365px; top: 540px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">099999999</div>
-																				<div style="left: 365px; top: 467px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">ngva@gmail.com</div>
-																				<div style="width: 30px; height: 27px; left: 366px; top: 396px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">10 </div>
 																				<div style="width: 825px; height: 640px; left: 0px; top: 0px; position: absolute">
-																					<div style="width: 165px; height: 44px; left: 660px; top: 0px; position: absolute">
-																						<div style="width: 165px; height: 44px; left: 0px; top: 0px; position: absolute; background: #6787FE; border-radius: 20px"></div>
-																						<div style="left: 17px; top: 12px; position: absolute; color: white; font-size: 20px; font-family: Rubik; font-weight: 500; word-wrap: break-word">Sửa thông tin</div>
+																					<div style="left: 2px; top: 173px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word">Ngày, tháng, năm sinh</div>
+																					<div style="left: 365px; top: 248px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">Admin</div>
+																					<div style="left: 365px; top: 323px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">Nam</div>
+																					<div style="left: 365px; top: 540px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">099999999</div>
+																					<div style="left: 365px; top: 467px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">ngva@gmail.com</div>
+																					<div style="width: 30px; height: 27px; left: 366px; top: 396px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">10</div>
+																					<div style="width: 825px; height: 640px; left: 0px; top: 0px; position: absolute">
+																						<div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+																							<button style="width: 165px; height: 44px; background: #6787FE; border-radius: 20px; border: none; cursor: pointer; padding-right: 28px; padding-left: 28px;">
+																								Sửa thông tin
+																							</button>
+																						</div>
+																						<div style="left: 2px; top: 106px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word">Họ và tên</div>
+																						<div style="left: 2px; top: 467px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word">Email</div>
+																						<div style="display: flex; align-items: center; position: absolute; left: 2px; top: 396px;">
+																							<div style="width: 264px; height: 29px; color: black; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word; margin-right: 10px;">Tố cáo chưa phê duyệt</div>
+																							<button style="width: 160px;height: 34px;background: #6787FE;border-radius: 20px;border: none;cursor: pointer;padding-left: 20px;padding-right: 20px;padding-left: 20px;padding-right: 20px;margin-left: 250px;">
+																								<div style="color: white; font-size: 16px; font-family: Rubik; font-weight: 500; text-align: center; line-height: 34px;">Xem chi tiết</div>
+																							</button>
+																						</div>
+																						<div style="left: 0px; top: 540px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word">SĐT</div>
+																						<div style="left: 2px; top: 248px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word">Loại tài khoản</div>
+																						<div style="left: 2px; top: 323px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word">Giới tính</div>
+																						<div style="left: 365px; top: 106px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">Nguyễn Văn A</div>
+																						<div style="left: 366px; top: 173px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">22- 02- 2002</div>
+																						<div style="left: 2px; top: 612px; position: absolute; color: black; font-size: 24px; font-family: Rubik; font-weight: 500; word-wrap: break-word">Địa chỉ</div>
+																						<div style="left: 366px; top: 611px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">FPT comlex Ngũ Hành Sơn</div>
 																					</div>
-																					<div style="left: 2px; top: 106px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word">Họ và tên</div>
-																					<div style="left: 2px; top: 467px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word">Email</div>
-																					<div style="width: 264px; height: 29px; left: 2px; top: 396px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word">Tố cáo chưa phê duyệt</div>
-																					<div style="left: 0px; top: 540px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word">SĐT</div>
-																					<div style="left: 2px; top: 248px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word">Loại tài khoản</div>
-																					<div style="left: 2px; top: 323px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word">Giới tính</div>
-																					<div style="left: 365px; top: 106px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">Nguyễn Văn A</div>
-																					<div style="left: 366px; top: 173px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">22- 02- 2002</div>
-																					<div style="left: 2px; top: 612px; position: absolute; color: black; font-size: 24px; font-family: Rubik; font-weight: 500; word-wrap: break-word">Địa chỉ </div>
-																					<div style="left: 366px; top: 611px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 300; word-wrap: break-word">FPT comlex Ngũ Hành Sơn</div>
 																				</div>
 																			</div>
 																		</div>

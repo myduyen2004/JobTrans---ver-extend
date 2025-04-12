@@ -11,7 +11,51 @@
 	<link rel="profile" href="https://gmpg.org/xfn/11">
 	
 	<title>Harry Olson &#8211; ProLancer</title>
+    <style>
+        .popup {
+            display: none; /* Ẩn mặc định */
+            position: fixed; /* Cố định trên màn hình */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Nền mờ */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* Đảm bảo hiển thị trên các phần tử khác */
+        }
 
+        .popup-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .popup-buttons {
+            margin-top: 15px;
+        }
+
+        .popup-button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .popup-button.confirm {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .popup-button.cancel {
+            background-color: #f44336;
+            color: white;
+        }
+    </style>
 
  <style>
         .profile {
@@ -104,17 +148,17 @@
     </head>
 
 <body class="buyers-template-default single single-buyers postid-177 wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
-	 	
+
 			<!-- Preloading -->
 		<div id="preloader">
 			<div class="spinner">
 				<div class="uil-ripple-css"><div></div><div></div></div>
 			</div>
 		</div>
-		
+
 	<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
 
-  
+
 
 	<!--Mobile Navigation Toggler-->
 	<div class="off-canvas-menu-bar">
@@ -136,7 +180,7 @@
 	    <nav class="mobile-nav">
 	        <div class="text-center pt-3 pb-3">
 	        <a href="../index.html" class="custom-logo-link" rel="home"><img width="500" height="71" src="../../wp-content/uploads/2021/09/logo.png" class="custom-logo" alt="ProLancer" decoding="async" srcset="https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo.png 500w, https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo-300x43.png 300w" sizes="(max-width: 500px) 100vw, 500px" /></a>	        </div>
-	        
+
 	        <ul class="navigation"><!--Keep This Empty / Menu will come through Javascript--></ul>
 	        				<div class="text-center">
 					<a href="../../frontend-dashboard/index6f28.html?fed=dashboard" class="prolancer-btn mt-4">
@@ -145,7 +189,7 @@
 				    </nav>
 	</div>
 
-       
+
 <section class="pb-95 bg-gray">
   <section>
 			<div class="breadcrumbs">
@@ -155,10 +199,10 @@
                                                     <h1 style="text-align: center">Chi tiết người dùng </h1>
 					</div>
                                         </div>
-					
+
 				</div>
-			</div>	
-                            
+			</div>
+
 		</section>
     <div class="container">
                       <div class=" col-xl-12" >
@@ -196,10 +240,10 @@
                             </div>
                         </div>
 
-                  
 
-                        
-                   
+
+
+
                     </div>
             </div>
         	<div class="row justify-content-center">
@@ -213,32 +257,31 @@
                                 <a class="nav-link" data-bs-toggle="tab" data-bs-target="#project" role="tab" aria-selected="false">Xem đánh giá</a>
                             </li>
                         </ul>
-                        <div class="tab-content">                       
+                        <div class="tab-content">
                             <div class="tab-pane fade active show" id="about-me" role="tabpanel">
-                                     
+
                                 <div class="dashboard-box margin-top-0">
 
                                         <!-- Headline -->
-                                     
-                                            
-<form method="POST" action="feedback" enctype="multipart/form-data">
-        <div class="row" style="text-align: center">
-            <div class="container" style="margin-left: 41px;">
 
 
-                <div style="width: 956px; height: 456px; position: relative; border-radius: 15px">
-                    <div style="width: 220px; height: 45px; left: 368px; top: 411px; position: absolute; background: #E22529; border-radius: 15px"></div>
-                    <div style="left: 390px; top: 424px; position: absolute; color: black; font-size: 20px; font-family: Inter; font-weight: 400; line-height: 20px; word-wrap: break-word">Tố cáo người dùng</div>
-                    <div style="width: 956px; height: 381px; left: 0px; top: 0px; position: absolute; background: white; border-radius: 15px; border: 2px #D9D9D9 solid"></div>
-                    <div style="width: 153px; height: 20px; left: 408px; top: 14px; position: absolute; color: black; font-size: 20px; font-family: Inter; font-weight: 600; line-height: 20px; word-wrap: break-word">Giới thiệu về tôi </div>
-                    <div style="width: 955px; height: 0px; left: 1px; top: 46px; position: absolute; outline: 2px #D9D9D9 solid; outline-offset: -1px"></div>
-                </div>
+                                    <form method="POST" action="feedback" enctype="multipart/form-data">
+                                        <div class="row" style="text-align: center;">
+                                            <div class="container" style="margin-left: 41px;">
+                                                <div style="width: 956px; height: 456px; position: relative; border-radius: 15px;">
+                                                    <div style="width: 220px; height: 45px; left: 368px; top: 411px; position: absolute; background: #E22529; border-radius: 15px;">
+                                                        <button type="button" onclick="hienThiPopupToCao()" style="width: 100%; height: 100%; border: none; background: transparent; color: white; font-size: 16px; cursor: pointer;padding-left: 26px;padding-right: 26px">Tố cáo người dùng</button>
+                                                    </div>
+                                                    <div style="width: 956px; height: 381px; left: 0px; top: 0px; position: absolute; background: white; border-radius: 15px; border: 2px #D9D9D9 solid;"></div>
+                                                    <div style="width: 153px; height: 20px; left: 408px; top: 14px; position: absolute; color: black; font-size: 20px; font-family: Inter; font-weight: 600; line-height: 20px; word-wrap: break-word;">Giới thiệu về tôi</div>
+                                                    <div style="width: 955px; height: 0px; left: 1px; top: 46px; position: absolute; outline: 2px #D9D9D9 solid; outline-offset: -1px;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
 
 
-            </div>
-        </div>
 
-</form>
 
 
 
@@ -247,10 +290,10 @@
 
 
                                     </div>
-                                                            </div>                            
-                            <div class="tab-pane fade mt-5" id="project" role="tabpanel">                                
+                                                            </div>
+                            <div class="tab-pane fade mt-5" id="project" role="tabpanel">
                                 <div class="prolancer-project-item style-2">
-                        <div class="row"> 
+                        <div class="row">
                    <h2>Danh sách dự án</h2>
 
     <table>
@@ -277,7 +320,7 @@
                                         <span class="material-symbols--star"></span>
                                         <span class="material-symbols--star"></span>
                                         <span class="material-symbols--star"></span>
-                                        
+
                 </td>
             </tr>
             <tr>
@@ -293,13 +336,45 @@
                         </div>
                     </div>
         		</div>
-                    
-                    	</div>          
+
+                    	</div>
 </section>
 
+
+
+            <div id="reportPopup" class="popup">
+                <div class="popup-content">
+                    <p>Bạn có chắc chắn muốn tố cáo người dùng này không?</p>
+                    <div class="popup-buttons">
+                        <button class="popup-button confirm" onclick="handleConfirmReport()">Có</button>
+                        <button class="popup-button cancel" onclick="handleCancelReport()">Không</button>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                function hienThiPopupToCao() {
+                    document.getElementById('reportPopup').style.display = 'flex';
+                }
+                function handleConfirmReport() {
+                    // Chuyển sang trang JSP reportUser
+                    window.location.href = '/reportUser.jsp'; // Thay '/reportUser.jsp' bằng đường dẫn thực tế
+                }
+
+                function handleCancelReport() {
+                    document.getElementById('reportPopup').style.display = 'none'; // Ẩn popup sau khi xử lý
+                }
+
+                // Để hiển thị pop-up khi cần, bạn sẽ gọi hàm hienThiPopupToCao()
+                // Ví dụ, khi người dùng nhấp vào nút "Tố cáo người dùng":
+                // <button onclick="hienThiPopupToCao()">Tố cáo người dùng</button>
+            </script>
+
 <%@include file="/includes/footer.jsp" %>
-	
+
 
 	<!--======= Back to Top =======-->
 	<div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
 </html>
+
+

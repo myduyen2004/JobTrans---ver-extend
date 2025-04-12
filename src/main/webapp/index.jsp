@@ -2,69 +2,42 @@
 <!DOCTYPE html>
 <html lang="en-US">
 
-<!-- Mirrored from themebing.com/wp/prolancer/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Jan 2025 09:30:18 GMT -->
-<!-- Added by HTTrack -->
 <meta http-equiv="content-type" content="text/html;charset=UTF-8"/><!-- /Added by HTTrack -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--<link rel="profile" href="https://gmpg.org/xfn/11">-->
 
     <title>JobTrans &#8211; Nền tảng hỗ trợ thuê, làm việc cho freelancer</title>
     <meta name='robots' content='max-image-preview:large'/>
     <link rel="icon" type="image/png" href="wp-content/uploads/2021/09/logo.png">
+    <style>
+        .btn-style {
+            padding: 12px 24px;
+            margin: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
 
+        .btn-style:first-child {
+            background: linear-gradient(135deg, #2196F3, #1565C0); /* Xanh lá */
+            color: white;
+        }
+        .btn-style:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-style:active {
+            transform: scale(0.95);
+        }
+    </style>
 </head>
-
 <body class="home page-template page-template-custom-page-without-breadcrumb page-template-custom-page-without-breadcrumb-php page page-id-2316 wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806 elementor-page elementor-page-2316">
-<!-- Preloading -->
-<div id="preloader">
-    <div class="spinner">
-        <div class="uil-ripple-css">
-            <div></div>
-            <div></div>
-        </div>
-    </div>
-</div>
 <%@include file="includes/header.jsp" %><!-- #masthead -->
-<!--Mobile Navigation Toggler-->
-<div class="off-canvas-menu-bar">
-    <div class="container">
-        <div class="row">
-            <div class="col-6 my-auto">
-                <a href="index.html" rel="home" aria-current="page"><img width="80" height="71"
-                                                                         src="wp-content/uploads/2021/09/logo.png"
-                                                                         class="custom-logo" alt="ProLancer"
-                                                                         decoding="async" srcset=""
-                                                                         sizes="(max-width: 500px) 100vw, 500px"/></a>
-            </div>
-            <div class="col-6">
-                <div class="mobile-nav-toggler float-end"><span class="fal fa-bars"></span></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Mobile Menu  -->
-<div class="off-canvas-menu">
-    <div class="menu-backdrop"></div>
-    <i class="close-btn fa fa-close"></i>
-    <nav class="mobile-nav">
-        <div class="text-center pt-3 pb-3">
-            <a href="index.html" rel="home" aria-current="page"><img width="80" height="71"
-                                                                     src="wp-content/uploads/2021/09/logo.png"
-                                                                     class="custom-logo" alt="ProLancer"
-                                                                     decoding="async" srcset=""
-                                                                     sizes="(max-width: 500px) 100vw, 500px "/></a></div>
-
-        <ul class="navigation"><!--Keep This Empty / Menu will come through Javascript--></ul>
-        <div class="text-center">
-            <a href="frontend-dashboard/index6f28.html?fed=dashboard" class="prolancer-btn mt-4">
-                Đăng nhập </a>
-        </div>
-    </nav>
-</div>
-
 <div data-elementor-type="wp-page" data-elementor-id="2316" class="elementor elementor-2316">
     <section
             class="elementor-section elementor-top-section elementor-element elementor-element-0f85891 elementor-section-boxed elementor-section-height-default elementor-section-height-default"
@@ -89,11 +62,6 @@
                                     <form class="prolancer-select-search" method="GET"
                                           action="https://themebing.com/wp/prolancer/" class="form-select">
                                         <input type="text" name="s" placeholder="Tìm kiếm ...">
-                                        <!-- <select name="post_type" class="form-select">
-                                          <option value='services' selected>Services</option>
-                                          <option value='projects'>Projects</option>
-                                          <option value='sellers'>Talent</option>
-                                        </select> -->
                                         <input type="submit" value="Tìm kiếm">
                                     </form>
                                 </div>
@@ -123,116 +91,80 @@
             data-id="935e7d1" data-element_type="section"
             data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
 
-
-<%--        chon role--%>
-
-
         <div class="intro-banner" data-background-image="images/home-background.jpg">
             <div class="container">
-                <%
-                    Object role = session.getAttribute("role");
-                    Object account = session.getAttribute("account");
-
-                    if (role == null && account !=null) {
-
-
-                %>
-
                 <!-- Search Bar -->
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="intro-banner-search-form margin-top-95" style="text-align: center;">
-                                <div class="intro-search-field with-autocomplete">
-                                <label for="autocomplete-input" class="field-title ripple-effect">Bạn muốn trở thành: </label>
-                                <form action="role" method="post">
-                                    <input name="email" value="${email}" type="hidden">
-                                    <button type="submit" name="role" value="Individual" class="btn seeker" style="background-color: #6787fe; border: none; color: white; padding: 10px 20px; margin: 5px; border-radius: 5px;">Cá nhân</button>
-                                    <button type="submit" name="role" value="Group" class="btn employer" style="background-color: #6787fe; border: none; color: white; padding: 10px 20px; margin: 5px; border-radius: 5px;">Nhóm dự án</button>
-
-                                </form>
+                <div class="elementor-container elementor-column-gap-default">
+                    <div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-cf582c5"
+                         data-id="cf582c5" data-element_type="column">
+                        <div class="elementor-widget-wrap elementor-element-populated">
+                            <div class="elementor-element elementor-element-5799be1 elementor-widget elementor-widget-image"
+                                 data-id="5799be1" data-element_type="widget" data-widget_type="image.default">
+                                <div class="elementor-widget-container">
+                                    <img decoding="async"
+                                         src="wp-content/uploads/elementor/thumbs/s-3-pgwx0igrflcw8bh33ew6prwbfkfg82t027tk1j0zbk.jpg"
+                                         title="s-3" alt="s-3" loading="lazy"/></div>
                             </div>
+                            <div class="elementor-element elementor-element-ef539ce elementor-widget elementor-widget-heading"
+                                 data-id="ef539ce" data-element_type="widget" data-widget_type="heading.default">
+                                <div class="elementor-widget-container">
+                                    <h5 class="elementor-heading-title elementor-size-default">Giao dịch tin cậy</h5></div>
+                            </div>
+                            <div class="elementor-element elementor-element-2092e73 elementor-widget elementor-widget-heading"
+                                 data-id="2092e73" data-element_type="widget" data-widget_type="heading.default">
+                                <div class="elementor-widget-container">
+                                    <p class="elementor-heading-title elementor-size-default">Giao dịch đáng tin cậy – Cam kết
+                                        chất lượng, hiệu quả bền vững, bình đẳng </p></div>
                             </div>
                         </div>
                     </div>
-
-                <%}else{%>
-                <!-- Intro Headline -->
-
-                <%
-                    }  // ĐÓNG LẠI if-else
-                %>
-
-        <div class="elementor-container elementor-column-gap-default">
-            <div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-cf582c5"
-                 data-id="cf582c5" data-element_type="column">
-                <div class="elementor-widget-wrap elementor-element-populated">
-                    <div class="elementor-element elementor-element-5799be1 elementor-widget elementor-widget-image"
-                         data-id="5799be1" data-element_type="widget" data-widget_type="image.default">
-                        <div class="elementor-widget-container">
-                            <img decoding="async"
-                                 src="wp-content/uploads/elementor/thumbs/s-3-pgwx0igrflcw8bh33ew6prwbfkfg82t027tk1j0zbk.jpg"
-                                 title="s-3" alt="s-3" loading="lazy"/></div>
+                    <div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-e2c9165"
+                         data-id="e2c9165" data-element_type="column">
+                        <div class="elementor-widget-wrap elementor-element-populated">
+                            <div class="elementor-element elementor-element-9ecbfeb elementor-widget elementor-widget-image"
+                                 data-id="9ecbfeb" data-element_type="widget" data-widget_type="image.default">
+                                <div class="elementor-widget-container">
+                                    <img decoding="async"
+                                         src="wp-content/uploads/elementor/thumbs/s-1-pgwx03fce8sb2k2xj8e5lvoxxehksx5ao5dsd3na34.jpg"
+                                         title="s-1" alt="s-1" loading="lazy"/></div>
+                            </div>
+                            <div class="elementor-element elementor-element-1da4bcc elementor-widget elementor-widget-heading"
+                                 data-id="1da4bcc" data-element_type="widget" data-widget_type="heading.default">
+                                <div class="elementor-widget-container">
+                                    <h5 class="elementor-heading-title elementor-size-default">Công việc bảo mật</h5></div>
+                            </div>
+                            <div class="elementor-element elementor-element-9aaee23 elementor-widget elementor-widget-heading"
+                                 data-id="9aaee23" data-element_type="widget" data-widget_type="heading.default">
+                                <div class="elementor-widget-container">
+                                    <p class="elementor-heading-title elementor-size-default">Dữ liệu bảo mật – An toàn tuyệt
+                                        đối, yên tâm sử dụng </p></div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="elementor-element elementor-element-ef539ce elementor-widget elementor-widget-heading"
-                         data-id="ef539ce" data-element_type="widget" data-widget_type="heading.default">
-                        <div class="elementor-widget-container">
-                            <h5 class="elementor-heading-title elementor-size-default">Giao dịch tin cậy</h5></div>
-                    </div>
-                    <div class="elementor-element elementor-element-2092e73 elementor-widget elementor-widget-heading"
-                         data-id="2092e73" data-element_type="widget" data-widget_type="heading.default">
-                        <div class="elementor-widget-container">
-                            <p class="elementor-heading-title elementor-size-default">Giao dịch đáng tin cậy – Cam kết
-                                chất lượng, hiệu quả bền vững, bình đẳng </p></div>
-                    </div>
-                </div>
-            </div>
-            <div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-e2c9165"
-                 data-id="e2c9165" data-element_type="column">
-                <div class="elementor-widget-wrap elementor-element-populated">
-                    <div class="elementor-element elementor-element-9ecbfeb elementor-widget elementor-widget-image"
-                         data-id="9ecbfeb" data-element_type="widget" data-widget_type="image.default">
-                        <div class="elementor-widget-container">
-                            <img decoding="async"
-                                 src="wp-content/uploads/elementor/thumbs/s-1-pgwx03fce8sb2k2xj8e5lvoxxehksx5ao5dsd3na34.jpg"
-                                 title="s-1" alt="s-1" loading="lazy"/></div>
-                    </div>
-                    <div class="elementor-element elementor-element-1da4bcc elementor-widget elementor-widget-heading"
-                         data-id="1da4bcc" data-element_type="widget" data-widget_type="heading.default">
-                        <div class="elementor-widget-container">
-                            <h5 class="elementor-heading-title elementor-size-default">Công việc bảo mật</h5></div>
-                    </div>
-                    <div class="elementor-element elementor-element-9aaee23 elementor-widget elementor-widget-heading"
-                         data-id="9aaee23" data-element_type="widget" data-widget_type="heading.default">
-                        <div class="elementor-widget-container">
-                            <p class="elementor-heading-title elementor-size-default">Dữ liệu bảo mật – An toàn tuyệt
-                                đối, yên tâm sử dụng </p></div>
+                    <div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-9f169e3"
+                         data-id="9f169e3" data-element_type="column">
+                        <div class="elementor-widget-wrap elementor-element-populated">
+                            <div class="elementor-element elementor-element-dfb231b elementor-widget elementor-widget-image"
+                                 data-id="dfb231b" data-element_type="widget" data-widget_type="image.default">
+                                <div class="elementor-widget-container">
+                                    <img decoding="async"
+                                         src="wp-content/uploads/elementor/thumbs/s-2-pgwx0gl31xabl3jtee2xksde8sopsoljdyil2z3ro0.jpg"
+                                         title="s-2" alt="s-2" loading="lazy"/></div>
+                            </div>
+                            <div class="elementor-element elementor-element-8c79fd9 elementor-widget elementor-widget-heading"
+                                 data-id="8c79fd9" data-element_type="widget" data-widget_type="heading.default">
+                                <div class="elementor-widget-container">
+                                    <h5 class="elementor-heading-title elementor-size-default">Đa dạng các CV</h5></div>
+                            </div>
+                            <div class="elementor-element elementor-element-8d9b5db elementor-widget elementor-widget-heading"
+                                 data-id="8d9b5db" data-element_type="widget" data-widget_type="heading.default">
+                                <div class="elementor-widget-container">
+                                    <p class="elementor-heading-title elementor-size-default">Đa dạng các mẫu CV để tạo nhanh
+                                        linh hoạt </p></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-9f169e3"
-                 data-id="9f169e3" data-element_type="column">
-                <div class="elementor-widget-wrap elementor-element-populated">
-                    <div class="elementor-element elementor-element-dfb231b elementor-widget elementor-widget-image"
-                         data-id="dfb231b" data-element_type="widget" data-widget_type="image.default">
-                        <div class="elementor-widget-container">
-                            <img decoding="async"
-                                 src="wp-content/uploads/elementor/thumbs/s-2-pgwx0gl31xabl3jtee2xksde8sopsoljdyil2z3ro0.jpg"
-                                 title="s-2" alt="s-2" loading="lazy"/></div>
-                    </div>
-                    <div class="elementor-element elementor-element-8c79fd9 elementor-widget elementor-widget-heading"
-                         data-id="8c79fd9" data-element_type="widget" data-widget_type="heading.default">
-                        <div class="elementor-widget-container">
-                            <h5 class="elementor-heading-title elementor-size-default">Đa dạng các CV</h5></div>
-                    </div>
-                    <div class="elementor-element elementor-element-8d9b5db elementor-widget elementor-widget-heading"
-                         data-id="8d9b5db" data-element_type="widget" data-widget_type="heading.default">
-                        <div class="elementor-widget-container">
-                            <p class="elementor-heading-title elementor-size-default">Đa dạng các mẫu CV để tạo nhanh
-                                linh hoạt </p></div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </section>
     <section
             class="elementor-section elementor-top-section elementor-element elementor-element-1d2f81c elementor-section-boxed elementor-section-height-default elementor-section-height-default"
@@ -1162,74 +1094,8 @@
     <div class="elementor-widget-wrap elementor-element-populated">
     </div>
 </div>
-</div>
-</div>
-</section>
-<section
-        class="elementor-section elementor-top-section elementor-element elementor-element-ab566de elementor-section-boxed elementor-section-height-default elementor-section-height-default"
-        data-id="ab566de" data-element_type="section">
-    <div class="elementor-container elementor-column-gap-default">
-        <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-8192172"
-             data-id="8192172" data-element_type="column">
-            <div class="elementor-widget-wrap elementor-element-populated">
-                <section
-                        class="elementor-section elementor-inner-section elementor-element elementor-element-16a4227 elementor-section-boxed elementor-section-height-default elementor-section-height-default"
-                        data-id="16a4227" data-element_type="section"
-                        data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
-                    <div class="elementor-background-overlay"></div>
-                    <div class="elementor-container elementor-column-gap-default">
-                        <div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-edad88f"
-                             data-id="edad88f" data-element_type="column">
-                            <div class="elementor-widget-wrap elementor-element-populated">
-                                <div class="elementor-element elementor-element-4436917 elementor-widget elementor-widget-heading"
-                                     data-id="4436917" data-element_type="widget" data-widget_type="heading.default">
-                                    <div class="elementor-widget-container">
-                                        <h2 class="elementor-heading-title elementor-size-default"
-                                            style="line-height: 40px;">Tìm kiếm cộng sự phù hợp để làm việc cùng
-                                            bạn</h2></div>
-                                </div>
-                                <div class="elementor-element elementor-element-d5bd7af elementor-widget elementor-widget-text-editor"
-                                     data-id="d5bd7af" data-element_type="widget"
-                                     data-widget_type="text-editor.default">
-                                    <div class="elementor-widget-container">
-                                    </div>
-                                    <div class="elementor-element elementor-element-a51a206 elementor-widget elementor-widget-button"
-                                         data-id="a51a206" data-element_type="widget" data-widget_type="button.default">
-                                        <div class="elementor-widget-container">
-
-                                            <div style="text-align: left">
-                                                <a class="prolancer-btn no" href="#">
-                                                    Bắt đầu đăng công việc</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-28eb28b"
-                                 data-id="28eb28b" data-element_type="column">
-                                <div class="elementor-widget-wrap">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </div>
-    </div>
-    <script>
-        // Kiểm tra xem có thông báo thành công hay không
-        <% if (request.getAttribute("success") != null) { %>
-        toastr.success('<%= request.getAttribute("success") %>');
-        <% } %>
-    </script>
-</section>
-</div>
-
-<br></br>
-
 <%@include file="includes/footer.jsp" %>
 
 <!--======= Back to Top =======-->
-<div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
 </body>
 </html>

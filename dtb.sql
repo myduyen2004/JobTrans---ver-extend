@@ -96,6 +96,7 @@ CREATE TABLE AccountReport (
     status NVARCHAR(100),
     report_time DATE,
     criteria_id INT UNIQUE, -- Đảm bảo quan hệ 1-1 với Criteria
+	--lưu ý bỏ UNIQUE
 
     -- Thiết lập khóa ngoại với Account (N-1)
     CONSTRAINT FK_AccountReport_ReportedAccount FOREIGN KEY (reported_account) 
@@ -396,4 +397,125 @@ CREATE TABLE Contract (
 	job_deposit_B_date DATE NOT NULL,
 	job_deposit_B_text NVARCHAR(200),
 	FOREIGN KEY (job_id) REFERENCES Job(job_id) ON DELETE CASCADE
+);
+ALTER TABLE Account
+ADD oauth_provider NVARCHAR(MAX);
+
+ALTER TABLE Account
+ADD oauth_id NVARCHAR(MAX);
+
+CREATE TABLE CV (
+    CV_id INT IDENTITY(1,1) PRIMARY KEY,
+    account_id INT NOT NULL FOREIGN KEY REFERENCES Account(account_id) ON DELETE CASCADE,
+    job_position NVARCHAR(200),
+    summary NVARCHAR(MAX),
+    more_infor NVARCHAR(MAX),
+    created_at DATE DEFAULT GETDATE(),
+    sex NVARCHAR(10),  -- Sửa lại độ dài phù hợp
+    dateOfBirth DATE,  -- Đúng cú pháp
+    phone VARCHAR(10),
+    email VARCHAR(30),
+    address NVARCHAR(100),
+    CV_upload NVARCHAR(MAX),
+    avatar_cv NVARCHAR(MAX)
+);
+ALTER TABLE CV
+ADD name NVARCHAR(100);
+
+CREATE TABLE BackGround_CV (
+    CV_id INT NOT NULL,
+    backgroundCV NVARCHAR(255),
+    PRIMARY KEY (CV_id, backgroundCV),
+    FOREIGN KEY (CV_id) REFERENCES CV(CV_id) ON DELETE CASCADE,
+);
+
+///// School//////
+
+
+CREATE TABLE School (
+    education_id INT IDENTITY(1,1) PRIMARY KEY,
+    school_name NVARCHAR(100) NOT NULL
+);
+CREATE TABLE CV_education (
+    CV_id INT NOT NULL,
+    education_id INT NOT NULL,
+    start_date DATE,
+    end_date DATE,
+    field_of_study NVARCHAR(100),
+    degree NVARCHAR(50),
+    edu_more_infor NVARCHAR(MAX),
+    school_custom NVARCHAR(200),
+    PRIMARY KEY (CV_id, education_id),
+    FOREIGN KEY (CV_id) REFERENCES CV(CV_id) ON DELETE CASCADE,
+    FOREIGN KEY (education_id) REFERENCES School(education_id) ON DELETE CASCADE
+);
+
+
+///// Certification/////
+
+
+CREATE TABLE Certification (
+    certification_id INT IDENTITY(1,1) PRIMARY KEY,
+    certification_name NVARCHAR(100) NOT NULL
+);
+
+CREATE TABLE CV_Certification (
+    CV_id INT NOT NULL,
+    certification_id INT NOT NULL,
+    year DATE,
+    certification_custom NVARCHAR(200),
+
+    description NVARCHAR(MAX),
+    PRIMARY KEY (CV_id, certification_id),
+    FOREIGN KEY (CV_id) REFERENCES CV(CV_id) ON DELETE CASCADE,
+    FOREIGN KEY (certification_id) REFERENCES Certification(certification_id) ON DELETE CASCADE
+);
+
+/////  Company //////
+
+
+CREATE TABLE Company (
+    experience_id INT IDENTITY(1,1) PRIMARY KEY,
+    company_name NVARCHAR(100) NOT NULL,
+    description NVARCHAR(MAX)
+);
+CREATE TABLE CV_Experience (
+    CV_id INT NOT NULL,
+    experience_id INT NOT NULL,
+    start_at DATE,
+    end_at DATE,
+    company_custom NVARCHAR(200),
+    job_position NVARCHAR(100),
+    description NVARCHAR(MAX),
+    achievement NVARCHAR(MAX),
+    PRIMARY KEY (CV_id, experience_id),
+    FOREIGN KEY (CV_id) REFERENCES CV(CV_id) ON DELETE CASCADE,
+    FOREIGN KEY (experience_id) REFERENCES Company(experience_id) ON DELETE CASCADE
+);
+
+
+//// Skill / /////
+
+
+CREATE TABLE Main_Skill (
+    mainSkill_id INT IDENTITY(1,1) PRIMARY KEY,
+    main_skill NVARCHAR(100) NOT NULL -- VD: Lập trình, Ngôn ngữ
+);
+
+CREATE TABLE Skill (
+    skill_id INT IDENTITY(1,1) PRIMARY KEY,
+    mainSkill_id INT NOT NULL, -- Liên kết đến nhóm kỹ năng
+    skill NVARCHAR(100) NOT NULL, -- VD: CSS, HTML, Tiếng Anh
+    FOREIGN KEY (mainSkill_id) REFERENCES Main_Skill(mainSkill_id) ON DELETE CASCADE
+);
+
+CREATE TABLE CV_Skill (
+    CV_id INT NOT NULL,
+    skill_id INT NOT NULL, -- Liên kết đến Skill thay vì Main_Skill
+    skill_custom NVARCHAR(200) NULL, -- Nếu muốn nhập kỹ năng ngoài danh mục
+    level_skill INT,
+
+    PRIMARY KEY (CV_id, skill_id),
+    FOREIGN KEY (CV_id) REFERENCES CV(CV_id) ON DELETE CASCADE,
+    FOREIGN KEY (skill_id) REFERENCES Skill(skill_id) ON DELETE CASCADE
 );

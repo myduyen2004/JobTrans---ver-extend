@@ -53,8 +53,31 @@ public class Account {
         this(accountName, email, avatar, null, null, status, oauth_provider, oauthId);
     }
 
-
-
+    public Account(int accountId, String accountName, String email, String password, String phone, String avatar, String bio, String address, Date dateOfBirth, String gender, String specialist, int experienceYears, String education, int point, boolean verifiedAccount, boolean verifiedLink, int tagComplete, int tagDebt, int count, String role, String type, String signature, String status) {
+        this.accountId = accountId;
+        this.accountName = accountName;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.avatar = avatar;
+        this.bio = bio;
+        this.address = address;
+        this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
+        this.specialist = specialist;
+        this.experienceYears = experienceYears;
+        this.education = education;
+        this.point = point;
+        this.verifiedAccount = verifiedAccount;
+        this.verifiedLink = verifiedLink;
+        this.tagComplete = tagComplete;
+        this.tagDebt = tagDebt;
+        this.count = count;
+        this.role = role;
+        this.type = type;
+        this.signature = signature;
+        this.status = status;
+    }
 
     public Account(int accountId, String accountName, String email, String password, String phone, String avatar, String bio, String address, Date dateOfBirth, String gender, String specialist, int experienceYears, String education, int point, boolean verifiedAccount, boolean verifiedLink, int tagComplete, int tagDebt, int count, String role, String type, String signature, String status, String oauth_provider, String oauthId) {
         this.accountId = accountId;
