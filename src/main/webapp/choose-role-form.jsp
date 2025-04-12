@@ -238,7 +238,6 @@
 <body>
 <div class="particles" id="particles"></div>
 
-<img style="width: 100px" src="wp-content/uploads/2021/09/logo.png" alt="Logo" class="logo">
 
 <div class="container">
     <h2>Chọn vai trò của bạn</h2>
@@ -260,8 +259,7 @@
     // Create floating particles
     function createParticles() {
         const particles = document.getElementById('particles');
-        const particleCount = 30;
-
+        const particleCount = 30;ô
         for (let i = 0; i < particleCount; i++) {
             const particle = document.createElement('div');
             particle.classList.add('particle');

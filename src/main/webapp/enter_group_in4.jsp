@@ -34,18 +34,6 @@
 <body style="overflow-y: auto;
     height: 100%;
 ">
-<%--Header--%>
-<%@include file="includes/header-01.jsp"%>
-
-<%@include file="includes/sidebar.jsp" %>
-<!-- Preloading -->
-<div id="preloader">
-    <div class="spinner">
-        <div class="uil-ripple-css"><div></div><div></div></div>
-    </div>
-</div>
-
-<!--banner-->
 
 <div class="row main-content" id="mainContent">
 <!<!-- Account in4 -->
@@ -185,13 +173,7 @@
         </button>
     </form>
 </div>
-
-<%--Footer--%>
-<%@include file="includes/footer.jsp"%>
 </div>
-<!--======= Back to Top =======-->
-<div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
-<%--JS--%>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const firstMemberBtn = document.querySelector('.member-btn');

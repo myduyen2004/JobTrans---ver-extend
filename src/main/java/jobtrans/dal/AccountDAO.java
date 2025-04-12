@@ -1,6 +1,7 @@
 package jobtrans.dal;
 
 import jobtrans.model.Account;
+import jobtrans.model.Transaction;
 import jobtrans.utils.DBConnection;
 import jobtrans.utils.ImgHandler;
 
@@ -497,7 +498,41 @@ public class AccountDAO {
         }
         return 0;
     }
-    
+
+    public List<Transaction> getTransactionsByUserId(int userId) {
+        List<Transaction> list = new ArrayList<>();
+        String query = "SELECT * FROM [Transaction] WHERE sender_id = ? OR receiver_id = ?";
+
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setInt(1, userId);
+            ps.setInt(2, userId);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Transaction t = new Transaction(
+                        rs.getInt("transaction_id"),
+                        rs.getInt("sender_id"),
+                        rs.getInt("receiver_id"),
+                        rs.getInt("job_id"),
+                        rs.getDouble("amount"),
+                        rs.getTimestamp("created_date"),
+                        rs.getString("transaction_type"),
+                        rs.getString("description"),
+                        rs.getString("status")
+                );
+                list.add(t);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+
 
 //    public Account getAccountById(int id) {}
 //    public Account getAccountByName(String name) {}

@@ -84,45 +84,6 @@
         <body
             class="archive post-type-archive post-type-archive-projects wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
 
-            <!-- Preloading -->
-            <div id="preloader">
-                <div class="spinner">
-                    <div class="uil-ripple-css">
-                        <div></div>
-                        <div></div>
-                    </div>
-                </div>
-            </div>
-
-            <%@include file="includes/header-01.jsp" %>
-
-                <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-
-                <section>
-                    <div class="breadcrumbs">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-12 my-auto">
-                                    <h1>
-                                        Projects </h1>
-                                    <ul class="trail-items" itemscope itemtype="http://schema.org/BreadcrumbList">
-                                        <li class="trail-item trail-begin"><a href="../index.html"><span
-                                                    itemprop="name">Home</span></a>
-                                            <meta itemprop="position" content="1" />
-                                        </li>
-                                        <li class="trail-item trail-end"><span itemprop="item"><span
-                                                    itemprop="name">Projects</span></span>
-                                            <meta itemprop="position" content="2" />
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </section>
-
-
                 <section class="section-padding">
                     <div class="container">
                         <div class="row justify-content-center flex-row-reverse">
@@ -180,14 +141,10 @@
 
 
                             </div>
-                            <div class="col-xl-3">
-                                <%@include file="includes/task-bar.jsp" %>
-                            </div>
                         </div>
                     </div>
                 </section>
 
-                <%@include file="includes/footer.jsp" %>
                     <!--======= Back to Top =======-->
                     <div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
         </body>

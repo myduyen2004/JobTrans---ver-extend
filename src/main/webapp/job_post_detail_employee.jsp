@@ -1,9 +1,3 @@
-<%--
-    Document   : job_post_detail_employee
-    Created on : Mar 13, 2025, 8:41:38 PM
-    Author     : ADM
---%>
-
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -22,17 +16,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-<!-- Preloading -->
-<div id="preloader">
-    <div class="spinner">
-        <div class="uil-ripple-css"><div></div><div></div></div>
-    </div>
-</div>
-
-<%--Header--%>
-<%@include file="includes/header-01.jsp"%>
-
-<!--banner-->
 <div class="py-4 banner_title">
     <p style="font-size: 40px; font-weight: 700; color: white; margin-left: 80px;">Lập trình web bán hàng</p>
 </div>
@@ -93,11 +76,5 @@
                    border-radius: 50px; color: #6787FE; text-align: center; padding: 10px; margin: 20px 0;">Xem Danh Sách Ứng Viên >></a>
     </div>
 </div>
-
-<%--Footer--%>
-<%@include file="includes/footer.jsp"%>
-
-<!--======= Back to Top =======-->
-<div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
 </body>
 </html>
