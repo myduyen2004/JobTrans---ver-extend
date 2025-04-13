@@ -1,238 +1,895 @@
-<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông tin tài khoản - Admin</title>
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Harry Olson &#8211; ProLancer</title>
+        body {
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+        }
 
-        <style>
-            .profile {
-                display: flex;
-                align-items: center;
-                background: white;
-                padding: 20px;
-                border-radius: 10px;
-                box-shadow: 0 0px 7px rgba(0, 0, 0, 0.1);
-                margin-bottom: 30px;
-                margin-top: 30px;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header section */
+        .profile-header {
+            background-image: linear-gradient(to right, rgb(21, 32, 112), rgb(39, 64, 179));
+            border-radius: 8px;
+            padding: 30px;
+            color: white;
+            margin-bottom: 24px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid white;
+            object-fit: cover;
+        }
+
+        .profile-info {
+            margin-left: 24px;
+            flex: 1;
+        }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .badge-verified {
+            background-color: #10B981;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-left: 10px;
+        }
+
+        .badge-unverified {
+            background-color: #F59E0B;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-left: 10px;
+        }
+
+        .badge-reject {
+            background-color: red;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-left: 10px;
+        }
+
+        .profile-role {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .profile-location {
+            opacity: 0.8;
+        }
+
+        .profile-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-left: auto;
+        }
+
+        .profile-points {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .edit-button {
+            background-color: red;
+            color: black;
+            padding: 5px 10px 5px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* Content sections */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
             }
 
-            .avatar {
-                width: 60px;
-                height: 60px;
-                border-radius: 50%;
-                margin-right: 15px;
-            }
-
-            .user-info {
-                border-right: 1px solid black;
-                width: 300px;
-            }
-
-            .user-info h2 {
-                margin: 0;
-            }
-
-            .rating {
-                display: flex;
-                align-items: center;
-            }
-
-            .rating img {
-                width: 16px;
-                height: 16px;
-                margin-left: 5px;
-            }
-
-            .devicon--linkedin {
-                display: inline-block;
-                width: 24px;
-                height: 24px;
-                background-repeat: no-repeat;
-                background-size: 100% 100%;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Cpath fill='%230076b2' d='M116 3H12a8.91 8.91 0 0 0-9 8.8v104.42a8.91 8.91 0 0 0 9 8.78h104a8.93 8.93 0 0 0 9-8.81V11.77A8.93 8.93 0 0 0 116 3'/%3E%3Cpath fill='%23fff' d='M21.06 48.73h18.11V107H21.06zm9.06-29a10.5 10.5 0 1 1-10.5 10.49a10.5 10.5 0 0 1 10.5-10.49m20.41 29h17.36v8h.24c2.42-4.58 8.32-9.41 17.13-9.41C103.6 47.28 107 59.35 107 75v32H88.89V78.65c0-6.75-.12-15.44-9.41-15.44s-10.87 7.36-10.87 15V107H50.53z'/%3E%3C/svg%3E");
-                margin-left: 10px;
-            }
-
-            .material-symbols--star {
-                display: inline-block;
-                width: 24px;
-                height: 24px;
-                --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z'/%3E%3C/svg%3E");
-                background-color: currentColor;
-                -webkit-mask-image: var(--svg);
-                mask-image: var(--svg);
-                -webkit-mask-repeat: no-repeat;
-                mask-repeat: no-repeat;
-                -webkit-mask-size: 100% 100%;
-                mask-size: 100% 100%;
-                color: #FFDB5B;
-            }
-
-            .user-info hr {
-                width: 2px;
-                height: fit-content;
-                margin: 0 10px;
-
-            }
-
-            .user-stats {
-                display: flex;
-                justify-content: space-between;
-                gap: 40px;
-                text-align: center;
-                max-width: 500px;
-                margin: auto;
-            }
-
-            .user-stats div {
-                display: flex;
+            .profile-header {
                 flex-direction: column;
-                align-items: flex-start;
-                min-width: 80px;
+                align-items: center;
+                text-align: center;
             }
 
-        </style>
-    </head>
+            .profile-info {
+                margin-left: 0;
+                margin-top: 15px;
+            }
 
-    <body>
-        <section class="pb-95 bg-gray">
-            <section>
-                <div class="breadcrumbs">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12 my-auto">
-                                <h1 style="text-align: center">Chi tiết người dùng </h1>
-                            </div>
-                        </div>
+            .profile-actions {
+                margin-left: 0;
+                margin-top: 20px;
+                align-items: center;
+            }
+        }
 
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 24px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 16px;
+        }
+
+        /* Info list */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .info-item {
+            margin-bottom: 12px;
+        }
+
+        .info-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            font-size: 16px;
+            color: #333;
+        }
+
+        /* Contact list */
+        .contact-item {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .contact-icon {
+            color: rgb(39, 64, 179);
+            width: 20px;
+            margin-right: 12px;
+            text-align: center;
+        }
+
+        .contact-detail {
+            flex: 1;
+        }
+
+        /* Projects */
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .project-count {
+            background-color: #e6e9f7;
+            color: rgb(39, 64, 179);
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        .progress-container {
+            margin-top: 8px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .progress-text {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .progress-value {
+            font-size: 14px;
+            color: rgb(39, 64, 179);
+            font-weight: 500;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: #e5e7eb;
+            border-radius: 4px;
+        }
+
+        .progress-fill {
+            height: 8px;
+            background-color: rgb(39, 64, 179);
+            border-radius: 4px;
+            width: 90%;
+        }
+
+        /* Signature */
+        .signature {
+            padding: 16px;
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            font-style: italic;
+            color: #4b5563;
+        }
+    </style>
+    <style>
+        .reports-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header phần báo cáo */
+        .reports-header {
+            background-image: linear-gradient(to right, rgb(21, 32, 112), rgb(39, 64, 179));
+            border-radius: 12px 12px 0 0;
+            padding: 20px 25px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reports-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            animation: pulse 15s infinite linear;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: rotate(0deg);
+                opacity: 0.1;
+            }
+            50% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: rotate(360deg);
+                opacity: 0.1;
+            }
+        }
+
+        .reports-title {
+            font-size: 22px;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .reports-title::before {
+            content: '📋';
+            margin-right: 10px;
+            font-size: 24px;
+        }
+
+        .reports-count {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+            display: inline-flex;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .reports-count:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Container cho bảng */
+        .reports-body {
+            background-color: white;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        /* Bảng hiển thị báo cáo */
+        .reports-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .reports-table th {
+            background-color: #f8f9fa;
+            padding: 16px 20px;
+            text-align: left;
+            font-weight: 600;
+            color: #374151;
+            position: sticky;
+            top: 0;
+            box-shadow: 0 1px 0 #e5e7eb;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .reports-table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 15px;
+            color: #4b5563;
+            vertical-align: middle;
+        }
+
+        .reports-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Hover effect cho dòng */
+        .reports-table tbody tr {
+            transition: all 0.2s ease;
+            transform-origin: center;
+        }
+
+        .reports-table tbody tr:hover {
+            background-color: #f9fafb;
+            transform: scale(1.005);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            z-index: 1;
+            position: relative;
+        }
+
+        /* Status badges */
+        .status-badge {
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-badge::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        .status-pending {
+            background-color: #FFF7ED;
+            color: #EA580C;
+        }
+
+        .status-pending::before {
+            background-color: #EA580C;
+            box-shadow: 0 0 0 2px rgba(234, 88, 12, 0.2);
+        }
+
+        .status-resolved {
+            background-color: #ECFDF5;
+            color: #059669;
+        }
+
+        .status-resolved::before {
+            background-color: #059669;
+            box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.2);
+        }
+
+        .status-rejected {
+            background-color: #FEF2F2;
+            color: #DC2626;
+        }
+
+        .status-rejected::before {
+            background-color: #DC2626;
+            box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+        }
+
+        .status-processing {
+            background-color: #EFF6FF;
+            color: #3B82F6;
+        }
+
+        .status-processing::before {
+            background-color: #3B82F6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+
+        /* Reporter information */
+        .reporter {
+            display: flex;
+            align-items: center;
+        }
+
+        .reporter-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Truncated content */
+        .report-content {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .report-content:hover {
+            color: rgb(39, 64, 179);
+        }
+
+        .report-content.expanded {
+            white-space: normal;
+            max-width: none;
+        }
+
+        /* Date format */
+        .report-date {
+            color: #6B7280;
+            font-size: 14px;
+        }
+
+        /* "Show more" button */
+        .show-more-container {
+            padding: 20px;
+            text-align: center;
+            background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%);
+        }
+
+        .show-more-btn {
+            background-image: linear-gradient(to right, rgb(21, 32, 112), rgb(39, 64, 179));
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 6px rgba(21, 32, 112, 0.25);
+        }
+
+        .show-more-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(21, 32, 112, 0.3);
+        }
+
+        .show-more-btn::after {
+            content: '→';
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .show-more-btn:hover::after {
+            transform: translateX(5px);
+        }
+
+        /* Tooltip for criteria */
+        .criteria {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 2px;
+            border-bottom: 1px dotted #6B7280;
+            cursor: help;
+        }
+
+        .criteria::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: 50%;
+            bottom: -10px;
+            transform: translateX(-50%) translateY(100%) scale(0.8);
+            background-color: #1F2937;
+            color: #F9FAFB;
+            text-align: center;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+            z-index: 10;
+            font-weight: normal;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .criteria:hover::after {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(100%) scale(1);
+        }
+
+        /* Animation khi load page */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .reports-container {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        /* Empty state */
+        .empty-reports {
+            padding: 40px 20px;
+            text-align: center;
+            color: #6B7280;
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.7;
+        }
+
+        .empty-text {
+            font-size: 16px;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Header -->
+    <div class="profile-header">
+        <img class="profile-avatar" src="./img/anhcv/avatar.jpeg" alt="Ảnh đại diện">
+
+        <div class="profile-info">
+            <div class="profile-name">
+                Nguyen Van A
+                <span class="badge-verified">Đã xác thực</span>
+            </div>
+            <div class="profile-role">Cá nhân</div>
+            <div class="profile-location">Đà Nẵng</div>
+        </div>
+
+        <div class="profile-actions">
+            <h3 class="text-center">Điểm số: 1000</h3>
+            <a href="#" class="edit-button">Chặn</a>
+        </div>
+    </div>
+
+    <!-- Body content -->
+    <div class="content-grid">
+        <!-- Left column -->
+        <div>
+            <div class="card">
+                <h2 class="card-title">Giới thiệu</h2>
+                <p>Xin chào, tôi tên là [Tên bạn]. Hiện tại tôi đang sống và làm việc tại [thành phố]. Tôi là người thân thiện, chăm chỉ và luôn sẵn sàng học hỏi những điều mới. Trong thời gian rảnh, tôi thích đọc sách, nghe nhạc và học thêm ngoại ngữ. Rất vui được làm quen với mọi người!</p>
+            </div>
+            <div class="card">
+                <h2 class="card-title">Thông tin chuyên môn</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Chuyên môn</div>
+                        <div class="info-value">IT</div>
                     </div>
-                </div>	
+                    <div class="info-item">
+                        <div class="info-label">Kinh nghiệm</div>
+                        <div class="info-value">Công nghệ thông tin - 3 năm</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Học vấn</div>
+                        <div class="info-value">Đại học FPT</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Trạng thái</div>
+                        <div class="info-value">Đang hoạt động</div>
+                    </div>
+                </div>
+            </div>
 
-            </section>
-            <div class="container">
-                <div class=" col-xl-12" >
+            <div class="card">
+                <div class="project-header">
+                    <h2 class="card-title">Hoàn thành dự án</h2>
+                    <span class="project-count">15 dự án</span>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-header">
+                        <span class="progress-text">Tỷ lệ hoàn thành</span>
+                        <span class="progress-value">90%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                    <div class="profile">
-                        <img src="${account.avatar}"
-                             alt="Avatar" class="avatar">
-                        <div class="user-info">
-                            <h3>${account.accountName}</h3>
-                            <div class="rating">
-                                <span class="material-symbols--star"></span>
-                                <span class="material-symbols--star"></span>
-                                <span class="material-symbols--star"></span>
-                                <span class="material-symbols--star"></span>
-                                <span class="material-symbols--star"></span>
-                                <span class="devicon--linkedin"></span>
-                            </div>
+        <!-- Right column -->
+        <div>
+            <div class="card">
+                <h2 class="card-title">Thông tin liên hệ</h2>
+                <div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div class="contact-detail">
+                            <div class="info-label">Email</div>
+                            <div class="info-value">nguyenvana@gmail.com</div>
                         </div>
-
-                        <div class="user-stats ">
-                            <div>
-                                <p><strong>Số điểm</strong></p>
-                                <p>${account.point}</p>
-                            </div>
-                            <div>
-                                <p><strong>Đang theo dõi</strong></p>
-                                <p>50</p>
-                            </div>
-                            <div>
-                                <p><strong>Người theo dõi</strong></p>
-                                <p>200</p>
-                            </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
+                        <div class="contact-detail">
+                            <div class="info-label">Điện thoại</div>
+                            <div class="info-value">0863556255</div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="contact-detail">
+                            <div class="info-label">Địa chỉ</div>
+                            <div class="info-value">Đà Nẵng</div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-birthday-cake"></i></div>
+                        <div class="contact-detail">
+                            <div class="info-label">Ngày sinh</div>
+                            <div class="info-value">22-12-2001</div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-venus-mars"></i></div>
+                        <div class="contact-detail">
+                            <div class="info-label">Giới tính</div>
+                            <div class="info-value">Nam</div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row justify-content-center">
-                <div class="col-xl-9">
-                    <div class="white-padding">
-                        <ul class="nav nav-tabs mb-3">
-                            <li class="nav-item">
-                                <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#about-me" role="tab" aria-selected="true">Về tôi</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-bs-toggle="tab" data-bs-target="#project" role="tab" aria-selected="false">Xem đánh giá</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content">                       
-                            <div class="tab-pane fade active show" id="about-me" role="tabpanel">
 
-                                <div class="dashboard-box margin-top-0">
 
-                                    <!-- Headline -->
+            <div class="card">
+                <h2 class="card-title">Chữ ký số</h2>
+                <div class="signature">
+                    "Sáng tạo không giới hạn, chất lượng là ưu tiên hàng đầu."
+                </div>
+            </div>
+        </div>
+    </div>
 
-                                    <form method="POST" action="feedback" enctype="multipart/form-data">
-                                        <div class="row" style="text-align: center">
-                                            <div class="container" style="margin-left: 41px;">
-                                                <div style="width: 956px; height: 456px; position: relative; border-radius: 15px">
-                                                    <div style="width: 220px; height: 45px; left: 368px; top: 411px; position: absolute; background: #E22529; border-radius: 15px"></div>
-                                                    <div style="left: 390px; top: 424px; position: absolute; color: black; font-size: 20px; font-family: Inter; font-weight: 400; line-height: 20px; word-wrap: break-word">Tố cáo người dùng</div>
-                                                    <div style="width: 956px; height: 381px; left: 0px; top: 0px; position: absolute; background: white; border-radius: 15px; border: 2px #D9D9D9 solid"></div>
-                                                    <div style="width: 153px; height: 20px; left: 408px; top: 14px; position: absolute; color: black; font-size: 20px; font-family: Inter; font-weight: 600; line-height: 20px; word-wrap: break-word">Giới thiệu về tôi </div>
-                                                    <div style="width: 955px; height: 0px; left: 1px; top: 46px; position: absolute; outline: 2px #D9D9D9 solid; outline-offset: -1px">
-                                                        <textarea>${account.bio}</textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>                            
-                            <div class="tab-pane fade mt-5" id="project" role="tabpanel">                                
-                                <div class="prolancer-project-item style-2">
-                                    <div class="row"> 
-                                        <h2>Danh sách dự án</h2>
+    <!-- Reports Section -->
+    <div class="reports-container">
+        <div class="reports-header">
+            <div class="contact-icon"><i class="fas fa-list"></i></div>
+            <h2 class="reports-title">Danh sách các báo cáo nhận được</h2>
+            <div class="reports-count">3 báo cáo</div>
+        </div>
 
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>Tên dự án</th>
-                                                    <th>Trạng thái</th>
-                                                    <th>Đánh giá từ nhà tuyển dụng</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Dự án A</td>
-                                                    <td>Đang thực hiện</td>
-                                                    <td>Chưa có đánh giá</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Dự án B</td>
-                                                    <td>Hoàn thành</td>
-                                                    <td class="rating">
-
-                                                        <span class="material-symbols--star"></span>
-                                                        <span class="material-symbols--star"></span>
-                                                        <span class="material-symbols--star"></span>
-                                                        <span class="material-symbols--star"></span>
-                                                        <span class="material-symbols--star"></span>
-
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Dự án C</td>
-                                                    <td>Chờ phê duyệt</td>
-                                                    <td>Chưa có đánh giá</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+        <div class="reports-body">
+            <table class="reports-table">
+                <thead>
+                <tr>
+                    <th>Người báo cáo</th>
+                    <th>Nội dung báo cáo</th>
+                    <th>Tiêu chí vi phạm</th>
+                    <th>Thời gian</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <div class="reporter">
+                            <img src="./img/avatar-default.jpg" alt="Phạm Văn D" class="reporter-avatar">
+                            Phạm Văn D
+                        </div>
+                    </td>
+                    <td>
+                        <div class="report-content">
+                            Vi phạm bản quyền trong thiết kế đã cung cấp, sử dụng hình ảnh không được phép mà không thông báo cho khách hàng.
+                        </div>
+                    </td>
+                    <td>
+                        <span class="criteria" data-tooltip="Vi phạm quyền sở hữu trí tuệ, sử dụng nội dung có bản quyền không được phép hoặc không đúng quy định">Vi phạm bản quyền</span>
+                    </td>
+                    <td>
+                        <div class="report-date">20/02/2025</div>
+                    </td>
+                    <td>
+                        <span class="status-badge status-rejected">Đã từ chối</span>
+                    </td>
+                    <td>
+                        <div class="row flex">
+                            <div class="col-6">
+                                <span class="badge-verified">Xử lý</span>
+                            </div>
+                            <div class="col-6">
+                                <span class="badge-reject">Từ chối</span>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="reporter">
+                            <img src="./img/avatar-default.jpg" alt="Phạm Văn D" class="reporter-avatar">
+                            Phạm Văn D
+                        </div>
+                    </td>
+                    <td>
+                        <div class="report-content">
+                            Vi phạm bản quyền trong thiết kế đã cung cấp, sử dụng hình ảnh không được phép mà không thông báo cho khách hàng.
+                        </div>
+                    </td>
+                    <td>
+                        <span class="criteria" data-tooltip="Vi phạm quyền sở hữu trí tuệ, sử dụng nội dung có bản quyền không được phép hoặc không đúng quy định">Vi phạm bản quyền</span>
+                    </td>
+                    <td>
+                        <div class="report-date">20/02/2025</div>
+                    </td>
+                    <td>
+                        <span class="status-badge status-rejected">Đã từ chối</span>
+                    </td>
+                    <td>
+                        <div class="row flex">
+                            <div class="col-6">
+                                <span class="badge-verified">Xử lý</span>
+                            </div>
+                            <div class="col-6">
+                                <span class="badge-reject">Từ chối</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="reporter">
+                            <img src="./img/avatar-default.jpg" alt="Phạm Văn D" class="reporter-avatar">
+                            Phạm Văn D
+                        </div>
+                    </td>
+                    <td>
+                        <div class="report-content">
+                            Vi phạm bản quyền trong thiết kế đã cung cấp, sử dụng hình ảnh không được phép mà không thông báo cho khách hàng.
+                        </div>
+                    </td>
+                    <td>
+                        <span class="criteria" data-tooltip="Vi phạm quyền sở hữu trí tuệ, sử dụng nội dung có bản quyền không được phép hoặc không đúng quy định">Vi phạm bản quyền</span>
+                    </td>
+                    <td>
+                        <div class="report-date">20/02/2025</div>
+                    </td>
+                    <td>
+                        <span class="status-badge status-rejected">Đã từ chối</span>
+                    </td>
+                    <td>
+                        <div class="row flex">
+                            <div class="col-6">
+                                <span class="badge-verified">Xử lý</span>
+                            </div>
+                            <div class="col-6">
+                                <span class="badge-reject">Từ chối</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="reporter">
+                            <img src="./img/avatar-default.jpg" alt="Phạm Văn D" class="reporter-avatar">
+                            Phạm Văn D
+                        </div>
+                    </td>
+                    <td>
+                        <div class="report-content">
+                            Vi phạm bản quyền trong thiết kế đã cung cấp, sử dụng hình ảnh không được phép mà không thông báo cho khách hàng.
+                        </div>
+                    </td>
+                    <td>
+                        <span class="criteria" data-tooltip="Vi phạm quyền sở hữu trí tuệ, sử dụng nội dung có bản quyền không được phép hoặc không đúng quy định">Vi phạm bản quyền</span>
+                    </td>
+                    <td>
+                        <div class="report-date">20/02/2025</div>
+                    </td>
+                    <td>
+                        <span class="status-badge status-rejected">Đã từ chối</span>
+                    </td>
+                    <td>
+                        <div class="row flex">
+                            <div class="col-6">
+                                <span class="badge-verified">Xử lý</span>
+                            </div>
+                            <div class="col-6">
+                                <span class="badge-reject">Từ chối</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="show-more-container">
+                <button class="show-more-btn">Xem tất cả báo cáo</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-            </div>          
-        </section>
 
-
-
-        <!--======= Back to Top =======-->
-        <div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
+</body>
 </html>

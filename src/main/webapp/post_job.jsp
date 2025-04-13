@@ -14,12 +14,62 @@
 
     <!--new css -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="css/update_job_post.css" rel="stylesheet">
+<%--    <link href="css/update_job_post.css" rel="stylesheet">--%>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        .banner_title {
+            background-image: url(./img/anh1/anh1.png);
+            background-size: 100%;
+            font-size: 40px;
+            height: 250px;
+            display: flex;
+            align-items: center;
+        }
+
+        form input, select, textarea {
+            box-sizing: border-box;
+            border: solid 1px #6787FE50;
+            border-radius: 15px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 1330px;
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        input {
+            flex: 1;
+        }
+
+        textarea {
+            flex: 1;
+            height: 100px;
+        }
+
+        .min {
+            border: solid 1px #6787FE;
+            background-color: #6787FE50;
+            width: 70px;
+        }
+
+        .max {
+            border: solid 1px #6787FE;
+            background-color: #6787FE50;
+            width: 70px;
+        }
+    </style>
 </head>
 
-<body>
+<body style="font-family: Inter, sans-serif ">
 <div class="py-4 banner_title">
     <h1 class="text-white font-weight-bold" style="padding-left: 50px;">ĐĂNG TIN TUYỂN DỤNG</h1>
 </div>

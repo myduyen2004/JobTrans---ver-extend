@@ -3,177 +3,235 @@
 <!DOCTYPE html>
 <html lang="en-US">
 
-<!-- Mirrored from themebing.com/wp/prolancer/services/?services-layout=services_left_sidebar by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Jan 2025 09:33:48 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Đối tác &#8211; JobTrans</title>
-	<meta name='robots' content='max-image-preview:large' />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Đối tác &#8211; JobTrans</title>
+    <meta name='robots' content='max-image-preview:large'/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    <style>
+        .banner_title {
+            background-image: url(./img/anh1/anh1.png);
+            background-size: contain;
+            height: 200px;
+        }
+
+        .post-box {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .post-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+    </style>
 </head>
 
-<body>
-<section class="section-padding">
-	<div class="container">
-		<div class="row justify-content-center flex-row-reverse">
-			<div class="search-result col-xl-9">
-				        <div class="prolancer-service-item style-2">
-                        <div class="row">
-                                <div class="col-md-2 my-auto">
-									<div class="my-auto01">
-										<a href="../sellers/bayley-robert/index.html">
-										   <img src="./wp-content/uploads/2021/04/pexels-mentatdgt-1138903-80x80.jpg" alt="" />                                   </a>
-									 </div>
-                </div>
-                              
-                <div class="col-md-10 my-auto">
-                   <div class="service-content">
-                      <div class="service-item-seller">
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="d-flex">
-                                <div class="my-auto">
-											<h6 class="mb-0">Bạn<i class="fas fa-check-circle verified" title="Verified"></i></h6>
-
-											<span>
-												<span class="fa fa-star checked"></span>
-												<span class="fa fa-star checked"></span>
-												<span class="fa fa-star checked"></span>
-												<span class="fa fa-star"></span>
-												<span class="fa fa-star"></span>
-											</span>
-                                    
-                                </div>
-                              </div>    
+<body style="font-family: Inter, serif">
+<div class="py-4 banner_title">
+    <div class="text-white mb-2 mt-3" style="padding-left: 50px">
+        <p>
+            <a>Công việc của tôi >> </a>
+            <a>Công việc đã đăng</a>
+        </p>
+    </div>
+    <span class="text-white font-weight-bold"
+          style="padding-left: 50px; font-size: 40px;">Lập trình web bán hàng </span>
+    <div class="text-white mt-2">
+        <span style="font-size:24px; padding-left: 50px;">
+            <a>>> Quản lý công việc >> </a>
+            <a>Đối tác</a>
+        </span>
+    </div>
+</div>
+<section class="section-padding m-4">
+    <div class="container">
+        <div class="row justify-content-center flex-row-reverse">
+            <div class="search-result col-xl-9">
+                <div class="post-box bg-white rounded-lg shadow-md items-center justify-between mb-3"
+                     style="border: solid 2px #6787FE50; border-radius: 30px; ">
+                    <div class="row m-3">
+                        <div class="col-md-2 my-auto">
+                            <div class="my-auto01">
+                                <a href="#">
+                                    <img src="./img/anhcv/avatar.jpeg" alt="Avatar" style="width: 80%;"/>
+                                </a>
                             </div>
-                            
                         </div>
-                      </div>
-                      <h3><a href="i-will-do-seo-backlinks-with-blogger-outreach-for-high-quality-link-building/index.html"></a></h3>
-                      <ul class="list-inline">
-						<div class="row">
 
-							<div class="col-md-4" ><a href="#" class="btn btn-report">Xem báo cáo</a></div>
-							<div class="col-md-4" ><a href="#" class="btn btn-review">Xem đánh giá</a></div>
-						</div>
-						
-                                             </ul>
-                   </div>
+                        <div class="col-md-10 my-auto">
+                            <div class="service-content">
+                                <div class="service-item-seller">
+                                    <div class="row">
+                                        <div>
+                                            <div class="d-flex">
+                                                <div class="my-auto">
+                                                    <span class="mb-3"  style="font-weight: bold; font-size: 20px;">Bạn
+                                                        <i class="fas fa-check-circle verified text-primary ms-2"
+                                                           title="Verified"></i>
+                                                    </span>
+                                                    <span  style="font-weight: bold; font-size: 20px;">Điểm số: </span><span  style="font-size: 20px;">1000</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <div class="row">
+                                        <div class="col-2 text-white">
+                                            <a href="#"
+                                               style="background-color: red; border-radius: 10px; padding: 10px 10px 10px 10px;">Xem
+                                                báo cáo</a>
+                                        </div>
+                                        <div class="col-2 text-black">
+                                            <a href="#"
+                                               style="background-color: yellow; border-radius: 10px; padding: 10px 10px 10px 10px;">Xem
+                                                đánh giá</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="text-center mb-3" style="font-size: 32px; font-weight: bold">Danh sách đối tác</h3>
+                <div class="post-box bg-white rounded-lg shadow-md items-center justify-between mb-3"
+                     style="border: solid 2px #6787FE50; border-radius: 30px;">
+                    <p style="background-color: #6787FE50; width: 120px; padding: 5px 10px 5px 10px; border-bottom-right-radius: 15px;">
+                        Đối tác <i class="fas fa-bolt"></i>
+                    </p>
+                    <div class="row m-3">
+                        <div class="row">
+                            <div class="col-md-2 my-auto">
+                                <div class="my-auto01">
+                                    <a href="#">
+                                        <img src="./img/anhcv/avatar.jpeg" alt="Avatar" style="width: 80%;"/>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-md-10 my-auto">
+                                <div class="service-content">
+                                    <div class="service-item-seller">
+                                        <div class="row">
+                                            <div class="col-9">
+                                                <div class="d-flex">
+                                                    <div class="my-auto">
+                                                        <span class="mb-3" style="font-weight: bold; font-size: 20px;">Tên đối tác 1
+                                                            <i class="fas fa-check-circle verified text-primary ms-2"
+                                                               title="Verified"></i>
+                                                        </span>
+                                                        <span style="font-weight: bold; font-size: 20px">  | Điểm số: </span>
+                                                        <span style="font-size: 20px">1000</span>
+                                                        <ul class="list-inline mb-lg-0 mt-2">
+                                                            <li class="list-inline-item mb-2">
+                                                                <i class="fas fa-users"></i>  Nhóm dự án
+                                                            </li>
+                                                            <li class="list-inline-item">
+                                                                <i class="fas fa-map-marked-alt"></i>  Hà Nội
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-3 d-flex flex-col align-items-center justify-content-center">
+                                                <div class="">
+                                                    <h4><span style="font-size: 24px">3000000</span><span> VNĐ</span></h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3">
+                                        <div class="row">
+                                            <div class="col-2 text-white">
+                                                <a href="#"
+                                                   style="background-color: red; border-radius: 10px; padding: 10px 10px 10px 10px;">Báo cáo
+                                                </a>
+                                            </div>
+                                            <div class="col-2 text-black">
+                                                <a href="#"
+                                                   style="background-color: yellow; border-radius: 10px; padding: 10px 10px 10px 10px;">Đánh giá
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-box bg-white rounded-lg shadow-md items-center justify-between mb-3"
+                     style="border: solid 2px #6787FE50; border-radius: 30px;">
+                    <p style="background-color: #6787FE50; width: 120px; padding: 5px 10px 5px 10px; border-bottom-right-radius: 15px;">
+                        Đối tác <i class="fas fa-bolt"></i>
+                    </p>
+                    <div class="row m-3">
+                        <div class="row">
+                            <div class="col-md-2 my-auto">
+                                <div class="my-auto01">
+                                    <a href="#">
+                                        <img src="./img/anhcv/avatar.jpeg" alt="Avatar" style="width: 80%;"/>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-md-10 my-auto">
+                                <div class="service-content">
+                                    <div class="service-item-seller">
+                                        <div class="row">
+                                            <div class="col-9">
+                                                <div class="d-flex">
+                                                    <div class="my-auto">
+                                                        <span class="mb-3" style="font-weight: bold; font-size: 20px;">Tên đối tác 2
+                                                            <i class="fas fa-check-circle verified text-primary ms-2"
+                                                               title="Verified"></i>
+                                                        </span>
+                                                        <span style="font-weight: bold; font-size: 20px"> | Điểm số: </span>
+                                                        <span style="font-size: 20px">1000</span>
+                                                        <ul class="list-inline mb-lg-0 mt-2">
+                                                            <li class="list-inline-item mb-2">
+                                                                <i class="fas fa-users"></i>  Cá nhân
+                                                            </li>
+                                                            <li class="list-inline-item">
+                                                                <i class="fas fa-map-marked-alt"></i>  Đà nẵng
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-3 d-flex flex-col align-items-center justify-content-center">
+                                                <div class="">
+                                                    <h4><span style="font-size: 24px;">3000000</span><span> VNĐ</span></h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3">
+                                        <div class="row">
+                                            <div class="col-2 text-white">
+                                                <a href="#"
+                                                   style="background-color: red; border-radius: 10px; padding: 10px 10px 10px 10px;">Báo cáo
+                                                </a>
+                                            </div>
+                                            <div class="col-2 text-white">
+                                                <a href="#"
+                                                   style="background-color: limegreen; border-radius: 10px; padding: 10px 10px 10px 10px;">Đã đánh giá
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-            <div class="prolancer-service-item style-2">
-                            <div class="featured-post">Đối tác<i class="fas fa-bolt"></i></div>
-                        <div class="row">
-							<div class="col-md-2 my-auto">
-								<div class="my-auto01">
-									<a href="../sellers/bayley-robert/index.html">
-									   <img src="./wp-content/uploads/2021/04/pexels-mentatdgt-1138903-80x80.jpg" alt="" />                                   </a>
-								 </div>
-								 
-			</div>
-                              
-                <div class="col-md-10 my-auto">
-                   <div class="service-content">
-                      <div class="service-item-seller">
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="d-flex">
-                                <div class="my-auto">
-                                    <h6 class="mb-0">David Parker<i class="fas fa-check-circle verified" title="Verified"></i></h6>
-									<span>
-										<span class="fa fa-star checked"></span>
-										<span class="fa fa-star checked"></span>
-										<span class="fa fa-star checked"></span>
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-									</span>
-                                </div>
-                              </div>    
-                            </div>
-                            <div class="col-6">
-                                <div class="service-price float-end">
-                                    <h4>
-                                        <span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#36;</span>30.00</bdi></span>                            
-                                    </h4>
-                                  </div>
-                            </div>
-                        </div>
-                      </div>
-                      <h3><a href="i-will-create-a-rest-api/index.html"></a></h3>
-                      <ul class="list-inline">
-						<div class="row">
-
-							<div class="col-md-4" ><a href="#" class="btn btn-report">Báo cáo</a></div>
-							<div class="col-md-4" ><a href="#" class="btn btn-review">Đánh giá</a></div>
-						</div>
-                                             </ul>
-                   </div>
-                </div>
-            </div>
-        </div>
-		<div class="prolancer-service-item style-2">
-                            <div class="featured-post">Đối tác<i class="fas fa-bolt"></i></div>
-                        <div class="row">
-							<div class="col-md-2 my-auto">
-								<div class="my-auto01">
-									<a href="../sellers/bayley-robert/index.html">
-									   <img src="./wp-content/uploads/2021/04/pexels-mentatdgt-1138903-80x80.jpg" alt="" />                                   </a>
-								 </div>
-								 
-			</div>
-                              
-                <div class="col-md-10 my-auto">
-                   <div class="service-content">
-                      <div class="service-item-seller">
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="d-flex">
-                                <div class="my-auto">
-                                    <h6 class="mb-0">David Parker<i class="fas fa-check-circle verified" title="Verified"></i></h6>
-									<span>
-										<span class="fa fa-star checked"></span>
-										<span class="fa fa-star checked"></span>
-										<span class="fa fa-star checked"></span>
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-									</span>
-                                </div>
-                              </div>    
-                            </div>
-                            <div class="col-6">
-                                <div class="service-price float-end">
-                                    <h4>
-                                        <span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#36;</span>30.00</bdi></span>                            
-                                    </h4>
-                                  </div>
-                            </div>
-                        </div>
-                      </div>
-                      <h3><a href="i-will-create-a-rest-api/index.html"></a></h3>
-                      <ul class="list-inline">
-						<div class="row">
-
-							<div class="col-md-4" ><a href="#" class="btn btn-report">Báo cáo</a></div>
-							<div class="col-md-4" ><a href="#" class="btn btn-review">Đánh giá</a></div>
-						</div>
-                                             </ul>
-                   </div>
-                </div>
-            </div>
-        </div>
-            
-							</div>
-			        		<div class="col-xl-3 position-relative">
-        			
-					<div class="filter-box">
-					</div>
-				</form>
-			
-			</div>	        		</aside>
-        		</div>
-            		</div>
-	</div>
+    </div>
 </section>
 </body>
 </html>
