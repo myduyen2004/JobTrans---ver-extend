@@ -1,10 +1,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ page import="jobtrans.model.Account" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thông tin tài khoản</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <style>
         /* Reset CSS */
         * {
@@ -305,13 +316,14 @@
             z-index: 1;
             display: flex;
             align-items: center;
+            margin-left: 20px;
         }
 
-        .reports-title::before {
-            content: '📋';
-            margin-right: 10px;
-            font-size: 24px;
-        }
+        /*.reports-title::before {*/
+        /*    content: '📋';*/
+        /*    margin-right: 10px;*/
+        /*    font-size: 24px;*/
+        /*}*/
 
         .reports-count {
             background-color: rgba(255, 255, 255, 0.2);
@@ -601,6 +613,297 @@
             margin: 0 auto;
         }
     </style>
+    <style>
+        :root {
+            --primary-color: #6787fe;
+            --secondary-color: #6c63ff;
+            --accent-color: #f0f4ff;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --danger-color: #f44336;
+        }
+
+        body {
+            /*background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);*/
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 30px 0;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            animation: rotate 25s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .header-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            margin-bottom: 30px;
+            background-color: white;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            /*border: 2px solid #6787fe;*/
+        }
+
+        .member-header {
+            background: linear-gradient(45deg, #f3f4f6 0%, #ffffff 100%);
+            padding: 25px 20px 15px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .member-avatar-wrapper {
+            position: relative;
+            margin-right: 20px;
+        }
+
+        .member-avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 20px;
+            object-fit: cover;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-indicator {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: var(--success-color);
+            border: 2px solid white;
+        }
+
+        .member-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 5px;
+        }
+
+        .member-role {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .badge-custom {
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin-right: 10px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .badge-custom i {
+            margin-right: 5px;
+        }
+
+        .badge-specialty {
+            background-color: #e8f0fe;
+            color: #4285f4;
+        }
+
+        .badge-experience {
+            background-color: #e6f4ea;
+            color: #34a853;
+        }
+
+        .member-info {
+            padding: 20px;
+        }
+
+        .bio-section {
+            background-color: var(--accent-color);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .bio-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 10px;
+            font-size: 60px;
+            color: rgba(78, 84, 200, 0.1);
+            line-height: 1;
+        }
+
+        .bio-text {
+            position: relative;
+            z-index: 1;
+        }
+
+        .info-group {
+            margin-bottom: 25px;
+        }
+
+        .info-label {
+            display: block;
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .info-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background-color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            margin-right: 15px;
+        }
+
+        .btn-action {
+            border-radius: 50px;
+            padding: 10px 25px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .btn-action i {
+            margin-right: 8px;
+        }
+
+        .btn-edit {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background-color: #3a40b5;
+            border-color: #3a40b5;
+            color: white;
+        }
+
+        .btn-delete {
+            background-color: white;
+            border-color: var(--danger-color);
+            color: var(--danger-color);
+        }
+
+        .btn-delete:hover {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .actions-container {
+            border-top: 1px solid rgba(0,0,0,0.05);
+            padding: 20px;
+            background-color: #fafbfc;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn-add-container {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn-add {
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+            padding: 12px 25px;
+            font-size: 1rem;
+            color: white;
+        }
+
+        .btn-add:hover {
+            background-color: #43a047;
+            border-color: #43a047;
+            color: white;
+        }
+
+        .btn-details {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            border: none;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+
+        .btn-details:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-details .fa-chevron-down {
+            transition: transform 0.3s ease;
+        }
+
+        [aria-expanded="true"] .fa-chevron-down {
+            transform: rotate(180deg);
+        }
+
+        .collapse {
+            visibility: visible;
+        }
+
+        .collapse-content {
+            padding: 0;
+            overflow: hidden;
+            visibility: visible;
+        }
+
+        .collapsing {
+            transition: height 0.35s ease;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -614,11 +917,12 @@
                 <span class="badge-verified">Đã xác thực</span>
             </div>
             <div class="profile-role">${account.type}</div>
-            <div class="profile-location">${account.address}</div>
+<%--            <div class="profile-location">${account.address}</div>--%>
+            <div class="profile-points">${account.point} Điểm</div>
         </div>
 
         <div class="profile-actions">
-            <div class="profile-points">${account.point}</div>
+
             <a href="#" class="edit-button">Chỉnh sửa hồ sơ</a>
         </div>
     </div>
@@ -724,11 +1028,152 @@
         </div>
     </div>
 
+<%--    Member--%>
+    <div class="page-header text-center">
+        <div class="header-container">
+            <h1 class="display-4 fw-bold">Thành viên nhóm</h1>
+            <p class="lead">Danh sách thành viên và thông tin chi tiết</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="btn-add-container">
+            <a href="#" class="btn btn-add btn-action">
+                <i class="fas fa-plus"></i> Thêm thành viên
+            </a>
+        </div>
+
+        <c:forEach var="members" items="${memberList}" varStatus="loop">
+            <c:choose>
+                <c:when test="${not empty memberList}">
+                    <div class="card">
+                        <div class="member-header">
+                            <div class="d-flex">
+                                <div class="member-avatar-wrapper">
+                                    <img src="${members.avatarMember}" alt="${members.memberName}" class="member-avatar">
+                                    <div class="status-indicator"></div>
+                                </div>
+                                <div>
+                                    <h3 class="member-name">${members.memberName}</h3>
+                                    <div class="member-role">${members.position}</div>
+                                    <div>
+                                            <span class="badge badge-custom badge-specialty">
+                                                <i class="fas fa-laptop-code"></i> ${members.specialist}
+                                            </span>
+                                        <span class="badge badge-custom badge-experience">
+                                                <i class="fas fa-briefcase"></i> ${members.experienceYears}
+                                            </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="px-4 py-3 d-grid">
+                            <button class="btn btn-details btn-action" type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#memberDetails${loop.index}"
+                                    aria-expanded="false"
+                                    aria-controls="memberDetails${loop.index}">
+                                <i class="fas fa-chevron-down me-2"></i> Xem thông tin chi tiết
+                            </button>
+                        </div>
+
+                        <div class="collapse" id="memberDetails${loop.index}">
+                            <div class="collapse-content">
+                                <div class="member-info">
+                                    <div class="bio-section">
+                                        <p class="bio-text mb-0">
+                                                ${members.experienceYears}
+                                        </p>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="d-flex align-items-center info-group">
+                                                <div class="info-icon">
+                                                    <i class="fas fa-graduation-cap"></i>
+                                                </div>
+                                                <div>
+                                                    <span class="info-label">Học vấn</span>
+                                                    <div class="info-value">${members.education}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="d-flex align-items-center info-group">
+                                                <div class="info-icon">
+                                                    <i class="fas fa-birthday-cake"></i>
+                                                </div>
+                                                <div>
+                                                    <span class="info-label">Ngày sinh</span>
+                                                    <div class="info-value">${members.dateOfBirth}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="d-flex align-items-center info-group">
+                                                <div class="info-icon">
+                                                    <i class="fas fa-venus-mars"></i>
+                                                </div>
+                                                <div>
+                                                    <span class="info-label">Giới tính</span>
+                                                    <div class="info-value">${members.gender}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="d-flex align-items-center info-group">
+                                                <div class="info-icon">
+                                                    <i class="fas fa-check-circle"></i>
+                                                </div>
+                                                <div>
+                                                    <span class="info-label">Trạng thái</span>
+                                                    <div class="info-value">${members.status}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="actions-container">
+                            <div class="d-flex">
+                                <div class="info-icon me-2">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div>
+                                    <div class="info-value">ID: TN-001</div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <a href="#" class="btn btn-edit btn-action me-2">
+                                    <i class="fas fa-edit"></i> Chỉnh sửa
+                                </a>
+                                <a href="#" class="btn btn-delete btn-action">
+                                    <i class="fas fa-trash-alt"></i> Xóa
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <p>Không có thành viên nào trong nhóm.</p>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+    </div>
+
     <!-- Reports Section -->
     <div class="reports-container">
         <div class="reports-header">
-            <div class="contact-icon"><i class="fas fa-list"></i></div>
-            <h2 class="reports-title">Danh sách các báo cáo nhận được</h2>
+
+            <h2 class="reports-title">
+                Danh sách các báo cáo nhận được</h2>
             <div class="reports-count">3 báo cáo</div>
         </div>
 
