@@ -148,7 +148,7 @@
 <button class="toggle-btn toggle-btn-shifted" id="toggleSidebar">
     <i class="fas fa-times"></i>
 </button>
-<div class="sidebar" id="sidebar">
+<div class="sidebar sidebar-collapsed" id="sidebar">
     <div class="brand-logo">
         <i class="fas fa-briefcase"></i>
         <span>JobTrans</span>
@@ -191,7 +191,7 @@
         const resetBtn = document.getElementById('resetFilters');
 
         // Mặc định sidebar mở, và hiển thị icon X
-        let sidebarOpen = true;
+        let sidebarOpen = false;
 
         // Xử lý đóng/mở sidebar
         toggleBtn.addEventListener('click', function() {
@@ -205,9 +205,9 @@
             // Thay đổi icon dựa vào trạng thái
             const icon = toggleBtn.querySelector('i');
             if (sidebarOpen) {
-                icon.className = 'fas fa-times'; // Sidebar mở -> hiển thị icon X
+                icon.className = 'fas fa-bars'; // Sidebar mở -> hiển thị icon X
             } else {
-                icon.className = 'fas fa-bars'; // Sidebar đóng -> hiển thị icon 3 dòng
+                icon.className = 'fas fa-times'; // Sidebar đóng -> hiển thị icon 3 dòng
             }
         })
 

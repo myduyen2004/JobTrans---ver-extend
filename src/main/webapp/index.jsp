@@ -321,7 +321,7 @@
             font-weight: 600;
             text-align: center;
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: all 8s ease;
             cursor: pointer;
         }
 
@@ -416,7 +416,7 @@
         }
 
         .carousel-item {
-            transition: transform 18s ease-in-out;
+            transition: transform 15s ease-in-out !important;
         }
 
         /* Custom carousel indicators */
