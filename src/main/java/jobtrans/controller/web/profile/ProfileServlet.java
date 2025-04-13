@@ -23,19 +23,22 @@ import java.util.logging.Logger;
 import jobtrans.dal.AccountDAO;
 import jobtrans.dal.TransactionDAO;
 import jobtrans.model.Account;
+import jobtrans.model.GroupMember;
 import jobtrans.model.Transaction;
 
 @WebServlet(name = "ProfileServlet", urlPatterns = {"/profile"})
 @MultipartConfig
 
 public class ProfileServlet extends HttpServlet {
+    private AccountDAO accountDAO = new AccountDAO();
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         switch (action) {
             case "view":
-//                viewProfile(request, response);
+                viewProfile(request, response);
                 break;
             case "changePassword":
 //                changePassword(request, response);
@@ -56,6 +59,19 @@ public class ProfileServlet extends HttpServlet {
                 response.sendRedirect("infor-account.jsp"); // Trang lỗi nếu action không hợp lệ
                 break;
         }
+    }
+
+    private void viewProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //        HttpSession session = request.getSession();
+        //        Account account = (Account) session.getAttribute("sessionAccount");
+        //        Account account01 = accountDAO.getAccountById(account.getAccountId());
+
+                int accountId = Integer.parseInt(request.getParameter("account_id"));
+                Account account01 = accountDAO.getAccountById(accountId);
+
+                request.setAttribute("account", account01);
+
+        request.getRequestDispatcher("infor-account.jsp").forward(request, response);
     }
 
     @Override

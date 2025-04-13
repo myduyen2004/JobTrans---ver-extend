@@ -147,8 +147,6 @@ public class AccountDAO {
 
     }
 
-
-
     public boolean checkExistEmail(String email) {
         String query = "SELECT * FROM account WHERE email = ?";
 

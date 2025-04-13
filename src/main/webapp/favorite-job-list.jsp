@@ -13,13 +13,25 @@
 
     <title>Projects &#8211; ProLancer</title>
     <meta name='robots' content='max-image-preview:large' />
-    <link rel="icon" type="image/png" href="wp-content/uploads/2021/09/logo.png">
+    <link rel="icon" type="image/png" href="">
     <style>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
         .col-xl-9 {
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
             max-width: 30%;
+        }
+
+        .search-result {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            gap: 10px 20px;
         }
 
         .job-card {
@@ -108,16 +120,13 @@
 
 
         .user-info h4 {
-            margin: 0;
-            font-size: 14px;
-            color: #4a7ff5;
-            display: flex;
-            align-items: center;
+            margin: 10px 0;
+            font-size: 18px;
         }
-
 
         .user-info p {
             margin: 0;
+            margin-left: 10px;
             font-size: 12px;
             color: gray;
         }
@@ -155,12 +164,19 @@
             margin-bottom: 10px;
         }
 
+        .duration span {
+            margin-left: 20px;
+        }
         .time-left {
             background: #eaf0ff;
             color: #4a7ff5;
             padding: 2px 8px;
             border-radius: 10px;
             font-size: 12px;
+        }
+
+        hr {
+            margin: 15px 0;
         }
 
         .salary {
@@ -183,14 +199,35 @@
 <body>
     <section>
         <div class="container section-padding">
-            <div class="row justify-content-center flex-row-reverse">
+            <div class="container">
                 <div class="search-result col-xl-9">
 
                     <div class="job-card">
                         <div class="el--heart-alt"></div>
                         <div class="job-header">
                             <div class="avatar-wrapper">
-                                <img src="../wp-content/uploads/2021/04/pexels-andrea-piacquadio-874158-200x200.jpg" alt="User Avatar" class="avatar">
+                                <img src="" alt="User Avatar" class="avatar">
+                                <div class="verified-icon"></div>
+                            </div>
+                            <div class="user-info">
+                                <h4 style="">Nguyễn Văn User</h4>
+                                <p>1735 điểm</p>
+                            </div>
+                        </div>
+                        <h3 class="job-title">Design trang web</h3>
+                        <p class="category">Công nghệ thông tin</p>
+                        <p class="duration">Thời hạn: 2-3 tháng <span class="time-left">Còn 20 ngày</span></p>
+                        <hr>
+                        <div class="salary">
+                            <span class="price">10.000.000</span> - <span class="price">18.000.000</span>
+                        </div>
+                    </div>
+
+                    <div class="job-card">
+                        <div class="el--heart-alt"></div>
+                        <div class="job-header">
+                            <div class="avatar-wrapper">
+                                <img src="" alt="User Avatar" class="avatar">
                                 <div class="verified-icon"></div>
                             </div>
                             <div class="user-info">
@@ -211,28 +248,7 @@
                         <div class="el--heart-alt"></div>
                         <div class="job-header">
                             <div class="avatar-wrapper">
-                                <img src="../wp-content/uploads/2021/04/pexels-andrea-piacquadio-874158-200x200.jpg" alt="User Avatar" class="avatar">
-                                <div class="verified-icon"></div>
-                            </div>
-                            <div class="user-info">
-                                <h4>Nguyễn Văn User</h4>
-                                <p>1735 điểm</p>
-                            </div>
-                        </div>
-                        <h3 class="job-title">Design trang web</h3>
-                        <p class="category">Công nghệ thông tin</p>
-                        <p class="duration">Thời hạn: 2-3 tháng <span class="time-left">Còn 20 ngày</span></p>
-                        <hr>
-                        <div class="salary">
-                            <span class="price">10.000.000</span> - <span class="price">18.000.000</span>
-                        </div>
-                    </div>
-
-                    <div class="job-card">
-                        <div class="el--heart-alt"></div>
-                        <div class="job-header">
-                            <div class="avatar-wrapper">
-                                <img src="../wp-content/uploads/2021/04/pexels-andrea-piacquadio-874158-200x200.jpg" alt="User Avatar" class="avatar">
+                                <img src="" alt="User Avatar" class="avatar">
                                 
                             </div>
                             <div class="user-info">
@@ -254,7 +270,7 @@
                         <div class="el--heart-alt"></div>
                         <div class="job-header">
                             <div class="avatar-wrapper">
-                                <img src="../wp-content/uploads/2021/04/pexels-andrea-piacquadio-874158-200x200.jpg" alt="User Avatar" class="avatar">
+                                <img src="" alt="User Avatar" class="avatar">
                                 <div class="verified-icon"></div>
                             </div>
                             <div class="user-info">
@@ -275,7 +291,7 @@
                         <div class="el--heart-alt"></div>
                         <div class="job-header">
                             <div class="avatar-wrapper">
-                                <img src="../wp-content/uploads/2021/04/pexels-andrea-piacquadio-874158-200x200.jpg" alt="User Avatar" class="avatar">
+                                <img src="" alt="User Avatar" class="avatar">
                                 <div class="verified-icon"></div>
                             </div>
                             <div class="user-info">
@@ -296,7 +312,7 @@
                         <div class="el--heart-alt"></div>
                         <div class="job-header">
                             <div class="avatar-wrapper">
-                                <img src="../wp-content/uploads/2021/04/pexels-andrea-piacquadio-874158-200x200.jpg" alt="User Avatar" class="avatar">
+                                <img src="" alt="User Avatar" class="avatar">
                                 <span class="verified-icon"></span>
                             </div>
                             <div class="user-info">
@@ -317,7 +333,7 @@
                         <div class="el--heart-alt"></div>
                         <div class="job-header">
                             <div class="avatar-wrapper">
-                                <img src="../wp-content/uploads/2021/04/pexels-andrea-piacquadio-874158-200x200.jpg" alt="User Avatar" class="avatar">
+                                <img src="" alt="User Avatar" class="avatar">
                                 <div class="verified-icon"></div>
                             </div>
                             <div class="user-info">
@@ -338,7 +354,7 @@
                         <div class="el--heart-alt"></div>
                         <div class="job-header">
                             <div class="avatar-wrapper">
-                                <img src="../wp-content/uploads/2021/04/pexels-andrea-piacquadio-874158-200x200.jpg" alt="User Avatar" class="avatar">
+                                <img src="" alt="User Avatar" class="avatar">
                                 <div class="verified-icon"></div>
                             </div>
                             <div class="user-info">
@@ -359,7 +375,7 @@
                         <div class="el--heart-alt"></div>
                         <div class="job-header">
                             <div class="avatar-wrapper">
-                                <img src="../wp-content/uploads/2021/04/pexels-andrea-piacquadio-874158-200x200.jpg" alt="User Avatar" class="avatar">
+                                <img src="" alt="User Avatar" class="avatar">
                                 <span class="verified-icon"></span>
                             </div>
                             <div class="user-info">
@@ -380,7 +396,7 @@
                         <div class="el--heart-alt"></div>
                         <div class="job-header">
                             <div class="avatar-wrapper">
-                                <img src="../wp-content/uploads/2021/04/pexels-andrea-piacquadio-874158-200x200.jpg" alt="User Avatar" class="avatar">
+                                <img src="" alt="User Avatar" class="avatar">
                                 <div class="verified-icon"></div>
                             </div>
                             <div class="user-info">
@@ -401,7 +417,7 @@
                         <div class="el--heart-alt"></div>
                         <div class="job-header">
                             <div class="avatar-wrapper">
-                                <img src="../wp-content/uploads/2021/04/pexels-andrea-piacquadio-874158-200x200.jpg" alt="User Avatar" class="avatar">
+                                <img src="" alt="User Avatar" class="avatar">
                                 <div class="verified-icon"></div>
                             </div>
                             <div class="user-info">
@@ -422,7 +438,7 @@
                         <div class="el--heart-alt"></div>
                         <div class="job-header">
                             <div class="avatar-wrapper">
-                                <img src="../wp-content/uploads/2021/04/pexels-andrea-piacquadio-874158-200x200.jpg" alt="User Avatar" class="avatar">
+                                <img src="" alt="User Avatar" class="avatar">
                                 <span class="verified-icon"></span>
                             </div>
                             <div class="user-info">
