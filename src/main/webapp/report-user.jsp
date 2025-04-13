@@ -13,20 +13,247 @@
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="profile" href="https://gmpg.org/xfn/11">
 
-    <title>Projects &#8211; ProLancer</title>
+    <title>Báo cáo người dùng</title>
     <meta name='robots' content='max-image-preview:large' />
 
     <style>
+        .banner {
+            background-image: url('./img/anh1/anh1.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            text-align: center;
+            width: 100%; /* Chiều rộng 100% (tương đương 12 cột trên layout full-width) */
+            padding-top: 50px; /* Giảm padding trên */
+            padding-bottom: 50px; /* Giảm padding dưới */
+            color: white; /* Đặt màu chữ */
+
+            /* max-height: 300px; */
+        }
+
+        .banner h1 {
+            margin: 0; /* Loại bỏ margin mặc định của h1 */
+        }
+        /* Popup Styles */
+
+        /* Phần chung */
+        .section-padding {
+            padding: 60px 0; /* Khoảng cách trên và dưới section */
+        }
+
+        .container {
+            max-width: 1200px; /* Độ rộng tối đa của container */
+            margin: 0 auto; /* Căn giữa container theo chiều ngang */
+            padding: 0 20px; /* Khoảng cách lề trái và phải container */
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap; /* Cho phép các cột xuống dòng khi không đủ không gian */
+            margin-left: -15px; /* Tạo khoảng âm để bù lại padding của cột */
+            margin-right: -15px;
+        }
+
+        .col-xl-3,
+        .col-xl-9,
+        .col-xl-12 {
+            padding-left: 15px; /* Khoảng cách lề trái của cột */
+            padding-right: 15px; /* Khoảng cách lề phải của cột */
+            box-sizing: border-box; /* Tính padding và border vào chiều rộng */
+        }
+
+        .col-xl-3 {
+            flex: 0 0 auto;
+            width: 25%; /* Chiều rộng 3/12 */
+        }
+
+        .col-xl-9 {
+            flex: 0 0 auto;
+            width: 75%; /* Chiều rộng 9/12 */
+        }
+
+        .col-xl-12 {
+            flex: 0 0 auto;
+            width: 100%; /* Chiều rộng 12/12 */
+        }
+
+        .justify-content-center {
+            justify-content: center; /* Căn giữa các phần tử con theo chiều ngang */
+        }
+
+        .flex-row-reverse {
+            flex-direction: row-reverse; /* Đảo ngược thứ tự các phần tử con */
+        }
+
+        /* Report Container */
+        .report-container {
+            background-color: #f9f9f9; /* Màu nền container báo cáo */
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+
+        }
+
+        .report-container h2 {
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        /* Reason Section */
+        .reason-section {
+            margin-bottom: 25px;
+        }
+
+        .reason-section label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        .reason {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .reason input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .reason label {
+            font-weight: normal;
+            font-size: 1em;
+            color: #666;
+        }
+
+        /* Nội dung chi tiết */
+        #noi-dung {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+            line-height: 1.5;
+            resize: vertical; /* Cho phép kéo dọc textarea */
+        }
+
+        #noi-dung::placeholder {
+            color: #999;
+        }
+
+        /* Bằng chứng */
+        .evidence-section {
+            margin-top: 25px;
+            margin-bottom: 25px;
+        }
+
+        .evidence-section label.evidence {
+            margin-top: 0; /* Reset margin-top cho label bằng chứng */
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        .form-input {
+            flex-grow: 1; /* Cho phép phần input chiếm không gian còn lại */
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Căn trái nội dung bên trong */
+        }
+
+        .file-upload {
+            margin-bottom: 15px;
+        }
+
+        .upload-btn {
+            background-color: #007bff; /* Màu nút upload */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .upload-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .material-symbols--upload {
+            font-size: 1.2em;
+            margin-right: 8px;
+            /* Bạn có thể cần стили bổ sung tùy thuộc vào cách bạn import icon */
+        }
+
+        .file-list {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #777;
+        }
+
+        /* Submit Section */
+        .submit-section {
+            text-align: right; /* Căn phải nút gửi báo cáo */
+        }
+
+        .report-btn {
+            background-color: #dc3545; /* Màu nút gửi báo cáo */
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .report-btn:hover {
+            background-color: #c82333;
+        }
+
+        /* Responsive (tùy chỉnh theo nhu cầu) */
+        @media (max-width: 991.98px) {
+            .col-xl-3 {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .col-xl-9 {
+                width: 100%;
+            }
+
+            .evidence-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .evidence-section label.evidence {
+                margin-bottom: 5px;
+            }
+
+            .form-input .upload-btn {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+
         .report-container {
             background: white;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            width: 400px;
+            width: 100%;
             height: fit-content;
         }
 
@@ -83,95 +310,29 @@
         }
     </style>
 </head>
+<body>
 
-<body
-    class="archive post-type-archive post-type-archive-projects wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
 
-    <!-- Preloading -->
-    <div id="preloader">
-        <div class="spinner">
-            <div class="uil-ripple-css">
-                <div></div>
-                <div></div>
-            </div>
-        </div>
-    </div>
-    
-        <%@include file="includes/header-01.jsp" %>
-        
-    <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-
-    
-    <!--Mobile Navigation Toggler-->
-    <div class="off-canvas-menu-bar">
+<section>
+    <div class="breadcrumbs banner" >
         <div class="container">
             <div class="row">
-                <div class="col-6 my-auto">
-                    <a href="../index.html" class="custom-logo-link" rel="home"><img width="500" height="71"
-                            src="../wp-content/uploads/2021/09/logo.png" class="custom-logo" alt="ProLancer"
-                            decoding="async"
-                            srcset="https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo.png 500w, https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo-300x43.png 300w"
-                            sizes="(max-width: 500px) 100vw, 500px" /></a>
-                </div>
-                <div class="col-6">
-                    <div class="mobile-nav-toggler float-end"><span class="fal fa-bars"></span></div>
+                <div class="col-md-12 my-auto">
+                    <h1 style="text-align: center">Báo cáo người dùng</h1>
                 </div>
             </div>
+
         </div>
     </div>
 
-    <!-- Mobile Menu  -->
-    <div class="off-canvas-menu">
-        <div class="menu-backdrop"></div>
-        <i class="close-btn fa fa-close"></i>
-        <nav class="mobile-nav">
-            <div class="text-center pt-3 pb-3">
-                <a href="../index.html" class="custom-logo-link" rel="home"><img width="500" height="71"
-                        src="../wp-content/uploads/2021/09/logo.png" class="custom-logo" alt="ProLancer"
-                        decoding="async"
-                        srcset="https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo.png 500w, https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo-300x43.png 300w"
-                        sizes="(max-width: 500px) 100vw, 500px" /></a>
-            </div>
-
-            <ul class="navigation"><!--Keep This Empty / Menu will come through Javascript--></ul>
-            <div class="text-center">
-                <a href="../frontend-dashboard/index6f28.html?fed=dashboard" class="prolancer-btn mt-4">
-                    Dashboard </a>
-            </div>
-        </nav>
-    </div>
-
-
-    <section>
-        <div class="breadcrumbs">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12 my-auto">
-                        <h1>
-                            Projects </h1>
-                        <ul class="trail-items" itemscope itemtype="http://schema.org/BreadcrumbList">
-                            <li class="trail-item trail-begin"><a href="../index.html"><span
-                                        itemprop="name">Home</span></a>
-                                <meta itemprop="position" content="1" />
-                            </li>
-                            <li class="trail-item trail-end"><span itemprop="item"><span
-                                        itemprop="name">Projects</span></span>
-                                <meta itemprop="position" content="2" />
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
+</section>
 
     <section class="section-padding">
         <div class="container">
             <div class="row justify-content-center flex-row-reverse">
-                <div class="search-result col-xl-9">
+
                     <div class="report-container col-xl-12">
-                        <h2 style="text-align: center;">Báo cáo người dùng</h2>
+
                         <form action="#" method="post">
                             <div class="reason-section">
                                 <label style="font-weight: bolder;">Lý do báo cáo:</label>
@@ -212,7 +373,7 @@
                                 <div class="form-input row">
                                     <div class="file-upload">
                                         <input type="file" id="file-upload" multiple class="file-input" hidden>
-                                        <button type="button" class="upload-btn" style="margin-left: 100px; margin-top: 50px"
+                                        <button type="button" class="upload-btn" style="margin-top: 50px"
                                                 onclick="document.getElementById('file-upload').click();">
                                             <span class="material-symbols--upload"></span> Upload bằng chứng cụ thể
                                         </button>
@@ -233,17 +394,15 @@
 
 
                 <div class="col-xl-3 position-relative">
-                                        <%@include file="includes/task-bar.jsp" %>
+
                 </div>
             </div>
-        </div>
-        </aside>
-        </div>
-        </div>
-        </div>
+
+
+
     </section>
 
-    <%@include file="includes/footer.jsp" %>
+
 
     <!--======= Back to Top =======-->
     <div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
