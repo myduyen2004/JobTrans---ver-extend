@@ -1,16 +1,12 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: admin
-  Date: 4/12/2025
-  Time: 2:24 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>$Title$</title>
-  </head>
-  <body>
-  $END$
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <title>Trang Demo</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<h1>Xin chào từ JSP!</h1>
+</body>
 </html>
