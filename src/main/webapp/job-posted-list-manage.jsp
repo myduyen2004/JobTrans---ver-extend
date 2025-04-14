@@ -7,39 +7,11 @@
 
     <title>Danh sách công việc đã đăng &#8211; JobTrans</title>
     <meta name='robots' content='max-image-preview:large'/>
-    <link rel="icon" type="image/png" href="wp-content/uploads/2021/09/logo.png">
+    <link href="./css/job-posted-list-manage.css" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
-    <style>
-        .banner_title {
-            background-image: url(./img/anh1/anh1.png);
-            background-size: 100%;
-            font-size: 40px;
-            height: 200px;
-            display: flex;
-            align-items: center;
-        }
-
-        .post-box {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .post-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .page_item{
-            background-color: #fff;
-            color: #000;
-        }
-        .page_item:hover {
-            background-color: #6787FE;
-            color: #fff;
-        }
-    </style>
 </head>
 
 <body style="font-family: Inter, sans-serif">

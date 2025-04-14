@@ -10,39 +10,11 @@
 
     <!--new css -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="./css/user-in4.css" rel="stylesheet"/>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <style>
-        .banner_title {
-            background-image: url(./img/anh1/anh1.png);
-            background-size: 100%;
-            font-size: 40px;
-            height: 300px;
-            display: flex;
-            align-items: center;
-        }
-
-        .account_card {
-            position: absolute;
-            top: 200px; /* Để một phần chồng lên banner */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 1222px;
-            background: white;
-            border-radius: 30px;
-        }
-
-        .post-box {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .post-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-        }
-    </style>
 </head>
-<body style="font-family: Inter, serif;">
+<body style="font-family: Inter, sans-serif;">
 <!--banner-->
 <div class="py-4 banner_title" style="position: relative">
 </div>

@@ -14,12 +14,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
     <style>
-        .banner_title {
-            background-image: url(./img/anh1/anh1.png);
-            background-size: contain;
-            height: 200px;
-        }
-
         .post-box {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -31,8 +25,8 @@
     </style>
 </head>
 
-<body style="font-family: Inter, serif">
-<div class="py-4 banner_title">
+<body style="font-family: Inter, sans-serif">
+<div class="py-4 banner_title" style="background-image: url(./img/anh1/anh1.png); background-size: contain; height: 200px;">
     <div class="text-white mb-2 mt-3" style="padding-left: 50px">
         <p>
             <a>Công việc của tôi >> </a>

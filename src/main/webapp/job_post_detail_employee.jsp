@@ -9,53 +9,11 @@
 
     <!--new css -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="css/job_post_detail_employee.css" rel="stylesheet">
+    <link href="./css/job_post_detail_employee.css" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <style>
-        .banner_title {
-            background-image: url(./img/anh1/anh1.png);
-            background-size: 100%;
-            height: 200px;
-            align-items: center;
-        }
-
-        .content {
-            width: 65%;
-        }
-
-        .header-title {
-            font-weight: bold;
-            font-size: 28px;
-        }
-
-        .content-list {
-            padding-left: 20px;
-        }
-
-        .content-list li {
-            font-size: 18px;
-            color: #4A6375;
-        }
-
-        .file-attachment {
-            background-color: lightgrey;
-            padding: 10px;
-            border-radius: 5px;
-            width: 330px;
-        }
-
-        .post-box {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .post-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-        }
-    </style>
 </head>
-<body style="font-family: Inter,serif">
+<body style="font-family: Inter,sans-serif">
 <div class="row py-4 banner_title">
     <div class="col-10">
         <p style="font-size: 40px; font-weight: 700; color: white; padding-left: 50px;">Lập trình web bán hàng</p>

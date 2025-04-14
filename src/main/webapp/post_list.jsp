@@ -12,76 +12,13 @@
 
     <!--new css -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="./css/post_list.css" rel="stylesheet" />
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-
-    <style>
-        .banner_title {
-            background-image: url(./img/anh1/anh1.png);
-            background-size: 100%;
-            font-size: 40px;
-            height: 200px;
-            display: flex;
-            align-items: center;
-        }
-
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 33px;
-            height: 18px;
-            margin: 0 10px;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 34px;
-        }
-
-        .switch input {
-            display: none
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 15px;
-            width: 15px;
-            left: 1.5px;
-            bottom: 1.5px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50px;
-        }
-
-        input:checked + .slider {
-            background-color: #6787FE;
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(15px);
-        }
-
-        .post-box {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .post-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-        }
-    </style>
 </head>
 
-<body style="font-family: Inter, serif">
+<body style="font-family: Inter, sans-serif">
 <!-- Tố cáo ngườu dùng -->
 <div class="py-4 banner_title">
     <h1 class="text-white font-weight-bold" style="padding-left: 50px;">Danh sách dự án</h1>
