@@ -1039,9 +1039,9 @@
                         Tạo CV
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="cv-template-1.jsp"><i class="fas fa-file-alt"></i>Mẫu CV 1</a></li>
-                        <li><a class="dropdown-item" href="cv-template-2.jsp"><i class="fas fa-file-alt"></i>Mẫu CV 2</a></li>
-                        <li><a class="dropdown-item" href="cv-template-3.jsp"><i class="fas fa-file-alt"></i>Mẫu CV 3</a></li>
+                        <li><a class="dropdown-item" href="cv?action=type"><i class="fas fa-file-alt"></i>Tạo CV</a></li>
+                        <li><a class="dropdown-item" href="cv?action=list"><i class="fas fa-file-alt"></i>CV của tôi</a></li>
+
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="cv-builder.jsp"><i class="fas fa-tools"></i>Công cụ tạo CV</a></li>
                     </ul>
@@ -1050,7 +1050,7 @@
                     <a class="nav-link" href="employer.jsp">Nhà tuyển dụng</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="about.jsp">Về chúng tôi</a>
+                    <a class="nav-link" href="about-me.jsp">Về chúng tôi</a>
                 </li>
             </ul>
             <div class="d-flex align-items-center user-profile-container">

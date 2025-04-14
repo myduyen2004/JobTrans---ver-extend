@@ -71,6 +71,7 @@
             display: flex;
             gap: 20px;
             align-items: center;
+            margin-right: 60px;
         }
 
         .btn {
@@ -242,9 +243,14 @@
         </button>
         <button class="btn btn-primary">
             <i class="fas fa-download"></i> Download
+
         </button>
-        <div class="user-avatar">JD</div>
+
+
+
+
     </div>
+    <%@include file="./gpt_sidebar.jsp" %>
 </header>
 
 <!-- Sidebar Navigation -->

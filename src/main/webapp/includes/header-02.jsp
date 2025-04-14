@@ -1060,7 +1060,7 @@
                     <a class="nav-link" href="employer.jsp">Nhà tuyển dụng</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="about.jsp">Về chúng tôi</a>
+                    <a class="nav-link" href="about-me.jsp">Về chúng tôi</a>
                 </li>
             </ul>
             <div class="d-flex align-items-center user-profile-container">

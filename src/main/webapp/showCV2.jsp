@@ -388,82 +388,17 @@
     </div>
 </div>
 
-<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
 
-<%@include file="includes/header-login-01.jsp" %>
+<%@include file="includes/header-01.jsp" %>
 
 
 <!--Mobile Navigation Toggler-->
-<div class="off-canvas-menu-bar">
-    <div class="container">
-        <div class="row">
-            <div class="col-6 my-auto">
-                <a href="../index.html" class="custom-logo-link" rel="home"><img width="500" height="71"
-                                                                                 src="wp-content/uploads/2021/09/logo.png"
-                                                                                 class="custom-logo" alt="ProLancer"
-                                                                                 decoding="async"
-                                                                                 srcset="https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo.png 500w, https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo-300x43.png 300w"
-                                                                                 sizes="(max-width: 500px) 100vw, 500px"/></a>
-            </div>
-            <div class="col-6">
-                <div class="mobile-nav-toggler float-end"><span class="fal fa-bars"></span></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Mobile Menu  -->
-<div class="off-canvas-menu">
-    <div class="menu-backdrop"></div>
-    <i class="close-btn fa fa-close"></i>
-    <nav class="mobile-nav">
-        <div class="text-center pt-3 pb-3">
-            <a href="../index.html" class="custom-logo-link" rel="home"><img width="500" height="71"
-                                                                             src="wp-content/uploads/2021/09/logo.png"
-                                                                             class="custom-logo" alt="ProLancer"
-                                                                             decoding="async"
-                                                                             srcset="https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo.png 500w, https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo-300x43.png 300w"
-                                                                             sizes="(max-width: 500px) 100vw, 500px"/></a>
-        </div>
-
-        <ul class="navigation"><!--Keep This Empty / Menu will come through Javascript--></ul>
-        <div class="text-center">
-            <a href="../frontend-dashboard/index6f28.html?fed=dashboard" class="prolancer-btn mt-4">
-                Dashboard </a>
-        </div>
-    </nav>
-</div>
 
 
-<section>
-    <div class="breadcrumbs">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 my-auto">
-
-                    <ul class="trail-items">
-                        <li class="trail-item trail-begin"><a href="../index.html"><span
-                                style="font-family: 'Inter', sans-serif;">Công việc của tôi</span></a>
-                            <meta itemprop="position" content="1"/>
-                        </li>
-                        <li class="trail-item trail-end"><span itemprop="item"><span
-                                itemprop="name">Công việc đã đăng</span></span>
-                            <meta itemprop="position" content="2"/>
-                        </li>
-                    </ul>
-                </div>
-                <h1>
-                    QUẢN LÍ CÔNG VIỆC </h1>
-            </div>
-
-        </div>
-    </div>
-</section>
 <div style="display: flex">
     <div>
         <div class="cv-container">
 
-            <%@include file="./includes/sidebar.jsp" %>
 
             <!-- Left Sidebar -->
             <div class="cv-sidebar">
@@ -487,7 +422,8 @@
                     <div class="contact-info"><i class="fas fa-map-marker-alt"></i> ${CV.address}</div>
                 </div>
                 <div class="form-group">
-                    <div class="contact-info"><i class="fas fa-birthday-cake"></i> <fmt:formatDate value="${CV.dateOfBirth}" pattern="dd/MM/yyyy"/></div>
+                    <div class="contact-info"><i class="fas fa-birthday-cake"></i> <fmt:formatDate
+                            value="${CV.dateOfBirth}" pattern="dd/MM/yyyy"/></div>
                 </div>
 
 
@@ -506,7 +442,9 @@
                                 </c:choose>
                             </div>
                             <div style="margin-left: auto" class="skill-proficiency">
-                                <div class="proficiency-bar" style="width: ${skill.levelSkill * 10}%;">${skill.levelSkill}%</div>
+                                <div class="proficiency-bar"
+                                     style="width: ${skill.levelSkill * 10}%;">${skill.levelSkill}%
+                                </div>
                             </div>
                         </div>
                     </c:forEach>
@@ -537,11 +475,6 @@
 
                     </div>
                 </div>
-
-
-
-
-
 
 
                 <div class="content-section">
@@ -657,13 +590,17 @@
 
 
             </form>
+
         </div>
 
+
     </div>
-    <%@include file="includes/sidebar_cv.jsp" %>
+    <div style="margin-left: 270px">
+        <%@include file="includes/sidebar_cv.jsp" %>
+    </div>
 </div>
 </div>
-</div>
+
 
 <%@include file="includes/footer.jsp" %>
 

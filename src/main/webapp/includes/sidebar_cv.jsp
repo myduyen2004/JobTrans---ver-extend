@@ -37,8 +37,9 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-left: auto;
+        margin-left: -80px;
         margin-top: 20px;
+
     }
 
     .sidebar ul {

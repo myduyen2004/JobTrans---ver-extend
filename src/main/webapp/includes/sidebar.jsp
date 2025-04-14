@@ -1,14 +1,15 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="jobtrans.model.Account" %>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
     /* Sidebar styles */
     .sidebar {
+
         height: 100%;
-        width: 300px;
+        width: 250px;
         position: fixed;
-        top: 0;
+        top: 47px;
         left: 0;
         background: linear-gradient(to right, rgb(21, 42, 105), rgb(54, 75, 140));
         padding-top: 20px;
@@ -20,6 +21,7 @@
     }
 
     .sidebar-collapsed {
+
         left: -300px;
     }
 
@@ -61,6 +63,7 @@
     }
 
     .toggle-btn {
+
         position: fixed;
         top: 15px;
         left: 15px;
@@ -76,7 +79,7 @@
     }
 
     .toggle-btn-shifted {
-        left: 265px;
+        left: 5px;
     }
 
     .main-content {
@@ -145,10 +148,17 @@
         color: #adb5bd;
     }
 </style>
+
+
+
+
+
+
+
+
 <button class="toggle-btn toggle-btn-shifted" id="toggleSidebar">
-    <i class="fas fa-times"></i>
-</button>
 <div class="sidebar sidebar-collapsed" id="sidebar">
+
     <div class="brand-logo">
         <i class="fas fa-briefcase"></i>
         <span>JobTrans</span>

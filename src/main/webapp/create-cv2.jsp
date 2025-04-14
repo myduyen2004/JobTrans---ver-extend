@@ -62,8 +62,8 @@
         }
 
         .avatar-container {
-            width: 200px;
-            height: 200px;
+            width: 250px;
+            height: 250px;
             border-radius: 50%;
             margin: 0 auto 30px;
             border: 4px solid white;
@@ -337,19 +337,36 @@
         .cv-content > div:nth-child(2) { animation-delay: 0.3s; }
         .cv-content > div:nth-child(3) { animation-delay: 0.4s; }
         .cv-content > div:nth-child(4) { animation-delay: 0.5s; }
+
+
+        .cv-content {
+            transition: var(--transition);
+            margin-right: 0;
+        }
+
+        .dashboard-sidebar.expanded ~ .cv-content {
+            margin-right: 350px;
+        }
+
+        @media (max-width: 992px) {
+            .dashboard-sidebar.expanded ~ .cv-content {
+                margin-right: 0;
+                transform: translateX(-100px);
+            }
+        }
     </style>
 </head>
 <body>
-
+<%@include file="./includes/sidebar_createCV.jsp" %>
 <form action="cv?action=create" method="POST" enctype="multipart/form-data">
-    <%@include file="./includes/sidebar_createCV.jsp" %>
+
 
     <input type="hidden" name="typeId" value="${param.typeId}">
 
     <div class="cv-container">
         <!-- Left Sidebar -->
         <div class="cv-sidebar">
-            <div class="avatar-container">
+            <div style="width: 250px; height: 250px" class="avatar-container">
                 <img id="avatar-preview" src="https://via.placeholder.com/200" alt="Profile Photo">
                 <label for="avatar_cv" class="avatar-upload">
                     <i class="fas fa-camera"></i> Change Photo
@@ -539,16 +556,19 @@
                         </div>
                         <textarea class="main-form-control" name="prizeDescription[]" placeholder="Certification Information"></textarea>
                     </div>
+
                 </div>
+
             </div>
 
             <button type="submit" class="submit-btn">
                 <i class="fas fa-download"></i> Download CV
             </button>
+
         </div>
     </div>
 </form>
-
+<%@include file="./includes/gpt_sidebar.jsp" %>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // Avatar Upload Preview
