@@ -6,11 +6,58 @@
 <!-- Added by HTTrack -->
 <meta http-equiv="content-type" content="text/html;charset=UTF-8"/><!-- /Added by HTTrack -->
 <head>
+    <%@include file="/includes/header-01.jsp" %>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="profile" href="https://gmpg.org/xfn/11">
 
     <title>Harry Olson &#8211; ProLancer</title>
     <meta name='robots' content='max-image-preview:large'/>
+    <style>
+        .popup {
+            display: none; /* Ẩn mặc định */
+            position: fixed; /* Cố định trên màn hình */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Nền mờ */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* Đảm bảo hiển thị trên các phần tử khác */
+        }
+
+        .popup-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .popup-buttons {
+            margin-top: 15px;
+        }
+
+        .popup-button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .popup-button.confirm {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .popup-button.cancel {
+            background-color: #f44336;
+            color: white;
+        }
+    </style>
     <style>
         .profile {
             display: flex;
@@ -101,13 +148,36 @@
     </style>
 </head>
 
-<body>
+<body class="buyers-template-default single single-buyers postid-177 wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
+
+<!-- Preloading -->
+<div id="preloader">
+    <div class="spinner">
+        <div class="uil-ripple-css">
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
 <section class="pb-95 bg-gray">
+    <section>
+        <div class="breadcrumbs">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 my-auto">
+                        <h1 style="text-align: center">Chi tiết người dùng bị chặn </h1>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
     <div class="container">
         <div class=" col-xl-12">
 
             <div class="profile">
-                <img src="../wp-content/uploads/2021/04/pexels-andrea-piacquadio-874158-200x200.jpg"
+                <img src=""
                      alt="Avatar" class="avatar">
                 <div class="user-info">
                     <h3>Nguyễn Văn User</h3>
@@ -157,110 +227,202 @@
                 <div class="tab-content">
                     <div class="tab-pane fade active show" id="about-me" role="tabpanel">
 
-                        <div class="dashboard-box margin-top-0">
+
 
                             <!-- Headline -->
 
 
-                            <form method="POST" action="feedback" enctype="multipart/form-data">
-                                <div class="row" style="text-align: center">
-                                    <div class="container" style="margin-left: 41px;">
+                        <div style="width: 1062px; height: 508px; position: relative">
+                            <div style="width: 943px; height: 406px; left: 0px; top: 0px; position: absolute; background: white; border-radius: 14px; border: 2px #D9D9D9 solid"></div>
+
+                            <div style="left: 348px; top: 154px; position: absolute; color: black; font-size: 20px; font-family: Inter; font-weight: 600; line-height: 20px;">
+                                Nội dung chi tiết báo cáo
+                            </div>
+
+                            <!-- Vùng nội dung dài được cuộn -->
+                            <div style="
+        position: absolute;
+        top: 194px;
+        left: 0px;
+        width: 943px;
+        height: 150px;
+        font-size: 16px;
+
+        overflow-y: auto;
+        word-wrap: break-word;
+        padding: 10px;
 
 
-                                        <div style="width: 1062px; height: 508px; position: relative">
+        border-radius: 8px;
 
-                                            <div style="width: 943px; height: 406px; left: 0px; top: 0px; position: absolute; background: white; border-radius: 14px; border: 2px #D9D9D9 solid"></div>
-                                            <div style="left: 348px; top: 154px; position: absolute; color: black; font-size: 20px; font-family: Inter; font-weight: 600; line-height: 20px; word-wrap: break-word">
-                                                Nội dung chi tiết báo cáo
-                                            </div>
-                                            <div style="left: 357px; top: 89px; position: absolute; color: black; font-size: 20px; font-family: Inter; font-weight: 400; line-height: 20px; word-wrap: break-word">
-                                                Vi phạm nội dung:
-                                            </div>
-                                            <div style="left: 73px; top: 89px; position: absolute; color: black; font-size: 20px; font-family: Inter; font-weight: 400; line-height: 20px; word-wrap: break-word">
-                                                Người tố cáo : Vũ
-                                            </div>
-                                            <div style="width: 250px; height: 20px; left: 343px; top: 21px; position: absolute; color: black; font-size: 20px; font-family: Inter; font-weight: 600; line-height: 20px; word-wrap: break-word">
-                                                Tên dự án: Dịch tiếng Hàn
-                                            </div>
-                                            <div style="width: 943px; height: 0px; left: 0px; top: 63px; position: absolute; outline: 2px #D9D9D9 solid; outline-offset: -1px"></div>
-                                            <div style="width: 943px; height: 0px; left: 1px; top: 135px; position: absolute; outline: 2px #D9D9D9 solid; outline-offset: -1px"></div>
-                                            <div style="width: 72px; height: 0px; left: 306px; top: 63px; position: absolute; transform: rotate(90deg); transform-origin: top left; outline: 2px #D9D9D9 solid; outline-offset: -1px"></div>
-                                            <div style="width: 943px; height: 0px; left: 0px; top: 193px; position: absolute; outline: 2px #D9D9D9 solid; outline-offset: -1px"></div>
-                                            <div style="width: 220px; height: 45px; left: 600px; top: 463px; position: absolute">
-                                                <div style="width: 220px; height: 45px; left: 0px; top: 0px; position: absolute; background: #E22529; border-radius: 15px"></div>
-                                                <%--  button--%>
-                                                <div style="width: 462px; height: 45px; position: relative">
-                                                    <div style="width: 220px; height: 45px; left: 242px; top: 0px; position: absolute; background: #6787FE; border-radius: 15px"></div>
-                                                    <div style="left: 268px; top: 13px; position: absolute; color: black; font-size: 20px; font-family: Inter; font-weight: 400; line-height: 20px; word-wrap: break-word">
-                                                        Xác nhận báo cáo
-                                                    </div>
-                                                    <div style="width: 220px; height: 45px; left: 0px; top: 0px; position: absolute">
-                                                        <div style="width: 220px; height: 45px; left: 0px; top: 0px; position: absolute; background: #E22529; border-radius: 15px"></div>
-                                                        <div style="left: 22px; top: 13px; position: absolute; color: black; font-size: 20px; font-family: Inter; font-weight: 400; line-height: 20px; word-wrap: break-word">
-                                                            Tố cáo người dùng
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                               ">
+                                Đây là nội dung chi tiết rất dài, ví dụ như người tố cáo đưa ra lý do tố cáo, bằng chứng, các thông tin liên quan tới hành vi vi phạm mà người bị tố cáo đã thực hiện... (bạn có thể thay thế bằng dữ liệu động).
+                            </div>
+
+                            <div style="left: 357px; top: 89px; position: absolute; color: black; font-size: 20px;  font-weight: 400; line-height: 20px;">
+                                Vi phạm nội dung:
+                            </div>
+
+                            <div style="left: 73px; top: 89px; position: absolute; color: black; font-size: 20px; font-family: Inter; font-weight: 400; line-height: 20px;">
+                                Người tố cáo : Vũ
+                            </div>
+
+                            <div style="width: 250px; height: 20px; left: 343px; top: 21px; position: absolute; color: black; font-size: 20px; font-family: Inter; font-weight: 600; line-height: 20px;">
+                                Tên dự án: Dịch tiếng Hàn
+                            </div>
+
+                            <!-- Các đường kẻ -->
+                            <div style="width: 943px; height: 0px; left: 0px; top: 63px; position: absolute; outline: 2px #D9D9D9 solid; outline-offset: -1px"></div>
+                            <div style="width: 941px; height: 0px; left: 1px; top: 135px; position: absolute; outline: 2px #D9D9D9 solid; outline-offset: -1px"></div>
+                            <div style="width: 72px; height: 0px; left: 306px; top: 63px; position: absolute; transform: rotate(90deg); transform-origin: top left; outline: 2px #D9D9D9 solid; outline-offset: -1px"></div>
+                            <div style="width: 941px; height: 0px; left: 0px; top: 193px; position: absolute; outline: 2px #D9D9D9 solid; outline-offset: -1px"></div>
+
+                            <!-- Nút xác nhận -->
+                            <div style="width: 220px; height: 45px; left: 600px; top: 463px; position: absolute">
+                                <div style="width: 220px; height: 45px; left: 0px; top: 0px; position: absolute; background: #E22529; border-radius: 15px"></div>
+
+                                <div style="width: 462px; height: 45px; position: relative">
+                                    <button type="button" onclick="hienThiPopupToCao()"
+                                            style="position: absolute; left: 242px; top: 0px; width: 220px; height: 45px; background: #6787FE; border-radius: 15px; border: none; cursor: pointer;">
+                                        <div style="position: absolute; left: 26px; top: 13px; color: black; font-size: 20px; font-family: Inter; font-weight: 400; line-height: 20px;">
+                                            Xác nhận báo cáo
                                         </div>
-
-
-                                    </div>
+                                    </button>
+                                    <button type="submit"
+                                            style="position: absolute; left: 0px; top: 0px; width: 220px; height: 45px; background: #E22529; border-radius: 15px; border: none; cursor: pointer;">
+                                        <div style="position: absolute; left: 22px; top: 13px; color: black; font-size: 20px; font-family: Inter; font-weight: 400; line-height: 20px;">
+                                            Từ chối báo cáo
+                                        </div>
+                                    </button>
                                 </div>
-
-                            </form>
-
-
+                            </div>
                         </div>
+
+
+
                     </div>
                     <div class="tab-pane fade mt-5" id="project" role="tabpanel">
-                        <div class="prolancer-project-item style-2">
-                            <div class="row">
-                                <h2>Danh sách dự án</h2>
-
-                                <table>
-                                    <thead>
+                        <div class="row">
+                            <div class="mt-4">
+                                <!-- Header -->
+                                <table class="table m-0"
+                                       style="border: 1px solid;
+                          border-bottom: none;
+                          border-top-left-radius: 15px;
+                          border-top-right-radius: 15px;
+                          overflow: hidden;">
                                     <tr>
-                                        <th>Tên dự án</th>
-                                        <th>Trạng thái</th>
-                                        <th>Đánh giá từ nhà tuyển dụng</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>Dự án A</td>
-                                        <td>Đang thực hiện</td>
-                                        <td>Chưa có đánh giá</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Dự án B</td>
-                                        <td>Hoàn thành</td>
-                                        <td class="rating">
-
-                                            <span class="material-symbols--star"></span>
-                                            <span class="material-symbols--star"></span>
-                                            <span class="material-symbols--star"></span>
-                                            <span class="material-symbols--star"></span>
-                                            <span class="material-symbols--star"></span>
-
+                                        <td class="font-weight-bold" style="font-size: 24px; border: none;">Dự án gần đây</td>
+                                        <td style="border: none;"></td>
+                                        <td class="font-weight-light text-right" style="border: none;">
+                                            <div style="text-align: right;">
+                                                <a href="#" style="border-left-width: 48px;">Xem thêm &gt;&gt;</a>
+                                            </div>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>Dự án C</td>
-                                        <td>Chờ phê duyệt</td>
-                                        <td>Chưa có đánh giá</td>
+                                </table>
+
+                                <!-- Column Titles -->
+                                <table class="table m-0"
+                                       style="border-left: 1px solid ;
+                          border-right: 1px solid #6787FE;">
+                                    <tr class="row m-0">
+                                        <td class="text-center col-3" style="font-size: 18px;">Tên dự án</td>
+                                        <td class="text-center col-3" style="font-size: 18px;">Trạng thái</td>
+                                        <td class="text-center col-6" style="font-size: 18px;">Đánh giá từ nhà tuyển dụng</td>
                                     </tr>
-                                    </tbody>
+                                </table>
+
+                                <!-- Project Rows -->
+                                <table class="table m-0"
+                                       style="border-left: 1px solid;
+                          border-right: 1px solid ;">
+                                    <tr class="row m-0">
+                                        <td class="col-3 text-center" style="font-size: 16px;">Tạo web tiếng Hàn</td>
+                                        <td class="col-3 text-center" style="font-size: 16px;">Thành công</td>
+                                        <td class="col-6 text-center" style="font-size: 16px;">
+                        <span class="text-warning">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </span>
+                                        </td>
+                                    </tr>
+                                    <tr class="row m-0">
+                                        <td class="col-3 text-center" style="font-size: 16px;">Tạo web tiếng Hàn</td>
+                                        <td class="col-3 text-center" style="font-size: 16px;">Thất bại</td>
+                                        <td class="col-6 text-center" style="font-size: 16px;">
+                        <span class="text-warning">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </span>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <!-- Footer -->
+                                <table class="table m-0"
+                                       style="border: 1px solid;
+                          border-top: none;
+                          border-bottom-left-radius: 15px;
+                          border-bottom-right-radius: 15px;
+                          overflow: hidden;">
+                                    <tr>
+                                        <td style="border: none;"></td>
+                                    </tr>
                                 </table>
                             </div>
                         </div>
                     </div>
+
+
                 </div>
             </div>
         </div>
 
     </div>
 </section>
-</body>
+
+
+<div id="reportPopup" class="popup">
+    <div class="popup-content">
+        <p>Bạn có chắc chắn báo cáo người dùng này không?</p>
+        <div class="popup-buttons">
+            <button class="popup-button confirm" onclick="handleConfirmReport()">Có</button>
+            <button class="popup-button cancel" onclick="handleCancelReport()">Không</button>
+        </div>
+    </div>
+</div>
+<script>
+    function hienThiPopupToCao() {
+        document.getElementById('reportPopup').style.display = 'flex';
+    }
+
+    function handleConfirmReport() {
+        // Chuyển sang trang JSP reportUser
+        window.location.href = '/reportUser.jsp'; // Thay '/reportUser.jsp' bằng đường dẫn thực tế
+    }
+
+    function handleCancelReport() {
+        document.getElementById('reportPopup').style.display = 'none'; // Ẩn popup sau khi xử lý
+    }
+
+    // Để hiển thị pop-up khi cần, bạn sẽ gọi hàm hienThiPopupToCao()
+    // Ví dụ, khi người dùng nhấp vào nút "Tố cáo người dùng":
+    // <button onclick="hienThiPopupToCao()">Tố cáo người dùng</button>
+</script>
+
+<%@include file="/includes/footer.jsp" %>
+
+
+<!-- CSS -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/backtotop.css">
+
+<!-- HTML trong body -->
+<div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
+
+<!-- JS -->
+<script src="${pageContext.request.contextPath}/js/backtotop.js"></script>
 
 </html>

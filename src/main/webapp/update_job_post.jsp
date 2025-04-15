@@ -161,5 +161,13 @@
         </div>
     </form>
 </div>
+
+<!--======= Back to Top =======-->
+<div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
+
+<%@include file="includes/footer.jsp"%>
+
+<!--======= Back to Top =======-->
+<div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
 </body>
 </html>
