@@ -4,7 +4,6 @@
         <!DOCTYPE html>
         <html lang="en-US">
 
-        <!-- Mirrored from themebing.com/wp/prolancer/projects/?projects-layout=projects_left_sidebar by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Jan 2025 09:33:33 GMT -->
         <!-- Added by HTTrack -->
         <meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 
@@ -17,6 +16,7 @@
             <meta name='robots' content='max-image-preview:large' />
 
             <style id="prolancer_opt-dynamic-css" title="dynamic-css" class="redux-options-output">
+
                 .container-a {
                     width: 1046px;
                     margin: 0 auto;
@@ -59,7 +59,7 @@
                 }
 
                 .input-box {
-                    width: auto;
+                    width: 400px;
                     height: 47px;
                     background: white;
                     box-shadow: 0px 0px 10px rgba(103, 135, 254, 0.8);
@@ -71,12 +71,16 @@
                     font-weight: 500;
                     color: black;
                     margin: 10px;
+                    border: #B2B2B2;
                 }
 
-                
                 .input-box::placeholder {
                     color: #B2B2B2; /* Màu chữ placeholder */
                     opacity: 1; /* Đảm bảo placeholder hiển thị đúng màu */
+                }
+
+                .input-box:focus {
+                    outline: none;
                 }
 
                 .button {
@@ -92,6 +96,7 @@
                     line-height: 51px;
                     margin: 20px auto;
                     cursor: pointer;
+                    border: #B2B2B2;
                 }
 
                 .material-symbols--local-shipping-outline {
@@ -106,7 +111,6 @@
         </head>
 
         <body>
-
                 <section class="section-padding">
                     <div class="container">
                         <div class="row justify-content-center flex-row-reverse">
@@ -116,12 +120,12 @@
                                     <div class="title">Thông tin vận chuyển</div>
 
                                     <div class="section">Địa chỉ người gửi</div>
-                                    <div class="col-xl-12" style="display: flex;">
+                                    <div class="col-xl-12" style="display: flex; justify-content: space-between">
                                         <input type="text" class="input-box" placeholder="Thành phố, Tỉnh" style="border-radius: 16px;">
                                         <input type="text" class="input-box" placeholder="Quận, huyện" style="border-radius: 16px;">
                                         <input type="text" class="input-box" placeholder="Phường, xã" style="border-radius: 16px;">
                                     </div>
-                                    <div class="col-xl-12" style="display: flex;">
+                                    <div class="col-xl-12" style="display: flex; justify-content: space-between">
                                         <input type="text" class="input-box" placeholder="Địa chỉ cụ thể" style="border-radius: 16px;">
                                         <input type="text" class="input-box" placeholder="Họ và tên" style="border-radius: 16px;">
                                         <input type="text" class="input-box" placeholder="Số điện thoại" style="border-radius: 16px;">
@@ -129,19 +133,19 @@
 
                                     <div class="section">Địa chỉ người nhận</div>
 
-                                    <div class="col-xl-12" style="display: flex;">
+                                    <div class="col-xl-12" style="display: flex;justify-content: space-between">
                                         <input type="text" class="input-box" placeholder="Thành phố, Tỉnh" style="border-radius: 16px;">
                                         <input type="text" class="input-box" placeholder="Quận, huyện" style="border-radius: 16px;">
                                         <input type="text" class="input-box" placeholder="Phường, xã" style="border-radius: 16px;">
                                     </div>
-                                    <div class="col-xl-12" style="display: flex;">
+                                    <div class="col-xl-12" style="display: flex; justify-content: space-between">
                                         <input type="text" class="input-box" placeholder="Địa chỉ cụ thể" style="border-radius: 16px;">
                                         <input type="text" class="input-box" placeholder="Họ và tên" style="border-radius: 16px;">
                                         <input type="text" class="input-box" placeholder="Số điện thoại" style="border-radius: 16px;">
                                     </div>
 
                                     <div class="section">Thông tin đơn hàng</div>
-                                    <div class="col-xl-12" style="display: flex;">
+                                    <div class="col-xl-12" style="display: flex; justify-content: space-between">
                                         <input type="text" class="input-box" placeholder="Tên sản phẩm" style="border-radius: 16px;">
                                         <input type="number" class="input-box" placeholder="Số lượng" style="border-radius: 16px;">
                                         <input type="text" class="input-box" placeholder="Khối lượng" style="border-radius: 16px;">

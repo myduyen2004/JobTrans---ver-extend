@@ -41,7 +41,9 @@ public class GroupMemberDAO {
                         rs.getString("gender"),
                         rs.getInt("experience_years"),
                         rs.getString("status"),
-                        rs.getString("education")
+                        rs.getString("education"),
+                        rs.getString("avatarMember"),
+                        rs.getString("position")
                 );
             }
         } catch (Exception e) {
@@ -83,6 +85,8 @@ public class GroupMemberDAO {
                 member.setExperienceYears(rs.getInt("experience_years"));
                 member.setEducation(rs.getString("education"));
                 member.setStatus(rs.getString("status"));
+                member.setAvatarMember(rs.getString("avatarMember"));
+                member.setPosition(rs.getString("position"));
             }
 
         } finally {
@@ -104,8 +108,8 @@ public class GroupMemberDAO {
         try {
             conn = DBConnection.getInstance().openConnection();
             String sql = "UPDATE Group_Member SET member_name = ?, bio = ?, date_of_birth = ?, "
-                    + "specialist = ?, gender = ?, experience_years = ?, education = ? "
-                    + "WHERE member_id = ?";
+                    + "specialist = ?, gender = ?, experience_years = ?, education = ?, "
+                    + "position = ? , avatar_member = ?WHERE member_id = ?";
 
             ps = conn.prepareStatement(sql);
             ps.setString(1, member.getMemberName());
@@ -115,7 +119,9 @@ public class GroupMemberDAO {
             ps.setNString(5, member.getGender());
             ps.setInt(6, member.getExperienceYears());
             ps.setString(7, member.getEducation());
-            ps.setInt(8, member.getMemberId());
+            ps.setString(8, member.getPosition());
+            ps.setString(9, member.getAvatarMember());
+            ps.setInt(10, member.getMemberId());
 
             result = ps.executeUpdate();
 
@@ -153,6 +159,8 @@ public class GroupMemberDAO {
                 member.setExperienceYears(rs.getInt("experience_years"));
                 member.setEducation(rs.getString("education"));
                 member.setStatus(rs.getString("status"));
+                member.setAvatarMember(rs.getString("avatar_member"));
+                member.setPosition(rs.getString("position"));
 
                 memberList.add(member);
             }

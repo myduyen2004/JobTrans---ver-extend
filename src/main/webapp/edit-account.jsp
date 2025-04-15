@@ -1,320 +1,939 @@
-<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Chỉnh sửa thông tin &#8211; JobTrans</title>
-    <meta name='robots' content='max-image-preview:large' />
-
-    <style id="prolancer_opt-dynamic-css" title="dynamic-css" class="redux-options-output">
-        .profile {
-            width: 300px;
-            text-align: center;
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chỉnh sửa thông tin cá nhân</title>
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
         }
 
-        .avatar {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            margin: 20px auto;
+        body {
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
         }
 
-        .stars {
-            color: #FFDB5B;
-            font-size: 20px;
-        }
-
-        .avatar-btn {
-            background: #0B1741;
-            color: white;
-            border: none;
-            border-radius: 20px;
-            padding: 10px;
-            width: 120px;
-            height: fit-content;
-            margin-top: 10px;
-            cursor: pointer;
-        }
-
-        .member-since {
-            color: #7F7A7A;
-            font-size: 14px;
-            margin-top: 10px;
-        }
-
-        .info {
-            flex: 1;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
         }
 
-        h2 {
-            font-size: 32px;
-            color: #0B1741;
-            margin-left: 24%;
-            margin-bottom: 40px;
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: auto auto;
-            gap: 10px 20px;
+        /* Header section */
+        .edit-header {
+            background-image: linear-gradient(to right, rgb(21, 32, 112), rgb(39, 64, 179));
+            border-radius: 8px;
+            padding: 30px;
+            color: white;
+            margin-bottom: 24px;
+            display: flex;
             align-items: center;
-            margin-left: 30px;
         }
 
-        .info-grid p {
-            font-size: 20px;
-            margin: 5px 0;
-        }
-
-        .info-grid p:nth-child(odd) {
+        .header-title {
+            font-size: 24px;
             font-weight: bold;
         }
 
-        .buttons {
-            margin-top: 0;
+        .header-subtitle {
+            opacity: 0.9;
+            margin-top: 5px;
         }
 
-        .intro-container {
-            margin-top: 70px;
+        /* Form layout */
+        .form-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .form-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: rgb(21, 32, 112);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-row {
+            margin-bottom: 20px;
+        }
+
+        .form-full-width {
+            grid-column: span 2;
+        }
+
+        @media (max-width: 768px) {
+            .form-full-width {
+                grid-column: span 1;
+            }
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #374151;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
             width: 100%;
-            height: fit-content;
-            position: relative;
-            background: #E8E6E6;
-            border-radius: 30px;
-            padding: 50px 79px;
+            padding: 12px 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.2s;
         }
 
-        .intro-title {
-            text-align: center;
-            color: #0B1741;
-            font-size: 32px;
-            font-family: Inter, sans-serif;
-            font-weight: 900;
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            border-color: rgb(39, 64, 179);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(39, 64, 179, 0.1);
         }
 
-        .intro-text {
-            color: black;
-            font-size: 24px;
-            font-family: Inter, sans-serif;
-            font-weight: 300;
-            line-height: 35px;
-            word-wrap: break-word;
-            margin-top: 30px;
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
         }
 
-        input[type=date] {
-            width: 100%;
-            border: 1px solid #dfdfdf;
-            height: 60px;
-            border-radius: 50px;
-            padding: 0 15px;
-            -webkit-transition: .3s linear;
-            -o-transition: .3s linear;
-            transition: .3s linear;
+        .required-label::after {
+            content: "*";
+            color: #dc2626;
+            margin-left: 4px;
         }
-    </style>
-    <style>
+
+        /* Avatar upload */
+        .avatar-upload {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .avatar-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #e5e7eb;
+        }
+
+        .avatar-actions {
+            margin-left: 20px;
+        }
+
         .upload-btn {
             display: inline-block;
-            padding: 10px 20px;
-            background-color: #0B1741;
-            color: white;
-            border: none;
-            border-radius: 20px;
-            font-size: 16px;
+            background-color: #f3f4f6;
+            color: #374151;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 14px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-            text-align: center;
+            border: 1px solid #d1d5db;
         }
 
         .upload-btn:hover {
-            background-color: #1c2a70;
-        }
-        .account-type-label {
-            font-size: 18px;
-            margin-bottom: 10px;
-            font-weight: 600;
-            color: #2c3e50;
+            background-color: #e5e7eb;
         }
 
-        .account-type-box {
+        .upload-note {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        /* Form actions */
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-image: linear-gradient(to right, rgb(21, 32, 112), rgb(39, 64, 179));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 4px 8px rgba(21, 32, 112, 0.2);
+        }
+
+        .btn-secondary {
+            background-color: #f3f4f6;
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e5e7eb;
+        }
+
+        /* Toggle switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 28px;
+            margin-left: 10px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #cbd5e1;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: rgb(39, 64, 179);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(22px);
+        }
+
+        .toggle-container {
             display: flex;
             align-items: center;
-            background-color: #6787fe;
-            color: white;
+        }
+
+        .toggle-label {
+            font-size: 16px;
+            color: #374151;
+        }
+
+        /* Help text */
+        .help-text {
+            font-size: 13px;
+            color: #6b7280;
+            margin-top: 5px;
+        }
+
+        /* Tags input */
+        .tags-input-container {
+            border: 1px solid #d1d5db;
+            border-radius: 5px;
+            padding: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .tags-input-container:focus-within {
+            border-color: rgb(39, 64, 179);
+            box-shadow: 0 0 0 2px rgba(39, 64, 179, 0.1);
+        }
+
+        .tag {
+            background-color: #e0e7ff;
+            color: rgb(39, 64, 179);
+            padding: 5px 10px;
+            border-radius: 15px;
+            margin: 3px;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .tag-close {
+            margin-left: 5px;
+            cursor: pointer;
+            color: rgb(39, 64, 179);
             font-weight: bold;
-            padding: 14px 20px;
-            border-radius: 14px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-            width: fit-content;
-            transition: all 0.3s ease;
-            cursor: default;
-        }
-
-        .account-type-box:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
-        }
-
-        .account-type-box .icon01 {
-            margin-right: 12px;
-            font-size: 20px;
-            color: white; /* Icon trắng */
-        }
-
-        .account-text {
             font-size: 16px;
         }
 
-    </style>
-    <style>
-        .toast-success {
-            background-color: #51a351 !important;
-            color: white !important;
+        .tags-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 5px;
+            font-size: 14px;
         }
 
-        .toast-error {
-            background-color: #bd362f !important;
-            color: white !important;
+        /* Autocomplete */
+        .autocomplete-container {
+            position: relative;
+        }
+
+        .autocomplete-results {
+            position: absolute;
+            z-index: 1000;
+            width: 100%;
+            max-height: 200px;
+            overflow-y: auto;
+            background-color: white;
+            border: 1px solid #d1d5db;
+            border-radius: 5px;
+            margin-top: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .autocomplete-results.show {
+            display: block;
+        }
+
+        .autocomplete-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .autocomplete-item:hover {
+            background-color: #f3f4f6;
+        }
+
+        /* Section divider */
+        .section-divider {
+            border-top: 1px solid #e5e7eb;
+            margin: 40px 0;
+        }
+
+        /* Signature image upload */
+        .signature-upload {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+
+        .signature-preview {
+            max-width: 300px;
+            max-height: 100px;
+            border: 1px solid #d1d5db;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .signature-preview img {
+            max-width: 100%;
+            max-height: 80px;
+        }
+
+        .signature-placeholder {
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        .signature-actions {
+            display: flex;
+            gap: 10px;
         }
     </style>
 </head>
-
 <body>
-
-<div class="row main-content" id="mainContent">
-<section>
-    <div class="breadcrumbs">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 my-auto">
-                    <h1>
-                        Tài khoản </h1>
-                    <ul class="trail-items" itemscope itemtype="http://schema.org/BreadcrumbList">
-                        <li class="trail-item trail-begin"><a href="../index.html"><span
-                                itemprop="name">Chỉnh sửa thông tin</span></a>
-                            <meta itemprop="position" content="1" />
-                        </li>
-
-                    </ul>
-                </div>
-            </div>
-
+<div class="container">
+    <!-- Header -->
+    <div class="edit-header">
+        <div>
+            <h1 class="header-title">Chỉnh sửa thông tin cá nhân</h1>
+            <p class="header-subtitle">Cập nhật thông tin hồ sơ của bạn để hiển thị cho người khác</p>
         </div>
     </div>
-</section>
 
-
-<section class="section-padding">
-    <div class="container">
-        <form action="profile" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
-            <div class="justify-content-center col-xl-12" style="display: flex;">
-                <div class="profile col-xl-4">
-                    <img class="avatar"
-                         src="${account.avatar}"
-                         alt="Avatar">
-                    <div class="stars">
-                        <span>★★★★★</span>
-                    </div>
-                    <br>
-                    <label for="avatar-upload" class="upload-btn">Thay avatar</label>
-                    <input id="avatar-upload" class="file-upload" type="file" name="avatar" accept="image/*" style="display: none;" />
-                    <input type="hidden" name="avatemp" value="${account.avatar}" accept="image/*"/>
+    <form action="#" method="post">
+        <!-- Avatar section -->
+        <div class="form-container">
+            <div class="avatar-upload">
+                <img class="avatar-preview" src="/api/placeholder/150/150" alt="Ảnh đại diện">
+                <div class="avatar-actions">
+                    <label for="avatar-upload" class="upload-btn">Tải ảnh lên</label>
+                    <input type="file" id="avatar-upload" class="file-input" accept="image/*">
+                    <p class="upload-note">Cho phép PNG, JPG hoặc GIF, tối đa 2MB</p>
                 </div>
-                <div class="info col-xl-6">
-                    <h2>Thông tin tài khoản</h2>
-                    <div class="info-grid">
-                        <p class="account-type-label">Loại tài khoản</p>
-                        <div class="account-type-box">
+            </div>
+        </div>
 
-                            <c:if test="${account.type == 'Individual'}">
-                                <i class="fas fa-user icon01"></i>
-                                <span class="account-text">Cá nhân</span>
-                            </c:if>
-                            <c:if test="${account.type == 'Group'}">
-                                <i class="fas fa-users icon01"></i>
-                                <span class="account-text">Nhóm</span>
-                            </c:if>
-
+        <!-- Basic information -->
+        <div class="form-container">
+            <div class="form-section">
+                <h2 class="section-title">Thông tin cơ bản</h2>
+                <div class="form-grid">
+                    <div class="form-row">
+                        <label for="first-name" class="form-label required-label">Họ và tên lót</label>
+                        <input type="text" id="first-name" class="form-input" value="Nguyễn Văn" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="last-name" class="form-label required-label">Tên</label>
+                        <input type="text" id="last-name" class="form-input" value="A" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="display-name" class="form-label required-label">Tên hiển thị</label>
+                        <input type="text" id="display-name" class="form-input" value="Nguyễn Văn A" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="role" class="form-label">Vai trò</label>
+                        <div class="autocomplete-container">
+                            <input type="text" id="role" class="form-input" value="Freelancer - Thiết kế đồ họa">
+                            <div class="autocomplete-results" id="role-results"></div>
                         </div>
-
-                        <p>Họ và tên</p>
-                        <input type="text" name="fullName" value="${account.accountName}" required>
-                        <p>Ngày sinh</p>
-<%--                        <fmt:formatDate value="${account.dateOfBirth}" pattern="dd/MM/yyyy" var="formattedDob"/>--%>
-                        <input type="date" id="dob" name="dob" value="${account.dateOfBirth}" required>
-                        <%--            <input type="date" name="dob" value="${account.dateOfBirth}" required>--%>
-                        <p>Giới tính</p>
-                        <select name="gender">
-                            <option value="Nam" ${account.gender == 'Nam' ? 'selected' : ''}>Nam</option>
-                            <option value="Nữ" ${account.gender == 'Nữ' ? 'selected' : ''}>Nữ</option>
+                    </div>
+                    <div class="form-row">
+                        <label for="dob" class="form-label">Ngày sinh</label>
+                        <input type="date" id="dob" class="form-input" value="1992-05-15">
+                    </div>
+                    <div class="form-row">
+                        <label for="gender" class="form-label">Giới tính</label>
+                        <select id="gender" class="form-select">
+                            <option value="male" selected>Nam</option>
+                            <option value="female">Nữ</option>
+                            <option value="other">Khác</option>
                         </select>
-                        <p>Chuyên môn</p>
-                        <input type="text" name="specialty" value="${account.specialist}" required>
-                        <p>Email</p>
-                        <input type="email" name="email" value="${account.email}" required>
-                        <p>SĐT</p>
-                        <input type="text" name="phone" value="${account.phone}" required>
+                    </div>
+                    <div class="form-row form-full-width">
+                        <label for="bio" class="form-label">Giới thiệu</label>
+                        <textarea id="bio" class="form-textarea">Tôi là một nhà thiết kế đồ họa với hơn 5 năm kinh nghiệm làm việc trong lĩnh vực thiết kế. Chuyên về thiết kế UI/UX, thiết kế web và thiết kế thương hiệu. Tôi luôn tìm kiếm những dự án thú vị và thách thức để phát triển kỹ năng của mình.</textarea>
                     </div>
                 </div>
-                <div class="buttons col-xl-3" style="text-align: center">
-                    <input type="hidden" name="accountId" value="${account.accountId}">
-                    <button type="submit" class="save-btn" style="margin-bottom: 20px">Lưu thông tin</button>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <!-- Professional info -->
+            <div class="form-section">
+                <h2 class="section-title">Thông tin chuyên môn</h2>
+                <div class="form-grid">
+                    <div class="form-row">
+                        <label for="specialty" class="form-label">Chuyên môn</label>
+                        <div class="autocomplete-container">
+                            <input type="text" id="specialty" class="form-input" value="Thiết kế đồ họa">
+                            <div class="autocomplete-results" id="specialty-results"></div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label for="experience" class="form-label">Kinh nghiệm (năm)</label>
+                        <input type="number" id="experience" class="form-input" value="5" min="0" max="50">
+                    </div>
+                    <div class="form-row">
+                        <label for="education" class="form-label">Học vấn</label>
+                        <div class="autocomplete-container">
+                            <input type="text" id="education" class="form-input" value="Đại học Mỹ thuật TP.HCM">
+                            <div class="autocomplete-results" id="education-results"></div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label for="status" class="form-label">Trạng thái</label>
+                        <select id="status" class="form-select">
+                            <option value="available" selected>Đang nhận dự án</option>
+                            <option value="busy">Đang bận</option>
+                            <option value="unavailable">Không nhận dự án</option>
+                        </select>
+                    </div>
+                    <div class="form-row form-full-width">
+                        <label for="skills" class="form-label">Kỹ năng</label>
+                        <div class="tags-input-container">
+                            <div class="tag">
+                                Photoshop
+                                <span class="tag-close">&times;</span>
+                            </div>
+                            <div class="tag">
+                                Illustrator
+                                <span class="tag-close">&times;</span>
+                            </div>
+                            <div class="tag">
+                                UI/UX
+                                <span class="tag-close">&times;</span>
+                            </div>
+                            <div class="tag">
+                                Web Design
+                                <span class="tag-close">&times;</span>
+                            </div>
+                            <input type="text" id="skills" class="tags-input" placeholder="Thêm kỹ năng...">
+                        </div>
+                        <div class="autocomplete-results" id="skills-results"></div>
+                        <p class="help-text">Nhấn Enter để thêm kỹ năng mới</p>
+                    </div>
                 </div>
             </div>
-            <div class="intro-container">
-                <div class="intro-title">Giới thiệu chung</div>
-                <textarea name="introduction" class="intro-text">${account.bio}</textarea>
+
+            <div class="section-divider"></div>
+
+            <!-- Contact info -->
+            <div class="form-section">
+                <h2 class="section-title">Thông tin liên hệ</h2>
+                <div class="form-grid">
+                    <div class="form-row">
+                        <label for="email" class="form-label required-label">Email</label>
+                        <input type="email" id="email" class="form-input" value="nguyenvana@example.com" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="phone" class="form-label">Điện thoại</label>
+                        <input type="tel" id="phone" class="form-input" value="0912345678">
+                    </div>
+                    <div class="form-row form-full-width">
+                        <label for="address" class="form-label">Địa chỉ</label>
+                        <input type="text" id="address" class="form-input" value="Quận 1, TP. Hồ Chí Minh">
+                    </div>
+                    <div class="form-row">
+                        <label for="city" class="form-label">Thành phố</label>
+                        <div class="autocomplete-container">
+                            <input type="text" id="city" class="form-input" value="TP. Hồ Chí Minh">
+                            <div class="autocomplete-results" id="city-results"></div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label for="district" class="form-label">Quận/Huyện</label>
+                        <div class="autocomplete-container">
+                            <input type="text" id="district" class="form-input" value="Quận 1">
+                            <div class="autocomplete-results" id="district-results"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </form>
-    </div>
-</section>
 
+            <div class="section-divider"></div>
+
+            <!-- Social media -->
+            <div class="form-section">
+                <h2 class="section-title">Mạng xã hội</h2>
+                <div class="form-grid">
+                    <div class="form-row">
+                        <label for="facebook" class="form-label">Facebook</label>
+                        <input type="url" id="facebook" class="form-input" placeholder="https://facebook.com/username">
+                    </div>
+                    <div class="form-row">
+                        <label for="linkedin" class="form-label">LinkedIn</label>
+                        <input type="url" id="linkedin" class="form-input" placeholder="https://linkedin.com/in/username">
+                    </div>
+                    <div class="form-row">
+                        <label for="instagram" class="form-label">Instagram</label>
+                        <input type="url" id="instagram" class="form-input" placeholder="https://instagram.com/username">
+                    </div>
+                    <div class="form-row">
+                        <label for="portfolio" class="form-label">Website/Portfolio</label>
+                        <input type="url" id="portfolio" class="form-input" placeholder="https://yourportfolio.com">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <!-- Signature as image -->
+            <div class="form-section">
+                <h2 class="section-title">Chữ ký hình ảnh</h2>
+                <div class="form-row">
+                    <label class="form-label">Chữ ký của bạn</label>
+                    <div class="signature-upload">
+                        <div class="signature-preview">
+                            <span class="signature-placeholder">Chưa có chữ ký</span>
+                        </div>
+                        <div class="signature-actions">
+                            <label for="signature-upload" class="upload-btn">Tải ảnh chữ ký lên</label>
+                            <input type="file" id="signature-upload" class="file-input" accept="image/*">
+                        </div>
+                    </div>
+                    <p class="help-text">Chữ ký hình ảnh sẽ hiển thị dưới thông tin hồ sơ của bạn. Cho phép PNG, JPG hoặc GIF, tối đa 1MB</p>
+                </div>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <!-- Privacy settings -->
+            <div class="form-section">
+                <h2 class="section-title">Cài đặt riêng tư</h2>
+                <div class="form-row">
+                    <div class="toggle-container">
+                        <span class="toggle-label">Hiển thị thông tin liên hệ</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="toggle-container">
+                        <span class="toggle-label">Hiển thị báo cáo nhận được</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="toggle-container">
+                        <span class="toggle-label">Hiển thị trạng thái hoạt động</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary">Hủy</button>
+                <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+            </div>
+        </div>
+    </form>
 </div>
-</body>
-<script>
-    // Lấy ngày hôm nay
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const dd = String(today.getDate()).padStart(2, '0');
-
-    const maxDate = `${yyyy}-${mm}-${dd}`;
-
-    // Gán giá trị max vào input
-    document.getElementById("dob").setAttribute("max", maxDate);
-</script>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const fileInput = document.getElementById("avatar-upload");
-        const avatarImage = document.querySelector(".avatar");
+    // Mock API for autocomplete suggestions
+    const mockAPI = {
+        roles: [
+            'Freelancer - Thiết kế đồ họa',
+            'Freelancer - Phát triển web',
+            'Freelancer - Digital Marketing',
+            'Thiết kế UI/UX',
+            'Quản lý dự án',
+            'Chuyên viên SEO',
+            'Chuyên viên nội dung'
+        ],
+        specialties: [
+            'Thiết kế đồ họa',
+            'Phát triển web',
+            'Nghiên cứu người dùng',
+            'Digital Marketing',
+            'Lập trình di động',
+            'Quản lý dự án',
+            'Thiết kế UI/UX',
+            'Phân tích dữ liệu'
+        ],
+        education: [
+            'Đại học Mỹ thuật TP.HCM',
+            'Đại học Bách Khoa TP.HCM',
+            'Đại học FPT',
+            'Đại học Kinh tế TP.HCM',
+            'Đại học Khoa học Tự nhiên TP.HCM',
+            'Đại học Quốc tế RMIT'
+        ],
+        cities: [
+            'TP. Hồ Chí Minh',
+            'Hà Nội',
+            'Đà Nẵng',
+            'Cần Thơ',
+            'Hải Phòng',
+            'Nha Trang',
+            'Đà Lạt'
+        ],
+        districts: {
+            'TP. Hồ Chí Minh': ['Quận 1', 'Quận 2', 'Quận 3', 'Quận 4', 'Quận 5', 'Quận 6', 'Quận 7', 'Quận 8', 'Quận 9', 'Quận 10', 'Quận 11', 'Quận 12', 'Quận Bình Thạnh', 'Quận Gò Vấp', 'Quận Tân Bình', 'Quận Phú Nhuận'],
+            'Hà Nội': ['Quận Ba Đình', 'Quận Hoàn Kiếm', 'Quận Tây Hồ', 'Quận Long Biên', 'Quận Cầu Giấy', 'Quận Đống Đa', 'Quận Hai Bà Trưng', 'Quận Hoàng Mai']
+        },
+        skills: [
+            'Photoshop', 'Illustrator', 'InDesign', 'Figma', 'UI/UX', 'Web Design',
+            'HTML', 'CSS', 'JavaScript', 'React', 'Vue.js', 'Angular',
+            'PHP', 'Node.js', 'Python', 'Java', 'Ruby on Rails',
+            'WordPress', 'Shopify', 'WooCommerce',
+            'SEO', 'SEM', 'Google Analytics', 'Content Marketing',
+            'Adobe XD', 'Sketch', 'Premiere Pro', 'After Effects',
+            'Product Management', 'Agile', 'Scrum', 'Jira'
+        ]
+    };
 
-        fileInput.addEventListener("change", function () {
-            const file = this.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    avatarImage.src = e.target.result; // gán ảnh tạm thời
+    // Function to query the API for suggestions
+    function fetchSuggestions(query, category) {
+        return new Promise((resolve) => {
+            // Simulate API delay
+            setTimeout(() => {
+                const data = mockAPI[category] || [];
+                if (Array.isArray(data)) {
+                    const results = data.filter(item =>
+                        item.toLowerCase().includes(query.toLowerCase())
+                    );
+                    resolve(results);
+                } else {
+                    resolve([]);
                 }
-                reader.readAsDataURL(file); // đọc file ảnh
+            }, 300);
+        });
+    }
+
+    // Function to fetch district suggestions based on selected city
+    function fetchDistrictSuggestions(query, city) {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                const districts = mockAPI.districts[city] || [];
+                const results = districts.filter(district =>
+                    district.toLowerCase().includes(query.toLowerCase())
+                );
+                resolve(results);
+            }, 300);
+        });
+    }
+
+    // Setup autocomplete for all fields that need it
+    function setupAutocomplete(inputId, resultsId, category, selectCallback) {
+        const inputElement = document.getElementById(inputId);
+        const resultsElement = document.getElementById(resultsId);
+
+        if (!inputElement || !resultsElement) return;
+
+        let debounceTimeout;
+
+        inputElement.addEventListener('input', function() {
+            clearTimeout(debounceTimeout);
+            const query = this.value.trim();
+
+            if (query.length < 2) {
+                resultsElement.classList.remove('show');
+                return;
             }
+
+            debounceTimeout = setTimeout(async () => {
+                let suggestions;
+
+                if (inputId === 'district') {
+                    const cityValue = document.getElementById('city').value;
+                    suggestions = await fetchDistrictSuggestions(query, cityValue);
+                } else {
+                    suggestions = await fetchSuggestions(query, category);
+                }
+
+                if (suggestions.length > 0) {
+                    displaySuggestions(suggestions, resultsElement, inputElement, selectCallback);
+                } else {
+                    resultsElement.classList.remove('show');
+                }
+            }, 300);
+        });
+
+        // Hide results when clicking outside
+        document.addEventListener('click', function(e) {
+            if (e.target !== inputElement && e.target !== resultsElement) {
+                resultsElement.classList.remove('show');
+            }
+        });
+    }
+
+    // Display suggestions in the results container
+    function displaySuggestions(suggestions, resultsElement, inputElement, selectCallback) {
+        resultsElement.innerHTML = '';
+        suggestions.forEach(suggestion => {
+            const itemElement = document.createElement('div');
+            itemElement.classList.add('autocomplete-item');
+            itemElement.textContent = suggestion;
+
+            itemElement.addEventListener('click', function() {
+                if (selectCallback) {
+                    selectCallback(suggestion);
+                } else {
+                    inputElement.value = suggestion;
+                }
+                resultsElement.classList.remove('show');
+            });
+
+            resultsElement.appendChild(itemElement);
+        });
+
+        resultsElement.classList.add('show');
+    }
+
+    // Setup tags input for skills
+    function setupTagsInput() {
+        const tagsContainer = document.querySelector('.tags-input-container');
+        const tagsInput = document.getElementById('skills-input');
+        const resultsElement = document.getElementById('skills-results');
+
+        tagsInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && this.value.trim() !== '') {
+                e.preventDefault();
+                addTag(this.value.trim());
+                this.value = '';
+                resultsElement.classList.remove('show');
+            }
+        });
+
+        // Setup autocomplete for skills
+        let debounceTimeout;
+        tagsInput.addEventListener('input', function() {
+            clearTimeout(debounceTimeout);
+            const query = this.value.trim();
+
+            if (query.length < 2) {
+                resultsElement.classList.remove('show');
+                return;
+            }
+
+            debounceTimeout = setTimeout(async () => {
+                const suggestions = await fetchSuggestions(query, 'skills');
+
+                if (suggestions.length > 0) {
+                    displaySuggestions(suggestions, resultsElement, tagsInput, function(selectedSkill) {
+                        addTag(selectedSkill);
+                        tagsInput.value = '';
+                    });
+                } else {
+                    resultsElement.classList.remove('show');
+                }
+            }, 300);
+        });
+
+        // Function to add a new tag
+        function addTag(text) {
+            const tag = document.createElement('div');
+            tag.classList.add('tag');
+            tag.textContent = text;
+
+            const closeBtn = document.createElement('span');
+            closeBtn.classList.add('tag-close');
+            closeBtn.innerHTML = '&times;';
+            closeBtn.addEventListener('click', function() {
+                tagsContainer.removeChild(tag);
+            });
+
+            tag.appendChild(closeBtn);
+            tagsContainer.insertBefore(tag, tagsInput);
+        }
+
+        // Handle remove existing tags
+        document.querySelectorAll('.tag-close').forEach(closeBtn => {
+            closeBtn.addEventListener('click', function() {
+                const tag = this.parentElement;
+                tagsContainer.removeChild(tag);
+            });
+        });
+    }
+
+    // Handle avatar upload preview
+    function setupImageUpload(uploadId, previewSelector, placeholderClass) {
+        const fileInput = document.getElementById(uploadId);
+        const previewElement = document.querySelector(previewSelector);
+        const placeholderElement = previewElement.querySelector(placeholderClass);
+
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    if (placeholderElement) {
+                        placeholderElement.style.display = 'none';
+                    }
+
+                    if (previewSelector === '.avatar-preview') {
+                        // For avatar preview
+                        previewElement.src = e.target.result;
+                    } else {
+                        // For signature preview
+                        if (previewElement.querySelector('img')) {
+                            previewElement.querySelector('img').src = e.target.result;
+                        } else {
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            img.alt = "Chữ ký";
+                            previewElement.appendChild(img);
+                        }
+                    }
+                }
+
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    }
+
+    // Initialize all autocomplete fields
+    document.addEventListener('DOMContentLoaded', function() {
+        setupAutocomplete('role', 'role-results', 'roles');
+        setupAutocomplete('specialty', 'specialty-results', 'specialties');
+        setupAutocomplete('education', 'education-results', 'education');
+        setupAutocomplete('city', 'city-results', 'cities');
+
+        // Connect city and district selectors
+        const cityInput = document.getElementById('city');
+        cityInput.addEventListener('change', function() {
+            // Clear district when city changes
+            document.getElementById('district').value = '';
+        });
+
+        setupAutocomplete('district', 'district-results', null);
+
+        // Setup tags input for skills
+        setupTagsInput();
+
+        // Setup avatar upload
+        setupImageUpload('avatar-upload', '.avatar-preview');
+
+        // Setup signature image upload
+        setupImageUpload('signature-upload', '.signature-preview', '.signature-placeholder');
+
+        // Form submission handler
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Here you would normally send the form data to your server
+            // For demo purposes, just show an alert
+            alert('Thông tin đã được lưu thành công!');
         });
     });
 </script>
-<script>
-    $(document).ready(function () {
-        <% if (request.getAttribute("success") != null) { %>
-        toastr.success('<%= request.getAttribute("success") %>');
-        <% } %>
-        <% if (request.getAttribute("error") != null) { %>
-        toastr.error('<%= request.getAttribute("error") %>');
-        <% } %>
-    });
-</script>
+</body>
 </html>

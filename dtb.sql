@@ -404,6 +404,16 @@ ADD oauth_provider NVARCHAR(MAX);
 ALTER TABLE Account
 ADD oauth_id NVARCHAR(MAX);
 
+ALTER TABLE Account
+ADD count_member int;
+
+ALTER TABLE Group_Member
+ADD avatar_member NVARCHAR(MAX);
+
+ALTER TABLE Group_Member
+ADD position NVARCHAR(MAX);
+
+
 CREATE TABLE CV (
     CV_id INT IDENTITY(1,1) PRIMARY KEY,
     account_id INT NOT NULL FOREIGN KEY REFERENCES Account(account_id) ON DELETE CASCADE,

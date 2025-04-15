@@ -13,13 +13,17 @@ public class GroupMember {
     private int experienceYears;
     private String status;
     private String education;
+    private String avatarMember;
+    private String position;
+
 
     // Constructor không tham số
     public GroupMember() {}
 
     // Constructor có tham số
-    public GroupMember(int memberId, String memberName, int accountId, String bio, Date dateOfBirth,
-                       String specialist, String gender, int experienceYears, String status, String education) {
+
+
+    public GroupMember(int memberId, String memberName, int accountId, String bio, Date dateOfBirth, String specialist, String gender, int experienceYears, String status, String education, String avatarMember, String position) {
         this.memberId = memberId;
         this.memberName = memberName;
         this.accountId = accountId;
@@ -30,6 +34,8 @@ public class GroupMember {
         this.experienceYears = experienceYears;
         this.status = status;
         this.education = education;
+        this.avatarMember = avatarMember;
+        this.position = position;
     }
 
     // Getter và Setter
@@ -69,9 +75,6 @@ public class GroupMember {
         return new java.sql.Date(dateOfBirth.getTime());
     }
 
-    public Date getUtilsDateOfBirth(){
-        return dateOfBirth;
-    }
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
@@ -117,6 +120,22 @@ public class GroupMember {
         this.education = education;
     }
 
+    public String getAvatarMember() {
+        return avatarMember;
+    }
+
+    public void setAvatarMember(String avatarMember) {
+        this.avatarMember = avatarMember;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
     @Override
     public String toString() {
         return "GroupMember{" +
@@ -130,6 +149,8 @@ public class GroupMember {
                 ", experienceYears=" + experienceYears +
                 ", status='" + status + '\'' +
                 ", education='" + education + '\'' +
+                ", avatarMember='" + avatarMember + '\'' +
+                ", position='" + position + '\'' +
                 '}';
     }
 }
