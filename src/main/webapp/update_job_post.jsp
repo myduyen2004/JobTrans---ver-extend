@@ -20,12 +20,12 @@
 
     <!--new css -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="css/update_job_post.css" rel="stylesheet">
+    <link href="./css/update_job_post.css" rel="stylesheet"/>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 </head>
 
-<body>
+<body style="font-family: Inter, sans-serif">
 
 <!-- Preloading -->
 <div id="preloader">

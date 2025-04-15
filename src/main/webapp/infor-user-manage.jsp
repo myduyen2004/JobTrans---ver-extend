@@ -1,238 +1,291 @@
-<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông tin tài khoản - Admin</title>
+    <link href="./css/infor-user-manage.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="container">
+    <!-- Header -->
+    <div class="profile-header">
+        <img class="profile-avatar" src="./img/anhcv/avatar.jpeg" alt="Ảnh đại diện">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Harry Olson &#8211; ProLancer</title>
+        <div class="profile-info">
+            <div class="profile-name">
+                Nguyen Van A
+                <span class="badge-verified">Đã xác thực</span>
+            </div>
+            <div class="profile-role">Cá nhân</div>
+            <div class="profile-location">Đà Nẵng</div>
+        </div>
 
-        <style>
-            .profile {
-                display: flex;
-                align-items: center;
-                background: white;
-                padding: 20px;
-                border-radius: 10px;
-                box-shadow: 0 0px 7px rgba(0, 0, 0, 0.1);
-                margin-bottom: 30px;
-                margin-top: 30px;
-            }
+        <div class="profile-actions">
+            <h3 class="text-center">Điểm số: 1000</h3>
+            <a href="#" class="edit-button">Chặn</a>
+        </div>
+    </div>
 
-            .avatar {
-                width: 60px;
-                height: 60px;
-                border-radius: 50%;
-                margin-right: 15px;
-            }
-
-            .user-info {
-                border-right: 1px solid black;
-                width: 300px;
-            }
-
-            .user-info h2 {
-                margin: 0;
-            }
-
-            .rating {
-                display: flex;
-                align-items: center;
-            }
-
-            .rating img {
-                width: 16px;
-                height: 16px;
-                margin-left: 5px;
-            }
-
-            .devicon--linkedin {
-                display: inline-block;
-                width: 24px;
-                height: 24px;
-                background-repeat: no-repeat;
-                background-size: 100% 100%;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Cpath fill='%230076b2' d='M116 3H12a8.91 8.91 0 0 0-9 8.8v104.42a8.91 8.91 0 0 0 9 8.78h104a8.93 8.93 0 0 0 9-8.81V11.77A8.93 8.93 0 0 0 116 3'/%3E%3Cpath fill='%23fff' d='M21.06 48.73h18.11V107H21.06zm9.06-29a10.5 10.5 0 1 1-10.5 10.49a10.5 10.5 0 0 1 10.5-10.49m20.41 29h17.36v8h.24c2.42-4.58 8.32-9.41 17.13-9.41C103.6 47.28 107 59.35 107 75v32H88.89V78.65c0-6.75-.12-15.44-9.41-15.44s-10.87 7.36-10.87 15V107H50.53z'/%3E%3C/svg%3E");
-                margin-left: 10px;
-            }
-
-            .material-symbols--star {
-                display: inline-block;
-                width: 24px;
-                height: 24px;
-                --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z'/%3E%3C/svg%3E");
-                background-color: currentColor;
-                -webkit-mask-image: var(--svg);
-                mask-image: var(--svg);
-                -webkit-mask-repeat: no-repeat;
-                mask-repeat: no-repeat;
-                -webkit-mask-size: 100% 100%;
-                mask-size: 100% 100%;
-                color: #FFDB5B;
-            }
-
-            .user-info hr {
-                width: 2px;
-                height: fit-content;
-                margin: 0 10px;
-
-            }
-
-            .user-stats {
-                display: flex;
-                justify-content: space-between;
-                gap: 40px;
-                text-align: center;
-                max-width: 500px;
-                margin: auto;
-            }
-
-            .user-stats div {
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-                min-width: 80px;
-            }
-
-        </style>
-    </head>
-
-    <body>
-        <section class="pb-95 bg-gray">
-            <section>
-                <div class="breadcrumbs">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12 my-auto">
-                                <h1 style="text-align: center">Chi tiết người dùng </h1>
-                            </div>
-                        </div>
-
+    <!-- Body content -->
+    <div class="content-grid">
+        <!-- Left column -->
+        <div>
+            <div class="card">
+                <h2 class="card-title">Giới thiệu</h2>
+                <p>Xin chào, tôi tên là [Tên bạn]. Hiện tại tôi đang sống và làm việc tại [thành phố]. Tôi là người thân thiện, chăm chỉ và luôn sẵn sàng học hỏi những điều mới. Trong thời gian rảnh, tôi thích đọc sách, nghe nhạc và học thêm ngoại ngữ. Rất vui được làm quen với mọi người!</p>
+            </div>
+            <div class="card">
+                <h2 class="card-title">Thông tin chuyên môn</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Chuyên môn</div>
+                        <div class="info-value">IT</div>
                     </div>
-                </div>	
+                    <div class="info-item">
+                        <div class="info-label">Kinh nghiệm</div>
+                        <div class="info-value">Công nghệ thông tin - 3 năm</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Học vấn</div>
+                        <div class="info-value">Đại học FPT</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Trạng thái</div>
+                        <div class="info-value">Đang hoạt động</div>
+                    </div>
+                </div>
+            </div>
 
-            </section>
-            <div class="container">
-                <div class=" col-xl-12" >
+            <div class="card">
+                <div class="project-header">
+                    <h2 class="card-title">Hoàn thành dự án</h2>
+                    <span class="project-count">15 dự án</span>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-header">
+                        <span class="progress-text">Tỷ lệ hoàn thành</span>
+                        <span class="progress-value">90%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                    <div class="profile">
-                        <img src="${account.avatar}"
-                             alt="Avatar" class="avatar">
-                        <div class="user-info">
-                            <h3>${account.accountName}</h3>
-                            <div class="rating">
-                                <span class="material-symbols--star"></span>
-                                <span class="material-symbols--star"></span>
-                                <span class="material-symbols--star"></span>
-                                <span class="material-symbols--star"></span>
-                                <span class="material-symbols--star"></span>
-                                <span class="devicon--linkedin"></span>
-                            </div>
+        <!-- Right column -->
+        <div>
+            <div class="card">
+                <h2 class="card-title">Thông tin liên hệ</h2>
+                <div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div class="contact-detail">
+                            <div class="info-label">Email</div>
+                            <div class="info-value">nguyenvana@gmail.com</div>
                         </div>
-
-                        <div class="user-stats ">
-                            <div>
-                                <p><strong>Số điểm</strong></p>
-                                <p>${account.point}</p>
-                            </div>
-                            <div>
-                                <p><strong>Đang theo dõi</strong></p>
-                                <p>50</p>
-                            </div>
-                            <div>
-                                <p><strong>Người theo dõi</strong></p>
-                                <p>200</p>
-                            </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
+                        <div class="contact-detail">
+                            <div class="info-label">Điện thoại</div>
+                            <div class="info-value">0863556255</div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="contact-detail">
+                            <div class="info-label">Địa chỉ</div>
+                            <div class="info-value">Đà Nẵng</div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-birthday-cake"></i></div>
+                        <div class="contact-detail">
+                            <div class="info-label">Ngày sinh</div>
+                            <div class="info-value">22-12-2001</div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-venus-mars"></i></div>
+                        <div class="contact-detail">
+                            <div class="info-label">Giới tính</div>
+                            <div class="info-value">Nam</div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row justify-content-center">
-                <div class="col-xl-9">
-                    <div class="white-padding">
-                        <ul class="nav nav-tabs mb-3">
-                            <li class="nav-item">
-                                <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#about-me" role="tab" aria-selected="true">Về tôi</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-bs-toggle="tab" data-bs-target="#project" role="tab" aria-selected="false">Xem đánh giá</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content">                       
-                            <div class="tab-pane fade active show" id="about-me" role="tabpanel">
 
-                                <div class="dashboard-box margin-top-0">
 
-                                    <!-- Headline -->
+            <div class="card">
+                <h2 class="card-title">Chữ ký số</h2>
+                <div class="signature">
+                    "Sáng tạo không giới hạn, chất lượng là ưu tiên hàng đầu."
+                </div>
+            </div>
+        </div>
+    </div>
 
-                                    <form method="POST" action="feedback" enctype="multipart/form-data">
-                                        <div class="row" style="text-align: center">
-                                            <div class="container" style="margin-left: 41px;">
-                                                <div style="width: 956px; height: 456px; position: relative; border-radius: 15px">
-                                                    <div style="width: 220px; height: 45px; left: 368px; top: 411px; position: absolute; background: #E22529; border-radius: 15px"></div>
-                                                    <div style="left: 390px; top: 424px; position: absolute; color: black; font-size: 20px; font-family: Inter; font-weight: 400; line-height: 20px; word-wrap: break-word">Tố cáo người dùng</div>
-                                                    <div style="width: 956px; height: 381px; left: 0px; top: 0px; position: absolute; background: white; border-radius: 15px; border: 2px #D9D9D9 solid"></div>
-                                                    <div style="width: 153px; height: 20px; left: 408px; top: 14px; position: absolute; color: black; font-size: 20px; font-family: Inter; font-weight: 600; line-height: 20px; word-wrap: break-word">Giới thiệu về tôi </div>
-                                                    <div style="width: 955px; height: 0px; left: 1px; top: 46px; position: absolute; outline: 2px #D9D9D9 solid; outline-offset: -1px">
-                                                        <textarea>${account.bio}</textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>                            
-                            <div class="tab-pane fade mt-5" id="project" role="tabpanel">                                
-                                <div class="prolancer-project-item style-2">
-                                    <div class="row"> 
-                                        <h2>Danh sách dự án</h2>
+    <!-- Reports Section -->
+    <div class="reports-container">
+        <div class="reports-header">
+            <div class="contact-icon"><i class="fas fa-list"></i></div>
+            <h2 class="reports-title">Danh sách các báo cáo nhận được</h2>
+            <div class="reports-count">3 báo cáo</div>
+        </div>
 
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>Tên dự án</th>
-                                                    <th>Trạng thái</th>
-                                                    <th>Đánh giá từ nhà tuyển dụng</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Dự án A</td>
-                                                    <td>Đang thực hiện</td>
-                                                    <td>Chưa có đánh giá</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Dự án B</td>
-                                                    <td>Hoàn thành</td>
-                                                    <td class="rating">
-
-                                                        <span class="material-symbols--star"></span>
-                                                        <span class="material-symbols--star"></span>
-                                                        <span class="material-symbols--star"></span>
-                                                        <span class="material-symbols--star"></span>
-                                                        <span class="material-symbols--star"></span>
-
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Dự án C</td>
-                                                    <td>Chờ phê duyệt</td>
-                                                    <td>Chưa có đánh giá</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+        <div class="reports-body">
+            <table class="reports-table">
+                <thead>
+                <tr>
+                    <th>Người báo cáo</th>
+                    <th>Nội dung báo cáo</th>
+                    <th>Tiêu chí vi phạm</th>
+                    <th>Thời gian</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <div class="reporter">
+                            <img src="./img/avatar-default.jpg" alt="Phạm Văn D" class="reporter-avatar">
+                            Phạm Văn D
+                        </div>
+                    </td>
+                    <td>
+                        <div class="report-content">
+                            Vi phạm bản quyền trong thiết kế đã cung cấp, sử dụng hình ảnh không được phép mà không thông báo cho khách hàng.
+                        </div>
+                    </td>
+                    <td>
+                        <span class="criteria" data-tooltip="Vi phạm quyền sở hữu trí tuệ, sử dụng nội dung có bản quyền không được phép hoặc không đúng quy định">Vi phạm bản quyền</span>
+                    </td>
+                    <td>
+                        <div class="report-date">20/02/2025</div>
+                    </td>
+                    <td>
+                        <span class="status-badge status-rejected">Đã từ chối</span>
+                    </td>
+                    <td>
+                        <div class="row flex">
+                            <div class="col-6">
+                                <span class="badge-verified">Xử lý</span>
+                            </div>
+                            <div class="col-6">
+                                <span class="badge-reject">Từ chối</span>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="reporter">
+                            <img src="./img/avatar-default.jpg" alt="Phạm Văn D" class="reporter-avatar">
+                            Phạm Văn D
+                        </div>
+                    </td>
+                    <td>
+                        <div class="report-content">
+                            Vi phạm bản quyền trong thiết kế đã cung cấp, sử dụng hình ảnh không được phép mà không thông báo cho khách hàng.
+                        </div>
+                    </td>
+                    <td>
+                        <span class="criteria" data-tooltip="Vi phạm quyền sở hữu trí tuệ, sử dụng nội dung có bản quyền không được phép hoặc không đúng quy định">Vi phạm bản quyền</span>
+                    </td>
+                    <td>
+                        <div class="report-date">20/02/2025</div>
+                    </td>
+                    <td>
+                        <span class="status-badge status-rejected">Đã từ chối</span>
+                    </td>
+                    <td>
+                        <div class="row flex">
+                            <div class="col-6">
+                                <span class="badge-verified">Xử lý</span>
+                            </div>
+                            <div class="col-6">
+                                <span class="badge-reject">Từ chối</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="reporter">
+                            <img src="./img/avatar-default.jpg" alt="Phạm Văn D" class="reporter-avatar">
+                            Phạm Văn D
+                        </div>
+                    </td>
+                    <td>
+                        <div class="report-content">
+                            Vi phạm bản quyền trong thiết kế đã cung cấp, sử dụng hình ảnh không được phép mà không thông báo cho khách hàng.
+                        </div>
+                    </td>
+                    <td>
+                        <span class="criteria" data-tooltip="Vi phạm quyền sở hữu trí tuệ, sử dụng nội dung có bản quyền không được phép hoặc không đúng quy định">Vi phạm bản quyền</span>
+                    </td>
+                    <td>
+                        <div class="report-date">20/02/2025</div>
+                    </td>
+                    <td>
+                        <span class="status-badge status-rejected">Đã từ chối</span>
+                    </td>
+                    <td>
+                        <div class="row flex">
+                            <div class="col-6">
+                                <span class="badge-verified">Xử lý</span>
+                            </div>
+                            <div class="col-6">
+                                <span class="badge-reject">Từ chối</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="reporter">
+                            <img src="./img/avatar-default.jpg" alt="Phạm Văn D" class="reporter-avatar">
+                            Phạm Văn D
+                        </div>
+                    </td>
+                    <td>
+                        <div class="report-content">
+                            Vi phạm bản quyền trong thiết kế đã cung cấp, sử dụng hình ảnh không được phép mà không thông báo cho khách hàng.
+                        </div>
+                    </td>
+                    <td>
+                        <span class="criteria" data-tooltip="Vi phạm quyền sở hữu trí tuệ, sử dụng nội dung có bản quyền không được phép hoặc không đúng quy định">Vi phạm bản quyền</span>
+                    </td>
+                    <td>
+                        <div class="report-date">20/02/2025</div>
+                    </td>
+                    <td>
+                        <span class="status-badge status-rejected">Đã từ chối</span>
+                    </td>
+                    <td>
+                        <div class="row flex">
+                            <div class="col-6">
+                                <span class="badge-verified">Xử lý</span>
+                            </div>
+                            <div class="col-6">
+                                <span class="badge-reject">Từ chối</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="show-more-container">
+                <button class="show-more-btn">Xem tất cả báo cáo</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-            </div>          
-        </section>
 
-
-
-        <!--======= Back to Top =======-->
-        <div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
+</body>
 </html>

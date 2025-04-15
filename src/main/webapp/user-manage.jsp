@@ -19,127 +19,77 @@
 
     <!--new css -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="./css/user-manage.css" rel="stylesheet"/>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-
-    <style>
-        .banner_title {
-            background-image: url(./wp-content/uploads/2021/09/breadcrumb-bg.jpg);
-            background-size: 100%;
-            font-family: 'Poppins', sans-serif;
-            font-size: 40px;
-            height: 200px;
-            display: flex;
-            align-items: center;
-        }
-
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 33px;
-            height: 18px;
-            margin: 0 10px;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 34px;
-        }
-
-        .switch input {
-            display: none
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 15px;
-            width: 15px;
-            left: 1.5px;
-            bottom: 1.5px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50px;
-        }
-
-        input:checked + .slider {
-            background-color: #6787FE;
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(15px);
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 </head>
 
-<body>
+<body style="font-family: Inter,sans-serif;">
+<%--<%@include file="includes/header-01.jsp" %>--%>
 
 <div class="py-4 banner_title">
-    <h1 class="text-white font-weight-bold" style="padding-left: 50px">Danh sách người dùng</h1>
+    <h1 class="text-white font-weight-bold" style="padding-left: 50px;">Danh sách người dùng</h1>
 </div>
+
 <main class="container mx-auto mt-8 mb-5" style="width: 1400px;">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <section class="col-span-3">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="search-result col-xl-12">
-                        <h4 class="text-center">Danh sách người dùng</h4>
+                    <div class="col-xl-12">
+                        <p class="text-center" style="font-size: 32px; font-weight: bold">Danh sách người dùng</p>
                         <div id="account-list">
                             <c:forEach items="${list}" var="o" varStatus="status">
-                                <div class="prolancer-seller-item style-2"
+                                <div class="post-box account_in4 mt-3 mb-3 p-3 rounded"
                                      data-type="${o.type == 'Cá nhân' ? 'canhan' : 'nhom'}"
-                                     data-status="${o.status == 'Đang hoạt động' ? 'active' : 'banned'}">
+                                     data-status="${o.status == 'Đang hoạt động' ? 'active' : 'banned'}" style="background-color: #6787FE10; border-radius: 30px;">
                                     <div class="row">
-                                        <div class="col-3 my-auto">
+                                        <div class="col-2">
                                             <a class="d-flex flex-row justify-content-center"
                                                href="acc-manage?action=viewAccountDetails&accId=${o.accountId}">
                                                 <img src="${o.avatar}"
                                                      alt="User_avatar"
-                                                     style="width: 50%; height: auto; border-radius: 50%; object-fit: cover;"/>
+                                                     style="width: 80%; height: auto; border-radius: 50%; object-fit: cover;"/>
                                             </a>
                                         </div>
-                                        <div class="col-6 my-auto">
+                                        <div class="col-7">
                                             <div class="seller-content">
-                                                <h4 class="mb-2 d-flex align-items-center">
-                                                    <a href="#" style="color: black" class="name_value">${o.accountName}</a>
+                                                <h4 class="mb-2 d-flex align-items-center" style="font-weight: bold; font-size: 24px;">
+                                                    <a href="#" style="color: black; text-decoration: none;" class="name_value">${o.accountName}</a>
                                                     <c:if test="${o.verifiedAccount}">
                                                         <i class="fas fa-check-circle verified text-primary ms-2"
                                                            title="Verified"></i>
                                                     </c:if>
                                                 </h4>
                                                 <div class="flex items-center gap-2">
-                                                    <h5 style="margin: 0">${o.specialist}</h5>
+                                                    <p style="margin: 0; font-size: 18px;">${o.specialist}</p>
                                                     <c:choose>
                                                         <c:when test="${o.status == 'Đang hoạt động'}">
-                                                            <span class="custom-badge green">${o.status}</span>
+                                                            <span style="border: solid 2px limegreen; border-radius: 5px; color: limegreen; padding: 5px 10px 5px 10px">
+                                                                    ${o.status}
+                                                            </span>
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <span class="custom-badge danger">${o.status}</span> <!-- fallback nếu có giá trị khác -->
+                                                            <span style="border: solid 2px #FF0000; border-radius: 5px; color: red; padding: 5px 10px 5px 10px">${o.status}</span> <!-- fallback nếu có giá trị khác -->
                                                         </c:otherwise>
                                                     </c:choose>
                                                 </div>
                                                 <ul class="list-inline mb-lg-0 mt-2">
-                                                    <li class="list-inline-item mb-2"><i
-                                                            class="fad fa-users-medical"></i>${o.type}
+                                                    <li class="list-inline-item mb-2">
+                                                        <i class="fas fa-users"></i>  ${o.type}
                                                     </li>
-                                                    <li class="list-inline-item"><i
-                                                            class="fas fa-map-marked-alt"></i>${o.address}
+                                                    <li class="list-inline-item">
+                                                        <i class="fas fa-map-marked-alt"></i>  ${o.address}
                                                     </li>
                                                 </ul>
                                             </div>
                                         </div>
                                         <div class="col-3 text-center d-flex flex-column justify-content-center">
                                             <div class="mx-auto mb-2">
-                                                <span style="font-weight: bold;">Điểm: </span> <span class="point_value">${o.point}</span>
+                                                <span style="font-weight: bold; font-size: 18px;">Điểm: </span> <span style="font-size: 18px;" class="point_value">${o.point}</span>
                                             </div>
-                                            <a style="font-size: 15px; background-color: #6787FE; border-radius: 30px; color: white; padding: 10px;"
+                                            <a style="font-size: 18px; background-color: #6787FE; border-radius: 30px; color: white; padding: 10px;"
                                                href="acc-manage?action=viewAccountDetails&accId=${o.accountId}">
                                                 Xem chi tiết
                                             </a>
@@ -174,8 +124,6 @@
                     </div>
                 </div>
             </div>
-            <%--            Paging--%>
-
         </section>
         <aside>
             <div class="bg-white p-6 rounded-lg shadow-md" style="border: solid 1px #6787FE; border-radius: 15px;">
@@ -269,6 +217,11 @@
         </aside>
     </div>
 </main>
+
+<%--<%@include file="includes/footer.jsp" %>--%>
+
+<!--======= Back to Top =======-->
+<div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const checkboxes = {
@@ -284,7 +237,7 @@
             point: document.querySelector('input[name="point"]')
         };
 
-        const items = Array.from(document.querySelectorAll('.prolancer-seller-item'));
+        const items = Array.from(document.querySelectorAll('.account_in4'));
         const paginationContainer = document.getElementById('pagination');
         const itemsPerPage = 5;
         let currentPage = 1;
