@@ -31,7 +31,7 @@ public class RegisterServlet extends HttpServlet {
                     .initMacro()
                     .appendMacro("NAME", userName)
                     .appendMacro("CODE", code)
-                    .sendTemplate(new URL("http://localhost:8080/JobTrans_war_exploded/mail-noti/verify-account.jsp"));
+                    .sendTemplate(new URL("http://localhost:8080/JobTrans/mail-noti/verify-account.jsp"));
         } catch (MalformedURLException ex) {
             Logger.getLogger(ForgotPassword.class.getName()).log(Level.SEVERE, null, ex);
         }

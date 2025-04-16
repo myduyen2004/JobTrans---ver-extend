@@ -72,8 +72,8 @@
     }
 
     .avatar-container {
-        width: 200px;
-        height: 200px;
+        width: 100px;
+        height: 100px;
         border-radius: 50%;
         margin: 0 auto 30px;
         border: 4px solid white;
@@ -93,19 +93,7 @@
         object-fit: cover;
     }
 
-    .avatar-upload {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: rgba(0, 0, 0, 0.7);
-        color: white;
-        padding: 10px;
-        text-align: center;
-        font-size: 14px;
-        opacity: 0;
-        transition: var(--transition);
-    }
+
 
     .avatar-container:hover .avatar-upload {
         opacity: 1;
@@ -136,26 +124,7 @@
         margin-bottom: 20px;
     }
 
-    .form-control {
-        width: 100%;
-        padding: 12px 15px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: var(--radius);
-        background: rgba(255, 255, 255, 0.1);
-        color: white;
-        font-size: 15px;
-        transition: var(--transition);
-    }
 
-    .form-control:focus {
-        outline: none;
-        border-color: var(--accent);
-        background: rgba(255, 255, 255, 0.2);
-    }
-
-    .form-control::placeholder {
-        color: rgba(255, 255, 255, 0.7);
-    }
 
     textarea.form-control {
         min-height: 100px;
@@ -175,40 +144,9 @@
         margin-bottom: 50px;
     }
 
-    .name-input {
-        font-size: 32px;
-        font-weight: 700;
-        color: var(--dark);
-        border: none;
-        border-bottom: 2px solid var(--accent);
-        padding: 10px 0;
-        text-align: center;
-        width: 80%;
-        margin: 0 auto 15px;
-        font-family: 'Montserrat', sans-serif;
-        transition: var(--transition);
-    }
 
-    .name-input:focus {
-        outline: none;
-        border-bottom-color: var(--primary);
-    }
 
-    .position-input {
-        font-size: 20px;
-        color: var(--secondary);
-        border: none;
-        text-align: center;
-        width: 80%;
-        margin: 0 auto;
-        padding: 5px 0;
-        transition: var(--transition);
-    }
 
-    .position-input:focus {
-        outline: none;
-        color: var(--primary);
-    }
 
     .content-section {
         margin-bottom: 40px;
@@ -238,96 +176,11 @@
         background: var(--accent);
     }
 
-    .btn-group {
-        display: flex;
-        gap: 10px;
-    }
-
-    .btn {
-        padding: 8px 16px;
-        border: none;
-        border-radius: var(--radius);
-        font-size: 14px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: var(--transition);
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-    }
-
-    .btn-primary {
-        background: var(--accent);
-        color: white;
-    }
-
-    .btn-primary:hover {
-        background: #2980b9;
-        transform: translateY(-2px);
-    }
-
-    .btn-danger {
-        background: #e74c3c;
-        color: white;
-    }
-
-    .btn-danger:hover {
-        background: #c0392b;
-    }
-
-    .date-group {
-        display: flex;
-        gap: 20px;
-        margin-bottom: 15px;
-    }
-
-    .date-group .form-control {
-        flex: 1;
-    }
-
-    /* Main content form controls */
-    .main-form-control {
-        width: 100%;
-        padding: 12px 15px;
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        font-size: 15px;
-        transition: var(--transition);
-        margin-bottom: 15px;
-        background: white;
-    }
-
-    .main-form-control:focus {
-        outline: none;
-        border-color: var(--accent);
-        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-    }
 
     textarea.main-form-control {
         min-height: 120px;
     }
 
-    .submit-btn {
-        background: var(--primary);
-        color: white;
-        padding: 14px 30px;
-        font-size: 16px;
-        font-weight: 600;
-        border: none;
-        border-radius: var(--radius);
-        cursor: pointer;
-        transition: var(--transition);
-        display: block;
-        margin: 40px auto 0;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-
-    .submit-btn:hover {
-        background: var(--secondary);
-        transform: translateY(-3px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    }
 
     /* Animation */
     @keyframes fadeIn {
@@ -376,92 +229,14 @@
 </style>
 <body class="archive post-type-archive post-type-archive-projects wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
 
-<!-- Preloading -->
-<div id="preloader">
-    <div class="spinner">
-        <div class="uil-ripple-css">
-            <div></div>
-            <div></div>
-        </div>
-    </div>
-</div>
 
-<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-
-<%@include file="includes/header-login-01.jsp" %>
+<%@include file="includes/header-01.jsp" %>
 
 
-<!--Mobile Navigation Toggler-->
-<div class="off-canvas-menu-bar">
-    <div class="container">
-        <div class="row">
-            <div class="col-6 my-auto">
-                <a href="../index.html" class="custom-logo-link" rel="home"><img width="500" height="71"
-                                                                                 src="wp-content/uploads/2021/09/logo.png"
-                                                                                 class="custom-logo" alt="ProLancer"
-                                                                                 decoding="async"
-                                                                                 srcset="https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo.png 500w, https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo-300x43.png 300w"
-                                                                                 sizes="(max-width: 500px) 100vw, 500px"/></a>
-            </div>
-            <div class="col-6">
-                <div class="mobile-nav-toggler float-end"><span class="fal fa-bars"></span></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Mobile Menu  -->
-<div class="off-canvas-menu">
-    <div class="menu-backdrop"></div>
-    <i class="close-btn fa fa-close"></i>
-    <nav class="mobile-nav">
-        <div class="text-center pt-3 pb-3">
-            <a href="../index.html" class="custom-logo-link" rel="home"><img width="500" height="71"
-                                                                             src="wp-content/uploads/2021/09/logo.png"
-                                                                             class="custom-logo" alt="ProLancer"
-                                                                             decoding="async"
-                                                                             srcset="https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo.png 500w, https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo-300x43.png 300w"
-                                                                             sizes="(max-width: 500px) 100vw, 500px"/></a>
-        </div>
-
-        <ul class="navigation"><!--Keep This Empty / Menu will come through Javascript--></ul>
-        <div class="text-center">
-            <a href="../frontend-dashboard/index6f28.html?fed=dashboard" class="prolancer-btn mt-4">
-                Dashboard </a>
-        </div>
-    </nav>
-</div>
-
-
-<section>
-    <div class="breadcrumbs">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 my-auto">
-
-                    <ul class="trail-items">
-                        <li class="trail-item trail-begin"><a href="../index.html"><span
-                                style="font-family: 'Inter', sans-serif;">Công việc của tôi</span></a>
-                            <meta itemprop="position" content="1"/>
-                        </li>
-                        <li class="trail-item trail-end"><span itemprop="item"><span
-                                itemprop="name">Công việc đã đăng</span></span>
-                            <meta itemprop="position" content="2"/>
-                        </li>
-                    </ul>
-                </div>
-                <h1>
-                    QUẢN LÍ CÔNG VIỆC </h1>
-            </div>
-
-        </div>
-    </div>
-</section>
 <div style="display: flex">
     <div>
         <div class="cv-container">
 
-            <%@include file="./includes/sidebar.jsp" %>
 
             <!-- Left Sidebar -->
             <div class="cv-sidebar">
@@ -545,11 +320,15 @@
                 <div class="content-section">
                     <div class="content-title">Professional Summary</div>
                     <div class="content-text">
-                        <p>Results-driven Senior Software Engineer with over 8 years of experience in designing and implementing
-                            enterprise-level applications. Specialized in Java backend development with extensive knowledge of
+                        <p>Results-driven Senior Software Engineer with over 8 years of experience in designing and
+                            implementing
+                            enterprise-level applications. Specialized in Java backend development with extensive
+                            knowledge of
                             Spring Framework, microservices architecture, and cloud technologies.</p>
-                        <p>Proven track record of leading development teams and delivering high-quality software solutions that
-                            meet business requirements. Passionate about clean code, software design patterns, and mentoring
+                        <p>Proven track record of leading development teams and delivering high-quality software
+                            solutions that
+                            meet business requirements. Passionate about clean code, software design patterns, and
+                            mentoring
                             junior developers.</p>
                     </div>
                 </div>
@@ -566,12 +345,17 @@
                             </div>
                         </div>
                         <ul class="experience-details">
-                            <li>Led a team of 5 developers in designing and implementing a microservices-based e-commerce
+                            <li>Led a team of 5 developers in designing and implementing a microservices-based
+                                e-commerce
                                 platform
                             </li>
-                            <li>Reduced system response time by 40% through performance optimization and database tuning</li>
+                            <li>Reduced system response time by 40% through performance optimization and database
+                                tuning
+                            </li>
                             <li>Implemented CI/CD pipelines reducing deployment time from 2 hours to 15 minutes</li>
-                            <li>Mentored junior developers and conducted code reviews to maintain code quality standards</li>
+                            <li>Mentored junior developers and conducted code reviews to maintain code quality
+                                standards
+                            </li>
                         </ul>
                     </div>
 
@@ -585,9 +369,13 @@
                         </div>
                         <ul class="experience-details">
                             <li>Developed RESTful APIs for financial services applications using Spring Boot</li>
-                            <li>Collaborated with cross-functional teams to design database schemas and optimize queries</li>
+                            <li>Collaborated with cross-functional teams to design database schemas and optimize
+                                queries
+                            </li>
                             <li>Implemented automated testing framework reducing bug reports by 30%</li>
-                            <li>Participated in Agile development processes including sprint planning and retrospectives</li>
+                            <li>Participated in Agile development processes including sprint planning and
+                                retrospectives
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -652,12 +440,14 @@
             </div>
 
 
-            </form>
         </div>
 
     </div>
-    <%@include file="includes/sidebar_cv.jsp" %>
+    <div style="margin-left: 270px">
+        <%@include file="includes/sidebar_cv.jsp" %>
+    </div>
 </div>
+<%@include file="includes/footer.jsp" %>
 
 </body>
 </html>

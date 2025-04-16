@@ -89,6 +89,9 @@
     font-size: 16px;
     cursor: pointer;
     transition: background 0.3s;
+    margin-bottom: 20px;
+
+
 }
 
 .feedback-container {
@@ -104,7 +107,7 @@
 }
 
 .feedback-textarea {
-    width: 80%;
+    width: 76%;
     height: 300px;
     padding: 10px;
     border-radius: 8px;
@@ -112,7 +115,7 @@
     font-size: 14px;
     transition: box-shadow 0.3s;
     resize: none;
-   
+   margin-top: 10px;
 }
 
 .feedback-textarea:focus {
@@ -150,7 +153,7 @@
     padding: 30px;
     margin: 20px auto;
     border-radius: 12px;
-    width: 80%;
+    width: 76%;
 }
 
 .banner h2 {
@@ -197,27 +200,28 @@
 
 </style>
 <body>
+<%@include file="includes/header-01.jsp"%>
     <div class="contact-container">
         <div class="contact-item">
-            <img src="wp-includes/images/anh_icon/sdt.png" alt="Address">
-            <h3>Address</h3>
+            <img src="img/anh_icon/sdt.png" alt="Address">
+            <h3>Địa chỉ</h3>
             <p>38 Lê Đại Hành, Ngũ Hành Sơn, Đà Nẵng</p>
         </div>
 
         <div class="contact-item">
-            <img src="wp-includes/images/anh_icon/email.png" alt="Email">
+            <img src="img/anh_icon/email.png" alt="Email">
             <h3>Email</h3>
             <p>congnvde180639@gmail.com</p>
         </div>
 
         <div class="contact-item">
-            <img src="wp-includes/images/anh_icon/contact.png" alt="Contact">
-            <h3>Contact</h3>
-            <p>38 Lê Đại Hành, Ngũ Hành Sơn, Đà Nẵng</p>
+            <img src="img/anh_icon/contact.png" alt="Contact">
+            <h3>Liên hệ</h3>
+            <p>0935280706</p>
         </div>
 
         <div class="contact-item">
-            <img src="wp-includes/images/anh_icon/facebook.png" alt="Facebook">
+            <img src="img/anh_icon/facebook.png" alt="Facebook">
             <h3>Facebook</h3>
             <p><a href="https://www.facebook.com/profile.php?id=100054503381115" target="_blank">Facebook Profile</a></p>
         </div>
@@ -229,10 +233,11 @@
     </div>
 
     <div class="banner">
-        <h2>Find the talent needed to get your business growing.</h2>
-        <p>Advertise your jobs to millions of monthly users and search 15.8 million CVs</p>
-        <button class="post-job-button">Start posting job</button>
+        <h2>Tìm kiếm nhân tài cần thiết để phát triển doanh nghiệp của bạn.</h2>
+        <p>Quảng cáo việc làm của bạn tới hàng triệu người dùng hàng tháng và tìm kiếm 15,8 triệu CV</p>
+        <button class="post-job-button">Bắt đầu tìm kiếm</button>
     </div>
+<%@include file="includes/footer.jsp" %>
 </body>
 </html>
 

@@ -339,12 +339,12 @@
                     <a class="nav-link" href="employer.jsp">Nhà tuyển dụng</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="about.jsp">Về chúng tôi</a>
+                    <a class="nav-link" href="about-me.jsp">Về chúng tôi</a>
                 </li>
             </ul>
             <div class="d-flex align-items-center">
                 <a href="login.jsp" class="btn btn-login">Đăng nhập</a>
-                <a href="signup.jsp" class="btn btn-signup">Đăng ký</a>
+                <a href="register.jsp" class="btn btn-signup">Đăng ký</a>
             </div>
         </div>
     </div>

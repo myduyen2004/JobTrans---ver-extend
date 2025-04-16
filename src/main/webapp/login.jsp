@@ -695,12 +695,13 @@
                 <a href="#" class="forgot-password">
                     <i class="fas fa-key"></i> Quên mật khẩu?
                 </a>
-                <a href="#" class="google-login">
+                <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/JobTrans/login&response_type=code&client_id=907520357121-f3uva6g9h5qq1anbsdfatm21bf1pfu8p.apps.googleusercontent.com&approval_prompt=force"
+                   class="google-login">
                     <i class="fab fa-google"></i> Đăng nhập bằng Google
                 </a>
             </div>
             <div class="helper-links">
-                Đã có tài khoản? <a href="#" class="login-link">Đăng kí ngay</a>
+                Đã có tài khoản? <a href="register.jsp" class="login-link">Đăng kí ngay</a>
             </div>
         </form>
     </div>
