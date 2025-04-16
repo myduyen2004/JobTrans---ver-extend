@@ -627,6 +627,8 @@
 
     </form>
 
+    <%@include file="./includes/gpt_sidebar.jsp" %>
+
 </main>
 </div>
 

@@ -34,8 +34,10 @@
 		margin: 20px;
 		max-height: 80vh;
 		overflow-y: auto;
-		margin-left: 18%;
-		margin-right: 8%;
+		margin-left: 14%;
+		margin-right: 14%;
+		margin-top: 50px;
+		width: 1100px;
 	}
 
 	/* Title */
@@ -242,7 +244,11 @@
 
 
 <div class="container_cv">
-<%--	<%@include file="./includes/sidebar.jsp" %>--%>
+
+<div>
+	<%@include file="includes/sidebar.jsp"%>
+</div>
+	<div class="content" id="content">
 	<div class="cv-container">
 		<h2 class="cv-title">Chọn mẫu CV</h2>
 
@@ -286,6 +292,7 @@
 			</c:when>
 		</c:choose>
 
+	</div>
 	</div>
 </div>
 <%@include file="includes/footer.jsp" %>

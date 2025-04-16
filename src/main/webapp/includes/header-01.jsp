@@ -1043,7 +1043,7 @@
                         <li><a class="dropdown-item" href="cv?action=list"><i class="fas fa-file-alt"></i>CV của tôi</a></li>
 
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="cv-builder.jsp"><i class="fas fa-tools"></i>Công cụ tạo CV</a></li>
+                        <li><a class="dropdown-item" href="api.jsp"><i class="fas fa-tools"></i>Công cụ AI</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">

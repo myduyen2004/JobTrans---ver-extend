@@ -27,6 +27,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 40px;
+    margin-right: 70px;
 }
 
 /* Tab danh sách CV */
@@ -38,7 +39,7 @@
     font-size: 16px;
     color: #6c63ff;
     cursor: pointer;
-    margin-left: 17%;
+
     margin-top: 50px;
     margin-bottom: 20px;
 }
@@ -60,6 +61,7 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    width: 1400px;
 }
 
 /* Thẻ CV */
@@ -69,8 +71,8 @@
     border-radius: 10px;
     border: 1px solid #ddd;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-    margin-right:17%;
-    margin-left: 18.5%;
+    margin-right:26%;
+
 }
 
 /* Nhóm nút */
@@ -115,13 +117,15 @@
 <%@include file="includes/header-01.jsp" %>
 
 
+<%@include file="./includes/sidebar.jsp" %>
+ <div class="content" id="content">
 
 
 <div class="container_cv">
-    <%@include file="./includes/sidebar.jsp" %>
+
     <div class="container_listCV">
 
-        <div class="header">
+        <div  class="header">
             <button class="tab-active">Danh sách CV đã được tạo</button>
             <button class="create-btn">Tạo CV</button>
         </div>
@@ -153,6 +157,7 @@
         </div>
     </div>
 </div>
+ </div>
 <%@include file="includes/footer.jsp" %>
 
 <!--======= Back to Top =======-->

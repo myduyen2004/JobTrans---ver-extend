@@ -72,10 +72,12 @@
       flex-direction: column;
       gap: 15px;
       margin-top: 20px;
+
     }
 
-    textarea {
-      width: 100%;
+    .chat-form textarea {
+      margin-left: 30px;
+      width: 85%;
       padding: 15px;
       border: 2px solid var(--border-color);
       border-radius: var(--radius-sm);
@@ -83,12 +85,13 @@
       font-size: 16px;
       line-height: 1.5;
       transition: var(--transition);
-      min-height: 120px;
+      min-height: 60px;
       background-color: white;
       box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+
     }
 
-    textarea:focus {
+    .chat-form textarea:focus {
       border-color: var(--primary-color);
       outline: none;
       box-shadow: 0 0 0 3px rgba(103, 135, 254, 0.2);
@@ -108,6 +111,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      margin-bottom: 40px;
     }
 
     .submit-btn:hover {
@@ -172,6 +176,7 @@
       transition: var(--transition) !important;
       padding: 0 !important;
       outline: none !important;
+      margin-top: 750px;
     }
 
     /* Đặt sidebar ở bên phải */
@@ -222,7 +227,54 @@
     .chat-container::-webkit-scrollbar-thumb:hover {
       background: #a1a1a1;
     }
+    .welcome-message {
+      padding: 20px;
+      text-align: center;
+      color: var(--text-light);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
 
+    .welcome-message i {
+      font-size: 48px;
+      color: var(--primary-color);
+      margin-bottom: 16px;
+      opacity: 0.8;
+    }
+
+    .welcome-message h3 {
+      color: var(--text-color);
+      margin-bottom: 8px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .welcome-message p {
+      max-width: 300px;
+      margin: 0 auto;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .chat-messages::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .chat-messages::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+
+    .chat-messages::-webkit-scrollbar-thumb {
+      background: #c1c1c1;
+      border-radius: 10px;
+    }
+
+    .chat-messages::-webkit-scrollbar-thumb:hover {
+      background: #a1a1a1;
+    }
     /* Animations */
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
@@ -266,20 +318,34 @@
     </div>
 
     <div class="chat-container">
-      <form id="chatForm" class="chat-form">
-        <textarea id="user-message" name="message" rows="5" placeholder="Nhập câu hỏi của bạn..."></textarea>
-        <button type="submit" class="submit-btn">
-          <i class="fas fa-paper-plane"></i> Gửi câu hỏi
-        </button>
-      </form>
+      <div class="chat-messages" id="chatMessages">
+        <div class="welcome-message" id="welcomeMessage">
+          <i class="fas fa-robot"></i>
+          <h3>Xin chào! Tôi có thể giúp gì cho bạn?</h3>
+          <p>Hỏi tôi bất cứ điều gì và tôi sẽ cố gắng trả lời tốt nhất có thể.</p>
+        </div>
+      </div>
       <div class="loading" id="loadingIndicator">
         <i class="fas fa-spinner"></i> Đang xử lý...
       </div>
       <div id="responseContainer"></div>
     </div>
+      <form id="chatForm" class="chat-form">
+        <textarea style="height: 60px" id="user-message" name="message" rows="5" placeholder="Nhập câu hỏi của bạn..."></textarea>
+        <button type="submit" class="submit-btn">
+          <i class="fas fa-paper-plane"></i> Gửi câu hỏi
+        </button>
+      </form>
+
+
+
+
+
   </div>
 </div>
+
 <script>
+
   document.addEventListener("DOMContentLoaded", function () {
     const toggleBtn = document.getElementById("sidebarToggle");
     const sidebar = document.getElementById("dashboardSidebar");
@@ -291,7 +357,11 @@
     let websocket;
     const contextPath = '<%=request.getContextPath()%>';
     const httpUrl = contextPath + '/chat';
-    const wsUrl = 'ws://' + window.location.host + contextPath + '/chatws';
+    // Sửa URL WebSocket để tự động xác định host và context path
+    const wsProtocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+    const wsUrl = wsProtocol + window.location.host + contextPath + '/chatws';
+
+    console.log('WebSocket URL:', wsUrl);
 
     // Hàm gửi tin nhắn qua HTTP
     async function sendViaHttp(message) {
@@ -304,7 +374,9 @@
           body: 'message=' + encodeURIComponent(message)
         });
 
-        if (!response.ok) throw new Error('HTTP error ' + response.status);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response}`);
+        }
 
         const data = await response.json();
         return data.response;
@@ -316,7 +388,9 @@
 
     // Hàm kết nối WebSocket
     function connectWebSocket() {
+
       if (websocket && (websocket.readyState === WebSocket.OPEN || websocket.readyState === WebSocket.CONNECTING)) {
+        console.log('WebSocket đã kết nối hoặc đang kết nối');
         return;
       }
 
@@ -334,32 +408,52 @@
       websocket.onerror = function(error) {
         console.error('❌ WebSocket error:', error);
         loadingIndicator.style.display = 'none';
-        addErrorToUI('Lỗi kết nối WebSocket');
+        addErrorToUI('Lỗi kết nối WebSocket. Đang thử kết nối lại...');
+        // Tự động kết nối lại sau 3 giây
+        setTimeout(connectWebSocket, 3000);
       };
 
       websocket.onclose = function() {
         console.log('⚠️ WebSocket disconnected');
+        // Tự động kết nối lại sau 5 giây
+        setTimeout(connectWebSocket, 5000);
       };
     }
-
+    // websocket.onopen = function() {
+    //   console.log('✅ WebSocket connected');
+    //   // Test gửi message ngay sau khi kết nối
+    //   websocket.send("Test connection");
+    // };
     // Hàm hiển thị phản hồi
     function addResponseToUI(response) {
-      const safeResponse = response.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      const safeResponse = escapeHtml(response);
       responseContainer.innerHTML += `
-            <div class="response">
-                <h2><i class="fas fa-robot"></i> Phản hồi từ AI</h2>
-                <p>${safeResponse}</p>
-            </div>`;
+        <div class="response">
+            <h2><i class="fas fa-robot"></i> Phản hồi từ AI</h2>
+            <p>` + safeResponse + `</p>
+        </div>`;
       responseContainer.scrollTop = responseContainer.scrollHeight;
+      console.log("resopond ",responseContainer);
     }
 
     // Hàm hiển thị lỗi
     function addErrorToUI(error) {
+      const safeError = escapeHtml(error);
       responseContainer.innerHTML += `
             <div class="response" style="border-left-color: var(--error-color)">
                 <h2><i class="fas fa-exclamation-triangle"></i> Lỗi</h2>
-                <p>${error}</p>
+                <p>${safeError}</p>
             </div>`;
+    }
+
+    // Hàm escape HTML để phòng chống XSS
+    function escapeHtml(unsafe) {
+      return unsafe
+              .replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;")
+              .replace(/"/g, "&quot;")
+              .replace(/'/g, "&#039;");
     }
 
     // Xử lý submit form
@@ -369,6 +463,7 @@
       if (!message) return;
 
       loadingIndicator.style.display = 'block';
+      textarea.value = '';
 
       try {
         // Thử WebSocket trước
@@ -376,13 +471,15 @@
           websocket.send(message);
         } else {
           // Fallback dùng HTTP
+          console.log('Sử dụng HTTP fallback');
           const response = await sendViaHttp(message);
           addResponseToUI(response);
         }
       } catch (error) {
+        console.error('Error:', error);
         addErrorToUI('Không thể gửi tin nhắn: ' + error.message);
       } finally {
-        textarea.value = '';
+        loadingIndicator.style.display = 'none';
         textarea.style.height = 'auto';
       }
     });
@@ -400,9 +497,11 @@
       this.style.height = 'auto';
       this.style.height = (this.scrollHeight) + 'px';
     });
+
+    // Kết nối WebSocket ngay khi tải trang
+    connectWebSocket();
   });
 </script>
-
 
 </body>
 </html>

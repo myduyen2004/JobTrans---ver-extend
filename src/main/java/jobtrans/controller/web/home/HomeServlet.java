@@ -34,6 +34,7 @@ public class HomeServlet extends HttpServlet {
             Logger.getLogger(HomeServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    //hdjgfjgfadgf
 
     private void homePage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();

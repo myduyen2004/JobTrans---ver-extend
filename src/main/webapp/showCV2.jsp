@@ -402,7 +402,7 @@
 
             <!-- Left Sidebar -->
             <div class="cv-sidebar">
-                <div class="avatar-container">
+                <div style="width: 240px; height: 240px" class="avatar-container">
                     <img id="avatar-preview" src="${CV.avatarCv}" alt="">
                 </div>
 

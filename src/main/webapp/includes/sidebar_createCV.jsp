@@ -246,11 +246,8 @@
 
         </button>
 
-
-
-
     </div>
-    <%@include file="./gpt_sidebar.jsp" %>
+
 </header>
 
 <!-- Sidebar Navigation -->
