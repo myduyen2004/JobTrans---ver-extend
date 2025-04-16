@@ -62,7 +62,7 @@
             display: flex; /* Sử dụng flexbox cho card-body */
             flex-direction: column; /* Sắp xếp nội dung theo chiều dọc */
         }
-
+/*comment*/
         .card:hover {
             background-color: #6787FE; /* Màu nền xanh nhạt khi hover */
         }
