@@ -50,7 +50,7 @@
     }
 
     .cv-container {
-        width: 1200px;
+        width: 1100px;
         display: flex;
         box-shadow: var(--shadow);
         background: white;
@@ -72,6 +72,7 @@
     }
 
     .avatar-container {
+
         width: 100px;
         height: 100px;
         border-radius: 50%;
@@ -230,8 +231,8 @@
 <body class="archive post-type-archive post-type-archive-projects wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
 
 
-<%@include file="includes/header-01.jsp" %>
-
+<%@include file="./includes/header-02.jsp" %>
+<%@include file="./includes/header_under.jsp" %>
 
 <div style="display: flex">
     <div>
@@ -240,7 +241,7 @@
 
             <!-- Left Sidebar -->
             <div class="cv-sidebar">
-                <div class="avatar-container">
+                <div style="width: 240px;height: 240px" class="avatar-container">
                     <img id="avatar-preview" src="https://randomuser.me/api/portraits/men/32.jpg" alt="John Doe">
                 </div>
 

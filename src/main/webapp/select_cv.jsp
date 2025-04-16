@@ -34,8 +34,10 @@
 		margin: 20px;
 		max-height: 80vh;
 		overflow-y: auto;
-		margin-left: 18%;
-		margin-right: 8%;
+		margin-left: 14%;
+		margin-right: 14%;
+		margin-top: 50px;
+		width: 1100px;
 	}
 
 	/* Title */
@@ -242,50 +244,55 @@
 
 
 <div class="container_cv">
-<%--	<%@include file="./includes/sidebar.jsp" %>--%>
-	<div class="cv-container">
-		<h2 class="cv-title">Chọn mẫu CV</h2>
 
-		<c:choose>
-			<c:when test="${not empty cvTypes}">
-				<c:forEach items="${cvTypes}" var="o">
-					<div class="cv-card">
-						<img src="${o.imageCv}" alt="" class="cv-image">
-						<div class="cv-info">
-							<div style="display: flex">
-								<p class="cv-description">${o.typeName}</p>
+	<div>
+		<%@include file="includes/sidebar.jsp"%>
+	</div>
+	<div class="content" id="content">
+		<div class="cv-container">
+			<h2 class="cv-title">Chọn mẫu CV</h2>
 
-								<span class="cv-price free">${o.priceCv}</span>
-							</div>
-							<p>${o.description}</p>
-							<div class="button-group">
-								<a  href="cv?action=mauCV&typeId=${o.typeId}" class="view-btn">Xem mẫu</a>
-								<c:choose>
-									<c:when test="${o.typeId == 1}">
-										<a href="create-cv1.jsp?typeId=${o.typeId}">
-											<button class="use-btn">Sử dụng</button>
-										</a>
-									</c:when>
+			<c:choose>
+				<c:when test="${not empty cvTypes}">
+					<c:forEach items="${cvTypes}" var="o">
+						<div class="cv-card">
+							<img src="${o.imageCv}" alt="" class="cv-image">
+							<div class="cv-info">
+								<div style="display: flex">
+									<p class="cv-description">${o.typeName}</p>
 
-									<c:when test="${o.typeId == 2}">
-										<a href="create-cv2.jsp?typeId=${o.typeId}">
-											<button class="use-btn">Sử dụng</button>
-										</a>
-									</c:when>
+									<span class="cv-price free">${o.priceCv}</span>
+								</div>
+								<p>${o.description}</p>
+								<div class="button-group">
+									<a  href="cv?action=mauCV&typeId=${o.typeId}" class="view-btn">Xem mẫu</a>
+									<c:choose>
+										<c:when test="${o.typeId == 1}">
+											<a href="create-cv1.jsp?typeId=${o.typeId}">
+												<button class="use-btn">Sử dụng</button>
+											</a>
+										</c:when>
 
-									<c:when test="${o.typeId == 3}">
-										<a href="create-cv3.jsp?typeId=${o.typeId}">
-											<button class="use-btn">Sử dụng</button>
-										</a>
-									</c:when>
-								</c:choose>
+										<c:when test="${o.typeId == 2}">
+											<a href="create-cv2.jsp?typeId=${o.typeId}">
+												<button class="use-btn">Sử dụng</button>
+											</a>
+										</c:when>
+
+										<c:when test="${o.typeId == 3}">
+											<a href="create-cv3.jsp?typeId=${o.typeId}">
+												<button class="use-btn">Sử dụng</button>
+											</a>
+										</c:when>
+									</c:choose>
+								</div>
 							</div>
 						</div>
-					</div>
-				</c:forEach>
-			</c:when>
-		</c:choose>
+					</c:forEach>
+				</c:when>
+			</c:choose>
 
+		</div>
 	</div>
 </div>
 <%@include file="includes/footer.jsp" %>

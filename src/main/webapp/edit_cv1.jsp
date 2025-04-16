@@ -390,7 +390,7 @@
     </style>
 </head>
 <body>
-
+<%@include file="./includes/gpt_sidebar.jsp" %>
 
 <%@include file="./includes/sidebar_createCV.jsp" %>
 <!-- CV Content Area -->

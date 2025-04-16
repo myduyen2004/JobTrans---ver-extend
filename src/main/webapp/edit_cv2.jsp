@@ -41,15 +41,15 @@
         }
 
         .cv-container {
-            width: 1200px;
+            width: 1100px;
             display: flex;
             box-shadow: var(--shadow);
             background: white;
             border-radius: var(--radius);
             overflow: hidden;
             position: relative;
-            margin-top: 20px;
-            margin-left: 10%;
+            margin-top: 180px;
+
         }
 
         /* Sidebar Styles */
@@ -341,6 +341,7 @@
     </style>
 </head>
 <body>
+<%@include file="./includes/gpt_sidebar.jsp" %>
 <%@include file="./includes/sidebar_createCV.jsp" %>
 <form action="cv?action=update" method="POST" enctype="multipart/form-data">
     <input type="hidden" name="cvId" value="${param.cvId}">
