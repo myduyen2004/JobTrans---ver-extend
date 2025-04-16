@@ -1,14 +1,14 @@
-.banner_title{
-    background-image: url(../wp-content/uploads/2021/09/breadcrumb-bg.jpg);
+
+.banner_title {
+    background-image: url(../img/anh1/anh1.png);
     background-size: 100%;
-    font-family: 'Poppins', sans-serif;
     font-size: 40px;
     height: 200px;
     display: flex;
     align-items: center;
 }
 
-.switch{
+.switch {
     position: relative;
     display: inline-block;
     width: 33px;
@@ -16,7 +16,7 @@
     margin: 0 10px;
 }
 
-.slider{
+.slider {
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -28,9 +28,11 @@
     border-radius: 34px;
 }
 
-.switch input{display: none}
+.switch input {
+    display: none
+}
 
-.slider:before{
+.slider:before {
     position: absolute;
     content: "";
     height: 15px;
@@ -42,10 +44,19 @@
     border-radius: 50px;
 }
 
-input:checked + .slider{
+input:checked + .slider {
     background-color: #6787FE;
 }
 
-input:checked + .slider:before{
+input:checked + .slider:before {
     transform: translateX(15px);
+}
+
+.post-box {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.post-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }

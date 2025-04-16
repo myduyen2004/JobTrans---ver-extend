@@ -32,13 +32,6 @@ public class GroupMemberServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         switch (action) {
-            case "member-details":
-                try {
-                    getMemberDetail(request, response);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-                break;
             case "showUpdateGroup":
                 try {
                     showUpdateGroup(request, response);
@@ -46,8 +39,15 @@ public class GroupMemberServlet extends HttpServlet {
                     throw new RuntimeException(e);
                 }
                 break;
+            case "view":
+                try {
+                    viewProfile(request, response);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                break;
             default:
-                response.sendRedirect("viewProfile.jsp");
+                response.sendRedirect("infor-group.jsp");
                 break;
         }
     }
@@ -74,14 +74,39 @@ public class GroupMemberServlet extends HttpServlet {
         }
     }
 
+    private void viewProfile(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//        HttpSession session = request.getSession();
+//        Account account = (Account) session.getAttribute("sessionAccount");
+//        Account account01 = accountDAO.getAccountById(account.getAccountId());
+//        List<GroupMember> members = groupMemberDAO.getMembersByAccountId(account.getAccountId());
+
+        int accountId = Integer.parseInt(request.getParameter("account_id"));
+        Account account01 = accountDAO.getAccountById(accountId);
+        List<GroupMember> members = groupMemberDAO.getMembersByAccountId(accountId);
+
+        request.setAttribute("account", account01);
+        request.setAttribute("memberList", members);
+
+        // If members exist, get the first member's details by default
+//        if (!members.isEmpty()) {
+//            GroupMember firstMember = members.get(0);
+//            request.setAttribute("selectedMember", firstMember);
+//        }
+
+        request.getRequestDispatcher("infor-group.jsp").forward(request, response);
+    }
+
     private void showUpdateGroup(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("sessionAccount");
-//        int accountId = Integer.parseInt(request.getParameter("account_id"));
+//        Account account = (Account) session.getAttribute("sessionAccount");
 //        Account account01 = accountDAO.getAccountById(account.getAccountId());
-        List<GroupMember> members = groupMemberDAO.getMembersByAccountId(account.getAccountId());
+//        List<GroupMember> members = groupMemberDAO.getMembersByAccountId(account.getAccountId());
 
-        request.setAttribute("account", account);
+        int accountId = Integer.parseInt(request.getParameter("account_id"));
+        Account account01 = accountDAO.getAccountById(accountId);
+        List<GroupMember> members = groupMemberDAO.getMembersByAccountId(accountId);
+
+        request.setAttribute("account", account01);
         request.setAttribute("memberList", members);
 
         // If members exist, get the first member's details by default
@@ -90,7 +115,7 @@ public class GroupMemberServlet extends HttpServlet {
             request.setAttribute("selectedMember", firstMember);
         }
 
-        request.getRequestDispatcher("enter_group_in4.jsp").forward(request, response);
+        request.getRequestDispatcher("infor-group.jsp").forward(request, response);
     }
 
     private void updateMemberInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -134,27 +159,6 @@ public class GroupMemberServlet extends HttpServlet {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
         response.sendRedirect(request.getContextPath() + "/group?action=showUpdateGroup&account_id=" + member.getAccountId());
-    }
-
-    private void getMemberDetail(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        int memberId = Integer.parseInt(request.getParameter("memberId"));
-        GroupMember member = groupMemberDAO.getMemberByMemberId(memberId);
-
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-
-        // Create JSON response with member details
-        String json = "{" +
-                "\"memberName\":\"" + (member.getMemberName() != null ? member.getMemberName() : "") + "\"," +
-                "\"dateOfBirth\":\"" + (member.getUtilsDateOfBirth() != null ? member.getUtilsDateOfBirth() : "") + "\"," +
-                "\"gender\":\"" + (member.getGender() != null ? member.getGender() : "") + "\"," +
-                "\"experienceYears\":\"" + member.getExperienceYears() + "\"," +
-                "\"education\":\"" + (member.getEducation() != null ? member.getEducation() : "") + "\"," +
-                "\"bio\":\"" + (member.getBio() != null ? member.getBio() : "") + "\"," +
-                "\"specialist\":\"" + (member.getSpecialist() != null ? member.getSpecialist() : "") + "\"" +
-                "}";
-
-        response.getWriter().print(json);
     }
 
     private void getInforMember(HttpServletRequest request, HttpServletResponse response)

@@ -1,0 +1,26 @@
+.banner_title {
+    background-image: url(../img/anh1/anh1.png);
+    background-size: 100%;
+    font-size: 40px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+}
+
+.post-box {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.post-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.page_item{
+    background-color: #fff;
+    color: #000;
+}
+.page_item:hover {
+    background-color: #6787FE;
+    color: #fff;
+}

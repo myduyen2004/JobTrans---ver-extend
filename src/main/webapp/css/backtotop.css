@@ -1,0 +1,19 @@
+/* backtotop.css */
+#backtotop {
+    position: fixed !important;
+    bottom: 30px;
+    right: 30px;
+    z-index: 999;
+    background: #6787FE;
+    color: white;
+    padding: 12px 15px;
+    border-radius: 50%;
+    cursor: pointer;    
+    display: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.3s ease;
+}
+
+#backtotop:hover {
+    background: #4564d2;
+}

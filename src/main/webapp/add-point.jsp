@@ -1,16 +1,9 @@
-<%-- 
-    Document   : add-point
-    Created on : 4 thg 3, 2025, 09:50:45
-    Author     : mac
---%>
-
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-    </head>
     <style>
         .box {
             width: 60%;
@@ -51,11 +44,7 @@
         }
     </style>
 </head>
-
-<body style="background-image: url('');
-                 background-size: cover;">
-<%@include file="includes/header-01.jsp" %>
-
+<body>
     <div class="box" >
     <div class="box-header">Điều khoản cộng điểm</div>
     <ul>
@@ -71,6 +60,5 @@
         <li>Tạo tài khoản (+10 điểm)</li>
     </ul>
 </div>
-    <%@include file="includes/footer.jsp" %>
 </body>
 </html>

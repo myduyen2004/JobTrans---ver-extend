@@ -1,1264 +1,1464 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 <!DOCTYPE html>
-<html>
-<title>JobTrans - Nền tảng cho thuê và tìm kiếm việc làm</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta charset="UTF-8">
-<!-- App favicon -->
-<link rel="shortcut icon" href="assets/images/favicon.ico">
-
-<!-- jsvectormap css -->
-<link href="assets/libs/jsvectormap/jsvectormap.min.css" rel="stylesheet" type="text/css" />
-
-<!--Swiper slider css-->
-<link href="assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
-
-<!-- Layout config Js -->
-<script src="assets/js/layout.js"></script>
-<!-- Bootstrap Css -->
-<link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-<!-- Icons Css -->
-<link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-<!-- App Css-->
-<link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
-<!-- custom Css-->
-<link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
-
-
-<%@include file="/includes/header-01.jsp" %>
-<body>
-
-<!-- Begin page -->
-<div id="layout-wrapper">
-    <section class="pb-95 bg-gray">
-        <section>
-            <div class="breadcrumbs">
-                <div class="col-md-12 my-auto">
-                    <h1 style="text-align: center;color:white">Dashboard người dùng</h1>
-                </div>
-
-        </section>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobTrans Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <style>
-        .site-footer {
-            background-color: #0F1B63 !important;
+        :root {
+            --jobtrans-primary: #4a6cf7;
+            --jobtrans-primary-light: #5d7ef8;
+            --jobtrans-primary-dark: #3b5de7;
+            --jobtrans-gradient: linear-gradient(135deg, #3a4cd0 0%, #4a6cf7 100%);
+            --jobtrans-dark: #172b4d;
+            --jobtrans-light: #f0f4ff;
+            --jobtrans-gray: #8492a6;
+            --jobtrans-border: #edf2f7;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
         }
 
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: var(--jobtrans-dark);
+        }
+
+        /* Card styles */
+        .card {
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            border: none;
+            margin-bottom: 24px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-header {
+            border-bottom: 1px solid var(--jobtrans-border);
+            padding: 1.5rem;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        /* Stats cards */
+        .stats-card {
+            position: relative;
+            background: var(--jobtrans-gradient);
+            color: white;
+            border-radius: 16px;
+            padding: 20px;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .stats-card:after {
+            content: "";
+            position: absolute;
+            bottom: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .stats-card .icon-shape {
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .stats-card:hover .icon-shape {
+            transform: scale(1.1);
+        }
+
+        .stats-card h5 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Icons and buttons */
+        .icon-shape {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-jobtrans {
+            background: var(--jobtrans-gradient);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 0.6rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-jobtrans:hover {
+            background: var(--jobtrans-primary-dark);
+            box-shadow: 0 5px 15px rgba(58, 76, 208, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Text colors */
+        .text-jobtrans {
+            color: var(--jobtrans-primary) !important;
+        }
+
+        .text-secondary {
+            color: var(--jobtrans-gray) !important;
+        }
+
+        /* Table styles */
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--jobtrans-border);
+        }
+
+        .table td {
+            padding: 1rem;
+            vertical-align: middle;
+            border-bottom: 1px solid var(--jobtrans-border);
+        }
+
+        tbody tr {
+            transition: background-color 0.2s;
+        }
+
+        tbody tr:hover {
+            background-color: var(--jobtrans-light);
+        }
+
+        /* Avatar styles */
+        .avatar {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: var(--jobtrans-light);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s;
+        }
+
+        .avatar:hover {
+            transform: scale(1.1);
+        }
+
+        .avatar-group .avatar {
+            margin-right: -10px;
+            border: 2px solid white;
+        }
+
+        .avatar-xs {
+            width: 30px;
+            height: 30px;
+        }
+
+        .avatar-sm {
+            width: 36px;
+            height: 36px;
+        }
+
+        /* Badge styles */
+        .badge {
+            padding: 0.55em 0.9em;
+            font-weight: 600;
+            font-size: 0.7rem;
+            border-radius: 6px;
+        }
+
+        .bg-success {
+            background-color: #10b981 !important;
+        }
+
+        .bg-warning {
+            background-color: #f59e0b !important;
+        }
+
+        .bg-danger {
+            background-color: #ef4444 !important;
+        }
+
+        /* Progress bar enhancements */
+        .progress {
+            height: 8px;
+            background-color: rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 8px 0;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-bar {
+            height: 100%;
+            color: #fff;
+            text-align: center;
+            font-size: 10px;
+            line-height: 8px;
+            transition: width 0.6s ease, background-color 0.3s ease;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .progress-bar.bg-gradient-jobtrans {
+            background: var(--jobtrans-gradient);
+            box-shadow: 0 2px 5px rgba(74, 108, 247, 0.3);
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -50%;
+            width: 20%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 100%);
+            transform: skewX(-25deg);
+            animation: shine 2s infinite;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .progress-percentage {
+            font-weight: 600;
+            color: var(--jobtrans-dark);
+        }
+
+        /* Chart container */
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 300px;
+            width: 100%;
+        }
+
+        /* Animation for shine effect */
+        @keyframes shine {
+            0% {
+                left: -50%;
+            }
+            100% {
+                left: 130%;
+            }
+        }
+
+        /* Pagination */
+        .pagination {
+            margin-bottom: 0;
+        }
+
+        .page-link {
+            border: none;
+            border-radius: 8px;
+            margin: 0 3px;
+            color: var(--jobtrans-dark);
+            transition: all 0.2s;
+        }
+
+        .page-link:hover {
+            background-color: var(--jobtrans-light);
+            color: var(--jobtrans-primary);
+        }
+
+        .page-item.active .page-link {
+            background-color: var(--jobtrans-primary);
+            color: white;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .stats-card {
+                margin-bottom: 20px;
+            }
+
+            .card-header, .card-body {
+                padding: 1.25rem;
+            }
+        }
+
+        /* Dropdown styling */
+        .dropdown-menu {
+            border: none;
+            border-radius: 10px;
+            box-shadow: var(--shadow-md);
+            padding: 0.5rem;
+        }
+
+        .dropdown-item {
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            transition: all 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--jobtrans-light);
+            color: var(--jobtrans-primary);
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--jobtrans-gray);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--jobtrans-primary);
+        }
     </style>
-  <!-- removeNotificationModal -->
-  <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="NotificationModalbtn-close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="mt-2 text-center">
-            <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
-            <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
-              <h4>Are you sure ?</h4>
-              <p class="text-muted mx-4 mb-0">Are you sure you want to remove this Notification ?</p>
-            </div>
-          </div>
-          <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
-            <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn w-sm btn-danger" id="delete-notification">Yes, Delete It!</button>
-          </div>
-        </div>
-
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
-
-  <!-- Left Sidebar End -->
-  <!-- Vertical Overlay-->
-  <div class="vertical-overlay"></div>
-
-  <!-- ============================================================== -->
-  <!-- Start right Content here -->
-  <!-- ============================================================== -->
-
-
-    <div class="page-content">
-      <div class="container-fluid">
-
+    
+</head>
+<%@include file="includes/header-02.jsp"%>
+<%@include file="includes/sidebar.jsp"%>
+<body class="g-sidenav-show bg-gray-100">
+<div class="content" id="content">
+    <div class="main-content">
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
+    <div class="container-fluid py-4">
+        <!-- Stats Cards -->
         <div class="row">
-          <div class="col">
-
-            <div class="h-100">
-              <div class="row mb-3 pb-1">
-                <div class="col-12">
-                  <div class="d-flex align-items-lg-center flex-lg-row flex-column">
-
-
-                  </div><!-- end card header -->
-                </div>
-                <!--end col-->
-              </div>
-              <!--end row-->
-
-              <div class="row gx-4 gy-4">
-                <div class="col-xl-3 col-md-6">
-                  <!-- card -->
-                  <div class="card card-animate">
-                    <div class="card-body">
-                      <div class="d-flex align-items-center">
-                        <div class="flex-grow-1 overflow-hidden">
-                          <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Số Công việc đăng tải</p>
+            <div class="col-lg-6 col-12" style="margin-top: 10px;">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="card stats-card">
+                            <div class="card-body p-3 position-relative">
+                                <div class="row">
+                                    <div class="col-8 text-start">
+                                        <div class="icon icon-shape bg-white shadow text-center border-radius-2xl">
+                                            <i class="fas fa-users text-dark text-lg opacity-10" aria-hidden="true"></i>
+                                        </div>
+                                        <h5 class="text-white font-weight-bolder mb-0 mt-3">
+                                            1600
+                                        </h5>
+                                        <span class="text-white text-sm">Người dùng</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                      </div>
-                      <div class="d-flex align-items-end justify-content-between mt-4">
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12 mt-4 mt-md-0">
+                        <div class="card stats-card">
+                            <div class="card-body p-3 position-relative">
+                                <div class="row">
+                                    <div class="col-8 text-start">
+                                        <div class="icon icon-shape bg-white shadow text-center border-radius-2xl">
+                                            <i class="fa-solid fa-file text-dark text-lg opacity-10" aria-hidden="true"></i>
+                                        </div>
+                                        <h5 class="text-white font-weight-bolder mb-0 mt-3">
+                                            357
+                                        </h5>
+                                        <span class="text-white text-sm">Công việc</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="card stats-card">
+                            <div class="card-body p-3 position-relative">
+                                <div class="row">
+                                    <div class="col-8 text-start">
+                                        <div class="icon icon-shape bg-white shadow text-center border-radius-2xl">
+                                            <i class="fa-solid fa-sack-dollar text-dark text-lg opacity-10" aria-hidden="true"></i>
+                                        </div>
+                                        <h5 class="text-white font-weight-bolder mb-0 mt-3">
+                                            2300
+                                        </h5>
+                                        <span class="text-white text-sm">Tổng giao dịch</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12 mt-4 mt-md-0">
+                        <div class="card stats-card">
+                            <div class="card-body p-3 position-relative">
+                                <div class="row">
+                                    <div class="col-8 text-start">
+                                        <div class="icon icon-shape bg-white shadow text-center border-radius-2xl">
+                                            <i class="fa-solid fa-money-bill text-dark text-lg opacity-10" aria-hidden="true"></i>
+                                        </div>
+                                        <h5 class="text-white font-weight-bolder mb-0 mt-3">
+                                            940
+                                        </h5>
+                                        <span class="text-white text-sm">Hoa hồng</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card z-index-2">
+                    <div class="card-header pb-0 p-3 bg-white">
+                        <h6 class="mb-0 text-jobtrans">Thống kê công việc</h6>
+                        <p class="text-sm">
+                            <i class="fa fa-arrow-up text-success"></i>
+                            <span class="font-weight-bold">4% tăng</span> trong năm 2025
+                        </p>
+                    </div>
+                    <div class="card-body p-3">
+                        <div class="chart">
+                            <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Daily Revenue Chart -->
+            <div class="col-lg-6">
+                <div class="card z-index-2">
+                    <div class="card-header pb-0 p-3 bg-white d-flex justify-content-between align-items-center">
+                        <h6 class="mb-0 text-jobtrans">Doanh thu</h6>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-sm btn-outline-primary active" id="viewDailyRevenue">Theo ngày</button>
+                            <button type="button" class="btn btn-sm btn-outline-primary" id="viewMonthlyRevenue">Theo tháng</button>
+                        </div>
+                    </div>
+                    <div class="card-body p-3">
+                        <div class="chart-container">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-lg-0 mb-4">
+                <div class="card z-index-2">
+                    <div class="card-header pb-0 p-3 bg-white d-flex justify-content-between align-items-center">
                         <div>
-                          <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value" data-target="559.25">0</span>k</h4>
+                            <h6 class="mb-0 text-jobtrans">Thống kê công việc</h6>
                         </div>
-                        <div class="avatar-sm flex-shrink-0">
-                <span class="avatar-title bg-primary-subtle rounded fs-3">
-                    <i class="bx bx-list-ul text-primary"></i> <!-- Icon đại diện -->
-                </span>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-sm btn-outline-primary active" id="viewDaily">Theo ngày</button>
+                            <button type="button" class="btn btn-sm btn-outline-primary" id="viewWeekly">Theo tuần</button>
+                            <button type="button" class="btn btn-sm btn-outline-primary" id="viewMonthly">Theo tháng</button>
                         </div>
-
-                      </div>
                     </div>
-                  </div>
+                    <div class="card-body p-3">
+                        <div id="timePeriodLabel" class="text-sm text-muted mb-2">Tuần hiện tại</div>
+                        <div class="chart-container">
+                            <canvas id="jobStatsChart"></canvas>
+                        </div>
+                    </div>
                 </div>
+            </div>
 
-                <div class="col-xl-3 col-md-6">
-                  <!-- card -->
-                  <div class="card card-animate">
-                    <div class="card-body">
-                      <div class="d-flex align-items-center">
-                        <div class="flex-grow-1 overflow-hidden">
-                          <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Số dự án thành công</p>
-                        </div>
 
-                      </div>
-                      <div class="d-flex align-items-end justify-content-between mt-4">
-                        <div>
-                          <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="36894">0</span></h4>
-                        </div>
-                        <div class="avatar-sm flex-shrink-0">
-                <span class="avatar-title bg-success-subtle rounded fs-3">
-                    <i class="bx bx-check-circle text-success"></i>
-                </span>
-                        </div>
+        </div>
 
-                      </div>
+        <!-- Charts -->
+        <div class="row mt-4">
+            <!-- Daily Jobs Chart -->
+
+            <div class="col-lg-6 mb-lg-0 mb-4">
+                <div class="card">
+                    <div class="card-header pb-0 p-3 bg-white">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="mb-0 text-jobtrans">Thống kê giao dịch</h6>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="transactionFilterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Lọc theo ngày
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="transactionFilterDropdown">
+                                    <li><a class="dropdown-item" href="javascript:filterTransactions('today')">Hôm nay</a></li>
+                                    <li><a class="dropdown-item" href="javascript:filterTransactions('yesterday')">Hôm qua</a></li>
+                                    <li><a class="dropdown-item" href="javascript:filterTransactions('week')">Tuần này</a></li>
+                                    <li><a class="dropdown-item" href="javascript:filterTransactions('month')">Tháng này</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="javascript:filterTransactions('all')">Tất cả</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <p class="text-sm mb-0" id="transactionFilterText">
+                            <i class="fa fa-calendar text-jobtrans" aria-hidden="true"></i>
+                            <span class="font-weight-bold ms-1">Hiển thị giao dịch tuần này</span>
+                        </p>
                     </div>
-                  </div>
+                    <div class="card-body p-3">
+                        <div class="table-responsive">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Mã giao dịch</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Khách hàng</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Ngày</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Số tiền</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Trạng thái</th>
+                                </tr>
+                                </thead>
+                                <tbody id="transactionTableBody">
+                                <tr>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm">#JT0451</h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="avatar avatar-xs me-2">
+                                                <img src="/api/placeholder/24/24" class="rounded-circle" alt="user">
+                                            </div>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm">Nguyễn Văn A</h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs text-secondary mb-0">13/04/2025</p>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs font-weight-bold mb-0">$2,500</p>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-success">Thành công</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm">#JT0450</h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="avatar avatar-xs me-2">
+                                                <img src="/api/placeholder/24/24" class="rounded-circle" alt="user">
+                                            </div>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm">Trần Thị B</h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs text-secondary mb-0">12/04/2025</p>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs font-weight-bold mb-0">$1,800</p>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-success">Thành công</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm">#JT0449</h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="avatar avatar-xs me-2">
+                                                <img src="/api/placeholder/24/24" class="rounded-circle" alt="user">
+                                            </div>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm">Lê Văn C</h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs text-secondary mb-0">12/04/2025</p>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs font-weight-bold mb-0">$950</p>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-success">Thành công</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm">#JT0448</h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="avatar avatar-xs me-2">
+                                                <img src="/api/placeholder/24/24" class="rounded-circle" alt="user">
+                                            </div>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm">Phạm Thị D</h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs text-secondary mb-0">11/04/2025</p>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs font-weight-bold mb-0">$3,200</p>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-success">Thành công</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm">#JT0447</h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="avatar avatar-xs me-2">
+                                                <img src="/api/placeholder/24/24" class="rounded-circle" alt="user">
+                                            </div>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm">Hoàng Văn E</h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs text-secondary mb-0">10/04/2025</p>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs font-weight-bold mb-0">$1,250</p>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-warning">Đang xử lý</span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer p-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <p class="mb-0 text-sm">Hiển thị 5/20 giao dịch</p>
+                            <nav aria-label="Transaction pagination">
+                                <ul class="pagination pagination-sm mb-0">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
                 </div>
+            </div>
 
-                <div class="col-xl-3 col-md-6">
-                  <!-- card -->
-                  <div class="card card-animate">
-                    <div class="card-body">
-                      <div class="d-flex align-items-center">
-                        <div class="flex-grow-1 overflow-hidden">
-                          <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Số tiền hoa hồng</p>
-                        </div>
-
-                      </div>
-                      <div class="d-flex align-items-end justify-content-between mt-4">
-                        <div>
-                          <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="183.35">0</span>M</h4>
-                        </div>
-                        <div class="avatar-sm flex-shrink-0">
-                <span class="avatar-title bg-info-subtle rounded fs-3">
-                    <i class="bx bx-dollar-circle text-info"></i>
-                </span>
-                        </div>
-
-                      </div>
+            <div class="col-lg-6 mb-lg-0 mb-4">
+                <div class="card">
+                    <div class="card-header pb-0 p-3 bg-white">
+                        <h6 class="mb-0 text-jobtrans">Tổng quan giao dịch</h6>
+                        <p class="text-sm mb-0">
+                            <i class="fa fa-arrow-up text-success" aria-hidden="true"></i>
+                            <span class="font-weight-bold ms-1">18% tăng</span> so với tháng trước
+                        </p>
                     </div>
-                  </div>
+                    <div class="card-body p-3">
+                        <div class="row">
+                            <div class="col-6 mb-4">
+                                <div class="card bg-gradient-jobtrans border-radius-lg">
+                                    <div class="card-body p-3">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="numbers">
+                                                    <p class="text-white text-sm mb-0 opacity-7">Tổng giao dịch</p>
+                                                    <h5 class="text-white font-weight-bolder mb-0">
+                                                        1,240
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 text-end">
+                                                <div class="icon icon-shape bg-white shadow text-center border-radius-md">
+                                                    <i class="fas fa-exchange-alt text-dark opacity-10" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 mb-4">
+                                <div class="card bg-gradient-jobtrans border-radius-lg">
+                                    <div class="card-body p-3">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="numbers">
+                                                    <p class="text-white text-sm mb-0 opacity-7">Giá trị trung bình</p>
+                                                    <h5 class="text-white font-weight-bolder mb-0">
+                                                        $1,850
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 text-end">
+                                                <div class="icon icon-shape bg-white shadow text-center border-radius-md">
+                                                    <i class="fas fa-dollar-sign text-dark opacity-10" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="chart-container pt-3">
+                                    <canvas id="transactionStatsChart" height="230"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <div class="d-flex align-items-center">
+                                    <div class="rounded-circle me-2" style="width: 12px; height: 12px; background-color: var(--jobtrans-primary);"></div>
+                                    <span class="text-sm">Thành công</span>
+                                </div>
+                                <h4 class="font-weight-bolder mt-2">85.2%</h4>
+                                <div class="progress mt-2" style="height: 6px;">
+                                    <div class="progress-bar bg-gradient-jobtrans" role="progressbar" style="width: 85%;" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex align-items-center">
+                                    <div class="rounded-circle me-2" style="width: 12px; height: 12px; background-color: #ffc107;"></div>
+                                    <span class="text-sm">Đang xử lý</span>
+                                </div>
+                                <h4 class="font-weight-bolder mt-2">12.5%</h4>
+                                <div class="progress mt-2" style="height: 6px;">
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 12.5%;" aria-valuenow="12.5" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-6">
+                                <div class="d-flex align-items-center">
+                                    <div class="rounded-circle me-2" style="width: 12px; height: 12px; background-color: #dc3545;"></div>
+                                    <span class="text-sm">Thất bại</span>
+                                </div>
+                                <h4 class="font-weight-bolder mt-2">1.8%</h4>
+                                <div class="progress mt-2" style="height: 6px;">
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 1.8%;" aria-valuenow="1.8" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex align-items-center">
+                                    <div class="rounded-circle me-2" style="width: 12px; height: 12px; background-color: #6c757d;"></div>
+                                    <span class="text-sm">Hoàn tiền</span>
+                                </div>
+                                <h4 class="font-weight-bolder mt-2">0.5%</h4>
+                                <div class="progress mt-2" style="height: 6px;">
+                                    <div class="progress-bar bg-secondary" role="progressbar" style="width: 0.5%;" aria-valuenow="0.5" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </div>
 
-                <div class="col-xl-3 col-md-6">
-                  <!-- card -->
-                  <div class="card card-animate">
-                    <div class="card-body">
-                      <div class="d-flex align-items-center">
-                        <div class="flex-grow-1 overflow-hidden">
-                          <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Danh sách bị khiếu nại </p>
+
+
+        <!-- Jobs Table -->
+        <div class="row my-4">
+            <div class="col-lg-12 col-md-6 mb-md-0 mb-4">
+                <div class="card">
+                    <div class="card-header pb-0 p-3 bg-white">
+                        <div class="row">
+                            <div class="col-lg-6 col-7">
+                                <h6 class="mb-0 text-jobtrans">Công việc trong tháng</h6>
+                                <p class="text-sm mb-0">
+                                    <i class="fa fa-check text-jobtrans" aria-hidden="true"></i>
+                                    <span class="font-weight-bold ms-1">30 công việc</span> hoàn thành trong tháng này
+                                </p>
+                            </div>
+                            <div class="col-lg-6 col-5 my-auto text-end">
+                            </div>
                         </div>
-                      </div>
-                      <div class="d-flex align-items-end justify-content-between mt-4">
-                        <div>
-                          <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value" data-target="165.89">0</span>k</h4>
-                        </div>
-                        <div class="avatar-sm flex-shrink-0">
-            <span class="avatar-title bg-primary-subtle rounded fs-3">
-              <i class="bx bx-wallet text-primary"></i>
-            </span>
-                        </div>
-                      </div>
                     </div>
-                  </div>
+                    <div class="card-body px-0 pb-2">
+                        <div class="table-responsive">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Công việc</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Chi phí</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tiến độ</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr data-page="soft-ui.html" style="cursor: pointer; transition: background-color 0.3s;">
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="avatar avatar-sm me-3">
+                                                <img src="/api/placeholder/30/30" alt="xd">
+                                            </div>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm">Soft UI XD Version</h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle text-center text-sm">
+                                        <span class="text-xs font-weight-bold">$14,000</span>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div class="progress-wrapper w-75 mx-auto">
+                                            <div class="progress-info">
+                                                <div class="progress-percentage">
+                                                    <span class="text-xs font-weight-bold">60%</span>
+                                                </div>
+                                            </div>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-gradient-jobtrans w-60" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Other table rows remain the same -->
+                                <tr data-page="soft-ui.html" style="cursor: pointer; transition: background-color 0.3s;">
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="avatar avatar-sm me-3">
+                                                <img src="/api/placeholder/30/30" alt="xd">
+                                            </div>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm">Soft UI XD Version</h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle text-center text-sm">
+                                        <span class="text-xs font-weight-bold">$14,000</span>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div class="progress-wrapper w-75 mx-auto">
+                                            <div class="progress-info">
+                                                <div class="progress-percentage">
+                                                    <span class="text-xs font-weight-bold">60%</span>
+                                                </div>
+                                            </div>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-gradient-jobtrans w-60" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr data-page="soft-ui.html" style="cursor: pointer; transition: background-color 0.3s;">
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="avatar avatar-sm me-3">
+                                                <img src="/api/placeholder/30/30" alt="xd">
+                                            </div>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm">Soft UI XD Version</h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle text-center text-sm">
+                                        <span class="text-xs font-weight-bold">$14,000</span>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div class="progress-wrapper w-75 mx-auto">
+                                            <div class="progress-info">
+                                                <div class="progress-percentage">
+                                                    <span class="text-xs font-weight-bold">60%</span>
+                                                </div>
+                                            </div>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-gradient-jobtrans" role="progressbar"
+                                                     style="width: 60%;"
+                                                     aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                                                    60%
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-              </div>
-              <!-- end row-->
-
-              <div class="row" style="margin-top: 100px">
-                <div class="col-xl-8">
-                  <div class="card">
-                    <div class="card-header border-0 align-items-center d-flex">
-                      <h4 class="card-title mb-0 flex-grow-1">Revenue</h4>
-                      <div>
-                        <button type="button" class="btn btn-soft-secondary material-shadow-none btn-sm">
-                          ALL
-                        </button>
-                        <button type="button" class="btn btn-soft-secondary material-shadow-none btn-sm">
-                          1M
-                        </button>
-                        <button type="button" class="btn btn-soft-secondary material-shadow-none btn-sm">
-                          6M
-                        </button>
-                        <button type="button" class="btn btn-soft-primary material-shadow-none btn-sm">
-                          1Y
-                        </button>
-                      </div>
-                    </div><!-- end card header -->
-
-                    <div class="card-header p-0 border-0 bg-light-subtle">
-                      <div class="w-100">
-                        <div id="customer_impression_charts" data-colors='["--vz-primary", "--vz-success", "--vz-danger"]' data-colors-minimal='["--vz-light", "--vz-primary", "--vz-info"]' data-colors-saas='["--vz-success", "--vz-info", "--vz-danger"]' data-colors-modern='["--vz-warning", "--vz-primary", "--vz-success"]' data-colors-interactive='["--vz-info", "--vz-primary", "--vz-danger"]' data-colors-creative='["--vz-warning", "--vz-primary", "--vz-danger"]' data-colors-corporate='["--vz-light", "--vz-primary", "--vz-secondary"]' data-colors-galaxy='["--vz-secondary", "--vz-primary", "--vz-primary-rgb, 0.50"]' data-colors-classic='["--vz-light", "--vz-primary", "--vz-secondary"]' data-colors-vintage='["--vz-success", "--vz-primary", "--vz-secondary"]' class="apex-charts" dir="ltr"></div>
-                      </div>
-                    </div><!-- end card body -->
-                  </div><!-- end card -->
-                </div><!-- end col -->
-
-                <div class="col-xl-4">
-                  <div class="card card-height-100">
-                    <div class="card-header align-items-center d-flex">
-                      <h4 class="card-title mb-0 flex-grow-1">Store Visits by Source</h4>
-                      <div class="flex-shrink-0">
-                        <div class="dropdown card-header-dropdown">
-                          <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="text-muted">Report<i class="mdi mdi-chevron-down ms-1"></i></span>
-                          </a>
-                          <div class="dropdown-menu dropdown-menu-end">
-                            <a class="dropdown-item" href="#">Download Report</a>
-                            <a class="dropdown-item" href="#">Export</a>
-                            <a class="dropdown-item" href="#">Import</a>
-                          </div>
-                        </div>
-                      </div>
-                    </div><!-- end card header -->
-
-                    <div class="card-body" style="height: 379px;">
-                      <div id="store-visits-source" data-colors='["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]' data-colors-minimal='["--vz-primary", "--vz-primary-rgb, 0.85", "--vz-primary-rgb, 0.70", "--vz-primary-rgb, 0.60", "--vz-primary-rgb, 0.45"]' data-colors-interactive='["--vz-primary", "--vz-primary-rgb, 0.85", "--vz-primary-rgb, 0.70", "--vz-primary-rgb, 0.60", "--vz-primary-rgb, 0.45"]' data-colors-galaxy='["--vz-primary", "--vz-primary-rgb, 0.85", "--vz-primary-rgb, 0.70", "--vz-primary-rgb, 0.60", "--vz-primary-rgb, 0.45"]' class="apex-charts" dir="ltr"></div>
-                    </div>
-                  </div> <!-- .card-->
-                </div> <!-- .col-->
-                <!-- end row-->
-                <!-- end col -->
-              </div>
-
-
-
-
-            </div> <!-- end row-->
-
-
-          </div> <!-- end .h-100-->
-
-        </div> <!-- end col -->
-
-
-
-      </div>
-
+            </div>
+        </div>
     </div>
-    <!-- container-fluid -->
-  </div>
-  <!-- End Page-content -->
-
-
-<!-- end main content-->
-
+</main>
 </div>
-<!-- END layout-wrapper -->
-
-
-
-<!--start back-to-top-->
-<button onclick="topFunction()" class="btn btn-danger btn-icon" id="back-to-top">
-  <i class="ri-arrow-up-line"></i>
-</button>
-<!--end back-to-top-->
-
-
-
-
-
-<!-- Theme Settings -->
-<div class="offcanvas offcanvas-end border-0" tabindex="-1" id="theme-settings-offcanvas">
-  <div class="d-flex align-items-center bg-primary bg-gradient p-3 offcanvas-header">
-    <h5 class="m-0 me-2 text-white">Theme Customizer</h5>
-
-    <button type="button" class="btn-close btn-close-white ms-auto" id="customizerclose-btn" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body p-0">
-    <div data-simplebar class="h-100">
-      <div class="p-4">
-        <h6 class="mb-0 fw-semibold text-uppercase">Layout</h6>
-        <p class="text-muted">Choose your layout</p>
-
-        <div class="row gy-3">
-          <div class="col-4">
-            <div class="form-check card-radio">
-              <input id="customizer-layout01" name="data-layout" type="radio" value="vertical" class="form-check-input">
-              <label class="form-check-label p-0 avatar-md w-100 material-shadow" for="customizer-layout01">
-                                    <span class="d-flex gap-1 h-100">
-                                        <span class="flex-shrink-0">
-                                            <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
-                                                <span class="d-block p-1 px-2 bg-primary-subtle rounded mb-2"></span>
-                                                <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                            </span>
-                                        </span>
-                                        <span class="flex-grow-1">
-                                            <span class="d-flex h-100 flex-column">
-                                                <span class="bg-light d-block p-1"></span>
-                                                <span class="bg-light d-block p-1 mt-auto"></span>
-                                            </span>
-                                        </span>
-                                    </span>
-              </label>
-            </div>
-            <h5 class="fs-13 text-center mt-2">Vertical</h5>
-          </div>
-          <div class="col-4">
-            <div class="form-check card-radio">
-              <input id="customizer-layout02" name="data-layout" type="radio" value="horizontal" class="form-check-input">
-              <label class="form-check-label p-0 avatar-md w-100 material-shadow" for="customizer-layout02">
-                                    <span class="d-flex h-100 flex-column gap-1">
-                                        <span class="bg-light d-flex p-1 gap-1 align-items-center">
-                                            <span class="d-block p-1 bg-primary-subtle rounded me-1"></span>
-                                            <span class="d-block p-1 pb-0 px-2 bg-primary-subtle ms-auto"></span>
-                                            <span class="d-block p-1 pb-0 px-2 bg-primary-subtle"></span>
-                                        </span>
-                                        <span class="bg-light d-block p-1"></span>
-                                        <span class="bg-light d-block p-1 mt-auto"></span>
-                                    </span>
-              </label>
-            </div>
-            <h5 class="fs-13 text-center mt-2">Horizontal</h5>
-          </div>
-          <div class="col-4">
-            <div class="form-check card-radio">
-              <input id="customizer-layout03" name="data-layout" type="radio" value="twocolumn" class="form-check-input">
-              <label class="form-check-label p-0 avatar-md w-100 material-shadow" for="customizer-layout03">
-                                    <span class="d-flex gap-1 h-100">
-                                        <span class="flex-shrink-0">
-                                            <span class="bg-light d-flex h-100 flex-column gap-1">
-                                                <span class="d-block p-1 bg-primary-subtle mb-2"></span>
-                                                <span class="d-block p-1 pb-0 bg-primary-subtle"></span>
-                                                <span class="d-block p-1 pb-0 bg-primary-subtle"></span>
-                                                <span class="d-block p-1 pb-0 bg-primary-subtle"></span>
-                                            </span>
-                                        </span>
-                                        <span class="flex-shrink-0">
-                                            <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
-                                                <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                            </span>
-                                        </span>
-                                        <span class="flex-grow-1">
-                                            <span class="d-flex h-100 flex-column">
-                                                <span class="bg-light d-block p-1"></span>
-                                                <span class="bg-light d-block p-1 mt-auto"></span>
-                                            </span>
-                                        </span>
-                                    </span>
-              </label>
-            </div>
-            <h5 class="fs-13 text-center mt-2">Two Column</h5>
-          </div>
-          <!-- end col -->
-
-          <div class="col-4">
-            <div class="form-check card-radio">
-              <input id="customizer-layout04" name="data-layout" type="radio" value="semibox" class="form-check-input">
-              <label class="form-check-label p-0 avatar-md w-100 material-shadow" for="customizer-layout04">
-                                    <span class="d-flex gap-1 h-100">
-                                        <span class="flex-shrink-0 p-1">
-                                            <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
-                                                <span class="d-block p-1 px-2 bg-primary-subtle rounded mb-2"></span>
-                                                <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                            </span>
-                                        </span>
-                                        <span class="flex-grow-1">
-                                            <span class="d-flex h-100 flex-column pt-1 pe-2">
-                                                <span class="bg-light d-block p-1"></span>
-                                                <span class="bg-light d-block p-1 mt-auto"></span>
-                                            </span>
-                                        </span>
-                                    </span>
-              </label>
-            </div>
-            <h5 class="fs-13 text-center mt-2">Semi Box</h5>
-          </div>
-          <!-- end col -->
-        </div>
-
-        <div class="form-check form-switch form-switch-md mb-3 mt-4">
-          <input type="checkbox" class="form-check-input" id="sidebarUserProfile">
-          <label class="form-check-label" for="sidebarUserProfile">Sidebar User Profile Avatar</label>
-        </div>
-
-        <h6 class="mt-4 mb-0 fw-semibold text-uppercase">Theme</h6>
-        <p class="text-muted">Choose your suitable Theme.</p>
-
-        <div class="row">
-          <div class="col-6">
-            <div class="form-check card-radio">
-              <input id="customizer-theme01" name="data-theme" type="radio" value="default" class="form-check-input">
-              <label class="form-check-label p-0" for="customizer-theme01">
-                <img src="assets/images/demo/default.png" alt="" class="img-fluid">
-              </label>
-            </div>
-            <h5 class="fs-13 text-center fw-medium mt-2">Default</h5>
-          </div>
-          <div class="col-6">
-            <div class="form-check card-radio">
-              <input id="customizer-theme02" name="data-theme" type="radio" value="saas" class="form-check-input">
-              <label class="form-check-label p-0" for="customizer-theme02">
-                <img src="assets/images/demo/saas.png" alt="" class="img-fluid">
-              </label>
-            </div>
-            <h5 class="fs-13 text-center fw-medium mt-2">Sass</h5>
-          </div>
-          <div class="col-6">
-            <div class="form-check card-radio">
-              <input id="customizer-theme03" name="data-theme" type="radio" value="corporate" class="form-check-input">
-              <label class="form-check-label p-0" for="customizer-theme03">
-                <img src="assets/images/demo/corporate.png" alt="" class="img-fluid">
-              </label>
-            </div>
-            <h5 class="fs-13 text-center fw-medium mt-2">Corporate</h5>
-          </div>
-          <div class="col-6">
-            <div class="form-check card-radio">
-              <input id="customizer-theme04" name="data-theme" type="radio" value="galaxy" class="form-check-input">
-              <label class="form-check-label p-0" for="customizer-theme04">
-                <img src="assets/images/demo/galaxy.png" alt="" class="img-fluid">
-              </label>
-            </div>
-            <h5 class="fs-13 text-center fw-medium mt-2">Galaxy</h5>
-          </div>
-          <div class="col-6">
-            <div class="form-check card-radio">
-              <input id="customizer-theme05" name="data-theme" type="radio" value="material" class="form-check-input">
-              <label class="form-check-label p-0" for="customizer-theme05">
-                <img src="assets/images/demo/material.png" alt="" class="img-fluid">
-              </label>
-            </div>
-            <h5 class="fs-13 text-center fw-medium mt-2">Material</h5>
-          </div>
-          <div class="col-6">
-            <div class="form-check card-radio">
-              <input id="customizer-theme06" name="data-theme" type="radio" value="creative" class="form-check-input">
-              <label class="form-check-label p-0" for="customizer-theme06">
-                <img src="assets/images/demo/creative.png" alt="" class="img-fluid">
-              </label>
-            </div>
-            <h5 class="fs-13 text-center fw-medium mt-2">Creative</h5>
-          </div>
-          <div class="col-6">
-            <div class="form-check card-radio">
-              <input id="customizer-theme07" name="data-theme" type="radio" value="minimal" class="form-check-input">
-              <label class="form-check-label p-0" for="customizer-theme07">
-                <img src="assets/images/demo/minimal.png" alt="" class="img-fluid">
-              </label>
-            </div>
-            <h5 class="fs-13 text-center fw-medium mt-2">Minimal</h5>
-          </div>
-          <div class="col-6">
-            <div class="form-check card-radio">
-              <input id="customizer-theme08" name="data-theme" type="radio" value="modern" class="form-check-input">
-              <label class="form-check-label p-0" for="customizer-theme08">
-                <img src="assets/images/demo/modern.png" alt="" class="img-fluid">
-              </label>
-            </div>
-            <h5 class="fs-13 text-center fw-medium mt-2">Modern</h5>
-          </div>
-          <!-- end col -->
-          <div class="col-6">
-            <div class="form-check card-radio">
-              <input id="customizer-theme09" name="data-theme" type="radio" value="interactive" class="form-check-input">
-              <label class="form-check-label p-0" for="customizer-theme09">
-                <img src="assets/images/demo/interactive.png" alt="" class="img-fluid">
-              </label>
-            </div>
-            <h5 class="fs-13 text-center fw-medium mt-2">Interactive</h5>
-          </div><!-- end col -->
-
-          <div class="col-6">
-            <div class="form-check card-radio">
-              <input id="customizer-theme10" name="data-theme" type="radio" value="classic" class="form-check-input">
-              <label class="form-check-label p-0" for="customizer-theme10">
-                <img src="assets/images/demo/classic.png" alt="" class="img-fluid">
-              </label>
-            </div>
-            <h5 class="fs-13 text-center fw-medium mt-2">Classic</h5>
-          </div><!-- end col -->
-
-          <div class="col-6">
-            <div class="form-check card-radio">
-              <input id="customizer-theme11" name="data-theme" type="radio" value="vintage" class="form-check-input">
-
-            </div>
-            <h5 class="fs-13 text-center fw-medium mt-2">Vintage</h5>
-          </div><!-- end col -->
-        </div>
-
-        <h6 class="mt-4 mb-0 fw-semibold text-uppercase">Color Scheme</h6>
-        <p class="text-muted">Choose Light or Dark Scheme.</p>
-
-        <div class="colorscheme-cardradio">
-          <div class="row">
-            <div class="col-4">
-              <div class="form-check card-radio">
-                <input class="form-check-input" type="radio" name="data-bs-theme" id="layout-mode-light" value="light">
-                <label class="form-check-label p-0 avatar-md w-100 material-shadow" for="layout-mode-light">
-                                        <span class="d-flex gap-1 h-100">
-                                            <span class="flex-shrink-0">
-                                                <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
-                                                    <span class="d-block p-1 px-2 bg-primary-subtle rounded mb-2"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                </span>
-                                            </span>
-                                            <span class="flex-grow-1">
-                                                <span class="d-flex h-100 flex-column">
-                                                    <span class="bg-light d-block p-1"></span>
-                                                    <span class="bg-light d-block p-1 mt-auto"></span>
-                                                </span>
-                                            </span>
-                                        </span>
-                </label>
-              </div>
-              <h5 class="fs-13 text-center mt-2">Light</h5>
-            </div>
-
-            <div class="col-4">
-              <div class="form-check card-radio dark">
-                <input class="form-check-input" type="radio" name="data-bs-theme" id="layout-mode-dark" value="dark">
-                <label class="form-check-label p-0 avatar-md w-100 bg-dark material-shadow" for="layout-mode-dark">
-                                        <span class="d-flex gap-1 h-100">
-                                            <span class="flex-shrink-0">
-                                                <span class="bg-white bg-opacity-10 d-flex h-100 flex-column gap-1 p-1">
-                                                    <span class="d-block p-1 px-2 bg-white bg-opacity-10 rounded mb-2"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-white bg-opacity-10"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-white bg-opacity-10"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-white bg-opacity-10"></span>
-                                                </span>
-                                            </span>
-                                            <span class="flex-grow-1">
-                                                <span class="d-flex h-100 flex-column">
-                                                    <span class="bg-white bg-opacity-10 d-block p-1"></span>
-                                                    <span class="bg-white bg-opacity-10 d-block p-1 mt-auto"></span>
-                                                </span>
-                                            </span>
-                                        </span>
-                </label>
-              </div>
-              <h5 class="fs-13 text-center mt-2">Dark</h5>
-            </div>
-          </div>
-        </div>
-
-        <div id="sidebar-visibility">
-          <h6 class="mt-4 mb-0 fw-semibold text-uppercase">Sidebar Visibility</h6>
-          <p class="text-muted">Choose show or Hidden sidebar.</p>
-
-          <div class="row">
-            <div class="col-4">
-              <div class="form-check card-radio">
-                <input class="form-check-input" type="radio" name="data-sidebar-visibility" id="sidebar-visibility-show" value="show">
-                <label class="form-check-label p-0 avatar-md w-100 material-shadow" for="sidebar-visibility-show">
-                                        <span class="d-flex gap-1 h-100">
-                                            <span class="flex-shrink-0 p-1">
-                                                <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
-                                                    <span class="d-block p-1 px-2 bg-primary-subtle rounded mb-2"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                </span>
-                                            </span>
-                                            <span class="flex-grow-1">
-                                                <span class="d-flex h-100 flex-column pt-1 pe-2">
-                                                    <span class="bg-light d-block p-1"></span>
-                                                    <span class="bg-light d-block p-1 mt-auto"></span>
-                                                </span>
-                                            </span>
-                                        </span>
-                </label>
-              </div>
-              <h5 class="fs-13 text-center mt-2">Show</h5>
-            </div>
-            <div class="col-4">
-              <div class="form-check card-radio">
-                <input class="form-check-input" type="radio" name="data-sidebar-visibility" id="sidebar-visibility-hidden" value="hidden">
-                <label class="form-check-label p-0 avatar-md w-100 px-2 material-shadow" for="sidebar-visibility-hidden">
-                                        <span class="d-flex gap-1 h-100">
-                                            <span class="flex-grow-1">
-                                                <span class="d-flex h-100 flex-column pt-1 px-2">
-                                                    <span class="bg-light d-block p-1"></span>
-                                                    <span class="bg-light d-block p-1 mt-auto"></span>
-                                                </span>
-                                            </span>
-                                        </span>
-                </label>
-              </div>
-              <h5 class="fs-13 text-center mt-2">Hidden</h5>
-            </div>
-          </div>
-        </div>
-
-        <div id="layout-width">
-          <h6 class="mt-4 mb-0 fw-semibold text-uppercase">Layout Width</h6>
-          <p class="text-muted">Choose Fluid or Boxed layout.</p>
-
-          <div class="row">
-            <div class="col-4">
-              <div class="form-check card-radio">
-                <input class="form-check-input" type="radio" name="data-layout-width" id="layout-width-fluid" value="fluid">
-                <label class="form-check-label p-0 avatar-md w-100 material-shadow" for="layout-width-fluid">
-                                        <span class="d-flex gap-1 h-100">
-                                            <span class="flex-shrink-0">
-                                                <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
-                                                    <span class="d-block p-1 px-2 bg-primary-subtle rounded mb-2"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                </span>
-                                            </span>
-                                            <span class="flex-grow-1">
-                                                <span class="d-flex h-100 flex-column">
-                                                    <span class="bg-light d-block p-1"></span>
-                                                    <span class="bg-light d-block p-1 mt-auto"></span>
-                                                </span>
-                                            </span>
-                                        </span>
-                </label>
-              </div>
-              <h5 class="fs-13 text-center mt-2">Fluid</h5>
-            </div>
-            <div class="col-4">
-              <div class="form-check card-radio">
-                <input class="form-check-input" type="radio" name="data-layout-width" id="layout-width-boxed" value="boxed">
-                <label class="form-check-label p-0 avatar-md w-100 px-2 material-shadow" for="layout-width-boxed">
-                                        <span class="d-flex gap-1 h-100 border-start border-end">
-                                            <span class="flex-shrink-0">
-                                                <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
-                                                    <span class="d-block p-1 px-2 bg-primary-subtle rounded mb-2"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                </span>
-                                            </span>
-                                            <span class="flex-grow-1">
-                                                <span class="d-flex h-100 flex-column">
-                                                    <span class="bg-light d-block p-1"></span>
-                                                    <span class="bg-light d-block p-1 mt-auto"></span>
-                                                </span>
-                                            </span>
-                                        </span>
-                </label>
-              </div>
-              <h5 class="fs-13 text-center mt-2">Boxed</h5>
-            </div>
-          </div>
-        </div>
-
-        <div id="layout-position">
-          <h6 class="mt-4 mb-0 fw-semibold text-uppercase">Layout Position</h6>
-          <p class="text-muted">Choose Fixed or Scrollable Layout Position.</p>
-
-          <div class="btn-group radio" role="group">
-            <input type="radio" class="btn-check" name="data-layout-position" id="layout-position-fixed" value="fixed">
-            <label class="btn btn-light w-sm" for="layout-position-fixed">Fixed</label>
-
-            <input type="radio" class="btn-check" name="data-layout-position" id="layout-position-scrollable" value="scrollable">
-            <label class="btn btn-light w-sm ms-0" for="layout-position-scrollable">Scrollable</label>
-          </div>
-        </div>
-        <h6 class="mt-4 mb-0 fw-semibold text-uppercase">Topbar Color</h6>
-        <p class="text-muted">Choose Light or Dark Topbar Color.</p>
-
-        <div class="row">
-          <div class="col-4">
-            <div class="form-check card-radio">
-              <input class="form-check-input" type="radio" name="data-topbar" id="topbar-color-light" value="light">
-              <label class="form-check-label p-0 avatar-md w-100 material-shadow" for="topbar-color-light">
-                                    <span class="d-flex gap-1 h-100">
-                                        <span class="flex-shrink-0">
-                                            <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
-                                                <span class="d-block p-1 px-2 bg-primary-subtle rounded mb-2"></span>
-                                                <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                            </span>
-                                        </span>
-                                        <span class="flex-grow-1">
-                                            <span class="d-flex h-100 flex-column">
-                                                <span class="bg-light d-block p-1"></span>
-                                                <span class="bg-light d-block p-1 mt-auto"></span>
-                                            </span>
-                                        </span>
-                                    </span>
-              </label>
-            </div>
-            <h5 class="fs-13 text-center mt-2">Light</h5>
-          </div>
-          <div class="col-4">
-            <div class="form-check card-radio">
-              <input class="form-check-input" type="radio" name="data-topbar" id="topbar-color-dark" value="dark">
-              <label class="form-check-label p-0 avatar-md w-100 material-shadow" for="topbar-color-dark">
-                                    <span class="d-flex gap-1 h-100">
-                                        <span class="flex-shrink-0">
-                                            <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
-                                                <span class="d-block p-1 px-2 bg-primary-subtle rounded mb-2"></span>
-                                                <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                            </span>
-                                        </span>
-                                        <span class="flex-grow-1">
-                                            <span class="d-flex h-100 flex-column">
-                                                <span class="bg-primary d-block p-1"></span>
-                                                <span class="bg-light d-block p-1 mt-auto"></span>
-                                            </span>
-                                        </span>
-                                    </span>
-              </label>
-            </div>
-            <h5 class="fs-13 text-center mt-2">Dark</h5>
-          </div>
-        </div>
-
-        <div id="sidebar-size">
-          <h6 class="mt-4 mb-0 fw-semibold text-uppercase">Sidebar Size</h6>
-          <p class="text-muted">Choose a size of Sidebar.</p>
-
-          <div class="row">
-            <div class="col-4">
-              <div class="form-check sidebar-setting card-radio">
-                <input class="form-check-input" type="radio" name="data-sidebar-size" id="sidebar-size-default" value="lg">
-                <label class="form-check-label p-0 avatar-md w-100 material-shadow" for="sidebar-size-default">
-                                        <span class="d-flex gap-1 h-100">
-                                            <span class="flex-shrink-0">
-                                                <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
-                                                    <span class="d-block p-1 px-2 bg-primary-subtle rounded mb-2"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                </span>
-                                            </span>
-                                            <span class="flex-grow-1">
-                                                <span class="d-flex h-100 flex-column">
-                                                    <span class="bg-light d-block p-1"></span>
-                                                    <span class="bg-light d-block p-1 mt-auto"></span>
-                                                </span>
-                                            </span>
-                                        </span>
-                </label>
-              </div>
-              <h5 class="fs-13 text-center mt-2">Default</h5>
-            </div>
-
-            <div class="col-4">
-              <div class="form-check sidebar-setting card-radio">
-                <input class="form-check-input" type="radio" name="data-sidebar-size" id="sidebar-size-compact" value="md">
-                <label class="form-check-label p-0 avatar-md w-100 material-shadow" for="sidebar-size-compact">
-                                        <span class="d-flex gap-1 h-100">
-                                            <span class="flex-shrink-0">
-                                                <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
-                                                    <span class="d-block p-1 bg-primary-subtle rounded mb-2"></span>
-                                                    <span class="d-block p-1 pb-0 bg-primary-subtle"></span>
-                                                    <span class="d-block p-1 pb-0 bg-primary-subtle"></span>
-                                                    <span class="d-block p-1 pb-0 bg-primary-subtle"></span>
-                                                </span>
-                                            </span>
-                                            <span class="flex-grow-1">
-                                                <span class="d-flex h-100 flex-column">
-                                                    <span class="bg-light d-block p-1"></span>
-                                                    <span class="bg-light d-block p-1 mt-auto"></span>
-                                                </span>
-                                            </span>
-                                        </span>
-                </label>
-              </div>
-              <h5 class="fs-13 text-center mt-2">Compact</h5>
-            </div>
-
-            <div class="col-4">
-              <div class="form-check sidebar-setting card-radio">
-                <input class="form-check-input" type="radio" name="data-sidebar-size" id="sidebar-size-small" value="sm">
-                <label class="form-check-label p-0 avatar-md w-100 material-shadow" for="sidebar-size-small">
-                                        <span class="d-flex gap-1 h-100">
-                                            <span class="flex-shrink-0">
-                                                <span class="bg-light d-flex h-100 flex-column gap-1">
-                                                    <span class="d-block p-1 bg-primary-subtle mb-2"></span>
-                                                    <span class="d-block p-1 pb-0 bg-primary-subtle"></span>
-                                                    <span class="d-block p-1 pb-0 bg-primary-subtle"></span>
-                                                    <span class="d-block p-1 pb-0 bg-primary-subtle"></span>
-                                                </span>
-                                            </span>
-                                            <span class="flex-grow-1">
-                                                <span class="d-flex h-100 flex-column">
-                                                    <span class="bg-light d-block p-1"></span>
-                                                    <span class="bg-light d-block p-1 mt-auto"></span>
-                                                </span>
-                                            </span>
-                                        </span>
-                </label>
-              </div>
-              <h5 class="fs-13 text-center mt-2">Small (Icon View)</h5>
-            </div>
-
-            <div class="col-4">
-              <div class="form-check sidebar-setting card-radio">
-                <input class="form-check-input" type="radio" name="data-sidebar-size" id="sidebar-size-small-hover" value="sm-hover">
-                <label class="form-check-label p-0 avatar-md w-100 material-shadow" for="sidebar-size-small-hover">
-                                        <span class="d-flex gap-1 h-100">
-                                            <span class="flex-shrink-0">
-                                                <span class="bg-light d-flex h-100 flex-column gap-1">
-                                                    <span class="d-block p-1 bg-primary-subtle mb-2"></span>
-                                                    <span class="d-block p-1 pb-0 bg-primary-subtle"></span>
-                                                    <span class="d-block p-1 pb-0 bg-primary-subtle"></span>
-                                                    <span class="d-block p-1 pb-0 bg-primary-subtle"></span>
-                                                </span>
-                                            </span>
-                                            <span class="flex-grow-1">
-                                                <span class="d-flex h-100 flex-column">
-                                                    <span class="bg-light d-block p-1"></span>
-                                                    <span class="bg-light d-block p-1 mt-auto"></span>
-                                                </span>
-                                            </span>
-                                        </span>
-                </label>
-              </div>
-              <h5 class="fs-13 text-center mt-2">Small Hover View</h5>
-            </div>
-          </div>
-        </div>
-
-        <div id="sidebar-view">
-          <h6 class="mt-4 mb-0 fw-semibold text-uppercase">Sidebar View</h6>
-          <p class="text-muted">Choose Default or Detached Sidebar view.</p>
-
-          <div class="row">
-            <div class="col-4">
-              <div class="form-check sidebar-setting card-radio">
-                <input class="form-check-input" type="radio" name="data-layout-style" id="sidebar-view-default" value="default">
-                <label class="form-check-label p-0 avatar-md w-100 material-shadow" for="sidebar-view-default">
-                                        <span class="d-flex gap-1 h-100">
-                                            <span class="flex-shrink-0">
-                                                <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
-                                                    <span class="d-block p-1 px-2 bg-primary-subtle rounded mb-2"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                </span>
-                                            </span>
-                                            <span class="flex-grow-1">
-                                                <span class="d-flex h-100 flex-column">
-                                                    <span class="bg-light d-block p-1"></span>
-                                                    <span class="bg-light d-block p-1 mt-auto"></span>
-                                                </span>
-                                            </span>
-                                        </span>
-                </label>
-              </div>
-              <h5 class="fs-13 text-center mt-2">Default</h5>
-            </div>
-            <div class="col-4">
-              <div class="form-check sidebar-setting card-radio">
-                <input class="form-check-input" type="radio" name="data-layout-style" id="sidebar-view-detached" value="detached">
-                <label class="form-check-label p-0 avatar-md w-100 material-shadow" for="sidebar-view-detached">
-                                        <span class="d-flex h-100 flex-column">
-                                            <span class="bg-light d-flex p-1 gap-1 align-items-center px-2">
-                                                <span class="d-block p-1 bg-primary-subtle rounded me-1"></span>
-                                                <span class="d-block p-1 pb-0 px-2 bg-primary-subtle ms-auto"></span>
-                                                <span class="d-block p-1 pb-0 px-2 bg-primary-subtle"></span>
-                                            </span>
-                                            <span class="d-flex gap-1 h-100 p-1 px-2">
-                                                <span class="flex-shrink-0">
-                                                    <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
-                                                        <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                        <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                        <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                    </span>
-                                                </span>
-                                            </span>
-                                            <span class="bg-light d-block p-1 mt-auto px-2"></span>
-                                        </span>
-                </label>
-              </div>
-              <h5 class="fs-13 text-center mt-2">Detached</h5>
-            </div>
-          </div>
-        </div>
-        <div id="sidebar-color">
-          <h6 class="mt-4 mb-0 fw-semibold text-uppercase">Sidebar Color</h6>
-          <p class="text-muted">Choose a color of Sidebar.</p>
-
-          <div class="row">
-            <div class="col-4">
-              <div class="form-check sidebar-setting card-radio" data-bs-toggle="collapse" data-bs-target="#collapseBgGradient.show">
-                <input class="form-check-input" type="radio" name="data-sidebar" id="sidebar-color-light" value="light">
-                <label class="form-check-label p-0 avatar-md w-100 material-shadow" for="sidebar-color-light">
-                                        <span class="d-flex gap-1 h-100">
-                                            <span class="flex-shrink-0">
-                                                <span class="bg-white border-end d-flex h-100 flex-column gap-1 p-1">
-                                                    <span class="d-block p-1 px-2 bg-primary-subtle rounded mb-2"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                </span>
-                                            </span>
-                                            <span class="flex-grow-1">
-                                                <span class="d-flex h-100 flex-column">
-                                                    <span class="bg-light d-block p-1"></span>
-                                                    <span class="bg-light d-block p-1 mt-auto"></span>
-                                                </span>
-                                            </span>
-                                        </span>
-                </label>
-              </div>
-              <h5 class="fs-13 text-center mt-2">Light</h5>
-            </div>
-            <div class="col-4">
-              <div class="form-check sidebar-setting card-radio" data-bs-toggle="collapse" data-bs-target="#collapseBgGradient.show">
-                <input class="form-check-input" type="radio" name="data-sidebar" id="sidebar-color-dark" value="dark">
-                <label class="form-check-label p-0 avatar-md w-100 material-shadow" for="sidebar-color-dark">
-                                        <span class="d-flex gap-1 h-100">
-                                            <span class="flex-shrink-0">
-                                                <span class="bg-primary d-flex h-100 flex-column gap-1 p-1">
-                                                    <span class="d-block p-1 px-2 bg-white bg-opacity-10 rounded mb-2"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-white bg-opacity-10"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-white bg-opacity-10"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-white bg-opacity-10"></span>
-                                                </span>
-                                            </span>
-                                            <span class="flex-grow-1">
-                                                <span class="d-flex h-100 flex-column">
-                                                    <span class="bg-light d-block p-1"></span>
-                                                    <span class="bg-light d-block p-1 mt-auto"></span>
-                                                </span>
-                                            </span>
-                                        </span>
-                </label>
-              </div>
-              <h5 class="fs-13 text-center mt-2">Dark</h5>
-            </div>
-            <div class="col-4">
-              <button class="btn btn-link avatar-md w-100 p-0 overflow-hidden border collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBgGradient" aria-expanded="false" aria-controls="collapseBgGradient">
-                                    <span class="d-flex gap-1 h-100">
-                                        <span class="flex-shrink-0">
-                                            <span class="bg-vertical-gradient d-flex h-100 flex-column gap-1 p-1">
-                                                <span class="d-block p-1 px-2 bg-white bg-opacity-10 rounded mb-2"></span>
-                                                <span class="d-block p-1 px-2 pb-0 bg-white bg-opacity-10"></span>
-                                                <span class="d-block p-1 px-2 pb-0 bg-white bg-opacity-10"></span>
-                                                <span class="d-block p-1 px-2 pb-0 bg-white bg-opacity-10"></span>
-                                            </span>
-                                        </span>
-                                        <span class="flex-grow-1">
-                                            <span class="d-flex h-100 flex-column">
-                                                <span class="bg-light d-block p-1"></span>
-                                                <span class="bg-light d-block p-1 mt-auto"></span>
-                                            </span>
-                                        </span>
-                                    </span>
-              </button>
-              <h5 class="fs-13 text-center mt-2">Gradient</h5>
-            </div>
-          </div>
-          <!-- end row -->
-
-          <div class="collapse" id="collapseBgGradient">
-            <div class="d-flex gap-2 flex-wrap img-switch p-2 px-3 bg-light rounded">
-
-              <div class="form-check sidebar-setting card-radio">
-                <input class="form-check-input" type="radio" name="data-sidebar" id="sidebar-color-gradient" value="gradient">
-                <label class="form-check-label p-0 avatar-xs rounded-circle" for="sidebar-color-gradient">
-                  <span class="avatar-title rounded-circle bg-vertical-gradient"></span>
-                </label>
-              </div>
-              <div class="form-check sidebar-setting card-radio">
-                <input class="form-check-input" type="radio" name="data-sidebar" id="sidebar-color-gradient-2" value="gradient-2">
-                <label class="form-check-label p-0 avatar-xs rounded-circle" for="sidebar-color-gradient-2">
-                  <span class="avatar-title rounded-circle bg-vertical-gradient-2"></span>
-                </label>
-              </div>
-              <div class="form-check sidebar-setting card-radio">
-                <input class="form-check-input" type="radio" name="data-sidebar" id="sidebar-color-gradient-3" value="gradient-3">
-                <label class="form-check-label p-0 avatar-xs rounded-circle" for="sidebar-color-gradient-3">
-                  <span class="avatar-title rounded-circle bg-vertical-gradient-3"></span>
-                </label>
-              </div>
-              <div class="form-check sidebar-setting card-radio">
-                <input class="form-check-input" type="radio" name="data-sidebar" id="sidebar-color-gradient-4" value="gradient-4">
-                <label class="form-check-label p-0 avatar-xs rounded-circle" for="sidebar-color-gradient-4">
-                  <span class="avatar-title rounded-circle bg-vertical-gradient-4"></span>
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div id="sidebar-img">
-          <h6 class="mt-4 mb-0 fw-semibold text-uppercase">Sidebar Images</h6>
-          <p class="text-muted">Choose a image of Sidebar.</p>
-
-          <div class="d-flex gap-2 flex-wrap img-switch">
-            <div class="form-check sidebar-setting card-radio">
-              <input class="form-check-input" type="radio" name="data-sidebar-image" id="sidebarimg-none" value="none">
-              <label class="form-check-label p-0 avatar-sm h-auto" for="sidebarimg-none">
-                                    <span class="avatar-md w-auto bg-light d-flex align-items-center justify-content-center">
-                                        <i class="ri-close-fill fs-20"></i>
-                                    </span>
-              </label>
-            </div>
-
-            <div class="form-check sidebar-setting card-radio">
-              <input class="form-check-input" type="radio" name="data-sidebar-image" id="sidebarimg-01" value="img-1">
-              <label class="form-check-label p-0 avatar-sm h-auto" for="sidebarimg-01">
-                <img src="assets/images/sidebar/img-1.jpg" alt="" class="avatar-md w-auto object-fit-cover">
-              </label>
-            </div>
-
-            <div class="form-check sidebar-setting card-radio">
-              <input class="form-check-input" type="radio" name="data-sidebar-image" id="sidebarimg-02" value="img-2">
-              <label class="form-check-label p-0 avatar-sm h-auto" for="sidebarimg-02">
-                <img src="assets/images/sidebar/img-2.jpg" alt="" class="avatar-md w-auto object-fit-cover">
-              </label>
-            </div>
-            <div class="form-check sidebar-setting card-radio">
-              <input class="form-check-input" type="radio" name="data-sidebar-image" id="sidebarimg-03" value="img-3">
-              <label class="form-check-label p-0 avatar-sm h-auto" for="sidebarimg-03">
-                <img src="assets/images/sidebar/img-3.jpg" alt="" class="avatar-md w-auto object-fit-cover">
-              </label>
-            </div>
-            <div class="form-check sidebar-setting card-radio">
-              <input class="form-check-input" type="radio" name="data-sidebar-image" id="sidebarimg-04" value="img-4">
-              <label class="form-check-label p-0 avatar-sm h-auto" for="sidebarimg-04">
-                <img src="assets/images/sidebar/img-4.jpg" alt="" class="avatar-md w-auto object-fit-cover">
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <div id="sidebar-color">
-          <h6 class="mt-4 mb-0 fw-semibold text-uppercase">Primary Color</h6>
-          <p class="text-muted">Choose a color of Primary.</p>
-
-          <div class="d-flex flex-wrap gap-2">
-            <div class="form-check sidebar-setting card-radio">
-              <input class="form-check-input" type="radio" name="data-theme-colors" id="themeColor-01" value="default">
-              <label class="form-check-label avatar-xs p-0" for="themeColor-01"></label>
-            </div>
-            <div class="form-check sidebar-setting card-radio">
-              <input class="form-check-input" type="radio" name="data-theme-colors" id="themeColor-02" value="green">
-              <label class="form-check-label avatar-xs p-0" for="themeColor-02"></label>
-            </div>
-            <div class="form-check sidebar-setting card-radio">
-              <input class="form-check-input" type="radio" name="data-theme-colors" id="themeColor-03" value="purple">
-              <label class="form-check-label avatar-xs p-0" for="themeColor-03"></label>
-            </div>
-            <div class="form-check sidebar-setting card-radio">
-              <input class="form-check-input" type="radio" name="data-theme-colors" id="themeColor-04" value="blue">
-              <label class="form-check-label avatar-xs p-0" for="themeColor-04"></label>
-            </div>
-          </div>
-        </div>
-
-        <div id="preloader-menu">
-          <h6 class="mt-4 mb-0 fw-semibold text-uppercase">Preloader</h6>
-          <p class="text-muted">Choose a preloader.</p>
-
-          <div class="row">
-            <div class="col-4">
-              <div class="form-check sidebar-setting card-radio">
-                <input class="form-check-input" type="radio" name="data-preloader" id="preloader-view-custom" value="enable">
-                <label class="form-check-label p-0 avatar-md w-100 material-shadow" for="preloader-view-custom">
-                                        <span class="d-flex gap-1 h-100">
-                                            <span class="flex-shrink-0">
-                                                <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
-                                                    <span class="d-block p-1 px-2 bg-primary-subtle rounded mb-2"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                </span>
-                                            </span>
-                                            <span class="flex-grow-1">
-                                                <span class="d-flex h-100 flex-column">
-                                                    <span class="bg-light d-block p-1"></span>
-                                                    <span class="bg-light d-block p-1 mt-auto"></span>
-                                                </span>
-                                            </span>
-                                        </span>
-                  <!-- <div id="preloader"> -->
-                  <div id="status" class="d-flex align-items-center justify-content-center">
-                    <div class="spinner-border text-primary avatar-xxs m-auto" role="status">
-                      <span class="visually-hidden">Loading...</span>
-                    </div>
-                  </div>
-                  <!-- </div> -->
-                </label>
-              </div>
-              <h5 class="fs-13 text-center mt-2">Enable</h5>
-            </div>
-            <div class="col-4">
-              <div class="form-check sidebar-setting card-radio">
-                <input class="form-check-input" type="radio" name="data-preloader" id="preloader-view-none" value="disable">
-                <label class="form-check-label p-0 avatar-md w-100 material-shadow" for="preloader-view-none">
-                                        <span class="d-flex gap-1 h-100">
-                                            <span class="flex-shrink-0">
-                                                <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
-                                                    <span class="d-block p-1 px-2 bg-primary-subtle rounded mb-2"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                </span>
-                                            </span>
-                                            <span class="flex-grow-1">
-                                                <span class="d-flex h-100 flex-column">
-                                                    <span class="bg-light d-block p-1"></span>
-                                                    <span class="bg-light d-block p-1 mt-auto"></span>
-                                                </span>
-                                            </span>
-                                        </span>
-                </label>
-              </div>
-              <h5 class="fs-13 text-center mt-2">Disable</h5>
-            </div>
-          </div>
-
-        </div>
-        <!-- end preloader-menu -->
-
-        <div id="body-img" style="display: none;">
-          <h6 class="mt-4 mb-0 fw-semibold text-uppercase">Background Image</h6>
-          <p class="text-muted">Choose a body background image.</p>
-
-          <div class="row">
-            <div class="col-4">
-              <div class="form-check sidebar-setting card-radio">
-                <input class="form-check-input" type="radio" name="data-body-image" id="body-img-none" value="none">
-                <label class="form-check-label p-0 avatar-md w-100" data-body-image="none" for="body-img-none">
-                                        <span class="d-flex gap-1 h-100">
-                                            <span class="flex-shrink-0">
-                                                <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
-                                                    <span class="d-block p-1 px-2 bg-primary-subtle rounded mb-2"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                    <span class="d-block p-1 px-2 pb-0 bg-primary-subtle"></span>
-                                                </span>
-                                            </span>
-                                            <span class="flex-grow-1">
-                                                <span class="d-flex h-100 flex-column">
-                                                    <span class="bg-light d-block p-1"></span>
-                                                    <span class="bg-light d-block p-1 mt-auto"></span>
-                                                </span>
-                                            </span>
-                                        </span>
-                </label>
-              </div>
-              <h5 class="fs-13 text-center mt-2">None</h5>
-            </div>
-            <!-- end col -->
-            <div class="col-4">
-              <div class="form-check sidebar-setting card-radio">
-                <input class="form-check-input" type="radio" name="data-body-image" id="body-img-one" value="img-1">
-                <label class="form-check-label p-0 avatar-md w-100" data-body-image="img-1" for="body-img-one">
-                </label>
-              </div>
-              <h5 class="fs-13 text-center mt-2">One</h5>
-            </div>
-            <!-- end col -->
-
-            <div class="col-4">
-              <div class="form-check sidebar-setting card-radio">
-                <input class="form-check-input" type="radio" name="data-body-image" id="body-img-two" value="img-2">
-                <label class="form-check-label p-0 avatar-md w-100" data-body-image="img-2" for="body-img-two">
-                </label>
-              </div>
-              <h5 class="fs-13 text-center mt-2">Two</h5>
-            </div>
-            <!-- end col -->
-
-            <div class="col-4">
-              <div class="form-check sidebar-setting card-radio">
-                <input class="form-check-input" type="radio" name="data-body-image" id="body-img-three" value="img-3">
-                <label class="form-check-label p-0 avatar-md w-100" data-body-image="img-3" for="body-img-three">
-                </label>
-              </div>
-              <h5 class="fs-13 text-center mt-2">Three</h5>
-            </div>
-            <!-- end col -->
-          </div>
-          <!-- end row -->
-        </div>
-
-      </div>
-    </div>
-
-  </div>
-  <div class="offcanvas-footer border-top p-3 text-center">
-    <div class="row">
-      <div class="col-6">
-        <button type="button" class="btn btn-light w-100" id="reset-layout">Reset</button>
-      </div>
-      <div class="col-6">
-        <a href="https://1.envato.market/velzon-admin" target="_blank" class="btn btn-primary w-100">Buy Now</a>
-      </div>
-    </div>
-  </div>
+    <%@include file="includes/footer.jsp"%>
 </div>
 
-<!-- JAVASCRIPT -->
-<script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/libs/simplebar/simplebar.min.js"></script>
-<script src="assets/libs/node-waves/waves.min.js"></script>
-<script src="assets/libs/feather-icons/feather.min.js"></script>
-<script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
-<script src="assets/js/plugins.js"></script>
 
-<!-- apexcharts -->
-<script src="assets/libs/apexcharts/apexcharts.min.js"></script>
+<!-- Core JS Files -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Cấu hình gradient
+        var ctx2 = document.getElementById("chart-line").getContext("2d");
 
-<!-- Vector map-->
-<script src="assets/libs/jsvectormap/jsvectormap.min.js"></script>
-<script src="assets/libs/jsvectormap/maps/world-merc.js"></script>
+        var gradientStroke1 = ctx2.createLinearGradient(0, 230, 0, 50);
+        gradientStroke1.addColorStop(1, 'rgba(101, 132, 250, 0.2)');
+        gradientStroke1.addColorStop(0.2, 'rgba(101, 132, 250, 0.0)');
+        gradientStroke1.addColorStop(0, 'rgba(101, 132, 250, 0)');
 
-<!--Swiper slider js-->
-<script src="assets/libs/swiper/swiper-bundle.min.js"></script>
+        var gradientStroke2 = ctx2.createLinearGradient(0, 230, 0, 50);
+        gradientStroke2.addColorStop(1, 'rgba(21, 32, 112, 0.2)');
+        gradientStroke2.addColorStop(0.2, 'rgba(21, 32, 112, 0.0)');
+        gradientStroke2.addColorStop(0, 'rgba(21, 32, 112, 0)');
 
-<!-- Dashboard init -->
-<script src="assets/js/pages/dashboard-ecommerce.init.js"></script>
+        // Dữ liệu cho 5 năm gần nhất
+        new Chart(ctx2, {
+            type: "line",
+            data: {
+                labels: ["2021", "2022", "2023", "2024", "2025"],
+                datasets: [{
+                    label: "Công việc đăng tải",
+                    tension: 0.4,
+                    borderWidth: 0,
+                    pointRadius: 5,
+                    pointBackgroundColor: "#6584fa",
+                    pointBorderColor: "transparent",
+                    borderColor: "#6584fa",
+                    borderWidth: 3,
+                    backgroundColor: gradientStroke1,
+                    fill: true,
+                    data: [2500, 3200, 3800, 4200, 4400],
+                    maxBarThickness: 6
+                },
+                    {
+                        label: "Công việc hoàn thành",
+                        tension: 0.4,
+                        borderWidth: 0,
+                        pointRadius: 5,
+                        pointBackgroundColor: "#152070",
+                        pointBorderColor: "transparent",
+                        borderColor: "#152070",
+                        borderWidth: 3,
+                        backgroundColor: gradientStroke2,
+                        fill: true,
+                        data: [1800, 2400, 3000, 3500, 3700],
+                        maxBarThickness: 6
+                    }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            font: {
+                                family: "Inter"
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += context.parsed.y;
+                                return label;
+                            }
+                        }
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index',
+                },
+                scales: {
+                    y: {
+                        grid: {
+                            drawBorder: false,
+                            display: true,
+                            drawOnChartArea: true,
+                            drawTicks: false,
+                            borderDash: [5, 5]
+                        },
+                        ticks: {
+                            display: true,
+                            padding: 10,
+                            color: '#b2b9bf',
+                            font: {
+                                size: 11,
+                                family: "Inter",
+                                style: 'normal',
+                                lineHeight: 2
+                            },
+                        }
+                    },
+                    x: {
+                        grid: {
+                            drawBorder: false,
+                            display: false,
+                            drawOnChartArea: false,
+                            drawTicks: false,
+                            borderDash: [5, 5]
+                        },
+                        ticks: {
+                            display: true,
+                            color: '#b2b9bf',
+                            padding: 20,
+                            font: {
+                                size: 11,
+                                family: "Inter",
+                                style: 'normal',
+                                lineHeight: 2
+                            },
+                        }
+                    },
+                },
+            },
+        });
+    });
 
-<!-- App js -->
-<script src="assets/js/app.js"></script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Dữ liệu cho các chế độ xem
+        const viewData = {
+            daily: {
+                title: "Tuần hiện tại",
+                labels: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
+                created: [10, 8, 12, 14, 9, 7, 5],
+                completed: [7, 6, 10, 11, 8, 5, 3]
+            },
+            weekly: {
+                title: "Tháng hiện tại",
+                labels: ['Tuần 1', 'Tuần 2', 'Tuần 3', 'Tuần 4'],
+                created: [42, 38, 45, 36],
+                completed: [35, 30, 38, 28]
+            },
+            monthly: {
+                title: "Năm 2025",
+                labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
+                created: [150, 165, 180, 172, 190, 210, 195, 205, 220, 215, 225, 235],
+                completed: [120, 140, 155, 148, 165, 180, 172, 185, 190, 188, 195, 205]
+            }
+        };
+
+        // Tạo datasets từ dữ liệu
+        function createDatasets(viewType) {
+            return [{
+                label: 'Công việc đăng tải',
+                data: viewData[viewType].created,
+                borderColor: '#6584fa',
+                backgroundColor: 'rgba(101, 132, 250, 0.1)',
+                fill: true,
+                tension: 0.4,
+                pointRadius: 4,
+                pointBackgroundColor: '#6584fa'
+            }, {
+                label: 'Công việc hoàn thành',
+                data: viewData[viewType].completed,
+                borderColor: '#152070',
+                backgroundColor: 'rgba(21, 32, 112, 0.1)',
+                fill: true,
+                tension: 0.4,
+                pointRadius: 4,
+                pointBackgroundColor: '#152070'
+            }];
+        }
+
+        // Cấu hình chung cho biểu đồ
+        const chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        font: {
+                            family: 'Inter'
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    },
+                    ticks: {
+                        font: {
+                            family: 'Inter'
+                        }
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        font: {
+                            family: 'Inter'
+                        }
+                    }
+                }
+            }
+        };
+
+        // Khởi tạo biểu đồ
+        const ctx = document.getElementById('jobStatsChart').getContext('2d');
+        let jobChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: viewData.daily.labels,
+                datasets: createDatasets('daily')
+            },
+            options: chartOptions
+        });
+
+        // Cập nhật nhãn thời gian
+        document.getElementById('timePeriodLabel').textContent = viewData.daily.title;
+
+        // Xử lý sự kiện chuyển đổi chế độ xem
+        document.getElementById('viewDaily').addEventListener('click', function() {
+            updateActiveButton('viewDaily');
+            updateChart('daily');
+        });
+
+        document.getElementById('viewWeekly').addEventListener('click', function() {
+            updateActiveButton('viewWeekly');
+            updateChart('weekly');
+        });
+
+        document.getElementById('viewMonthly').addEventListener('click', function() {
+            updateActiveButton('viewMonthly');
+            updateChart('monthly');
+        });
+
+        // Hàm cập nhật trạng thái nút active
+        function updateActiveButton(activeId) {
+            document.getElementById('viewDaily').classList.remove('active');
+            document.getElementById('viewWeekly').classList.remove('active');
+            document.getElementById('viewMonthly').classList.remove('active');
+            document.getElementById(activeId).classList.add('active');
+        }
+
+        // Hàm cập nhật biểu đồ
+        function updateChart(viewType) {
+            jobChart.data.labels = viewData[viewType].labels;
+            jobChart.data.datasets = createDatasets(viewType);
+            document.getElementById('timePeriodLabel').textContent = viewData[viewType].title;
+            jobChart.update();
+        }
+    });
+
+    // Initialize Daily Revenue Chart
+    document.addEventListener('DOMContentLoaded', function() {
+        // Dữ liệu mẫu
+        const dailyData = {
+            labels: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
+            datasets: [{
+                label: 'Doanh thu (USD)',
+                data: [1200, 1500, 1800, 2000, 1700, 900, 800],
+                borderColor: '#6584fa',
+                backgroundColor: 'rgba(101, 132, 250, 0.1)',
+                fill: true,
+                tension: 0.4,
+                pointRadius: 4,
+                pointBackgroundColor: '#6584fa'
+            }]
+        };
+
+        const monthlyData = {
+            labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
+            datasets: [{
+                label: 'Doanh thu (USD)',
+                data: [35000, 42000, 38000, 45000, 48000, 52000, 58000, 56000, 60000, 62000, 65000, 68000],
+                borderColor: '#6584fa',
+                backgroundColor: 'rgba(101, 132, 250, 0.1)',
+                fill: true,
+                tension: 0.4,
+                pointRadius: 4,
+                pointBackgroundColor: '#6584fa'
+            }]
+        };
+
+        // Cấu hình chung cho biểu đồ
+        const chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        font: {
+                            family: 'Inter'
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return '$' + value;
+                        },
+                        font: {
+                            family: 'Inter'
+                        }
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        font: {
+                            family: 'Inter'
+                        }
+                    }
+                }
+            }
+        };
+
+        // Tạo biểu đồ
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        let revenueChart = new Chart(ctx, {
+            type: 'line',
+            data: dailyData,
+            options: chartOptions
+        });
+
+        // Xử lý sự kiện chuyển đổi chế độ xem
+        document.getElementById('viewDailyRevenue').addEventListener('click', function() {
+            document.getElementById('viewDailyRevenue').classList.add('active');
+            document.getElementById('viewMonthlyRevenue').classList.remove('active');
+            revenueChart.data = dailyData;
+            revenueChart.update();
+        });
+
+        document.getElementById('viewMonthlyRevenue').addEventListener('click', function() {
+            document.getElementById('viewMonthlyRevenue').classList.add('active');
+            document.getElementById('viewDailyRevenue').classList.remove('active');
+            revenueChart.data = monthlyData;
+            revenueChart.update();
+        });
+    });
+
+    // Functions for report interactions
+    function viewReportDetails(reportId) {
+        console.log('Viewing report details for:', reportId);
+        // Implement actual view functionality here
+        // For example, redirect to report page or show modal
+        alert('Viewing details for ' + reportId);
+    }
+
+    function viewAllReports() {
+        console.log('Viewing all reports');
+        // Implement actual view all functionality here
+        // For example, redirect to reports page
+        alert('Redirecting to all reports page');
+    }
+
+    // Add click event listeners to table rows
+    document.querySelectorAll('tbody tr').forEach(row => {
+        row.addEventListener('click', function() {
+            const page = this.getAttribute('data-page');
+            if (page) {
+                console.log('Navigating to:', page);
+                // Uncomment this to actually navigate
+                // window.location.href = page;
+                alert('Navigating to ' + page);
+            }
+        });
+    });
+
+    // Initialize tooltips and popovers
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+
+    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+        return new bootstrap.Popover(popoverTriggerEl)
+    });
+</script>
+<script>
+    // Transaction filter functionality
+    function filterTransactions(period) {
+        let filterText = '';
+
+        switch(period) {
+            case 'today':
+                filterText = 'Hiển thị giao dịch hôm nay';
+                // Here you would normally filter the actual data
+                break;
+            case 'yesterday':
+                filterText = 'Hiển thị giao dịch hôm qua';
+                break;
+            case 'week':
+                filterText = 'Hiển thị giao dịch tuần này';
+                break;
+            case 'month':
+                filterText = 'Hiển thị giao dịch tháng này';
+                break;
+            case 'all':
+                filterText = 'Hiển thị tất cả giao dịch';
+                break;
+        }
+
+        document.getElementById('transactionFilterText').innerHTML =
+            `<i class="fa fa-calendar text-jobtrans" aria-hidden="true"></i>
+     <span class="font-weight-bold ms-1">${filterText}</span>`;
+
+        // In a real application, this would refresh the table data based on the filter
+        console.log('Filtering transactions for period:', period);
+    }
+
+    // Initialize Transaction Stats Chart
+    document.addEventListener('DOMContentLoaded', function() {
+        var transactionCtx = document.getElementById('transactionStatsChart').getContext('2d');
+
+        // Create gradient for the chart
+        var gradientStroke = transactionCtx.createLinearGradient(0, 230, 0, 50);
+        gradientStroke.addColorStop(1, 'rgba(101, 132, 250, 0.2)');
+        gradientStroke.addColorStop(0.2, 'rgba(72, 72, 176, 0.0)');
+        gradientStroke.addColorStop(0, 'rgba(101, 132, 250, 0)');
+
+        new Chart(transactionCtx, {
+            type: 'line',
+            data: {
+                labels: ['08/04', '09/04', '10/04', '11/04', '12/04', '13/04'],
+                datasets: [{
+                    label: 'Số lượng giao dịch',
+                    tension: 0.4,
+                    borderWidth: 3,
+                    pointRadius: 4,
+                    borderColor: '#6584fa',
+                    backgroundColor: gradientStroke,
+                    fill: true,
+                    data: [42, 38, 45, 50, 58, 55],
+                    maxBarThickness: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false,
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index',
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        },
+                        ticks: {
+                            font: {
+                                family: 'Inter'
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            font: {
+                                family: 'Inter'
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    });
+    function updateProgressBar(selector, percentage) {
+        const progressBar = document.querySelector(selector);
+        if (progressBar) {
+            progressBar.style.width = percentage + '%';
+            progressBar.setAttribute('aria-valuenow', percentage);
+
+            // Add percentage text inside if it doesn't exist
+            if (!progressBar.querySelector('span') && percentage > 15) {
+                const percentText = document.createElement('span');
+                percentText.textContent = percentage + '%';
+                progressBar.appendChild(percentText);
+            } else if (progressBar.querySelector('span')) {
+                progressBar.querySelector('span').textContent = percentage + '%';
+            }
+        }
+    }
+    // Example usage with a selector
+    updateProgressBar('.progress-bar', 75); // Updates all progress bars
+    // Or for a specific progress bar
+    updateProgressBar('#specific-progress .progress-bar', 60);
+</script>
 </body>
-<%@include file="/includes/footer.jsp" %>
-
-<!--======= Back to Top =======-->
-<div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
-
-
-
-
-<!-- Mirrored from themebing.com/wp/prolancer/buyers/harry-olson/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Jan 2025 09:34:59 GMT -->
 </html>
-
-
-
-

@@ -31,7 +31,6 @@
 
 <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
 
-<%@include file="includes/header-01.jsp" %>
 
 <!--Mobile Navigation Toggler-->
 <div class="off-canvas-menu-bar">
@@ -141,7 +140,7 @@
             <div class="col-xl-3 position-relative">
 
                 <div class="filter-box">
-                    <%@include file="includes/task-bar.jsp" %>
+
                 </div>
                 </form>
 
@@ -152,10 +151,12 @@
     </div>
 </section>
 
-<%@include file="includes/footer.jsp" %>
+
 
 <!--======= Back to Top =======-->
 <div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
+</body>
+
 </html>
 
 

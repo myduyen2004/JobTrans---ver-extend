@@ -119,7 +119,7 @@
 <div class="container">
     <% request.setCharacterEncoding("UTF-8"); %>
     <h4>XÁC THỰC MÃ OTP</h4>
-    <form action="/JobTrans/register" method="post">
+    <form action="${pageContext.request.contextPath}/register" method="post">
         <p>Mã xác thực đã được gửi đến email của bạn ${email}</p>
         <input type="hidden" name="email" value="${email}">
         <br><br>

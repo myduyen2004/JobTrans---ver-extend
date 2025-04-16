@@ -3,223 +3,296 @@
 <!DOCTYPE html>
 <html lang="en-US">
 
-<!-- Mirrored from themebing.com/wp/prolancer/projects/?projects-layout=projects_fullwidth by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Jan 2025 09:33:35 GMT -->
-<!-- Added by HTTrack -->
-<meta http-equiv="content-type" content="text/html;charset=UTF-8"/><!-- /Added by HTTrack -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="profile" href="https://gmpg.org/xfn/11">
+    <title>Quản lí Công việc &#8211; JobTrans </title>
+    <link rel="icon" type="image/png" href="img/logo/logo.png">
+    <!DOCTYPE html>
+    <html lang="vi">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Quản lí công việc</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Roboto:wght@500&display=swap" rel="stylesheet">
+        <!-- Font Awesome for icons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <style>
+            /* Enhanced Task Management Styling */
+            body {
+                background-color: #f5f7fa;
+                font-family: 'Roboto', sans-serif;
+            }
 
-    <title>Quản lí Công việc [Tên công việc] &#8211; JobTrans </title>
-    <meta name='robots' content='max-image-preview:large'/>
-    <link rel="icon" type="image/png" href="wp-content/uploads/2021/09/logo.png">
+            .task-container {
+                max-width: 800px;
+                padding: 30px 25px 40px;
+                background-color: white;
+                margin-top: 120px;
+                border-radius: 16px;
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+                animation: fadeIn 0.6s ease;
+            }
+
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+
+            .task-title {
+                font-family: 'Poppins', sans-serif;
+                font-weight: 700;
+                font-size: 26px;
+                letter-spacing: 0.5px;
+                margin-bottom: 30px;
+                color: #1a2b5f;
+                text-align: center;
+                position: relative;
+                padding-bottom: 15px;
+            }
+
+            .task-title:after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 60px;
+                height: 3px;
+                background: linear-gradient(90deg, #6787fe, #9dabff);
+                border-radius: 3px;
+            }
+
+            .row.justify-content-center {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+                gap: 20px;
+                margin-bottom: 30px;
+            }
+
+            .task-card {
+                background-color: #FFFFFF;
+                border-radius: 14px;
+                border: 2px solid rgba(103, 135, 254, 0.4);
+                margin-bottom: 8px;
+                display: flex;
+                align-items: center;
+                padding: 18px 20px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                text-decoration: none;
+                color: inherit;
+                box-shadow: 0 3px 12px rgba(103, 135, 254, 0.06);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .task-card::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 5px;
+                height: 100%;
+                background: linear-gradient(180deg, rgba(103, 135, 254, 0.6), rgba(103, 135, 254, 0.2));
+                border-radius: 3px 0 0 3px;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+
+            .task-card:hover, .task-card:focus {
+                background-color: #f8f9ff;
+                border-color: rgba(103, 135, 254, 0.8);
+                color: inherit;
+                transform: translateY(-3px);
+                box-shadow: 0 8px 16px rgba(103, 135, 254, 0.12);
+            }
+
+            .task-card:hover::before, .task-card:focus::before {
+                opacity: 1;
+            }
+
+            .task-card:active {
+                transform: translateY(0);
+                box-shadow: 0 4px 8px rgba(103, 135, 254, 0.1);
+                background-color: #f0f4ff;
+            }
+
+            .icon-container {
+                width: 48px;
+                height: 48px;
+                border-radius: 12px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-right: 18px;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+            }
+
+            .task-card:hover .icon-container {
+                transform: scale(1.1);
+            }
+
+            .contract-icon {
+                background-color: rgba(76, 217, 100, 0.15);
+                color: #4CD964;
+            }
+
+            .ship-icon {
+                background-color: rgba(0, 122, 255, 0.15);
+                color: #007AFF;
+            }
+
+            .chat-icon {
+                background-color: rgba(255, 149, 0, 0.15);
+                color: #FF9500;
+            }
+
+            .partner-icon {
+                background-color: rgba(175, 82, 222, 0.15);
+                color: #AF52DE;
+            }
+
+            .task-card-title {
+                font-family: 'Roboto', sans-serif;
+                font-weight: 500;
+                font-size: 16px;
+                color: #333;
+                margin: 0;
+                transition: all 0.3s ease;
+            }
+
+            .task-card:hover .task-card-title {
+                transform: translateX(5px);
+                color: #1a2b5f;
+            }
+
+            .confirm-button {
+                background: linear-gradient(to right, #0B1741, #2a3b70);
+                border-radius: 25px;
+                border: none;
+                color: white;
+                font-family: 'Roboto', sans-serif;
+                font-weight: 500;
+                font-size: 16px;
+                text-align: center;
+                padding: 12px 30px;
+                margin: 35px auto 5px;
+                display: block;
+                min-width: 200px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 15px rgba(11, 23, 65, 0.2);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .confirm-button::after {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: rgba(255, 255, 255, 0.1);
+                transform: rotate(45deg);
+                transition: transform 0.6s ease;
+                pointer-events: none;
+            }
+
+            .confirm-button:hover {
+                background: linear-gradient(to right, #152a69, #364b8c);
+                box-shadow: 0 8px 20px rgba(11, 23, 65, 0.3);
+                transform: translateY(-2px);
+            }
+
+            .confirm-button:hover::after {
+                transform: rotate(45deg) translate(50%, 50%);
+            }
+
+            .confirm-button:active {
+                transform: translateY(1px);
+                box-shadow: 0 4px 10px rgba(11, 23, 65, 0.25);
+            }
+
+            /* Responsive adjustments */
+            @media (min-width: 768px) {
+                .task-title {
+                    font-size: 30px;
+                    margin-bottom: 35px;
+                }
+
+                .task-card-title {
+                    font-size: 18px;
+                }
+
+                .confirm-button {
+                    font-size: 17px;
+                    min-width: 220px;
+                }
+            }
+
+            @media (max-width: 767px) {
+                .task-container {
+                    margin-top: 100px;
+                    padding: 25px 15px 30px;
+                }
+
+                .row.justify-content-center {
+                    grid-template-columns: 1fr;
+                }
+
+                .task-card {
+                    margin-bottom: 15px;
+                }
+            }
+        </style>
 </head>
+<%@include file="includes/header-02.jsp"%>
+<body>
+<div class="container task-container">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <h1 class="task-title">QUẢN LÍ CÔNG VIỆC</h1>
+        </div>
+    </div>
 
-<body class="archive post-type-archive post-type-archive-projects wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
+    <div class="row justify-content-center">
+        <!-- First row -->
+            <a href="#" class="task-card">
+                <div class="icon-container contract-icon">
+                    <i class="fas fa-file-contract"></i>
+                </div>
+                <span class="task-card-title">Xem hợp đồng</span>
+            </a>
 
-<!-- Preloading -->
-<div id="preloader">
-    <div class="spinner">
-        <div class="uil-ripple-css">
-            <div></div>
-            <div></div>
+            <a href="#" class="task-card">
+                <div class="icon-container ship-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <span class="task-card-title">Ship Offline</span>
+            </a>
+            <a href="#" class="task-card">
+                <div class="icon-container chat-icon">
+                    <i class="fas fa-comment-dots"></i>
+                </div>
+                <span class="task-card-title">Chat</span>
+            </a>
+            <a href="#" class="task-card">
+                <div class="icon-container partner-icon">
+                    <i class="fas fa-user-friends"></i>
+                </div>
+                <span class="task-card-title">Đối tác</span>
+            </a>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-12 text-center">
+            <button class="confirm-button">Xác nhận hoàn thành</button>
         </div>
     </div>
 </div>
-
-<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-
-<%@include file="includes/header-01.jsp" %>
-
-
-<!--Mobile Navigation Toggler-->
-<div class="off-canvas-menu-bar">
-    <div class="container">
-        <div class="row">
-            <div class="col-6 my-auto">
-                <a href="../index.html" class="custom-logo-link" rel="home"><img width="500" height="71"
-                                                                                 src="../wp-content/uploads/2021/09/logo.png"
-                                                                                 class="custom-logo" alt="ProLancer"
-                                                                                 decoding="async"
-                                                                                 srcset="https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo.png 500w, https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo-300x43.png 300w"
-                                                                                 sizes="(max-width: 500px) 100vw, 500px"/></a>
-            </div>
-            <div class="col-6">
-                <div class="mobile-nav-toggler float-end"><span class="fal fa-bars"></span></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Mobile Menu  -->
-<div class="off-canvas-menu">
-    <div class="menu-backdrop"></div>
-    <i class="close-btn fa fa-close"></i>
-    <nav class="mobile-nav">
-        <div class="text-center pt-3 pb-3">
-            <a href="../index.html" class="custom-logo-link" rel="home"><img width="500" height="71"
-                                                                             src="../wp-content/uploads/2021/09/logo.png"
-                                                                             class="custom-logo" alt="ProLancer"
-                                                                             decoding="async"
-                                                                             srcset="https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo.png 500w, https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo-300x43.png 300w"
-                                                                             sizes="(max-width: 500px) 100vw, 500px"/></a>
-        </div>
-
-        <ul class="navigation"><!--Keep This Empty / Menu will come through Javascript--></ul>
-        <div class="text-center">
-            <a href="../frontend-dashboard/index6f28.html?fed=dashboard" class="prolancer-btn mt-4">
-                Dashboard </a>
-        </div>
-    </nav>
-</div>
-
-
-<section>
-    <div class="breadcrumbs">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 my-auto">
-
-                    <ul class="trail-items">
-                        <li class="trail-item trail-begin"><a href="../index.html"><span
-                                style="font-family: 'Inter', sans-serif;">Công việc của tôi</span></a>
-                            <meta itemprop="position" content="1"/>
-                        </li>
-                        <li class="trail-item trail-end"><span itemprop="item"><span
-                                itemprop="name">Công việc đã đăng</span></span>
-                            <meta itemprop="position" content="2"/>
-                        </li>
-                    </ul>
-                </div>
-                <h1>
-                    QUẢN LÍ CÔNG VIỆC </h1>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-
-<section class="section-padding">
-    <div class="container">
-        <div class="row justify-content-center ">
-            <div class="col-xl-3 position-relative">
-                <%@include file="includes/task-bar.jsp" %>
-            </div>
-            <div class="search-result col-lg-8">
-                <div style="display: flex; justify-content: center; margin-bottom: 50px;">
-                    <h1>[TÊN CÔNG VIỆC]</h1>
-                </div>
-
-
-                <div class="container">
-                    <div class="row">
-
-                        <div class="col-lg-6">
-                            <div style="border: 5px rgba(103, 135, 254, 0.50) solid; width: 300px;"
-                                 class="prolancer-project-item style-2 prolancer-rgb-btn float-lg-end">
-
-                                <div class="row">
-                                    <div class="col-md-4 my-auto">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48"
-                                             viewBox="0 0 24 24">
-                                            <path fill="#24be51"
-                                                  d="M8 13h8v-2H8zm0 3h8v-2H8zm0 3h5v-2H8zm-2 3q-.825 0-1.412-.587T4 20V4q0-.825.588-1.412T6 2h8l6 6v12q0 .825-.587 1.413T18 22zm7-13V4H6v16h12V9zM6 4v5zv16z"/>
-                                        </svg>
-                                    </div>
-                                    <div class="col-md-8 my-auto">
-                                        <a class="project-title" href="english-content-writer-for-fintech/index.html">
-                                            <h2>Hợp đồng</h2></a>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div style="border: 5px rgba(103, 135, 254, 0.50) solid; width: 300px;"
-                                 class="prolancer-project-item style-2 prolancer-rgb-btn float-lg-end">
-
-                                <div class="row">
-                                    <div class="col-md-4 my-auto">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"
-                                             viewBox="0 0 32 32">
-                                            <path fill="#000"
-                                                  d="M0 6v2h19v15h-6.156c-.446-1.719-1.992-3-3.844-3s-3.398 1.281-3.844 3H4v-5H2v7h3.156c.446 1.719 1.992 3 3.844 3s3.398-1.281 3.844-3h8.312c.446 1.719 1.992 3 3.844 3s3.398-1.281 3.844-3H32v-8.156l-.063-.157l-2-6L29.72 10H21V6zm1 4v2h9v-2zm20 2h7.281L30 17.125V23h-1.156c-.446-1.719-1.992-3-3.844-3s-3.398 1.281-3.844 3H21zM2 14v2h6v-2zm7 8c1.117 0 2 .883 2 2s-.883 2-2 2s-2-.883-2-2s.883-2 2-2m16 0c1.117 0 2 .883 2 2s-.883 2-2 2s-2-.883-2-2s.883-2 2-2"/>
-                                        </svg>
-                                    </div>
-                                    <div class="col-md-8 my-auto">
-                                        <a class="project-title" href="english-content-writer-for-fintech/index.html">
-                                            <h2>Ship Offline</h2></a>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div style="border: 5px rgba(103, 135, 254, 0.50) solid; width: 300px;"
-                                 class="prolancer-project-item style-2 prolancer-rgb-btn float-lg-end">
-
-                                <div class="row">
-                                    <div class="col-md-4 my-auto">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48"
-                                             viewBox="0 0 24 24">
-                                            <path fill="#cf8e17"
-                                                  d="M6 14h8v-2H6zm0-3h12V9H6zm0-3h12V6H6zM2 22V4q0-.825.588-1.412T4 2h16q.825 0 1.413.588T22 4v12q0 .825-.587 1.413T20 18H6zm3.15-6H20V4H4v13.125zM4 16V4z"/>
-                                        </svg>
-                                    </div>
-                                    <div class="col-md-8 my-auto">
-                                        <a class="project-title" href="english-content-writer-for-fintech/index.html">
-                                            <h2>Chat</h2></a>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div style="border: 5px rgba(103, 135, 254, 0.50) solid; width: 300px;"
-                                 class="prolancer-project-item style-2 prolancer-rgb-btn float-lg-end">
-
-                                <div class="row">
-                                    <div class="col-md-4 my-auto">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48"
-                                             viewBox="0 0 24 24">
-                                            <path fill="#c11ac2"
-                                                  d="M14.754 10c.966 0 1.75.784 1.75 1.75v4.749a4.501 4.501 0 0 1-9.002 0V11.75c0-.966.783-1.75 1.75-1.75zm0 1.5H9.252a.25.25 0 0 0-.25.25v4.749a3.001 3.001 0 0 0 6.002 0V11.75a.25.25 0 0 0-.25-.25M3.75 10h3.381a2.74 2.74 0 0 0-.618 1.5H3.75a.25.25 0 0 0-.25.25v3.249a2.5 2.5 0 0 0 3.082 2.433c.085.504.24.985.453 1.432Q6.539 18.999 6 19a4 4 0 0 1-4-4.001V11.75c0-.966.784-1.75 1.75-1.75m13.125 0h3.375c.966 0 1.75.784 1.75 1.75V15a4 4 0 0 1-5.03 3.866c.214-.448.369-.929.455-1.433q.277.066.575.067a2.5 2.5 0 0 0 2.5-2.5v-3.25a.25.25 0 0 0-.25-.25h-2.757a2.74 2.74 0 0 0-.618-1.5M12 3a3 3 0 1 1 0 6a3 3 0 0 1 0-6m6.5 1a2.5 2.5 0 1 1 0 5a2.5 2.5 0 0 1 0-5m-13 0a2.5 2.5 0 1 1 0 5a2.5 2.5 0 0 1 0-5m6.5.5a1.5 1.5 0 1 0 0 3a1.5 1.5 0 0 0 0-3m6.5 1a1 1 0 1 0 0 2a1 1 0 0 0 0-2m-13 0a1 1 0 1 0 0 2a1 1 0 0 0 0-2"/>
-                                        </svg>
-                                    </div>
-                                    <div class="col-md-8 my-auto">
-                                        <a class="project-title" href="english-content-writer-for-fintech/index.html">
-                                            <h2>Đối tác</h2></a>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="display: flex; justify-content: center; margin-bottom: 50px;">
-                            <a style="border-radius: 20px; background-color: #0B1741; color: white;"
-                               href="english-content-writer-for-fintech/index.html"
-                               class="prolancer-rgb-btn float-lg-end">Xác nhận hoàn thành</a>
-                        </div>
-
-                    </div>
-
-
-                </div>
-
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-<%@include file="includes/footer.jsp" %>
-
-
-<!--======= Back to Top =======-->
-<div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
-
+</body>
 </html>

@@ -1,9 +1,3 @@
-<%-- 
-    Document   : diem_tru
-    Created on : 4 thg 3, 2025, 10:22:44
-    Author     : mac
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

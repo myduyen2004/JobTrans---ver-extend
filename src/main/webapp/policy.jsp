@@ -1,9 +1,3 @@
-<%-- 
-    Document   : policy
-    Created on : 4 thg 3, 2025, 08:58:42
-    Author     : mac
---%>
-
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!DOCTYPE html>
@@ -92,9 +86,7 @@
     <body style="background-image: url('');
                  background-size: cover;">
 
-    <%@include file="includes/header-01.jsp" %>
 <div class="container_policy">
-    <!-- Hướng dẫn sử dụng -->
     <div class="box">
         <div class="box-header" style="width: 40%; text-align: center; font-size: 19px"  >Hướng dẫn sử dụng</div>
         <div class="box-content" >
@@ -123,9 +115,5 @@
         </div>
     </div>
 </div>
-    <%@include file="includes/footer.jsp" %>
 </body>
-
-
-    
 </html>
