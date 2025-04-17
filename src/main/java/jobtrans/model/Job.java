@@ -1,6 +1,8 @@
 package jobtrans.model;
 
+import java.text.NumberFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class Job {
     private int jobId;
@@ -18,7 +20,7 @@ public class Job {
     private int secureWallet;
     private boolean isTested;
     private int postAccountId;
-
+    private JobCategory jobCategory;
     public Job() {
     }
 
@@ -38,6 +40,14 @@ public class Job {
         this.secureWallet = secureWallet;
         this.isTested = isTested;
         this.postAccountId = postAccountId;
+    }
+
+    public JobCategory getJobCategory() {
+        return jobCategory;
+    }
+
+    public void setJobCategory(JobCategory jobCategory) {
+        this.jobCategory = jobCategory;
     }
 
     public int getJobId() {
@@ -94,6 +104,11 @@ public class Job {
 
     public void setInterviewed(boolean interviewed) {
         isInterviewed = interviewed;
+    }
+
+    public String getFormattedBudgetMax() {
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        return currencyFormatter.format(budgetMax);
     }
 
     public double getBudgetMax() {
@@ -158,5 +173,18 @@ public class Job {
 
     public void setPostAccountId(int postAccountId) {
         this.postAccountId = postAccountId;
+    }
+    public static void main(String[] args) {
+        // Tạo một đối tượng Job (hoặc class chứa budgetMax của bạn)
+        Job job = new Job();
+        job.setBudgetMax(15000000.50); // Ví dụ giá trị
+
+        // Lấy giá trị gốc
+        double originalBudget = job.getBudgetMax();
+        System.out.println("Budget Max (gốc): " + originalBudget);
+
+        // Lấy giá trị đã định dạng
+        String formattedBudget = job.getFormattedBudgetMax();
+        System.out.println("Budget Max (đã định dạng): " + formattedBudget);
     }
 }
