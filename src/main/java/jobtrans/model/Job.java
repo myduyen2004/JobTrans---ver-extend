@@ -4,48 +4,64 @@ import java.util.Date;
 
 public class Job {
     private int jobId;
+    private int postAccountId;
     private String jobTitle;
     private Date postDate;
-    private String description;
+    private String jobDescription;
     private int categoryId;
-    private int jobTagId;
-    private boolean isInterviewed;
-    private double budgetMax;
-    private double budgetMin;
-    private Date dueDate;
-    private String status;
-    private int numOfMem;
-    private int secureWallet;
-    private boolean isTested;
-    private int postAccountId;
+    private Float budgetMax;
+    private Float budgetMin;
+    private Date dueDatePost;
+    private Date dueDateJob;
+    private Boolean isInterviewed;
+    private Boolean isTested;
+    private Integer numOfMember;
+    private Integer secureWallet;
+    private String statusPost;
+    private int statusJobId;
 
+    // Constructors
     public Job() {
     }
 
-    public Job(int jobId, String jobTitle, Date postDate, String description, int categoryId, int jobTagId, boolean isInterviewed, double budgetMax, double budgetMin, Date dueDate, String status, int numOfMem, int secureWallet, boolean isTested, int postAccountId) {
+    public Job(int jobId, int postAccountId, String jobTitle, Date postDate,
+               String jobDescription, int categoryId, Float budgetMax,
+               Float budgetMin, Date dueDatePost, Date dueDateJob,
+               Boolean isInterviewed, Boolean isTested, Integer numOfMember,
+               Integer secureWallet, String statusPost, int statusJobId) {
         this.jobId = jobId;
+        this.postAccountId = postAccountId;
         this.jobTitle = jobTitle;
         this.postDate = postDate;
-        this.description = description;
+        this.jobDescription = jobDescription;
         this.categoryId = categoryId;
-        this.jobTagId = jobTagId;
-        this.isInterviewed = isInterviewed;
         this.budgetMax = budgetMax;
         this.budgetMin = budgetMin;
-        this.dueDate = dueDate;
-        this.status = status;
-        this.numOfMem = numOfMem;
-        this.secureWallet = secureWallet;
+        this.dueDatePost = dueDatePost;
+        this.dueDateJob = dueDateJob;
+        this.isInterviewed = isInterviewed;
         this.isTested = isTested;
-        this.postAccountId = postAccountId;
+        this.numOfMember = numOfMember;
+        this.secureWallet = secureWallet;
+        this.statusPost = statusPost;
+        this.statusJobId = statusJobId;
     }
 
+    // Getters and Setters
     public int getJobId() {
         return jobId;
     }
 
     public void setJobId(int jobId) {
         this.jobId = jobId;
+    }
+
+    public int getPostAccountId() {
+        return postAccountId;
+    }
+
+    public void setPostAccountId(int postAccountId) {
+        this.postAccountId = postAccountId;
     }
 
     public String getJobTitle() {
@@ -64,12 +80,12 @@ public class Job {
         this.postDate = postDate;
     }
 
-    public String getDescription() {
-        return description;
+    public String getJobDescription() {
+        return jobDescription;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setJobDescription(String jobDescription) {
+        this.jobDescription = jobDescription;
     }
 
     public int getCategoryId() {
@@ -80,83 +96,83 @@ public class Job {
         this.categoryId = categoryId;
     }
 
-    public int getJobTagId() {
-        return jobTagId;
-    }
-
-    public void setJobTagId(int jobTagId) {
-        this.jobTagId = jobTagId;
-    }
-
-    public boolean isInterviewed() {
-        return isInterviewed;
-    }
-
-    public void setInterviewed(boolean interviewed) {
-        isInterviewed = interviewed;
-    }
-
-    public double getBudgetMax() {
+    public Float getBudgetMax() {
         return budgetMax;
     }
 
-    public void setBudgetMax(double budgetMax) {
+    public void setBudgetMax(Float budgetMax) {
         this.budgetMax = budgetMax;
     }
 
-    public double getBudgetMin() {
+    public Float getBudgetMin() {
         return budgetMin;
     }
 
-    public void setBudgetMin(double budgetMin) {
+    public void setBudgetMin(Float budgetMin) {
         this.budgetMin = budgetMin;
     }
 
-    public Date getDueDate() {
-        return dueDate;
+    public Date getDueDatePost() {
+        return dueDatePost;
     }
 
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
+    public void setDueDatePost(Date dueDatePost) {
+        this.dueDatePost = dueDatePost;
     }
 
-    public String getStatus() {
-        return status;
+    public Date getDueDateJob() {
+        return dueDateJob;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setDueDateJob(Date dueDateJob) {
+        this.dueDateJob = dueDateJob;
     }
 
-    public int getNumOfMem() {
-        return numOfMem;
+    public Boolean getIsInterviewed() {
+        return isInterviewed;
     }
 
-    public void setNumOfMem(int numOfMem) {
-        this.numOfMem = numOfMem;
+    public void setIsInterviewed(Boolean isInterviewed) {
+        this.isInterviewed = isInterviewed;
     }
 
-    public int getSecureWallet() {
-        return secureWallet;
-    }
-
-    public void setSecureWallet(int secureWallet) {
-        this.secureWallet = secureWallet;
-    }
-
-    public boolean isTested() {
+    public Boolean getIsTested() {
         return isTested;
     }
 
-    public void setTested(boolean tested) {
-        isTested = tested;
+    public void setIsTested(Boolean isTested) {
+        this.isTested = isTested;
     }
 
-    public int getPostAccountId() {
-        return postAccountId;
+    public Integer getNumOfMember() {
+        return numOfMember;
     }
 
-    public void setPostAccountId(int postAccountId) {
-        this.postAccountId = postAccountId;
+    public void setNumOfMember(Integer numOfMember) {
+        this.numOfMember = numOfMember;
+    }
+
+    public Integer getSecureWallet() {
+        return secureWallet;
+    }
+
+    public void setSecureWallet(Integer secureWallet) {
+        this.secureWallet = secureWallet;
+    }
+
+    public String getStatusPost() {
+        return statusPost;
+    }
+
+    public void setStatusPost(String statusPost) {
+        this.statusPost = statusPost;
+    }
+
+    public int getStatusJobId() {
+        return statusJobId;
+    }
+
+    public void setStatusJobId(int statusJobId) {
+        this.statusJobId = statusJobId;
     }
 }

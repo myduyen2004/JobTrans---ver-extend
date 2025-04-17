@@ -1,31 +1,35 @@
 package jobtrans.model;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 public class Transaction {
     private int transactionId;
     private int senderId;
     private int receiverId;
-    private int jobId;
-    private double amount;
-    private java.sql.Timestamp createdDate;
-    private String transactionType;
+    private Integer jobId;
+    private int amount;
+    private Date createdDate;
     private String description;
-    private String status;
+    private String transactionType;
+    private boolean status;
 
-    // Constructor
-    public Transaction(int transactionId, int senderId, int receiverId, int jobId, double amount,
-                       java.sql.Timestamp createdDate, String transactionType, String description, String status) {
+    public Transaction() {
+    }
+
+    public Transaction(int transactionId, int senderId, int receiverId, Integer jobId, int amount, Date createdDate,
+                       String description, String transactionType, boolean status) {
         this.transactionId = transactionId;
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.jobId = jobId;
         this.amount = amount;
         this.createdDate = createdDate;
-        this.transactionType = transactionType;
         this.description = description;
+        this.transactionType = transactionType;
         this.status = status;
     }
+
+    // Getters and Setters
 
     public int getTransactionId() {
         return transactionId;
@@ -51,36 +55,28 @@ public class Transaction {
         this.receiverId = receiverId;
     }
 
-    public int getJobId() {
+    public Integer getJobId() {
         return jobId;
     }
 
-    public void setJobId(int jobId) {
+    public void setJobId(Integer jobId) {
         this.jobId = jobId;
     }
 
-    public double getAmount() {
+    public int getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(int amount) {
         this.amount = amount;
     }
 
-    public Timestamp getCreatedDate() {
+    public Date getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Timestamp createdDate) {
+    public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
-    }
-
-    public String getTransactionType() {
-        return transactionType;
-    }
-
-    public void setTransactionType(String transactionType) {
-        this.transactionType = transactionType;
     }
 
     public String getDescription() {
@@ -91,11 +87,19 @@ public class Transaction {
         this.description = description;
     }
 
-    public String getStatus() {
+    public String getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
+    }
+
+    public boolean isStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 }
