@@ -145,7 +145,7 @@
             margin-bottom: 30px;
         }
 
-        .avatar-preview {
+        .avatar {
             width: 100px;
             height: 100px;
             border-radius: 50%;
@@ -372,15 +372,16 @@
         }
 
         .signature-preview {
-            max-width: 300px;
-            max-height: 100px;
+            width: 300px;
+            height: 130px;
             border: 1px solid #d1d5db;
             border-radius: 5px;
-            margin-bottom: 10px;
+            margin: 10px auto;
             padding: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
+
         }
 
         .signature-preview img {
@@ -397,6 +398,12 @@
             display: flex;
             gap: 10px;
         }
+
+        @media (min-width: 1536px) {
+            .container {
+                max-width: 1536px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -409,14 +416,16 @@
         </div>
     </div>
 
-    <form action="#" method="post">
+    <form action="profile" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
         <!-- Avatar section -->
         <div class="form-container">
             <div class="avatar-upload">
-                <img class="avatar-preview" src="/api/placeholder/150/150" alt="Ảnh đại diện">
+                <img class="avatar" src="${account.avatar}" alt="Ảnh đại diện">
                 <div class="avatar-actions">
                     <label for="avatar-upload" class="upload-btn">Tải ảnh lên</label>
-                    <input type="file" id="avatar-upload" class="file-input" accept="image/*">
+                    <input id="avatar-upload" class="file-upload" type="file" name="avatar" accept="image/*"
+                           style="display: none;"/>
+                    <input type="hidden" name="avatemp" value="${account.avatar}" accept="image/*"/>
                     <p class="upload-note">Cho phép PNG, JPG hoặc GIF, tối đa 2MB</p>
                 </div>
             </div>
@@ -427,40 +436,39 @@
             <div class="form-section">
                 <h2 class="section-title">Thông tin cơ bản</h2>
                 <div class="form-grid">
-                    <div class="form-row">
-                        <label for="first-name" class="form-label required-label">Họ và tên lót</label>
-                        <input type="text" id="first-name" class="form-input" value="Nguyễn Văn" required>
+                    <div class="form-row form-full-width">
+                        <label for="name" class="form-label required-label">Tên</label>
+                        <input type="text" id="name" class="form-input" value="${account.accountName}" required>
                     </div>
-                    <div class="form-row">
-                        <label for="last-name" class="form-label required-label">Tên</label>
-                        <input type="text" id="last-name" class="form-input" value="A" required>
-                    </div>
-                    <div class="form-row">
-                        <label for="display-name" class="form-label required-label">Tên hiển thị</label>
-                        <input type="text" id="display-name" class="form-input" value="Nguyễn Văn A" required>
-                    </div>
-                    <div class="form-row">
-                        <label for="role" class="form-label">Vai trò</label>
-                        <div class="autocomplete-container">
-                            <input type="text" id="role" class="form-input" value="Freelancer - Thiết kế đồ họa">
-                            <div class="autocomplete-results" id="role-results"></div>
-                        </div>
-                    </div>
+                    <%--                    <div class="form-row">--%>
+                    <%--                        <label for="display-name" class="form-label required-label">Tên hiển thị</label>--%>
+                    <%--                        <input type="text" id="display-name" class="form-input" value="Nguyễn Văn A" required>--%>
+                    <%--                    </div>--%>
+                    <%--                    <div class="form-row">--%>
+                    <%--                        <label for="role" class="form-label">Vai trò</label>--%>
+                    <%--                        <div class="autocomplete-container">--%>
+                    <%--                            <input type="text" id="role" class="form-input" value="Freelancer - Thiết kế đồ họa">--%>
+                    <%--                            <div class="autocomplete-results" id="role-results"></div>--%>
+                    <%--                        </div>--%>
+                    <%--                    </div>--%>
                     <div class="form-row">
                         <label for="dob" class="form-label">Ngày sinh</label>
-                        <input type="date" id="dob" class="form-input" value="1992-05-15">
+                        <input type="date" id="dob" class="form-input" value="${account.dateOfBirth}">
                     </div>
                     <div class="form-row">
                         <label for="gender" class="form-label">Giới tính</label>
-                        <select id="gender" class="form-select">
-                            <option value="male" selected>Nam</option>
-                            <option value="female">Nữ</option>
-                            <option value="other">Khác</option>
+                        <select id="gender" name="gender" class="form-select">
+                            <option value="Nam" ${account.gender == 'Nam' ? 'selected' : ''}>Nam</option>
+                            <option value="Nữ" ${account.gender == 'Nữ' ? 'selected' : ''}>Nữ</option>
+                            <option value="Khác" ${account.gender == 'Khác' ? 'selected' : ''}>Khác</option>
                         </select>
                     </div>
+
                     <div class="form-row form-full-width">
                         <label for="bio" class="form-label">Giới thiệu</label>
-                        <textarea id="bio" class="form-textarea">Tôi là một nhà thiết kế đồ họa với hơn 5 năm kinh nghiệm làm việc trong lĩnh vực thiết kế. Chuyên về thiết kế UI/UX, thiết kế web và thiết kế thương hiệu. Tôi luôn tìm kiếm những dự án thú vị và thách thức để phát triển kỹ năng của mình.</textarea>
+                        <textarea id="bio" class="form-textarea">
+                            ${account.bio}
+                        </textarea>
                     </div>
                 </div>
             </div>
@@ -474,27 +482,30 @@
                     <div class="form-row">
                         <label for="specialty" class="form-label">Chuyên môn</label>
                         <div class="autocomplete-container">
-                            <input type="text" id="specialty" class="form-input" value="Thiết kế đồ họa">
+                            <input type="text" id="specialty" class="form-input" value="${account.specialist}">
                             <div class="autocomplete-results" id="specialty-results"></div>
                         </div>
                     </div>
                     <div class="form-row">
                         <label for="experience" class="form-label">Kinh nghiệm (năm)</label>
-                        <input type="number" id="experience" class="form-input" value="5" min="0" max="50">
+                        <input type="number" id="experience" class="form-input" value="${account.experienceYears}"
+                               min="0" max="50">
                     </div>
                     <div class="form-row">
                         <label for="education" class="form-label">Học vấn</label>
                         <div class="autocomplete-container">
-                            <input type="text" id="education" class="form-input" value="Đại học Mỹ thuật TP.HCM">
+                            <input type="text" id="education" class="form-input" value="${account.education}">
                             <div class="autocomplete-results" id="education-results"></div>
                         </div>
                     </div>
                     <div class="form-row">
                         <label for="status" class="form-label">Trạng thái</label>
                         <select id="status" class="form-select">
-                            <option value="available" selected>Đang nhận dự án</option>
-                            <option value="busy">Đang bận</option>
-                            <option value="unavailable">Không nhận dự án</option>
+                            <option value="Đang hoạt động" ${account.status == 'Đang hoạt động' ? 'selected' : ''}>Đang
+                                hoạt động
+                            </option>
+                            <option value="Bị cấm" ${account.status == 'Bị cấm' ? 'selected' : ''}>Bị cấm</option>
+                            <option value="Tạm nghỉ" ${account.status == 'Tạm nghỉ' ? 'selected' : ''}>Tạm nghỉ</option>
                         </select>
                     </div>
                     <div class="form-row form-full-width">
@@ -532,29 +543,15 @@
                 <div class="form-grid">
                     <div class="form-row">
                         <label for="email" class="form-label required-label">Email</label>
-                        <input type="email" id="email" class="form-input" value="nguyenvana@example.com" required>
+                        <input type="email" id="email" class="form-input" value="${account.email}" required>
                     </div>
                     <div class="form-row">
                         <label for="phone" class="form-label">Điện thoại</label>
-                        <input type="tel" id="phone" class="form-input" value="0912345678">
+                        <input type="tel" id="phone" class="form-input" value="${account.phone}">
                     </div>
                     <div class="form-row form-full-width">
                         <label for="address" class="form-label">Địa chỉ</label>
-                        <input type="text" id="address" class="form-input" value="Quận 1, TP. Hồ Chí Minh">
-                    </div>
-                    <div class="form-row">
-                        <label for="city" class="form-label">Thành phố</label>
-                        <div class="autocomplete-container">
-                            <input type="text" id="city" class="form-input" value="TP. Hồ Chí Minh">
-                            <div class="autocomplete-results" id="city-results"></div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <label for="district" class="form-label">Quận/Huyện</label>
-                        <div class="autocomplete-container">
-                            <input type="text" id="district" class="form-input" value="Quận 1">
-                            <div class="autocomplete-results" id="district-results"></div>
-                        </div>
+                        <input type="text" id="address" class="form-input" value="${account.address}">
                     </div>
                 </div>
             </div>
@@ -571,11 +568,13 @@
                     </div>
                     <div class="form-row">
                         <label for="linkedin" class="form-label">LinkedIn</label>
-                        <input type="url" id="linkedin" class="form-input" placeholder="https://linkedin.com/in/username">
+                        <input type="url" id="linkedin" class="form-input"
+                               placeholder="https://linkedin.com/in/username">
                     </div>
                     <div class="form-row">
                         <label for="instagram" class="form-label">Instagram</label>
-                        <input type="url" id="instagram" class="form-input" placeholder="https://instagram.com/username">
+                        <input type="url" id="instagram" class="form-input"
+                               placeholder="https://instagram.com/username">
                     </div>
                     <div class="form-row">
                         <label for="portfolio" class="form-label">Website/Portfolio</label>
@@ -593,14 +592,21 @@
                     <label class="form-label">Chữ ký của bạn</label>
                     <div class="signature-upload">
                         <div class="signature-preview">
-                            <span class="signature-placeholder">Chưa có chữ ký</span>
+                            <c:if test="${account.signature != null}">
+                                <span class="signature-placeholder">${account.signature}</span>
+                            </c:if>
+                            <c:if test="${account.signature == null}">
+                                <span class="signature-placeholder">Chưa có chữ ký</span>
+                            </c:if>
                         </div>
                         <div class="signature-actions">
                             <label for="signature-upload" class="upload-btn">Tải ảnh chữ ký lên</label>
                             <input type="file" id="signature-upload" class="file-input" accept="image/*">
                         </div>
                     </div>
-                    <p class="help-text">Chữ ký hình ảnh sẽ hiển thị dưới thông tin hồ sơ của bạn. Cho phép PNG, JPG hoặc GIF, tối đa 1MB</p>
+                    <p class="help-text">Chữ ký hình ảnh sẽ hiển thị dưới thông tin hồ sơ của bạn. Cho phép PNG, JPG
+                        hoặc GIF, tối đa 1MB
+                    </p>
                 </div>
             </div>
 
@@ -647,17 +653,232 @@
 </div>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tagsContainer = document.getElementById('tags-container');
+        const input = document.getElementById('skills');
+        const resultsContainer = document.getElementById('skills-results');
+
+        // Store all existing skills for reference
+        const existingTags = new Set();
+        document.querySelectorAll('.tag').forEach(tag => {
+            const tagText = tag.textContent.trim().replace('×', '').trim();
+            existingTags.add(tagText.toLowerCase());
+        });
+
+        // Sample data from database - in real implementation, you'd fetch this from your API
+        const specialists = [
+            { id: 1, name: 'Photoshop', category: 'Design' },
+            { id: 2, name: 'Illustrator', category: 'Design' },
+            { id: 3, name: 'UI/UX', category: 'Design' },
+            { id: 4, name: 'Web Design', category: 'Design' },
+            { id: 5, name: 'JavaScript', category: 'Programming' },
+            { id: 6, name: 'HTML/CSS', category: 'Programming' },
+            { id: 7, name: 'React', category: 'Programming' },
+            { id: 8, name: 'Node.js', category: 'Programming' },
+            { id: 9, name: 'SQL', category: 'Database' },
+            { id: 10, name: 'Content Writing', category: 'Content' },
+            { id: 11, name: 'SEO', category: 'Marketing' },
+            { id: 12, name: 'Digital Marketing', category: 'Marketing' }
+        ];
+
+        // Initialize event listeners
+        setupEventListeners();
+
+        function setupEventListeners() {
+            // Handle input when typing
+            input.addEventListener('input', showAutocompleteResults);
+
+            // Handle keyboard navigation in autocomplete
+            input.addEventListener('keydown', handleKeyDown);
+
+            // Handle clicks on autocomplete items
+            resultsContainer.addEventListener('click', handleAutocompleteClick);
+
+            // Handle clicks on close button for tags
+            tagsContainer.addEventListener('click', function(e) {
+                if (e.target.classList.contains('tag-close')) {
+                    const tag = e.target.parentElement;
+                    const tagText = tag.textContent.trim().replace('×', '').trim();
+                    existingTags.delete(tagText.toLowerCase());
+                    tag.remove();
+                }
+            });
+
+            // Close autocomplete when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!tagsContainer.contains(e.target) && !resultsContainer.contains(e.target)) {
+                    resultsContainer.style.display = 'none';
+                }
+            });
+        }
+
+        function showAutocompleteResults() {
+            const inputValue = input.value.trim().toLowerCase();
+
+            if (inputValue === '') {
+                resultsContainer.style.display = 'none';
+                return;
+            }
+
+            // Filter specialists based on input
+            const filteredResults = specialists.filter(specialist => {
+                return specialist.name.toLowerCase().includes(inputValue) &&
+                    !existingTags.has(specialist.name.toLowerCase());
+            });
+
+            // Clear previous results
+            resultsContainer.innerHTML = '';
+
+            if (filteredResults.length > 0) {
+                // Add filtered results to the dropdown
+                filteredResults.forEach(result => {
+                    const resultItem = document.createElement('div');
+                    resultItem.className = 'autocomplete-item';
+                    resultItem.dataset.specialistId = result.id;
+                    resultItem.dataset.specialistName = result.name;
+                    resultItem.textContent = result.name;
+                    resultsContainer.appendChild(resultItem);
+                });
+
+                resultsContainer.style.display = 'block';
+            } else {
+                resultsContainer.style.display = 'none';
+            }
+        }
+
+        function handleKeyDown(e) {
+            const items = resultsContainer.querySelectorAll('.autocomplete-item');
+            let activeItem = resultsContainer.querySelector('.autocomplete-item.active');
+            let activeIndex = -1;
+
+            // Find current active index
+            if (activeItem) {
+                Array.from(items).forEach((item, index) => {
+                    if (item === activeItem) activeIndex = index;
+                });
+            }
+
+            switch (e.key) {
+                case 'Enter':
+                    e.preventDefault();
+
+                    if (activeItem) {
+                        // Add the selected item as a tag
+                        addTag(activeItem.dataset.specialistName, activeItem.dataset.specialistId);
+                    } else if (input.value.trim() !== '') {
+                        // Add the current input as a custom tag
+                        addTag(input.value.trim());
+                    }
+
+                    input.value = '';
+                    resultsContainer.style.display = 'none';
+                    break;
+
+                case 'ArrowDown':
+                    e.preventDefault();
+
+                    if (items.length > 0) {
+                        if (activeItem) activeItem.classList.remove('active');
+
+                        activeIndex = (activeIndex + 1) % items.length;
+                        items[activeIndex].classList.add('active');
+                        items[activeIndex].scrollIntoView({ block: 'nearest' });
+                    }
+                    break;
+
+                case 'ArrowUp':
+                    e.preventDefault();
+
+                    if (items.length > 0) {
+                        if (activeItem) activeItem.classList.remove('active');
+
+                        activeIndex = activeIndex <= 0 ? items.length - 1 : activeIndex - 1;
+                        items[activeIndex].classList.add('active');
+                        items[activeIndex].scrollIntoView({ block: 'nearest' });
+                    }
+                    break;
+
+                case 'Escape':
+                    resultsContainer.style.display = 'none';
+                    break;
+            }
+        }
+
+        function handleAutocompleteClick(e) {
+            if (e.target.classList.contains('autocomplete-item')) {
+                addTag(e.target.dataset.specialistName, e.target.dataset.specialistId);
+                input.value = '';
+                resultsContainer.style.display = 'none';
+                input.focus();
+            }
+        }
+
+        function addTag(text, id) {
+            const tagText = text.trim();
+            const tagLower = tagText.toLowerCase();
+
+            // Skip if tag is empty or already exists
+            if (tagText === '' || existingTags.has(tagLower)) {
+                return;
+            }
+
+            // Create new tag element
+            const tag = document.createElement('div');
+            tag.className = 'tag';
+            tag.textContent = tagText;
+
+            if (id) {
+                tag.dataset.specialistId = id;
+            }
+
+            // Create close button for tag
+            const closeBtn = document.createElement('span');
+            closeBtn.className = 'tag-close';
+            closeBtn.innerHTML = '&times;';
+            tag.appendChild(closeBtn);
+
+            // Add tag before the input field
+            tagsContainer.insertBefore(tag, input);
+
+            // Add to tracking set
+            existingTags.add(tagLower);
+
+            // In a real application, you would save this to the database
+            saveTagToDatabase(tagText, id);
+        }
+
+        function saveTagToDatabase(tagName, specialistId) {
+            // This is a placeholder for the actual implementation
+            // In a real application, you would make an AJAX call to save to your database
+            console.log('Saving tag:', tagName, 'with specialist ID:', specialistId || 'new');
+
+            // Sample AJAX call (commented out)
+            /*
+            fetch('/api/account-specialist', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    accountId: currentAccountId, // You'd need to get this from your page context
+                    specialistId: specialistId,
+                    specialistName: tagName // For new specialists without an existing ID
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Tag saved successfully:', data);
+            })
+            .catch(error => {
+                console.error('Error saving tag:', error);
+            });
+            */
+        }
+    });
+</script>
+<script>
     // Mock API for autocomplete suggestions
     const mockAPI = {
-        roles: [
-            'Freelancer - Thiết kế đồ họa',
-            'Freelancer - Phát triển web',
-            'Freelancer - Digital Marketing',
-            'Thiết kế UI/UX',
-            'Quản lý dự án',
-            'Chuyên viên SEO',
-            'Chuyên viên nội dung'
-        ],
         specialties: [
             'Thiết kế đồ họa',
             'Phát triển web',
@@ -676,19 +897,6 @@
             'Đại học Khoa học Tự nhiên TP.HCM',
             'Đại học Quốc tế RMIT'
         ],
-        cities: [
-            'TP. Hồ Chí Minh',
-            'Hà Nội',
-            'Đà Nẵng',
-            'Cần Thơ',
-            'Hải Phòng',
-            'Nha Trang',
-            'Đà Lạt'
-        ],
-        districts: {
-            'TP. Hồ Chí Minh': ['Quận 1', 'Quận 2', 'Quận 3', 'Quận 4', 'Quận 5', 'Quận 6', 'Quận 7', 'Quận 8', 'Quận 9', 'Quận 10', 'Quận 11', 'Quận 12', 'Quận Bình Thạnh', 'Quận Gò Vấp', 'Quận Tân Bình', 'Quận Phú Nhuận'],
-            'Hà Nội': ['Quận Ba Đình', 'Quận Hoàn Kiếm', 'Quận Tây Hồ', 'Quận Long Biên', 'Quận Cầu Giấy', 'Quận Đống Đa', 'Quận Hai Bà Trưng', 'Quận Hoàng Mai']
-        },
         skills: [
             'Photoshop', 'Illustrator', 'InDesign', 'Figma', 'UI/UX', 'Web Design',
             'HTML', 'CSS', 'JavaScript', 'React', 'Vue.js', 'Angular',
@@ -740,7 +948,7 @@
 
         let debounceTimeout;
 
-        inputElement.addEventListener('input', function() {
+        inputElement.addEventListener('input', function () {
             clearTimeout(debounceTimeout);
             const query = this.value.trim();
 
@@ -768,7 +976,7 @@
         });
 
         // Hide results when clicking outside
-        document.addEventListener('click', function(e) {
+        document.addEventListener('click', function (e) {
             if (e.target !== inputElement && e.target !== resultsElement) {
                 resultsElement.classList.remove('show');
             }
@@ -783,7 +991,7 @@
             itemElement.classList.add('autocomplete-item');
             itemElement.textContent = suggestion;
 
-            itemElement.addEventListener('click', function() {
+            itemElement.addEventListener('click', function () {
                 if (selectCallback) {
                     selectCallback(suggestion);
                 } else {
@@ -804,7 +1012,7 @@
         const tagsInput = document.getElementById('skills-input');
         const resultsElement = document.getElementById('skills-results');
 
-        tagsInput.addEventListener('keydown', function(e) {
+        tagsInput.addEventListener('keydown', function (e) {
             if (e.key === 'Enter' && this.value.trim() !== '') {
                 e.preventDefault();
                 addTag(this.value.trim());
@@ -815,7 +1023,7 @@
 
         // Setup autocomplete for skills
         let debounceTimeout;
-        tagsInput.addEventListener('input', function() {
+        tagsInput.addEventListener('input', function () {
             clearTimeout(debounceTimeout);
             const query = this.value.trim();
 
@@ -828,7 +1036,7 @@
                 const suggestions = await fetchSuggestions(query, 'skills');
 
                 if (suggestions.length > 0) {
-                    displaySuggestions(suggestions, resultsElement, tagsInput, function(selectedSkill) {
+                    displaySuggestions(suggestions, resultsElement, tagsInput, function (selectedSkill) {
                         addTag(selectedSkill);
                         tagsInput.value = '';
                     });
@@ -847,7 +1055,7 @@
             const closeBtn = document.createElement('span');
             closeBtn.classList.add('tag-close');
             closeBtn.innerHTML = '&times;';
-            closeBtn.addEventListener('click', function() {
+            closeBtn.addEventListener('click', function () {
                 tagsContainer.removeChild(tag);
             });
 
@@ -857,7 +1065,7 @@
 
         // Handle remove existing tags
         document.querySelectorAll('.tag-close').forEach(closeBtn => {
-            closeBtn.addEventListener('click', function() {
+            closeBtn.addEventListener('click', function () {
                 const tag = this.parentElement;
                 tagsContainer.removeChild(tag);
             });
@@ -870,11 +1078,11 @@
         const previewElement = document.querySelector(previewSelector);
         const placeholderElement = previewElement.querySelector(placeholderClass);
 
-        fileInput.addEventListener('change', function() {
+        fileInput.addEventListener('change', function () {
             if (this.files && this.files[0]) {
                 const reader = new FileReader();
 
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     if (placeholderElement) {
                         placeholderElement.style.display = 'none';
                     }
@@ -899,6 +1107,7 @@
             }
         });
     }
+
 
     // Initialize all autocomplete fields
     document.addEventListener('DOMContentLoaded', function() {
@@ -934,6 +1143,35 @@
             alert('Thông tin đã được lưu thành công!');
         });
     });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const fileInput = document.getElementById("avatar-upload");
+        const avatarImage = document.querySelector(".avatar");
+
+        fileInput.addEventListener("change", function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    avatarImage.src = e.target.result; // gán ảnh tạm thời
+                }
+                reader.readAsDataURL(file); // đọc file ảnh
+            }
+        });
+    });
+</script>
+<script>
+    // Lấy ngày hôm nay
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+
+    const maxDate = `${yyyy}-${mm}-${dd}`;
+
+    // Gán giá trị max vào input
+    document.getElementById("dob").setAttribute("max", maxDate);
 </script>
 </body>
 </html>

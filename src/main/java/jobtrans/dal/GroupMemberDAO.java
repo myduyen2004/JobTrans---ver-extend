@@ -17,47 +17,81 @@ public class GroupMemberDAO {
         dbConnection = DBConnection.getInstance();
     }
 
-    public GroupMember getMemberByAccountIdAndMemberId(int accountId, int memberId) {
-        String query = "SELECT * FROM Group_Member WHERE account_id = ? AND member_id = ?";
-        Connection con = null;
+    public List<GroupMember> getAllMembers() {
+        Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
+        List<GroupMember> members = new ArrayList<>();
 
         try {
-            con = dbConnection.openConnection();
-            ps = con.prepareStatement(query);
-            ps.setInt(1, accountId);
-            ps.setInt(2, memberId);
+            conn = DBConnection.getInstance().openConnection();
+            String sql = "SELECT * FROM GroupMember";
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                GroupMember member = new GroupMember();
+                member.setMemberId(rs.getInt("memberId"));
+                member.setMemberName(rs.getString("memberName"));
+                member.setAccountId(rs.getInt("accountId"));
+                member.setBio(rs.getString("bio"));
+                member.setDateOfBirth(rs.getDate("dateOfBirth"));
+                member.setSpeciality(rs.getString("speciality"));
+                member.setGender(rs.getString("gender"));
+                member.setExperienceYears(rs.getInt("experienceYears"));
+                member.setStatus(rs.getString("status"));
+                member.setEducation(rs.getString("education"));
+                member.setAvatarMember(rs.getString("avatarMember"));
+                member.setPosition(rs.getString("position"));
+                members.add(member);
+            }
+            return members;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+//        finally {
+//            closeResources(conn, ps, rs);
+//        }
+    }
+
+    public GroupMember getMemberById(int memberId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        GroupMember member = null;
+
+        try {
+            conn = DBConnection.getInstance().openConnection();
+            String sql = "SELECT * FROM GroupMember WHERE member_id = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, memberId);
             rs = ps.executeQuery();
 
             if (rs.next()) {
-                return new GroupMember(
-                        rs.getInt("member_id"),
-                        rs.getString("member_name"),
-                        rs.getInt("account_id"),
-                        rs.getString("bio"),
-                        rs.getDate("date_of_birth"),
-                        rs.getString("specialist"),
-                        rs.getString("gender"),
-                        rs.getInt("experience_years"),
-                        rs.getString("status"),
-                        rs.getString("education"),
-                        rs.getString("avatarMember"),
-                        rs.getString("position")
-                );
+                member = new GroupMember();
+                member.setMemberId(rs.getInt("memberId"));
+                member.setMemberName(rs.getString("memberName"));
+                member.setAccountId(rs.getInt("accountId"));
+                member.setBio(rs.getString("bio"));
+                member.setDateOfBirth(rs.getDate("dateOfBirth"));
+                member.setSpeciality(rs.getString("speciality"));
+                member.setGender(rs.getString("gender"));
+                member.setExperienceYears(rs.getInt("experienceYears"));
+                member.setStatus(rs.getString("status"));
+                member.setEducation(rs.getString("education"));
+                member.setAvatarMember(rs.getString("avatarMember"));
+                member.setPosition(rs.getString("position"));
+                member.setSkills(rs.getString("skills"));
             }
+            return member;
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (ps != null) ps.close();
-                if (con != null) con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            return null;
         }
-        return null;
+//        finally {
+//            closeResources(conn, ps, rs);
+//        }
     }
 
     public GroupMember getMemberByMemberId(int memberId) throws Exception {
@@ -80,13 +114,14 @@ public class GroupMemberDAO {
                 member.setAccountId(rs.getInt("account_id"));
                 member.setBio(rs.getString("bio"));
                 member.setDateOfBirth(rs.getDate("date_of_birth"));
-                member.setSpecialist(rs.getString("specialist"));
+                member.setSpeciality(rs.getString("speciality"));
                 member.setGender(rs.getString("gender"));
                 member.setExperienceYears(rs.getInt("experience_years"));
                 member.setEducation(rs.getString("education"));
                 member.setStatus(rs.getString("status"));
                 member.setAvatarMember(rs.getString("avatarMember"));
                 member.setPosition(rs.getString("position"));
+                member.setSkills(rs.getString("skills"));
             }
 
         } finally {
@@ -100,37 +135,65 @@ public class GroupMemberDAO {
     }
 
     // Phương thức cập nhật thông tin thành viên
-    public boolean updateMember(GroupMember member) throws Exception {
+    public boolean updateMember(GroupMember member) {
         Connection conn = null;
         PreparedStatement ps = null;
         int result = 0;
 
         try {
             conn = DBConnection.getInstance().openConnection();
-            String sql = "UPDATE Group_Member SET member_name = ?, bio = ?, date_of_birth = ?, "
-                    + "specialist = ?, gender = ?, experience_years = ?, education = ?, "
-                    + "position = ? , avatar_member = ?WHERE member_id = ?";
+            String sql = "UPDATE Group_Member SET member_name = ?, account_id = ?, bio = ?, date_of_birth = ?, "
+                    + "speciality = ?, gender = ?, experience_years = ?, status = ?, education = ?, "
+                    + "avatar_member = ?, position = ?, skills = ? WHERE member_id = ?";
 
             ps = conn.prepareStatement(sql);
             ps.setString(1, member.getMemberName());
-            ps.setString(2, member.getBio());
-            ps.setDate(3, member.getDateOfBirth());
-            ps.setString(4, member.getSpecialist());
-            ps.setNString(5, member.getGender());
-            ps.setInt(6, member.getExperienceYears());
-            ps.setString(7, member.getEducation());
-            ps.setString(8, member.getPosition());
-            ps.setString(9, member.getAvatarMember());
-            ps.setInt(10, member.getMemberId());
+            ps.setInt(2, member.getAccountId());
+            ps.setString(3, member.getBio());
+            ps.setDate(4, new java.sql.Date(member.getDateOfBirth().getTime()));
+            ps.setString(5, member.getSpeciality());
+            ps.setString(6, member.getGender());
+            ps.setInt(7, member.getExperienceYears());
+            ps.setString(8, member.getStatus());
+            ps.setString(9, member.getEducation());
+            ps.setString(10, member.getAvatarMember());
+            ps.setString(11, member.getPosition());
+            ps.setString(12, member.getSkills());
+            ps.setInt(13, member.getMemberId());
 
             result = ps.executeUpdate();
-
-        } finally {
-            if (ps != null) ps.close();
-            if (conn != null) conn.close();
+            return result > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+//        finally {
+//            closeResources(conn, ps, null);
+//        }
+    }
 
-        return result > 0;
+    // Delete member
+    public boolean deleteMember(int memberId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        int result = 0;
+
+        try {
+            conn = DBConnection.getInstance().openConnection();
+            String sql = "DELETE FROM Group_Member WHERE member_id = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, memberId);
+            result = ps.executeUpdate();
+            return result > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+//        finally {
+//            closeResources(conn, ps, null);
+//        }
     }
 
     // Phương thức lấy danh sách thành viên theo account_id
@@ -154,7 +217,7 @@ public class GroupMemberDAO {
                 member.setAccountId(rs.getInt("account_id"));
                 member.setBio(rs.getString("bio"));
                 member.setDateOfBirth(rs.getDate("date_of_birth"));
-                member.setSpecialist(rs.getString("specialist"));
+                member.setSpeciality(rs.getString("speciality"));
                 member.setGender(rs.getString("gender"));
                 member.setExperienceYears(rs.getInt("experience_years"));
                 member.setEducation(rs.getString("education"));
@@ -174,35 +237,44 @@ public class GroupMemberDAO {
         return memberList;
     }
 
-//    public int getLowestMemberIdByAccountId(int accountId) {
-//        int lowestMemberId = -1;
-//        Connection conn = null;
-//        PreparedStatement ps = null;
-//        ResultSet rs = null;
-//
-//        try {
-//            conn = DBConnection.getInstance().openConnection();
-//            String sql = "SELECT MIN(member_id) FROM Group_Member WHERE account_id = ?";
-//            ps = conn.prepareStatement(sql);
-//            ps.setInt(1, accountId);
-//            rs = ps.executeQuery();
-//
-//            if (rs.next()) {
-//                lowestMemberId = rs.getInt(1);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                if (rs != null) rs.close();
-//                if (ps != null) ps.close();
-//                if (conn != null) conn.close();
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            }
+    public boolean createMember(GroupMember member) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        int result = 0;
+
+        try {
+            conn = DBConnection.getInstance().openConnection();
+            String sql = "INSERT INTO Group_Member (member_name, account_id, bio, date_of_birth, speciality, gender, "
+                    + "experience_years, status, education, avatar_member, position, skills) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, member.getMemberName());
+            ps.setInt(2, member.getAccountId());
+            ps.setString(3, member.getBio());
+            ps.setDate(4, new java.sql.Date(member.getDateOfBirth().getTime()));
+            ps.setString(5, member.getSpeciality());
+            ps.setString(6, member.getGender());
+            ps.setInt(7, member.getExperienceYears());
+            ps.setString(8, member.getStatus());
+            ps.setString(9, member.getEducation());
+            ps.setString(10, member.getAvatarMember());
+            ps.setString(11, member.getPosition());
+            ps.setString(12, member.getSkills());
+
+            result = ps.executeUpdate();
+            return result > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+//        finally {
+//            closeResources(conn, ps, null);
 //        }
-//        return lowestMemberId;
-//    }
+    }
+
 
     public static void main(String[] args) {
         // Tạo đối tượng GroupMember để cập nhật thông tin
@@ -212,7 +284,7 @@ public class GroupMemberDAO {
         member.setMemberName("Nguyen Van A");
         member.setBio("Giới thiệu bản thân");
         member.setDateOfBirth(new java.util.Date(1990, 4, 15)); // Ngày sinh 15 tháng 4, 1990 (lưu ý sử dụng (1990-1900) vì Date có lỗi về năm)
-        member.setSpecialist("Lập trình viên");
+        member.setSpeciality("Lập trình viên");
         member.setGender("Nam");
         member.setExperienceYears(5);
         member.setEducation("Cử nhân Công nghệ Thông tin");
@@ -232,4 +304,5 @@ public class GroupMemberDAO {
         }
     }
 }
+
 
