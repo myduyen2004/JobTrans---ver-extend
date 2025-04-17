@@ -912,7 +912,7 @@
 <div class="container">
     <!-- Header -->
     <div class="profile-header">
-        <img class="profile-avatar" src="img\avatar-default.jpg" alt="Ảnh đại diện">
+        <img class="profile-avatar" src=" ${account.avatar}" alt="Ảnh đại diện">
 
         <div class="profile-info">
             <div class="profile-name">
@@ -1058,11 +1058,11 @@
                                         <h3 class="member-name">${members.memberName}</h3>
                                         <div class="member-role">${members.position}</div>
                                         <div>
-                                            <span class="badge badge-custom badge-specialty">
-                                                <i class="fas fa-laptop-code"></i> ${members.speciality}
-                                            </span>
+<%--                                            <span class="badge badge-custom badge-specialty">--%>
+<%--                                                <i class="fas fa-laptop-code"></i> ${members.speciality}--%>
+<%--                                            </span>--%>
                                             <span class="badge badge-custom badge-experience">
-                                                <i class="fas fa-briefcase"></i> ${members.experienceYears}
+                                                  <i class="fas fa-briefcase"></i>Số năm kinh nghiệm: ${members.experienceYears}
                                             </span>
                                         </div>
                                     </div>
@@ -1083,12 +1083,61 @@
                                 <div class="collapse-content">
                                     <div class="member-info">
                                         <div class="bio-section">
+                                            <span class="info-label">Giới thiệu</span>
                                             <p class="bio-text mb-0">
-                                                    ${members.experienceYears}
+                                                    ${members.bio}
                                             </p>
                                         </div>
 
                                         <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="d-flex align-items-center info-group">
+                                                    <div class="info-icon">
+                                                        <i class="fas fa-user-tie"></i>
+                                                    </div>
+                                                    <div>
+                                                        <span class="info-label">Chuyên môn</span>
+                                                        <div class="info-value">${members.speciality}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="d-flex align-items-center info-group">
+                                                    <div class="info-icon">
+                                                        <i class="fas fa-tools"></i>
+                                                    </div>
+                                                    <div>
+                                                        <span class="info-label">Kĩ năng</span>
+                                                        <div class="info-value">${members.skills}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="d-flex align-items-center info-group">
+                                                    <div class="info-icon">
+                                                        <i class="fas fa-phone-alt"></i>
+                                                    </div>
+                                                    <div>
+                                                        <span class="info-label">Số điện thoại</span>
+                                                        <div class="info-value">${members.phone}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="d-flex align-items-center info-group">
+                                                    <div class="info-icon">
+                                                        <i class="fas fa-map-marker-alt"></i>
+                                                    </div>
+                                                    <div>
+                                                        <span class="info-label">Địa chỉ</span>
+                                                            <div class="info-value">${members.address}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <div class="col-md-6">
                                                 <div class="d-flex align-items-center info-group">
                                                     <div class="info-icon">

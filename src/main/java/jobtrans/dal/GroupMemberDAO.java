@@ -43,6 +43,9 @@ public class GroupMemberDAO {
                 member.setEducation(rs.getString("education"));
                 member.setAvatarMember(rs.getString("avatarMember"));
                 member.setPosition(rs.getString("position"));
+                member.setAddress(rs.getString("address"));
+                member.setPhone(rs.getString("phone"));
+                member.setSkills(rs.getString("skills"));
                 members.add(member);
             }
             return members;
@@ -63,7 +66,7 @@ public class GroupMemberDAO {
 
         try {
             conn = DBConnection.getInstance().openConnection();
-            String sql = "SELECT * FROM GroupMember WHERE member_id = ?";
+            String sql = "SELECT * FROM Group_Member WHERE member_id = ?";
             ps = conn.prepareStatement(sql);
             ps.setInt(1, memberId);
             rs = ps.executeQuery();
@@ -121,6 +124,9 @@ public class GroupMemberDAO {
                 member.setStatus(rs.getString("status"));
                 member.setAvatarMember(rs.getString("avatarMember"));
                 member.setPosition(rs.getString("position"));
+                member.setSkills(rs.getString("skills"));
+                member.setAddress(rs.getString("address"));
+                member.setPhone(rs.getString("phone"));
                 member.setSkills(rs.getString("skills"));
             }
 
@@ -219,6 +225,9 @@ public class GroupMemberDAO {
                 member.setDateOfBirth(rs.getDate("date_of_birth"));
                 member.setSpeciality(rs.getString("speciality"));
                 member.setGender(rs.getString("gender"));
+                member.setAddress(rs.getString("address"));
+                member.setPhone(rs.getString("phone"));
+                member.setSkills(rs.getString("skills"));
                 member.setExperienceYears(rs.getInt("experience_years"));
                 member.setEducation(rs.getString("education"));
                 member.setStatus(rs.getString("status"));
@@ -245,22 +254,24 @@ public class GroupMemberDAO {
         try {
             conn = DBConnection.getInstance().openConnection();
             String sql = "INSERT INTO Group_Member (member_name, account_id, bio, date_of_birth, speciality, gender, "
-                    + "experience_years, status, education, avatar_member, position, skills) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    + "experience_years, status, education, avatar_member, position, skills, phone, address) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             ps = conn.prepareStatement(sql);
-            ps.setString(1, member.getMemberName());
+            ps.setNString(1, member.getMemberName());
             ps.setInt(2, member.getAccountId());
-            ps.setString(3, member.getBio());
+            ps.setNString(3, member.getBio());
             ps.setDate(4, new java.sql.Date(member.getDateOfBirth().getTime()));
-            ps.setString(5, member.getSpeciality());
-            ps.setString(6, member.getGender());
+            ps.setNString(5, member.getSpeciality());
+            ps.setNString(6, member.getGender());
             ps.setInt(7, member.getExperienceYears());
-            ps.setString(8, member.getStatus());
-            ps.setString(9, member.getEducation());
+            ps.setNString(8, member.getStatus());
+            ps.setNString(9, member.getEducation());
             ps.setString(10, member.getAvatarMember());
-            ps.setString(11, member.getPosition());
-            ps.setString(12, member.getSkills());
+            ps.setNString(11, member.getPosition());
+            ps.setNString(12, member.getSkills());
+            ps.setString(13, member.getPhone());
+            ps.setNString(14, member.getAddress());
 
             result = ps.executeUpdate();
             return result > 0;

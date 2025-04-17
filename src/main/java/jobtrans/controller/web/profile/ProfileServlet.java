@@ -11,6 +11,8 @@ import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -44,13 +46,13 @@ public class ProfileServlet extends HttpServlet {
 //                changePassword(request, response);
                 break;
             case "wallet":
-                loadWallet(request, response);
+//                loadWallet(request, response);
                 break;
             case "addWallet":
 //                addWallet(request, response);
                 break;
-            case "loadUpdateProfile":
-                loadUpdateProfile(request, response);
+            case "showUpdateForm":
+                showUpdateForm(request, response);
                 break;
             case "updateProfile":
 //                updateProfile(request, response);
@@ -61,19 +63,6 @@ public class ProfileServlet extends HttpServlet {
         }
     }
 
-    private void viewProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //        HttpSession session = request.getSession();
-        //        Account account = (Account) session.getAttribute("sessionAccount");
-        //        Account account01 = accountDAO.getAccountById(account.getAccountId());
-
-                int accountId = Integer.parseInt(request.getParameter("account_id"));
-                Account account01 = accountDAO.getAccountById(accountId);
-
-                request.setAttribute("account", account01);
-
-        request.getRequestDispatcher("infor-account.jsp").forward(request, response);
-    }
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -82,15 +71,24 @@ public class ProfileServlet extends HttpServlet {
             response.setContentType("text/html;charset=UTF-8");
             response.setCharacterEncoding("UTF-8");
             request.setCharacterEncoding("UTF-8");
-            Account account = (Account) session.getAttribute("sessionAccount");
-//            int accountId = Integer.parseInt(request.getParameter("accountId"));
-            String accountName = request.getParameter("fullName");
-            Date dateOfBirth = java.sql.Date.valueOf(request.getParameter("dob"));
+
+//            Account account = (Account) session.getAttribute("sessionAccount");
+
+            int accountId = Integer.parseInt(request.getParameter("accountId"));
+            Account account = accountDAO.getAccountById(accountId);
+
+            String accountName = request.getParameter("name");
+            String dobParam = request.getParameter("dob");
+            LocalDate localDate = null;
+            if (dobParam != null && !dobParam.isEmpty()) {
+                localDate = LocalDate.parse(dobParam); // dobParam định dạng yyyy-MM-dd
+            }
+
             String gender = request.getParameter("gender");
-            String specialty = request.getParameter("specialty");
-            String email = request.getParameter("email");
+            String speciality = request.getParameter("speciality");
             String phone = request.getParameter("phone");
-            String bio = request.getParameter("introduction");
+            String bio = request.getParameter("bio");
+            String skills = request.getParameter("skills");
             Part filePart = request.getPart("avatar");
             String fileName = getFileName(filePart);
             InputStream imageInputStream = filePart.getInputStream();
@@ -101,6 +99,7 @@ public class ProfileServlet extends HttpServlet {
             if (!uploadDirFile.exists()) {
                 uploadDirFile.mkdir();
             }
+
             if (containsExtension(typeOfImage)) {
                 Time timeObj = new Time(System.currentTimeMillis());
                 newImageName = timeObj.getTime() + "_" + fileName;
@@ -112,40 +111,74 @@ public class ProfileServlet extends HttpServlet {
                 }
 
                 Path destinationPath = Paths.get(uploadDirectory.getAbsolutePath());
-                try (FileOutputStream fout = new FileOutputStream(destinationPath.resolve(newImageName).toString())) {
-                    fout.write(imageInputStream.readAllBytes());
+
+                // Đóng input stream đúng cách
+                try {
+                    // Sử dụng try-with-resources cho cả hai luồng để đảm bảo chúng được đóng
+                    try (InputStream inputStream = imageInputStream;
+                         FileOutputStream fout = new FileOutputStream(destinationPath.resolve(newImageName).toString())) {
+
+                        // Sử dụng buffer để đọc/ghi tệp thay vì readAllBytes()
+                        byte[] buffer = new byte[8192];
+                        int bytesRead;
+                        while ((bytesRead = inputStream.read(buffer)) != -1) {
+                            fout.write(buffer, 0, bytesRead);
+                        }
+
+                        // Đảm bảo các luồng được flush
+                        fout.flush();
+                    }
+
+                    // Sau khi ghi tệp thành công, đặt đường dẫn avatar
+                    if (newImageName != null) {
+                        account.setAvatar("images/" + newImageName);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    // Xử lý ngoại lệ theo cách phù hợp với ứng dụng của bạn
                 }
             }
 
             account.setAccountName(accountName);
-            account.setDateOfBirth(dateOfBirth);
+            account.setDateOfBirth(localDate);
             account.setGender(gender);
-            account.setSpecialist(specialty);
-            account.setEmail(email);
+            account.setSpeciality(speciality);
             account.setPhone(phone);
             account.setBio(bio);
-            if (newImageName != null) {
-                account.setAvatar("images/" + newImageName);
-            }
+            account.setSkills(skills);
+
 //            Account account1 = (Account) session.getAttribute("sessionAccount");
 
             AccountDAO accountDAO = new AccountDAO();
-            if (accountDAO.updateAccount(account)) {
-                session.setAttribute("sessionAccount", account);
-                request.setAttribute("success", "Cập nhật thành công");
-                request.setAttribute("account", account);
-//                response.getWriter().print(account);
-                request.getRequestDispatcher("edit-account.jsp").forward(request, response);
-            } else {
-                request.setAttribute("error", "Cập nhật thất bại");
-                response.sendRedirect("edit-account.jsp");
+            try {
+                if (accountDAO.updateAccountByEmail(account)) {
+                    session.setAttribute("sessionAccount", account);
+                    response.sendRedirect("group?action=view&account_id=" + accountId);
+                } else {
+                    response.sendRedirect("group?action=view&account_id=" + accountId);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                request.setAttribute("error", "An error occurred: " + e.getMessage());
+                request.getRequestDispatcher("404.html").forward(request, response);
             }
+        } finally {
 
-            response.getWriter().print(account);
-            request.getRequestDispatcher("edit-account.jsp").forward(request, response);
-        } catch (Exception e) {
-            response.getWriter().print(e.getMessage());
         }
+    }
+
+
+    private void viewProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //        HttpSession session = request.getSession();
+        //        Account account = (Account) session.getAttribute("sessionAccount");
+        //        Account account01 = accountDAO.getAccountById(account.getAccountId());
+
+        int accountId = Integer.parseInt(request.getParameter("account_id"));
+        Account account01 = accountDAO.getAccountById(accountId);
+
+        request.setAttribute("account", account01);
+
+        request.getRequestDispatcher("infor-account.jsp").forward(request, response);
     }
 
     private String getFileName(Part part) {
@@ -169,20 +202,19 @@ public class ProfileServlet extends HttpServlet {
         return false;
     }
 
-    private void loadUpdateProfile(HttpServletRequest request, HttpServletResponse response)
+    private void showUpdateForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            HttpSession session = request.getSession();
-            Account sessionAccount = (Account) session.getAttribute("sessionAccount");
-//            int accountId = Integer.parseInt(request.getParameter("accountId"));
-            AccountDAO accountDAO = new AccountDAO();
-//            Account account = accountDAO.getAccountById(sessionAccount.getAccountId());
 
-            request.setAttribute("account", sessionAccount);
+            //        HttpSession session = request.getSession();
+            //        Account account = (Account) session.getAttribute("sessionAccount");
+            //        Account account01 = accountDAO.getAccountById(account.getAccountId());
+
+            int accountId = Integer.parseInt(request.getParameter("account_id"));
+            Account account01 = accountDAO.getAccountById(accountId);
+
+            request.setAttribute("account", account01);
             request.getRequestDispatcher("edit-account.jsp").forward(request, response);
-        } catch (Exception e) {
-            response.sendRedirect("404.html");
-        }
+
     }
 
     //    private void changePassword(HttpServletRequest request, HttpServletResponse response)
@@ -233,17 +265,18 @@ public class ProfileServlet extends HttpServlet {
 //        request.getRequestDispatcher("profile?action=view").forward(request, response);
 //    }
 //}
-    private void loadWallet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        try {
-            HttpSession session = request.getSession();
-            Account account = (Account) session.getAttribute("sessionAccount");
-            AccountDAO accountDAO = new AccountDAO();
-            List<Transaction> trans = accountDAO.getTransactionsByUserId(account.getAccountId());
-            request.setAttribute("trans", trans);
-            request.getRequestDispatcher("wallet.jsp").forward(request, response);
-        } catch (Exception e) {
-            response.sendRedirect("404.html");
-        }
-    }
+
+//    private void loadWallet(HttpServletRequest request, HttpServletResponse response)
+//            throws ServletException, IOException {
+//        try {
+//            HttpSession session = request.getSession();
+//            Account account = (Account) session.getAttribute("sessionAccount");
+//            AccountDAO accountDAO = new AccountDAO();
+//            List<Transaction> trans = accountDAO.getTransactionsByUserId(account.getAccountId());
+//            request.setAttribute("trans", trans);
+//            request.getRequestDispatcher("wallet.jsp").forward(request, response);
+//        } catch (Exception e) {
+//            response.sendRedirect("404.html");
+//        }
+//    }
 }

@@ -333,7 +333,7 @@
         .autocomplete-results {
             position: absolute;
             z-index: 1000;
-            width: 100%;
+            width: 88%;
             max-height: 200px;
             overflow-y: auto;
             background-color: white;
@@ -417,6 +417,8 @@
     </div>
 
     <form action="profile" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
+<%--        <input type="hidden" name="action" value="update">--%>
+        <input type="hidden" name="accountId" value="${account.accountId}">
         <!-- Avatar section -->
         <div class="form-container">
             <div class="avatar-upload">
@@ -438,7 +440,7 @@
                 <div class="form-grid">
                     <div class="form-row form-full-width">
                         <label for="name" class="form-label required-label">Tên</label>
-                        <input type="text" id="name" class="form-input" value="${account.accountName}" required>
+                        <input type="text" id="name" class="form-input" name="name" value="${account.accountName}" required>
                     </div>
                     <%--                    <div class="form-row">--%>
                     <%--                        <label for="display-name" class="form-label required-label">Tên hiển thị</label>--%>
@@ -453,7 +455,7 @@
                     <%--                    </div>--%>
                     <div class="form-row">
                         <label for="dob" class="form-label">Ngày sinh</label>
-                        <input type="date" id="dob" class="form-input" value="${account.dateOfBirth}">
+                        <input type="date" id="dob" class="form-input" name="dob" value="${account.dateOfBirth}">
                     </div>
                     <div class="form-row">
                         <label for="gender" class="form-label">Giới tính</label>
@@ -466,9 +468,7 @@
 
                     <div class="form-row form-full-width">
                         <label for="bio" class="form-label">Giới thiệu</label>
-                        <textarea id="bio" class="form-textarea">
-                            ${account.bio}
-                        </textarea>
+                        <textarea id="bio" name="bio" class="form-textarea">${account.bio}</textarea>
                     </div>
                 </div>
             </div>
@@ -480,32 +480,32 @@
                 <h2 class="section-title">Thông tin chuyên môn</h2>
                 <div class="form-grid">
                     <div class="form-row">
-                        <label for="specialty" class="form-label">Chuyên môn</label>
+                        <label for="speciality" class="form-label">Chuyên môn</label>
                         <div class="autocomplete-container">
-                            <input type="text" id="specialty" class="form-input" value="${account.specialist}">
+                            <input type="text" id="speciality" class="form-input" name="speciality" value="${account.speciality}">
                             <div class="autocomplete-results" id="specialty-results"></div>
                         </div>
                     </div>
                     <div class="form-row">
                         <label for="experience" class="form-label">Kinh nghiệm (năm)</label>
-                        <input type="number" id="experience" class="form-input" value="${account.experienceYears}"
+                        <input type="number" id="experience" class="form-input" name="experienceYears" value="${account.experienceYears}"
                                min="0" max="50">
                     </div>
                     <div class="form-row">
                         <label for="education" class="form-label">Học vấn</label>
                         <div class="autocomplete-container">
-                            <input type="text" id="education" class="form-input" value="${account.education}">
+                            <input type="text" id="education" class="form-input" name="education" value="${account.education}">
                             <div class="autocomplete-results" id="education-results"></div>
                         </div>
                     </div>
                     <div class="form-row">
                         <label for="status" class="form-label">Trạng thái</label>
-                        <select id="status" class="form-select">
+                        <select id="status" class="form-select" name="status">
                             <option value="Đang hoạt động" ${account.status == 'Đang hoạt động' ? 'selected' : ''}>Đang
                                 hoạt động
                             </option>
                             <option value="Bị cấm" ${account.status == 'Bị cấm' ? 'selected' : ''}>Bị cấm</option>
-                            <option value="Tạm nghỉ" ${account.status == 'Tạm nghỉ' ? 'selected' : ''}>Tạm nghỉ</option>
+                            <option value="Chờ xử lí" ${account.status == 'Chờ xử lí' ? 'selected' : ''}>Chờ xử lí</option>
                         </select>
                     </div>
                     <div class="form-row form-full-width">
@@ -527,7 +527,7 @@
                                 Web Design
                                 <span class="tag-close">&times;</span>
                             </div>
-                            <input type="text" id="skills" class="tags-input" placeholder="Thêm kỹ năng...">
+                            <input type="text" id="skills" class="tags-input" name="skills" placeholder="Thêm kỹ năng...">
                         </div>
                         <div class="autocomplete-results" id="skills-results"></div>
                         <p class="help-text">Nhấn Enter để thêm kỹ năng mới</p>
@@ -547,11 +547,11 @@
                     </div>
                     <div class="form-row">
                         <label for="phone" class="form-label">Điện thoại</label>
-                        <input type="tel" id="phone" class="form-input" value="${account.phone}">
+                        <input type="tel" id="phone" class="form-input" name="phone" value="${account.phone}">
                     </div>
                     <div class="form-row form-full-width">
                         <label for="address" class="form-label">Địa chỉ</label>
-                        <input type="text" id="address" class="form-input" value="${account.address}">
+                        <input type="text" id="address" class="form-input" name="address" value="${account.address}">
                     </div>
                 </div>
             </div>
@@ -597,16 +597,16 @@
                             </c:if>
                             <c:if test="${account.signature == null}">
                                 <span class="signature-placeholder">Chưa có chữ ký</span>
+                                <div class="signature-actions">
+                                    <label for="signature-upload" class="upload-btn">Tải ảnh chữ ký lên</label>
+                                    <input type="file" id="signature-upload" class="file-input" name="signature" accept="image/*">
+                                </div>
+                                <p class="help-text">Chữ ký hình ảnh sẽ hiển thị dưới thông tin hồ sơ của bạn. Cho phép PNG, JPG
+                                    hoặc GIF, tối đa 1MB
+                                </p>
                             </c:if>
                         </div>
-                        <div class="signature-actions">
-                            <label for="signature-upload" class="upload-btn">Tải ảnh chữ ký lên</label>
-                            <input type="file" id="signature-upload" class="file-input" accept="image/*">
-                        </div>
                     </div>
-                    <p class="help-text">Chữ ký hình ảnh sẽ hiển thị dưới thông tin hồ sơ của bạn. Cho phép PNG, JPG
-                        hoặc GIF, tối đa 1MB
-                    </p>
                 </div>
             </div>
 
@@ -653,497 +653,192 @@
 </div>
 
 <script>
+    function initTagsFromDatabase() {
+        // Lấy giá trị từ input ẩn (được điền từ database)
+        const skillsValue = document.getElementById('skills').value;
+
+        // Nếu có giá trị
+        if (skillsValue) {
+            // Xóa các tag mặc định nếu có
+            const existingTags = document.querySelectorAll('.tag');
+            existingTags.forEach(tag => {
+                tag.remove();
+            });
+
+            // Tách chuỗi kỹ năng thành mảng
+            const skillsArray = skillsValue.split(',');
+
+            // Tạo tag cho mỗi kỹ năng
+            skillsArray.forEach(skill => {
+                const skillTrimmed = skill.trim();
+                if (skillTrimmed) {
+                    addTag(skillTrimmed);
+                }
+            });
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
-        const tagsContainer = document.getElementById('tags-container');
-        const input = document.getElementById('skills');
-        const resultsContainer = document.getElementById('skills-results');
+        const tagsContainer = document.querySelector('.tags-input-container');
+        const tagsInput = document.querySelector('.tags-input');
+        const autocompleteResults = document.querySelector('#skills-results');
+        const hiddenInput = document.querySelector('#skills'); // Input ẩn để lưu giá trị
 
-        // Store all existing skills for reference
-        const existingTags = new Set();
-        document.querySelectorAll('.tag').forEach(tag => {
-            const tagText = tag.textContent.trim().replace('×', '').trim();
-            existingTags.add(tagText.toLowerCase());
-        });
 
-        // Sample data from database - in real implementation, you'd fetch this from your API
-        const specialists = [
-            { id: 1, name: 'Photoshop', category: 'Design' },
-            { id: 2, name: 'Illustrator', category: 'Design' },
-            { id: 3, name: 'UI/UX', category: 'Design' },
-            { id: 4, name: 'Web Design', category: 'Design' },
-            { id: 5, name: 'JavaScript', category: 'Programming' },
-            { id: 6, name: 'HTML/CSS', category: 'Programming' },
-            { id: 7, name: 'React', category: 'Programming' },
-            { id: 8, name: 'Node.js', category: 'Programming' },
-            { id: 9, name: 'SQL', category: 'Database' },
-            { id: 10, name: 'Content Writing', category: 'Content' },
-            { id: 11, name: 'SEO', category: 'Marketing' },
-            { id: 12, name: 'Digital Marketing', category: 'Marketing' }
+        // Danh sách gợi ý (có thể thay thế bằng API hoặc nguồn dữ liệu khác)
+        const suggestions = [
+            'Photoshop', 'Illustrator', 'UI/UX', 'Web Design', 'HTML', 'CSS',
+            'JavaScript', 'React', 'Angular', 'Vue.js', 'Node.js', 'PHP',
+            'WordPress', 'Figma', 'Sketch', 'Adobe XD', 'Typography',
+            'Responsive Design', 'Mobile Design', 'Logo Design', 'Branding'
         ];
 
-        // Initialize event listeners
-        setupEventListeners();
+        // Khởi tạo sự kiện cho các tag đã có sẵn
+        initExistingTags();
 
-        function setupEventListeners() {
-            // Handle input when typing
-            input.addEventListener('input', showAutocompleteResults);
+        updateHiddenField();
 
-            // Handle keyboard navigation in autocomplete
-            input.addEventListener('keydown', handleKeyDown);
 
-            // Handle clicks on autocomplete items
-            resultsContainer.addEventListener('click', handleAutocompleteClick);
+        // Xử lý khi người dùng nhập vào input
+        tagsInput.addEventListener('input', function() {
+            const value = this.value.trim();
 
-            // Handle clicks on close button for tags
-            tagsContainer.addEventListener('click', function(e) {
-                if (e.target.classList.contains('tag-close')) {
-                    const tag = e.target.parentElement;
-                    const tagText = tag.textContent.trim().replace('×', '').trim();
-                    existingTags.delete(tagText.toLowerCase());
-                    tag.remove();
-                }
-            });
-
-            // Close autocomplete when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!tagsContainer.contains(e.target) && !resultsContainer.contains(e.target)) {
-                    resultsContainer.style.display = 'none';
-                }
-            });
-        }
-
-        function showAutocompleteResults() {
-            const inputValue = input.value.trim().toLowerCase();
-
-            if (inputValue === '') {
-                resultsContainer.style.display = 'none';
-                return;
-            }
-
-            // Filter specialists based on input
-            const filteredResults = specialists.filter(specialist => {
-                return specialist.name.toLowerCase().includes(inputValue) &&
-                    !existingTags.has(specialist.name.toLowerCase());
-            });
-
-            // Clear previous results
-            resultsContainer.innerHTML = '';
-
-            if (filteredResults.length > 0) {
-                // Add filtered results to the dropdown
-                filteredResults.forEach(result => {
-                    const resultItem = document.createElement('div');
-                    resultItem.className = 'autocomplete-item';
-                    resultItem.dataset.specialistId = result.id;
-                    resultItem.dataset.specialistName = result.name;
-                    resultItem.textContent = result.name;
-                    resultsContainer.appendChild(resultItem);
-                });
-
-                resultsContainer.style.display = 'block';
-            } else {
-                resultsContainer.style.display = 'none';
-            }
-        }
-
-        function handleKeyDown(e) {
-            const items = resultsContainer.querySelectorAll('.autocomplete-item');
-            let activeItem = resultsContainer.querySelector('.autocomplete-item.active');
-            let activeIndex = -1;
-
-            // Find current active index
-            if (activeItem) {
-                Array.from(items).forEach((item, index) => {
-                    if (item === activeItem) activeIndex = index;
-                });
-            }
-
-            switch (e.key) {
-                case 'Enter':
-                    e.preventDefault();
-
-                    if (activeItem) {
-                        // Add the selected item as a tag
-                        addTag(activeItem.dataset.specialistName, activeItem.dataset.specialistId);
-                    } else if (input.value.trim() !== '') {
-                        // Add the current input as a custom tag
-                        addTag(input.value.trim());
-                    }
-
-                    input.value = '';
-                    resultsContainer.style.display = 'none';
-                    break;
-
-                case 'ArrowDown':
-                    e.preventDefault();
-
-                    if (items.length > 0) {
-                        if (activeItem) activeItem.classList.remove('active');
-
-                        activeIndex = (activeIndex + 1) % items.length;
-                        items[activeIndex].classList.add('active');
-                        items[activeIndex].scrollIntoView({ block: 'nearest' });
-                    }
-                    break;
-
-                case 'ArrowUp':
-                    e.preventDefault();
-
-                    if (items.length > 0) {
-                        if (activeItem) activeItem.classList.remove('active');
-
-                        activeIndex = activeIndex <= 0 ? items.length - 1 : activeIndex - 1;
-                        items[activeIndex].classList.add('active');
-                        items[activeIndex].scrollIntoView({ block: 'nearest' });
-                    }
-                    break;
-
-                case 'Escape':
-                    resultsContainer.style.display = 'none';
-                    break;
-            }
-        }
-
-        function handleAutocompleteClick(e) {
-            if (e.target.classList.contains('autocomplete-item')) {
-                addTag(e.target.dataset.specialistName, e.target.dataset.specialistId);
-                input.value = '';
-                resultsContainer.style.display = 'none';
-                input.focus();
-            }
-        }
-
-        function addTag(text, id) {
-            const tagText = text.trim();
-            const tagLower = tagText.toLowerCase();
-
-            // Skip if tag is empty or already exists
-            if (tagText === '' || existingTags.has(tagLower)) {
-                return;
-            }
-
-            // Create new tag element
-            const tag = document.createElement('div');
-            tag.className = 'tag';
-            tag.textContent = tagText;
-
-            if (id) {
-                tag.dataset.specialistId = id;
-            }
-
-            // Create close button for tag
-            const closeBtn = document.createElement('span');
-            closeBtn.className = 'tag-close';
-            closeBtn.innerHTML = '&times;';
-            tag.appendChild(closeBtn);
-
-            // Add tag before the input field
-            tagsContainer.insertBefore(tag, input);
-
-            // Add to tracking set
-            existingTags.add(tagLower);
-
-            // In a real application, you would save this to the database
-            saveTagToDatabase(tagText, id);
-        }
-
-        function saveTagToDatabase(tagName, specialistId) {
-            // This is a placeholder for the actual implementation
-            // In a real application, you would make an AJAX call to save to your database
-            console.log('Saving tag:', tagName, 'with specialist ID:', specialistId || 'new');
-
-            // Sample AJAX call (commented out)
-            /*
-            fetch('/api/account-specialist', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    accountId: currentAccountId, // You'd need to get this from your page context
-                    specialistId: specialistId,
-                    specialistName: tagName // For new specialists without an existing ID
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Tag saved successfully:', data);
-            })
-            .catch(error => {
-                console.error('Error saving tag:', error);
-            });
-            */
-        }
-    });
-</script>
-<script>
-    // Mock API for autocomplete suggestions
-    const mockAPI = {
-        specialties: [
-            'Thiết kế đồ họa',
-            'Phát triển web',
-            'Nghiên cứu người dùng',
-            'Digital Marketing',
-            'Lập trình di động',
-            'Quản lý dự án',
-            'Thiết kế UI/UX',
-            'Phân tích dữ liệu'
-        ],
-        education: [
-            'Đại học Mỹ thuật TP.HCM',
-            'Đại học Bách Khoa TP.HCM',
-            'Đại học FPT',
-            'Đại học Kinh tế TP.HCM',
-            'Đại học Khoa học Tự nhiên TP.HCM',
-            'Đại học Quốc tế RMIT'
-        ],
-        skills: [
-            'Photoshop', 'Illustrator', 'InDesign', 'Figma', 'UI/UX', 'Web Design',
-            'HTML', 'CSS', 'JavaScript', 'React', 'Vue.js', 'Angular',
-            'PHP', 'Node.js', 'Python', 'Java', 'Ruby on Rails',
-            'WordPress', 'Shopify', 'WooCommerce',
-            'SEO', 'SEM', 'Google Analytics', 'Content Marketing',
-            'Adobe XD', 'Sketch', 'Premiere Pro', 'After Effects',
-            'Product Management', 'Agile', 'Scrum', 'Jira'
-        ]
-    };
-
-    // Function to query the API for suggestions
-    function fetchSuggestions(query, category) {
-        return new Promise((resolve) => {
-            // Simulate API delay
-            setTimeout(() => {
-                const data = mockAPI[category] || [];
-                if (Array.isArray(data)) {
-                    const results = data.filter(item =>
-                        item.toLowerCase().includes(query.toLowerCase())
-                    );
-                    resolve(results);
-                } else {
-                    resolve([]);
-                }
-            }, 300);
-        });
-    }
-
-    // Function to fetch district suggestions based on selected city
-    function fetchDistrictSuggestions(query, city) {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                const districts = mockAPI.districts[city] || [];
-                const results = districts.filter(district =>
-                    district.toLowerCase().includes(query.toLowerCase())
+            if (value) {
+                // Lọc các gợi ý phù hợp với từ khóa đang nhập
+                const filteredSuggestions = suggestions.filter(suggestion =>
+                    suggestion.toLowerCase().includes(value.toLowerCase()) &&
+                    !isTagExists(suggestion)
                 );
-                resolve(results);
-            }, 300);
-        });
-    }
 
-    // Setup autocomplete for all fields that need it
-    function setupAutocomplete(inputId, resultsId, category, selectCallback) {
-        const inputElement = document.getElementById(inputId);
-        const resultsElement = document.getElementById(resultsId);
-
-        if (!inputElement || !resultsElement) return;
-
-        let debounceTimeout;
-
-        inputElement.addEventListener('input', function () {
-            clearTimeout(debounceTimeout);
-            const query = this.value.trim();
-
-            if (query.length < 2) {
-                resultsElement.classList.remove('show');
-                return;
-            }
-
-            debounceTimeout = setTimeout(async () => {
-                let suggestions;
-
-                if (inputId === 'district') {
-                    const cityValue = document.getElementById('city').value;
-                    suggestions = await fetchDistrictSuggestions(query, cityValue);
-                } else {
-                    suggestions = await fetchSuggestions(query, category);
-                }
-
-                if (suggestions.length > 0) {
-                    displaySuggestions(suggestions, resultsElement, inputElement, selectCallback);
-                } else {
-                    resultsElement.classList.remove('show');
-                }
-            }, 300);
-        });
-
-        // Hide results when clicking outside
-        document.addEventListener('click', function (e) {
-            if (e.target !== inputElement && e.target !== resultsElement) {
-                resultsElement.classList.remove('show');
+                // Hiển thị danh sách gợi ý
+                showSuggestions(filteredSuggestions);
+            } else {
+                // Ẩn danh sách gợi ý nếu input trống
+                autocompleteResults.innerHTML = '';
+                autocompleteResults.style.display = 'none';
             }
         });
-    }
 
-    // Display suggestions in the results container
-    function displaySuggestions(suggestions, resultsElement, inputElement, selectCallback) {
-        resultsElement.innerHTML = '';
-        suggestions.forEach(suggestion => {
-            const itemElement = document.createElement('div');
-            itemElement.classList.add('autocomplete-item');
-            itemElement.textContent = suggestion;
-
-            itemElement.addEventListener('click', function () {
-                if (selectCallback) {
-                    selectCallback(suggestion);
-                } else {
-                    inputElement.value = suggestion;
-                }
-                resultsElement.classList.remove('show');
-            });
-
-            resultsElement.appendChild(itemElement);
-        });
-
-        resultsElement.classList.add('show');
-    }
-
-    // Setup tags input for skills
-    function setupTagsInput() {
-        const tagsContainer = document.querySelector('.tags-input-container');
-        const tagsInput = document.getElementById('skills-input');
-        const resultsElement = document.getElementById('skills-results');
-
-        tagsInput.addEventListener('keydown', function (e) {
+        // Xử lý khi nhấn phím trong input
+        tagsInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && this.value.trim() !== '') {
                 e.preventDefault();
                 addTag(this.value.trim());
                 this.value = '';
-                resultsElement.classList.remove('show');
+                autocompleteResults.innerHTML = '';
+                autocompleteResults.style.display = 'none';
             }
         });
 
-        // Setup autocomplete for skills
-        let debounceTimeout;
-        tagsInput.addEventListener('input', function () {
-            clearTimeout(debounceTimeout);
-            const query = this.value.trim();
+        // Xử lý khi click vào bất kỳ đâu trên trang
+        document.addEventListener('click', function(e) {
+            // Nếu click bên ngoài khu vực gợi ý, ẩn gợi ý
+            if (!autocompleteResults.contains(e.target) && e.target !== tagsInput) {
+                autocompleteResults.style.display = 'none';
+            }
+        });
 
-            if (query.length < 2) {
-                resultsElement.classList.remove('show');
+        // Hàm hiển thị danh sách gợi ý
+        function showSuggestions(filteredSuggestions) {
+            if (filteredSuggestions.length === 0) {
+                autocompleteResults.innerHTML = '';
+                autocompleteResults.style.display = 'none';
                 return;
             }
 
-            debounceTimeout = setTimeout(async () => {
-                const suggestions = await fetchSuggestions(query, 'skills');
+            autocompleteResults.innerHTML = '';
 
-                if (suggestions.length > 0) {
-                    displaySuggestions(suggestions, resultsElement, tagsInput, function (selectedSkill) {
-                        addTag(selectedSkill);
-                        tagsInput.value = '';
-                    });
-                } else {
-                    resultsElement.classList.remove('show');
-                }
-            }, 300);
-        });
+            filteredSuggestions.forEach(suggestion => {
+                const div = document.createElement('div');
+                div.textContent = suggestion;
+                div.classList.add('autocomplete-item');
 
-        // Function to add a new tag
+                // Xử lý khi click vào một gợi ý
+                div.addEventListener('click', function() {
+                    addTag(suggestion);
+                    tagsInput.value = '';
+                    autocompleteResults.innerHTML = '';
+                    autocompleteResults.style.display = 'none';
+                    tagsInput.focus();
+                });
+
+                autocompleteResults.appendChild(div);
+            });
+
+            autocompleteResults.style.display = 'block';
+        }
+
+        // Hàm thêm tag mới
         function addTag(text) {
+            // Kiểm tra nếu tag đã tồn tại
+            if (isTagExists(text)) {
+                return;
+            }
+
             const tag = document.createElement('div');
             tag.classList.add('tag');
-            tag.textContent = text;
 
-            const closeBtn = document.createElement('span');
-            closeBtn.classList.add('tag-close');
-            closeBtn.innerHTML = '&times;';
-            closeBtn.addEventListener('click', function () {
+            // Tạo nút đóng
+            const closeButton = document.createElement('span');
+            closeButton.classList.add('tag-close');
+            closeButton.innerHTML = '&times;';
+
+            // Thêm nội dung văn bản trước
+            const textNode = document.createTextNode(text);
+            tag.appendChild(textNode);
+
+            // Sau đó thêm nút đóng
+            tag.appendChild(closeButton);
+
+            // Thêm sự kiện xóa tag khi click vào dấu x
+            closeButton.addEventListener('click', function() {
                 tagsContainer.removeChild(tag);
             });
 
-            tag.appendChild(closeBtn);
+            updateHiddenField();
+
+            // Thêm tag vào trước input
             tagsContainer.insertBefore(tag, tagsInput);
         }
 
-        // Handle remove existing tags
-        document.querySelectorAll('.tag-close').forEach(closeBtn => {
-            closeBtn.addEventListener('click', function () {
-                const tag = this.parentElement;
-                tagsContainer.removeChild(tag);
-            });
-        });
-    }
-
-    // Handle avatar upload preview
-    function setupImageUpload(uploadId, previewSelector, placeholderClass) {
-        const fileInput = document.getElementById(uploadId);
-        const previewElement = document.querySelector(previewSelector);
-        const placeholderElement = previewElement.querySelector(placeholderClass);
-
-        fileInput.addEventListener('change', function () {
-            if (this.files && this.files[0]) {
-                const reader = new FileReader();
-
-                reader.onload = function (e) {
-                    if (placeholderElement) {
-                        placeholderElement.style.display = 'none';
-                    }
-
-                    if (previewSelector === '.avatar-preview') {
-                        // For avatar preview
-                        previewElement.src = e.target.result;
-                    } else {
-                        // For signature preview
-                        if (previewElement.querySelector('img')) {
-                            previewElement.querySelector('img').src = e.target.result;
-                        } else {
-                            const img = document.createElement('img');
-                            img.src = e.target.result;
-                            img.alt = "Chữ ký";
-                            previewElement.appendChild(img);
-                        }
-                    }
+        // Kiểm tra xem tag đã tồn tại chưa
+        function isTagExists(text) {
+            const existingTags = document.querySelectorAll('.tag');
+            for (let i = 0; i < existingTags.length; i++) {
+                // Lấy nội dung text mà không bao gồm dấu × (thay vì dùng textContent)
+                const tagText = existingTags[i].firstChild.textContent.trim();
+                if (tagText === text) {
+                    return true;
                 }
-
-                reader.readAsDataURL(this.files[0]);
             }
-        });
-    }
+            return false;
+        }
 
+        function updateHiddenField() {
+            const tags = [];
+            const existingTags = document.querySelectorAll('.tag');
 
-    // Initialize all autocomplete fields
-    document.addEventListener('DOMContentLoaded', function() {
-        setupAutocomplete('role', 'role-results', 'roles');
-        setupAutocomplete('specialty', 'specialty-results', 'specialties');
-        setupAutocomplete('education', 'education-results', 'education');
-        setupAutocomplete('city', 'city-results', 'cities');
+            existingTags.forEach(tag => {
+                // Lấy nội dung text không bao gồm nút đóng
+                const tagText = tag.firstChild.textContent.trim();
+                tags.push(tagText);
+            });
 
-        // Connect city and district selectors
-        const cityInput = document.getElementById('city');
-        cityInput.addEventListener('change', function() {
-            // Clear district when city changes
-            document.getElementById('district').value = '';
-        });
+            // Cập nhật giá trị của input ẩn
+            hiddenInput.value = tags.join(',');
+        }
 
-        setupAutocomplete('district', 'district-results', null);
-
-        // Setup tags input for skills
-        setupTagsInput();
-
-        // Setup avatar upload
-        setupImageUpload('avatar-upload', '.avatar-preview');
-
-        // Setup signature image upload
-        setupImageUpload('signature-upload', '.signature-preview', '.signature-placeholder');
-
-        // Form submission handler
-        document.querySelector('form').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            // Here you would normally send the form data to your server
-            // For demo purposes, just show an alert
-            alert('Thông tin đã được lưu thành công!');
-        });
-    });
-</script>
+        // Khởi tạo sự kiện cho các tag đã có sẵn
+        function initExistingTags() {
+            const existingTags = document.querySelectorAll('.tag .tag-close');
+            existingTags.forEach(closeBtn => {
+                closeBtn.addEventListener('click', function() {
+                    const tag = this.parentElement;
+                    tagsContainer.removeChild(tag);
+                });
+            });
+        }
+    });</script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const fileInput = document.getElementById("avatar-upload");

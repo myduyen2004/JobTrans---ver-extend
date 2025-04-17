@@ -1,5 +1,5 @@
 
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -596,7 +596,7 @@
             <h3 class="card-title">Thông tin thành viên</h3>
         </div>
         <div class="card-body">
-                <form action="group" method="post" id="memberForm" enctype="multipart/form-data">
+                <form action="group" method="post" id="memberForm" accept-charset="UTF-8" enctype="multipart/form-data">
                     <input type="hidden" name="action" value="create">
                     <input type="hidden" name="accountId" value="${account.accountId}">
 
