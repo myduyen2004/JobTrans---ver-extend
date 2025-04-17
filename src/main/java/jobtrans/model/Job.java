@@ -1,53 +1,67 @@
 package jobtrans.model;
 
-import java.util.Date;
+import jobtrans.model.CancelRequest;
+import jobtrans.model.JobGreeting;
+import jobtrans.model.JobReport;
+import jobtrans.model.Tag;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.List;
 
 public class Job {
     private int jobId;
     private int postAccountId;
     private String jobTitle;
-    private Date postDate;
+    private Timestamp postDate;
     private String jobDescription;
+    private String attachment;
     private int categoryId;
-    private Float budgetMax;
-    private Float budgetMin;
+    private BigDecimal budgetMax;
+    private BigDecimal budgetMin;
     private Date dueDatePost;
     private Date dueDateJob;
-    private Boolean isInterviewed;
-    private Boolean isTested;
-    private Integer numOfMember;
-    private Integer secureWallet;
+    private boolean haveInterviewed;
+    private boolean haveTested;
+    private int numOfMember;
+    private int secureWallet;
     private String statusPost;
     private int statusJobId;
 
-    // Constructors
+    private List<Tag> tagList;
+    private List<JobGreeting> jobGreetingList;
+    private List<JobReport> jobReportList;
+    private List<CancelRequest> cancelRequestList;
+
     public Job() {
     }
 
-    public Job(int jobId, int postAccountId, String jobTitle, Date postDate,
-               String jobDescription, int categoryId, Float budgetMax,
-               Float budgetMin, Date dueDatePost, Date dueDateJob,
-               Boolean isInterviewed, Boolean isTested, Integer numOfMember,
-               Integer secureWallet, String statusPost, int statusJobId) {
+    public Job(int jobId, int postAccountId, String jobTitle, Timestamp postDate, String jobDescription,
+               String attachment, int categoryId, BigDecimal budgetMax, BigDecimal budgetMin,
+               Date dueDatePost, Date dueDateJob, boolean haveInterviewed, boolean haveTested,
+               int numOfMember, int secureWallet, String statusPost, int statusJobId) {
         this.jobId = jobId;
         this.postAccountId = postAccountId;
         this.jobTitle = jobTitle;
         this.postDate = postDate;
         this.jobDescription = jobDescription;
+        this.attachment = attachment;
         this.categoryId = categoryId;
         this.budgetMax = budgetMax;
         this.budgetMin = budgetMin;
         this.dueDatePost = dueDatePost;
         this.dueDateJob = dueDateJob;
-        this.isInterviewed = isInterviewed;
-        this.isTested = isTested;
+        this.haveInterviewed = haveInterviewed;
+        this.haveTested = haveTested;
         this.numOfMember = numOfMember;
         this.secureWallet = secureWallet;
         this.statusPost = statusPost;
         this.statusJobId = statusJobId;
     }
 
-    // Getters and Setters
+    // Getters và Setters
+
     public int getJobId() {
         return jobId;
     }
@@ -72,11 +86,11 @@ public class Job {
         this.jobTitle = jobTitle;
     }
 
-    public Date getPostDate() {
+    public Timestamp getPostDate() {
         return postDate;
     }
 
-    public void setPostDate(Date postDate) {
+    public void setPostDate(Timestamp postDate) {
         this.postDate = postDate;
     }
 
@@ -88,6 +102,14 @@ public class Job {
         this.jobDescription = jobDescription;
     }
 
+    public String getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(String attachment) {
+        this.attachment = attachment;
+    }
+
     public int getCategoryId() {
         return categoryId;
     }
@@ -96,19 +118,19 @@ public class Job {
         this.categoryId = categoryId;
     }
 
-    public Float getBudgetMax() {
+    public BigDecimal getBudgetMax() {
         return budgetMax;
     }
 
-    public void setBudgetMax(Float budgetMax) {
+    public void setBudgetMax(BigDecimal budgetMax) {
         this.budgetMax = budgetMax;
     }
 
-    public Float getBudgetMin() {
+    public BigDecimal getBudgetMin() {
         return budgetMin;
     }
 
-    public void setBudgetMin(Float budgetMin) {
+    public void setBudgetMin(BigDecimal budgetMin) {
         this.budgetMin = budgetMin;
     }
 
@@ -128,35 +150,35 @@ public class Job {
         this.dueDateJob = dueDateJob;
     }
 
-    public Boolean getIsInterviewed() {
-        return isInterviewed;
+    public boolean isHaveInterviewed() {
+        return haveInterviewed;
     }
 
-    public void setIsInterviewed(Boolean isInterviewed) {
-        this.isInterviewed = isInterviewed;
+    public void setHaveInterviewed(boolean haveInterviewed) {
+        this.haveInterviewed = haveInterviewed;
     }
 
-    public Boolean getIsTested() {
-        return isTested;
+    public boolean isHaveTested() {
+        return haveTested;
     }
 
-    public void setIsTested(Boolean isTested) {
-        this.isTested = isTested;
+    public void setHaveTested(boolean haveTested) {
+        this.haveTested = haveTested;
     }
 
-    public Integer getNumOfMember() {
+    public int getNumOfMember() {
         return numOfMember;
     }
 
-    public void setNumOfMember(Integer numOfMember) {
+    public void setNumOfMember(int numOfMember) {
         this.numOfMember = numOfMember;
     }
 
-    public Integer getSecureWallet() {
+    public int getSecureWallet() {
         return secureWallet;
     }
 
-    public void setSecureWallet(Integer secureWallet) {
+    public void setSecureWallet(int secureWallet) {
         this.secureWallet = secureWallet;
     }
 
@@ -174,5 +196,37 @@ public class Job {
 
     public void setStatusJobId(int statusJobId) {
         this.statusJobId = statusJobId;
+    }
+
+    public List<Tag> getTagList() {
+        return tagList;
+    }
+
+    public void setTagList(List<Tag> tagList) {
+        this.tagList = tagList;
+    }
+
+    public List<JobGreeting> getJobGreetingList() {
+        return jobGreetingList;
+    }
+
+    public void setJobGreetingList(List<JobGreeting> jobGreetingList) {
+        this.jobGreetingList = jobGreetingList;
+    }
+
+    public List<JobReport> getJobReportList() {
+        return jobReportList;
+    }
+
+    public void setJobReportList(List<JobReport> jobReportList) {
+        this.jobReportList = jobReportList;
+    }
+
+    public List<CancelRequest> getCancelRequestList() {
+        return cancelRequestList;
+    }
+
+    public void setCancelRequestList(List<CancelRequest> cancelRequestList) {
+        this.cancelRequestList = cancelRequestList;
     }
 }

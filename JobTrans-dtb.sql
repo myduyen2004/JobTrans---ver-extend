@@ -6,7 +6,7 @@ CREATE TABLE Account (
     account_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
     account_name NVARCHAR(100) NOT NULL,
     email VARCHAR(50) NOT NULL,
-    password VARCHAR(50) NOT NULL,
+    password VARCHAR(50),
 	avatar VARCHAR(MAX) DEFAULT 'default-avatar.jpg',
 	oauth_id NVARCHAR(MAX), -- dành cho đăng nhập Google
 	oauth_provider NVARCHAR(MAX), -- dành cho đăng nhập Google
@@ -39,7 +39,7 @@ CREATE TABLE Account (
 -- Tạo bảng Group_Member
 CREATE TABLE Group_Member (
     member_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-    member_name NVARCHAR(50) NOT NULL,
+    member_name NVARCHAR(50),
     account_id INT NOT NULL,
 	avatar_member NVARCHAR(MAX) DEFAULT 'default-avatar.jpg',
 	gender NVARCHAR(10),
@@ -76,7 +76,7 @@ CREATE TABLE Notification (
 	notification_title NVARCHAR(150),
     notification_content NVARCHAR(MAX),
     notification_time DATETIME DEFAULT GETDATE(),
-    is_read BIT,
+    have_read BIT,
     -- Thiết lập khóa ngoại liên kết với bảng Account
     CONSTRAINT FK_Notification_Account FOREIGN KEY (account_id) 
     REFERENCES Account(account_id) 
@@ -336,7 +336,7 @@ VALUES
 CREATE TABLE JobCategory (
     category_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
     category_name NVARCHAR(50) NOT NULL,
-    description NVARCHAR(100) NOT NULL,
+    description NVARCHAR(100),
 );
 CREATE TABLE Job (
     job_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -344,17 +344,18 @@ CREATE TABLE Job (
     job_title NVARCHAR(150) NOT NULL,
     post_date DATETIME DEFAULT GETDATE(),
     job_description NVARCHAR(150),
+	attachment VARCHAR(MAX),
     category_id INT NOT NULL,
-	budget_max FLOAT,
-    budget_min FLOAT,
+	budget_max DECIMAL(18,2),
+    budget_min DECIMAL(18,2),
     due_date_post DATE, --Hạn kết thúc bài đăng
 	due_date_job DATE, -- Hạn dự kiến kết thúc công việc
-    is_interviewed BIT, 
-	is_tested BIT, 
+    have_interviewed BIT, 
+	have_tested BIT, 
     num_of_member INT,
     secure_wallet INT,
 	status_post NVARCHAR(100) DEFAULT N'Đang tuyển' CHECK (status_post IN (N'Đang tuyển', N'Hết hạn')),
-	status_job_id INT NOT NULL,
+	status_job_id INT NOT NULL DEFAULT 1,
 	FOREIGN KEY (status_job_id) REFERENCES StatusJob(status_job_id),
 	FOREIGN KEY (category_id) REFERENCES JobCategory(category_id),
     CONSTRAINT FK_Job_Account FOREIGN KEY (post_account_id) REFERENCES Account(account_id) 
@@ -369,7 +370,6 @@ CREATE TABLE JobTag (
     job_tag_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
     tag_id INT NOT NULL,
     job_id INT NOT NULL,
-    tag_custom NVARCHAR(100),
     FOREIGN KEY (job_tag_id) REFERENCES Job(job_id),
     FOREIGN KEY (tag_id) REFERENCES Tag(tag_id)
 );
@@ -377,7 +377,7 @@ CREATE TABLE Test (
     test_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	job_id INT NOT NULL, -- test dành cho job nào
     test_link VARCHAR(500) NOT NULL,
-    is_required BIT NOT NULL DEFAULT 1, -- có bắt buộc hay không (default TRUE)
+    have_required BIT NOT NULL DEFAULT 1, -- có bắt buộc hay không (default TRUE)
     created_at DATETIME DEFAULT GETDATE(),
     FOREIGN KEY (job_id) REFERENCES Job(job_id)
 );
@@ -402,7 +402,7 @@ CREATE TABLE JobGreeting (
 	expected_day INT,
     introduction NVARCHAR(MAX),
     attachment NVARCHAR(MAX),
-	is_read BIT,
+	have_read BIT,
     status NVARCHAR(100) DEFAULT N'Chờ xét duyệt' CHECK (status IN (N'Chờ xét duyệt', N'Chờ phỏng vấn', N'Bị từ chối', N'Được nhận')),
     CONSTRAINT FK_JobGreeting_Account FOREIGN KEY (job_seeker_id) REFERENCES Account(account_id), 
 	CONSTRAINT FK_JobGreeting_CV FOREIGN KEY (cv_id) REFERENCES CV(cv_id), 
@@ -488,7 +488,7 @@ CREATE TABLE CancelRequest (
     requester_id INT NOT NULL, -- ID người yêu cầu hủy
     reason NVARCHAR(MAX),      -- Lý do yêu cầu hủy
     created_at DATETIME DEFAULT GETDATE(), -- Thời gian gửi yêu cầu
-    is_approved BIT DEFAULT 0, -- Trạng thái phê duyệt (0: chưa duyệt, 1: đã duyệt)
+    have_approved BIT DEFAULT 0, -- Trạng thái phê duyệt (0: chưa duyệt, 1: đã duyệt)
 
     -- Ràng buộc khóa ngoại
     FOREIGN KEY (job_id) REFERENCES Job(job_id),
