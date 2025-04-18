@@ -372,9 +372,14 @@ CREATE TABLE JobTag (
     job_tag_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
     tag_id INT NOT NULL,
     job_id INT NOT NULL,
-    FOREIGN KEY (job_tag_id) REFERENCES Job(job_id),
+    FOREIGN KEY (job_id) REFERENCES Job(job_id),
     FOREIGN KEY (tag_id) REFERENCES Tag(tag_id)
 );
+-- Xóa bằng tool FK liên quan đến job_id
+-- Bước 2: Thêm lại ràng buộc khóa ngoại với ON DELETE CASCADE
+ALTER TABLE JobTag
+ADD CONSTRAINT FK_JobTag_Job FOREIGN KEY (job_id) REFERENCES Job(job_id) ON DELETE CASCADE;
+
 CREATE TABLE Test (
     test_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	job_id INT NOT NULL, -- test dành cho job nào
@@ -394,6 +399,11 @@ CREATE TABLE Interview (
     -- Thiết lập khóa ngoại tham chiếu đến bảng Job
     CONSTRAINT FK_Interview_Job FOREIGN KEY (job_id) REFERENCES Job(job_id) 
 );
+
+-- Xóa bằng tool FK liên quan đến job_id
+-- Bước 2: Thêm lại ràng buộc khóa ngoại với ON DELETE CASCADE
+ALTER TABLE Interview
+ADD CONSTRAINT FK_Interview_Job FOREIGN KEY (job_id) REFERENCES Job(job_id) ON DELETE CASCADE;
 
 CREATE TABLE JobGreeting (
     greeting_id INT IDENTITY(1,1) PRIMARY KEY,
@@ -561,3 +571,96 @@ VALUES
 ('Creative CV', N'CV sáng tạo, phù hợp cho các ngành thiết kế, nghệ thuật.', 250000, 'creative_cv_image_url.jpg'),
 ('Executive CV', N'CV cao cấp cho các ứng viên cấp cao, bao gồm các dự án quản lý và thành tựu nổi bật.', 500000, 'executive_cv_image_url.jpg');
 
+INSERT INTO Account (account_name, email, password, role)
+VALUES 
+(N'Nguyễn Văn A', 'a.nguyen@example.com', 'password123', N'Người dùng'),
+(N'Trần Thị B', 'b.tran@example.com', 'password123', N'Người dùng'),
+(N'Lê Văn C', 'c.le@example.com', 'password123', N'Người dùng');
+
+
+-- 1 tài khoản với role "Admin"
+INSERT INTO Account (account_name, email, password, role)
+VALUES 
+(N'Admin D', 'admin.d@example.com', 'adminpassword', N'Admin');
+
+-- Insert Job Category
+INSERT INTO JobCategory (category_name, description)
+VALUES 
+(N'Công nghệ thông tin', N'Lập trình, phát triển phần mềm, quản trị hệ thống'),
+(N'Thiết kế đồ họa', N'Thiết kế logo, banner, giao diện web, ấn phẩm truyền thông'),
+(N'Digital Marketing', N'Tiếp thị số, SEO, quảng cáo Facebook, Google Ads'),
+(N'Biên dịch & Phiên dịch', N'Dịch thuật tài liệu, phiên dịch đa ngôn ngữ'),
+(N'Giáo dục & Đào tạo', N'Dạy học online, dạy kèm các môn học, kỹ năng mềm');
+
+-- Insert Job
+INSERT INTO Job (
+    post_account_id, job_title, job_description, requirements, benefit, attachment, category_id,
+    budget_max, budget_min, due_date_post, due_date_job,
+    have_interviewed, have_tested, num_of_member, secure_wallet, status_post, status_job_id
+)
+VALUES
+(1, N'Lập trình website bán hàng', N'Tìm freelancer làm web bán hàng bằng PHP', N'Hoàn thành đúng thời hạn', N'Trả lương đúng hạn', NULL, 1, 1000.00, 700.00, '2025-05-01', '2025-06-01', 0, 0, 1, 0, N'Đang tuyển', 1),
+(1, N'Thiết kế logo công ty', N'Cần designer chuyên nghiệp thiết kế logo', N'Hoàn thành đúng thời hạn', N'Trả lương đúng hạn', NULL, 2, 500.00, 300.00, '2025-04-15', '2025-04-30', 0, 0, 1, 0, N'Hết hạn', 1),
+(1, N'Dịch tài liệu tiếng Anh', N'Dịch báo cáo từ tiếng Anh sang tiếng Việt', N'Hoàn thành đúng thời hạn', N'Trả lương đúng hạn', NULL, 3, 200.00, 150.00, '2025-04-21', '2025-04-25', 0, 0, 1, 0, N'Đang tuyển', 1),
+(1, N'Tạo video quảng cáo', N'Video quảng cáo cho sản phẩm mới', N'Hoàn thành đúng thời hạn', N'Trả lương đúng hạn', NULL, 4, 1200.00, 1000.00, '2025-04-20', '2025-05-05', 1, 0, 2, 0, N'Đang tuyển', 1),
+(1, N'Lập trình ứng dụng mobile', N'Ứng dụng Android đơn giản', N'Hoàn thành đúng thời hạn', N'Trả lương đúng hạn', NULL, 1, 1500.00, 1200.00, '2025-04-18', '2025-06-10', 0, 1, 2, 0, N'Đang tuyển', 1),
+(1, N'Quản lý Fanpage Facebook', N'Cần người chăm sóc Fanpage hàng ngày', N'Hoàn thành đúng thời hạn', N'Trả lương đúng hạn', NULL, 5, 300.00, 200.00, '2025-04-16', '2025-05-16', 0, 0, 1, 0, N'Hết hạn', 1),
+(1, N'Dạy kèm tiếng Hàn', N'Dạy tiếng Hàn sơ cấp online', N'Hoàn thành đúng thời hạn', N'Trả lương đúng hạn', NULL, 5, 250.00, 200.00, '2025-04-19', '2025-05-01', 0, 0, 1, 0, N'Đang tuyển', 1),
+(1, N'Ve viết nội dung website', N'Nội dung blog lĩnh vực công nghệ', N'Hoàn thành đúng thời hạn', N'Trả lương đúng hạn', NULL, 3, 400.00, 300.00, '2025-04-27', '2025-05-07', 1, 1, 2, 0, N'Đang tuyển', 1),
+(1, N'Thiết kế brochure sản phẩm', N'Cần thiết kế brochure chuyên nghiệp', N'Hoàn thành đúng thời hạn', N'Trả lương đúng hạn', NULL, 2, 600.00, 500.00, '2025-04-15', '2025-05-10', 0, 0, 1, 0, N'Hết hạn', 1),
+(1, N'Test phần mềm', N'Test chức năng của ứng dụng web', N'Hoàn thành đúng thời hạn', N'Trả lương đúng hạn', NULL, 1, 300.00, 250.00, '2025-04-17', '2025-05-02', 1, 1, 2, 0, N'Hết hạn', 1);
+
+-- Insert CV
+INSERT INTO CV (account_id, job_position, summary, more_infor, sex, dateOfBirth, phone, email, address, CV_upload, avatar_cv, name, type_id)
+VALUES (2, N'Lập trình viên Backend', N'Có 2 năm kinh nghiệm Java Spring Boot', N'Tham gia nhiều dự án outsource', N'Nam', '2000-05-15', '0912345678', 'abc@gmail.com', N'Hà Nội', NULL, NULL, N'Nguyễn Văn A', 1),
+		(3, N'Lập trình viên Backend', N'Có 2 năm kinh nghiệm Java Spring Boot', N'Tham gia nhiều dự án outsource', N'Nam', '2000-05-15', '0912345678', 'abc@gmail.com', N'Hà Nội', NULL, NULL, N'Nguyễn Văn B', 1);
+
+
+-- Insert JobGreeting
+INSERT INTO JobGreeting (
+    job_seeker_id,
+    job_id,
+    cv_id,
+    price,
+    expected_day,
+    introduction,
+    have_read
+) VALUES 
+(2, 1, 1, 5000000, 7, N'Xin chào, tôi rất quan tâm đến vị trí này và mong được hợp tác.', 0),
+(3, 1, 2, 6000000, 10, N'Tôi có kinh nghiệm phù hợp và mong có cơ hội phỏng vấn.', 0),
+(2, 2, 1, 5500000, 5, N'Tôi tin mình có thể đáp ứng yêu cầu công việc.', 1),
+(3, 2, 2, 6500000, 8, N'Tôi đã làm công việc tương tự trước đây.', 1),
+(2, 1, 1, 7000000, 6, N'Sẵn sàng bắt đầu ngay khi có thể.', 1);
+
+-- Insert tag
+INSERT INTO Tag (tag_name, description) VALUES 
+(N'Java', N'Lập trình Java cơ bản đến nâng cao'),
+(N'Python', N'Ngôn ngữ lập trình phổ biến cho AI'),
+(N'JavaScript', N'Dùng để phát triển web frontend/backend'),
+(N'HTML', N'Ngôn ngữ đánh dấu siêu văn bản'),
+(N'CSS', N'Thiết kế giao diện website'),
+(N'JSP', N'JavaServer Pages cho web Java'),
+(N'Node.js', N'Môi trường chạy JavaScript phía server'),
+(N'Angular', N'Framework front-end của Google'),
+(N'React', N'Thư viện front-end phổ biến'),
+(N'Vue.js', N'Framework JavaScript dễ học'),
+(N'C#', N'Lập trình .NET của Microsoft'),
+(N'ASP.NET', N'Phát triển web bằng .NET'),
+(N'PHP', N'Ngôn ngữ lập trình web phổ biến'),
+(N'MySQL', N'Hệ quản trị cơ sở dữ liệu mã nguồn mở'),
+(N'SQL Server', N'Hệ quản trị cơ sở dữ liệu của Microsoft'),
+(N'PostgreSQL', N'Cơ sở dữ liệu quan hệ mạnh mẽ'),
+(N'MongoDB', N'Cơ sở dữ liệu NoSQL'),
+(N'Docker', N'Container hóa ứng dụng'),
+(N'Kubernetes', N'Quản lý container'),
+(N'Linux', N'Hệ điều hành mã nguồn mở'),
+(N'Git', N'Hệ thống quản lý phiên bản'),
+(N'GitHub', N'Nền tảng lưu trữ mã nguồn'),
+(N'AWS', N'Nền tảng điện toán đám mây'),
+(N'Azure', N'Dịch vụ đám mây của Microsoft'),
+(N'Firebase', N'Nền tảng backend cho ứng dụng web/mobile'),
+(N'Flutter', N'Phát triển ứng dụng di động đa nền tảng'),
+(N'Android', N'Phát triển ứng dụng di động Android'),
+(N'iOS', N'Phát triển ứng dụng cho hệ điều hành Apple'),
+(N'Unity', N'Phát triển game'),
+(N'AI', N'Trí tuệ nhân tạo và học máy');
