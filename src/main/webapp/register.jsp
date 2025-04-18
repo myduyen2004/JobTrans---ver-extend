@@ -5,7 +5,7 @@
   Time: 10:11 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -766,7 +766,7 @@
         <h2 class="form-title">Đăng ký tài khoản</h2>
 
         <!-- Form -->
-        <form id="signupForm" novalidate>
+        <form id="signupForm" method="post" action="register" accept-charset="UTF-8" novalidate>
             <!-- Account type selection -->
             <div class="account-type-container">
                 <label class="account-type-label">Loại tài khoản</label>
@@ -791,15 +791,22 @@
 
             <!-- Email field -->
             <div class="input-container">
-                <input type="email" class="input-field" id="email" placeholder=" " required>
+                <input type="email" class="input-field" id="email" name="email" placeholder=" " required>
                 <label for="email" class="input-label">Gmail</label>
                 <i class="fas fa-envelope input-icon"></i>
                 <div class="validation-message" id="emailValidation">Vui lòng nhập đúng định dạng Gmail</div>
             </div>
 
+            <!-- Email field -->
+            <div class="input-container">
+                <input type="text" class="input-field" id=accountName name="accountName" placeholder=" " required>
+                <label for="accountName" class="input-label">Tên tài khoản</label>
+                <i class="fas fa-user input-icon"></i>
+            </div>
+
             <!-- Password field -->
             <div class="input-container">
-                <input type="password" class="input-field" id="password" placeholder=" " required>
+                <input type="password" class="input-field" id="password" name="password" placeholder=" " required>
                 <label for="password" class="input-label">Mật khẩu</label>
                 <i class="fas fa-lock input-icon"></i>
                 <i class="far fa-eye toggle-password" id="togglePassword"></i>
@@ -812,7 +819,7 @@
 
             <!-- Confirm Password field -->
             <div class="input-container">
-                <input type="password" class="input-field" id="confirmPassword" placeholder=" " required>
+                <input type="password" class="input-field" id="confirmPassword" name="confirmPassword" placeholder=" " required>
                 <label for="confirmPassword" class="input-label">Nhập lại mật khẩu</label>
                 <i class="fas fa-lock input-icon"></i>
                 <i class="far fa-eye toggle-password" id="toggleConfirmPassword"></i>
@@ -821,7 +828,7 @@
 
             <!-- Terms and conditions -->
             <div class="terms-container">
-                <input type="checkbox" id="terms" required>
+                <input type="checkbox" id="terms" name="terms" required>
                 <label for="terms">Tôi đồng ý với <a href="#">Điều khoản sử dụng</a> và <a href="#">Chính sách bảo mật</a> của JobTrans</label>
             </div>
 
@@ -830,11 +837,12 @@
             </button>
 
             <div class="helper-links">
-                Đã có tài khoản? <a href="#" class="login-link">Đăng nhập ngay</a>
+                Đã có tài khoản? <a href="login.jsp" class="login-link">Đăng nhập ngay</a>
             </div>
         </form>
     </div>
-</div>
+    <%@include file="includes/toast-notification.jsp"%>
+    </div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const signupForm = document.getElementById('signupForm');
@@ -845,7 +853,6 @@
         const passwordValidation = document.getElementById('passwordValidation');
         const confirmPasswordValidation = document.getElementById('confirmPasswordValidation');
         const emailValidation = document.getElementById('emailValidation');
-        const usernameValidation = document.getElementById('usernameValidation');
         const accountTypeValidation = document.getElementById('accountTypeValidation');
         const strengthMeter = document.getElementById('strengthMeter');
         const strengthText = document.getElementById('strengthText');
@@ -927,218 +934,129 @@
             if (confirmPasswordField.value !== '') {
                 if (confirmPasswordField.value === this.value) {
                     confirmPasswordValidation.classList.add('show', 'valid');
-                    if (confirmPasswordField.value === this.value) {
-                        confirmPasswordValidation.classList.add('show', 'valid');
-                        confirmPasswordValidation.textContent = "Mật khẩu khớp";
-                    } else {
-                        confirmPasswordValidation.classList.add('show');
-                        confirmPasswordValidation.classList.remove('valid');
-                        confirmPasswordValidation.textContent = "Mật khẩu xác nhận không khớp";
-                    }
-                }
-            }
-            // Confirm password validation
-            confirmPasswordField.addEventListener('input', function() {
-                if (this.value === '') {
-                    confirmPasswordValidation.classList.remove('show');
-                } else if (this.value === passwordField.value) {
-                    confirmPasswordValidation.classList.add('show', 'valid');
                     confirmPasswordValidation.textContent = "Mật khẩu khớp";
                 } else {
                     confirmPasswordValidation.classList.add('show');
                     confirmPasswordValidation.classList.remove('valid');
                     confirmPasswordValidation.textContent = "Mật khẩu xác nhận không khớp";
                 }
-            });
+            }
+        });
 
-            // Email validation
-            const emailInput = document.getElementById('email');
-            emailInput.addEventListener('input', function() {
-                const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+        // Confirm password validation
+        confirmPasswordField.addEventListener('input', function() {
+            if (this.value === '') {
+                confirmPasswordValidation.classList.remove('show');
+            } else if (this.value === passwordField.value) {
+                confirmPasswordValidation.classList.add('show', 'valid');
+                confirmPasswordValidation.textContent = "Mật khẩu khớp";
+            } else {
+                confirmPasswordValidation.classList.add('show');
+                confirmPasswordValidation.classList.remove('valid');
+                confirmPasswordValidation.textContent = "Mật khẩu xác nhận không khớp";
+            }
+        });
 
-                if (this.value === '') {
-                    emailValidation.classList.remove('show');
-                } else if (!emailRegex.test(this.value)) {
-                    emailValidation.classList.add('show');
-                    emailValidation.classList.remove('valid');
-                    emailValidation.textContent = "Vui lòng nhập đúng định dạng Gmail";
-                } else {
-                    emailValidation.classList.add('show', 'valid');
-                    emailValidation.textContent = "Gmail hợp lệ";
+        // Email validation (chỉ cần có @)
+        const emailInput = document.getElementById('email');
+        emailInput.addEventListener('input', function() {
+            if (this.value === '') {
+                emailValidation.classList.remove('show');
+            } else if (!this.value.includes('@')) {
+                emailValidation.classList.add('show');
+                emailValidation.classList.remove('valid');
+                emailValidation.textContent = "Email phải chứa ký tự @";
+            } else {
+                emailValidation.classList.add('show', 'valid');
+                emailValidation.textContent = "Email hợp lệ";
+            }
+        });
+
+
+        // Account type validation
+        const accountTypeInputs = document.querySelectorAll('input[name="accountType"]');
+        accountTypeInputs.forEach(input => {
+            input.addEventListener('change', function() {
+                if (document.querySelector('input[name="accountType"]:checked')) {
+                    accountTypeValidation.classList.remove('show');
                 }
             });
+        });
 
-            // Username validation
-            const usernameInput = document.getElementById('username');
-            usernameInput.addEventListener('input', function() {
-                if (this.value === '') {
-                    usernameValidation.classList.add('show');
-                    usernameValidation.classList.remove('valid');
-                    usernameValidation.textContent = "Vui lòng nhập tên đăng nhập";
-                } else if (this.value.length < 3) {
-                    usernameValidation.classList.add('show');
-                    usernameValidation.classList.remove('valid');
-                    usernameValidation.textContent = "Tên đăng nhập phải có ít nhất 3 ký tự";
-                } else {
-                    usernameValidation.classList.add('show', 'valid');
-                    usernameValidation.textContent = "Tên đăng nhập hợp lệ";
-                }
-            });
+        // Form submission - Đã sửa để cho phép form gửi dữ liệu nếu hợp lệ
+        signupForm.addEventListener('submit', function(event) {
+            let isValid = true;
 
-            // Account type validation
-            const accountTypeInputs = document.querySelectorAll('input[name="accountType"]');
-            accountTypeInputs.forEach(input => {
-                input.addEventListener('change', function() {
-                    if (document.querySelector('input[name="accountType"]:checked')) {
-                        accountTypeValidation.classList.remove('show');
-                    }
-                });
-            });
-
-            // Form submission
-            signupForm.addEventListener('submit', function(event) {
-                event.preventDefault();
-
-                let isValid = true;
-
-                // Validate account type
-                if (!document.querySelector('input[name="accountType"]:checked')) {
-                    accountTypeValidation.classList.add('show');
-                    isValid = false;
-                }
-
-                // Validate username
-                if (usernameInput.value === '') {
-                    usernameValidation.classList.add('show');
-                    usernameValidation.classList.remove('valid');
-                    usernameValidation.textContent = "Vui lòng nhập tên đăng nhập";
-                    isValid = false;
-                } else if (usernameInput.value.length < 3) {
-                    usernameValidation.classList.add('show');
-                    usernameValidation.classList.remove('valid');
-                    usernameValidation.textContent = "Tên đăng nhập phải có ít nhất 3 ký tự";
-                    isValid = false;
-                }
-
-                // Validate email
-                const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-                if (emailInput.value === '') {
-                    emailValidation.classList.add('show');
-                    emailValidation.classList.remove('valid');
-                    emailValidation.textContent = "Vui lòng nhập Gmail";
-                    isValid = false;
-                } else if (!emailRegex.test(emailInput.value)) {
-                    emailValidation.classList.add('show');
-                    emailValidation.classList.remove('valid');
-                    emailValidation.textContent = "Vui lòng nhập đúng định dạng Gmail";
-                    isValid = false;
-                }
-
-                // Validate password
-                if (passwordField.value === '') {
-                    passwordValidation.classList.add('show');
-                    passwordValidation.classList.remove('valid');
-                    passwordValidation.textContent = "Vui lòng nhập mật khẩu";
-                    isValid = false;
-                } else if (passwordField.value.length < 8) {
-                    passwordValidation.classList.add('show');
-                    passwordValidation.classList.remove('valid');
-                    passwordValidation.textContent = "Mật khẩu phải có ít nhất 8 ký tự";
-                    isValid = false;
-                }
-
-                // Validate confirm password
-                if (confirmPasswordField.value === '') {
-                    confirmPasswordValidation.classList.add('show');
-                    confirmPasswordValidation.classList.remove('valid');
-                    confirmPasswordValidation.textContent = "Vui lòng nhập lại mật khẩu";
-                    isValid = false;
-                } else if (confirmPasswordField.value !== passwordField.value) {
-                    confirmPasswordValidation.classList.add('show');
-                    confirmPasswordValidation.classList.remove('valid');
-                    confirmPasswordValidation.textContent = "Mật khẩu xác nhận không khớp";
-                    isValid = false;
-                }
-
-                // Validate terms
-                const termsCheckbox = document.getElementById('terms');
-                const termsContainer = document.querySelector('.terms-container');
-
-                if (!termsCheckbox.checked) {
-                    termsContainer.style.color = '#ff3860';
-                    isValid = false;
-                } else {
-                    termsContainer.style.color = '#333';
-                }
-
-                // If form is valid, submit
-                if (isValid) {
-                    // Here you would typically send the form data to a server
-                    // For this example, we'll just show a success message
-                    alert('Đăng ký thành công!');
-
-                    // Reset form
-                    signupForm.reset();
-                    strengthMeter.className = 'strength-meter';
-                    strengthText.className = 'strength-text';
-                    strengthText.textContent = '';
-
-                    // Reset validation messages
-                    document.querySelectorAll('.validation-message').forEach(message => {
-                        message.classList.remove('show', 'valid');
-                    });
-
-                    // Reset terms container color
-                    termsContainer.style.color = '#333';
-                } else {
-                    // Scroll to the first invalid input
-                    const firstInvalidInput = document.querySelector('.input-field:invalid, input[type="radio"]:invalid, input[type="checkbox"]:invalid');
-                    if (firstInvalidInput) {
-                        firstInvalidInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
-                }
-            });
-
-            // Create animated floating particles
-            function createParticles() {
-                const particlesContainer = document.querySelector('.particles');
-                const particleCount = 10;
-
-                for (let i = 0; i < particleCount; i++) {
-                    const particle = document.createElement('div');
-                    particle.classList.add('particle');
-
-                    // Random size between 5px and 20px
-                    const size = Math.random() * 15 + 5;
-                    particle.style.width = `${size}px`;
-                    particle.style.height = `${size}px`;
-
-                    // Random position
-                    particle.style.top = `${Math.random() * 100}%`;
-                    particle.style.left = `${Math.random() * 100}%`;
-
-                    // Random opacity
-                    particle.style.opacity = Math.random() * 0.3 + 0.1;
-
-                    // Random animation duration
-                    const duration = Math.random() * 20 + 10;
-                    particle.style.animation = `float ${duration}s infinite linear`;
-
-                    // Random animation delay
-                    particle.style.animationDelay = `${Math.random() * 5}s`;
-
-                    particlesContainer.appendChild(particle);
-                }
+            // Validate account type
+            if (!document.querySelector('input[name="accountType"]:checked')) {
+                accountTypeValidation.classList.add('show');
+                isValid = false;
             }
 
-            // Call the function to create particles
-            createParticles();
+            // Validate email (chỉ cần có @)
+            if (emailInput.value === '') {
+                emailValidation.classList.add('show');
+                emailValidation.classList.remove('valid');
+                emailValidation.textContent = "Vui lòng nhập email";
+                isValid = false;
+            } else if (!emailInput.value.includes('@')) {
+                emailValidation.classList.add('show');
+                emailValidation.classList.remove('valid');
+                emailValidation.textContent = "Email phải chứa ký tự @";
+                isValid = false;
+            } else {
+                emailValidation.classList.add('show', 'valid');
+                emailValidation.textContent = "Email hợp lệ";
+            }
 
-            // Add animation class to form elements
-            const formElements = signupForm.querySelectorAll('.input-container, .account-type-container, .terms-container, .signup-button, .helper-links');
-            formElements.forEach((element, index) => {
-                element.style.animationDelay = `${0.2 + index * 0.1}s`;
-            });
+
+            // Validate password
+            if (passwordField.value === '') {
+                passwordValidation.classList.add('show');
+                passwordValidation.classList.remove('valid');
+                passwordValidation.textContent = "Vui lòng nhập mật khẩu";
+                isValid = false;
+            } else if (passwordField.value.length < 8) {
+                passwordValidation.classList.add('show');
+                passwordValidation.classList.remove('valid');
+                passwordValidation.textContent = "Mật khẩu phải có ít nhất 8 ký tự";
+                isValid = false;
+            }
+
+            // Validate confirm password
+            if (confirmPasswordField.value === '') {
+                confirmPasswordValidation.classList.add('show');
+                confirmPasswordValidation.classList.remove('valid');
+                confirmPasswordValidation.textContent = "Vui lòng nhập lại mật khẩu";
+                isValid = false;
+            } else if (confirmPasswordField.value !== passwordField.value) {
+                confirmPasswordValidation.classList.add('show');
+                confirmPasswordValidation.classList.remove('valid');
+                confirmPasswordValidation.textContent = "Mật khẩu xác nhận không khớp";
+                isValid = false;
+            }
+
+            // Validate terms
+            const termsCheckbox = document.getElementById('terms');
+            const termsContainer = document.querySelector('.terms-container');
+
+            if (!termsCheckbox.checked) {
+                termsContainer.style.color = '#ff3860';
+                isValid = false;
+            } else {
+                termsContainer.style.color = '#333';
+            }
+
+            // Nếu form không hợp lệ, ngăn chặn gửi form
+            if (!isValid) {
+                event.preventDefault();
+
+                // Scroll to the first invalid input
+                const firstInvalidInput = document.querySelector('.validation-message.show:not(.valid)');
+                if (firstInvalidInput) {
+                    firstInvalidInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
         });
     });
 </script>

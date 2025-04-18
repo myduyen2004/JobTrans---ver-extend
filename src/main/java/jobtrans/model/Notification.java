@@ -8,19 +8,19 @@ public class Notification {
     private String notificationTitle;
     private String notificationContent;
     private Date notificationTime;
-    private boolean isRead;
+    private boolean haveRead;
 
     // Constructors
     public Notification() {
     }
 
-    public Notification(int notificationId, int accountId, String notificationTitle, String notificationContent, Date notificationTime, boolean isRead) {
+    public Notification(int notificationId, int accountId, String notificationTitle, String notificationContent, Date notificationTime, boolean haveRead) {
         this.notificationId = notificationId;
         this.accountId = accountId;
         this.notificationTitle = notificationTitle;
         this.notificationContent = notificationContent;
         this.notificationTime = notificationTime;
-        this.isRead = isRead;
+        this.haveRead = haveRead;
     }
 
     // Getters and Setters
@@ -64,11 +64,11 @@ public class Notification {
         this.notificationTime = notificationTime;
     }
 
-    public boolean isRead() {
-        return isRead;
+    public boolean isHaveRead() {
+        return haveRead;
     }
 
-    public void setRead(boolean isRead) {
-        this.isRead = isRead;
+    public void setHaveRead(boolean haveRead) {
+        this.haveRead = haveRead;
     }
 }

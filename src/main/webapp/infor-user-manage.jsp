@@ -152,7 +152,7 @@
                 <tr>
                     <td>
                         <div class="reporter">
-                            <img src="./img/avatar-default.jpg" alt="Phạm Văn D" class="reporter-avatar">
+                            <img src="img/default-avatar.jpg" alt="Phạm Văn D" class="reporter-avatar">
                             Phạm Văn D
                         </div>
                     </td>
@@ -184,7 +184,7 @@
                 <tr>
                     <td>
                         <div class="reporter">
-                            <img src="./img/avatar-default.jpg" alt="Phạm Văn D" class="reporter-avatar">
+                            <img src="img/default-avatar.jpg" alt="Phạm Văn D" class="reporter-avatar">
                             Phạm Văn D
                         </div>
                     </td>
@@ -216,7 +216,7 @@
                 <tr>
                     <td>
                         <div class="reporter">
-                            <img src="./img/avatar-default.jpg" alt="Phạm Văn D" class="reporter-avatar">
+                            <img src="img/default-avatar.jpg" alt="Phạm Văn D" class="reporter-avatar">
                             Phạm Văn D
                         </div>
                     </td>
@@ -248,7 +248,7 @@
                 <tr>
                     <td>
                         <div class="reporter">
-                            <img src="./img/avatar-default.jpg" alt="Phạm Văn D" class="reporter-avatar">
+                            <img src="img/default-avatar.jpg" alt="Phạm Văn D" class="reporter-avatar">
                             Phạm Văn D
                         </div>
                     </td>

@@ -41,8 +41,8 @@
         }
 
         .cv-container {
-            margin-left: 12%;
-            width: 1200px;
+            margin-top: 180px;
+            width: 1100px;
             display: flex;
             box-shadow: var(--shadow);
             background: white;
@@ -568,6 +568,7 @@
         </div>
     </div>
 </form>
+
 <%@include file="./includes/gpt_sidebar.jsp" %>
 <script>
     document.addEventListener("DOMContentLoaded", function() {

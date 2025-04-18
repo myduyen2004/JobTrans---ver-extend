@@ -6,6 +6,13 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="jobtrans.utils.CookieUtils" %>
+<%
+    String email = CookieUtils.get("cookemail", request);
+    String password = CookieUtils.get("cookpass", request);
+    String rememberVal = CookieUtils.get("cookrem", request);
+%>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -667,15 +674,15 @@
         </div>
 
         <!-- Form -->
-        <form id="loginForm" novalidate>
+        <form id="loginForm" novalidate method="POST" action="login">
             <div class="input-container">
-                <input type="text" class="input-field" id="username" placeholder=" " required>
-                <label for="username" class="input-label">Tên đăng nhập</label>
+                <input type="text" class="input-field" id="email" name="email" placeholder=" " value="<%=email%>" required>
+                <label for="email" class="input-label">Email đăng nhập</label>
                 <i class="fas fa-user input-icon"></i>
             </div>
 
             <div class="input-container">
-                <input type="password" class="input-field" id="password" placeholder=" " required>
+                <input type="password" class="input-field" id="password" name="password" placeholder=" " value="<%=password%>" required>
                 <label for="password" class="input-label">Mật khẩu</label>
                 <i class="fas fa-lock input-icon"></i>
                 <i class="far fa-eye toggle-password" id="togglePassword"></i>
@@ -683,7 +690,7 @@
             </div>
 
             <div class="remember-container">
-                <input type="checkbox" id="remember">
+                <input type="checkbox" id="remember" name="remember" <%= "1".equals(rememberVal.trim()) ? "checked=\"checked\"" : "" %>>
                 <label for="remember">Nhớ mật khẩu</label>
             </div>
 
@@ -701,10 +708,12 @@
                 </a>
             </div>
             <div class="helper-links">
-                Đã có tài khoản? <a href="register.jsp" class="login-link">Đăng kí ngay</a>
+                Chưa có tài khoản? <a href="register.jsp" class="login-link">Đăng kí ngay</a>
             </div>
         </form>
+
     </div>
+    <%@include file="includes/toast-notification.jsp"%>
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -780,6 +789,21 @@
                     loginButton.disabled = false;
                 }, 1000);
             }, 1500);
+
+        });
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const password = passwordField.value;
+
+            // Kiểm tra điều kiện hợp lệ
+            if (password.length < 8) {
+                passwordValidation.classList.add('show');
+                return;
+            }
+
+            // Gửi form đi sau khi hợp lệ
+            loginForm.submit(); // ✅ Bổ sung dòng này
         });
 
         // Check if we have saved credentials
@@ -790,5 +814,6 @@
         }
     });
 </script>
+
 </body>
 </html>

@@ -6,18 +6,18 @@ public class Test {
     private int testId;
     private int jobId;
     private String testLink;
-    private boolean isRequired;
+    private boolean haveRequired;
     private Date createdAt;
 
     // Constructors
     public Test() {
     }
 
-    public Test(int testId, int jobId, String testLink, boolean isRequired, Date createdAt) {
+    public Test(int testId, int jobId, String testLink, boolean haveRequired, Date createdAt) {
         this.testId = testId;
         this.jobId = jobId;
         this.testLink = testLink;
-        this.isRequired = isRequired;
+        this.haveRequired = haveRequired;
         this.createdAt = createdAt;
     }
 
@@ -46,12 +46,12 @@ public class Test {
         this.testLink = testLink;
     }
 
-    public boolean isRequired() {
-        return isRequired;
+    public boolean isHaveRequired() {
+        return haveRequired;
     }
 
-    public void setRequired(boolean isRequired) {
-        this.isRequired = isRequired;
+    public void setHaveRequired(boolean haveRequired) {
+        this.haveRequired = haveRequired;
     }
 
     public Date getCreatedAt() {

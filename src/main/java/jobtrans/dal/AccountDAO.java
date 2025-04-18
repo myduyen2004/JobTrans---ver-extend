@@ -4,6 +4,7 @@ import jobtrans.model.Account;
 import jobtrans.model.Transaction;
 import jobtrans.utils.DBConnection;
 import jobtrans.utils.ImgHandler;
+import jobtrans.utils.PasswordEncoder;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -107,11 +108,10 @@ public class AccountDAO {
     // Hàm checkLogin
     public Account checkLogin(String email, String password) {
         Account account = getAccountByEmail(email); // Lấy thông tin account theo email
-
         if (account != null) {
             if(account.getPassword() == null) {
                 return null;
-            } else if (account.getPassword().equals(password)) {
+            } else if (PasswordEncoder.matches(password, account.getPassword())) {
                 return account;
             }
         }else {
@@ -139,6 +139,24 @@ public class AccountDAO {
         }
 
         return account;
+    }
+
+    public List<Account> getTop100ByPoints() {
+        List<Account> accountList = new ArrayList<>();
+        String query = "SELECT TOP 100 * FROM Account ORDER BY point DESC";
+
+        try {
+            Connection conn = dbConnection.openConnection(); // Giả sử có class DBContext để quản lý kết nối
+            ResultSet rs = conn.prepareStatement(query).executeQuery();
+
+            while (rs.next()) {
+                Account account = mapRowToAccount(rs);
+                accountList.add(account);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return accountList;
     }
 
     //Method to add an account by basic register and return Id
@@ -205,7 +223,7 @@ public class AccountDAO {
     }
 
     //Method to update an account
-    public boolean updateAccount(Account account) {
+    public boolean updateAccountByEmail(Account account) {
         String sql = "UPDATE Account SET " +
                 "account_name = ?, password = ?, avatar = ?, oauth_id = ?, oauth_provider = ?, " +
                 "date_of_birth = ?, gender = ?, phone = ?, address = ?, education = ?, speciality = ?, " +
@@ -213,6 +231,93 @@ public class AccountDAO {
                 "verified_link = ?, verified_account = ?, complete_percent = ?, label_tag = ?, count = ?, " +
                 "role = ?, type_account = ?, level_account = ?, signature = ?, join_date = ?, count_member = ?, status = ? " +
                 "WHERE email = ?";
+
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setNString(1, account.getAccountName());
+            stmt.setNString(2, account.getPassword());
+            stmt.setNString(3, account.getAvatar());
+            stmt.setNString(4, account.getOauthId());
+            stmt.setNString(5, account.getOauthProvider());
+
+            if (account.getDateOfBirth() != null) {
+                stmt.setDate(6, Date.valueOf(account.getDateOfBirth()));
+            } else {
+                stmt.setNull(6, Types.DATE);
+            }
+
+            stmt.setNString(7, account.getGender());
+            stmt.setNString(8, account.getPhone());
+            stmt.setNString(9, account.getAddress());
+            stmt.setNString(10, account.getEducation());
+            stmt.setNString(11, account.getSpeciality());
+
+            if (account.getExperienceYears() != null) {
+                stmt.setInt(12, account.getExperienceYears());
+            } else {
+                stmt.setNull(12, Types.INTEGER);
+            }
+
+            stmt.setNString(13, account.getSkills());
+            stmt.setNString(14, account.getBio());
+
+            if (account.getPoint() != null) {
+                stmt.setInt(15, account.getPoint());
+            } else {
+                stmt.setNull(15, Types.INTEGER);
+            }
+
+            stmt.setBigDecimal(16, account.getStarRate());
+            stmt.setBigDecimal(17, account.getAmountWallet());
+            stmt.setNString(18, account.getVerifiedLink());
+            stmt.setBoolean(19, account.isVerifiedAccount());
+            stmt.setBigDecimal(20, account.getCompletePercent());
+            stmt.setNString(21, account.getLabelTag());
+
+            if (account.getCount() != null) {
+                stmt.setInt(22, account.getCount());
+            } else {
+                stmt.setNull(22, Types.INTEGER);
+            }
+
+            stmt.setNString(23, account.getRole());
+            stmt.setNString(24, account.getTypeAccount());
+            stmt.setNString(25, account.getLevelAccount());
+            stmt.setNString(26, account.getSignature());
+
+            if (account.getJoinDate() != null) {
+                stmt.setTimestamp(27, Timestamp.valueOf(account.getJoinDate()));
+            } else {
+                stmt.setNull(27, Types.TIMESTAMP);
+            }
+
+            if (account.getCountMember() != null) {
+                stmt.setInt(28, account.getCountMember());
+            } else {
+                stmt.setNull(28, Types.INTEGER);
+            }
+
+            stmt.setNString(29, account.getStatus());
+            stmt.setNString(30, account.getEmail()); // WHERE email = ?
+
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateAccountById(Account account) {
+        String sql = "UPDATE Account SET " +
+                "account_name = ?, password = ?, avatar = ?, oauth_id = ?, oauth_provider = ?, " +
+                "date_of_birth = ?, gender = ?, phone = ?, address = ?, education = ?, speciality = ?, " +
+                "experience_years = ?, skills = ?, bio = ?, point = ?, star_rate = ?, amount_wallet = ?, " +
+                "verified_link = ?, verified_account = ?, complete_percent = ?, label_tag = ?, count = ?, " +
+                "role = ?, type_account = ?, level_account = ?, signature = ?, join_date = ?, count_member = ?, status = ? " +
+                "WHERE account_id = ?";
 
         try (Connection conn = dbConnection.openConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -342,11 +447,6 @@ public class AccountDAO {
             return false;
         }
     }
-
-
-
-
-
 
 }
 

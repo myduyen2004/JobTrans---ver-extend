@@ -6,8 +6,8 @@ CREATE TABLE Account (
     account_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
     account_name NVARCHAR(100) NOT NULL,
     email VARCHAR(50) NOT NULL,
-    password VARCHAR(50),
-	avatar VARCHAR(MAX) DEFAULT 'default-avatar.jpg',
+    password VARCHAR(MAX),
+	avatar VARCHAR(MAX) DEFAULT 'img/default-avatar.jpg',
 	oauth_id NVARCHAR(MAX), -- dành cho đăng nhập Google
 	oauth_provider NVARCHAR(MAX), -- dành cho đăng nhập Google
 	date_of_birth DATE,
@@ -343,7 +343,9 @@ CREATE TABLE Job (
 	post_account_id INT NOT NULL, -- Thêm khóa ngoại tham chiếu Account
     job_title NVARCHAR(150) NOT NULL,
     post_date DATETIME DEFAULT GETDATE(),
-    job_description NVARCHAR(150),
+    job_description NVARCHAR(MAX),
+	requirements NVARCHAR(MAX),
+	benefit NVARCHAR(MAX),
 	attachment VARCHAR(MAX),
     category_id INT NOT NULL,
 	budget_max DECIMAL(18,2),

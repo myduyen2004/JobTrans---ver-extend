@@ -17,6 +17,8 @@ public class Job {
     private Timestamp postDate;
     private String jobDescription;
     private String attachment;
+    private String requirements;
+    private String benefit;
     private int categoryId;
     private BigDecimal budgetMax;
     private BigDecimal budgetMin;
@@ -37,16 +39,15 @@ public class Job {
     public Job() {
     }
 
-    public Job(int jobId, int postAccountId, String jobTitle, Timestamp postDate, String jobDescription,
-               String attachment, int categoryId, BigDecimal budgetMax, BigDecimal budgetMin,
-               Date dueDatePost, Date dueDateJob, boolean haveInterviewed, boolean haveTested,
-               int numOfMember, int secureWallet, String statusPost, int statusJobId) {
+    public Job(int jobId, int postAccountId, String jobTitle, Timestamp postDate, String jobDescription, String attachment, String requirements, String benefit, int categoryId, BigDecimal budgetMax, BigDecimal budgetMin, Date dueDatePost, Date dueDateJob, boolean haveInterviewed, boolean haveTested, int numOfMember, int secureWallet, String statusPost, int statusJobId, List<Tag> tagList, List<JobGreeting> jobGreetingList, List<JobReport> jobReportList, List<CancelRequest> cancelRequestList) {
         this.jobId = jobId;
         this.postAccountId = postAccountId;
         this.jobTitle = jobTitle;
         this.postDate = postDate;
         this.jobDescription = jobDescription;
         this.attachment = attachment;
+        this.requirements = requirements;
+        this.benefit = benefit;
         this.categoryId = categoryId;
         this.budgetMax = budgetMax;
         this.budgetMin = budgetMin;
@@ -58,6 +59,10 @@ public class Job {
         this.secureWallet = secureWallet;
         this.statusPost = statusPost;
         this.statusJobId = statusJobId;
+        this.tagList = tagList;
+        this.jobGreetingList = jobGreetingList;
+        this.jobReportList = jobReportList;
+        this.cancelRequestList = cancelRequestList;
     }
 
     // Getters và Setters
@@ -100,6 +105,22 @@ public class Job {
 
     public void setJobDescription(String jobDescription) {
         this.jobDescription = jobDescription;
+    }
+
+    public String getRequirements() {
+        return requirements;
+    }
+
+    public void setRequirements(String requirements) {
+        this.requirements = requirements;
+    }
+
+    public String getBenefit() {
+        return benefit;
+    }
+
+    public void setBenefit(String benefit) {
+        this.benefit = benefit;
     }
 
     public String getAttachment() {

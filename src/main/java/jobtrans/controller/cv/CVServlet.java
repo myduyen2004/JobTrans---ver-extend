@@ -167,7 +167,7 @@ public class CVServlet extends HttpServlet {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         HttpSession session = request.getSession();
 
-       String email = (String) session.getAttribute("account");
+        String email = (String) session.getAttribute("account");
         CvDAO cvDao = new CvDAO();
         AccountDAO accountDAO = new AccountDAO();
 
@@ -178,13 +178,13 @@ public class CVServlet extends HttpServlet {
 
         String cvId = request.getParameter("cvId");
 
-             int CvId = Integer.parseInt(cvId);
-            CV existingCV = cvDao.getCvById(CvId);
-            if (existingCV == null) {
-                request.setAttribute("error", "CV not found");
-                request.getRequestDispatcher("errorPage.jsp").forward(request, response);
-                return;
-            }
+        int CvId = Integer.parseInt(cvId);
+        CV existingCV = cvDao.getCvById(CvId);
+        if (existingCV == null) {
+            request.setAttribute("error", "CV not found");
+            request.getRequestDispatcher("errorPage.jsp").forward(request, response);
+            return;
+        }
 
 
 
@@ -686,8 +686,8 @@ public class CVServlet extends HttpServlet {
             Logger.getLogger(CVServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-       System.out.println("test 2"+cvType);
-       System.out.println("test 3"+cv.getCvType());
+        System.out.println("test 2"+cvType);
+        System.out.println("test 3"+cv.getCvType());
 
 
         if (cv.getCvType() == 1){

@@ -823,7 +823,7 @@ public class CvDAO {
     public List<Skill> getSkillByMainSkill(int mainSkill_id) {
         List<Skill> list = new ArrayList<>();
         String sql = "SELECT s.mainSkill_id, s.skill_id, s.skill " +
-        "FROM Skill s " +
+                "FROM Skill s " +
                 "JOIN Main_Skill ms ON s.mainSkill_id = ms.mainSkill_id " +
                 "WHERE ms.mainSkill_id = ?";
 
@@ -843,105 +843,105 @@ public class CvDAO {
 
         return list;
     }
-///  update
-public boolean updateCV(CV cv) throws SQLException, Exception {
-    String queryUpdateCV = "UPDATE CV SET job_position = ?, summary = ?, more_infor = ?, sex = ?, dateOfBirth = ?, phone = ?, email = ?, address = ?, CV_upload = ?, avatar_cv = ?, name = ?, type_id = ? WHERE CV_id = ?";
+    ///  update
+    public boolean updateCV(CV cv) throws SQLException, Exception {
+        String queryUpdateCV = "UPDATE CV SET job_position = ?, summary = ?, more_infor = ?, sex = ?, dateOfBirth = ?, phone = ?, email = ?, address = ?, CV_upload = ?, avatar_cv = ?, name = ?, type_id = ? WHERE CV_id = ?";
 
-    boolean isUpdated = false;
+        boolean isUpdated = false;
 
-    try (Connection conn = dbConnection.openConnection();
-         PreparedStatement stmt = conn.prepareStatement(queryUpdateCV)) {
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement stmt = conn.prepareStatement(queryUpdateCV)) {
 
-        stmt.setString(1, cv.getJobPosition());
-        stmt.setString(2, cv.getSummary());
-        stmt.setString(3, cv.getMoreInfo());
-        stmt.setString(4, cv.getSex());
-        stmt.setDate(5, new java.sql.Date(cv.getDateOfBirth().getTime()));
-        stmt.setString(6, cv.getSdt());
-        stmt.setString(7, cv.getEmail());
-        stmt.setString(8, cv.getAddress());
-        stmt.setString(9, cv.getCvUpload());
-        stmt.setString(10, cv.getAvatarCv());
-        stmt.setString(11, cv.getCvName());
-        stmt.setInt(12, cv.getCvType());
-        stmt.setInt(13, cv.getCvId()); // WHERE CV_id = ?
+            stmt.setString(1, cv.getJobPosition());
+            stmt.setString(2, cv.getSummary());
+            stmt.setString(3, cv.getMoreInfo());
+            stmt.setString(4, cv.getSex());
+            stmt.setDate(5, new java.sql.Date(cv.getDateOfBirth().getTime()));
+            stmt.setString(6, cv.getSdt());
+            stmt.setString(7, cv.getEmail());
+            stmt.setString(8, cv.getAddress());
+            stmt.setString(9, cv.getCvUpload());
+            stmt.setString(10, cv.getAvatarCv());
+            stmt.setString(11, cv.getCvName());
+            stmt.setInt(12, cv.getCvType());
+            stmt.setInt(13, cv.getCvId()); // WHERE CV_id = ?
 
-        int affectedRows = stmt.executeUpdate();
-        if (affectedRows > 0) {
-            isUpdated = true;
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows > 0) {
+                isUpdated = true;
 
 
 
-            // Insert lại dữ liệu mới
-            updateSkillsForCV(cv.getCvId(), cv.getSkillList());
-            updateExperienceForCV(cv.getCvId(), cv.getExperienceList());
-            updateEducationForCV(cv.getCvId(), cv.getEducationList());
-            updateCertificationsForCV(cv.getCvId(), cv.getCertificationList());
+                // Insert lại dữ liệu mới
+                updateSkillsForCV(cv.getCvId(), cv.getSkillList());
+                updateExperienceForCV(cv.getCvId(), cv.getExperienceList());
+                updateEducationForCV(cv.getCvId(), cv.getEducationList());
+                updateCertificationsForCV(cv.getCvId(), cv.getCertificationList());
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception("Lỗi khi cập nhật CV: " + e.getMessage());
         }
 
-    } catch (SQLException e) {
-        e.printStackTrace();
-        throw new Exception("Lỗi khi cập nhật CV: " + e.getMessage());
+        return isUpdated;
     }
 
-    return isUpdated;
-}
 
+    public void updateSkillsForCV(int cvId, List<Skill> skills) throws Exception {
+        String deleteQuery = "DELETE FROM CV_Skill WHERE cv_id = ?";
+        String insertQuery = "INSERT INTO CV_Skill (cv_id, skill_id, skill_custom, level_skill) " +
+                "VALUES (?, ?, ?, ?)";
 
-public void updateSkillsForCV(int cvId, List<Skill> skills) throws Exception {
-    String deleteQuery = "DELETE FROM CV_Skill WHERE cv_id = ?";
-    String insertQuery = "INSERT INTO CV_Skill (cv_id, skill_id, skill_custom, level_skill) " +
-            "VALUES (?, ?, ?, ?)";
+        try (Connection connection = dbConnection.openConnection();
+             PreparedStatement deleteStmt = connection.prepareStatement(deleteQuery);
+             PreparedStatement insertStmt = connection.prepareStatement(insertQuery)) {
 
-    try (Connection connection = dbConnection.openConnection();
-         PreparedStatement deleteStmt = connection.prepareStatement(deleteQuery);
-         PreparedStatement insertStmt = connection.prepareStatement(insertQuery)) {
+            // Delete all old skills
+            deleteStmt.setInt(1, cvId);
+            deleteStmt.executeUpdate();
 
-        // Delete all old skills
-        deleteStmt.setInt(1, cvId);
-        deleteStmt.executeUpdate();
-
-        // Insert new skills
-        for (Skill skill : skills) {
-            insertStmt.setInt(1, cvId);
-            insertStmt.setInt(2, skill.getSkillId());
-            insertStmt.setString(3, skill.getSkillCustom());
-            insertStmt.setInt(4, skill.getLevelSkill());
-            insertStmt.addBatch();
+            // Insert new skills
+            for (Skill skill : skills) {
+                insertStmt.setInt(1, cvId);
+                insertStmt.setInt(2, skill.getSkillId());
+                insertStmt.setString(3, skill.getSkillCustom());
+                insertStmt.setInt(4, skill.getLevelSkill());
+                insertStmt.addBatch();
+            }
+            insertStmt.executeBatch();
         }
-        insertStmt.executeBatch();
     }
-}
-public void updateExperienceForCV(int cvId, List<Experience> experiences) throws Exception {
-    String deleteQuery = "DELETE FROM CV_Experience WHERE cv_id = ?";
-    String insertQuery = "INSERT INTO CV_Experience (cv_id, experience_id, job_position, " +
-            "address, description, start_at, end_at, company_custom, achievement) " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public void updateExperienceForCV(int cvId, List<Experience> experiences) throws Exception {
+        String deleteQuery = "DELETE FROM CV_Experience WHERE cv_id = ?";
+        String insertQuery = "INSERT INTO CV_Experience (cv_id, experience_id, job_position, " +
+                "address, description, start_at, end_at, company_custom, achievement) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    try (Connection connection = dbConnection.openConnection();
-         PreparedStatement deleteStmt = connection.prepareStatement(deleteQuery);
-         PreparedStatement insertStmt = connection.prepareStatement(insertQuery)) {
+        try (Connection connection = dbConnection.openConnection();
+             PreparedStatement deleteStmt = connection.prepareStatement(deleteQuery);
+             PreparedStatement insertStmt = connection.prepareStatement(insertQuery)) {
 
-        // Delete all old experiences
-        deleteStmt.setInt(1, cvId);
-        deleteStmt.executeUpdate();
+            // Delete all old experiences
+            deleteStmt.setInt(1, cvId);
+            deleteStmt.executeUpdate();
 
-        // Insert new experiences
-        for (Experience exp : experiences) {
-            insertStmt.setInt(1, cvId);
-            insertStmt.setInt(2, exp.getExperienceId());
-            insertStmt.setString(3, exp.getJobPosition());
-            insertStmt.setString(4, exp.getAddress());
-            insertStmt.setString(5, exp.getDescription());
-            insertStmt.setDate(6, new java.sql.Date(exp.getStartAt().getTime()));
-            insertStmt.setDate(7, new java.sql.Date(exp.getEndAt().getTime()));
-            insertStmt.setString(8, exp.getCustomCompany());
-            insertStmt.setString(9, exp.getAchievement());
-            insertStmt.addBatch();
+            // Insert new experiences
+            for (Experience exp : experiences) {
+                insertStmt.setInt(1, cvId);
+                insertStmt.setInt(2, exp.getExperienceId());
+                insertStmt.setString(3, exp.getJobPosition());
+                insertStmt.setString(4, exp.getAddress());
+                insertStmt.setString(5, exp.getDescription());
+                insertStmt.setDate(6, new java.sql.Date(exp.getStartAt().getTime()));
+                insertStmt.setDate(7, new java.sql.Date(exp.getEndAt().getTime()));
+                insertStmt.setString(8, exp.getCustomCompany());
+                insertStmt.setString(9, exp.getAchievement());
+                insertStmt.addBatch();
+            }
+            insertStmt.executeBatch();
         }
-        insertStmt.executeBatch();
-    }
-}public void updateEducationForCV(int cvId, List<Education> educations) throws Exception {
+    }public void updateEducationForCV(int cvId, List<Education> educations) throws Exception {
         String deleteQuery = "DELETE FROM CV_education WHERE cv_id = ?";
         String insertQuery = "INSERT INTO CV_education (cv_id, education_id, start_date, " +
                 "end_date, field_of_study, degree, edu_more_infor, school_custom) " +
@@ -996,6 +996,5 @@ public void updateExperienceForCV(int cvId, List<Experience> experiences) throws
         }
     }
 }
-
 
 

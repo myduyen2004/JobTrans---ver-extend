@@ -20,9 +20,9 @@ public class LogoutServlet extends HttpServlet {
         CookieUtils.add("cookpass", null, 0, response);
         CookieUtils.add("cookrem", null, 0, response);
         HttpSession session = request.getSession();
-        session.removeAttribute("account");
+        session.removeAttribute("sessionAccount");
         session.invalidate();
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        response.sendRedirect("home");
     }
 
 }

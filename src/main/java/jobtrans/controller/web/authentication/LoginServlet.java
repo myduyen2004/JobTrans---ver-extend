@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 
 @WebServlet(name="LoginServlet", urlPatterns={"/login"})
@@ -35,61 +36,69 @@ public class LoginServlet extends HttpServlet {
         GoogleAccount acc = gg.getUserInfo(accessToken);
         // check tk da dky chua
         String email = acc.getEmail();
-        String userName = acc.getName();
+        String accountName = acc.getName();
         String avatar = acc.getPicture();
         AccountDAO accountDAO = new AccountDAO();
 
         Account account = new Account();
-        if (accountDAO.checkExistEmail(email)) {
+        if (accountDAO.getAccountByEmail(email) != null) {
             account = accountDAO.getAccountByEmail(email);
             session.setAttribute("sessionAccount", account);
             response.sendRedirect("home");
         }else{
-            account =new Account(userName,email,avatar,"Đang hoạt động","Google",code);
-            account.setPoint(0);
-            accountDAO.addUserByLoginGoogle(account);
-            session.setAttribute("sessionAccount", account);
-            if(account.getRole() == null){
-                response.sendRedirect("type");
-            }else{
-                response.sendRedirect("home");
-            }
+            account.setEmail(email);
+            account.setAccountName(accountName);
+            account.setAvatar(avatar);
+            account.setOauthProvider("Google");
+            account.setOauthId(code);
 
+            if(accountDAO.addAccountWithGoogle(account) != 0) {
+                account = accountDAO.getAccountByEmail(email);
+                session.setAttribute("sessionAccount", account);
+                if (account.getTypeAccount() == null) {
+                    response.sendRedirect("type");
+                } else {
+                    response.sendRedirect("home");
+                }
+            }else{
+                request.setAttribute("toastType", "error");
+                request.setAttribute("toastTitle", "Có lỗi xảy ra");
+                request.setAttribute("toastMessage", "Có lỗi xảy ra trong quá trình đăng nhập, vui lòng thử lại");
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+
+            }
         }
     }
-
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        String mail = request.getParameter("emailaddress");
-        String password = request.getParameter("password");
-        HttpSession session = request.getSession();
-        response.getWriter().print(mail);
+        PrintWriter out = response.getWriter();
 
+        HttpSession session = request.getSession();
+        // Lấy dữ liệu từ form
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        boolean rememberMe = "on".equals(request.getParameter("remember"));
         AccountDAO accountDAO = new AccountDAO();
-        // In mail và password ra console
-        System.out.println("Email: " + mail);
-        System.out.println("Password (raw): " + password); // Chỉ in password raw trong quá trình debug, không nên trong production
-        Account account = accountDAO.checkLogin(mail, password);
-        if (account != null && account.getAccountId() != 0 && account.getEmail() != null) {
-            if (request.getParameter("remember") != null) {
+        Account account = accountDAO.checkLogin(email, password);
+        if (account != null) {
+            if (rememberMe) {
                 String remember = request.getParameter("remember");
-                CookieUtils.add("cookemail", mail, 15, response);
+                CookieUtils.add("cookemail", email, 15, response);
                 CookieUtils.add("cookpass", password, 15, response);
                 CookieUtils.add("cookrem", remember, 15, response);
             }
-            session.setAttribute("account", mail);
-            request.setAttribute("home", "home");
-            Account acc = accountDAO.getAccountByEmail(mail);
-            request.setAttribute("success", "Đăng nhập thành công!");
+            // Đăng nhập thành công, lưu thông tin người dùng vào session
             session.setAttribute("sessionAccount", account);
+            // Chuyển hướng đến trang chính sau khi đăng nhập thành công
             response.sendRedirect("home");
-
-        }else{
-            request.setAttribute("error", "Đăng nhập thất bại!");
-            request.getRequestDispatcher("login-and-register.jsp").forward(request, response);
+        } else {
+            // Đăng nhập thất bại, quay lại trang đăng nhập và hiển thị thông báo lỗi
+            request.setAttribute("toastType", "error");
+            request.setAttribute("toastTitle", "Có lỗi xảy ra");
+            request.setAttribute("toastMessage", "Có lỗi xảy ra trong quá trình đăng nhập, vui lòng thử lại");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }
 

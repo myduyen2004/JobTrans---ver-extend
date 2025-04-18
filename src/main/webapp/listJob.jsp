@@ -62,7 +62,7 @@
             display: flex; /* Sử dụng flexbox cho card-body */
             flex-direction: column; /* Sắp xếp nội dung theo chiều dọc */
         }
-
+        /*comment*/
         .card:hover {
             background-color: #6787FE; /* Màu nền xanh nhạt khi hover */
         }
@@ -563,47 +563,47 @@
 
 
                     <div class="col-xl-7">
-            <c:if test="${totalJobs > 0}">
-                <c:forEach var="i" begin="${start}" end="${end - 1}">
-                    <c:set var="job" value="${jobDAO.allJob[i]}"/>
-                    <div class="card mb-3" onclick="window.location.href='helloservlet'">
-                        <div class="card-body">
-                            <div class="job-info-left">
-                                <h5 class="card-title">${job.jobTitle}</h5>
-                                <p class="card-text"><strong>Hạn tuyển:</strong> ${job.dueDate}</p>
-                            </div>
-                            <div class="job-info-right">
-                                <p class="job-salary">${job.budgetMax}</p>
-                                <div class="job-details">
-                                    <a href="helloservlet"
-                                       class="details-link btn btn-sm btn-outline-primary">Chi tiết</a>
+                        <c:if test="${totalJobs > 0}">
+                            <c:forEach var="i" begin="${start}" end="${end - 1}">
+                                <c:set var="job" value="${jobDAO.allJob[i]}"/>
+                                <div class="card mb-3" onclick="window.location.href='helloservlet'">
+                                    <div class="card-body">
+                                        <div class="job-info-left">
+                                            <h5 class="card-title">${job.jobTitle}</h5>
+                                            <p class="card-text"><strong>Hạn tuyển:</strong> ${job.dueDate}</p>
+                                        </div>
+                                        <div class="job-info-right">
+                                            <p class="job-salary">${job.budgetMax}</p>
+                                            <div class="job-details">
+                                                <a href="helloservlet"
+                                                   class="details-link btn btn-sm btn-outline-primary">Chi tiết</a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+                            </c:forEach>
+                        </c:if>
+                        <c:if test="${totalJobs == 0}">
+                            <div class="alert alert-info text-center">Không có công việc nào để hiển thị.</div>
+                        </c:if>
+                    </div>
+                    <div class="hamburger-menu col-xl-2">
+                        <button class="hamburger-button" onclick="toggleMenu()">
+                            <div class="hamburger-icon">
+                                <span></span>
+                                <span></span>
+                                <span></span>
                             </div>
+                        </button>
+                        <div id="sortMenu" class="dropdown-menu">
+                            <a href="?sort=recent">Sắp xếp theo đăng gần nhất</a>
+                            <a href="?sort=price-desc">Giá giảm dần</a>
+                            <a href="?sort=price-asc">Giá tăng dần</a>
                         </div>
                     </div>
-                </c:forEach>
-            </c:if>
-            <c:if test="${totalJobs == 0}">
-                <div class="alert alert-info text-center">Không có công việc nào để hiển thị.</div>
-            </c:if>
-                    </div>
-        <div class="hamburger-menu col-xl-2">
-            <button class="hamburger-button" onclick="toggleMenu()">
-                <div class="hamburger-icon">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+
+
                 </div>
-            </button>
-            <div id="sortMenu" class="dropdown-menu">
-                <a href="?sort=recent">Sắp xếp theo đăng gần nhất</a>
-                <a href="?sort=price-desc">Giá giảm dần</a>
-                <a href="?sort=price-asc">Giá tăng dần</a>
-            </div>
-        </div>
-
-
-            </div>
 
 
 

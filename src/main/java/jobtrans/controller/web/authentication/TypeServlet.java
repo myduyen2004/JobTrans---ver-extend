@@ -41,7 +41,7 @@ public class TypeServlet extends HttpServlet {
 
     private void chooseRoleForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        Account account = (Account) session.getAttribute("account");
+        Account account = (Account) session.getAttribute("sessionAccount");
         req.getRequestDispatcher("choose-role-form.jsp").forward(req, resp);
     }
     @Override
@@ -50,11 +50,16 @@ public class TypeServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("sessionAccount");
         String type = request.getParameter("type");
-
         AccountDAO accountDao = new AccountDAO();
-        account.setType(type);
-        accountDao.updateType(type, account.getEmail());
-        session.setAttribute("sessionAccount", account);
-        response.sendRedirect("home");
+        account.setTypeAccount(type);
+
+        if(accountDao.updateTypeAccount(account)){
+            account = accountDao.getAccountByEmail(account.getEmail());
+            session.setAttribute("sessionAccount", account);
+            response.sendRedirect("home");
+        }else{
+            response.sendRedirect("home");
+        }
+
     }
 }

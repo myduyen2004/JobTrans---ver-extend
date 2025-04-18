@@ -1,6 +1,9 @@
 package jobtrans.controller.gpt;
 
 import com.google.gson.Gson;
+import jobtrans.controller.web.home.HomeServlet;
+import jobtrans.dal.ApiDAO;
+import jobtrans.model.Account;
 import jobtrans.service.OpenAIService;
 
 import javax.servlet.ServletException;
@@ -8,58 +11,53 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @WebServlet(name="ChatController", urlPatterns={"/chat"})
+
 public class ChatController extends HttpServlet {
-    private OpenAIService openAIService;
-
-    @Override
-    public void init() throws ServletException {
-        super.init();
-        this.openAIService = new OpenAIService();
-    }
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("application/json; charset=UTF-8");
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "POST");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
-
-        String userMessage = sanitizeInput(request.getParameter("message"));
-        String gptResponse;
-
         try {
-            gptResponse = openAIService.getChatResponse(userMessage);
-        } catch (IOException e) {
-            gptResponse = "Lỗi kết nối với dịch vụ AI: " + e.getMessage();
+            String action = request.getParameter("action");
+            if (action == null) {
+                action = "home"; // Default action to list products
+            }
+            switch (action) {
+                case "saveKey":
+                    saveKey(request, response);
+                    break;
+
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(HomeServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        System.out.println("kết quả là: " + gptResponse);
-
-        // Tạo response JSON
-        Map<String, String> responseMap = new HashMap<>();
-        responseMap.put("response", gptResponse);
-
-        response.setContentType("application/json");
-        PrintWriter out = response.getWriter();
-        out.print(new Gson().toJson(responseMap));
-        out.flush();
+    }
+    private void saveKey(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        HttpSession session = request.getSession();
+//        Account account = (Account) session.getAttribute("sessionAccount");
+        int ac = 1;
+        String openRouterApiKey = request.getParameter("apiKey");
+        try {
+            ApiDAO apiDAO = new ApiDAO();
+            apiDAO.saveApiKey(ac,openRouterApiKey);
+            response.getWriter().write("API key đã được lưu thành công!");
+            System.out.println(openRouterApiKey);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            response.getWriter().write("Lỗi khi lưu API key: " + e.getMessage());
+        }
     }
 
-    private String sanitizeInput(String input) {
-        if (input == null) return "";
-        return input.replace("\"", "\\\"")
-                .replace("\n", "\\n")
-                .replace("\r", "\\r")
-                .replace("<", "&lt;")
-                .replace(">", "&gt;");
-    }
+
+
 }
