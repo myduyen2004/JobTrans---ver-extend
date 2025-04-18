@@ -84,6 +84,25 @@ public class AccountDAO {
         return accounts;
     }
 
+    public List<Account> getAllUserAccounts() {
+        List<Account> accounts = new ArrayList<>();
+        String sql = "SELECT * FROM Account WHERE role = N'Người dùng'";
+
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                accounts.add(mapRowToAccount(rs));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace(); // hoặc log lỗi tùy dự án
+        }
+
+        return accounts;
+    }
+
     // Method to get an account by email
     public Account getAccountByEmail(String email){
         Account account = null;
@@ -433,19 +452,23 @@ public class AccountDAO {
 
     //Method to update typeAccount
     public boolean updateTypeAccount(Account account) {
-        String sql = "UPDATE Account SET type_account = ?, level_account = ? WHERE email = ?";
+        String sql = "UPDATE Account SET type_account = ? WHERE email = ?";
         try (Connection conn = dbConnection.openConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setNString(1, account.getTypeAccount());
-            stmt.setNString(2, account.getLevelAccount());
-            stmt.setNString(3, account.getEmail());
+            stmt.setString(2, account.getEmail());
             return stmt.executeUpdate() > 0;
 
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public static void main(String[] args) {
+        AccountDAO dao = new AccountDAO();
+        System.out.println(dao.getAllUserAccounts());
     }
 
 }

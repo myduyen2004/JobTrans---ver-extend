@@ -42,8 +42,8 @@
                         <div id="account-list">
                             <c:forEach items="${list}" var="o" varStatus="status">
                                 <div class="post-box account_in4 mt-3 mb-3 p-3 rounded"
-                                     data-type="${o.type == 'Cá nhân' ? 'canhan' : 'nhom'}"
-                                     data-status="${o.status == 'Đang hoạt động' ? 'active' : 'banned'}" style="background-color: #6787FE10; border-radius: 30px;">
+                                     data-type="${o.type == 'Cá nhân' ? 'Cá nhân' : 'Nhóm'}"
+                                     data-status="${o.status == 'Đang hoạt động' ? 'Đang hoạt động' : 'Bị cấm'}" style="background-color: #6787FE10; border-radius: 30px;">
                                     <div class="row">
                                         <div class="col-2">
                                             <a class="d-flex flex-row justify-content-center"

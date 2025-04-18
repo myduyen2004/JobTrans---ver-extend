@@ -56,7 +56,7 @@ public class LoginServlet extends HttpServlet {
                 account = accountDAO.getAccountByEmail(email);
                 session.setAttribute("sessionAccount", account);
                 if (account.getTypeAccount() == null) {
-                    response.sendRedirect("type");
+                    request.getRequestDispatcher("type").forward(request, response);
                 } else {
                     response.sendRedirect("home");
                 }

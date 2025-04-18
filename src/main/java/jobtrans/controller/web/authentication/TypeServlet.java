@@ -50,6 +50,11 @@ public class TypeServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("sessionAccount");
         String type = request.getParameter("type");
+        if(type.equals("Individual")){
+            type = "Cá nhân";
+        }else if (type.equals("Group")){
+            type= "Nhóm";
+        }
         AccountDAO accountDao = new AccountDAO();
         account.setTypeAccount(type);
 
