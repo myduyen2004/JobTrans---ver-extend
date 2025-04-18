@@ -236,7 +236,7 @@
                                         <div class="job-info-left">
                                             <h5 class="card-title">${job.jobTitle}</h5>
                                             <p class="card-category"><strong>Phân loại:</strong> ${job.jobCategory.categoryName}</p>
-                                            <p class="card-text"><strong>Hạn tuyển:</strong> ${job.dueDate}</p>
+                                            <p class="card-text"><strong>Hạn tuyển:</strong> ${job.dueDatePost}</p>
                                         </div>
                                         <div class="job-info-right">
                                             <p class="job-salary">${job.getFormattedBudgetMax()}</p>

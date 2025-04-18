@@ -8,7 +8,9 @@ import jobtrans.model.Tag;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class Job {
     private int jobId;
@@ -31,6 +33,8 @@ public class Job {
     private String statusPost;
     private int statusJobId;
 
+    //tao them 1 doi tuong kieu du lieu job cate
+    private JobCategory jobCategory;
     private List<Tag> tagList;
     private List<JobGreeting> jobGreetingList;
     private List<JobReport> jobReportList;
@@ -66,6 +70,14 @@ public class Job {
     }
 
     // Getters và Setters
+
+    public JobCategory getJobCategory() {
+        return jobCategory;
+    }
+
+    public void setJobCategory(JobCategory jobCategory) {
+        this.jobCategory = jobCategory;
+    }
 
     public int getJobId() {
         return jobId;
@@ -250,4 +262,22 @@ public class Job {
     public void setCancelRequestList(List<CancelRequest> cancelRequestList) {
         this.cancelRequestList = cancelRequestList;
     }
+    public String getFormattedBudgetMax() {
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        return currencyFormatter.format(budgetMax);
+    }
+    public static void main(String[] args) {
+        // Tạo một đối tượng Job (hoặc class chứa budgetMax của bạn)
+        Job job = new Job();
+        job.setBudgetMax(BigDecimal.valueOf(15005000.0)); // Ví dụ giá trị
+
+        // Lấy giá trị gốc
+        BigDecimal originalBudget = job.getBudgetMax();
+        System.out.println("Budget Max (gốc): " + originalBudget);
+
+        // Lấy giá trị đã định dạng
+        String formattedBudget = job.getFormattedBudgetMax();
+        System.out.println("Budget Max (đã định dạng): " + formattedBudget);
+    }
 }
+

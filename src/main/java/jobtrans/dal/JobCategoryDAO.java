@@ -21,7 +21,7 @@ public class JobCategoryDAO {
 
     public JobCategory getJobCategoryByJobId(int jobId) {
         JobCategory jc = null;
-        String sql = "SELECT * FROM JobCategory WHERE job_id = ?";
+        String sql = "SELECT * FROM JobCategory WHERE category_id = ?";
         try (Connection con = dbConnection.openConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -33,7 +33,7 @@ public class JobCategoryDAO {
                  jc = new JobCategory();
                 jc.setCategoryId(rs.getInt("category_id"));
                 jc.setCategoryName(rs.getString("category_name"));
-                jc.setCategoryDescription(rs.getString("description"));
+                jc.setDescription(rs.getString("description"));
 
             }
 

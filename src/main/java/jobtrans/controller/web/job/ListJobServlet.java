@@ -4,7 +4,8 @@ import jobtrans.dal.JobCategoryDAO;
 import jobtrans.dal.JobDAO;
 import jobtrans.model.Job;
 import jobtrans.model.JobCategory;
-
+import java.math.BigDecimal;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -118,14 +119,13 @@ public class ListJobServlet extends HttpServlet {
                     filteredAndSortedJobs.sort(Comparator.comparing(Job::getPostDate).reversed());
                     break;
                 case "price-desc":
-                    filteredAndSortedJobs.sort(Comparator.comparingDouble(Job::getBudgetMax).reversed());
+                    filteredAndSortedJobs.sort(Comparator.comparing(Job::getBudgetMax, Comparator.reverseOrder()));
                     break;
                 case "price-asc":
-                    filteredAndSortedJobs.sort(Comparator.comparingDouble(Job::getBudgetMax));
+                    filteredAndSortedJobs.sort(Comparator.comparing(Job::getBudgetMax));
                     break;
             }
         }
-
         // Tính toán thông số phân trang DỰA TRÊN DANH SÁCH ĐÃ LỌC VÀ SẮP XẾP(để dưới cùng)
         int totalJobs = filteredAndSortedJobs.size();
         System.out.println("Total Jobs: " + totalJobs);
@@ -171,35 +171,47 @@ public class ListJobServlet extends HttpServlet {
     }
 
     // Sắp xếp theo giá tiền
+
+
     private void filterByPrice(List<Job> jobs, String priceFilter) {
         try {
+            BigDecimal oneMillion = new BigDecimal("1000000");
+            BigDecimal twoMillion = new BigDecimal("2000000");
+            BigDecimal threeMillion = new BigDecimal("3000000");
+            BigDecimal fourMillion = new BigDecimal("4000000");
+            BigDecimal fiveMillion = new BigDecimal("5000000");
+            BigDecimal tenMillion = new BigDecimal("10000000");
+            BigDecimal twentyMillion = new BigDecimal("20000000");
+            BigDecimal thirtyMillion = new BigDecimal("30000000");
+            BigDecimal fiftyMillion = new BigDecimal("50000000");
+
             switch (priceFilter) {
                 case "under1m":
-                    jobs.removeIf(job -> job.getBudgetMax() >= 1000000);
+                    jobs.removeIf(job -> job.getBudgetMax().compareTo(oneMillion) >= 0);
                     break;
                 case "1-2m":
-                    jobs.removeIf(job -> job.getBudgetMax() < 1000000 || job.getBudgetMax() > 2000000);
+                    jobs.removeIf(job -> job.getBudgetMax().compareTo(oneMillion) < 0 || job.getBudgetMax().compareTo(twoMillion) > 0);
                     break;
                 case "3-4m":
-                    jobs.removeIf(job -> job.getBudgetMax() < 3000000 || job.getBudgetMax() > 4000000);
+                    jobs.removeIf(job -> job.getBudgetMax().compareTo(threeMillion) < 0 || job.getBudgetMax().compareTo(fourMillion) > 0);
                     break;
                 case "4-5m":
-                    jobs.removeIf(job -> job.getBudgetMax() < 4000000 || job.getBudgetMax() > 5000000);
+                    jobs.removeIf(job -> job.getBudgetMax().compareTo(fourMillion) < 0 || job.getBudgetMax().compareTo(fiveMillion) > 0);
                     break;
                 case "5-10m":
-                    jobs.removeIf(job -> job.getBudgetMax() < 5000000 || job.getBudgetMax() > 10000000);
+                    jobs.removeIf(job -> job.getBudgetMax().compareTo(fiveMillion) < 0 || job.getBudgetMax().compareTo(tenMillion) > 0);
                     break;
                 case "10-20m":
-                    jobs.removeIf(job -> job.getBudgetMax() < 10000000 || job.getBudgetMax() > 20000000);
+                    jobs.removeIf(job -> job.getBudgetMax().compareTo(tenMillion) < 0 || job.getBudgetMax().compareTo(twentyMillion) > 0);
                     break;
                 case "20-30m":
-                    jobs.removeIf(job -> job.getBudgetMax() < 20000000 || job.getBudgetMax() > 30000000);
+                    jobs.removeIf(job -> job.getBudgetMax().compareTo(twentyMillion) < 0 || job.getBudgetMax().compareTo(thirtyMillion) > 0);
                     break;
                 case "30-50m":
-                    jobs.removeIf(job -> job.getBudgetMax() < 30000000 || job.getBudgetMax() > 50000000);
+                    jobs.removeIf(job -> job.getBudgetMax().compareTo(thirtyMillion) < 0 || job.getBudgetMax().compareTo(fiftyMillion) > 0);
                     break;
                 case "above50m":
-                    jobs.removeIf(job -> job.getBudgetMax() <= 50000000);
+                    jobs.removeIf(job -> job.getBudgetMax().compareTo(fiftyMillion) <= 0);
                     break;
             }
         } catch (NumberFormatException e) {
