@@ -45,7 +45,7 @@ public class JobCategoryDAO {
 
     public static void main(String[] args) {
         JobCategoryDAO jc = new JobCategoryDAO();
-        System.out.println(jc.getJobCategoryByJobId(4));
+        System.out.println(jc.getJobCategoryByJobId(1).getCategoryName());
 
     }
 }

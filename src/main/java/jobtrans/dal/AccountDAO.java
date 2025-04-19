@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,7 +48,7 @@ public class AccountDAO {
         account.setSkills(rs.getNString("skills"));
         account.setBio(rs.getNString("bio"));
         account.setPoint(rs.getInt("point"));
-        account.setStarRate(rs.getBigDecimal("star_rate"));
+        account.setStarRate(rs.getDouble("star_rate"));
         account.setAmountWallet(rs.getBigDecimal("amount_wallet"));
         account.setVerifiedLink(rs.getString("verified_link"));
         account.setVerifiedAccount(rs.getBoolean("verified_account"));
@@ -242,179 +243,179 @@ public class AccountDAO {
     }
 
     //Method to update an account
-    public boolean updateAccountByEmail(Account account) {
-        String sql = "UPDATE Account SET " +
-                "account_name = ?, password = ?, avatar = ?, oauth_id = ?, oauth_provider = ?, " +
-                "date_of_birth = ?, gender = ?, phone = ?, address = ?, education = ?, speciality = ?, " +
-                "experience_years = ?, skills = ?, bio = ?, point = ?, star_rate = ?, amount_wallet = ?, " +
-                "verified_link = ?, verified_account = ?, complete_percent = ?, label_tag = ?, count = ?, " +
-                "role = ?, type_account = ?, level_account = ?, signature = ?, join_date = ?, count_member = ?, status = ? " +
-                "WHERE email = ?";
+//    public boolean updateAccountByEmail(Account account) {
+//        String sql = "UPDATE Account SET " +
+//                "account_name = ?, password = ?, avatar = ?, oauth_id = ?, oauth_provider = ?, " +
+//                "date_of_birth = ?, gender = ?, phone = ?, address = ?, education = ?, speciality = ?, " +
+//                "experience_years = ?, skills = ?, bio = ?, point = ?, star_rate = ?, amount_wallet = ?, " +
+//                "verified_link = ?, verified_account = ?, complete_percent = ?, label_tag = ?, count = ?, " +
+//                "role = ?, type_account = ?, level_account = ?, signature = ?, join_date = ?, count_member = ?, status = ? " +
+//                "WHERE email = ?";
+//
+//        try (Connection conn = dbConnection.openConnection();
+//             PreparedStatement stmt = conn.prepareStatement(sql)) {
+//
+//            stmt.setNString(1, account.getAccountName());
+//            stmt.setNString(2, account.getPassword());
+//            stmt.setNString(3, account.getAvatar());
+//            stmt.setNString(4, account.getOauthId());
+//            stmt.setNString(5, account.getOauthProvider());
+//
+//            if (account.getDateOfBirth() != null) {
+//                stmt.setDate(6, Date.valueOf(account.getDateOfBirth()));
+//            } else {
+//                stmt.setNull(6, Types.DATE);
+//            }
+//
+//            stmt.setNString(7, account.getGender());
+//            stmt.setNString(8, account.getPhone());
+//            stmt.setNString(9, account.getAddress());
+//            stmt.setNString(10, account.getEducation());
+//            stmt.setNString(11, account.getSpeciality());
+//
+//            if (account.getExperienceYears() != null) {
+//                stmt.setInt(12, account.getExperienceYears());
+//            } else {
+//                stmt.setNull(12, Types.INTEGER);
+//            }
+//
+//            stmt.setNString(13, account.getSkills());
+//            stmt.setNString(14, account.getBio());
+//
+//            if (account.getPoint() != null) {
+//                stmt.setInt(15, account.getPoint());
+//            } else {
+//                stmt.setNull(15, Types.INTEGER);
+//            }
+//
+//            stmt.setBigDecimal(16, account.getStarRate());
+//            stmt.setBigDecimal(17, account.getAmountWallet());
+//            stmt.setNString(18, account.getVerifiedLink());
+//            stmt.setBoolean(19, account.isVerifiedAccount());
+//            stmt.setBigDecimal(20, account.getCompletePercent());
+//            stmt.setNString(21, account.getLabelTag());
+//
+//            if (account.getCount() != null) {
+//                stmt.setInt(22, account.getCount());
+//            } else {
+//                stmt.setNull(22, Types.INTEGER);
+//            }
+//
+//            stmt.setNString(23, account.getRole());
+//            stmt.setNString(24, account.getTypeAccount());
+//            stmt.setNString(25, account.getLevelAccount());
+//            stmt.setNString(26, account.getSignature());
+//
+//            if (account.getJoinDate() != null) {
+//                stmt.setTimestamp(27, Timestamp.valueOf(account.getJoinDate()));
+//            } else {
+//                stmt.setNull(27, Types.TIMESTAMP);
+//            }
+//
+//            if (account.getCountMember() != null) {
+//                stmt.setInt(28, account.getCountMember());
+//            } else {
+//                stmt.setNull(28, Types.INTEGER);
+//            }
+//
+//            stmt.setNString(29, account.getStatus());
+//            stmt.setNString(30, account.getEmail()); // WHERE email = ?
+//
+//            int rowsUpdated = stmt.executeUpdate();
+//            return rowsUpdated > 0;
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//    }
 
-        try (Connection conn = dbConnection.openConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setNString(1, account.getAccountName());
-            stmt.setNString(2, account.getPassword());
-            stmt.setNString(3, account.getAvatar());
-            stmt.setNString(4, account.getOauthId());
-            stmt.setNString(5, account.getOauthProvider());
-
-            if (account.getDateOfBirth() != null) {
-                stmt.setDate(6, Date.valueOf(account.getDateOfBirth()));
-            } else {
-                stmt.setNull(6, Types.DATE);
-            }
-
-            stmt.setNString(7, account.getGender());
-            stmt.setNString(8, account.getPhone());
-            stmt.setNString(9, account.getAddress());
-            stmt.setNString(10, account.getEducation());
-            stmt.setNString(11, account.getSpeciality());
-
-            if (account.getExperienceYears() != null) {
-                stmt.setInt(12, account.getExperienceYears());
-            } else {
-                stmt.setNull(12, Types.INTEGER);
-            }
-
-            stmt.setNString(13, account.getSkills());
-            stmt.setNString(14, account.getBio());
-
-            if (account.getPoint() != null) {
-                stmt.setInt(15, account.getPoint());
-            } else {
-                stmt.setNull(15, Types.INTEGER);
-            }
-
-            stmt.setBigDecimal(16, account.getStarRate());
-            stmt.setBigDecimal(17, account.getAmountWallet());
-            stmt.setNString(18, account.getVerifiedLink());
-            stmt.setBoolean(19, account.isVerifiedAccount());
-            stmt.setBigDecimal(20, account.getCompletePercent());
-            stmt.setNString(21, account.getLabelTag());
-
-            if (account.getCount() != null) {
-                stmt.setInt(22, account.getCount());
-            } else {
-                stmt.setNull(22, Types.INTEGER);
-            }
-
-            stmt.setNString(23, account.getRole());
-            stmt.setNString(24, account.getTypeAccount());
-            stmt.setNString(25, account.getLevelAccount());
-            stmt.setNString(26, account.getSignature());
-
-            if (account.getJoinDate() != null) {
-                stmt.setTimestamp(27, Timestamp.valueOf(account.getJoinDate()));
-            } else {
-                stmt.setNull(27, Types.TIMESTAMP);
-            }
-
-            if (account.getCountMember() != null) {
-                stmt.setInt(28, account.getCountMember());
-            } else {
-                stmt.setNull(28, Types.INTEGER);
-            }
-
-            stmt.setNString(29, account.getStatus());
-            stmt.setNString(30, account.getEmail()); // WHERE email = ?
-
-            int rowsUpdated = stmt.executeUpdate();
-            return rowsUpdated > 0;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean updateAccountById(Account account) {
-        String sql = "UPDATE Account SET " +
-                "account_name = ?, password = ?, avatar = ?, oauth_id = ?, oauth_provider = ?, " +
-                "date_of_birth = ?, gender = ?, phone = ?, address = ?, education = ?, speciality = ?, " +
-                "experience_years = ?, skills = ?, bio = ?, point = ?, star_rate = ?, amount_wallet = ?, " +
-                "verified_link = ?, verified_account = ?, complete_percent = ?, label_tag = ?, count = ?, " +
-                "role = ?, type_account = ?, level_account = ?, signature = ?, join_date = ?, count_member = ?, status = ? " +
-                "WHERE account_id = ?";
-
-        try (Connection conn = dbConnection.openConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setNString(1, account.getAccountName());
-            stmt.setNString(2, account.getPassword());
-            stmt.setNString(3, account.getAvatar());
-            stmt.setNString(4, account.getOauthId());
-            stmt.setNString(5, account.getOauthProvider());
-
-            if (account.getDateOfBirth() != null) {
-                stmt.setDate(6, Date.valueOf(account.getDateOfBirth()));
-            } else {
-                stmt.setNull(6, Types.DATE);
-            }
-
-            stmt.setNString(7, account.getGender());
-            stmt.setNString(8, account.getPhone());
-            stmt.setNString(9, account.getAddress());
-            stmt.setNString(10, account.getEducation());
-            stmt.setNString(11, account.getSpeciality());
-
-            if (account.getExperienceYears() != null) {
-                stmt.setInt(12, account.getExperienceYears());
-            } else {
-                stmt.setNull(12, Types.INTEGER);
-            }
-
-            stmt.setNString(13, account.getSkills());
-            stmt.setNString(14, account.getBio());
-
-            if (account.getPoint() != null) {
-                stmt.setInt(15, account.getPoint());
-            } else {
-                stmt.setNull(15, Types.INTEGER);
-            }
-
-            stmt.setBigDecimal(16, account.getStarRate());
-            stmt.setBigDecimal(17, account.getAmountWallet());
-            stmt.setNString(18, account.getVerifiedLink());
-            stmt.setBoolean(19, account.isVerifiedAccount());
-            stmt.setBigDecimal(20, account.getCompletePercent());
-            stmt.setNString(21, account.getLabelTag());
-
-            if (account.getCount() != null) {
-                stmt.setInt(22, account.getCount());
-            } else {
-                stmt.setNull(22, Types.INTEGER);
-            }
-
-            stmt.setNString(23, account.getRole());
-            stmt.setNString(24, account.getTypeAccount());
-            stmt.setNString(25, account.getLevelAccount());
-            stmt.setNString(26, account.getSignature());
-
-            if (account.getJoinDate() != null) {
-                stmt.setTimestamp(27, Timestamp.valueOf(account.getJoinDate()));
-            } else {
-                stmt.setNull(27, Types.TIMESTAMP);
-            }
-
-            if (account.getCountMember() != null) {
-                stmt.setInt(28, account.getCountMember());
-            } else {
-                stmt.setNull(28, Types.INTEGER);
-            }
-
-            stmt.setNString(29, account.getStatus());
-            stmt.setNString(30, account.getEmail()); // WHERE email = ?
-
-            int rowsUpdated = stmt.executeUpdate();
-            return rowsUpdated > 0;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
+//    public boolean updateAccountById(Account account) {
+//        String sql = "UPDATE Account SET " +
+//                "account_name = ?, password = ?, avatar = ?, oauth_id = ?, oauth_provider = ?, " +
+//                "date_of_birth = ?, gender = ?, phone = ?, address = ?, education = ?, speciality = ?, " +
+//                "experience_years = ?, skills = ?, bio = ?, point = ?, star_rate = ?, amount_wallet = ?, " +
+//                "verified_link = ?, verified_account = ?, complete_percent = ?, label_tag = ?, count = ?, " +
+//                "role = ?, type_account = ?, level_account = ?, signature = ?, join_date = ?, count_member = ?, status = ? " +
+//                "WHERE account_id = ?";
+//
+//        try (Connection conn = dbConnection.openConnection();
+//             PreparedStatement stmt = conn.prepareStatement(sql)) {
+//
+//            stmt.setNString(1, account.getAccountName());
+//            stmt.setNString(2, account.getPassword());
+//            stmt.setNString(3, account.getAvatar());
+//            stmt.setNString(4, account.getOauthId());
+//            stmt.setNString(5, account.getOauthProvider());
+//
+//            if (account.getDateOfBirth() != null) {
+//                stmt.setDate(6, Date.valueOf(account.getDateOfBirth()));
+//            } else {
+//                stmt.setNull(6, Types.DATE);
+//            }
+//
+//            stmt.setNString(7, account.getGender());
+//            stmt.setNString(8, account.getPhone());
+//            stmt.setNString(9, account.getAddress());
+//            stmt.setNString(10, account.getEducation());
+//            stmt.setNString(11, account.getSpeciality());
+//
+//            if (account.getExperienceYears() != null) {
+//                stmt.setInt(12, account.getExperienceYears());
+//            } else {
+//                stmt.setNull(12, Types.INTEGER);
+//            }
+//
+//            stmt.setNString(13, account.getSkills());
+//            stmt.setNString(14, account.getBio());
+//
+//            if (account.getPoint() != null) {
+//                stmt.setInt(15, account.getPoint());
+//            } else {
+//                stmt.setNull(15, Types.INTEGER);
+//            }
+//
+//            stmt.setBigDecimal(16, account.getStarRate());
+//            stmt.setBigDecimal(17, account.getAmountWallet());
+//            stmt.setNString(18, account.getVerifiedLink());
+//            stmt.setBoolean(19, account.isVerifiedAccount());
+//            stmt.setBigDecimal(20, account.getCompletePercent());
+//            stmt.setNString(21, account.getLabelTag());
+//
+//            if (account.getCount() != null) {
+//                stmt.setInt(22, account.getCount());
+//            } else {
+//                stmt.setNull(22, Types.INTEGER);
+//            }
+//
+//            stmt.setNString(23, account.getRole());
+//            stmt.setNString(24, account.getTypeAccount());
+//            stmt.setNString(25, account.getLevelAccount());
+//            stmt.setNString(26, account.getSignature());
+//
+//            if (account.getJoinDate() != null) {
+//                stmt.setTimestamp(27, Timestamp.valueOf(account.getJoinDate()));
+//            } else {
+//                stmt.setNull(27, Types.TIMESTAMP);
+//            }
+//
+//            if (account.getCountMember() != null) {
+//                stmt.setInt(28, account.getCountMember());
+//            } else {
+//                stmt.setNull(28, Types.INTEGER);
+//            }
+//
+//            stmt.setNString(29, account.getStatus());
+//            stmt.setNString(30, account.getEmail()); // WHERE email = ?
+//
+//            int rowsUpdated = stmt.executeUpdate();
+//            return rowsUpdated > 0;
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//    }
 
     //Method to update password
     public boolean updatePassword(Account account) {
@@ -466,10 +467,45 @@ public class AccountDAO {
         }
     }
 
-    public static void main(String[] args) {
-        AccountDAO dao = new AccountDAO();
-        System.out.println(dao.getAllUserAccounts());
+    public List<Account> get5Accounts() {
+        List<Account> accounts = new ArrayList<>();
+        String sql = "SELECT TOP 5 account_name, avatar, address, speciality, point, star_rate\n" +
+                "FROM Account\n" +
+                "WHERE status = N'Đang hoạt động'\n" +
+                "ORDER BY point DESC, star_rate DESC;";
+
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Account account = new Account();
+                account.setAccountName(rs.getString("account_name"));
+                account.setAvatar(rs.getString("avatar"));
+                account.setAddress(rs.getString("address"));
+                account.setSpeciality(rs.getString("speciality"));
+                account.setPoint(rs.getInt("point"));
+                account.setStarRate(rs.getDouble("star_rate"));
+                accounts.add(account);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace(); // hoặc log lỗi tùy dự án
+        }
+
+        return accounts;
     }
 
-}
+
+
+    public static void main(String[] args) {
+        AccountDAO dao = new AccountDAO();
+        Account account = dao.getAccountById(6);
+        System.out.println(account.getStarRate());
+
+
+    }
+    }
+
+
 
