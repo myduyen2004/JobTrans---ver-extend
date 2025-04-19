@@ -405,11 +405,23 @@
         min-width: 60px;
       }
     }
+    .banner_title {
+      background-image: url(./img/anh1/anh1.png);
+      background-size: 100%;
+      font-size: 40px;
+      height: 200px;
+      display: flex;
+
+      align-items: center;
+    }
   </style>
 </head>
 
 <body>
 <%@include file="includes/header-01.jsp" %>
+<div class="py-4 banner_title">
+  <h1 class="text-white font-weight-bold" style="padding-left: 50px;">Top 100</h1>
+</div>
 
 <div class="body_top100">
   <div class="container_top100">

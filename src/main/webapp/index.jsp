@@ -1501,7 +1501,7 @@
                     </div>
                 </div>
                 <div class="text-center">
-                    <a href="/all-jobs" class="see-more-btn">Xem thêm</a>
+                    <a href="home?action=top100" class="see-more-btn">Xem thêm</a>
                 </div>
             </div>
         </section>

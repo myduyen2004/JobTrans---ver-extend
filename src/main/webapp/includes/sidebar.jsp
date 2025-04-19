@@ -243,6 +243,62 @@
             left: 225px;
         }
     }
+    .sidebar-dropdown {
+        position: relative;
+    }
+
+    .sidebar-dropdown > a {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .sidebar-dropdown .dropdown-arrow {
+        transition: transform 0.3s ease;
+        margin-left: auto;
+        font-size: 12px;
+    }
+
+    .sidebar-dropdown.active .dropdown-arrow {
+        transform: rotate(90deg);
+    }
+
+    .sidebar-dropdown-content {
+        display: none;
+        background-color: rgba(0, 0, 0, 0.1);
+        border-left: 4px solid #6584fa;
+        margin-left: 44px;
+        border-radius: 0 0 6px 0;
+        overflow: hidden;
+    }
+
+    .sidebar-dropdown.active .sidebar-dropdown-content {
+        display: block;
+    }
+
+    .sidebar-dropdown-content a {
+        padding: 12px 20px 12px 44px;
+        margin: 0;
+        border-left: none;
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.8);
+        position: relative;
+    }
+
+    .sidebar-dropdown-content a:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: none;
+    }
+
+    .sidebar-dropdown-content a i {
+        position: absolute;
+        left: 20px;
+    }
+
+    .sidebar-dropdown-content a.active {
+        color: white;
+        font-weight: 500;
+    }
 </style>
 
 <button class="toggle-btn" id="toggleSidebar">
@@ -264,7 +320,20 @@
 
         <div class="sidebar-category">Quản lý công việc</div>
         <a href="#" style="--i:3"><i class="fas fa-tasks"></i> Công việc đã đăng</a>
-        <a href="#" style="--i:4"><i class="fas fa-file-invoice"></i> Công việc của tôi</a>
+        <div class="sidebar-dropdown" id="jobDropdown">
+            <a href="#" style="--i:4" onclick="toggleJobDropdown(event)">
+                <div>
+                    <i class="fas fa-file-invoice"></i> Công việc của tôi
+                </div>
+                <i class="fas fa-chevron-right dropdown-arrow"></i>
+            </a>
+            <div class="sidebar-dropdown-content">
+                <a href="job?action=view-applied"><i class="fas fa-file-export"></i> Công việc đã ứng tuyển</a>
+                <a href="#"><i class="fas fa-hourglass-half"></i> Công việc đang làm</a>
+                <a href="#"><i class="fas fa-check-circle"></i> Công việc đã hoàn thành</a>
+                <a href="#"><i class="fas fa-bookmark"></i> Công việc đã thích</a>
+            </div>
+        </div>
 
         <div class="sidebar-category">Nâng cao</div>
         <a href="#" style="--i:7"><i class="fas fa-calendar-alt"></i> Quản lí CV</a>
@@ -288,6 +357,20 @@
 </div>
 
 <script>
+    function toggleJobDropdown(event) {
+        event.preventDefault();
+        const dropdown = document.getElementById("jobDropdown");
+        dropdown.classList.toggle("active");
+    }
+
+    // Đóng dropdown khi click ra ngoài
+    document.addEventListener('click', function(event) {
+        const dropdown = document.getElementById("jobDropdown");
+        if (!dropdown.contains(event.target)) {
+            dropdown.classList.remove("active");
+        }
+    });
+
     document.addEventListener('DOMContentLoaded', function() {
         const sidebar = document.getElementById('sidebar');
         const content = document.getElementById('content');
