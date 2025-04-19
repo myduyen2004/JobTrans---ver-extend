@@ -53,10 +53,10 @@ public class JobServlet extends HttpServlet {
                 viewListApplied(request, response);
                 break;
             case "list-job-by-status":
-                listJobByStatus(request,response);
+                listJobByStatus(request, response);
                 break;
             case "sort":
-                sapxep(request,response);
+                sapxep(request, response);
                 break;
             case "detail":
 //                detail(request,response);
@@ -100,6 +100,7 @@ public class JobServlet extends HttpServlet {
         request.setAttribute("job", jobGreetings);  // "jobGreetings" là key để jsp lấy ra
         request.getRequestDispatcher("applied-job-list.jsp").forward(request, response);
     }
+
     private void listJobByStatus(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String status = request.getParameter("status"); // Lấy tham số từ request
@@ -117,6 +118,7 @@ public class JobServlet extends HttpServlet {
         request.setAttribute("job", jobGreetings);
         request.getRequestDispatcher("applied-job-list.jsp").forward(request, response);
     }
+
     private void sapxep(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String sort = request.getParameter("sort"); // Lấy tham số từ request
@@ -125,11 +127,12 @@ public class JobServlet extends HttpServlet {
         JobDAO jobDAO = new JobDAO();
 
         List<JobGreeting> jobGreetings;
-        jobGreetings = jobDAO.search(accountId,sort);
+        jobGreetings = jobDAO.search(accountId, sort);
 
         request.setAttribute("job", jobGreetings);
         request.getRequestDispatcher("applied-job-list.jsp").forward(request, response);
     }
+
     public void viewPostedJobList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //Login ok thì mở comment
 //        HttpSession session = request.getSession();
@@ -209,11 +212,11 @@ public class JobServlet extends HttpServlet {
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
-        }else{
+        } else {
             job.setHaveInterviewed(false);
         }
 
-        String dueDateStr=request.getParameter("dueDate");
+        String dueDateStr = request.getParameter("dueDate");
         if (dueDateStr != null && !dueDateStr.isEmpty()) {
             // Convert từ String sang java.util.Date
             job.setDueDatePost(Date.valueOf(dueDateStr));
@@ -309,11 +312,11 @@ public class JobServlet extends HttpServlet {
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
-        }else{
+        } else {
             job.setHaveInterviewed(false);
         }
 
-        String dueDateStr=request.getParameter("dueDate");
+        String dueDateStr = request.getParameter("dueDate");
         if (dueDateStr != null && !dueDateStr.isEmpty()) {
             // Convert từ String sang java.util.Date
             job.setDueDatePost(Date.valueOf(dueDateStr));
@@ -354,6 +357,7 @@ public class JobServlet extends HttpServlet {
 
         viewPostedJobList(request, response);
     }
+}
 
     //    private void viewListApplied(HttpServletRequest request, HttpServletResponse response)
 //            throws ServletException, IOException {
