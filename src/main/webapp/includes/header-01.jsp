@@ -678,14 +678,14 @@
 
   .user-avatar::after {
     content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
     border-radius: 50%;
-    z-index: 1;
+    /*position: absolute;*/
+    /*top: 0;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*bottom: 0;*/
+    /*background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));*/
+    /*z-index: 1;*/
   }
 
   .user-avatar:hover {
@@ -764,9 +764,9 @@
     }
   }
 
-  .dropdown-user-info {
+  .dropdown-user-info   {
     background: linear-gradient(135deg, #6584fa, #2B3D9F);
-    padding: 25px;
+    padding: 15px;
     display: flex;
     align-items: center;
     color: #fff;
@@ -787,10 +787,9 @@
   }
 
   .user-dropdown-avatar {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    margin-right: 18px;
     border: 3px solid rgba(255, 255, 255, 0.6);
     overflow: hidden;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
@@ -802,7 +801,9 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
     transition: all 0.5s ease;
+    border-radius: 50%;
   }
 
   .user-dropdown-avatar:hover img {
@@ -812,6 +813,7 @@
   .user-dropdown-details {
     position: relative;
     z-index: 2;
+    left: 10px;
   }
 
   .user-dropdown-details h6 {
@@ -841,6 +843,7 @@
     margin-top: 8px;
     letter-spacing: 0.3px;
   }
+
 
   /* Menu items */
   .user-dropdown-menu .dropdown-item {
@@ -1233,10 +1236,12 @@
 
         <!-- User avatar dropdown -->
         <div class="dropdown">
-          <a href="#" class="user-avatar dropdown-toggle" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="<%=account.getAvatar()%>" alt="User Avatar" class="user-avatar-img">
+          <div class="avatar-icon" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="user-avatar dropdown-toggle" role="button"  >
+              <img src="<%=account.getAvatar()%>" alt="User Avatar" class="user-avatar-img" >
+            </div>
             <span class="avatar-status online"></span>
-          </a>
+          </div>
           <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu" aria-labelledby="userDropdown">
             <li class="dropdown-user-info">
               <div class="user-dropdown-avatar">
@@ -1248,8 +1253,12 @@
               </div>
             </li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="profile.jsp"><i class="fas fa-user"></i>Hồ sơ cá nhân</a></li>
-            <li><a class="dropdown-item" href="my-applications.jsp"><i class="fas fa-file-alt"></i>Đơn ứng tuyển</a></li>
+            <c:if test="${sessionScope.sessionAccount.typeAccount == 'Nhóm'}">
+              <li><a class="dropdown-item" href="group?action=view&account_id=${sessionScope.sessionAccount.accountId}"><i class="fas fa-user"></i>Hồ sơ cá nhân</a></li>
+            </c:if>
+            <c:if test="${sessionScope.sessionAccount.typeAccount == 'Cá nhân'}">
+              <li><a class="dropdown-item" href="profile?action=view&account_id=${sessionScope.sessionAccount.accountId}"><i class="fas fa-user"></i>Hồ sơ cá nhân</a></li>
+            </c:if>            <li><a class="dropdown-item" href="my-applications.jsp"><i class="fas fa-file-alt"></i>Đơn ứng tuyển</a></li>
             <li><a class="dropdown-item" href="my-cvs.jsp"><i class="fas fa-id-card"></i>CV của tôi</a></li>
             <li><a class="dropdown-item" href="notifications.jsp"><i class="fas fa-bell"></i>Thông báo</a></li>
             <li><hr class="dropdown-divider"></li>
