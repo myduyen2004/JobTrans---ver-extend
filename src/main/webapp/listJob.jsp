@@ -204,16 +204,11 @@
                                 </svg>
                             </div>
                             <ul class="filter-list job">
-                                <li class="filter-item visible"><a href="viec-lam/?jobType=vietlach&sort=${sortType}&page=1">Viết lách</a></li>
-                                <li class="filter-item visible"><a href="viec-lam/?jobType=thietKe&sort=${sortType}&page=1">Thiết kế</a></li>
-                                <li class="filter-item visible"><a href="viec-lam/?jobType=laptrinh&sort=${sortType}&page=1">Lập trình</a></li>
-                                <li class="filter-item visible"><a href="viec-lam/?jobType=biendichtrinh&sort=${sortType}&page=1"></a>Biên dịch</li>
-                                <li class="filter-item hidden"><a href="viec-lam/?jobType=nhiepanh&sort=${sortType}&page=1"></a>Nhiếp ảnh</li>
-                                <li class="filter-item hidden">Quảng cáo</li>
-                                <li class="filter-item hidden">Marketing</li>
-                                <li class="filter-item hidden">Kiểm thử</li>
-                                <li class="filter-item hidden">CV8</li>
-                                <li class="filter-item hidden">CV9</li>
+                                <li class="filter-item visible"><a href="viec-lam/?jobType=tuvan-coaching&sort=${sortType}&page=1">Tư vấn-Coaching</a></li>
+                                <li class="filter-item visible"><a href="viec-lam/?jobType=dichthuat&sort=${sortType}&page=1">Dịch thuật</a></li>
+                                <li class="filter-item visible"><a href="viec-lam/?jobType=congnghe-it&sort=${sortType}&page=1">Công nghệ & IT</a></li>
+                                <li class="filter-item visible"><a href="viec-lam/?jobType=marketing&sort=${sortType}&page=1">Marketing</a></li>
+                                <li class="filter-item visible"><a href="viec-lam/?jobType=khac&sort=${sortType}&page=1">Khác</a></li>
                             </ul>
                             <div class="filter-more job" onclick="showMoreCViec()">
                                 Xem thêm

@@ -146,6 +146,39 @@ public class JobDAO {
 
         return jobList;
     }
+
+    public List<Job> get6Job() {
+        List<Job> jobs = new ArrayList<>();
+        String query = "SELECT j.budget_max, j.budget_min, j.due_date_post, j.status_post, j.job_title, a.avatar, a.account_name,jc.category_name, COUNT(jg.job_id) AS greeting_count\n" +
+                "                FROM Job j\n" +
+                "                LEFT JOIN JobGreeting jg ON jg.job_id = j.job_id\n" +
+                "                INNER JOIN Account a ON a.account_id = j.post_account_id\n" +
+                "\t\t\t\tinner join JobCategory jc ON jc.category_id=j.category_id\n" +
+                "                GROUP BY j.budget_max, j.budget_min, j.due_date_post, j.status_post, j.job_title, a.avatar, a.account_name,jc.category_name\n" +
+                "                ORDER BY greeting_count DESC\n" +
+                "                OFFSET 0 ROWS FETCH NEXT 6 ROWS ONLY;";
+        try (Connection con = dbConnection.openConnection();
+             PreparedStatement ps = con.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Job job = new Job();
+                job.setBudgetMax(BigDecimal.valueOf(rs.getFloat("budget_max")));
+                job.setBudgetMin(BigDecimal.valueOf(rs.getFloat("budget_min")));
+                job.setDueDatePost(Date.valueOf(rs.getDate("due_date_post").toLocalDate()));
+                job.setCategoryName(rs.getString("category_name"));
+                job.setStatusPost(rs.getString("status_post"));
+                job.setJobTitle(rs.getString("job_title"));
+                job.setAvatar(rs.getString("avatar")); // Cần thêm trường avatar vào class Job
+                job.setAccountName(rs.getString("account_name")); // Cần thêm trường accountName vào class Job
+                job.setGreetingCount(rs.getInt("greeting_count")); // Cần thêm trường greetingCount vào class Job
+                jobs.add(job);
+            }
+        } catch (Exception e) {
+            Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return jobs;
+    }
     public List<Job> getAllJob() {
 
         String query = "SELECT * FROM Job";
@@ -182,7 +215,8 @@ public class JobDAO {
 
     public static void main(String[] args) throws Exception {
         JobDAO jobDAO = new JobDAO();
-        System.out.println(jobDAO.searchJobsByKeyword("Mô tả công việc cho lập trình viên Java cấp cao"));
+        System.out.println(jobDAO.get6Job().get(0).getAccountName());
+
 
     }
 }

@@ -33,14 +33,52 @@ public class Job {
     private String statusPost;
     private int statusJobId;
 
-    //tao them 1 doi tuong kieu du lieu job cate
+    //tao them 1 doi tuong kieu du lieu job category
     private JobCategory jobCategory;
+    private String avatar; // Thêm trường này
+    private String accountName; // Thêm trường này
+    private int greetingCount;
+    private String categoryName;// Thêm trường này
+
+
     private List<Tag> tagList;
     private List<JobGreeting> jobGreetingList;
     private List<JobReport> jobReportList;
     private List<CancelRequest> cancelRequestList;
 
     public Job() {
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
+    public int getGreetingCount() {
+        return greetingCount;
+    }
+
+    public void setGreetingCount(int greetingCount) {
+        this.greetingCount = greetingCount;
     }
 
     public Job(int jobId, int postAccountId, String jobTitle, Timestamp postDate, String jobDescription, String attachment, String requirements, String benefit, int categoryId, BigDecimal budgetMax, BigDecimal budgetMin, Date dueDatePost, Date dueDateJob, boolean haveInterviewed, boolean haveTested, int numOfMember, int secureWallet, String statusPost, int statusJobId, List<Tag> tagList, List<JobGreeting> jobGreetingList, List<JobReport> jobReportList, List<CancelRequest> cancelRequestList) {
@@ -266,6 +304,11 @@ public class Job {
         NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
         return currencyFormatter.format(budgetMax);
     }
+    public String getFormattedBudgetMin() {
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        return currencyFormatter.format(budgetMin);
+    }
+
     public static void main(String[] args) {
         // Tạo một đối tượng Job (hoặc class chứa budgetMax của bạn)
         Job job = new Job();

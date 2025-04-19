@@ -22,7 +22,7 @@ public class Account {
     private String skills;
     private String bio;
     private Integer point;
-    private BigDecimal starRate;
+    private Double starRate;
     private BigDecimal amountWallet;
     private String verifiedLink;
     private boolean verifiedAccount;
@@ -37,10 +37,22 @@ public class Account {
     private Integer countMember;
     private String status;
 
+    //chuyển đổi điểm thành sao
+    private double score; // Điểm từ 0-5 (có thể là 3.5, 4.2...)
+
+    public Account(double score) {
+        this.score = score;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+
     public Account() {
     }
 
-    public Account(int accountId, String accountName, String email, String password, String avatar, String oauthId, String oauthProvider, LocalDate dateOfBirth, String gender, String phone, String address, String education, String speciality, Integer experienceYears, String skills, String bio, Integer point, BigDecimal starRate, BigDecimal amountWallet, String verifiedLink, boolean verifiedAccount, BigDecimal completePercent, String labelTag, Integer count, String role, String typeAccount, String levelAccount, String signature, LocalDateTime joinDate, Integer countMember, String status) {
+    public Account(int accountId, String accountName, String email, String password, String avatar, String oauthId, String oauthProvider, LocalDate dateOfBirth, String gender, String phone, String address, String education, String speciality, Integer experienceYears, String skills, String bio, Integer point, Double starRate, BigDecimal amountWallet, String verifiedLink, boolean verifiedAccount, BigDecimal completePercent, String labelTag, Integer count, String role, String typeAccount, String levelAccount, String signature, LocalDateTime joinDate, Integer countMember, String status) {
         this.accountId = accountId;
         this.accountName = accountName;
         this.email = email;
@@ -210,11 +222,11 @@ public class Account {
         this.point = point;
     }
 
-    public BigDecimal getStarRate() {
+    public Double getStarRate() {
         return starRate;
     }
 
-    public void setStarRate(BigDecimal starRate) {
+    public void setStarRate(Double starRate) {
         this.starRate = starRate;
     }
 
