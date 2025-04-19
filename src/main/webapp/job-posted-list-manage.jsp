@@ -1,7 +1,10 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
+    <jsp:useBean id="jobDao" class="jobtrans.dal.JobDAO" scope="session"/>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -45,122 +48,46 @@
     <div class="container mb-4">
         <div class="row justify-content-center ">
             <div class="search-result col-lg-8 space-y-4">
-                <div class="post-box bg-white rounded-lg shadow-md items-center justify-between"
-                     style="border-radius: 30px; border: 2px solid #6787FE50">
-                    <p style="background-color: #6787FE50; width: 120px; padding: 5px 10px 5px 10px; border-bottom-right-radius: 15px;">
-                        5 Chào giá <i class="fas fa-bolt"></i></p>
-                    <div class="row m-3">
-                        <div class="col-md-9 my-auto">
-                            <a class="project-title" href="#"><h3 style="font-size: 20px; font-weight: 400;">Swift /
-                                SwiftUI Developer for B2B iOS apps</h3></a>
-                            <ul class="list-inline" style="color: darkgray">
-                                <li class="list-inline-item"><i class="fas fa-clock"></i></li>
-                                Hạn tuyển: 15- 03 -2024
-                            </ul>
-                        </div>
-                        <div class="col-md-3">
-                            <h2 style="text-align: center;">
+                <c:forEach var="o" items="${jobList}" varStatus="status">
+                    <div class="post-box bg-white rounded-lg shadow-md items-center justify-between"
+                         style="border-radius: 30px; border: 2px solid #6787FE50">
+                        <input type="hidden" name="jobId" value="${o.jobId}"/>
+                        <p style="background-color: #6787FE50; width: 120px; padding: 5px 10px 5px 10px; border-bottom-right-radius: 15px;">
+                                ${jobDao.getNumOfJobGreetingByJobId(o.jobId)} Chào giá <i class="fas fa-bolt"></i></p>
+                        <div class="row m-3">
+                            <div class="col-md-9 my-auto">
+                                <a class="project-title" href="job?action=posted-job-detail&jobId=${o.jobId}">
+                                    <h3 style="font-size: 20px; font-weight: 400;">
+                                            ${o.jobTitle}
+                                    </h3>
+                                </a>
+                                <ul class="list-inline" style="color: darkgray">
+                                    <li class="list-inline-item"><i class="fas fa-clock"></i></li>
+                                    <span>Hạn tuyển: </span> <span>${o.dueDatePost}}</span>
+                                </ul>
+                            </div>
+                            <div class="col-md-3">
+                                <h2 style="text-align: center;">
                                 <span class="woocommerce-Price-amount amount">
                                     <bdi>
-                                        <span class="woocommerce-Price-currencySymbol">&#36;</span>10 Triệu - 15 Triệu
+                                            ${o.budgetMin}<span class="woocommerce-Price-currencySymbol">&#8363;</span>
+                                                -
+                                            ${o.budgetMax}<span class="woocommerce-Price-currencySymbol">&#8363;</span>
                                     </bdi>
                                 </span>
-                            </h2>
-                            <div class="d-flex flex-row justify-content-center">
-                                <button class="text-white mt-3" style="border-radius: 30px; background-color: #6787FE; padding: 5px 10px 5px 10px;">
-                                    Chi tiết
-                                </button>
+                                </h2>
+                                <div class="d-flex flex-row justify-content-center">
+                                    <a href="job?action=posted-job-detail&jobId=${o.jobId}">
+                                        <button class="text-white mt-3"
+                                                style="border-radius: 30px; background-color: #6787FE; padding: 5px 10px 5px 10px;">
+                                            Chi tiết
+                                        </button>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="post-box bg-white rounded-lg shadow-md items-center justify-between"
-                     style="border-radius: 30px; border: 2px solid #6787FE50">
-                    <p style="background-color: #6787FE50; width: 120px; padding: 5px 10px 5px 10px; border-bottom-right-radius: 15px;">
-                        5 Chào giá <i class="fas fa-bolt"></i></p>
-                    <div class="row m-3">
-                        <div class="col-md-9 my-auto">
-                            <a class="project-title" href="#"><h3 style="font-size: 20px; font-weight: 400;">Swift /
-                                SwiftUI Developer for B2B iOS apps</h3></a>
-                            <ul class="list-inline" style="color: darkgray">
-                                <li class="list-inline-item"><i class="fas fa-clock"></i></li>
-                                Hạn tuyển: 15- 03 -2024
-                            </ul>
-                        </div>
-                        <div class="col-md-3">
-                            <h2 style="text-align: center;">
-                                <span class="woocommerce-Price-amount amount">
-                                    <bdi>
-                                        <span class="woocommerce-Price-currencySymbol">&#36;</span>10 Triệu - 15 Triệu
-                                    </bdi>
-                                </span>
-                            </h2>
-                            <div class="d-flex flex-row justify-content-center">
-                                <button class="text-white mt-3" style="border-radius: 30px; background-color: #6787FE; padding: 5px 10px 5px 10px;">
-                                    Chi tiết
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="post-box bg-white rounded-lg shadow-md items-center justify-between"
-                     style="border-radius: 30px; border: 2px solid #6787FE50">
-                    <p style="background-color: #6787FE50; width: 120px; padding: 5px 10px 5px 10px; border-bottom-right-radius: 15px;">
-                        5 Chào giá <i class="fas fa-bolt"></i></p>
-                    <div class="row m-3">
-                        <div class="col-md-9 my-auto">
-                            <a class="project-title" href="#"><h3 style="font-size: 20px; font-weight: 400;">Swift /
-                                SwiftUI Developer for B2B iOS apps</h3></a>
-                            <ul class="list-inline" style="color: darkgray">
-                                <li class="list-inline-item"><i class="fas fa-clock"></i></li>
-                                Hạn tuyển: 15- 03 -2024
-                            </ul>
-                        </div>
-                        <div class="col-md-3">
-                            <h2 style="text-align: center;">
-                                <span class="woocommerce-Price-amount amount">
-                                    <bdi>
-                                        <span class="woocommerce-Price-currencySymbol">&#36;</span>10 Triệu - 15 Triệu
-                                    </bdi>
-                                </span>
-                            </h2>
-                            <div class="d-flex flex-row justify-content-center">
-                                <button class="text-white mt-3" style="border-radius: 30px; background-color: #6787FE; padding: 5px 10px 5px 10px;">
-                                    Chi tiết
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="post-box bg-white rounded-lg shadow-md items-center justify-between"
-                     style="border-radius: 30px; border: 2px solid #6787FE50">
-                    <p style="background-color: #6787FE50; width: 120px; padding: 5px 10px 5px 10px; border-bottom-right-radius: 15px;">
-                        5 Chào giá <i class="fas fa-bolt"></i></p>
-                    <div class="row m-3">
-                        <div class="col-md-9 my-auto">
-                            <a class="project-title" href="#"><h3 style="font-size: 20px; font-weight: 400;">Swift /
-                                SwiftUI Developer for B2B iOS apps</h3></a>
-                            <ul class="list-inline" style="color: darkgray">
-                                <li class="list-inline-item"><i class="fas fa-clock"></i></li>
-                                Hạn tuyển: 15- 03 -2024
-                            </ul>
-                        </div>
-                        <div class="col-md-3">
-                            <h2 style="text-align: center;">
-                                <span class="woocommerce-Price-amount amount">
-                                    <bdi>
-                                        <span class="woocommerce-Price-currencySymbol">&#36;</span>10 Triệu - 15 Triệu
-                                    </bdi>
-                                </span>
-                            </h2>
-                            <div class="d-flex flex-row justify-content-center">
-                                <button class="text-white mt-3" style="border-radius: 30px; background-color: #6787FE; padding: 5px 10px 5px 10px;">
-                                    Chi tiết
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </c:forEach>
             </div>
             <div id="pagination" class="mt-4 d-flex justify-content-center">
                 <div class="mt-4 d-flex justify-content-center">
