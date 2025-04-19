@@ -9,7 +9,6 @@
     </filter>
     <filter-mapping>
         <filter-name>EncodingFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>*.jsp</url-pattern>
     </filter-mapping>
-
 </web-app>

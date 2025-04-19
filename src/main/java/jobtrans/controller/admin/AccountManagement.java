@@ -2,7 +2,6 @@ package jobtrans.controller.admin;
 
 import jobtrans.dal.AccountDAO;
 import jobtrans.model.Account;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,9 +32,6 @@ public class AccountManagement extends HttpServlet {
                 case "viewAccountDetails":
                     showAccount(req, resp);
                     break;
-                case "viewAdminAccount":
-                    showAdminAccount(req, resp);
-                    break;
                 default:
                     throw new AssertionError();
             }
@@ -47,7 +43,7 @@ public class AccountManagement extends HttpServlet {
     private void viewAllUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         if (session.getAttribute("sessionAccount") != null) {
-            List<Account> list = accountDAO.getAccountUser();
+            List<Account> list = accountDAO.getAllUserAccounts();
             req.setAttribute("list", list);
             req.getRequestDispatcher("user-manage.jsp").forward(req, resp);
         } else {
@@ -62,25 +58,6 @@ public class AccountManagement extends HttpServlet {
             Account account = accountDAO.getAccountById(id);
             req.setAttribute("account", account);
             req.getRequestDispatcher("infor-user.jsp").forward(req, resp);
-        } else {
-            resp.sendRedirect("home");
-        }
-    }
-
-    private void showAdminAccount(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //Mở comment sau khi hoàn tất task login, thay tên session bằng session tương ứng
-        //        HttpSession session = req.getSession();
-        //        Integer id = (Integer)session.getAttribute("accId");
-
-        //Comment lại sau khi Mở comment ở trên
-        HttpSession session = req.getSession();
-        Account account = (Account) session.getAttribute("sessionAccount");
-        int id = account.getAccountId();
-        if (account != null) {
-                account = accountDAO.getAccountByIdandRole(id, "Admin");
-                req.setAttribute("accountAd", account);
-                req.getRequestDispatcher("infor-admin.jsp").forward(req, resp);
-
         } else {
             resp.sendRedirect("home");
         }

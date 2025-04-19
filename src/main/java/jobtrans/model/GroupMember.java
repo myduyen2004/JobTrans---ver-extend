@@ -6,33 +6,45 @@ public class GroupMember {
     private int memberId;
     private String memberName;
     private int accountId;
-    private String bio;
-    private Date dateOfBirth;
-    private String specialist;
+    private String avatarMember;
     private String gender;
-    private int experienceYears;
-    private String status;
+    private Date dateOfBirth;
+    private String phone;
+    private String address;
+    private String position;
+    private String speciality;
+    private Integer experienceYears;
+    private String skills;
+    private String bio;
     private String education;
+    private String status;
 
-    // Constructor không tham số
-    public GroupMember() {}
+    // Constructors
+    public GroupMember() {
+    }
 
-    // Constructor có tham số
-    public GroupMember(int memberId, String memberName, int accountId, String bio, Date dateOfBirth,
-                       String specialist, String gender, int experienceYears, String status, String education) {
+    public GroupMember(int memberId, String memberName, int accountId, String avatarMember,
+                       String gender, Date dateOfBirth, String phone, String address,
+                       String position, String speciality, Integer experienceYears,
+                       String skills, String bio, String education, String status) {
         this.memberId = memberId;
         this.memberName = memberName;
         this.accountId = accountId;
-        this.bio = bio;
-        this.dateOfBirth = dateOfBirth;
-        this.specialist = specialist;
+        this.avatarMember = avatarMember;
         this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.phone = phone;
+        this.address = address;
+        this.position = position;
+        this.speciality = speciality;
         this.experienceYears = experienceYears;
-        this.status = status;
+        this.skills = skills;
+        this.bio = bio;
         this.education = education;
+        this.status = status;
     }
 
-    // Getter và Setter
+    // Getters and Setters
     public int getMemberId() {
         return memberId;
     }
@@ -57,32 +69,12 @@ public class GroupMember {
         this.accountId = accountId;
     }
 
-    public String getBio() {
-        return bio;
+    public String getAvatarMember() {
+        return avatarMember;
     }
 
-    public void setBio(String bio) {
-        this.bio = bio;
-    }
-
-    public java.sql.Date getDateOfBirth() {
-        return new java.sql.Date(dateOfBirth.getTime());
-    }
-
-    public Date getUtilsDateOfBirth(){
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public String getSpecialist() {
-        return specialist;
-    }
-
-    public void setSpecialist(String specialist) {
-        this.specialist = specialist;
+    public void setAvatarMember(String avatarMember) {
+        this.avatarMember = avatarMember;
     }
 
     public String getGender() {
@@ -93,20 +85,68 @@ public class GroupMember {
         this.gender = gender;
     }
 
-    public int getExperienceYears() {
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public String getSpeciality() {
+        return speciality;
+    }
+
+    public void setSpeciality(String speciality) {
+        this.speciality = speciality;
+    }
+
+    public Integer getExperienceYears() {
         return experienceYears;
     }
 
-    public void setExperienceYears(int experienceYears) {
+    public void setExperienceYears(Integer experienceYears) {
         this.experienceYears = experienceYears;
     }
 
-    public String getStatus() {
-        return status;
+    public String getSkills() {
+        return skills;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setSkills(String skills) {
+        this.skills = skills;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 
     public String getEducation() {
@@ -117,19 +157,11 @@ public class GroupMember {
         this.education = education;
     }
 
-    @Override
-    public String toString() {
-        return "GroupMember{" +
-                "memberId=" + memberId +
-                ", memberName='" + memberName + '\'' +
-                ", accountId=" + accountId +
-                ", bio='" + bio + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
-                ", specialist='" + specialist + '\'' +
-                ", gender='" + gender + '\'' +
-                ", experienceYears=" + experienceYears +
-                ", status='" + status + '\'' +
-                ", education='" + education + '\'' +
-                '}';
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

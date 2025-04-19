@@ -1,9 +1,3 @@
-<%--
-    Document   : post_job
-    Created on : Mar 13, 2025, 9:41:21 PM
-    Author     : ADM
---%>
-
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en-US">
@@ -20,23 +14,12 @@
 
     <!--new css -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="css/update_job_post.css" rel="stylesheet">
+    <link href="./css/post_job.css" rel="stylesheet"/>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 </head>
 
-<body>
-
-<!-- Preloading -->
-<div id="preloader">
-    <div class="spinner">
-        <div class="uil-ripple-css"><div></div><div></div></div>
-    </div>
-</div>
-
-<%@include file="includes/header-01.jsp"%>
-
-<!-- Tố cáo ngườu dùng -->
+<body style="font-family: Inter, sans-serif ">
 <div class="py-4 banner_title">
     <h1 class="text-white font-weight-bold" style="padding-left: 50px;">ĐĂNG TIN TUYỂN DỤNG</h1>
 </div>
@@ -159,11 +142,5 @@
         </div>
     </form>
 </div>
-
-<%@include file="includes/footer.jsp"%>
-
-<!--======= Back to Top =======-->
-<div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
-
 </body>
 </html>

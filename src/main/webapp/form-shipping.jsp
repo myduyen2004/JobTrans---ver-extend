@@ -4,7 +4,6 @@
         <!DOCTYPE html>
         <html lang="en-US">
 
-        <!-- Mirrored from themebing.com/wp/prolancer/projects/?projects-layout=projects_left_sidebar by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Jan 2025 09:33:33 GMT -->
         <!-- Added by HTTrack -->
         <meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 
@@ -17,6 +16,7 @@
             <meta name='robots' content='max-image-preview:large' />
 
             <style id="prolancer_opt-dynamic-css" title="dynamic-css" class="redux-options-output">
+
                 .container-a {
                     width: 1046px;
                     margin: 0 auto;
@@ -59,7 +59,7 @@
                 }
 
                 .input-box {
-                    width: auto;
+                    width: 400px;
                     height: 47px;
                     background: white;
                     box-shadow: 0px 0px 10px rgba(103, 135, 254, 0.8);
@@ -71,12 +71,16 @@
                     font-weight: 500;
                     color: black;
                     margin: 10px;
+                    border: #B2B2B2;
                 }
 
-                
                 .input-box::placeholder {
                     color: #B2B2B2; /* Màu chữ placeholder */
                     opacity: 1; /* Đảm bảo placeholder hiển thị đúng màu */
+                }
+
+                .input-box:focus {
+                    outline: none;
                 }
 
                 .button {
@@ -92,6 +96,7 @@
                     line-height: 51px;
                     margin: 20px auto;
                     cursor: pointer;
+                    border: #B2B2B2;
                 }
 
                 .material-symbols--local-shipping-outline {
@@ -105,76 +110,7 @@
             </style>
         </head>
 
-        <body
-            class="archive post-type-archive post-type-archive-projects wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
-
-            <%@include file="includes/header-01.jsp" %>
-
-                <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-
-                <!--Mobile Navigation Toggler-->
-                <div class="off-canvas-menu-bar">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-6 my-auto">
-                                <a href="../index.html" class="custom-logo-link" rel="home"><img width="500" height="71"
-                                        src="../wp-content/uploads/2021/09/logo.png" class="custom-logo" alt="ProLancer"
-                                        decoding="async"
-                                        srcset="https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo.png 500w, https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo-300x43.png 300w"
-                                        sizes="(max-width: 500px) 100vw, 500px" /></a>
-                            </div>
-                            <div class="col-6">
-                                <div class="mobile-nav-toggler float-end"><span class="fal fa-bars"></span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Mobile Menu  -->
-                <div class="off-canvas-menu">
-                    <div class="menu-backdrop"></div>
-                    <i class="close-btn fa fa-close"></i>
-                    <nav class="mobile-nav">
-                        <div class="text-center pt-3 pb-3">
-                            <a href="../index.html" class="custom-logo-link" rel="home"><img width="500" height="71"
-                                    src="../wp-content/uploads/2021/09/logo.png" class="custom-logo" alt="ProLancer"
-                                    decoding="async"
-                                    srcset="https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo.png 500w, https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo-300x43.png 300w"
-                                    sizes="(max-width: 500px) 100vw, 500px" /></a>
-                        </div>
-
-                        <ul class="navigation"><!--Keep This Empty / Menu will come through Javascript--></ul>
-                        <div class="text-center">
-                            <a href="../frontend-dashboard/index6f28.html?fed=dashboard" class="prolancer-btn mt-4">
-                                Dashboard </a>
-                        </div>
-                    </nav>
-                </div>
-
-                <section>
-                    <div class="breadcrumbs">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-12 my-auto">
-                                    <h1>
-                                        Projects </h1>
-                                    <ul class="trail-items" itemscope itemtype="http://schema.org/BreadcrumbList">
-                                        <li class="trail-item trail-begin"><a href="../index.html"><span
-                                                    itemprop="name">Home</span></a>
-                                            <meta itemprop="position" content="1" />
-                                        </li>
-                                        <li class="trail-item trail-end"><span itemprop="item"><span
-                                                    itemprop="name">Projects</span></span>
-                                            <meta itemprop="position" content="2" />
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </section>
-
+        <body>
                 <section class="section-padding">
                     <div class="container">
                         <div class="row justify-content-center flex-row-reverse">
@@ -184,12 +120,12 @@
                                     <div class="title">Thông tin vận chuyển</div>
 
                                     <div class="section">Địa chỉ người gửi</div>
-                                    <div class="col-xl-12" style="display: flex;">
+                                    <div class="col-xl-12" style="display: flex; justify-content: space-between">
                                         <input type="text" class="input-box" placeholder="Thành phố, Tỉnh" style="border-radius: 16px;">
                                         <input type="text" class="input-box" placeholder="Quận, huyện" style="border-radius: 16px;">
                                         <input type="text" class="input-box" placeholder="Phường, xã" style="border-radius: 16px;">
                                     </div>
-                                    <div class="col-xl-12" style="display: flex;">
+                                    <div class="col-xl-12" style="display: flex; justify-content: space-between">
                                         <input type="text" class="input-box" placeholder="Địa chỉ cụ thể" style="border-radius: 16px;">
                                         <input type="text" class="input-box" placeholder="Họ và tên" style="border-radius: 16px;">
                                         <input type="text" class="input-box" placeholder="Số điện thoại" style="border-radius: 16px;">
@@ -197,19 +133,19 @@
 
                                     <div class="section">Địa chỉ người nhận</div>
 
-                                    <div class="col-xl-12" style="display: flex;">
+                                    <div class="col-xl-12" style="display: flex;justify-content: space-between">
                                         <input type="text" class="input-box" placeholder="Thành phố, Tỉnh" style="border-radius: 16px;">
                                         <input type="text" class="input-box" placeholder="Quận, huyện" style="border-radius: 16px;">
                                         <input type="text" class="input-box" placeholder="Phường, xã" style="border-radius: 16px;">
                                     </div>
-                                    <div class="col-xl-12" style="display: flex;">
+                                    <div class="col-xl-12" style="display: flex; justify-content: space-between">
                                         <input type="text" class="input-box" placeholder="Địa chỉ cụ thể" style="border-radius: 16px;">
                                         <input type="text" class="input-box" placeholder="Họ và tên" style="border-radius: 16px;">
                                         <input type="text" class="input-box" placeholder="Số điện thoại" style="border-radius: 16px;">
                                     </div>
 
                                     <div class="section">Thông tin đơn hàng</div>
-                                    <div class="col-xl-12" style="display: flex;">
+                                    <div class="col-xl-12" style="display: flex; justify-content: space-between">
                                         <input type="text" class="input-box" placeholder="Tên sản phẩm" style="border-radius: 16px;">
                                         <input type="number" class="input-box" placeholder="Số lượng" style="border-radius: 16px;">
                                         <input type="text" class="input-box" placeholder="Khối lượng" style="border-radius: 16px;">
@@ -221,15 +157,9 @@
 
                             </div>
                             <div class="col-xl-3">
-                                <%@include file="includes/task-bar.jsp" %>
                             </div>
                         </div>
                     </div>
                 </section>
-
-                <%@include file="includes/footer.jsp" %>
-                    <!--======= Back to Top =======-->
-                    <div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
-
         </body>
         </html>

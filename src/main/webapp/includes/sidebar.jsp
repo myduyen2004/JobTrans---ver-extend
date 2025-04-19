@@ -3,355 +3,431 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
-    /* Taskbar Styles */
-    .dashboard-sidebar {
-        width: 270px;
-        background: #ffffff;
-        border-radius: 12px;
-        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-        font-family: Arial, sans-serif;
-        padding: 15px;
-        transition: all 0.3s ease;
-        position: fixed;
-        left: 0;
-        top: 100px;
-        z-index: 1000;
-        height: calc(100vh - 150px);
-        overflow-y: auto; /* Thêm thanh cuộn dọc khi nội dung vượt quá chiều cao */
-    }
-
-    /* Tùy chỉnh thanh cuộn cho sidebar */
-    .dashboard-sidebar::-webkit-scrollbar {
-        width: 6px;
-    }
-
-    .dashboard-sidebar::-webkit-scrollbar-track {
-        background: #f1f1f1;
-        border-radius: 10px;
-    }
-
-    .dashboard-sidebar::-webkit-scrollbar-thumb {
-        background: #c1c1c1;
-        border-radius: 10px;
-    }
-
-    .dashboard-sidebar::-webkit-scrollbar-thumb:hover {
-        background: #a1a1a1;
-    }
-
-    .dashboard-sidebar.collapsed {
-        transform: translateX(-100%);
-    }
-
-    /* Header cải tiến */
-    .dashboard-sidebar-header {
-        text-align: center;
-        font-size: 22px;
-        font-weight: bold;
-        margin-bottom: 30px;
-        padding: 15px 0;
-        border-bottom: 1px solid #eaeaea;
-        position: sticky;
-        top: 0;
-        background: #ffffff;
-        z-index: 10;
-        margin-left: -15px;
-        width: calc(100% + 30px);
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    }
-
-    .dashboard-sidebar ul {
-        list-style: none;
+    /* Reset và Base styles */
+    * {
+        margin: 0;
         padding: 0;
-        margin: 0 0 20px 0;
+        box-sizing: border-box;
     }
 
-    .dashboard-sidebar ul li {
-        padding: 12px 15px;
-        font-weight: 500;
-        cursor: pointer;
-        border-radius: 8px;
+    body {
+        font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        background-color: #f9fafc;
+    }
+
+    /* Sidebar styles */
+    .sidebar {
+        height: 100vh;
+        width: 280px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: linear-gradient(135deg, rgb(21, 42, 105) 0%, rgb(54, 75, 140) 100%);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        z-index: 999;
+        margin-top: 90px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
         display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 5px;
-        transition: all 0.2s ease;
+        flex-direction: column;
+        overflow: hidden;
     }
 
-    .dashboard-sidebar ul li:hover {
-        background: #6787FE;
-        color: white;
+    .sidebar-collapsed {
+        left: -280px;
     }
 
-    .dashboard-sidebar ul li a {
+    /* Sidebar scrollable container */
+    .sidebar-content {
+        flex: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-bottom: 20px;
+        /* Scrollbar for Webkit browsers */
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    }
+
+    .sidebar a {
+        padding: 14px 20px;
         text-decoration: none;
-        color: #333;
+        font-size: 15px;
+        color: rgba(255, 255, 255, 0.85);
         display: flex;
         align-items: center;
-        gap: 10px;
-        width: 100%;
-        transition: color 0.3s ease;
+        transition: all 0.3s ease;
+        border-left: 4px solid transparent;
+        margin: 5px 8px;
+        border-radius: 0 6px 6px 0;
     }
 
-    .dashboard-sidebar ul li:hover a {
-        color: white;
-    }
-
-    .dashboard-sidebar ul li i {
+    .sidebar a i {
+        margin-right: 12px;
         width: 20px;
         text-align: center;
         font-size: 16px;
+        color: rgba(255, 255, 255, 0.7);
     }
 
+    .sidebar a:hover {
+        background-color: rgba(255, 255, 255, 0.15);
+        border-left: 4px solid #6584fa;
+        transform: translateX(5px);
+        color: #ffffff;
+    }
 
-    /* CSS cải tiến cho nút toggle */
+    .sidebar a:hover i {
+        color: #6584fa;
+    }
+
+    .sidebar a.active {
+        background-color: rgba(255, 255, 255, 0.15);
+        border-left: 4px solid #6584fa;
+        color: #ffffff;
+        font-weight: 500;
+    }
+
+    .sidebar a.active i {
+        color: #6584fa;
+    }
+
+    /* Menu category in sidebar */
+    .sidebar-category {
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        padding: 24px 20px 8px;
+        font-weight: 600;
+    }
+
+    /* Brand logo */
+    .brand-logo {
+        display: flex;
+        align-items: center;
+        padding: 15px 20px 20px;
+        color: white;
+        font-size: 22px;
+        font-weight: bold;
+        background: rgba(0, 0, 0, 0.1);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        margin-bottom: 5px;
+    }
+
+    .brand-logo i {
+        margin-right: 12px;
+        color: #6584fa;
+        font-size: 24px;
+        filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
+    }
+
+    /* User info in sidebar */
+    .user-info {
+        display: flex;
+        align-items: center;
+        padding: 18px 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(0, 0, 0, 0.15);
+    }
+
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(45deg, #6584fa, #8373e6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 12px;
+        color: white;
+        font-weight: bold;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+        font-size: 15px;
+    }
+
+    .user-details {
+        color: white;
+    }
+
+    .user-name {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 3px;
+    }
+
+    .user-email {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.7);
+    }
+
     .toggle-btn {
         position: fixed;
-        top: 110px;
-        left: 10px;
+        top: 105px;
+        left: 15px;
+        z-index: 1000;
         cursor: pointer;
-        font-size: 18px;
-        background: #0b1741 !important;
-        border: none !important;
-        color: white !important;
-        z-index: 1001;
-        width: 40px !important;
-        height: 40px !important;
-        border-radius: 50% !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
-        transition: all 0.3s ease;
-        padding: 0 !important;
-        margin: 0 !important;
-        outline: none !important;
-        text-align: center !important;
-        min-width: 40px !important;
-        min-height: 40px !important;
-        max-width: 40px !important;
-        max-height: 40px !important;
-        line-height: 1 !important;
-        overflow: hidden !important;
+        background: linear-gradient(45deg, #6584fa, #7e70e3);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.4s ease;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
     }
 
     .toggle-btn:hover {
-        background: #5070e0 !important;
         transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
     }
 
     .toggle-btn i {
-        margin: 0 !important;
-        padding: 0 !important;
-        line-height: 1 !important;
-        display: inline-block !important;
-        font-size: 18px !important;
+        font-size: 16px;
     }
 
-    [data-submenu-title] {
-        margin-top: 20px;
+    .toggle-btn-shifted {
+        left: 245px;
+    }
+
+    .content {
+        transition: margin-left 0.4s ease;
+        margin-left: 280px;
+        padding: 25px;
+    }
+
+    .content-expanded {
+        margin-left: 0;
+    }
+
+    /* Animation effects */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateX(-10px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+
+    .sidebar a {
+        animation: fadeIn 0.5s ease forwards;
+        opacity: 0;
+        animation-delay: calc(var(--i) * 0.05s);
+    }
+
+    /* Media Queries */
+    @media (max-width: 768px) {
+        .sidebar {
+            width: 260px;
+            left: -260px;
+        }
+
+        .content {
+            margin-left: 0;
+        }
+
+        .toggle-btn-shifted {
+            left: 225px;
+        }
+    }
+    .sidebar-dropdown {
         position: relative;
     }
 
-    [data-submenu-title]::before {
-        content: attr(data-submenu-title);
-        display: block;
-        font-size: 12px;
-        font-weight: 600;
-        color: #6787FE;
-        text-transform: uppercase;
-        margin-bottom: 15px;
-        padding-left: 15px;
-    }
-
-    .logout a {
-        color: #e74c3c !important;
-    }
-
-    .logout:hover {
-        background-color: #ffeeee !important;
-    }
-
-    .logout:hover a {
-        color: #e74c3c !important;
-    }
-
-    /* Main content adjustment for sidebar */
-    .main-content {
-        margin-left: 0;
-        transition: margin 0.3s ease;
-    }
-
-    .main-content.with-sidebar {
-        margin-left: 240px;
-    }
-    /* Định dạng chung */
-    .dashboard-sidebar ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .dashboard-sidebar ul li {
-        padding: 12px 15px;
-        font-weight: 500;
-        cursor: pointer;
-        border-radius: 8px;
+    .sidebar-dropdown > a {
         display: flex;
         align-items: center;
-        gap: 10px;
-        margin-bottom: 5px;
-        transition: all 0.2s ease;
-        position: relative;
+        justify-content: space-between;
     }
 
-    /* Định dạng dropdown */
-    .dropdown {
-        position: relative;
-        display: block;
-        width: 100%;
-    }
-
-    /* Tùy chỉnh danh sách con */
-    .dropdown ul {
-        display: none;
-        flex-direction: column; /* Hiển thị dọc */
-        padding-left: 0;
-        margin: 5px 0 0 15px; /* Canh lề để nằm dưới mục chính */
-        background: rgba(245, 247, 255, 0.5);
-        border-radius: 6px;
-        overflow: hidden;
-        transition: max-height 0.3s ease-in-out;
-        max-height: 0;
-    }
-
-    .dropdown.active ul {
-        display: flex;
-        max-height: 300px;
-        animation: slideDown 0.3s ease-in-out;
-    }
-
-    /* Định dạng mục con để thụt lề dưới "Quản Lí Công Việc" */
-    .dropdown ul li {
-        padding: 10px 15px;
-        position: relative;
-        border-radius: 6px;
-        transition: all 0.2s ease;
-    }
-
-    .dropdown ul li i {
-        margin-right: 8px;
-    }
-
-    /* Mũi tên xoay khi mở dropdown */
-    .dropdown i.fa-chevron-down {
-        position: absolute;
-        right: 15px;
+    .sidebar-dropdown .dropdown-arrow {
         transition: transform 0.3s ease;
+        margin-left: auto;
+        font-size: 12px;
     }
 
-    .dropdown.active i.fa-chevron-down {
-        transform: rotate(180deg);
+    .sidebar-dropdown.active .dropdown-arrow {
+        transform: rotate(90deg);
     }
 
-    /* Sidebar mở rộng khi click */
-    .dashboard-sidebar {
-        width: 270px;
-        transform: translateX(-100%);
-        transition: transform 0.3s ease-in-out;
+    .sidebar-dropdown-content {
+        display: none;
+        background-color: rgba(0, 0, 0, 0.1);
+        border-left: 4px solid #6584fa;
+        margin-left: 44px;
+        border-radius: 0 0 6px 0;
+        overflow: hidden;
     }
 
-    .dashboard-sidebar.expanded {
-        transform: translateX(0);
+    .sidebar-dropdown.active .sidebar-dropdown-content {
+        display: block;
     }
 
-    /* Điều chỉnh nội dung chính khi sidebar mở */
-    .main-content {
-        transition: margin 0.3s ease;
+    .sidebar-dropdown-content a {
+        padding: 12px 20px 12px 44px;
+        margin: 0;
+        border-left: none;
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.8);
+        position: relative;
     }
 
-    .main-content.with-sidebar {
-        margin-left: 270px;
+    .sidebar-dropdown-content a:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: none;
     }
 
+    .sidebar-dropdown-content a i {
+        position: absolute;
+        left: 20px;
+    }
 
+    .sidebar-dropdown-content a.active {
+        color: white;
+        font-weight: 500;
+    }
 </style>
 
-<button class="toggle-btn" id="sidebarToggle"><i class="fas fa-bars"></i></button>
-<div class="dashboard-sidebar collapsed" id="dashboardSidebar">
-    <div class="dashboard-sidebar-inner">
-        <div class="dashboard-nav-container">
-            <div class="dashboard-sidebar-header">
-                <strong style="color: #6787FE;">Job</strong><span style="font-style: normal; color: black;">Trans</span>
-            </div>
-            <div class="dashboard-nav">
-                <div class="dashboard-nav-inner">
-                    <ul data-submenu-title="Tài khoản">
-<%--                        <%--%>
-<%--                            if (account.getType().equals("Individual")){%>--%>
-                        <li><a href="acc-manage?action=viewAdminAccount"><i class="fas fa-user"></i> Thông tin tài khoản</a></li>
-                        <li><a href="profile?action=loadUpdateProfile"><i class="fas fa-user-edit"></i> Sửa thông tin</a></li>
-<%--                        <%}else{%>--%>
-                        <li><a href="acc-manage?action=viewAdminAccount"><i class="fas fa-user"></i> Thông tin nhóm</a></li>
-                        <li><a href="group?action=showUpdateGroup"><i class="fas fa-user-edit"></i> Sửa thông tin nhóm</a></li>
-<%--                        <%}%>--%>
-                        <li><a href=""><i class="fas fa-wallet"></i> Nạp tiền vào ví</a></li>
+<button class="toggle-btn" id="toggleSidebar">
+    <i class="fas fa-bars"></i>
+</button>
 
-                        <li><a href=""><i class="fas fa-key"></i> Đổi mật khẩu</a></li>
-                        <li><a href=""><i class="fas fa-building"></i> Danh sách nhà tuyển dụng</a></li>
-                        <div class="dropdown" style="padding: 12px 15px">
-                            <a href="#"><i class="fas fa-briefcase"></i> Quản Lí Công Việc <i class="fa fa-chevron-down"></i></a>
-                            <ul>
-                                <li><a href=""><i class="fas fa-list"></i> Danh Sách Các Việc Đã Ứng Tuyển</a></li>
-                                <li><a href=""><i class="fas fa-tasks"></i> Công Việc Của Tôi</a></li>
-                            </ul>
-                        </div>
-                        <div class="dropdown" style="padding: 12px 15px">
-                            <a href="#"><i class="fas fa-file-alt"></i> Quản Lí CV <i class="fa fa-chevron-down"></i></a>
-                            <ul>
-                                <li><a href=""><i class="fas fa-cog"></i> Quản lý CV</a></li>
-                                <li><a href=""><i class="fas fa-download"></i> Tải CV</a></li>
-                            </ul>
-                        </div>
-                        <li class="logout"><a href="logout"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a></li>
-                    </ul>
+<div class="sidebar sidebar-collapsed" id="sidebar">
+    <div class="brand-logo">
+        <i class="fas fa-briefcase"></i>
+        <span>JobTrans</span>
+    </div>
 
+    <div class="sidebar-content">
+        <div class="sidebar-category">Tổng quan</div>
+        <a href="#" style="--i:1"><i class="fas fa-tachometer-alt"></i> Tài khoản</a>
+        <a href="#" style="--i:9"><i class="fas fa-cog"></i> Chỉnh sửa tài khoản</a>
+        <a href="#" style="--i:2"><i class="fas fa-money-bill-wave"></i> Ví của tôi</a>
+        <a href="#" style="--i:13"><i class="fas fa-question-circle"></i> Đổi mật khẩu</a>
 
-
-                    </ul>
-
+        <div class="sidebar-category">Quản lý công việc</div>
+        <a href="#" style="--i:3"><i class="fas fa-tasks"></i> Công việc đã đăng</a>
+        <div class="sidebar-dropdown" id="jobDropdown">
+            <a href="#" style="--i:4" onclick="toggleJobDropdown(event)">
+                <div>
+                    <i class="fas fa-file-invoice"></i> Công việc của tôi
                 </div>
+                <i class="fas fa-chevron-right dropdown-arrow"></i>
+            </a>
+            <div class="sidebar-dropdown-content">
+                <a href="job?action=view-applied"><i class="fas fa-file-export"></i> Công việc đã ứng tuyển</a>
+                <a href="#"><i class="fas fa-hourglass-half"></i> Công việc đang làm</a>
+                <a href="#"><i class="fas fa-check-circle"></i> Công việc đã hoàn thành</a>
+                <a href="#"><i class="fas fa-bookmark"></i> Công việc đã thích</a>
             </div>
+        </div>
+
+        <div class="sidebar-category">Nâng cao</div>
+        <a href="#" style="--i:7"><i class="fas fa-calendar-alt"></i> Quản lí CV</a>
+        <a href="#" style="--i:10"><i class="fas fa-comments"></i> Tin nhắn</a>
+        <a href="#" style="--i:11"><i class="fas fa-bell"></i> Thông báo</a>
+
+
+        <div class="sidebar-category">Hệ thống</div>
+        <a href="#" style="--i:14"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+    </div>
+
+    <div class="user-info">
+        <div class="user-avatar">
+            NT
+        </div>
+        <div class="user-details">
+            <div class="user-name">Nguyễn Tuấn</div>
+            <div class="user-email">nguyentuan@example.com</div>
         </div>
     </div>
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Toggle sidebar khi click nút
-        const toggleBtn = document.getElementById("sidebarToggle");
-        const sidebar = document.getElementById("dashboardSidebar");
-        const mainContent = document.getElementById("mainContent");
+    function toggleJobDropdown(event) {
+        event.preventDefault();
+        const dropdown = document.getElementById("jobDropdown");
+        dropdown.classList.toggle("active");
+    }
 
-        toggleBtn.addEventListener("click", function () {
-            sidebar.classList.toggle("expanded");
-            mainContent.classList.toggle("with-sidebar");
-        });
+    // Đóng dropdown khi click ra ngoài
+    document.addEventListener('click', function(event) {
+        const dropdown = document.getElementById("jobDropdown");
+        if (!dropdown.contains(event.target)) {
+            dropdown.classList.remove("active");
+        }
+    });
 
-        // Xử lý dropdown
-        document.querySelectorAll(".dropdown > a").forEach(function (dropdownToggle) {
-            dropdownToggle.addEventListener("click", function (e) {
-                e.preventDefault();
-                let parentDropdown = this.parentElement;
-                parentDropdown.classList.toggle("active");
+    document.addEventListener('DOMContentLoaded', function() {
+        const sidebar = document.getElementById('sidebar');
+        const content = document.getElementById('content');
+        const toggleBtn = document.getElementById('toggleSidebar');
 
-                // Đóng các dropdown khác khi mở dropdown mới
-                document.querySelectorAll(".dropdown").forEach(function (item) {
-                    if (item !== parentDropdown) {
-                        item.classList.remove("active");
-                    }
+        // Mặc định sidebar đóng khi mới mở trang
+        let sidebarOpen = false;
+
+        // Đảm bảo sidebar ở trạng thái đóng khi tải trang
+        sidebar.classList.add('sidebar-collapsed');
+        content.classList.add('content-expanded');
+        toggleBtn.classList.remove('toggle-btn-shifted');
+
+        // Icon mặc định là "bars" (biểu tượng 3 gạch)
+        toggleBtn.querySelector('i').className = 'fas fa-bars';
+
+        // Xử lý đóng/mở sidebar
+        toggleBtn.addEventListener('click', function() {
+            sidebar.classList.toggle('sidebar-collapsed');
+            content.classList.toggle('content-expanded');
+            toggleBtn.classList.toggle('toggle-btn-shifted');
+
+            // Thay đổi trạng thái sidebar
+            sidebarOpen = !sidebarOpen;
+
+            // Thay đổi icon dựa vào trạng thái
+            const icon = toggleBtn.querySelector('i');
+            if (sidebarOpen) {
+                icon.className = 'fas fa-times'; // Sidebar mở -> hiển thị icon X
+
+                // Reset animation của các menu items
+                const menuItems = document.querySelectorAll('.sidebar a');
+                menuItems.forEach(item => {
+                    item.style.animation = 'none';
+                    item.offsetHeight; // Trigger reflow
+                    item.style.animation = null;
                 });
-            });
+            } else {
+                icon.className = 'fas fa-bars';  // Sidebar đóng -> hiển thị icon 3 gạch
+            }
         });
+
+        // Xử lý responsive cho sidebar trên màn hình nhỏ
+        function checkScreenSize() {
+            if (window.innerWidth < 768) {
+                sidebar.classList.add('sidebar-collapsed');
+                content.classList.add('content-expanded');
+                toggleBtn.classList.remove('toggle-btn-shifted');
+                toggleBtn.querySelector('i').className = 'fas fa-bars';
+                sidebarOpen = false;
+            }
+        }
+
+        // Kiểm tra kích thước màn hình khi tải trang
+        checkScreenSize();
+
+        // Kiểm tra kích thước màn hình khi thay đổi kích thước cửa sổ
+        window.addEventListener('resize', checkScreenSize);
     });
 </script>

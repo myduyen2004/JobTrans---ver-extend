@@ -3,19 +3,20 @@
     Created on : Mar 4, 2025, 1:23:06 PM
     Author     : ADM
 --%>
-<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en-US">
 
 <!-- Mirrored from themebing.com/wp/prolancer/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Jan 2025 09:30:18 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=UTF-8"/><!-- /Added by HTTrack -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--<link rel="profile" href="https://gmpg.org/xfn/11">-->
 
     <title>JobTrans &#8211; Nền tảng hỗ trợ thuê, làm việc cho freelancer</title>
-    <meta name='robots' content='max-image-preview:large' />
+    <meta name='robots' content='max-image-preview:large'/>
 
     <!--new css -->
     <link href="css/report_detail_2.css" rel="stylesheet">
@@ -28,11 +29,14 @@
 <!-- Preloading -->
 <div id="preloader">
     <div class="spinner">
-        <div class="uil-ripple-css"><div></div><div></div></div>
+        <div class="uil-ripple-css">
+            <div></div>
+            <div></div>
+        </div>
     </div>
 </div>
 
-<%@include file="includes/header-01.jsp"%>
+<%@include file="includes/header-01.jsp" %>
 
 <!-- Tố cáo ngườu dùng -->
 <div class="text-center py-4 banner_title">
@@ -41,7 +45,9 @@
 
 <div class="container mt-5 p-4 ">
     <div class="d-flex align-items-center user-in4">
-        <img class="ml-3 mr-3" src="https://storage.googleapis.com/a1aa/image/sX8CUlUjHpUHRTsZKSJxqG5Ld1jAN6SdOYfhwDwA0w0.jpg" alt="User profile picture" width="100" height="100">
+        <img class="ml-3 mr-3"
+             src="https://storage.googleapis.com/a1aa/image/sX8CUlUjHpUHRTsZKSJxqG5Ld1jAN6SdOYfhwDwA0w0.jpg"
+             alt="User profile picture" width="100" height="100">
         <div class="ml-3">
             <h4 class="name">Nguyễn Văn User</h4>
             <div class="d-flex align-items-center star">
@@ -76,9 +82,12 @@
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;">
             <tr>
-                <td class="font-weight-bold" style="font-size: 24px; font-weight: bold; border: none;">Dự án gần đây</td>
+                <td class="font-weight-bold" style="font-size: 24px; font-weight: bold; border: none;">Dự án gần đây
+                </td>
                 <td style="border: none"></td>
-                <a href="#"><td class="font-weight-light text-right" style="border: none">Xem thêm >></td></a>
+                <a href="#">
+                    <td class="font-weight-light text-right" style="border: none">Xem thêm >></td>
+                </a>
             </tr>
         </table>
         <table class="table m-0 tb-mid">
@@ -137,7 +146,7 @@
 <!--======= Back to Top =======-->
 <div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
 
-<%@include file="includes/footer.jsp"%>
+<%@include file="includes/footer.jsp" %>
 
 <!--======= Back to Top =======-->
 <div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>

@@ -1,5 +1,7 @@
 package jobtrans.controller.web.authentication;
 
+import jobtrans.utils.CookieUtils;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,13 +16,13 @@ public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        CookieUtils.add("cookuser", null, 0, response);
-//        CookieUtils.add("cookpass", null, 0, response);
-//        CookieUtils.add("cookrem", null, 0, response);
+        CookieUtils.add("cookuser", null, 0, response);
+        CookieUtils.add("cookpass", null, 0, response);
+        CookieUtils.add("cookrem", null, 0, response);
         HttpSession session = request.getSession();
-        session.removeAttribute("account");
+        session.removeAttribute("sessionAccount");
         session.invalidate();
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        response.sendRedirect("home");
     }
 
 }

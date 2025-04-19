@@ -3,11 +3,6 @@
     <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
         <!DOCTYPE html>
         <html lang="en-US">
-
-        <!-- Mirrored from themebing.com/wp/prolancer/projects/?projects-layout=projects_left_sidebar by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Jan 2025 09:33:33 GMT -->
-        <!-- Added by HTTrack -->
-        <meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
-
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1">

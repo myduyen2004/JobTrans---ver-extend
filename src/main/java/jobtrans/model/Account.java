@@ -1,129 +1,79 @@
 package jobtrans.model;
 
-import java.util.Date;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Account {
     private int accountId;
     private String accountName;
     private String email;
     private String password;
-    private String phone;
     private String avatar;
-    private String bio;
-    private String address;
-    private Date dateOfBirth;
-    private String gender;
-    private String specialist;
-    private int experienceYears;
-    private String education;
-    private int point;
-    private boolean verifiedAccount;
-    private boolean verifiedLink;
-    private int tagComplete;
-    private int tagDebt;
-    private int count;
-    private String role;
-    private String type;
-    private String signature;
-    private String status;
-    private String oauth_provider;
     private String oauthId;
+    private String oauthProvider;
+    private LocalDate dateOfBirth;
+    private String gender;
+    private String phone;
+    private String address;
+    private String education;
+    private String speciality;
+    private Integer experienceYears;
+    private String skills;
+    private String bio;
+    private Integer point;
+    private BigDecimal starRate;
+    private BigDecimal amountWallet;
+    private String verifiedLink;
+    private boolean verifiedAccount;
+    private BigDecimal completePercent;
+    private String labelTag;
+    private Integer count;
+    private String role;
+    private String typeAccount;
+    private String levelAccount;
+    private String signature;
+    private LocalDateTime joinDate;
+    private Integer countMember;
+    private String status;
 
-
-    // Constructor không tham số
-    public Account() {}
-
-    // Constructor có tham số
-
-
-    public Account(String accountName, String email, String avatar, String password, String role, String status, String oauth_provider, String oauthId) {
-        this.accountName = accountName;
-        this.email = email;
-        this.avatar = avatar;
-        this.password = password;
-        this.role = role;
-        this.status = status;
-        this.oauth_provider = oauth_provider;
-        this.oauthId = oauthId;
+    public Account() {
     }
 
-
-    // Constructor cho tài khoản OAuth
-    public Account(String accountName, String email, String avatar, String status, String oauth_provider, String oauthId) {
-        this(accountName, email, avatar, null, null, status, oauth_provider, oauthId);
-    }
-
-    public Account(int accountId, String accountName, String email, String password, String phone, String avatar, String bio, String address, Date dateOfBirth, String gender, String specialist, int experienceYears, String education, int point, boolean verifiedAccount, boolean verifiedLink, int tagComplete, int tagDebt, int count, String role, String type, String signature, String status) {
+    public Account(int accountId, String accountName, String email, String password, String avatar, String oauthId, String oauthProvider, LocalDate dateOfBirth, String gender, String phone, String address, String education, String speciality, Integer experienceYears, String skills, String bio, Integer point, BigDecimal starRate, BigDecimal amountWallet, String verifiedLink, boolean verifiedAccount, BigDecimal completePercent, String labelTag, Integer count, String role, String typeAccount, String levelAccount, String signature, LocalDateTime joinDate, Integer countMember, String status) {
         this.accountId = accountId;
         this.accountName = accountName;
         this.email = email;
         this.password = password;
-        this.phone = phone;
         this.avatar = avatar;
-        this.bio = bio;
-        this.address = address;
+        this.oauthId = oauthId;
+        this.oauthProvider = oauthProvider;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
-        this.specialist = specialist;
-        this.experienceYears = experienceYears;
+        this.phone = phone;
+        this.address = address;
         this.education = education;
+        this.speciality = speciality;
+        this.experienceYears = experienceYears;
+        this.skills = skills;
+        this.bio = bio;
         this.point = point;
-        this.verifiedAccount = verifiedAccount;
+        this.starRate = starRate;
+        this.amountWallet = amountWallet;
         this.verifiedLink = verifiedLink;
-        this.tagComplete = tagComplete;
-        this.tagDebt = tagDebt;
+        this.verifiedAccount = verifiedAccount;
+        this.completePercent = completePercent;
+        this.labelTag = labelTag;
         this.count = count;
         this.role = role;
-        this.type = type;
+        this.typeAccount = typeAccount;
+        this.levelAccount = levelAccount;
         this.signature = signature;
+        this.joinDate = joinDate;
+        this.countMember = countMember;
         this.status = status;
     }
 
-    public Account(int accountId, String accountName, String email, String password, String phone, String avatar, String bio, String address, Date dateOfBirth, String gender, String specialist, int experienceYears, String education, int point, boolean verifiedAccount, boolean verifiedLink, int tagComplete, int tagDebt, int count, String role, String type, String signature, String status, String oauth_provider, String oauthId) {
-        this.accountId = accountId;
-        this.accountName = accountName;
-        this.email = email;
-        this.password = password;
-        this.phone = phone;
-        this.avatar = avatar;
-        this.bio = bio;
-        this.address = address;
-        this.dateOfBirth = dateOfBirth;
-        this.gender = gender;
-        this.specialist = specialist;
-        this.experienceYears = experienceYears;
-        this.education = education;
-        this.point = point;
-        this.verifiedAccount = verifiedAccount;
-        this.verifiedLink = verifiedLink;
-        this.tagComplete = tagComplete;
-        this.tagDebt = tagDebt;
-        this.count = count;
-        this.role = role;
-        this.type = type;
-        this.signature = signature;
-        this.status = status;
-        this.oauth_provider = oauth_provider;
-        this.oauthId = oauthId;
-    }
-
-    public String getOauthId() {
-        return oauthId;
-    }
-
-    public void setOauthId(String oauthId) {
-        this.oauthId = oauthId;
-    }
-
-    public String getOauth_provider() {
-        return oauth_provider;
-    }
-
-    public void setOauth_provider(String oauth_provider) {
-        this.oauth_provider = oauth_provider;
-    }
-
-    // Getter và Setter
     public int getAccountId() {
         return accountId;
     }
@@ -156,14 +106,6 @@ public class Account {
         this.password = password;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public String getAvatar() {
         return avatar;
     }
@@ -172,27 +114,27 @@ public class Account {
         this.avatar = avatar;
     }
 
-    public String getBio() {
-        return bio;
+    public String getOauthId() {
+        return oauthId;
     }
 
-    public void setBio(String bio) {
-        this.bio = bio;
+    public void setOauthId(String oauthId) {
+        this.oauthId = oauthId;
     }
 
-    public String getAddress() {
-        return address;
+    public String getOauthProvider() {
+        return oauthProvider;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setOauthProvider(String oauthProvider) {
+        this.oauthProvider = oauthProvider;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -204,20 +146,20 @@ public class Account {
         this.gender = gender;
     }
 
-    public String getSpecialist() {
-        return specialist;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setSpecialist(String specialist) {
-        this.specialist = specialist;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public int getExperienceYears() {
-        return experienceYears;
+    public String getAddress() {
+        return address;
     }
 
-    public void setExperienceYears(int experienceYears) {
-        this.experienceYears = experienceYears;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getEducation() {
@@ -228,12 +170,68 @@ public class Account {
         this.education = education;
     }
 
-    public int getPoint() {
+    public String getSpeciality() {
+        return speciality;
+    }
+
+    public void setSpeciality(String speciality) {
+        this.speciality = speciality;
+    }
+
+    public Integer getExperienceYears() {
+        return experienceYears;
+    }
+
+    public void setExperienceYears(Integer experienceYears) {
+        this.experienceYears = experienceYears;
+    }
+
+    public String getSkills() {
+        return skills;
+    }
+
+    public void setSkills(String skills) {
+        this.skills = skills;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public Integer getPoint() {
         return point;
     }
 
-    public void setPoint(int point) {
+    public void setPoint(Integer point) {
         this.point = point;
+    }
+
+    public BigDecimal getStarRate() {
+        return starRate;
+    }
+
+    public void setStarRate(BigDecimal starRate) {
+        this.starRate = starRate;
+    }
+
+    public BigDecimal getAmountWallet() {
+        return amountWallet;
+    }
+
+    public void setAmountWallet(BigDecimal amountWallet) {
+        this.amountWallet = amountWallet;
+    }
+
+    public String getVerifiedLink() {
+        return verifiedLink;
+    }
+
+    public void setVerifiedLink(String verifiedLink) {
+        this.verifiedLink = verifiedLink;
     }
 
     public boolean isVerifiedAccount() {
@@ -244,35 +242,27 @@ public class Account {
         this.verifiedAccount = verifiedAccount;
     }
 
-    public boolean isVerifiedLink() {
-        return verifiedLink;
+    public BigDecimal getCompletePercent() {
+        return completePercent;
     }
 
-    public void setVerifiedLink(boolean verifiedLink) {
-        this.verifiedLink = verifiedLink;
+    public void setCompletePercent(BigDecimal completePercent) {
+        this.completePercent = completePercent;
     }
 
-    public int getTagComplete() {
-        return tagComplete;
+    public String getLabelTag() {
+        return labelTag;
     }
 
-    public void setTagComplete(int tagComplete) {
-        this.tagComplete = tagComplete;
+    public void setLabelTag(String labelTag) {
+        this.labelTag = labelTag;
     }
 
-    public int getTagDebt() {
-        return tagDebt;
-    }
-
-    public void setTagDebt(int tagDebt) {
-        this.tagDebt = tagDebt;
-    }
-
-    public int getCount() {
+    public Integer getCount() {
         return count;
     }
 
-    public void setCount(int count) {
+    public void setCount(Integer count) {
         this.count = count;
     }
 
@@ -284,12 +274,20 @@ public class Account {
         this.role = role;
     }
 
-    public String getType() {
-        return type;
+    public String getTypeAccount() {
+        return typeAccount;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTypeAccount(String typeAccount) {
+        this.typeAccount = typeAccount;
+    }
+
+    public String getLevelAccount() {
+        return levelAccount;
+    }
+
+    public void setLevelAccount(String levelAccount) {
+        this.levelAccount = levelAccount;
     }
 
     public String getSignature() {
@@ -298,6 +296,22 @@ public class Account {
 
     public void setSignature(String signature) {
         this.signature = signature;
+    }
+
+    public LocalDateTime getJoinDate() {
+        return joinDate;
+    }
+
+    public void setJoinDate(LocalDateTime joinDate) {
+        this.joinDate = joinDate;
+    }
+
+    public Integer getCountMember() {
+        return countMember;
+    }
+
+    public void setCountMember(Integer countMember) {
+        this.countMember = countMember;
     }
 
     public String getStatus() {
@@ -315,27 +329,33 @@ public class Account {
                 ", accountName='" + accountName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", phone='" + phone + '\'' +
                 ", avatar='" + avatar + '\'' +
-                ", bio='" + bio + '\'' +
-                ", address='" + address + '\'' +
+                ", oauthId='" + oauthId + '\'' +
+                ", oauthProvider='" + oauthProvider + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
                 ", gender='" + gender + '\'' +
-                ", specialist='" + specialist + '\'' +
-                ", experienceYears=" + experienceYears +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
                 ", education='" + education + '\'' +
+                ", speciality='" + speciality + '\'' +
+                ", experienceYears=" + experienceYears +
+                ", skills='" + skills + '\'' +
+                ", bio='" + bio + '\'' +
                 ", point=" + point +
+                ", starRate=" + starRate +
+                ", amountWallet=" + amountWallet +
+                ", verifiedLink='" + verifiedLink + '\'' +
                 ", verifiedAccount=" + verifiedAccount +
-                ", verifiedLink=" + verifiedLink +
-                ", tagComplete=" + tagComplete +
-                ", tagDebt=" + tagDebt +
+                ", completePercent=" + completePercent +
+                ", labelTag='" + labelTag + '\'' +
                 ", count=" + count +
                 ", role='" + role + '\'' +
-                ", type='" + type + '\'' +
+                ", typeAccount='" + typeAccount + '\'' +
+                ", levelAccount='" + levelAccount + '\'' +
                 ", signature='" + signature + '\'' +
+                ", joinDate=" + joinDate +
+                ", countMember=" + countMember +
                 ", status='" + status + '\'' +
-                ", oauth_provider='" + oauth_provider + '\'' +
-                ", oauthId='" + oauthId + '\'' +
                 '}';
     }
 }

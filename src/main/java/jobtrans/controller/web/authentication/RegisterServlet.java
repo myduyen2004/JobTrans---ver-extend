@@ -3,6 +3,7 @@ package jobtrans.controller.web.authentication;
 import jobtrans.dal.AccountDAO;
 import jobtrans.model.Account;
 import jobtrans.utils.Gmail;
+import jobtrans.utils.PasswordEncoder;
 import jobtrans.utils.RandomGenerator;
 
 import javax.servlet.ServletException;
@@ -17,11 +18,9 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebServlet(name="RegisterServlet", urlPatterns={"/register"})
-
+@WebServlet(name = "RegisterServlet", urlPatterns = {"/register"})
 public class RegisterServlet extends HttpServlet {
-    Account account = new Account();
-    AccountDAO acd = new AccountDAO();
+
     private void sendVerificationMail(String userName, String subject, String email, String code) {
 
         try {
@@ -36,60 +35,64 @@ public class RegisterServlet extends HttpServlet {
             Logger.getLogger(ForgotPassword.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        // Đặt encoding để xử lý tiếng Việt
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+        HttpSession session = request.getSession();
         String cmd = request.getParameter("cmd");
-        HttpSession mySession = request.getSession();
-        if (cmd.equals("1")) {
-            String accountName = request.getParameter("accountName");
-            String email = request.getParameter("email-register");
-            String password = request.getParameter("password-register");
-            String type = request.getParameter("account-type-radio");
-//            String status = "true";
-            Account account = new Account();
-            account.setAccountName(accountName);
-            account.setEmail(email);
-            account.setPassword(password);
-            account.setType(type);
-//            account.setStatus(status);
-            account.setPoint(0);
-            if (acd.checkExistEmail(email) == false) {
+            try {
+                // Lấy dữ liệu từ form đăng ký
+                String accountType = request.getParameter("accountType");
+                if(accountType.equals("personal")) {
+                    accountType = "Cá nhân";
+                } else if (accountType.equals("group")) {
+                    accountType = "Nhóm";
+                }
+                String accountName = request.getParameter("accountName");
+                String email = request.getParameter("email");
+                String password = request.getParameter("password");
+                String confirmPassword = request.getParameter("confirmPassword");
+                String termsAccepted = request.getParameter("terms");
+
+                // Kiểm tra xem email đã tồn tại trong hệ thống chưa
+                AccountDAO accountDAO = new AccountDAO();
+                if (accountDAO.getAccountByEmail(email) != null) {
+                    request.setAttribute("toastType", "error");
+                    request.setAttribute("toastTitle", "Xảy ra lỗi");
+                    request.setAttribute("toastMessage", "Email đã được đăng kí");
+                    request.getRequestDispatcher("register.jsp").forward(request, response);
+                    return;
+                }
+                // Mã hóa mật khẩu (nên sử dụng thư viện mã hóa an toàn như BCrypt)
+                String hashedPassword = PasswordEncoder.encode(password);
+
+                // Tạo đối tượng Account mới
+                Account account = new Account();
+                account.setEmail(email);
+                account.setAccountName(accountName);
+                account.setPassword(hashedPassword);
+                account.setTypeAccount(accountType);
+
+                session.setAttribute("sessionAccount", account);
+                request.setAttribute("toastTitle", "Vui lòng xác thực mã OTP");
+                request.setAttribute("toastMessage", "Mã OTP đã gửi về gmail cho bạn, vui lòng nhập mã OTP để xác nhận");
                 String otpvalue = RandomGenerator.randString(RandomGenerator.NUMERIC_CHARACTER, 6);
                 new Thread(() -> {
                     sendVerificationMail(accountName, "Xác thực đăng kí", email, otpvalue);
                 }).start();
-                request.setAttribute("email", email);
-                request.setAttribute("success", "Vui lòng kiểm tra email để xác nhận đăng kí!");
-                mySession.setAttribute(email, otpvalue);
-                mySession.setAttribute("account", account);
-                request.setCharacterEncoding("UTF-8");
-                request.getRequestDispatcher("verify-otp-1.jsp").forward(request, response);
-            } else {
-
-                    request.setAttribute("error", "Email đã được đăng kí. Thất bại");//lỗi js
-                    request.getRequestDispatcher("login-and-register.jsp").forward(request, response);
+                session.setAttribute("otp", otpvalue);
+                request.getRequestDispatcher("otp-verify.jsp").forward(request, response);
+            } catch (Exception e) {
+                // Xử lý ngoại lệ
+                request.setAttribute("toastType", "error");
+                request.setAttribute("toastTitle", "Xảy ra lỗi");
+                request.setAttribute("toastMessage", "Lỗi hệ thống: " + e.getMessage());
+                response.sendRedirect("register.jsp");
+                return;
             }
-        } else if(cmd.equals("2")){
-            String emailReceive = request.getParameter("email");
-            String otp = request.getParameter("otp1")+request.getParameter("otp2")+request.getParameter("otp3")+request.getParameter("otp4")
-                    +request.getParameter("otp5")+request.getParameter("otp6");
-            String code = (String) mySession.getAttribute(emailReceive);
-            Account account1 = (Account) mySession.getAttribute("account");
-            account1.setAvatar("img/avatar-default.jpg");
 
-            if (otp.equals(code)) {
-                acd.addUserByRegister(account1);
-                HttpSession session = request.getSession();
-                session.setAttribute("sessionAccount", account1);
-//                Account account = (Account) session.getAttribute("sessionAccount");
-
-                response.sendRedirect("home");
-            } else {
-                request.setAttribute("error", "Xác minh mã OTP thất bại! Vui lòng nhập lại");
-                request.getRequestDispatcher("login-and-register.jsp").forward(request, response);
-            }
-        }
     }
 }

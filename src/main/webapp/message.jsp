@@ -10,28 +10,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--<link rel="profile" href="https://gmpg.org/xfn/11">-->
 
     <title>JobTrans &#8211; Nền tảng hỗ trợ thuê, làm việc cho freelancer</title>
     <meta name='robots' content='max-image-preview:large' />
 
     <!--new css -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="css/message.css" rel="stylesheet">
+    <link href="./css/message.css" rel="stylesheet"/>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
 </head>
-<body>
-<!-- Preloading -->
-<div id="preloader">
-    <div class="spinner">
-        <div class="uil-ripple-css"><div></div><div></div></div>
-    </div>
-</div>
-
-<%@include file="includes/header-01.jsp"%>
-
-<%--main chatn box--%>
+<body style="font-family: Inter, sans-serif;">
 <div class="m-3 p-2" style="background-color: #D9D9D950; border-radius: 15px;">
     <h2 class="mt-3 mb-3 ml-3" style="background-color: #6787FE; padding: 5px 10px 5px 10px; color: white; text-align: center; width: 500px; border-radius: 30px; font-size: 20px;">
         Đoạn chat - Lập trình web bán hàng
@@ -41,7 +32,7 @@
             <p>Lập Trình Web Bán Hàng</p>
             <small>Chào mừng bạn đến với cuộc hội thoại</small>
         </div>
-        <div class="chat-body" id="chatBody" style="height: 250px;">
+        <div class="chat-body" id="chatBody" style="height: 500px;">
             <div class="message">
                 <img src="https://i.pravatar.cc/30?img=1" alt="User">
                 <p>Hello</p>
@@ -68,10 +59,6 @@
     </div>
 </div>
 
-<%@include file="includes/footer.jsp"%>
-
-<!--======= Back to Top =======-->
-<div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const chatBody = document.getElementById("chatBody");
