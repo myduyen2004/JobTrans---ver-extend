@@ -1,18 +1,236 @@
-.banner_title {
-    background-image: url(../img/anh1/anh1.png);
-    background-size: 100%;
-    font-size: 40px;
-    height: 200px;
+/* Biến CSS toàn cục */
+:root {
+    --primary-color: #6787FE;
+    --primary-light: rgba(103, 135, 254, 0.1);
+    --secondary-color: #536CCE;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --dark-text: #333;
+    --light-text: #767676;
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --filter-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    --transition: 0.2s all ease;
+    --radius-large: 16px;
+    --radius-medium: 12px;
+    --radius-small: 6px;
+}
+
+/* Main layout */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--dark-text);
+    line-height: 1.5;
+}
+
+.main-container {
+    margin-top: 60px;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+/* User list title */
+.user-list-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--dark-text);
+    text-align: center;
+    position: relative;
+    padding-bottom: 12px;
+}
+
+.user-list-title::after {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 3px;
+    background: var(--primary-color);
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+/* User card styling */
+.user-card {
+    background-color: white;
+    border-radius: var(--radius-medium);
+    padding: 1.25rem;
+    margin: 1rem 0;
+    /*box-shadow: var(--card-shadow);*/
+    /*border-left: 4px solid var(--primary-color);*/
+    position: relative;
+    overflow: hidden;
+}
+
+/* User avatar */
+.user-avatar {
+    width: 70%;
+    height: auto;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* User name */
+.user-name {
+    font-weight: 600;
+    font-size: 22px;
+    margin-bottom: 0.25rem;
+}
+
+.user-name a {
+    color: var(--dark-text);
+    text-decoration: none;
+}
+
+/* User speciality */
+.user-speciality {
+    margin: 0 0 0.5rem 0;
+    font-size: 16px;
+    color: var(--light-text);
+    font-weight: 500;
+}
+
+/* Status badges */
+.status-badge {
+    border-radius: var(--radius-small);
+    padding: 4px 10px;
+    font-size: 13px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+}
+
+.active-status {
+    background-color: rgba(40, 167, 69, 0.15);
+    color: var(--success-color);
+}
+
+.active-status::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background-color: var(--success-color);
+    border-radius: 50%;
+    margin-right: 6px;
+}
+
+.banned-status {
+    background-color: rgba(220, 53, 69, 0.15);
+    color: var(--danger-color);
+}
+
+.banned-status::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background-color: var(--danger-color);
+    border-radius: 50%;
+    margin-right: 6px;
+}
+
+/* Info icons */
+.list-inline-item {
+    margin-right: 0.75rem;
+    color: var(--light-text);
+    font-size: 14px;
+}
+
+.list-inline-item i {
+    color: var(--primary-color);
+    margin-right: 4px;
+}
+
+/* Points section */
+.user-point-label {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--dark-text);
+}
+
+.point_value {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+/* Detail link */
+.detail-link {
+    font-size: 14px;
+    font-weight: 600;
+    background-color: var(--primary-color);
+    border-radius: var(--radius-medium);
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+/* Filter cards */
+.filter-card {
+    background-color: white;
+    padding: 1.25rem 1rem;
+    border-radius: var(--radius-medium);
+    box-shadow: var(--filter-shadow);
+    font-size: 0.9rem;
+    margin-bottom: 1.25rem;
+    border-top: 3px solid var(--primary-color);
+}
+
+.filter-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--dark-text);
+    padding-left: 12px;
+    border-left: 3px solid var(--primary-color);
+}
+
+.filter-subtitle {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: var(--light-text);
+}
+
+.filter-list {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 1rem;
+}
+
+.filter-list li {
+    margin-bottom: 0.6rem;
     display: flex;
     align-items: center;
 }
 
+.filter-label {
+    margin-left: 0.75rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--dark-text);
+}
+
+/* Switch styling */
 .switch {
     position: relative;
     display: inline-block;
-    width: 33px;
-    height: 18px;
-    margin: 0 10px;
+    width: 40px;
+    height: 20px;
+    margin: 0;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
 }
 
 .slider {
@@ -22,40 +240,177 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
-    transition: .4s;
-    border-radius: 34px;
-}
-
-.switch input {
-    display: none
+    background-color: #eaeaea;
+    border-radius: 20px;
 }
 
 .slider:before {
     position: absolute;
     content: "";
-    height: 15px;
-    width: 15px;
-    left: 1.5px;
-    bottom: 1.5px;
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
     background-color: white;
-    transition: .4s;
-    border-radius: 50px;
+    border-radius: 50%;
 }
 
 input:checked + .slider {
-    background-color: #6787FE;
+    background: var(--primary-color);
 }
 
 input:checked + .slider:before {
-    transform: translateX(15px);
+    transform: translateX(20px);
 }
 
-.post-box {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* Pagination styling */
+.pagination {
+    margin-top: 1.5rem;
 }
 
-.post-box:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+.page-item {
+    margin: 0 2px;
+}
+
+.page-item.active .page-link {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.page-link {
+    color: var(--primary-color);
+    border-radius: 6px;
+    padding: 6px 12px;
+}
+
+.page-link:hover {
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 992px) {
+    .filter-card {
+        margin-bottom: 1rem;
+    }
+
+    .user-card {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .user-list-title {
+        font-size: 26px;
+    }
+
+    .user-avatar {
+        width: 60%;
+    }
+
+    .user-name {
+        font-size: 20px;
+    }
+
+    .user-speciality {
+        font-size: 15px;
+    }
+
+    .detail-link {
+        font-size: 13px;
+        padding: 6px 12px;
+    }
+
+    .main-container {
+        margin-top: 40px;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #1a1a1a;
+        color: #eaeaea;
+    }
+
+    .user-card, .filter-card {
+        background-color: #252525;
+        border-color: var(--primary-color);
+    }
+
+    .user-name a {
+        color: #eaeaea;
+    }
+
+    .user-speciality, .filter-subtitle {
+        color: #bbb;
+    }
+
+    .filter-label {
+        color: #ddd;
+    }
+
+    .slider {
+        background-color: #444;
+    }
+
+    .user-list-title {
+        color: #eaeaea;
+    }
+
+    .filter-title {
+        color: #eaeaea;
+    }
+}
+.search-container {
+    background-color: white;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.search-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--dark-text);
+    padding-left: 10px;
+    border-left: 3px solid var(--primary-color);
+}
+
+.search-form {
+    display: flex;
+    gap: 8px;
+}
+
+.search-input {
+    flex: 1;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 14px;
+    transition: border-color 0.2s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(103, 135, 254, 0.1);
+}
+
+.search-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.search-button:hover {
+    background-color: var(--secondary-color);
 }

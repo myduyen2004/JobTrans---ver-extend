@@ -57,7 +57,7 @@ public class AccountManagement extends HttpServlet {
             int id = Integer.parseInt(req.getParameter("accId"));
             Account account = accountDAO.getAccountById(id);
             req.setAttribute("account", account);
-            req.getRequestDispatcher("infor-user.jsp").forward(req, resp);
+            req.getRequestDispatcher("infor-user-manage.jsp").forward(req, resp);
         } else {
             resp.sendRedirect("home");
         }

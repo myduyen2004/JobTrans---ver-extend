@@ -244,10 +244,6 @@
 
 
 <div class="container_cv">
-
-	<div>
-		<%@include file="includes/sidebar.jsp"%>
-	</div>
 	<div class="content" id="content">
 		<div class="cv-container">
 			<h2 class="cv-title">Chọn mẫu CV</h2>

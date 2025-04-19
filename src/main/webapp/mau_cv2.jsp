@@ -32,12 +32,6 @@
         --transition: all 0.3s ease;
     }
 
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
     body {
         font-family: 'Roboto', sans-serif;
         background-color: #f5f7fa;
@@ -46,7 +40,6 @@
         min-height: 100vh;
 
         justify-content: center;
-        padding: 40px 0;
     }
 
     .cv-container {
@@ -228,11 +221,10 @@
         animation-delay: 0.5s;
     }
 </style>
-<body class="archive post-type-archive post-type-archive-projects wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
+<body>
 
 
 <%@include file="./includes/header-01.jsp" %>
-<%@include file="./includes/header_under.jsp" %>
 
 <div style="display: flex">
     <div>
@@ -448,7 +440,8 @@
         <%@include file="includes/sidebar_cv.jsp" %>
     </div>
 </div>
-<%@include file="includes/footer.jsp" %>
 
 </body>
+<%@include file="includes/footer.jsp" %>
+
 </html>

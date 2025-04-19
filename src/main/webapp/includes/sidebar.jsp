@@ -1,6 +1,5 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="jobtrans.model.Account" %>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
     /* Reset và Base styles */
@@ -135,44 +134,7 @@
         filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
     }
 
-    /* User info in sidebar */
-    .user-info {
-        display: flex;
-        align-items: center;
-        padding: 18px 20px;
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
-        background: rgba(0, 0, 0, 0.15);
-    }
 
-    .user-avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: linear-gradient(45deg, #6584fa, #8373e6);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 12px;
-        color: white;
-        font-weight: bold;
-        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-        font-size: 15px;
-    }
-
-    .user-details {
-        color: white;
-    }
-
-    .user-name {
-        font-size: 14px;
-        font-weight: 600;
-        margin-bottom: 3px;
-    }
-
-    .user-email {
-        font-size: 12px;
-        color: rgba(255, 255, 255, 0.7);
-    }
 
     .toggle-btn {
         position: fixed;
@@ -276,13 +238,13 @@
         <a href="#" style="--i:14"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
     </div>
 
-    <div class="user-info">
-        <div class="user-avatar">
+    <div >
+        <div >
             NT
         </div>
-        <div class="user-details">
-            <div class="user-name">Nguyễn Tuấn</div>
-            <div class="user-email">nguyentuan@example.com</div>
+        <div >
+            <div >Nguyễn Tuấn</div>
+            <div >nguyentuan@example.com</div>
         </div>
     </div>
 </div>

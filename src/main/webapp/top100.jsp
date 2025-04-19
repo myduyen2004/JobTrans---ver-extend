@@ -8,16 +8,11 @@
   <link rel="profile" href="https://gmpg.org/xfn/11">
   <title>Top 100 Freelance - JobTrans</title>
   <meta name='robots' content='max-image-preview:large'/>
-  <link rel="icon" type="image/png" href="wp-content/uploads/2021/09/logo.png">
-
   <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Font Awesome for icons -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -30,12 +25,6 @@
       --silver: #c0c0c0;
       --bronze: #cd7f32;
     }
-
-    body {
-      font-family: 'Roboto', sans-serif;
-      background-color: #f5f7fa;
-    }
-
     .body_top100 {
       padding: 40px 20px;
       background: linear-gradient(135deg, #f5f7fa 0%, #e4e7f0 100%);
@@ -489,15 +478,9 @@
   </div>
 </div>
 
-<!-- Back to top button -->
-<div id="back-to-top-btn">
-  <i class="fas fa-arrow-up"></i>
-</div>
-
 <%@include file="includes/footer.jsp" %>
 
 <!-- Bootstrap Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
   // Back to top button functionality

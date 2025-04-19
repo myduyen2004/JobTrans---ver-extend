@@ -425,15 +425,15 @@ public class CVServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         HttpSession session = request.getSession();
-//        String email = (String) session.getAttribute("account");
+        Account account = (Account) session.getAttribute("sessionAccount");
 
         CvDAO cvDao = new CvDAO();
         AccountDAO accountDAO = new AccountDAO();
 
 //        Account u = accountDAO.getAccountByEmail(email);
         CV cv = new CV();
-        int accountId = 1;
-        Account u = accountDAO.getAccountById(accountId);
+        int accountId = account.getAccountId();
+        Account u = accountDAO.getAccountById(account.getAccountId());
 
         String TypeCV = request.getParameter("typeId");
 
@@ -757,8 +757,7 @@ public class CVServlet extends HttpServlet {
     /// /// view List CV
     private void viewList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        HttpSession session = request.getSession();
-//        String email = (String) session.getAttribute("account");
+        HttpSession session = request.getSession();
 //        if (email == null) {
 //            // Nếu không có email trong session, điều hướng người dùng đến trang đăng nhập
 //            response.sendRedirect("404.html");
@@ -769,7 +768,8 @@ public class CVServlet extends HttpServlet {
         AccountDAO accountDAO = new AccountDAO();
 //        Account u = accountDAO.getAccountByEmail(email);
 
-        int accountId = 1;
+        Account account = (Account) session.getAttribute("sessionAccount");
+        int accountId = account.getAccountId();
         List<CV> listCV = Cvdao.getCVByUserId(accountId);
         request.setAttribute("listcv", listCV);
         request.getRequestDispatcher("my_cv.jsp").forward(request, response);

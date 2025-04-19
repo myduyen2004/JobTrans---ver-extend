@@ -8,7 +8,6 @@
     <title>Sample CV Preview</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Roboto:wght@300;400;500;700&display=swap"
           rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         :root {
             --primary: #4361ee;
@@ -20,19 +19,6 @@
             --border: #dee2e6;
             --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             --radius: 8px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Roboto', sans-serif;
-        }
-
-        body {
-            top: 0;
-            background-color: #f5f7fb;
-            padding: 30px;
         }
 
         .cv-container {
@@ -179,9 +165,7 @@
 </head>
 <body>
 <%@include file="./includes/header-01.jsp" %>
-<%@include file="./includes/header_under.jsp" %>
 <div style="display: flex">
-
     <div class="cv-container">
         <!-- Left Sidebar -->
         <div class="cv-sidebar">
@@ -368,9 +352,7 @@
         </div>
     </div>
     <%@include file="includes/sidebar_cv.jsp" %>
-
 </div>
-<%@include file="includes/footer.jsp" %>
-
 </body>
+<%@include file="includes/footer.jsp" %>
 </html>

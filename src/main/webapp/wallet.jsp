@@ -218,7 +218,7 @@
         </nav>
     </div>
     </div>
-    <%@include file="includes/footer.jsp"%>
+
 </div>
 <script>
     // Giữ lại một số chức năng JavaScript cơ bản để xử lý các tương tác
@@ -257,7 +257,7 @@
 
     });
 </script>
-
+<%@include file="includes/footer.jsp"%>
 
 </body>
 </html>
