@@ -3,6 +3,7 @@ package jobtrans.dal;
 import jobtrans.model.*;
 import jobtrans.utils.DBConnection;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -587,6 +588,61 @@ public class JobDAO {
             throw new RuntimeException("Lỗi truy vấn database", e);
         }
         return list;
+    }
+    public List<Job> searchJobsByKeyword(String keyword) throws SQLException, Exception {
+        String sql = "SELECT * " +
+                "FROM Job " +
+                "WHERE LOWER(job_title) LIKE LOWER(?) OR LOWER(job_description) LIKE LOWER(?)";
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<Job> jobList = new ArrayList<>();
+
+        try {
+            ps = dbConnection.openConnection().prepareStatement(sql);
+            String searchKeyword = "%" + keyword + "%";
+            ps.setNString(1, searchKeyword); // Gán từ khóa cho job_title
+            ps.setNString(2, searchKeyword); // Gán từ khóa cho description
+            rs = ps.executeQuery();
+            // In giá trị searchKeyword để kiểm tra ở Java
+            System.out.println("Search Keyword (Java): " + searchKeyword);
+
+            while (rs.next()) {
+                Job job = new Job();
+                job.setJobId(rs.getInt("job_id"));
+                job.setPostAccountId(rs.getInt("post_account_id"));
+                job.setJobTitle(rs.getString("job_title"));
+                job.setPostDate(Timestamp.valueOf(rs.getTimestamp("post_date").toLocalDateTime())); // Chuyển đổi Timestamp sang LocalDateTime (Java 8+)
+                job.setJobDescription(rs.getString("job_description"));
+                job.setCategoryId(rs.getInt("category_id"));
+                job.setBudgetMax(BigDecimal.valueOf(rs.getFloat("budget_max")));
+                job.setBudgetMin(BigDecimal.valueOf(rs.getFloat("budget_min")));
+                job.setDueDatePost(Date.valueOf(rs.getDate("due_date_post").toLocalDate())); // Chuyển đổi Date sang LocalDate (Java 8+)
+                job.setDueDateJob(Date.valueOf(rs.getDate("due_date_job").toLocalDate())); // Chuyển đổi Date sang LocalDate (Java 8+)
+                job.setHaveInterviewed(rs.getBoolean("is_interviewed"));
+                job.setHaveTested(rs.getBoolean("is_tested"));
+                job.setNumOfMember(rs.getInt("num_of_member"));
+                job.setSecureWallet(rs.getInt("secure_wallet"));
+                job.setStatusPost(rs.getString("status_post"));
+                job.setStatusJobId(rs.getInt("status_job_id"));
+                jobList.add(job);
+
+                // Log the found job
+                System.out.println("Đã tìm thấy kết quả.");
+                System.out.println("Job Title: " + job.getJobTitle());
+                System.out.println("Description: " + job.getJobDescription());
+            }
+
+            if (jobList.isEmpty()) {
+                System.out.println("Không tìm thấy kết quả nào.");
+            }
+
+        } finally {
+            if (rs != null) rs.close();
+            if (ps != null) ps.close();
+        }
+
+        return jobList;
     }
     public static void main(String[] args) {
         JobDAO jobDAO = new JobDAO();

@@ -11,4 +11,13 @@
         <filter-name>EncodingFilter</filter-name>
         <url-pattern>*.jsp</url-pattern>
     </filter-mapping>
+
+    <servlet>
+        <servlet-name>ListJobServlet</servlet-name>
+        <servlet-class>jobtrans.controller.web.job.ListJobServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ListJobServlet</servlet-name>
+        <url-pattern>/viec-lam/*</url-pattern>
+    </servlet-mapping>
 </web-app>

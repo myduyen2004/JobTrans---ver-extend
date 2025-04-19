@@ -362,23 +362,8 @@ public class JobServlet extends HttpServlet {
 //        int accountId = account.getAccountId();// tạm fix cứng, sau này lấy từ session
 //        JobDAO jobDAO = new JobDAO();
 //        List<JobGreeting> jobGreetings = jobDAO.getJobGreetingByJobSeekerId(accountId);
-
-
-//    private void detail(HttpServletRequest request, HttpServletResponse response)
-//            throws ServletException, IOException {
-//        String jobGreetingId  = request.getParameter("jobGreetingId").trim();
-//        String jobId = request.getParameter("jobId").trim();
-//        int jgId = Integer.parseInt(jobGreetingId);
-//        int j = Integer.parseInt(jobId);
-//        JobDAO jd = new JobDAO();
-//        JobGreeting jobGreeting = jd.getJobGreetingById(jgId);
-//        Job job =jd.getJobById(j);
-//        request.setAttribute("jobGreeting ", jobGreeting );
-//        request.setAttribute("job", job);
 //
-//        request.getRequestDispatcher("infor-applied-job-detail.jsp").forward(request, response);
+//        request.setAttribute("job", jobGreetings);  // "jobGreetings" là key để jsp lấy ra
+//        request.getRequestDispatcher("applied-job-list.jsp").forward(request, response);
 //    }
-
-
-
-}
+//}

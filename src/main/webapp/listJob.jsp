@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="java.util.List" %>
 <%@ page import="jobtrans.model.Job" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
@@ -9,339 +10,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <jsp:useBean id="jobDAO" class="jobtrans.dal.JobDAO" scope="session"></jsp:useBean>
+    <jsp:useBean id="JobCategoryDAO" class="jobtrans.dal.JobCategoryDAO" scope="session"></jsp:useBean>
     <meta charset="UTF-8">
     <title>JobTrans-Danh sách công việc</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 20px;
-        }
 
-        .header {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 20px;
-        }
-
-        .btn {
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-weight: bold;
-            border: none;
-            margin-left: 10px;
-            cursor: pointer;
-        }
-
-        .btn-expired {
-            background-color: #e74c3c;
-            color: white;
-        }
-
-        .btn-hiring {
-            background-color: #192a56;
-            color: white;
-        }
-
-        .filter-btn {
-            background-color: white;
-            border: 1px solid #ddd;
-            display: flex;
-            align-items: center;
-        }
-
-        .filter-icon {
-            width: 20px;
-            height: 20px;
-        }
-
-        .card {
-            transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu mượt mà */
-            cursor: pointer; /* Hiển thị con trỏ chuột để gợi ý có thể click */
-            display: flex; /* Sử dụng flexbox cho card-body */
-            flex-direction: column; /* Sắp xếp nội dung theo chiều dọc */
-        }
-        /*comment*/
-        .card:hover {
-            background-color: #6787FE; /* Màu nền xanh nhạt khi hover */
-        }
-
-        /* Tùy chọn: để nội dung dễ đọc hơn khi hover */
-        .card:hover .card-title,
-        .card:hover .card-text,
-        .card:hover .job-salary,
-        .card:hover .details-link {
-            color: white; /* Đổi màu chữ thành trắng khi hover để dễ đọc trên nền xanh */
-        }
-
-        .card-body {
-            display: flex;
-            justify-content: space-between; /* Đẩy tiêu đề và phần còn lại ra hai bên */
-            align-items: flex-start; /* Căn chỉnh các item theo top */
-            flex-grow: 1; /* Cho phần bên trái (tiêu đề, hạn tuyển) mở rộng */
-        }
-
-        .job-info-left {
-            flex-grow: 1; /* Cho phần thông tin bên trái chiếm không gian */
-        }
-
-        .job-info-right {
-            display: flex;
-            flex-direction: column; /* Sắp xếp ngân sách và nút chi tiết theo chiều dọc */
-            align-items: flex-end; /* Căn chỉnh các item về bên phải */
-        }
-
-        .job-card { /* Các style hiện tại của bạn cho job-card */
-            background-color: white;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .job-badge {
-            background-color: #c8d6f5;
-            color: #4a69bd;
-            padding: 5px 15px;
-            border-radius: 15px;
-            display: inline-block;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-
-        .card-title { /* Sử dụng .card-title thay vì .job-title để thống nhất với Bootstrap */
-            font-size: 22px;
-            font-weight: bold;
-            margin: 0 0 5px 0; /* Giảm margin dưới tiêu đề */
-        }
-
-        .card-text { /* Sử dụng .card-text thay vì .job-info */
-            color: #7f8c8d;
-            margin-bottom: 3px; /* Giảm margin dưới các dòng thông tin */
-            font-size: 14px;
-        }
-
-        .card-text strong {
-            font-weight: bold;
-            color: #333;
-        }
-
-        .job-date { /* Style riêng cho hạn tuyển nếu cần */
-            font-size: 14px;
-        }
-
-        .job-salary {
-            font-size: 18px;
-            font-weight: bold;
-            color: #000;
-            margin-bottom: 5px; /* Thêm margin dưới ngân sách */
-            text-align: right; /* Căn phải cho ngân sách */
-        }
-
-        .job-details { /* Không cần style đặc biệt, flexbox sẽ xử lý */
-            margin-top: 5px; /* Thêm margin phía trên nút chi tiết */
-        }
-
-        .details-link { /* Style cho nút chi tiết */
-            color: #8c9eff;
-            text-decoration: none;
-            font-size: 16px;
-            display: inline-block; /* Để có thể căn phải bằng flexbox */
-        }
-
-        .hidden {
-            display: none;
-        }
-    </style>
-    <style>
-        /* styles.css */
-        .banner {
-            background-image: url('./img/anh1/anh1.png');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center center;
-            text-align: center;
-            width: 100%; /* Chiều rộng 100% (tương đương 12 cột trên layout full-width) */
-            padding-top: 50px; /* Giảm padding trên */
-            padding-bottom: 50px; /* Giảm padding dưới */
-            color: white; /* Đặt màu chữ */
-
-            /* max-height: 300px; */
-        }
-
-        .banner h1 {
-            margin: 0; /* Loại bỏ margin mặc định của h1 */
-            text-align: center;
-            font-size: 40px;
-
-
-        }
-
-        .inforDetail {
-            font-size: 20px;
-            align-self: flex-start
-        }
-
-        .contentBanner {
-            display: flex;
-            flex-direction: column; /* Sắp xếp các phần tử con theo cột */
-            align-items: center; /* Căn giữa các phần tử con theo chiều ngang */
-            /* Các стили khác cho contentBanner */
-        }
-
-    </style>
-    <style>
-        .pagination {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-
-            margin-left: 240px;
-
-        }
-
-        .pagination a {
-            color: #0F1B63;
-            float: left;
-            padding: 8px 16px;
-            text-decoration: none;
-            border: 1px solid #ddd;
-            margin: 0 4px;
-            border-radius: 5px;
-        }
-
-        .pagination a.active {
-            background-color: #6787FE;
-            color: white;
-            border: 1px solid #6787FE;
-        }
-    </style>
-    <style>
-        .filter-container {
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            width: 250px; /* Điều chỉnh độ rộng theo ý muốn */
-        }
-
-        .filter-header {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: bold;
-            color: #333;
-            cursor: pointer; /* Thêm cursor để biết có thể tương tác */
-        }
-
-        .filter-header svg {
-            width: 16px;
-            height: 16px;
-            fill: #777;
-            transition: transform 0.3s ease-in-out; /* Hiệu ứng xoay mượt mà */
-        }
-
-        .filter-list {
-            padding: 0;
-            margin: 0;
-            list-style: none;
-        }
-
-        .filter-item {
-            padding: 10px 15px;
-            color: #555;
-            cursor: pointer;
-        }
-
-        .filter-item:hover {
-            background-color: #f9f9f9;
-        }
-
-        .filter-more {
-            padding: 10px 15px;
-            color: #007bff;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-        }
-
-        .filter-more svg {
-            width: 14px;
-            height: 14px;
-            fill: #007bff;
-            margin-left: 5px;
-        }
-
-        .collapsed .filter-list,
-        .collapsed .filter-more {
-            display: none; /* Ẩn danh sách và "Xem thêm" khi thu gọn */
-        }
-
-        .collapsed .filter-header svg {
-            transform: rotate(180deg); /* Xoay icon mũi tên xuống khi thu gọn */
-        }
-    </style>
-    <style>
-        .hamburger-menu {
-            position: relative;
-            display: inline-block;
-        }
-
-        .hamburger-button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 10px;
-        }
-
-        .hamburger-icon {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 24px;
-            width: 30px;
-        }
-
-        .hamburger-icon span {
-            height: 3px;
-            width: 100%;
-            background-color: #333;
-            border-radius: 3px;
-            transition: all 0.3s ease;
-        }
-
-        .dropdown-menu {
-            position: absolute;
-            right: 0;
-            background-color: white;
-            min-width: 200px;
-            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-            z-index: 1;
-            border-radius: 4px;
-            display: none;
-        }
-
-        .dropdown-menu a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            transition: background-color 0.2s;
-        }
-
-        .dropdown-menu a:hover {
-            background-color: #6787FE;
-            color: white;
-        }
-
-        .show {
-            display: block;
-        }
-    </style>
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/listJob.css">
     <script>
         function toggleFilter() {
             const filterContainer = document.querySelector('.filter-container');
@@ -479,28 +152,19 @@
 
 </section>
 
-<%
-    int pageSize = 3;
-    int currentPage = 1;
-    String pageParam = request.getParameter("page");
-    if (pageParam != null) {
-        currentPage = Integer.parseInt(pageParam);
-    }
-//xử lý logic phần lấy qua hàm DAO không qua hàm servlet
-    List<Job> allJobs = jobDAO.getAllJob();
-    int totalJobs = allJobs != null ? allJobs.size() : 0;
-    int totalPages = (int) Math.ceil((double) totalJobs / pageSize);
-    int start = (currentPage - 1) * pageSize;
-    int end = Math.min(start + pageSize, totalJobs);
-    request.setAttribute("start", Integer.valueOf(start));
-    request.setAttribute("end", Integer.valueOf(end));
-    request.setAttribute("currentPage", Integer.valueOf(currentPage));
-    request.setAttribute("totalPages", Integer.valueOf(totalPages));
-    request.setAttribute("totalJobs", Integer.valueOf(totalJobs));
 
-%>
 <section class="section-padding">
     <div class="container">
+        <div class="search-bar">
+            <form action="viec-lam/" method="GET"> <input type="text" id="searchInput" name="keyword"  placeholder="Nhập từ khóa tìm kiếm...">
+                <button type="submit" id="searchButton">Tìm kiếm</button>
+            </form>
+        </div>
+
+        <div id="searchResults">
+        </div>
+
+
         <div class="row">
             <div class="col-xl-12">
                 <div class="row">
@@ -513,16 +177,16 @@
                                 </svg>
                             </div>
                             <ul class="filter-list price">
-                                <li class="filter-item visible">Phân loại theo giá</li>
-                                <li class="filter-item visible">Giá dưới 1 triệu</li>
-                                <li class="filter-item visible">Giá từ 1-2 triệu</li>
-                                <li class="filter-item visible">Giá từ 3-4 triệu</li>
-                                <li class="filter-item hidden">Giá từ 4-5 triệu</li>
-                                <li class="filter-item hidden">Giá từ 5-10 triệu</li>
-                                <li class="filter-item hidden">Giá từ 10-20 triệu</li>
-                                <li class="filter-item hidden">Giá từ 20-30 triệu</li>
-                                <li class="filter-item hidden">Giá từ 30-50 triệu</li>
-                                <li class="filter-item hidden">Giá trên 50 triệu</li>
+                                <li class="filter-item visible"><a href="viec-lam/?price=under1m&page=1">Giá dưới 1 triệu</a></li>
+                                <li class="filter-item visible"><a href="viec-lam/?price=1-2m&sort=${sortType}&page=1">Giá từ 1-2 triệu</a></li>
+                                <li class="filter-item visible"><a href="viec-lam/?price=3-4m&sort=${sortType}&page=1">Giá từ 3-4 triệu</a></li>
+                                <li class="filter-item visible"><a href="viec-lam/?price=4-5m&sort=${sortType}&page=1">Giá từ 4-5 triệu</a></li>
+                                <li class="filter-item visible"><a href="viec-lam/?price=5-10m&sort=${sortType}&page=1">Giá từ 5-10 triệu</a></li>
+                                <li class="filter-item visible"><a href="viec-lam/?price=10-20m&sort=${sortType}&page=1">Giá từ 10-20 triệu</a></li>
+                                <li class="filter-item visible"><a href="viec-lam/?price=20-30m&sort=${sortType}&page=1">Giá từ 20-30 triệu</a></li>
+                                <li class="filter-item visible"><a href="viec-lam/?price=30-50m&sort=${sortType}&page=1">Giá từ 30-50 triệu</a></li>
+                                <li class="filter-item visible"><a href="viec-lam/?price=above50m&sort=${sortType}&page=1">Giá trên 50 triệu</a></li>
+                                <li class="filter-item visible"><a href="viec-lam/?price=tat-ca&sort=${sortType}&page=1">Tất cả giá</a></li>
                             </ul>
                             <div class="filter-more price" onclick="showMorePrices()">
                                 Xem thêm
@@ -540,14 +204,14 @@
                                 </svg>
                             </div>
                             <ul class="filter-list job">
-                                <li class="filter-item visible">Tất cả công việc</li>
-                                <li class="filter-item visible">CV1</li>
-                                <li class="filter-item visible">CV2</li>
-                                <li class="filter-item visible">CV3</li>
-                                <li class="filter-item hidden">CV4</li>
-                                <li class="filter-item hidden">CV5</li>
-                                <li class="filter-item hidden">CV6</li>
-                                <li class="filter-item hidden">CV7</li>
+                                <li class="filter-item visible"><a href="viec-lam/?jobType=vietlach&sort=${sortType}&page=1">Viết lách</a></li>
+                                <li class="filter-item visible"><a href="viec-lam/?jobType=thietKe&sort=${sortType}&page=1">Thiết kế</a></li>
+                                <li class="filter-item visible"><a href="viec-lam/?jobType=laptrinh&sort=${sortType}&page=1">Lập trình</a></li>
+                                <li class="filter-item visible"><a href="viec-lam/?jobType=biendichtrinh&sort=${sortType}&page=1"></a>Biên dịch</li>
+                                <li class="filter-item hidden"><a href="viec-lam/?jobType=nhiepanh&sort=${sortType}&page=1"></a>Nhiếp ảnh</li>
+                                <li class="filter-item hidden">Quảng cáo</li>
+                                <li class="filter-item hidden">Marketing</li>
+                                <li class="filter-item hidden">Kiểm thử</li>
                                 <li class="filter-item hidden">CV8</li>
                                 <li class="filter-item hidden">CV9</li>
                             </ul>
@@ -562,20 +226,22 @@
 
 
 
-                    <div class="col-xl-7">
-                        <c:if test="${totalJobs > 0}">
-                            <c:forEach var="i" begin="${start}" end="${end - 1}">
-                                <c:set var="job" value="${jobDAO.allJob[i]}"/>
-                                <div class="card mb-3" onclick="window.location.href='helloservlet'">
+                    <div class="col-xl-8">
+                        <!-- Danh sách công việc -->
+
+                        <c:if test="${not empty jobList && fn:length(jobList) > 0}">
+                            <c:forEach var="job" items="${jobList}">
+                                <div class="card mb-3" onclick="window.location.href='jobDetail?id=${job.jobId}'">
                                     <div class="card-body">
                                         <div class="job-info-left">
                                             <h5 class="card-title">${job.jobTitle}</h5>
-                                            <p class="card-text"><strong>Hạn tuyển:</strong> ${job.dueDate}</p>
+                                            <p class="card-category"><strong>Phân loại:</strong> ${job.jobCategory.categoryName}</p>
+                                            <p class="card-text"><strong>Hạn tuyển:</strong> ${job.dueDatePost}</p>
                                         </div>
                                         <div class="job-info-right">
-                                            <p class="job-salary">${job.budgetMax}</p>
+                                            <p class="job-salary">${job.getFormattedBudgetMax()}</p>
                                             <div class="job-details">
-                                                <a href="helloservlet"
+                                                <a href="jobDetail?id=${job.jobId}"
                                                    class="details-link btn btn-sm btn-outline-primary">Chi tiết</a>
                                             </div>
                                         </div>
@@ -583,27 +249,40 @@
                                 </div>
                             </c:forEach>
                         </c:if>
-                        <c:if test="${totalJobs == 0}">
+                        <c:if test="${empty jobList || fn:length(jobList) == 0}">
                             <div class="alert alert-info text-center">Không có công việc nào để hiển thị.</div>
                         </c:if>
                     </div>
-                    <div class="hamburger-menu col-xl-2">
-                        <button class="hamburger-button" onclick="toggleMenu()">
-                            <div class="hamburger-icon">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </button>
-                        <div id="sortMenu" class="dropdown-menu">
-                            <a href="?sort=recent">Sắp xếp theo đăng gần nhất</a>
-                            <a href="?sort=price-desc">Giá giảm dần</a>
-                            <a href="?sort=price-asc">Giá tăng dần</a>
-                        </div>
-                    </div>
-
-
+        <div class="hamburger-menu col-xl-1">
+            <button class="hamburger-button" onclick="toggleMenu()">
+                <div class="hamburger-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </div>
+            </button>
+
+<%--            //xét url động--%>
+            <c:set var="encodedPriceFilter" value="${fn:replace(priceFilter, '-', '-den-')}"/>
+            <c:set var="encodedPriceFilter" value="${fn:replace(encodedPriceFilter, 'm', '-trieu')}"/>
+            <c:if test="${empty priceFilter}">
+                <c:set var="encodedPriceFilter" value="tat-ca"/>
+            </c:if>
+
+            <div id="sortMenu" style="left: 40px" class="dropdown-menu">
+                <c:url var="sortByRecentUrl" value="/viec-lam/sap-xep-theo-moi-nhat/gia-${encodedPriceFilter}/trang-1"/>
+                <a href="${sortByRecentUrl}">Sắp xếp theo đăng gần nhất</a>
+
+                <c:url var="sortByPriceDescUrl" value="/viec-lam/sap-xep-theo-gia-giam/gia-${encodedPriceFilter}/trang-1"/>
+                <a href="${sortByPriceDescUrl}">Giá giảm dần</a>
+
+                <c:url var="sortByPriceAscUrl" value="/viec-lam/sap-xep-theo-gia-tang/gia-${encodedPriceFilter}/trang-1"/>
+                <a href="${sortByPriceAscUrl}">Giá tăng dần</a>
+            </div>
+        </div>
+
+
+            </div>
 
 
 
@@ -614,24 +293,34 @@
 </section>
 
 
-<%--phân trang--%>
-<div class="pagination">
-    <c:if test="${currentPage > 1}">
-        <a href="?page=${currentPage - 1}">&laquo;</a>
+    <c:if test="${totalPages > 1}">
+        <div class="pagination">
+            <c:forEach begin="1" end="${totalPages}" var="i">
+                <c:choose>
+                    <c:when test="${currentPage == i}">
+                        <a href="#" class="active">${i}</a>
+                    </c:when>
+                    <c:otherwise>
+                    <c:url var="pageUrl" value="/viec-lam/trang-${i}">
+                        <c:if test="${not empty keyword}">
+                            <c:param name="keyword" value="${keyword}"/>
+                        </c:if>
+                        <c:if test="${not empty sortType}">
+                            <c:param name="sort" value="${sortType}"/>
+                        </c:if>
+                        <c:if test="${not empty jobTypeFilter}">
+                            <c:param name="jobType" value="${jobTypeFilter}"/>
+                        </c:if>
+                        <c:if test="${not empty priceFilter}">
+                            <c:param name="price" value="${priceFilter.replace('-', '-den-')}"/>
+                        </c:if>
+                    </c:url>
+                    <a href="${pageUrl}">${i}</a>
+                </c:otherwise>
+                </c:choose>
+            </c:forEach>
+        </div>
     </c:if>
-    <c:forEach var="i" begin="1" end="${totalPages}">
-        <c:choose>
-            <c:when test="${i == currentPage}">
-                <a href="?page=${i}" class="active">${i}</a>
-            </c:when>
-            <c:otherwise>
-                <a href="?page=${i}">${i}</a>
-            </c:otherwise>
-        </c:choose>
-    </c:forEach>
-    <c:if test="${currentPage < totalPages}">
-        <a href="?page=${currentPage + 1}">&raquo;</a>
-    </c:if>
-</div>
+
 </body>
 </html>
