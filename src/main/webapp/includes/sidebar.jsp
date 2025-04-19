@@ -225,27 +225,17 @@
         <a href="#" style="--i:13"><i class="fas fa-question-circle"></i> Đổi mật khẩu</a>
 
         <div class="sidebar-category">Quản lý công việc</div>
-        <a href="#" style="--i:3"><i class="fas fa-tasks"></i> Công việc đã đăng</a>
+        <a href="job?action=view-posted-jobs" style="--i:3"><i class="fas fa-tasks"></i> Công việc đã đăng</a>
         <a href="#" style="--i:4"><i class="fas fa-file-invoice"></i> Công việc của tôi</a>
 
         <div class="sidebar-category">Nâng cao</div>
-        <a href="#" style="--i:7"><i class="fas fa-calendar-alt"></i> Quản lí CV</a>
+        <a href="cv?action=list" style="--i:7"><i class="fas fa-calendar-alt"></i> Quản lí CV</a>
         <a href="#" style="--i:10"><i class="fas fa-comments"></i> Tin nhắn</a>
         <a href="#" style="--i:11"><i class="fas fa-bell"></i> Thông báo</a>
 
 
         <div class="sidebar-category">Hệ thống</div>
-        <a href="#" style="--i:14"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
-    </div>
-
-    <div >
-        <div >
-            NT
-        </div>
-        <div >
-            <div >Nguyễn Tuấn</div>
-            <div >nguyentuan@example.com</div>
-        </div>
+        <a href="logout" style="--i:14"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
     </div>
 </div>
 
