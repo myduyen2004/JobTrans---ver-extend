@@ -151,7 +151,7 @@
         background: linear-gradient(45deg, #6584fa, #8373e6);
         display: flex;
         align-items: center;
-        justify-content: center;
+        /*justify-content: center;*/
         margin-right: 12px;
         color: white;
         font-weight: bold;

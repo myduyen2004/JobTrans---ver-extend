@@ -52,20 +52,6 @@ public class JobDAO {
         return list;
     }
 
-    // ✅ Hàm lấy 1 job theo jobId
-    public Job getJobById(int jobId) {
-        String sql = "SELECT * FROM Job WHERE job_id = ?";
-        try (PreparedStatement ps = dbConnection.openConnection().prepareStatement(sql)) {
-            ps.setInt(1, jobId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return mapToJob(rs);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     public List<Job> getAllJobByPostAccountId(int postAccountId) {
         List<Job> jobs = new ArrayList<>();
@@ -136,27 +122,6 @@ public class JobDAO {
         return list;
     }
 
-    public JobCategory getCategoryById(int categoryId) {
-        JobCategory jobCategory = new JobCategory();
-
-        String query = "Select * FROM JobCategory WHERE category_id=?";
-
-        try {
-            Connection con = dbConnection.openConnection();
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, categoryId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                jobCategory.setCategoryId(rs.getInt("category_id"));
-                jobCategory.setCategoryName(rs.getString("category_name"));
-                jobCategory.setDescription(rs.getString("description"));
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        return jobCategory;
-    }
 
     public int getNumOfJobGreetingByJobId(int jobId) {
         int numOfJobGreeting = 0;
@@ -405,55 +370,7 @@ public class JobDAO {
             throw new RuntimeException(e);
         }
     }
-    public List<Job> getAllJob() {
-        List<Job> jobs = new ArrayList<>();
-        String sql = "SELECT * FROM Job";
-        try (PreparedStatement ps = dbConnection.openConnection().prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                Job job = mapToJob(rs);
-                jobs.add(job);
-            }
-        } catch (Exception e) {
-            e.printStackTrace(); // hoặc log lỗi nếu dùng logger
-        }
-        return jobs;
-    }
 
-
-}
-
-
-
-
-
-
-
-
-
-
-package jobtrans.dal;
-
-import jobtrans.model.Job;
-import jobtrans.model.JobCategory;
-import jobtrans.model.JobGreeting;
-import jobtrans.utils.DBConnection;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-public class JobDAO {
-    private final DBConnection dbConnection;
-
-    public JobDAO() {
-        dbConnection = DBConnection.getInstance();
-    }
     public JobCategory getCategoryById(int categoryId) {
         JobCategory jobCategory = null;
         String sql = "SELECT * FROM JobCategory WHERE category_id = ?";
@@ -676,7 +593,10 @@ public class JobDAO {
         System.out.println(jobDAO.getAllJob());
 
     }
+
+
 }
+
 
 
 
