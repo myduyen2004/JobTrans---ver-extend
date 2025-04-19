@@ -1,5 +1,6 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="jobtrans.model.Account" %>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
     /* Reset và Base styles */
@@ -134,7 +135,44 @@
         filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
     }
 
+    /* User info in sidebar */
+    .user-info {
+        display: flex;
+        align-items: center;
+        padding: 18px 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(0, 0, 0, 0.15);
+    }
 
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(45deg, #6584fa, #8373e6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 12px;
+        color: white;
+        font-weight: bold;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+        font-size: 15px;
+    }
+
+    .user-details {
+        color: white;
+    }
+
+    .user-name {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 3px;
+    }
+
+    .user-email {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.7);
+    }
 
     .toggle-btn {
         position: fixed;
@@ -205,6 +243,62 @@
             left: 225px;
         }
     }
+    .sidebar-dropdown {
+        position: relative;
+    }
+
+    .sidebar-dropdown > a {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .sidebar-dropdown .dropdown-arrow {
+        transition: transform 0.3s ease;
+        margin-left: auto;
+        font-size: 12px;
+    }
+
+    .sidebar-dropdown.active .dropdown-arrow {
+        transform: rotate(90deg);
+    }
+
+    .sidebar-dropdown-content {
+        display: none;
+        background-color: rgba(0, 0, 0, 0.1);
+        border-left: 4px solid #6584fa;
+        margin-left: 44px;
+        border-radius: 0 0 6px 0;
+        overflow: hidden;
+    }
+
+    .sidebar-dropdown.active .sidebar-dropdown-content {
+        display: block;
+    }
+
+    .sidebar-dropdown-content a {
+        padding: 12px 20px 12px 44px;
+        margin: 0;
+        border-left: none;
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.8);
+        position: relative;
+    }
+
+    .sidebar-dropdown-content a:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: none;
+    }
+
+    .sidebar-dropdown-content a i {
+        position: absolute;
+        left: 20px;
+    }
+
+    .sidebar-dropdown-content a.active {
+        color: white;
+        font-weight: 500;
+    }
 </style>
 
 <button class="toggle-btn" id="toggleSidebar">
@@ -225,8 +319,21 @@
         <a href="#" style="--i:13"><i class="fas fa-question-circle"></i> Đổi mật khẩu</a>
 
         <div class="sidebar-category">Quản lý công việc</div>
-        <a href="job?action=view-posted-jobs" style="--i:3"><i class="fas fa-tasks"></i> Công việc đã đăng</a>
-        <a href="#" style="--i:4"><i class="fas fa-file-invoice"></i> Công việc của tôi</a>
+        <a href="#" style="--i:3"><i class="fas fa-tasks"></i> Công việc đã đăng</a>
+        <div class="sidebar-dropdown" id="jobDropdown">
+            <a href="#" style="--i:4" onclick="toggleJobDropdown(event)">
+                <div>
+                    <i class="fas fa-file-invoice"></i> Công việc của tôi
+                </div>
+                <i class="fas fa-chevron-right dropdown-arrow"></i>
+            </a>
+            <div class="sidebar-dropdown-content">
+                <a href="job?action=view-applied"><i class="fas fa-file-export"></i> Công việc đã ứng tuyển</a>
+                <a href="#"><i class="fas fa-hourglass-half"></i> Công việc đang làm</a>
+                <a href="#"><i class="fas fa-check-circle"></i> Công việc đã hoàn thành</a>
+                <a href="#"><i class="fas fa-bookmark"></i> Công việc đã thích</a>
+            </div>
+        </div>
 
         <div class="sidebar-category">Nâng cao</div>
         <a href="cv?action=list" style="--i:7"><i class="fas fa-calendar-alt"></i> Quản lí CV</a>
@@ -240,6 +347,20 @@
 </div>
 
 <script>
+    function toggleJobDropdown(event) {
+        event.preventDefault();
+        const dropdown = document.getElementById("jobDropdown");
+        dropdown.classList.toggle("active");
+    }
+
+    // Đóng dropdown khi click ra ngoài
+    document.addEventListener('click', function(event) {
+        const dropdown = document.getElementById("jobDropdown");
+        if (!dropdown.contains(event.target)) {
+            dropdown.classList.remove("active");
+        }
+    });
+
     document.addEventListener('DOMContentLoaded', function() {
         const sidebar = document.getElementById('sidebar');
         const content = document.getElementById('content');

@@ -19,7 +19,8 @@
     <meta name='robots' content='max-image-preview:large'/>
     <link rel="icon" type="image/png" href="">
     <style>
-        :root {
+
+        .cong :root {
             --primary: #3498db;
             --secondary: #2ecc71;
             --warning: #f39c12;
@@ -28,26 +29,26 @@
             --dark: #34495e;
         }
 
-        * {
+        .cong * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        body {
+        .cong body {
             background-color: #f9f9f9;
             color: #333;
             line-height: 1.6;
         }
 
-        .container {
-            max-width: 1200px;
+        .cong .containerr {
+            width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
 
-        header {
+        .cong header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -56,25 +57,25 @@
             border-bottom: 1px solid #eee;
         }
 
-        h1 {
+        .cong h1 {
             font-size: 24px;
             color: var(--dark);
         }
 
-        .user-controls {
+        .cong .user-controls {
             display: flex;
             align-items: center;
             gap: 15px;
         }
 
-        .user-type {
+        .cong .user-type {
             display: flex;
             background-color: #eee;
             border-radius: 30px;
             overflow: hidden;
         }
 
-        .user-type button {
+        .cong .user-type button {
             padding: 8px 20px;
             border: none;
             background: none;
@@ -88,7 +89,7 @@
             color: white;
         }
 
-        .filters {
+        .cong .filters {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -97,13 +98,13 @@
             gap: 10px;
         }
 
-        .search-box {
+        .cong .search-box {
             flex: 1;
             max-width: 400px;
             position: relative;
         }
 
-        .search-box input {
+        .cong .search-box input {
             width: 100%;
             padding: 10px 15px;
             padding-left: 40px;
@@ -112,7 +113,7 @@
             font-size: 14px;
         }
 
-        .search-box:before {
+        .cong .search-box:before {
             content: "🔍";
             position: absolute;
             left: 15px;
@@ -143,10 +144,10 @@
             }
         }
 
-        .job-card {
+        .cong .job-card {
             background-color: #fff;
             border-radius: 8px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
             padding: 20px;
             transition: transform 0.2s;
             border-left: 1px solid #eee; /* Đổi thành đường viền nhẹ thay vì màu đặc trưng */
@@ -156,10 +157,10 @@
 
         .job-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .job-status {
+        .cong .job-status {
             position: absolute;
             top: 20px;
             right: 20px;
@@ -190,7 +191,7 @@
             color: var(--primary);
         }
 
-        .job-title {
+        .cong .job-title {
             font-size: 18px;
             margin-bottom: 10px;
             padding-right: 80px;
@@ -306,270 +307,184 @@
             padding: 40px;
             color: #777;
         }
+        .banner_title {
+            background-image: url(./img/anh1/anh1.png);
+            background-size: 100%;
+            font-size: 40px;
+            height: 200px;
+            display: flex;
+
+            align-items: center;
+        }
     </style>
 </head>
 
 <body>
 
-<div class="row main-content" id="mainContent">
+<%@include file="includes/header-01.jsp" %>
+<%@include file="includes/sidebar.jsp" %>
+<div class="py-4 banner_title">
+    <h1 class="text-white font-weight-bold" style="padding-left: 50px;">Danh sách công việc</h1>
+</div>
+<div class="cong">
 
-<%--    <section class="section-padding">--%>
-<%--        <div class="container">--%>
-<%--            <div class="row justify-content-center flex-row-reverse">--%>
-<%--                <div class="col-xl-9" style="text-align: center;">--%>
-<%--                    <h2>Danh sách công việc đã ứng tuyển</h2>--%>
-<%--                </div>--%>
-<%--                <c:forEach items="${job}" var="o">--%>
-<%--                    <c:set var="jobDetail" value="${jobDAO.getJobById(o.jobId)}" />--%>
-<%--                    <c:set var="accountDetail" value="${accountDAO.getAccountById(o.jobSeekerId)}" />--%>
-<%--                    <c:set var="accountCompany" value="${accountDAO.getAccountById(jobDetail.postAccountId)}" />--%>
-
-<%--                <div class="job-card-2">--%>
-<%--                    <div class="job-header-2">--%>
-<%--                        <div class="avatar-wrapper">--%>
-<%--                            <img src="" alt="User Avatar" class="avatar-2">--%>
-<%--                            <div class="verified-icon"></div>--%>
-<%--                        </div>--%>
-<%--                        <div>--%>
-<%--                            <div style="display: flex">--%>
-<%--                                <div class="job-title-2">${jobDetail.jobTitle}</div>--%>
-
-<%--                                <div style="margin-left: 100px" class="job-category-2">${fn:substring(jobDetail.description, 0, 30)}...</div>--%>
-<%--                                    &lt;%&ndash;                                <a  href="" class="view-cv-2">Xem </a>&ndash;%&gt;--%>
-<%--                            </div>--%>
-<%--                            <div class="job-category-2">${accountCompany.accountName}</div>--%>
-<%--                        </div>--%>
-
-<%--                    </div>--%>
-<%--                    <div class="job-info-2">--%>
-<%--                        Thời hạn ứng tuyển:--%>
-<%--                        <fmt:formatDate value="${jobDetail.postDate}" pattern="dd/MM/yyyy" /> ---%>
-<%--                        <fmt:formatDate value="${jobDetail.dueDate}" pattern="dd/MM/yyyy" />--%>
-<%--                    </div>--%>
-<%--                    <div class="job-info-2">--%>
-<%--                        CV đã ứng tuyển:--%>
-<%--                        <a href="href="cv?action=view&cvId=${o.cvId}"><span class="cv-name-2">Xem CV</span></a>--%>
-<%--                    </div>--%>
-<%--                    <div class="salary-range-2">--%>
-<%--            <span class="salary-2">--%>
-<%--                <fmt:formatNumber value="${jobDetail.budgetMin}" type="currency" currencyCode="VND" />--%>
-<%--            </span>--%>
-<%--                        <span style="color: #6787FE;">-</span>--%>
-<%--                        <span class="salary-2">--%>
-<%--                <fmt:formatNumber value="${jobDetail.budgetMax}" type="currency" currencyCode="VND" />--%>
+    <div class="content" id="content">
+        <div class="row main-content" id="mainContent">
 
 
-<%--                        </span>--%>
+            <div class="containerr">
+                <header>
+                    <h1 style="font-size: 24px;
+            color: var(--dark);font-weight: bold">Danh sách công việc đã ứng tuyển</h1>
 
-
-<%--                    </div>--%>
-<%--                </div>--%>
-<%--                </c:forEach>--%>
-<%--    </section>--%>
-
-    <div class="container">
-        <header>
-            <h1>Danh sách công việc đã ứng tuyển</h1>
-            <div class="user-controls">
-                <div class="user-type">
-                    <button class="active">Freelancer</button>
-                    <button>Employer</button>
-                </div>
-            </div>
-        </header>
-
-        <div class="filters">
-            <div class="search-box">
-                <input type="text" placeholder="Tìm kiếm theo tên công việc hoặc công ty">
-            </div>
-            <div class="filter-group">
-                <select>
-                    <option>Tất cả trạng thái</option>
-                    <option>Đã nộp hồ sơ</option>
-                    <option>Đang xem xét</option>
-                    <option>Được chấp nhận</option>
-                    <option>Bị từ chối</option>
-                </select>
-
-                <select>
-                    <option>Sắp xếp theo: Mới nhất</option>
-                    <option>Sắp xếp theo: Cũ nhất</option>
-                    <option>Sắp xếp theo: Mức lương cao</option>
-                    <option>Sắp xếp theo: Mức lương thấp</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="jobs-list">
-            <!-- Job Card 1 -->
-            <div class="job-card">
-                <div class="job-status status-reviewing">Đang xem xét</div>
-                <h3 class="job-title">Thiết kế website tuyển dụng freelancer</h3>
-                <div class="job-company">
-                    <div class="company-logo">T</div>
-                    <div class="company-name">Tech Solutions Inc.</div>
-                </div>
-                <div class="job-details">
-                    <div class="job-detail">
-                        <span class="detail-label">Ngày ứng tuyển</span>
-                        <span class="detail-value">05/04/2025</span>
+                    <div class="user-controls">
+                        <div class="user-type">
+                            <button class="active">Freelancer</button>
+                            <button>Employer</button>
+                        </div>
                     </div>
-                    <div class="job-detail">
-                        <span class="detail-label">Mức lương</span>
-                        <span class="detail-value">15.000.000 VND</span>
+                </header>
+
+                <div class="filters">
+                    <div class="search-box">
+                        <input type="text" placeholder="Tìm kiếm theo tên công việc hoặc công ty">
                     </div>
-                    <div class="job-detail">
-                        <span class="detail-label">Thời hạn</span>
-                        <span class="detail-value">30 ngày</span>
-                    </div>
-                    <div class="job-detail">
-                        <span class="detail-label">Loại công việc</span>
-                        <span class="detail-value">Web Development</span>
+                    <div class="filter-group">
+                        <form action="job" method="get">
+                            <input type="hidden" name="action" value="list-job-by-status">
+                            <select name="status" onchange="this.form.submit()">
+                                <option value="">-- Chọn trạng thái --</option>
+                                <option value="Chờ phỏng vấn">Chờ phỏng vấn</option>
+                                <option value="Chờ xác nhận">Chờ xác nhận</option>
+                                <option value="Được duyệt">Được duyệt</option>
+                                <option value="tất cả">tất cả</option>
+                            </select>
+                        </form>
+
+                        <form id="sortForm" action="job" method="get">
+                            <input type="hidden" name="action" value="sort">
+
+                            <select name="sort" onchange="document.getElementById('sortForm').submit()">
+                                <option value="newest" ${param.sort == 'newest' ? 'selected' : ''}>Sắp xếp theo: Mới
+                                    nhất
+                                </option>
+                                <option value="oldest" ${param.sort == 'oldest' ? 'selected' : ''}>Sắp xếp theo: Cũ nhất
+                                </option>
+                                <option value="salary_high" ${param.sort == 'salary_high' ? 'selected' : ''}>Sắp xếp
+                                    theo:
+                                    Mức lương cao
+                                </option>
+                                <option value="salary_low" ${param.sort == 'salary_low' ? 'selected' : ''}>Sắp xếp theo:
+                                    Mức
+                                    lương thấp
+                                </option>
+                            </select>
+                        </form>
                     </div>
                 </div>
-                <div class="job-actions">
-                    <button class="btn btn-outline">Xem chi tiết</button>
-                    <button class="btn btn-primary">Liên hệ</button>
-                </div>
-            </div>
 
-            <!-- Job Card 2 -->
-            <div class="job-card">
-                <div class="job-status status-accepted">Được chấp nhận</div>
-                <h3 class="job-title">Thiết kế logo cho ứng dụng di động</h3>
-                <div class="job-company">
-                    <div class="company-logo">M</div>
-                    <div class="company-name">Mobile App Studio</div>
-                </div>
-                <div class="job-details">
-                    <div class="job-detail">
-                        <span class="detail-label">Ngày ứng tuyển</span>
-                        <span class="detail-value">01/04/2025</span>
-                    </div>
-                    <div class="job-detail">
-                        <span class="detail-label">Mức lương</span>
-                        <span class="detail-value">5.000.000 VND</span>
-                    </div>
-                    <div class="job-detail">
-                        <span class="detail-label">Thời hạn</span>
-                        <span class="detail-value">7 ngày</span>
-                    </div>
-                    <div class="job-detail">
-                        <span class="detail-label">Loại công việc</span>
-                        <span class="detail-value">Graphic Design</span>
-                    </div>
-                </div>
-                <div class="job-actions">
-                    <button class="btn btn-outline">Xem chi tiết</button>
-                    <button class="btn btn-primary">Liên hệ</button>
-                </div>
-            </div>
+                <form action="job" method="get">
+                    <input type="hidden" name="action" value="detail">
 
-            <!-- Job Card 3 -->
-            <div class="job-card">
-                <div class="job-status status-pending">Đã nộp hồ sơ</div>
-                <h3 class="job-title">Viết nội dung blog về công nghệ AI</h3>
-                <div class="job-company">
-                    <div class="company-logo">A</div>
-                    <div class="company-name">AI Tech Blog</div>
-                </div>
-                <div class="job-details">
-                    <div class="job-detail">
-                        <span class="detail-label">Ngày ứng tuyển</span>
-                        <span class="detail-value">08/04/2025</span>
-                    </div>
-                    <div class="job-detail">
-                        <span class="detail-label">Mức lương</span>
-                        <span class="detail-value">3.000.000 VND</span>
-                    </div>
-                    <div class="job-detail">
-                        <span class="detail-label">Thời hạn</span>
-                        <span class="detail-value">15 ngày</span>
-                    </div>
-                    <div class="job-detail">
-                        <span class="detail-label">Loại công việc</span>
-                        <span class="detail-value">Content Writing</span>
-                    </div>
-                </div>
-                <div class="job-actions">
-                    <button class="btn btn-outline">Xem chi tiết</button>
-                    <button class="btn btn-primary">Liên hệ</button>
-                </div>
-            </div>
+                    <div class="jobs-list">
+                        <c:forEach items="${job}" var="o">
+                            <c:set var="jobDetail" value="${jobDAO.getJobById(o.jobId)}"/>
+                            <c:set var="accountDetail" value="${accountDAO.getAccountById(o.jobSeekerId)}"/>
+                            <c:set var="accountCompany" value="${accountDAO.getAccountById(jobDetail.postAccountId)}"/>
+                            <input type="hidden" name="jobGreetingId" value="${o.greetingId}">
+                            <input type="hidden" name="jobId" value="${jobDetail.jobId}">
+                            <!-- Job Card 1 -->
+                            <div class="job-card">
+                                <div style="font-weight: bold" class="job-status status-reviewing">${o.status}</div>
+                                <h3 class="job-title">${jobDetail.jobTitle}</h3>
+                                <div class="job-company">
+                                    <div class="company-logo">T</div>
+                                    <div class="company-name">${accountCompany.accountName}</div>
+                                </div>
+                                <div class="job-details">
+                                    <div class="job-detail">
+                                        <span class="detail-label">Ngày ứng tuyển</span>
+                                        <span class="detail-value"><fmt:formatDate value="${jobDetail.dueDatePost}"
+                                                                                   pattern="dd/MM/yyyy"/> </span>
+                                    </div>
+                                    <div class="job-detail">
+                                        <span class="detail-label">Mức lương</span>
+                                        <span class="detail-value"><fmt:formatNumber value="${jobDetail.budgetMin}"
+                                                                                     type="currency"
+                                                                                     currencyCode="VND"/></span>
+                                    </div>
+                                    <div class="job-detail">
+                                        <span class="detail-label">Thời hạn</span>
+                                        <span class="detail-value"> <fmt:formatDate value="${jobDetail.dueDateJob}"
+                                                                                    pattern="dd/MM/yyyy"/></span>
+                                    </div>
 
-            <!-- Job Card 4 -->
-            <div class="job-card">
-                <div class="job-status status-rejected">Bị từ chối</div>
-                <h3 class="job-title">Phát triển ứng dụng di động bán hàng</h3>
-                <div class="job-company">
-                    <div class="company-logo">E</div>
-                    <div class="company-name">E-commerce Solutions</div>
-                </div>
-                <div class="job-details">
-                    <div class="job-detail">
-                        <span class="detail-label">Ngày ứng tuyển</span>
-                        <span class="detail-value">25/03/2025</span>
+                                </div>
+                                <div class="job-actions">
+                                    <button class="btn btn-outline">Xem chi tiết</button>
+                                    <a class="btn btn-primary">Liên hệ</a>
+                                </div>
+                            </div>
+                        </c:forEach>
                     </div>
-                    <div class="job-detail">
-                        <span class="detail-label">Mức lương</span>
-                        <span class="detail-value">20.000.000 VND</span>
-                    </div>
-                    <div class="job-detail">
-                        <span class="detail-label">Thời hạn</span>
-                        <span class="detail-value">45 ngày</span>
-                    </div>
-                    <div class="job-detail">
-                        <span class="detail-label">Loại công việc</span>
-                        <span class="detail-value">Mobile Development</span>
-                    </div>
-                </div>
-                <div class="job-actions">
-                    <button class="btn btn-outline">Xem chi tiết</button>
-                    <button class="btn btn-primary">Tìm tương tự</button>
+                </form>
+                <div class="pagination">
+                    <button class="page-btn">←</button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn">→</button>
                 </div>
             </div>
         </div>
-
-        <div class="pagination">
-            <button class="page-btn">←</button>
-            <button class="page-btn active">1</button>
-            <button class="page-btn">2</button>
-            <button class="page-btn">3</button>
-            <button class="page-btn">→</button>
+        <div>
         </div>
     </div>
-
-    <script>
-        // Chuyển đổi giữa chế độ Freelancer và Employer
-        const userTypeButtons = document.querySelectorAll('.user-type button');
-        userTypeButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                userTypeButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-
-                // Ở đây bạn có thể thêm mã để tải danh sách công việc dựa trên loại người dùng
-                // Ví dụ: loadJobs(button.textContent.toLowerCase());
+</div>
+<%@include file="includes/footer.jsp" %>
+<script>
+    document.querySelector('select[name="sort"]').addEventListener('change', function () {
+        const form = document.getElementById('sortForm');
+        fetch(form.action + '?' + new URLSearchParams(new FormData(form)), {
+            method: 'GET'
+        })
+            .then(response => response.text())
+            .then(html => {
+                document.querySelector('.jobs-list').innerHTML =
+                    new DOMParser().parseFromString(html, 'text/html')
+                        .querySelector('.jobs-list').innerHTML;
             });
+    });
+    // Chuyển đổi giữa chế độ Freelancer và Employer
+    const userTypeButtons = document.querySelectorAll('.user-type button');
+    userTypeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            userTypeButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+
+            // Ở đây bạn có thể thêm mã để tải danh sách công việc dựa trên loại người dùng
+            // Ví dụ: loadJobs(button.textContent.toLowerCase());
         });
+    });
 
-        // Mô phỏng chức năng tìm kiếm (trong thực tế, cần xử lý thêm)
-        const searchInput = document.querySelector('.search-box input');
-        searchInput.addEventListener('input', () => {
-            const searchQuery = searchInput.value.toLowerCase();
-            const jobCards = document.querySelectorAll('.job-card');
+    // Mô phỏng chức năng tìm kiếm (trong thực tế, cần xử lý thêm)
+    const searchInput = document.querySelector('.search-box input');
+    searchInput.addEventListener('input', () => {
+        const searchQuery = searchInput.value.toLowerCase();
+        const jobCards = document.querySelectorAll('.job-card');
 
-            jobCards.forEach(card => {
-                const title = card.querySelector('.job-title').textContent.toLowerCase();
-                const company = card.querySelector('.company-name').textContent.toLowerCase();
+        jobCards.forEach(card => {
+            const title = card.querySelector('.job-title').textContent.toLowerCase();
+            const company = card.querySelector('.company-name').textContent.toLowerCase();
 
-                if (title.includes(searchQuery) || company.includes(searchQuery)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+            if (title.includes(searchQuery) || company.includes(searchQuery)) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
         });
-    </script>
+    });
+</script>
 </div>
 
 <!--======= Back to Top =======-->
