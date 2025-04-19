@@ -164,4 +164,25 @@ public class GroupMember {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "GroupMember{" +
+                "memberId=" + memberId +
+                ", memberName='" + memberName + '\'' +
+                ", accountId=" + accountId +
+                ", avatarMember='" + avatarMember + '\'' +
+                ", gender='" + gender + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", position='" + position + '\'' +
+                ", speciality='" + speciality + '\'' +
+                ", experienceYears=" + experienceYears +
+                ", skills='" + skills + '\'' +
+                ", bio='" + bio + '\'' +
+                ", education='" + education + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

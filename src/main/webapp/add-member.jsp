@@ -1,5 +1,5 @@
 
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -579,6 +579,7 @@
     </style>
 </head>
 <body>
+<%@include file="includes/header-01.jsp"%>
 <div class="page-header text-center">
     <div class="parallax-bg">
         <div class="parallax-circle circle-1"></div>
@@ -610,7 +611,7 @@
                             </div>
 
                             <div class="avatar-preview">
-                                <img src="img\avatar-default.jpg" id="imagePreview" alt="Ảnh đại diện">
+                                <img src="img/default-avatar.jpg" id="imagePreview" alt="Ảnh đại diện">
                             </div>
 
                         </div>
@@ -618,7 +619,7 @@
                         <div class="text-center">
                             <div class="form-check form-switch d-flex justify-content-center align-items-center mb-4">
                                 <label class="toggle-switch ms-2">
-                                    <input type="checkbox" checked>
+                                    <input type="checkbox" name="status" checked>
                                     <span class="toggle-slider"></span>
                                 </label>
                                 <span class="ms-2">Hoạt động</span>
@@ -720,7 +721,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-floating">
-                                        <textarea class="form-control" id="skills" name="skills" name="skills" style="height: 100px" placeholder="Kỹ năng"></textarea>
+                                        <textarea class="form-control" id="skills" name="skills" style="height: 100px" placeholder="Kỹ năng"></textarea>
                                         <label for="skills">Kỹ năng (cách nhau bởi dấu phẩy)</label>
                                     </div>
                                 </div>
@@ -733,13 +734,13 @@
                             <h4 class="form-section-title"><i class="fas fa-address-card"></i> Thông tin liên hệ</h4>
 
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-floating">
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email">
-                                        <label for="email">Email</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
+<%--                                <div class="col-md-6">--%>
+<%--                                    <div class="form-floating">--%>
+<%--                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email">--%>
+<%--                                        <label for="email">Email</label>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
+                                <div class="col-md-12">
                                     <div class="form-floating">
                                         <input type="tel" class="form-control" id="phone" name="phone" placeholder="Số điện thoại">
                                         <label for="phone">Số điện thoại</label>
@@ -773,12 +774,12 @@
                         </div>
 
                         <div class="my-4 d-flex justify-content-between align-items-center">
-                            <div class="form-check animate__animated animate__fadeIn animate__delay-3s">
-                                <input class="form-check-input" type="checkbox" id="sendWelcomeEmail">
-                                <label class="form-check-label" for="sendWelcomeEmail">
-                                    Gửi email chào mừng
-                                </label>
-                            </div>
+<%--                            <div class="form-check animate__animated animate__fadeIn animate__delay-3s">--%>
+<%--                                <input class="form-check-input" type="checkbox" id="sendWelcomeEmail" name="sendWelcomeEmail">--%>
+<%--                                <label class="form-check-label" for="sendWelcomeEmail">--%>
+<%--                                    Gửi email chào mừng--%>
+<%--                                </label>--%>
+<%--                            </div>--%>
 
                             <div class="btn-container animate__animated animate__fadeIn animate__delay-3s">
                                 <button type="button" class="btn btn-outline-secondary btn-action" id="btnCancel">
@@ -930,5 +931,6 @@
         });
     });
 </script>
+<%@include file="includes/footer.jsp"%>
 </body>
 </html>
