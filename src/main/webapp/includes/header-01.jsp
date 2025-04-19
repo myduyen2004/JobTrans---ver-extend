@@ -27,7 +27,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 99%;
+    width: 100%;
     z-index: 1000;
     transition: all 0.4s ease;
     height: 100px; /* Tăng chiều cao tổng thể */

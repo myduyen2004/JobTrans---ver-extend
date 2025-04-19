@@ -597,7 +597,7 @@
             <h3 class="card-title">Thông tin thành viên</h3>
         </div>
         <div class="card-body">
-            <form action="group" method="post" id="memberForm" accept-charset="UTF-8" enctype="multipart/form-data">
+            <form action="group" method="POST" id="memberForm" accept-charset="UTF-8" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="update">
                 <input type="hidden" name="memberId" value="${member.memberId}">
 
