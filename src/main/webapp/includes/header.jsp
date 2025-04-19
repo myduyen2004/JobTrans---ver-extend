@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="jobtrans.model.Account" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
     Account account = (Account) session.getAttribute("sessionAccount");
 %>
@@ -7,6 +8,8 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <!-- Font Awesome -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+
 <!-- Inter Font -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -658,7 +661,7 @@
         height: 45px;
         border-radius: 50%;
         position: relative;
-        display: block;
+        display: inline-block;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2),
         0 0 0 3px rgba(255, 255, 255, 0.2);
         transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -668,20 +671,18 @@
 
     .user-avatar::after {
         content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
         border-radius: 50%;
-        z-index: 1;
+        /*position: absolute;*/
+        /*top: 0;*/
+        /*left: 0;*/
+        /*right: 0;*/
+        /*bottom: 0;*/
+        /*background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));*/
+        /*z-index: 1;*/
     }
 
-    .user-avatar:hover {
+    .avatar-icon:hover {
         transform: translateY(-3px) scale(1.05);
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.25),
-        0 0 0 3px rgba(255, 255, 255, 0.4);
     }
 
     .user-avatar-img {
@@ -705,7 +706,7 @@
         height: 12px;
         border-radius: 50%;
         border: 2px solid #6584fa;
-        z-index: 2;
+        z-index: 100;
         box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
     }
 
@@ -754,9 +755,9 @@
         }
     }
 
-    .dropdown-user-info {
+    .dropdown-user-info   {
         background: linear-gradient(135deg, #6584fa, #2B3D9F);
-        padding: 25px;
+        padding: 15px;
         display: flex;
         align-items: center;
         color: #fff;
@@ -777,10 +778,9 @@
     }
 
     .user-dropdown-avatar {
-        width: 60px;
-        height: 60px;
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
-        margin-right: 18px;
         border: 3px solid rgba(255, 255, 255, 0.6);
         overflow: hidden;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
@@ -792,7 +792,9 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+        object-position: center;
         transition: all 0.5s ease;
+        border-radius: 50%;
     }
 
     .user-dropdown-avatar:hover img {
@@ -802,6 +804,7 @@
     .user-dropdown-details {
         position: relative;
         z-index: 2;
+        left: 10px;
     }
 
     .user-dropdown-details h6 {
@@ -1211,10 +1214,12 @@
 
                 <!-- User avatar dropdown -->
                 <div class="dropdown">
-                    <a href="#" class="user-avatar dropdown-toggle" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="<%=account.getAvatar()%>" alt="User Avatar" class="user-avatar-img">
+                    <div class="avatar-icon" id="userDropdown" data-bs-toggle="dropdown">
+                        <div class="user-avatar dropdown-toggle" role="button"  aria-expanded="false">
+                            <img src="<%=account.getAvatar()%>" alt="User Avatar" class="user-avatar-img" >
+                        </div>
                         <span class="avatar-status online"></span>
-                    </a>
+                    </div>
                     <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu" aria-labelledby="userDropdown">
                         <li class="dropdown-user-info">
                             <div class="user-dropdown-avatar">
@@ -1226,7 +1231,12 @@
                             </div>
                         </li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="profile.jsp"><i class="fas fa-user"></i>Hồ sơ cá nhân</a></li>
+                        <c:if test="${sessionScope.sessionAccount.typeAccount == 'Nhóm'}">
+                            <li><a class="dropdown-item" href="group?action=view&account_id=${sessionScope.sessionAccount.accountId}"><i class="fas fa-user"></i>Hồ sơ cá nhân</a></li>
+                        </c:if>
+                        <c:if test="${sessionScope.sessionAccount.typeAccount == 'Cá nhân'}">
+                            <li><a class="dropdown-item" href="profile?action=view&account_id=${sessionScope.sessionAccount.accountId}"><i class="fas fa-user"></i>Hồ sơ cá nhân</a></li>
+                        </c:if>
                         <li><a class="dropdown-item" href="my-applications.jsp"><i class="fas fa-file-alt"></i>Đơn ứng tuyển</a></li>
                         <li><a class="dropdown-item" href="my-cvs.jsp"><i class="fas fa-id-card"></i>CV của tôi</a></li>
                         <li><a class="dropdown-item" href="notifications.jsp"><i class="fas fa-bell"></i>Thông báo</a></li>
