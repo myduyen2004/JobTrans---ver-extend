@@ -496,16 +496,33 @@ public class AccountDAO {
         return accounts;
     }
 
-
-
-    public static void main(String[] args) {
-        AccountDAO dao = new AccountDAO();
-        Account account = dao.getAccountById(6);
-        System.out.println(account.getStarRate());
-
-
+    public boolean addAmountWallet(int accountId, BigDecimal amount) {
+        String sql = "UPDATE Account SET amount_wallet = amount_wallet + ? WHERE account_id = ?";
+        try (PreparedStatement ps = dbConnection.openConnection().prepareStatement(sql)) {
+            ps.setBigDecimal(1, amount);
+            ps.setInt(2, accountId);
+            int rows = ps.executeUpdate();
+            return rows > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
+
+    public boolean substractAmountWallet(int accountId, BigDecimal amount) {
+        String sql = "UPDATE Account SET amount_wallet = amount_wallet - ? WHERE account_id = ? AND amount_wallet >= ?";
+        try (PreparedStatement ps = dbConnection.openConnection().prepareStatement(sql)) {
+            ps.setBigDecimal(1, amount);
+            ps.setInt(2, accountId);
+            ps.setBigDecimal(3, amount); // để tránh âm ví
+            int rows = ps.executeUpdate();
+            return rows > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
+}
 
 
 

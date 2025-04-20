@@ -1233,7 +1233,7 @@
                         <c:if test="${sessionScope.sessionAccount.typeAccount == 'Cá nhân'}">
                             <li><a class="dropdown-item" href="profile?action=view&account_id=${sessionScope.sessionAccount.accountId}"><i class="fas fa-user"></i>Hồ sơ cá nhân</a></li>
                         </c:if>
-                        <li><a class="dropdown-item" href="my-applications.jsp"><i class="fas fa-file-alt"></i>Đơn ứng tuyển</a></li>
+                        <li><a class="dropdown-item" href="profile?action=wallet"><i class="fas fa-file-alt"></i>Ví của tôi</a></li>
                         <li><a class="dropdown-item" href="my-cvs.jsp"><i class="fas fa-id-card"></i>CV của tôi</a></li>
                         <li><a class="dropdown-item" href="notifications.jsp"><i class="fas fa-bell"></i>Thông báo</a></li>
                         <li><hr class="dropdown-divider"></li>
