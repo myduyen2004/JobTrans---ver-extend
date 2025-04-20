@@ -88,7 +88,7 @@ public class ListJobServlet extends HttpServlet {
         } else {
             // Nếu không có từ khóa, lấy tất cả công việc
             JobDAO jobDAO = new JobDAO();
-            filteredAndSortedJobs = new ArrayList<>(jobDAO.getAllJob());
+            filteredAndSortedJobs = new ArrayList<>(jobDAO.getAllJobs());
         }
 
         // Lọc theo giá

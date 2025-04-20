@@ -1031,7 +1031,7 @@
                         Công việc
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="jobs.jsp"><i class="fas fa-list-ul"></i>Tất cả công việc</a></li>
+                        <li><a class="dropdown-item" href="viec-lam"><i class="fas fa-list-ul"></i>Tất cả công việc</a></li>
                         <li><a class="dropdown-item" href="jobs-by-category.jsp"><i class="fas fa-th-large"></i>Theo danh mục</a></li>
                         <li><a class="dropdown-item" href="jobs-by-location.jsp"><i class="fas fa-map-marker-alt"></i>Theo địa điểm</a></li>
                         <li><hr class="dropdown-divider"></li>

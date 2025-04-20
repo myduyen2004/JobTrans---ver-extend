@@ -22,13 +22,15 @@ public class JobDAO {
         dbConnection = DBConnection.getInstance();
     }
 
-    private Job mapToJob(ResultSet rs) throws Exception {
+    private Job mapToJob(ResultSet rs) throws SQLException {
         Job job = new Job();
         job.setJobId(rs.getInt("job_id"));
         job.setPostAccountId(rs.getInt("post_account_id"));
         job.setJobTitle(rs.getString("job_title"));
         job.setPostDate(rs.getTimestamp("post_date"));
         job.setJobDescription(rs.getString("job_description"));
+        job.setRequirements(rs.getString("requirements"));
+        job.setBenefit(rs.getString("benefit"));
         job.setAttachment(rs.getString("attachment"));
         job.setCategoryId(rs.getInt("category_id"));
         job.setBudgetMax(rs.getBigDecimal("budget_max"));
@@ -43,6 +45,7 @@ public class JobDAO {
         job.setStatusJobId(rs.getInt("status_job_id"));
         return job;
     }
+
 
     public List<Job> getAllJobs() {
         List<Job> list = new ArrayList<>();
@@ -522,42 +525,27 @@ public class JobDAO {
         }
         return list;
     }
-    public Job getJobById(int jobId) {
-        Job job = new Job();
+    public Job getJobById(int id) {
+        Job job = null;
         String sql = "SELECT * FROM Job WHERE job_id = ?";
 
-        try (Connection con = dbConnection.openConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, jobId);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-
-                job.setJobId(rs.getInt("job_id"));
-                job.setPostAccountId(rs.getInt("post_account_id"));
-                job.setJobTitle(rs.getString("job_title"));
-                job.setPostDate(Timestamp.valueOf(rs.getTimestamp("post_date").toLocalDateTime())); // Chuyển đổi Timestamp sang LocalDateTime (Java 8+)
-                job.setJobDescription(rs.getString("job_description"));
-                job.setCategoryId(rs.getInt("category_id"));
-                job.setBudgetMax(BigDecimal.valueOf(rs.getFloat("budget_max")));
-                job.setBudgetMin(BigDecimal.valueOf(rs.getFloat("budget_min")));
-                job.setDueDatePost(Date.valueOf(rs.getDate("due_date_post").toLocalDate())); // Chuyển đổi Date sang LocalDate (Java 8+)
-                job.setDueDateJob(Date.valueOf(rs.getDate("due_date_job").toLocalDate())); // Chuyển đổi Date sang LocalDate (Java 8+)
-                job.setHaveInterviewed(rs.getBoolean("is_interviewed"));
-                job.setHaveTested(rs.getBoolean("is_tested"));
-                job.setNumOfMember(rs.getInt("num_of_member"));
-                job.setSecureWallet(rs.getInt("secure_wallet"));
-                job.setStatusPost(rs.getString("status_post"));
-                job.setStatusJobId(rs.getInt("status_job_id"));
-
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    job = mapToJob(rs);
+                }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
+            // hoặc log lỗi nếu bạn dùng logger
         }
+
         return job;
     }
+
 
     public List<Job> searchJobsByKeyword(String keyword) throws SQLException, Exception {
         String sql = "SELECT * " +
@@ -647,45 +635,6 @@ public class JobDAO {
         }
         return jobs;
     }
-    public List<Job> getAllJob() {
-
-        String query = "SELECT * FROM Job";
-
-        try {
-            Connection con = dbConnection.openConnection();
-            PreparedStatement ps = con.prepareStatement(query);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Job job = new Job();
-                job.setJobId(rs.getInt("job_id"));
-                job.setPostAccountId(rs.getInt("post_account_id"));
-                job.setJobTitle(rs.getString("job_title"));
-                job.setPostDate(Timestamp.valueOf(rs.getTimestamp("post_date").toLocalDateTime())); // Chuyển đổi Timestamp sang LocalDateTime (Java 8+)
-                job.setJobDescription(rs.getString("job_description"));
-                job.setCategoryId(rs.getInt("category_id"));
-                job.setBudgetMax(BigDecimal.valueOf(rs.getFloat("budget_max")));
-                job.setBudgetMin(BigDecimal.valueOf(rs.getFloat("budget_min")));
-                job.setDueDatePost(Date.valueOf(rs.getDate("due_date_post").toLocalDate())); // Chuyển đổi Date sang LocalDate (Java 8+)
-                job.setDueDateJob(Date.valueOf(rs.getDate("due_date_job").toLocalDate())); // Chuyển đổi Date sang LocalDate (Java 8+)
-                job.setHaveInterviewed(rs.getBoolean("is_interviewed"));
-                job.setHaveTested(rs.getBoolean("is_tested"));
-                job.setNumOfMember(rs.getInt("num_of_member"));
-                job.setSecureWallet(rs.getInt("secure_wallet"));
-                job.setStatusPost(rs.getString("status_post"));
-                job.setStatusJobId(rs.getInt("status_job_id"));
-                jobs.add(job);
-            }
-        } catch (Exception e) {
-            Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, e);
-        }
-        return jobs;
-    }
-    public static void main(String[] args) {
-        JobDAO jobDAO = new JobDAO();
-        System.out.println(jobDAO.getAllJob());
-
-    }
-
 
 }
 

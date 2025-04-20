@@ -322,5 +322,39 @@ public class Job {
         String formattedBudget = job.getFormattedBudgetMax();
         System.out.println("Budget Max (đã định dạng): " + formattedBudget);
     }
+
+    @Override
+    public String toString() {
+        return "Job{" +
+                "jobId=" + jobId +
+                ", postAccountId=" + postAccountId +
+                ", jobTitle='" + jobTitle + '\'' +
+                ", postDate=" + postDate +
+                ", jobDescription='" + jobDescription + '\'' +
+                ", attachment='" + attachment + '\'' +
+                ", requirements='" + requirements + '\'' +
+                ", benefit='" + benefit + '\'' +
+                ", categoryId=" + categoryId +
+                ", budgetMax=" + budgetMax +
+                ", budgetMin=" + budgetMin +
+                ", dueDatePost=" + dueDatePost +
+                ", dueDateJob=" + dueDateJob +
+                ", haveInterviewed=" + haveInterviewed +
+                ", haveTested=" + haveTested +
+                ", numOfMember=" + numOfMember +
+                ", secureWallet=" + secureWallet +
+                ", statusPost='" + statusPost + '\'' +
+                ", statusJobId=" + statusJobId +
+                ", jobCategory=" + jobCategory +
+                ", avatar='" + avatar + '\'' +
+                ", accountName='" + accountName + '\'' +
+                ", greetingCount=" + greetingCount +
+                ", categoryName='" + categoryName + '\'' +
+                ", tagList=" + tagList +
+                ", jobGreetingList=" + jobGreetingList +
+                ", jobReportList=" + jobReportList +
+                ", cancelRequestList=" + cancelRequestList +
+                '}';
+    }
 }
 
