@@ -1,10 +1,5 @@
 package jobtrans.model;
 
-import jobtrans.model.CancelRequest;
-import jobtrans.model.JobGreeting;
-import jobtrans.model.JobReport;
-import jobtrans.model.Tag;
-
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -43,7 +38,6 @@ public class Job {
 
     private List<Tag> tagList;
     private List<JobGreeting> jobGreetingList;
-    private List<JobReport> jobReportList;
     private List<CancelRequest> cancelRequestList;
 
     public Job() {
@@ -79,32 +73,6 @@ public class Job {
 
     public void setGreetingCount(int greetingCount) {
         this.greetingCount = greetingCount;
-    }
-
-    public Job(int jobId, int postAccountId, String jobTitle, Timestamp postDate, String jobDescription, String attachment, String requirements, String benefit, int categoryId, BigDecimal budgetMax, BigDecimal budgetMin, Date dueDatePost, Date dueDateJob, boolean haveInterviewed, boolean haveTested, int numOfMember, int secureWallet, String statusPost, int statusJobId, List<Tag> tagList, List<JobGreeting> jobGreetingList, List<JobReport> jobReportList, List<CancelRequest> cancelRequestList) {
-        this.jobId = jobId;
-        this.postAccountId = postAccountId;
-        this.jobTitle = jobTitle;
-        this.postDate = postDate;
-        this.jobDescription = jobDescription;
-        this.attachment = attachment;
-        this.requirements = requirements;
-        this.benefit = benefit;
-        this.categoryId = categoryId;
-        this.budgetMax = budgetMax;
-        this.budgetMin = budgetMin;
-        this.dueDatePost = dueDatePost;
-        this.dueDateJob = dueDateJob;
-        this.haveInterviewed = haveInterviewed;
-        this.haveTested = haveTested;
-        this.numOfMember = numOfMember;
-        this.secureWallet = secureWallet;
-        this.statusPost = statusPost;
-        this.statusJobId = statusJobId;
-        this.tagList = tagList;
-        this.jobGreetingList = jobGreetingList;
-        this.jobReportList = jobReportList;
-        this.cancelRequestList = cancelRequestList;
     }
 
     // Getters và Setters
@@ -285,14 +253,6 @@ public class Job {
         this.jobGreetingList = jobGreetingList;
     }
 
-    public List<JobReport> getJobReportList() {
-        return jobReportList;
-    }
-
-    public void setJobReportList(List<JobReport> jobReportList) {
-        this.jobReportList = jobReportList;
-    }
-
     public List<CancelRequest> getCancelRequestList() {
         return cancelRequestList;
     }
@@ -352,7 +312,6 @@ public class Job {
                 ", categoryName='" + categoryName + '\'' +
                 ", tagList=" + tagList +
                 ", jobGreetingList=" + jobGreetingList +
-                ", jobReportList=" + jobReportList +
                 ", cancelRequestList=" + cancelRequestList +
                 '}';
     }

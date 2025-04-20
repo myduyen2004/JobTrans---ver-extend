@@ -14,7 +14,7 @@
   <title>Quản lí báo cáo</title>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/account-report-list.css">
+  <link rel="stylesheet" href="css/report-list.css">
 </head>
 <%@include file="includes/header-01.jsp"%>
 <body>

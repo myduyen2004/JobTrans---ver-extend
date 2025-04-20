@@ -1,44 +1,47 @@
 package jobtrans.model;
 
-public class JobReport {
-    private int jobReportId;
-    private int jobId;
+import java.sql.Timestamp;
+
+public class Report {
+    private int reportId;
+    private Integer jobId;
     private int reportedAccount;
-    private int reportedBy;
-    private Integer criteriaId; // nullable
+    private int reportBy;
+    private int criteriaId;
     private String contentReport;
     private String attachment;
+    private Timestamp reportTime;
     private String status;
 
-    public JobReport() {
+    public Report() {
     }
 
-    public JobReport(int jobReportId, int jobId, int reportedAccount, int reportedBy, Integer criteriaId,
-                     String contentReport, String attachment, String status) {
-        this.jobReportId = jobReportId;
+    public Report(int reportId, Integer jobId, int reportedAccount, int reportBy, int criteriaId,
+                  String contentReport, String attachment, Timestamp reportTime, String status) {
+        this.reportId = reportId;
         this.jobId = jobId;
         this.reportedAccount = reportedAccount;
-        this.reportedBy = reportedBy;
+        this.reportBy = reportBy;
         this.criteriaId = criteriaId;
         this.contentReport = contentReport;
         this.attachment = attachment;
+        this.reportTime = reportTime;
         this.status = status;
     }
 
-    // Getters and Setters
-    public int getJobReportId() {
-        return jobReportId;
+    public int getReportId() {
+        return reportId;
     }
 
-    public void setJobReportId(int jobReportId) {
-        this.jobReportId = jobReportId;
+    public void setReportId(int reportId) {
+        this.reportId = reportId;
     }
 
-    public int getJobId() {
+    public Integer getJobId() {
         return jobId;
     }
 
-    public void setJobId(int jobId) {
+    public void setJobId(Integer jobId) {
         this.jobId = jobId;
     }
 
@@ -50,19 +53,19 @@ public class JobReport {
         this.reportedAccount = reportedAccount;
     }
 
-    public int getReportedBy() {
-        return reportedBy;
+    public int getReportBy() {
+        return reportBy;
     }
 
-    public void setReportedBy(int reportedBy) {
-        this.reportedBy = reportedBy;
+    public void setReportBy(int reportBy) {
+        this.reportBy = reportBy;
     }
 
-    public Integer getCriteriaId() {
+    public int getCriteriaId() {
         return criteriaId;
     }
 
-    public void setCriteriaId(Integer criteriaId) {
+    public void setCriteriaId(int criteriaId) {
         this.criteriaId = criteriaId;
     }
 
@@ -80,6 +83,14 @@ public class JobReport {
 
     public void setAttachment(String attachment) {
         this.attachment = attachment;
+    }
+
+    public Timestamp getReportTime() {
+        return reportTime;
+    }
+
+    public void setReportTime(Timestamp reportTime) {
+        this.reportTime = reportTime;
     }
 
     public String getStatus() {

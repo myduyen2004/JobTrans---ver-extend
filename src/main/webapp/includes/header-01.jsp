@@ -1038,18 +1038,11 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Công việc
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="jobs.jsp"><i class="fas fa-list-ul"></i>Tất cả công việc</a></li>
-            <li><a class="dropdown-item" href="jobs-by-category.jsp"><i class="fas fa-th-large"></i>Theo danh mục</a></li>
-            <li><a class="dropdown-item" href="jobs-by-location.jsp"><i class="fas fa-map-marker-alt"></i>Theo địa điểm</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="saved-jobs.jsp"><i class="fas fa-heart"></i>Công việc đã lưu</a></li>
-          </ul>
+        <li class="nav-item active">
+          <a class="nav-link active" href="home">Trang chủ</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="viec-lam">Công việc</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -1067,7 +1060,7 @@
           <a class="nav-link " href="home?action=top100">Top 100</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="employer.jsp">Nhà tuyển dụng</a>
+          <a class="nav-link" href="employer.jsp">Chính sách</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="about-me.jsp">Về chúng tôi</a>

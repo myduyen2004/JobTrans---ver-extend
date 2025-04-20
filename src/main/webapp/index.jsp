@@ -13,7 +13,6 @@
     <jsp:useBean id="jobDAO" class="jobtrans.dal.JobDAO" scope="page"></jsp:useBean>
     <jsp:useBean id="accoutDAO" class="jobtrans.dal.AccountDAO" scope="page"></jsp:useBean>
 
-
 </head>
 
 <body>
