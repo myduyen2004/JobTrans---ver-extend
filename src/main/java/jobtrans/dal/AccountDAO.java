@@ -572,6 +572,114 @@ public class AccountDAO {
         return count;
     }
 
+    public int getNumberOfReports() {
+        int count = 0;
+
+        String query = "select count(*) nums from Report";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("nums");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return count;
+    }
+
+    public int getNumberOfResolvedReports() {
+        int count = 0;
+
+        String query = "select count(*) nums from Report where status=?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setNString(1,"Đã xử lí");
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("nums");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return count;
+    }
+
+    public int getNumberOfRejectedReports() {
+        int count = 0;
+
+        String query = "select count(*) nums from Report where status=?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setNString(1,"Bị từ chối");
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("nums");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return count;
+    }
+
+    public int getNumberOfPendingReports() {
+        int count = 0;
+
+        String query = "select count(*) nums from Report where status=?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setNString(1,"Chờ xử lí");
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("nums");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return count;
+    }
+
+    public List<Report> getReports() {
+        List<Report> list = new ArrayList<>();
+
+        String query = "select * from Report";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Report report = new Report();
+                report.setReportId(rs.getInt("report_id"));
+                report.setJobId(rs.getInt("job_id"));
+                report.setReportedAccount(rs.getInt("reported_account"));
+                report.setReportBy(rs.getInt("report_by"));
+                report.setCriteriaId(rs.getInt("criteria_id"));
+                report.setContentReport(rs.getString("content_report"));
+                report.setAttachment(rs.getString("attachment"));
+                report.setReportTime(rs.getTimestamp("report_time"));
+                report.setStatus(rs.getString("status"));
+                list.add(report);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
+    }
+
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
         Account account = dao.getAccountById(6);

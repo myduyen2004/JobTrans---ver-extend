@@ -4,6 +4,7 @@ import jobtrans.dal.AccountDAO;
 import jobtrans.dal.GroupMemberDAO;
 import jobtrans.model.Account;
 import jobtrans.model.GroupMember;
+import jobtrans.model.Report;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,6 +36,9 @@ public class AccountManagement extends HttpServlet {
                     break;
                 case "viewAccountDetails":
                     showAccount(req, resp);
+                    break;
+                case "viewAllReports":
+                    showReports(req, resp);
                     break;
                 default:
                     throw new AssertionError();
@@ -70,6 +74,18 @@ public class AccountManagement extends HttpServlet {
             req.setAttribute("memberList", members);
             req.setAttribute("account", account);
             req.getRequestDispatcher("infor-account-manage.jsp").forward(req, resp);
+        } else {
+            resp.sendRedirect("home");
+        }
+    }
+
+    private void showReports(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        if (session.getAttribute("sessionAccount") != null) {
+            List<Report> reports = accountDAO.getReports();
+
+            req.setAttribute("reports", reports);
+            req.getRequestDispatcher("report-list.jsp").forward(req, resp);
         } else {
             resp.sendRedirect("home");
         }
