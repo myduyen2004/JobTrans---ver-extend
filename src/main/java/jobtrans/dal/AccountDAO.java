@@ -680,6 +680,33 @@ public class AccountDAO {
         return list;
     }
 
+    public Report getReportById(int reportId) {
+        Report report = new Report();
+
+        String query = "select * from Report where report_id=?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, reportId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                report.setReportId(rs.getInt("report_id"));
+                report.setJobId(rs.getInt("job_id"));
+                report.setReportedAccount(rs.getInt("reported_account"));
+                report.setReportBy(rs.getInt("report_by"));
+                report.setCriteriaId(rs.getInt("criteria_id"));
+                report.setContentReport(rs.getString("content_report"));
+                report.setAttachment(rs.getString("attachment"));
+                report.setReportTime(rs.getTimestamp("report_time"));
+                report.setStatus(rs.getString("status"));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return report;
+    }
+
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
         Account account = dao.getAccountById(6);

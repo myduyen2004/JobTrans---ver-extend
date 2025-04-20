@@ -100,54 +100,38 @@
     <div class="reports-container fade-in" id="reportsContainer" style="animation-delay: 0.5s;">
       <c:forEach var="o" items="${reports}">
         <div class="report-card">
-          <div class="card-body d-flex">
-            <div class="report-icon">
-              <i class="fas fa-chart-line"></i>
-            </div>
-            <div class="flex-grow-1">
-              <div class="d-flex justify-content-between align-items-start mb-2">
-                <h5 class="report-title">${accDao.getCriteriaById(o.criteriaId).content}</h5>
-                <c:choose>
-                  <c:when test="${o.status == 'Chờ xử lí'}">
-                    <span class="report-status status-pending">Đang xử lí</span>
-                  </c:when>
-                  <c:when test="${o.status == 'Bị từ chối'}">
-                    <span class="report-status status-in-progress">Đã từ chối</span>
-                  </c:when>
-                  <c:when test="${o.status == 'Đã xử lí'}">
-                    <span class="report-status status-completed">Đã xử lí</span>
-                  </c:when>
-                </c:choose>
+          <a href="acc-manage?action=viewReportDetail&reportId=${o.reportId}">
+            <div class="card-body d-flex">
+              <div class="report-icon">
+                <i class="fas fa-chart-line"></i>
               </div>
-              <div class="d-flex justify-content-between align-items-center">
-                <span class="report-date"><i class="far fa-calendar-alt me-1"></i> <fmt:formatDate value="${o.reportTime}" pattern="dd/MM/yyyy"/></span>
+              <div class="flex-grow-1">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                  <h5 class="report-title">${accDao.getAccountById(o.reportedAccount).accountName} - ${accDao.getCriteriaById(o.criteriaId).content}</h5>
+                  <c:choose>
+                    <c:when test="${o.status == 'Chờ xử lí'}">
+                      <span class="report-status status-pending">Đang xử lí</span>
+                    </c:when>
+                    <c:when test="${o.status == 'Bị từ chối'}">
+                      <span class="report-status status-in-progress">Đã từ chối</span>
+                    </c:when>
+                    <c:when test="${o.status == 'Đã xử lí'}">
+                      <span class="report-status status-completed">Đã xử lí</span>
+                    </c:when>
+                  </c:choose>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="report-date"><i class="far fa-calendar-alt me-1"></i> <fmt:formatDate value="${o.reportTime}" pattern="dd/MM/yyyy"/></span>
+                </div>
               </div>
             </div>
-          </div>
+          </a>
         </div>
       </c:forEach>
 
+<%--      Pagination--%>
       <div id="pagination" class="mt-4 d-flex justify-content-center"></div>
     </div>
-
-    <!-- Pagination -->
-<%--    <nav aria-label="Page navigation" class="mt-4 fade-in" style="animation-delay: 0.6s;">--%>
-<%--      <ul class="pagination">--%>
-<%--        <li class="page-item disabled">--%>
-<%--          <a class="page-link" href="#" aria-label="Previous">--%>
-<%--            <span aria-hidden="true">&laquo;</span>--%>
-<%--          </a>--%>
-<%--        </li>--%>
-<%--        <li class="page-item active"><a class="page-link" href="#">1</a></li>--%>
-<%--        <li class="page-item"><a class="page-link" href="#">2</a></li>--%>
-<%--        <li class="page-item"><a class="page-link" href="#">3</a></li>--%>
-<%--        <li class="page-item">--%>
-<%--          <a class="page-link" href="#" aria-label="Next">--%>
-<%--            <span aria-hidden="true">&raquo;</span>--%>
-<%--          </a>--%>
-<%--        </li>--%>
-<%--      </ul>--%>
-<%--    </nav>--%>
   </main>
 </div>
 <%@include file="includes/footer.jsp"%>
