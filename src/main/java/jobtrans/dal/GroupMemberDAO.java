@@ -73,11 +73,11 @@ public class GroupMemberDAO {
 
             if (rs.next()) {
                 member = new GroupMember();
-                member.setMemberId(rs.getInt("memberId"));
-                member.setMemberName(rs.getString("memberName"));
-                member.setAccountId(rs.getInt("accountId"));
+                member.setMemberId(rs.getInt("member_id"));
+                member.setMemberName(rs.getString("member_name"));
+                member.setAccountId(rs.getInt("account_id"));
                 member.setBio(rs.getString("bio"));
-                member.setDateOfBirth(rs.getDate("dateOfBirth"));
+                member.setDateOfBirth(rs.getDate("date_of_birth"));
                 member.setSpeciality(rs.getString("speciality"));
                 member.setGender(rs.getString("gender"));
                 member.setExperienceYears(rs.getInt("experienceYears"));
@@ -127,9 +127,11 @@ public class GroupMemberDAO {
                 member.setSkills(rs.getString("skills"));
                 member.setAddress(rs.getString("address"));
                 member.setPhone(rs.getString("phone"));
-                member.setSkills(rs.getString("skills"));
             }
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         } finally {
             // Đóng các resource
             if (rs != null) rs.close();

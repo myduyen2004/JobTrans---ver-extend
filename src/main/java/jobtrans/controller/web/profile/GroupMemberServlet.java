@@ -90,11 +90,6 @@ public class GroupMemberServlet extends HttpServlet {
                 GroupMember member = new GroupMember();
 
                 member.setAccountId(account.getAccountId());
-//            String accountId = request.getParameter("accountId");
-//            if (accountId != null && !accountId.isEmpty()) {
-//                member.setAccountId(Integer.parseInt(accountId));
-//            }
-
                 member.setMemberName(request.getParameter("memberName"));
                 member.setBio(request.getParameter("bio"));
                 String dobString = request.getParameter("dateOfBirth");
@@ -359,15 +354,15 @@ public class GroupMemberServlet extends HttpServlet {
     }
 
     private void viewProfile(HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        HttpSession session = request.getSession();
-//        Account account = (Account) session.getAttribute("sessionAccount");
-//        Account account01 = accountDAO.getAccountById(account.getAccountId());
-//        List<GroupMember> members = groupMemberDAO.getMembersByAccountId(account.getAccountId());
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("sessionAccount");
+        if (account == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
 
-        int accountId = Integer.parseInt(request.getParameter("account_id"));
-        Account account01 = accountDAO.getAccountById(accountId);
-        List<GroupMember> members = groupMemberDAO.getMembersByAccountId(accountId);
-
+        Account account01 = accountDAO.getAccountById(account.getAccountId());
+        List<GroupMember> members = groupMemberDAO.getMembersByAccountId(account.getAccountId());
         request.setAttribute("account", account01);
         request.setAttribute("memberList", members);
 
@@ -377,6 +372,10 @@ public class GroupMemberServlet extends HttpServlet {
     private void showAddMember(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("sessionAccount");
+        if (account == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
         Account account01 = accountDAO.getAccountById(account.getAccountId());
 
         request.setAttribute("account", account01);

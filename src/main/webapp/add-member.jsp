@@ -10,7 +10,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/add-member.css">
-
 </head>
 <%@include file="includes/header-01.jsp"%>
 <body>
@@ -94,6 +93,7 @@
                                     <div class="form-floating">
                                         <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" placeholder="Ngày sinh">
                                         <label for="dateOfBirth">Ngày sinh</label>
+                                        <small id="dob-error" class="error-message" style="color: red; display: none;"></small>
                                     </div>
                                 </div>
                             </div>
@@ -156,7 +156,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-floating">
-                                        <textarea class="form-control" id="skills" name="skills" style="height: 100px" placeholder="Kỹ năng"></textarea>
+                                        <input class="form-control" id="skills" name="skills" placeholder="Kỹ năng">
                                         <label for="skills">Kỹ năng (cách nhau bởi dấu phẩy)</label>
                                     </div>
                                 </div>
@@ -169,12 +169,6 @@
                             <h4 class="form-section-title"><i class="fas fa-address-card"></i> Thông tin liên hệ</h4>
 
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-floating">
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email">
-                                        <label for="email">Email</label>
-                                    </div>
-                                </div>
                                 <div class="col-md-12">
                                     <div class="form-floating">
                                         <input type="tel" class="form-control" id="phone" name="phone" placeholder="Số điện thoại">
@@ -245,6 +239,195 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<%--Validate các trường--%>
+<script>
+    // Validation cho form thông tin cá nhân
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+        const dobInput = document.getElementById('dateOfBirth');
+        const dobError = document.getElementById('dob-error'); // Thêm dòng này
+        const specialityInput = document.getElementById('speciality');
+        const educationInput = document.getElementById('education');
+        const addressInput = document.getElementById('address');
+        const phoneInput = document.getElementById('phone');
+
+        // Hàm tạo và hiển thị thông báo lỗi
+        function showError(element, message) {
+            // Kiểm tra xem đã có thông báo lỗi chưa
+            let errorElement = element.nextElementSibling;
+            if (!errorElement || !errorElement.classList.contains('error-message')) {
+                // Tạo phần tử thông báo lỗi mới
+                errorElement = document.createElement('small');
+                errorElement.classList.add('error-message');
+                errorElement.style.color = 'red';
+                errorElement.style.display = 'block';
+                errorElement.style.marginTop = '5px';
+                // Chèn sau input
+                element.parentNode.insertBefore(errorElement, element.nextSibling);
+            }
+
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+            return false;
+        }
+
+        // Hàm ẩn thông báo lỗi
+        function hideError(element) {
+            const errorElement = element.nextElementSibling;
+            if (errorElement && errorElement.classList.contains('error-message')) {
+                errorElement.style.display = 'none';
+            }
+            return true;
+        }
+
+        // Validation khi submit form
+        form.addEventListener('submit', function(event) {
+            let isValid = true;
+
+            // Kiểm tra ngày sinh
+            if(dobInput) {
+                const dobValue = new Date(dobInput.value);
+                const today = new Date();
+
+                // Tính tuổi
+                let age = today.getFullYear() - dobValue.getFullYear();
+                const monthDiff = today.getMonth() - dobValue.getMonth();
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dobValue.getDate())) {
+                    age--;
+                }
+
+                // Kiểm tra tuổi >= 18 và không phải ngày ở tương lai
+                if (age < 18 || dobValue > today) {
+                    dobError.textContent = age < 18 ? 'Bạn phải đủ 18 tuổi trở lên.' : 'Ngày sinh không thể là ngày trong tương lai.';
+                    dobError.style.display = 'block';
+                    isValid = false;
+                } else {
+                    dobError.style.display = 'none';
+                }
+            }
+
+            // Kiểm tra chuyên môn không chỉ chứa số
+            if(specialityInput && specialityInput.value.trim() !== '') {
+                if(/^\d+$/.test(specialityInput.value.trim())) {
+                    isValid = showError(specialityInput, 'Chuyên môn không được chỉ chứa số');
+                } else {
+                    hideError(specialityInput);
+                }
+            }
+
+            // Kiểm tra học vấn không chỉ chứa số
+            if(educationInput && educationInput.value.trim() !== '') {
+                if(/^\d+$/.test(educationInput.value.trim())) {
+                    isValid = showError(educationInput, 'Học vấn không được chỉ chứa số');
+                } else {
+                    hideError(educationInput);
+                }
+            }
+
+            // Kiểm tra địa chỉ không chỉ chứa số
+            if(addressInput && addressInput.value.trim() !== '') {
+                if(/^\d+$/.test(addressInput.value.trim())) {
+                    isValid = showError(addressInput, 'Địa chỉ không được chỉ chứa số');
+                } else {
+                    hideError(addressInput);
+                }
+            }
+
+            // Kiểm tra số điện thoại
+            if(phoneInput && phoneInput.value.trim() !== '') {
+                // Chỉ cho phép số, đúng 10 chữ số
+                if(!/^\d{10}$/.test(phoneInput.value.trim())) {
+                    isValid = showError(phoneInput, 'Số điện thoại phải có đúng 10 chữ số');
+                } else {
+                    hideError(phoneInput);
+                }
+            }
+
+            if(!isValid) {
+                event.preventDefault();
+            }
+        });
+
+        // Validation khi nhập dữ liệu
+        if(dobInput) {
+            dobInput.addEventListener('change', function() {
+                const dobValue = new Date(this.value);
+                const today = new Date();
+
+                // Tính tuổi
+                let age = today.getFullYear() - dobValue.getFullYear();
+                const monthDiff = today.getMonth() - dobValue.getMonth();
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dobValue.getDate())) {
+                    age--;
+                }
+
+                // Kiểm tra tuổi >= 18 và không phải ngày ở tương lai
+                if (age < 18 || dobValue > today) {
+                    dobError.textContent = age < 18 ? 'Bạn phải đủ 18 tuổi trở lên.' : 'Ngày sinh không thể là ngày trong tương lai.';
+                    dobError.style.display = 'block';
+                } else {
+                    dobError.style.display = 'none';
+                }
+            });
+        }
+
+        // Real-time validation cho các trường input
+        // Chuyên môn
+        if(specialityInput) {
+            specialityInput.addEventListener('blur', function() {
+                if(this.value.trim() !== '' && /^\d+$/.test(this.value.trim())) {
+                    showError(this, 'Chuyên môn không được chỉ chứa số');
+                } else {
+                    hideError(this);
+                }
+            });
+        }
+
+        // Học vấn
+        if(educationInput) {
+            educationInput.addEventListener('blur', function() {
+                if(this.value.trim() !== '' && /^\d+$/.test(this.value.trim())) {
+                    showError(this, 'Học vấn không được chỉ chứa số');
+                } else {
+                    hideError(this);
+                }
+            });
+        }
+
+        // Địa chỉ
+        if(addressInput) {
+            addressInput.addEventListener('blur', function() {
+                if(this.value.trim() !== '' && /^\d+$/.test(this.value.trim())) {
+                    showError(this, 'Địa chỉ không được chỉ chứa số');
+                } else {
+                    hideError(this);
+                }
+            });
+        }
+
+        // Validation cho số điện thoại - chỉ cho phép nhập số
+        if(phoneInput) {
+            // Loại bỏ ký tự không phải số khi nhập
+            phoneInput.addEventListener('input', function() {
+                this.value = this.value.replace(/\D/g, '');
+
+                // Giới hạn độ dài tối đa 10 số
+                if(this.value.length > 10) {
+                    this.value = this.value.slice(0, 10);
+                }
+            });
+
+            // Kiểm tra đúng 10 chữ số khi blur
+            phoneInput.addEventListener('blur', function() {
+                if(this.value.trim() !== '' && !/^\d{10}$/.test(this.value.trim())) {
+                    showError(this, 'Số điện thoại phải có đúng 10 chữ số');
+                } else {
+                    hideError(this);
+                }
+            });
+        }
+    });
+</script>
 <script>
     // Progress bar animation
     document.addEventListener('DOMContentLoaded', function() {
@@ -316,16 +499,6 @@
                     updateProgress();
                 }
                 reader.readAsDataURL(file);
-            }
-        });
-
-        // Xử lý nút hủy bỏ
-        document.getElementById('btnCancel').addEventListener('click', function() {
-            if(confirm('Bạn có chắc muốn hủy bỏ việc thêm thành viên mới?')) {
-                document.getElementById('memberForm').reset();
-                document.querySelector('.progress-bar').style.width = '0%';
-                document.getElementById('completionRate').textContent = '0%';
-                document.getElementById('imagePreview').src = '/api/placeholder/180/180';
             }
         });
 

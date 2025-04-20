@@ -73,11 +73,10 @@ public class ProfileServlet extends HttpServlet {
             response.setCharacterEncoding("UTF-8");
             request.setCharacterEncoding("UTF-8");
 
-//            Account account = (Account) session.getAttribute("sessionAccount");
-
             int accountId = Integer.parseInt(request.getParameter("accountId"));
             Account account = accountDAO.getAccountById(accountId);
 
+            // Xử lý thông tin cơ bản
             String accountName = request.getParameter("name");
             String dobParam = request.getParameter("dob");
             LocalDate localDate = null;
@@ -90,56 +89,23 @@ public class ProfileServlet extends HttpServlet {
             String phone = request.getParameter("phone");
             String bio = request.getParameter("bio");
             String skills = request.getParameter("skills");
-            Part filePart = request.getPart("avatar");
-            String fileName = getFileName(filePart);
-            InputStream imageInputStream = filePart.getInputStream();
-            String typeOfImage = fileName.substring(fileName.lastIndexOf(".") + 1);
-            String newImageName = null;
-            String uploadDir = getServletContext().getRealPath("/images");
-            File uploadDirFile = new File(uploadDir);
-            if (!uploadDirFile.exists()) {
-                uploadDirFile.mkdir();
+            String address = request.getParameter("address");
+            int experienceYears =  Integer.parseInt(request.getParameter("experienceYears"));
+            String education = request.getParameter("education");
+
+            // Xử lý avatar nếu có
+            Part avatarPart = request.getPart("avatar");
+            if (avatarPart != null && avatarPart.getSize() > 0) {
+                processImageUpload(avatarPart, account, "avatar");
             }
 
-            if (containsExtension(typeOfImage)) {
-                Time timeObj = new Time(System.currentTimeMillis());
-                newImageName = timeObj.getTime() + "_" + fileName;
-
-                String uploadPath = getServletContext().getRealPath("") + File.separator + "images";
-                File uploadDirectory = new File(uploadPath);
-                if (!uploadDirectory.exists()) {
-                    uploadDirectory.mkdir();
-                }
-
-                Path destinationPath = Paths.get(uploadDirectory.getAbsolutePath());
-
-                // Đóng input stream đúng cách
-                try {
-                    // Sử dụng try-with-resources cho cả hai luồng để đảm bảo chúng được đóng
-                    try (InputStream inputStream = imageInputStream;
-                         FileOutputStream fout = new FileOutputStream(destinationPath.resolve(newImageName).toString())) {
-
-                        // Sử dụng buffer để đọc/ghi tệp thay vì readAllBytes()
-                        byte[] buffer = new byte[8192];
-                        int bytesRead;
-                        while ((bytesRead = inputStream.read(buffer)) != -1) {
-                            fout.write(buffer, 0, bytesRead);
-                        }
-
-                        // Đảm bảo các luồng được flush
-                        fout.flush();
-                    }
-
-                    // Sau khi ghi tệp thành công, đặt đường dẫn avatar
-                    if (newImageName != null) {
-                        account.setAvatar("images/" + newImageName);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    // Xử lý ngoại lệ theo cách phù hợp với ứng dụng của bạn
-                }
+            // Xử lý chữ ký nếu có
+            Part signaturePart = request.getPart("signature");
+            if (signaturePart != null && signaturePart.getSize() > 0) {
+                processImageUpload(signaturePart, account, "signature");
             }
 
+            // Cập nhật thông tin tài khoản
             account.setAccountName(accountName);
             account.setDateOfBirth(localDate);
             account.setGender(gender);
@@ -147,8 +113,9 @@ public class ProfileServlet extends HttpServlet {
             account.setPhone(phone);
             account.setBio(bio);
             account.setSkills(skills);
-
-//            Account account1 = (Account) session.getAttribute("sessionAccount");
+            account.setAddress(address);
+            account.setExperienceYears(experienceYears);
+            account.setEducation(education);
 
             AccountDAO accountDAO = new AccountDAO();
             try {
@@ -163,22 +130,68 @@ public class ProfileServlet extends HttpServlet {
                 request.setAttribute("error", "An error occurred: " + e.getMessage());
                 request.getRequestDispatcher("404.html").forward(request, response);
             }
-        } finally {
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("error", "An error occurred: " + e.getMessage());
+            request.getRequestDispatcher("404.html").forward(request, response);
+        }
+    }
 
+    private void processImageUpload(Part filePart, Account account, String imageType) throws IOException {
+        String fileName = getFileName(filePart);
+        if (fileName == null || fileName.isEmpty()) {
+            return;
+        }
+
+        InputStream imageInputStream = filePart.getInputStream();
+        String typeOfImage = fileName.substring(fileName.lastIndexOf(".") + 1);
+
+        // Kiểm tra định dạng file
+        if (containsExtension(typeOfImage)) {
+            Time timeObj = new Time(System.currentTimeMillis());
+            String newImageName = timeObj.getTime() + "_" + fileName;
+
+            String uploadPath = getServletContext().getRealPath("") + File.separator + "images";
+            File uploadDirectory = new File(uploadPath);
+            if (!uploadDirectory.exists()) {
+                uploadDirectory.mkdir();
+            }
+
+            Path destinationPath = Paths.get(uploadDirectory.getAbsolutePath());
+
+            // Sử dụng try-with-resources để đảm bảo streams được đóng đúng cách
+            try (InputStream inputStream = imageInputStream;
+                 FileOutputStream fout = new FileOutputStream(destinationPath.resolve(newImageName).toString())) {
+
+                // Sử dụng buffer để đọc/ghi file
+                byte[] buffer = new byte[8192];
+                int bytesRead;
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    fout.write(buffer, 0, bytesRead);
+                }
+                fout.flush();
+
+                // Cập nhật đường dẫn tương ứng trong đối tượng account
+                String imagePath = "images/" + newImageName;
+                if (imageType.equals("avatar")) {
+                    account.setAvatar(imagePath);
+                } else if (imageType.equals("signature")) {
+                    account.setSignature(imagePath);
+                }
+            }
         }
     }
 
 
     private void viewProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //        HttpSession session = request.getSession();
-        //        Account account = (Account) session.getAttribute("sessionAccount");
-        //        Account account01 = accountDAO.getAccountById(account.getAccountId());
-
-        int accountId = Integer.parseInt(request.getParameter("account_id"));
-        Account account01 = accountDAO.getAccountById(accountId);
-
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("sessionAccount");
+        if (account == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+        Account account01 = accountDAO.getAccountById(account.getAccountId());
         request.setAttribute("account", account01);
-
         request.getRequestDispatcher("infor-account.jsp").forward(request, response);
     }
 
@@ -205,79 +218,15 @@ public class ProfileServlet extends HttpServlet {
 
     private void showUpdateForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        //        HttpSession session = request.getSession();
-        //        Account account = (Account) session.getAttribute("sessionAccount");
-        //        Account account01 = accountDAO.getAccountById(account.getAccountId());
-
-        int accountId = Integer.parseInt(request.getParameter("account_id"));
-        Account account01 = accountDAO.getAccountById(accountId);
-
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("sessionAccount");
+        if (account == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+        Account account01 = accountDAO.getAccountById(account.getAccountId());
         request.setAttribute("account", account01);
         request.getRequestDispatcher("edit-account.jsp").forward(request, response);
 
     }
-
-    //    private void changePassword(HttpServletRequest request, HttpServletResponse response)
-//            throws ServletException, IOException {
-//        HttpSession session = request.getSession();
-//        String email = (String) session.getAttribute("account");
-//        String currentPassword = request.getParameter("currentPassword");
-//        String newPassword = request.getParameter("newPassword");
-//        String repeatNewPassword = request.getParameter("");
-//
-//        if (newPassword.length() < 8) {
-//            request.setAttribute("error", "Mật khẩu phải có ít nhất 8 ký tự");
-//            request.getRequestDispatcher("profile?action=loadPassword").forward(request, response);
-//            return;
-//        }
-//
-//        AccountDAO acDAO = new AccountDAO();
-//        Account ac = acDAO.getAccountByEmail(email);
-//
-//        if (ac == null) {
-//            request.setAttribute("error", "Tài khoản không tồn tại");
-//            request.getRequestDispatcher("profile?action=loadPassword").forward(request, response);
-//            return;
-//        }
-//
-//        if (ac.getPassword() != null && !BCrypt.checkpw(currentPassword, ac.getPassword())) {
-//            request.setAttribute("error", "Mật khẩu hiện tại không đúng");
-//            request.getRequestDispatcher("profile?action=loadPassword").forward(request, response);
-//            return;
-//        }
-//
-//        if (!newPassword.equals(repeatNewPassword)) {
-//            request.setAttribute("error", "Mật khẩu mới nhập lại không khớp");
-//            request.getRequestDispatcher("profile?action=loadPassword").forward(request, response);
-//            return;
-//        }
-//
-//        if (newPassword.equals(currentPassword)) {
-//            request.setAttribute("error", "Mật khẩu mới không được trùng với mật khẩu cũ");
-//            request.getRequestDispatcher("profile?action=loadPassword").forward(request, response);
-//            return;
-//        }
-//
-//        String hashedNewPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
-//        acDAO.changePassword(email, hashedNewPassword);
-//
-//        request.setAttribute("success", "Đổi mật khẩu thành công");
-//        request.getRequestDispatcher("profile?action=view").forward(request, response);
-//    }
-//}
-
-//    private void loadWallet(HttpServletRequest request, HttpServletResponse response)
-//            throws ServletException, IOException {
-//        try {
-//            HttpSession session = request.getSession();
-//            Account account = (Account) session.getAttribute("sessionAccount");
-//            AccountDAO accountDAO = new AccountDAO();
-//            List<Transaction> trans = accountDAO.getTransactionsByUserId(account.getAccountId());
-//            request.setAttribute("trans", trans);
-//            request.getRequestDispatcher("wallet.jsp").forward(request, response);
-//        } catch (Exception e) {
-//            response.sendRedirect("404.html");
-//        }
-//    }
 }
