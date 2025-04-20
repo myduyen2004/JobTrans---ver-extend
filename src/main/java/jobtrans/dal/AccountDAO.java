@@ -1,6 +1,8 @@
 package jobtrans.dal;
 
 import jobtrans.model.Account;
+import jobtrans.model.Criteria;
+import jobtrans.model.Report;
 import jobtrans.model.Transaction;
 import jobtrans.utils.DBConnection;
 import jobtrans.utils.ImgHandler;
@@ -496,7 +498,79 @@ public class AccountDAO {
         return accounts;
     }
 
+    public List<Report> getReportByreportedAccount(int reportedId) {
+        List<Report> list = new ArrayList<>();
 
+        String query = "select * from Report where reported_account=?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, reportedId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Report report = new Report();
+                report.setReportId(rs.getInt("report_id"));
+                report.setJobId(rs.getInt("job_id"));
+                report.setReportedAccount(rs.getInt("reported_account"));
+                report.setReportBy(rs.getInt("report_by"));
+                report.setCriteriaId(rs.getInt("criteria_id"));
+                report.setContentReport(rs.getString("content_report"));
+                report.setAttachment(rs.getString("attachment"));
+                report.setReportTime(rs.getTimestamp("report_time"));
+                report.setStatus(rs.getString("status"));
+                list.add(report);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
+    }
+
+    public Criteria getCriteriaById(int criteriaId) {
+        Criteria criteria = new Criteria();
+
+        String query = "select * from Criteria where criteria_id=?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, criteriaId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                criteria.setCriteriaId(rs.getInt("criteria_id"));
+                criteria.setCriteriaPoint(rs.getInt("criteria_point"));
+                criteria.setContent(rs.getString("content"));
+                criteria.setLabelTag(rs.getString("label_tag"));
+                criteria.setTypeCriteria(rs.getString("type_criteria"));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return criteria;
+    }
+
+    public int getNumberOfReportsByReportedAcc(int id) {
+        int count = 0;
+
+        String query = "select count(*) nums from Report where reported_account=?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("nums");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return count;
+    }
 
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();

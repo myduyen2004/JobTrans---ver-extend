@@ -636,6 +636,25 @@ public class JobDAO {
         return jobs;
     }
 
+    public int getNumOfCompleteJobByJobSeekerId(int jobSeekerId) {
+        int numOfComplete = 0;
+        String query = "select count(*) as num_job_complete from Job join JobGreeting on Job.job_id = JobGreeting.job_id where JobGreeting.status = N'Được nhận' and job.status_job_id = 6 and JobGreeting.job_seeker_id = ?;";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, jobSeekerId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                numOfComplete = rs.getInt("num_job_complete");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return numOfComplete;
+    }
+
 }
 
 

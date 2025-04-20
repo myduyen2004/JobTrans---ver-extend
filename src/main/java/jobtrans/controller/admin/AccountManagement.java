@@ -1,7 +1,10 @@
 package jobtrans.controller.admin;
 
 import jobtrans.dal.AccountDAO;
+import jobtrans.dal.GroupMemberDAO;
 import jobtrans.model.Account;
+import jobtrans.model.GroupMember;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,6 +19,7 @@ import java.util.logging.Logger;
 @WebServlet(name = "AccountManagement", urlPatterns = {"/acc-manage"})
 public class AccountManagement extends HttpServlet {
     AccountDAO accountDAO = new AccountDAO();
+    GroupMemberDAO groupMemberDAO = new GroupMemberDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -56,8 +60,16 @@ public class AccountManagement extends HttpServlet {
         if (session.getAttribute("sessionAccount") != null) {
             int id = Integer.parseInt(req.getParameter("accId"));
             Account account = accountDAO.getAccountById(id);
+            List<GroupMember> members = null;
+            try {
+                members = groupMemberDAO.getMembersByAccountId(id);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+            req.setAttribute("memberList", members);
             req.setAttribute("account", account);
-            req.getRequestDispatcher("infor-user-manage.jsp").forward(req, resp);
+            req.getRequestDispatcher("infor-account-manage.jsp").forward(req, resp);
         } else {
             resp.sendRedirect("home");
         }
