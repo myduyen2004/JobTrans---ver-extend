@@ -636,6 +636,10 @@ public class JobDAO {
         return jobs;
     }
 
+    public static void main(String[] args) {
+        JobDAO jobDAO = new JobDAO();
+        System.out.println(jobDAO.getAllJobs().size());
+    }
 }
 
 
