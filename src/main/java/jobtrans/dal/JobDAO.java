@@ -12,18 +12,25 @@ import java.util.logging.Logger;
 
 public class JobDAO {
     private final DBConnection dbConnection;
+    List<Job> jobs = new ArrayList<>();
+    //tao setter
+    public void setJobs(List<Job> jobs) {
+        this.jobs = jobs;
+    }
 
     public JobDAO() {
         dbConnection = DBConnection.getInstance();
     }
 
-    private Job mapToJob(ResultSet rs) throws Exception {
+    private Job mapToJob(ResultSet rs) throws SQLException {
         Job job = new Job();
         job.setJobId(rs.getInt("job_id"));
         job.setPostAccountId(rs.getInt("post_account_id"));
         job.setJobTitle(rs.getString("job_title"));
         job.setPostDate(rs.getTimestamp("post_date"));
         job.setJobDescription(rs.getString("job_description"));
+        job.setRequirements(rs.getString("requirements"));
+        job.setBenefit(rs.getString("benefit"));
         job.setAttachment(rs.getString("attachment"));
         job.setCategoryId(rs.getInt("category_id"));
         job.setBudgetMax(rs.getBigDecimal("budget_max"));
@@ -38,6 +45,7 @@ public class JobDAO {
         job.setStatusJobId(rs.getInt("status_job_id"));
         return job;
     }
+
 
     public List<Job> getAllJobs() {
         List<Job> list = new ArrayList<>();
@@ -397,109 +405,6 @@ public class JobDAO {
         return jobCategory;
     }
 
-
-    public List<JobGreeting> getJobGreetingByJobSeekerId(int jobSeekerId) {
-        List<JobGreeting> list = new ArrayList<>();
-        String sql = "SELECT * FROM JobGreeting WHERE job_seeker_id = ?";
-
-        try (Connection con = dbConnection.openConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, jobSeekerId);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                JobGreeting greeting = new JobGreeting();
-                greeting.setGreetingId(rs.getInt("greeting_id"));
-                greeting.setJobSeekerId(rs.getInt("job_seeker_id"));
-                greeting.setJobId(rs.getInt("job_id"));
-                greeting.setCvId(rs.getInt("cv_id"));
-                greeting.setPrice(rs.getInt("price"));
-                greeting.setExpectedDay(rs.getInt("expected_day"));
-                greeting.setIntroduction(rs.getString("introduction"));
-                greeting.setAttachment(rs.getString("attachment"));
-                greeting.setHaveRead(rs.getBoolean("have_read"));
-                greeting.setStatus(rs.getString("status"));
-                list.add(greeting);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return list;
-    }
-    public Job getJobById(int jobId) {
-        Job job = null;
-        String sql = "SELECT * FROM Job WHERE job_id = ?";
-
-        try (Connection con = dbConnection.openConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, jobId);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                job = new Job();
-                job.setJobId(rs.getInt("job_id"));
-                job.setPostAccountId(rs.getInt("post_account_id"));
-                job.setJobTitle(rs.getString("job_title"));
-                job.setPostDate(rs.getTimestamp("post_date"));
-                job.setJobDescription(rs.getString("job_description"));
-                job.setRequirements(rs.getString("requirements"));
-                job.setBenefit(rs.getString("benefit"));
-                job.setAttachment(rs.getString("attachment"));
-                job.setCategoryId(rs.getInt("category_id"));
-                job.setBudgetMax(rs.getBigDecimal("budget_max"));
-                job.setBudgetMin(rs.getBigDecimal("budget_min"));
-                job.setDueDatePost(rs.getDate("due_date_post"));
-                job.setDueDateJob(rs.getDate("due_date_job"));
-                job.setHaveInterviewed(rs.getBoolean("have_interviewed"));
-                job.setHaveTested(rs.getBoolean("have_tested"));
-                job.setNumOfMember(rs.getInt("num_of_member"));
-                job.setSecureWallet(rs.getInt("secure_wallet"));
-                job.setStatusPost(rs.getString("status_post"));
-                job.setStatusJobId(rs.getInt("status_job_id"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return job;
-    }
-    public List<Job> getAllJob() {
-        List<Job> jobs = new ArrayList<>();
-        String query = "SELECT * FROM Job";
-
-        try {
-            Connection con = dbConnection.openConnection();
-            PreparedStatement ps = con.prepareStatement(query);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Job job = new Job();
-                job.setJobId(rs.getInt("job_id"));
-                job.setPostAccountId(rs.getInt("post_account_id"));
-                job.setJobTitle(rs.getString("job_title"));
-                job.setPostDate(rs.getTimestamp("post_date"));
-                job.setJobDescription(rs.getString("job_description"));
-                job.setRequirements(rs.getString("requirements"));
-                job.setBenefit(rs.getString("benefit"));
-                job.setAttachment(rs.getString("attachment"));
-                job.setCategoryId(rs.getInt("category_id"));
-                job.setBudgetMax(rs.getBigDecimal("budget_max"));
-                job.setBudgetMin(rs.getBigDecimal("budget_min"));
-                job.setDueDatePost(rs.getDate("due_date_post"));
-                job.setDueDateJob(rs.getDate("due_date_job"));
-                job.setHaveInterviewed(rs.getBoolean("have_interviewed"));
-                job.setHaveTested(rs.getBoolean("have_tested"));
-                job.setNumOfMember(rs.getInt("num_of_member"));
-                job.setSecureWallet(rs.getInt("secure_wallet"));
-                job.setStatusPost(rs.getString("status_post"));
-                job.setStatusJobId(rs.getInt("status_job_id"));
-                jobs.add(job);
-            }
-        } catch (Exception e) {
-            Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, e);
-        }
-        return jobs;
-    }
     public List<JobGreeting> getJobGreetingByStatus(int accountId, String status) {
         List<JobGreeting> list = new ArrayList<>();
         String sql = "SELECT * FROM JobGreeting WHERE job_seeker_id = ? AND status = ?";
@@ -589,6 +494,59 @@ public class JobDAO {
         }
         return list;
     }
+    public List<JobGreeting> getJobGreetingByJobSeekerId(int jobSeekerId) {
+        List<JobGreeting> list = new ArrayList<>();
+        String sql = "SELECT * FROM JobGreeting WHERE job_seeker_id = ?";
+
+        try (Connection con = dbConnection.openConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, jobSeekerId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                JobGreeting greeting = new JobGreeting();
+                greeting.setGreetingId(rs.getInt("greeting_id"));
+                greeting.setJobSeekerId(rs.getInt("job_seeker_id"));
+                greeting.setJobId(rs.getInt("job_id"));
+                greeting.setIntroduction(rs.getString("introduction"));
+                greeting.setAttachment(rs.getString("attachment"));
+                greeting.setPrice(rs.getInt("price"));
+                greeting.setStatus(rs.getString("status"));
+                greeting.setExpectedDay(rs.getInt("expectedDay"));
+                // greeting.setComments(rs.getString("comments"));
+                greeting.setCvId(rs.getInt("cv_id"));
+
+                list.add(greeting);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    public Job getJobById(int id) {
+        Job job = null;
+        String sql = "SELECT * FROM Job WHERE job_id = ?";
+
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    job = mapToJob(rs);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            // hoặc log lỗi nếu bạn dùng logger
+        }
+
+        return job;
+    }
+
+
     public List<Job> searchJobsByKeyword(String keyword) throws SQLException, Exception {
         String sql = "SELECT * " +
                 "FROM Job " +
@@ -644,15 +602,41 @@ public class JobDAO {
 
         return jobList;
     }
-    public static void main(String[] args) {
-        JobDAO jobDAO = new JobDAO();
-        System.out.println(jobDAO.getAllJob());
 
+    public List<Job> get6Job() {
+        List<Job> jobs = new ArrayList<>();
+        String query = "SELECT j.budget_max, j.budget_min, j.due_date_post, j.status_post, j.job_title, a.avatar, a.account_name,jc.category_name, COUNT(jg.job_id) AS greeting_count\n" +
+                "                FROM Job j\n" +
+                "                LEFT JOIN JobGreeting jg ON jg.job_id = j.job_id\n" +
+                "                INNER JOIN Account a ON a.account_id = j.post_account_id\n" +
+                "\t\t\t\tinner join JobCategory jc ON jc.category_id=j.category_id\n" +
+                "                GROUP BY j.budget_max, j.budget_min, j.due_date_post, j.status_post, j.job_title, a.avatar, a.account_name,jc.category_name\n" +
+                "                ORDER BY greeting_count DESC\n" +
+                "                OFFSET 0 ROWS FETCH NEXT 6 ROWS ONLY;";
+        try (Connection con = dbConnection.openConnection();
+             PreparedStatement ps = con.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Job job = new Job();
+                job.setBudgetMax(BigDecimal.valueOf(rs.getFloat("budget_max")));
+                job.setBudgetMin(BigDecimal.valueOf(rs.getFloat("budget_min")));
+                job.setDueDatePost(Date.valueOf(rs.getDate("due_date_post").toLocalDate()));
+                job.setCategoryName(rs.getString("category_name"));
+                job.setStatusPost(rs.getString("status_post"));
+                job.setJobTitle(rs.getString("job_title"));
+                job.setAvatar(rs.getString("avatar")); // Cần thêm trường avatar vào class Job
+                job.setAccountName(rs.getString("account_name")); // Cần thêm trường accountName vào class Job
+                job.setGreetingCount(rs.getInt("greeting_count")); // Cần thêm trường greetingCount vào class Job
+                jobs.add(job);
+            }
+        } catch (Exception e) {
+            Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return jobs;
     }
 
-
 }
-
 
 
 

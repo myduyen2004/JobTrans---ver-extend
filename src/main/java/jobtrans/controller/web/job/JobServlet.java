@@ -66,7 +66,6 @@ public class JobServlet extends HttpServlet {
                 response.getWriter().print("Lỗi rồi má");
                 break;
         }
-
     }
 
     @Override
@@ -152,6 +151,7 @@ public class JobServlet extends HttpServlet {
         List<JobGreeting> greetings = jobDAO.getJobGreetingsByJobId(jobId);
         request.setAttribute("job", job);
         request.setAttribute("greetings", greetings);
+//        response.getWriter().print(job);
         request.getRequestDispatcher("job-post-detail.jsp").forward(request, response);
     }
 

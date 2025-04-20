@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,7 +48,7 @@ public class AccountDAO {
         account.setSkills(rs.getNString("skills"));
         account.setBio(rs.getNString("bio"));
         account.setPoint(rs.getInt("point"));
-        account.setStarRate(rs.getBigDecimal("star_rate"));
+        account.setStarRate(rs.getDouble("star_rate"));
         account.setAmountWallet(rs.getBigDecimal("amount_wallet"));
         account.setVerifiedLink(rs.getString("verified_link"));
         account.setVerifiedAccount(rs.getBoolean("verified_account"));
@@ -241,7 +242,7 @@ public class AccountDAO {
         }
     }
 
-    //Method to update an account
+//    Method to update an account
     public boolean updateAccountByEmail(Account account) {
         String sql = "UPDATE Account SET " +
                 "account_name = ?, password = ?, avatar = ?, oauth_id = ?, oauth_provider = ?, " +
@@ -287,7 +288,7 @@ public class AccountDAO {
                 stmt.setNull(15, Types.INTEGER);
             }
 
-            stmt.setBigDecimal(16, account.getStarRate());
+            stmt.setBigDecimal(16, BigDecimal.valueOf(account.getStarRate()));
             stmt.setBigDecimal(17, account.getAmountWallet());
             stmt.setNString(18, account.getVerifiedLink());
             stmt.setBoolean(19, account.isVerifiedAccount());
@@ -374,7 +375,7 @@ public class AccountDAO {
                 stmt.setNull(15, Types.INTEGER);
             }
 
-            stmt.setBigDecimal(16, account.getStarRate());
+            stmt.setBigDecimal(16, BigDecimal.valueOf(account.getStarRate()));
             stmt.setBigDecimal(17, account.getAmountWallet());
             stmt.setNString(18, account.getVerifiedLink());
             stmt.setBoolean(19, account.isVerifiedAccount());
@@ -466,10 +467,45 @@ public class AccountDAO {
         }
     }
 
-    public static void main(String[] args) {
-        AccountDAO dao = new AccountDAO();
-        System.out.println(dao.getAllUserAccounts());
+    public List<Account> get5Accounts() {
+        List<Account> accounts = new ArrayList<>();
+        String sql = "SELECT TOP 5 account_name, avatar, address, speciality, point, star_rate\n" +
+                "FROM Account\n" +
+                "WHERE status = N'Đang hoạt động'\n" +
+                "ORDER BY point DESC, star_rate DESC;";
+
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Account account = new Account();
+                account.setAccountName(rs.getString("account_name"));
+                account.setAvatar(rs.getString("avatar"));
+                account.setAddress(rs.getString("address"));
+                account.setSpeciality(rs.getString("speciality"));
+                account.setPoint(rs.getInt("point"));
+                account.setStarRate(rs.getDouble("star_rate"));
+                accounts.add(account);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace(); // hoặc log lỗi tùy dự án
+        }
+
+        return accounts;
     }
 
-}
+
+
+    public static void main(String[] args) {
+        AccountDAO dao = new AccountDAO();
+        Account account = dao.getAccountById(6);
+        System.out.println(account.getStarRate());
+
+
+    }
+    }
+
+
 

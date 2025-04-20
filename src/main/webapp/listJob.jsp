@@ -6,8 +6,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <jsp:useBean id="jobDAO" class="jobtrans.dal.JobDAO" scope="session"></jsp:useBean>
     <jsp:useBean id="JobCategoryDAO" class="jobtrans.dal.JobCategoryDAO" scope="session"></jsp:useBean>
@@ -15,146 +13,12 @@
     <title>JobTrans-Danh sách công việc</title>
 
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/listJob.css">
-    <script>
-        function toggleFilter() {
-            const filterContainer = document.querySelector('.filter-container');
-            filterContainer.classList.toggle('collapsed');
-        }
 
-        document.addEventListener("DOMContentLoaded", function () {
-            // Xử lý Lọc theo giá
-            const priceFilterList = document.querySelector('.filter-list.price');
-            const priceFilterItems = document.querySelectorAll('.filter-list.price .filter-item');
-            const filterMorePrices = document.querySelector('.filter-more.price');
-            const filterHeaderPrices = document.querySelector('.filter-header.price');
-            const priceFilterContainer = document.querySelector('.filter-container.price');
-
-            function toggleFilterPrice() {
-                priceFilterContainer.classList.toggle('collapsed');
-            }
-
-            function showMorePrices() {
-                priceFilterItems.forEach(item => {
-                    item.classList.remove('hidden');
-                });
-                filterMorePrices.style.display = 'none';
-            }
-
-// Gán sự kiện cho phần tiêu đề lọc giá
-            if (filterHeaderPrices) {
-                filterHeaderPrices.addEventListener('click', toggleFilterPrice);
-            }
-            if (filterMorePrices) {
-                filterMorePrices.addEventListener('click', showMorePrices);
-            }
-
-// Ẩn các mục giá vượt quá 3 mục đầu tiên
-            if (priceFilterItems) {
-                priceFilterItems.forEach((item, index) => {
-                    if (index > 0 && index > 3) { // Bỏ qua tiêu đề (index 0) và hiển thị 3 mục đầu
-                        item.classList.add('hidden');
-                    }
-                });
-
-                // Ẩn nút "Xem thêm" nếu không có mục nào bị ẩn
-                let hiddenPriceCount = 0;
-                priceFilterItems.forEach((item, index) => {
-                    if (index > 3 && item.classList.contains('hidden')) {
-                        hiddenPriceCount++;
-                    }
-                });
-                if (filterMorePrices && hiddenPriceCount === 0) {
-                    filterMorePrices.style.display = 'none';
-                }
-            }
-
-
-            // Xử lý Lọc theo công việc
-            const jobFilterList = document.querySelector('.filter-list.job');
-            const jobFilterItems = document.querySelectorAll('.filter-list.job .filter-item');
-            const filterMoreCViec = document.querySelector('.filter-more.job');
-            const filterHeaderCViec = document.querySelector('.filter-header.job');
-            const jobFilterContainer = document.querySelector('.filter-container.job');
-
-            function toggleFilterCViec() {
-                jobFilterContainer.classList.toggle('collapsed');
-            }
-
-            function showMoreCViec() {
-                jobFilterItems.forEach(item => {
-                    item.classList.remove('hidden');
-                });
-                filterMoreCViec.style.display = 'none';
-            }
-
-            // Gán sự kiện cho phần tiêu đề lọc công việc
-            if (filterHeaderCViec) {
-                filterHeaderCViec.addEventListener('click', toggleFilterCViec);
-            }
-            if (filterMoreCViec) {
-                filterMoreCViec.addEventListener('click', showMoreCViec);
-            }
-
-            // Ẩn các mục công việc vượt quá 3 mục đầu tiên
-            if (jobFilterItems) {
-                jobFilterItems.forEach((item, index) => {
-                    if (index > 0 && index > 3) { // Bỏ qua tiêu đề (index 0) và hiển thị 3 mục đầu
-                        item.classList.add('hidden');
-                    }
-                });
-
-                // Ẩn nút "Xem thêm" nếu không có mục nào bị ẩn
-                let hiddenJobCount = 0;
-                jobFilterItems.forEach((item, index) => {
-                    if (index > 3 && item.classList.contains('hidden')) {
-                        hiddenJobCount++;
-                    }
-                });
-                if (filterMoreCViec && hiddenJobCount === 0) {
-                    filterMoreCViec.style.display = 'none';
-                }
-            }
-        });
-    </script>
-    <script>
-        function toggleMenu() {
-            document.getElementById("sortMenu").classList.toggle("show");
-        }
-
-        // Đóng dropdown khi click ra ngoài
-        window.onclick = function (event) {
-            if (!event.target.matches('.hamburger-button') &&
-                !event.target.matches('.hamburger-icon') &&
-                !event.target.matches('.hamburger-icon span')) {
-                var dropdown = document.getElementById("sortMenu");
-                if (dropdown.classList.contains('show')) {
-                    dropdown.classList.remove('show');
-                }
-            }
-        }
-    </script>
 </head>
+
 <body>
-<section>
-
-    <div class="breadcrumbs banner"
-         style="padding-bottom: 30px;padding-top: 10px;padding-top: 20px;margin-bottom: 50px;">
-        <div class="container" style="right: 80px;">
-            <div class="contentBanner">
-
-                <div class="inforDetail"></div>
-                <h1>Danh sách công việc</h1>
-
-            </div>
-
-        </div>
-    </div>
-
-</section>
-
-
-<section class="section-padding">
-    <div class="container">
+<%@include file="includes/header-01.jsp"%>
+    <div class="container" style="margin-top: 50px; margin-bottom: 50px">
         <div class="search-bar">
             <form action="viec-lam/" method="GET"> <input type="text" id="searchInput" name="keyword"  placeholder="Nhập từ khóa tìm kiếm...">
                 <button type="submit" id="searchButton">Tìm kiếm</button>
@@ -204,16 +68,11 @@
                                 </svg>
                             </div>
                             <ul class="filter-list job">
-                                <li class="filter-item visible"><a href="viec-lam/?jobType=vietlach&sort=${sortType}&page=1">Viết lách</a></li>
-                                <li class="filter-item visible"><a href="viec-lam/?jobType=thietKe&sort=${sortType}&page=1">Thiết kế</a></li>
-                                <li class="filter-item visible"><a href="viec-lam/?jobType=laptrinh&sort=${sortType}&page=1">Lập trình</a></li>
-                                <li class="filter-item visible"><a href="viec-lam/?jobType=biendichtrinh&sort=${sortType}&page=1"></a>Biên dịch</li>
-                                <li class="filter-item hidden"><a href="viec-lam/?jobType=nhiepanh&sort=${sortType}&page=1"></a>Nhiếp ảnh</li>
-                                <li class="filter-item hidden">Quảng cáo</li>
-                                <li class="filter-item hidden">Marketing</li>
-                                <li class="filter-item hidden">Kiểm thử</li>
-                                <li class="filter-item hidden">CV8</li>
-                                <li class="filter-item hidden">CV9</li>
+                                <li class="filter-item visible"><a href="viec-lam/?jobType=tuvan-coaching&sort=${sortType}&page=1">Tư vấn-Coaching</a></li>
+                                <li class="filter-item visible"><a href="viec-lam/?jobType=dichthuat&sort=${sortType}&page=1">Dịch thuật</a></li>
+                                <li class="filter-item visible"><a href="viec-lam/?jobType=congnghe-it&sort=${sortType}&page=1">Công nghệ & IT</a></li>
+                                <li class="filter-item visible"><a href="viec-lam/?jobType=marketing&sort=${sortType}&page=1">Marketing</a></li>
+                                <li class="filter-item visible"><a href="viec-lam/?jobType=khac&sort=${sortType}&page=1">Khác</a></li>
                             </ul>
                             <div class="filter-more job" onclick="showMoreCViec()">
                                 Xem thêm
@@ -290,11 +149,8 @@
             </div>
         </div>
     </div>
-</section>
-
-
-    <c:if test="${totalPages > 1}">
-        <div class="pagination">
+<c:if test="${totalPages > 1}">
+        <div class="pagination" style="margin-bottom: 50px">
             <c:forEach begin="1" end="${totalPages}" var="i">
                 <c:choose>
                     <c:when test="${currentPage == i}">
@@ -321,6 +177,125 @@
             </c:forEach>
         </div>
     </c:if>
+<%@include file="includes/footer.jsp"%>
+<script>
+    function toggleFilter() {
+        const filterContainer = document.querySelector('.filter-container');
+        filterContainer.classList.toggle('collapsed');
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        // Xử lý Lọc theo giá
+        const priceFilterList = document.querySelector('.filter-list.price');
+        const priceFilterItems = document.querySelectorAll('.filter-list.price .filter-item');
+        const filterMorePrices = document.querySelector('.filter-more.price');
+        const filterHeaderPrices = document.querySelector('.filter-header.price');
+        const priceFilterContainer = document.querySelector('.filter-container.price');
+
+        function toggleFilterPrice() {
+            priceFilterContainer.classList.toggle('collapsed');
+        }
+
+        function showMorePrices() {
+            priceFilterItems.forEach(item => {
+                item.classList.remove('hidden');
+            });
+            filterMorePrices.style.display = 'none';
+        }
+
+// Gán sự kiện cho phần tiêu đề lọc giá
+        if (filterHeaderPrices) {
+            filterHeaderPrices.addEventListener('click', toggleFilterPrice);
+        }
+        if (filterMorePrices) {
+            filterMorePrices.addEventListener('click', showMorePrices);
+        }
+
+// Ẩn các mục giá vượt quá 3 mục đầu tiên
+        if (priceFilterItems) {
+            priceFilterItems.forEach((item, index) => {
+                if (index > 0 && index > 3) { // Bỏ qua tiêu đề (index 0) và hiển thị 3 mục đầu
+                    item.classList.add('hidden');
+                }
+            });
+
+            // Ẩn nút "Xem thêm" nếu không có mục nào bị ẩn
+            let hiddenPriceCount = 0;
+            priceFilterItems.forEach((item, index) => {
+                if (index > 3 && item.classList.contains('hidden')) {
+                    hiddenPriceCount++;
+                }
+            });
+            if (filterMorePrices && hiddenPriceCount === 0) {
+                filterMorePrices.style.display = 'none';
+            }
+        }
+
+
+        // Xử lý Lọc theo công việc
+        const jobFilterList = document.querySelector('.filter-list.job');
+        const jobFilterItems = document.querySelectorAll('.filter-list.job .filter-item');
+        const filterMoreCViec = document.querySelector('.filter-more.job');
+        const filterHeaderCViec = document.querySelector('.filter-header.job');
+        const jobFilterContainer = document.querySelector('.filter-container.job');
+
+        function toggleFilterCViec() {
+            jobFilterContainer.classList.toggle('collapsed');
+        }
+
+        function showMoreCViec() {
+            jobFilterItems.forEach(item => {
+                item.classList.remove('hidden');
+            });
+            filterMoreCViec.style.display = 'none';
+        }
+
+        // Gán sự kiện cho phần tiêu đề lọc công việc
+        if (filterHeaderCViec) {
+            filterHeaderCViec.addEventListener('click', toggleFilterCViec);
+        }
+        if (filterMoreCViec) {
+            filterMoreCViec.addEventListener('click', showMoreCViec);
+        }
+
+        // Ẩn các mục công việc vượt quá 3 mục đầu tiên
+        if (jobFilterItems) {
+            jobFilterItems.forEach((item, index) => {
+                if (index > 0 && index > 3) { // Bỏ qua tiêu đề (index 0) và hiển thị 3 mục đầu
+                    item.classList.add('hidden');
+                }
+            });
+
+            // Ẩn nút "Xem thêm" nếu không có mục nào bị ẩn
+            let hiddenJobCount = 0;
+            jobFilterItems.forEach((item, index) => {
+                if (index > 3 && item.classList.contains('hidden')) {
+                    hiddenJobCount++;
+                }
+            });
+            if (filterMoreCViec && hiddenJobCount === 0) {
+                filterMoreCViec.style.display = 'none';
+            }
+        }
+    });
+</script>
+<script>
+    function toggleMenu() {
+        document.getElementById("sortMenu").classList.toggle("show");
+    }
+
+    // Đóng dropdown khi click ra ngoài
+    window.onclick = function (event) {
+        if (!event.target.matches('.hamburger-button') &&
+            !event.target.matches('.hamburger-icon') &&
+            !event.target.matches('.hamburger-icon span')) {
+            var dropdown = document.getElementById("sortMenu");
+            if (dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+            }
+        }
+    }
+</script>
 
 </body>
 </html>
