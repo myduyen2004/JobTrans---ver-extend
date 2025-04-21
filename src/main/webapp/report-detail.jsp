@@ -1,6 +1,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ page import="jobtrans.utils.CookieUtils" %>
+<%
+    String email = CookieUtils.get("cookemail", request);
+    String password = CookieUtils.get("cookpass", request);
+    String rememberVal = CookieUtils.get("cookrem", request);
+%>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -9,6 +16,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chi tiết báo cáo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .bg-custom-gradient {
             background: linear-gradient(300deg, rgba(103, 135, 254, 0.4) 0%, rgb(43, 61, 159) 20%);
@@ -108,8 +117,8 @@
     </style>
 </head>
 <%@include file="includes/header-01.jsp"%>
-<%@include file="includes/sidebar.jsp"%>
 <body>
+<%@include file="includes/toast-notification.jsp"%>
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-10 col-md-9 p-4" style="margin-left: 150px">
@@ -130,7 +139,7 @@
                 </div>
             </div>
 
-            <div class="row" style="display: flex; flex-direction: row; align-items: center; justify-content: center;">
+            <div class="row" style="display: flex; flex-direction: row; justify-content: center;">
                 <div class="col-lg-8">
                     <!-- Report Details -->
                     <div class="card mb-4">
@@ -272,31 +281,38 @@
                             </div>
                             <div class="card-body">
                                 <div class="d-grid gap-2">
-                                    <button class="btn btn-success" type="button">
-                                        <i class="fas fa-check me-2"></i>Chấp nhận báo cáo
-                                    </button>
-                                    <button class="btn btn-danger" type="button">
-                                        <i class="fas fa-times me-2"></i>Từ chối báo cáo
-                                    </button>
-                                    <button class="btn btn-warning" type="button">
-                                        <i class="fas fa-exclamation-triangle me-2"></i>Cảnh báo người dùng
-                                    </button>
-                                    <button class="btn btn-dark" type="button">
-                                        <i class="fas fa-ban me-2"></i>Khóa tài khoản
-                                    </button>
+                                    <a href="acc-manage?action=acceptReport&reportId=${report.reportId}">
+                                        <button class="btn btn-success" type="button" style="width: 100%">
+                                            <i class="fas fa-check me-2"></i>Chấp nhận báo cáo
+                                        </button>
+                                    </a>
+                                    <a href="acc-manage?action=rejectReport&reportId=${report.reportId}">
+                                        <button class="btn btn-danger" type="button" style="width: 100%">
+                                            <i class="fas fa-times me-2"></i>Từ chối báo cáo
+                                        </button>
+                                    </a>
+                                    <a href="acc-manage?action=banAccount&reportId=${report.reportId}">
+                                        <button class="btn btn-dark" type="button" style="width: 100%">
+                                            <i class="fas fa-ban me-2"></i>Khóa tài khoản
+                                        </button>
+                                    </a>
                                 </div>
 
                                 <hr>
 
-                                <div class="mb-3">
-                                    <label for="noteToUser" class="form-label">Ghi chú cho người dùng:</label>
-                                    <textarea class="form-control" id="noteToUser" rows="3" placeholder="Nhập ghi chú..."></textarea>
-                                </div>
-                                <div class="d-grid">
-                                    <button class="btn btn-primary" type="button">
-                                        <i class="fas fa-save me-2"></i>Lưu ghi chú
-                                    </button>
-                                </div>
+                                <form action="acc-manage" method="get">
+                                    <input type="hidden" name="reportId" value="${report.reportId}">
+                                    <input type="hidden" name="action" value="saveNote">
+                                    <div class="mb-3">
+                                        <label for="noteToUser" class="form-label">Ghi chú cho người dùng:</label>
+                                        <textarea class="form-control" id="noteToUser" name="note" rows="3" placeholder="Nhập ghi chú..."></textarea>
+                                    </div>
+                                    <div class="d-grid">
+                                        <button class="btn btn-primary" type="submit">
+                                            <i class="fas fa-save me-2"></i>Lưu ghi chú
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -306,6 +322,6 @@
     </div>
 </div>
 <%@include file="includes/footer.jsp"%>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<%--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>--%>
 </body>
 </html>

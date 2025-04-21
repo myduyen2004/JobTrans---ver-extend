@@ -308,7 +308,7 @@
                 </tbody>
             </table>
             <div class="show-more-container">
-                <a href="acc-manage?action=viewAccountDetails&accId=${o.accountId}">
+                <a href="acc-manage?action=viewAccountReport&accId=${account.accountId}">
                     <button class="show-more-btn">Xem tất cả báo cáo</button>
                 </a>
             </div>

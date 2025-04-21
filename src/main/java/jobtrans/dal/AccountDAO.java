@@ -1,9 +1,6 @@
 package jobtrans.dal;
 
-import jobtrans.model.Account;
-import jobtrans.model.Criteria;
-import jobtrans.model.Report;
-import jobtrans.model.Transaction;
+import jobtrans.model.*;
 import jobtrans.utils.DBConnection;
 import jobtrans.utils.ImgHandler;
 import jobtrans.utils.PasswordEncoder;
@@ -498,6 +495,7 @@ public class AccountDAO {
         return accounts;
     }
 
+    //Xử lý report
     public List<Report> getReportByreportedAccount(int reportedId) {
         List<Report> list = new ArrayList<>();
 
@@ -507,6 +505,36 @@ public class AccountDAO {
             Connection con = dbConnection.openConnection();
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, reportedId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Report report = new Report();
+                report.setReportId(rs.getInt("report_id"));
+                report.setJobId(rs.getInt("job_id"));
+                report.setReportedAccount(rs.getInt("reported_account"));
+                report.setReportBy(rs.getInt("report_by"));
+                report.setCriteriaId(rs.getInt("criteria_id"));
+                report.setContentReport(rs.getString("content_report"));
+                report.setAttachment(rs.getString("attachment"));
+                report.setReportTime(rs.getTimestamp("report_time"));
+                report.setStatus(rs.getString("status"));
+                list.add(report);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
+    }
+
+    public List<Report> getReportByreportBy(int reporterId) {
+        List<Report> list = new ArrayList<>();
+
+        String query = "select * from Report where report_by=?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, reporterId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Report report = new Report();
@@ -556,6 +584,26 @@ public class AccountDAO {
         int count = 0;
 
         String query = "select count(*) nums from Report where reported_account=?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("nums");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return count;
+    }
+
+    public int getNumOfReportsByReportBy(int id){
+        int count = 0;
+
+        String query = "select count(*) nums from Report where report_by=?";
 
         try {
             Connection con = dbConnection.openConnection();
@@ -705,6 +753,89 @@ public class AccountDAO {
             throw new RuntimeException(e);
         }
         return report;
+    }
+
+    public boolean updateReportStatus(int reportId, String status) {
+        String query = "update Report set status=? where report_id=?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setNString(1, status);
+            ps.setInt(2, reportId);
+            int rowEffect = ps.executeUpdate();
+            return rowEffect > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updatePointAccount(int accountId, int point) {
+        String query = "update Account set point=point + ? where account_id=?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, point);
+            ps.setInt(2, accountId);
+            int rowEffect = ps.executeUpdate();
+            return rowEffect > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    public boolean updateCountAccount(int accountId, int count) {
+        String query = "update Account set count=? where account_id=?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, count);
+            ps.setInt(2, accountId);
+            int rowEffect = ps.executeUpdate();
+            return rowEffect > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean banAccount(int accountId) {
+        String query = "update Account set status=? where account_id=?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setNString(1,"Bị cấm");
+            ps.setInt(2, accountId);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean insertPointHistory(int accountId, int criteriaId, String pointNote){
+        String sql = "INSERT INTO PointHistory (account_id, criteria_id, point_note) VALUES (?, ?, ?)";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, accountId);
+            ps.setInt(2, criteriaId);
+            ps.setNString(3, pointNote);
+            int rowEffect = ps.executeUpdate();
+            return rowEffect > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
 
     public static void main(String[] args) {

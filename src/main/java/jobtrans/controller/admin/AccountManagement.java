@@ -1,8 +1,10 @@
 package jobtrans.controller.admin;
 
+import jdk.jfr.Category;
 import jobtrans.dal.AccountDAO;
 import jobtrans.dal.GroupMemberDAO;
 import jobtrans.model.Account;
+import jobtrans.model.Criteria;
 import jobtrans.model.GroupMember;
 import jobtrans.model.Report;
 
@@ -47,10 +49,26 @@ public class AccountManagement extends HttpServlet {
                     showReports(req, resp);
                     break;
                 case "viewReportDetail":
-                    showReportDetail(req, resp);
+                    int id = Integer.parseInt(req.getParameter("reportId"));
+                    showReportDetail(req, resp, id);
                     break;
                 case "download":
                     downloadFile(req, resp);
+                    break;
+                case "acceptReport":
+                    resolveReport(req, resp);
+                    break;
+                case "rejectReport":
+                    rejectReport(req, resp);
+                    break;
+                case "banAccount":
+                    banUser(req, resp);
+                    break;
+                case "saveNote":
+                    saveNote(req, resp);
+                    break;
+                case "viewAccountReport":
+                    showAccountReport(req, resp);
                     break;
                 default:
                     throw new AssertionError();
@@ -91,6 +109,27 @@ public class AccountManagement extends HttpServlet {
         }
     }
 
+    private void showAccountReport(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        if (session.getAttribute("sessionAccount") != null) {
+            int accId = Integer.parseInt(req.getParameter("accId"));
+            Account account1 = accountDAO.getAccountById(accId);
+            //Danh sách bị tố cáo
+            List<Report> reportedList = accountDAO.getReportByreportedAccount(account1.getAccountId());
+
+            //Danh sách tố cáo
+            List<Report> reportList = accountDAO.getReportByreportBy(account1.getAccountId());
+
+            req.setAttribute("reportedList", reportedList);
+            req.setAttribute("reportList", reportList);
+            req.setAttribute("accountLogged", account1);
+
+            req.getRequestDispatcher("account-report-list.jsp").forward(req, resp);
+        } else {
+            resp.sendRedirect("home");
+        }
+    }
+
     private void showReports(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         if (session.getAttribute("sessionAccount") != null) {
@@ -103,10 +142,9 @@ public class AccountManagement extends HttpServlet {
         }
     }
 
-    private void showReportDetail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void showReportDetail(HttpServletRequest req, HttpServletResponse resp, int id) throws ServletException, IOException {
         HttpSession session = req.getSession();
         if (session.getAttribute("sessionAccount") != null) {
-            int id = Integer.parseInt(req.getParameter("reportId"));
             Account account = (Account) session.getAttribute("sessionAccount");
             Account account1 = accountDAO.getAccountById(account.getAccountId());
             Report report = accountDAO.getReportById(id);
@@ -147,8 +185,142 @@ public class AccountManagement extends HttpServlet {
                     System.out.println("File Not Found: " + fileName);
                 }
             }
-        }else {
+        } else {
             resp.sendRedirect("home");
+        }
+    }
+
+    private void resolveReport(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        if (session.getAttribute("sessionAccount") != null) {
+            int reportId = Integer.parseInt(req.getParameter("reportId"));
+            Report report = accountDAO.getReportById(reportId);
+            Account reportedAccount = accountDAO.getAccountById(report.getReportedAccount());
+
+            Criteria criteria = accountDAO.getCriteriaById(report.getCriteriaId());
+
+            if (accountDAO.updateReportStatus(report.getReportId(), "Đã xử lí")) {
+                req.setAttribute("toastMessage", "Xử lí báo cáo thành công.");
+                req.setAttribute("toastType", "success");
+            } else {
+                req.setAttribute("toastMessage", "Xử lí báo cáo thất bại - có lỗi xảy ra!");
+                req.setAttribute("toastType", "error");
+            }
+
+            int count = reportedAccount.getCount();
+
+            if (accountDAO.updatePointAccount(reportedAccount.getAccountId(), criteria.getCriteriaPoint())) {
+                req.setAttribute("toastMessage", "Xử lí báo cáo thành công.");
+                req.setAttribute("toastType", "success");
+            } else {
+                req.setAttribute("toastMessage", "Cập nhật điểm thất bại.");
+                req.setAttribute("toastType", "error");
+            }
+
+            reportedAccount = accountDAO.getAccountById(report.getReportedAccount());
+
+            if (reportedAccount.getPoint() < 0) {
+                count += 1;
+                if (accountDAO.updateCountAccount(reportedAccount.getAccountId(), count)) {
+                    req.setAttribute("toastMessage", "Xử lí báo cáo thành công.");
+                    req.setAttribute("toastType", "success");
+                } else {
+                    req.setAttribute("toastMessage", "Cập nhật số lần âm điểm thất bại.");
+                    req.setAttribute("toastType", "error");
+                }
+            }
+
+            report = accountDAO.getReportById(reportId);
+
+            Account account = (Account) session.getAttribute("sessionAccount");
+            Account account1 = accountDAO.getAccountById(account.getAccountId());
+            req.setAttribute("report", report);
+            req.setAttribute("accountLogged", account1);
+            req.getRequestDispatcher("report-detail.jsp").forward(req, resp);
+        } else {
+            resp.sendRedirect("home");
+        }
+    }
+
+    private void rejectReport(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        if (session.getAttribute("sessionAccount") != null) {
+            int reportId = Integer.parseInt(req.getParameter("reportId"));
+            Report report = accountDAO.getReportById(reportId);
+
+            Account account = (Account) session.getAttribute("sessionAccount");
+            Account account1 = accountDAO.getAccountById(account.getAccountId());
+            report = accountDAO.getReportById(reportId);
+
+            if (accountDAO.updateReportStatus(report.getReportId(), "Bị từ chối")) {
+                req.setAttribute("toastMessage", "Từ chối báo cáo thành công.");
+//                req.setAttribute("toastType", "success");
+            } else {
+                req.setAttribute("toastMessage", "Từ chối báo cáo thất bại - có lỗi xảy ra!");
+                req.setAttribute("toastType", "error");
+            }
+
+            report = accountDAO.getReportById(reportId);
+
+            req.setAttribute("report", report);
+            req.setAttribute("accountLogged", account1);
+            req.getRequestDispatcher("report-detail.jsp").forward(req, resp);
+        } else {
+            resp.sendRedirect("home");
+        }
+    }
+
+    private void banUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        if (session.getAttribute("sessionAccount") != null) {
+            int reportId = Integer.parseInt(req.getParameter("reportId"));
+            Report report = accountDAO.getReportById(reportId);
+
+            if (accountDAO.banAccount(report.getReportedAccount())) {
+                req.setAttribute("toastMessage", "Khóa tài khoản thành công.");
+                req.setAttribute("toastType", "success");
+            } else {
+                req.setAttribute("toastMessage", "Khóa tài khoản thất bại - có lỗi xảy ra!");
+                req.setAttribute("toastType", "error");
+            }
+            report = accountDAO.getReportById(reportId);
+
+            Account account = (Account) session.getAttribute("sessionAccount");
+            Account account1 = accountDAO.getAccountById(account.getAccountId());
+            req.setAttribute("report", report);
+            req.setAttribute("accountLogged", account1);
+            req.getRequestDispatcher("report-detail.jsp").forward(req, resp);
+        }
+    }
+
+    private void saveNote(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        if (session.getAttribute("sessionAccount") != null) {
+            int reportId = Integer.parseInt(req.getParameter("reportId"));
+            Report report = accountDAO.getReportById(reportId);
+
+            String note = req.getParameter("note");
+
+            int criteriaId = report.getCriteriaId();
+            Criteria criteria = accountDAO.getCriteriaById(criteriaId);
+
+            int accountId = report.getReportedAccount();
+
+            if (accountDAO.insertPointHistory(accountId, criteriaId, note)) {
+                req.setAttribute("toastMessage", "Thêm ghi chú thành công.");
+                req.setAttribute("toastType", "success");
+            } else {
+                req.setAttribute("toastMessage", "Thêm ghi chú thất bại!");
+                req.setAttribute("toastType", "error");
+            }
+
+            report = accountDAO.getReportById(reportId);
+
+            Account account = (Account) session.getAttribute("sessionAccount");
+            Account account1 = accountDAO.getAccountById(account.getAccountId());
+            req.setAttribute("report", report);
+            req.setAttribute("accountLogged", account1);
+            req.getRequestDispatcher("report-detail.jsp").forward(req, resp);
         }
     }
 }

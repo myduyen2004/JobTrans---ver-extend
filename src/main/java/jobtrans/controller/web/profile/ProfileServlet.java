@@ -27,6 +27,7 @@ import jobtrans.dal.AccountDAO;
 import jobtrans.dal.TransactionDAO;
 import jobtrans.model.Account;
 import jobtrans.model.GroupMember;
+import jobtrans.model.Report;
 import jobtrans.model.Transaction;
 
 @WebServlet(name = "ProfileServlet", urlPatterns = {"/profile"})
@@ -57,6 +58,13 @@ public class ProfileServlet extends HttpServlet {
                 break;
             case "updateProfile":
 //                updateProfile(request, response);
+                break;
+            case "viewAccountReport":
+                showAccountReport(request, response);
+                break;
+            case "viewReport":
+                int id = Integer.parseInt(request.getParameter("reportId"));
+                showReportDetail(request,response,id);
                 break;
             default:
                 response.sendRedirect("infor-account.jsp"); // Trang lỗi nếu action không hợp lệ
@@ -170,12 +178,12 @@ public class ProfileServlet extends HttpServlet {
 
 
     private void viewProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //        HttpSession session = request.getSession();
-        //        Account account = (Account) session.getAttribute("sessionAccount");
-        //        Account account01 = accountDAO.getAccountById(account.getAccountId());
+                HttpSession session = request.getSession();
+                Account account = (Account) session.getAttribute("sessionAccount");
+                Account account01 = accountDAO.getAccountById(account.getAccountId());
 
-        int accountId = Integer.parseInt(request.getParameter("account_id"));
-        Account account01 = accountDAO.getAccountById(accountId);
+//        int accountId = Integer.parseInt(request.getParameter("account_id"));
+//        Account account01 = accountDAO.getAccountById(accountId);
 
         request.setAttribute("account", account01);
 
@@ -216,6 +224,42 @@ public class ProfileServlet extends HttpServlet {
         request.setAttribute("account", account01);
         request.getRequestDispatcher("edit-account.jsp").forward(request, response);
 
+    }
+
+    private void showAccountReport(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        if (session.getAttribute("sessionAccount") != null) {
+            Account account = (Account) session.getAttribute("sessionAccount");
+            Account account1 = accountDAO.getAccountById(account.getAccountId());
+            //Danh sách bị tố cáo
+            List<Report> reportedList = accountDAO.getReportByreportedAccount(account1.getAccountId());
+
+            //Danh sách tố cáo
+            List<Report> reportList = accountDAO.getReportByreportBy(account1.getAccountId());
+
+            req.setAttribute("reportedList", reportedList);
+            req.setAttribute("reportList", reportList);
+            req.setAttribute("accountLogged", account1);
+
+            req.getRequestDispatcher("account-report-list.jsp").forward(req, resp);
+        } else {
+            resp.sendRedirect("home");
+        }
+    }
+
+    private void showReportDetail(HttpServletRequest req, HttpServletResponse resp, int id) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        if (session.getAttribute("sessionAccount") != null) {
+            Account account = (Account) session.getAttribute("sessionAccount");
+            Account account1 = accountDAO.getAccountById(account.getAccountId());
+            Report report = accountDAO.getReportById(id);
+
+            req.setAttribute("report", report);
+            req.setAttribute("accountLogged", account1);
+            req.getRequestDispatcher("report-detail.jsp").forward(req, resp);
+        } else {
+            resp.sendRedirect("home");
+        }
     }
 
     //    private void changePassword(HttpServletRequest request, HttpServletResponse response)

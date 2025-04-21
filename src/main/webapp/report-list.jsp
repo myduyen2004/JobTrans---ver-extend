@@ -22,7 +22,6 @@
   </style>
 </head>
 <%@include file="includes/header-01.jsp"%>
-<%@include file="includes/sidebar.jsp"%>
 <body>
 <!-- Main Content -->
 <div class="content-wrapper" style="margin-left: 6.666667%; margin-right:6.666667% ">
