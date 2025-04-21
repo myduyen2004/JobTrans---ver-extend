@@ -201,7 +201,6 @@ public class AccountManagement extends HttpServlet {
 
             if (accountDAO.updateReportStatus(report.getReportId(), "Đã xử lí")) {
                 req.setAttribute("toastMessage", "Xử lí báo cáo thành công.");
-                req.setAttribute("toastType", "success");
             } else {
                 req.setAttribute("toastMessage", "Xử lí báo cáo thất bại - có lỗi xảy ra!");
                 req.setAttribute("toastType", "error");
@@ -211,7 +210,6 @@ public class AccountManagement extends HttpServlet {
 
             if (accountDAO.updatePointAccount(reportedAccount.getAccountId(), criteria.getCriteriaPoint())) {
                 req.setAttribute("toastMessage", "Xử lí báo cáo thành công.");
-                req.setAttribute("toastType", "success");
             } else {
                 req.setAttribute("toastMessage", "Cập nhật điểm thất bại.");
                 req.setAttribute("toastType", "error");
@@ -223,7 +221,6 @@ public class AccountManagement extends HttpServlet {
                 count += 1;
                 if (accountDAO.updateCountAccount(reportedAccount.getAccountId(), count)) {
                     req.setAttribute("toastMessage", "Xử lí báo cáo thành công.");
-                    req.setAttribute("toastType", "success");
                 } else {
                     req.setAttribute("toastMessage", "Cập nhật số lần âm điểm thất bại.");
                     req.setAttribute("toastType", "error");
@@ -254,7 +251,6 @@ public class AccountManagement extends HttpServlet {
 
             if (accountDAO.updateReportStatus(report.getReportId(), "Bị từ chối")) {
                 req.setAttribute("toastMessage", "Từ chối báo cáo thành công.");
-//                req.setAttribute("toastType", "success");
             } else {
                 req.setAttribute("toastMessage", "Từ chối báo cáo thất bại - có lỗi xảy ra!");
                 req.setAttribute("toastType", "error");
@@ -278,7 +274,6 @@ public class AccountManagement extends HttpServlet {
 
             if (accountDAO.banAccount(report.getReportedAccount())) {
                 req.setAttribute("toastMessage", "Khóa tài khoản thành công.");
-                req.setAttribute("toastType", "success");
             } else {
                 req.setAttribute("toastMessage", "Khóa tài khoản thất bại - có lỗi xảy ra!");
                 req.setAttribute("toastType", "error");
@@ -308,7 +303,6 @@ public class AccountManagement extends HttpServlet {
 
             if (accountDAO.insertPointHistory(accountId, criteriaId, note)) {
                 req.setAttribute("toastMessage", "Thêm ghi chú thành công.");
-                req.setAttribute("toastType", "success");
             } else {
                 req.setAttribute("toastMessage", "Thêm ghi chú thất bại!");
                 req.setAttribute("toastType", "error");
