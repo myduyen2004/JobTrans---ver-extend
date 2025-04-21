@@ -16,9 +16,9 @@
     <link href="./css/post_job.css" rel="stylesheet"/>
 
 </head>
-<%@include file="includes/header-01.jsp"%>
+<%@include file="includes/header-01.jsp" %>
 <body style="font-family: Inter, sans-serif ">
-<div class="container" >
+<div class="container">
     <form class="form-container" action="job" method="post" enctype="multipart/form-data">
         <h3 style="color: #0a0a2b; font-weight: bolder">ĐĂNG CÔNG VIỆC MỚI</h3>
         <br>
@@ -64,34 +64,42 @@
 
         <div class="form-group">
             <label class="form-label" for="numOfMems">Số người tuyển dụng:</label>
-            <input id="numOfMems" name="numOfMems" class="form-control" type="number" placeholder="Nhập số lượng cần tuyển">
+            <input id="numOfMems" name="numOfMems" class="form-control" type="number"
+                   placeholder="Nhập số lượng cần tuyển">
         </div>
 
         <div class="form-group">
             <label class="form-label" for="description">Mô tả:</label>
-            <textarea id="description" name="description" class="form-control" placeholder="Mô tả chi tiết về công việc"></textarea>
+            <textarea id="description" name="description" class="form-control"
+                      placeholder="Mô tả chi tiết về công việc"></textarea>
         </div>
 
         <div class="form-group">
             <label class="form-label" for="requirement">Yêu cầu:</label>
-            <textarea id="requirement" name="requirement" class="form-control" placeholder="Yêu cầu đối với ứng viên"></textarea>
+            <textarea id="requirement" name="requirement" class="form-control"
+                      placeholder="Yêu cầu đối với ứng viên"></textarea>
         </div>
 
         <div class="form-group">
             <label class="form-label" for="benefit">Quyền lợi:</label>
-            <textarea id="benefit" name="benefit" class="form-control" placeholder="Quyền lợi dành cho ứng viên"></textarea>
+            <textarea id="benefit" name="benefit" class="form-control"
+                      placeholder="Quyền lợi dành cho ứng viên"></textarea>
         </div>
 
         <div class="form-group">
             <label class="form-label">Ngân sách:</label>
-            <div class="budget-container">
-                <div class="budget-group">
-                    <span class="budget-label">MIN</span>
-                    <input class="budget-input" name="budgetMin" type="number" value="0">
+            <div class="row">
+                <div class="col-6">
+                    <div class="budget-group" id="budgetMin">
+                        <span class="budget-label">MIN</span>
+                        <input class="budget-input" name="budgetMin" id="budgetMinInput" type="number" value='0'>
+                    </div>
                 </div>
-                <div class="budget-group">
-                    <span class="budget-label">MAX</span>
-                    <input class="budget-input" name="budgetMax" type="number" value="0">
+                <div class="col-6">
+                    <div class="budget-group" id="budgetMax">
+                        <span class="budget-label">MAX</span>
+                        <input class="budget-input" name="budgetMax" id="budgetMaxInput" type="number" value='0'>
+                    </div>
                 </div>
             </div>
         </div>
@@ -114,7 +122,8 @@
             <div class="row">
                 <div class="col-12">
                     <label class="form-label" for="kiemtra-content">Nội dung kiểm tra:</label>
-                    <textarea id="kiemtra-content" name="kiemtra-content" class="form-control" placeholder="Nhập nội dung kiểm tra"></textarea>
+                    <textarea id="kiemtra-content" name="kiemtra-content" class="form-control"
+                              placeholder="Nhập nội dung kiểm tra"></textarea>
                 </div>
                 <div class="col-6">
                     <label class="form-label" for="kiemtra-required">Bắt buộc:</label>
@@ -148,15 +157,10 @@
 
             <div class="col-6">
                 <div class="form-group">
-                    <label class="form-label" for="dueDate">Ngày hết hạn:</label>
+                    <label class="form-label" for="dueDate">Ngày hết hạn tuyển dụng:</label>
                     <input id="dueDate" name="dueDate" class="form-control" type="date">
                 </div>
             </div>
-        </div>
-
-        <div class="form-group">
-            <label class="form-label" for="linkInterview">Đường dẫn phỏng vấn:</label>
-            <input id="linkInterview" name="linkInterview" class="form-control" type="text" placeholder="Nhập đường dẫn phỏng vấn">
         </div>
 
         <div class="button-group">
@@ -165,7 +169,7 @@
         </div>
     </form>
 </div>
-<%@include file="includes/footer.jsp"%>
+<%@include file="includes/footer.jsp" %>
 <script>
     // Add Tag Section
     document.getElementById('add-tag').addEventListener('click', function () {
@@ -196,13 +200,13 @@
 </script>
 <script>
     // Xử lý hiển thị tùy chọn kiểm tra
-    document.getElementById('kiemtra-yes').addEventListener('change', function() {
+    document.getElementById('kiemtra-yes').addEventListener('change', function () {
         if (this.checked) {
             document.getElementById('kiemtra-options').classList.remove('hidden');
         }
     });
 
-    document.getElementById('kiemtra-no').addEventListener('change', function() {
+    document.getElementById('kiemtra-no').addEventListener('change', function () {
         if (this.checked) {
             document.getElementById('kiemtra-options').classList.add('hidden');
         }
@@ -217,7 +221,7 @@
     <%--});--%>
 
     // Thêm tag mới
-    document.getElementById('add-tag').addEventListener('click', function() {
+    document.getElementById('add-tag').addEventListener('click', function () {
         const tagContainer = document.querySelector('.tag-container');
         const newTagItem = document.createElement('div');
         newTagItem.className = 'tag-item';
@@ -235,7 +239,7 @@
         tagContainer.appendChild(newTagItem);
 
         // Thêm sự kiện xóa tag
-        newTagItem.querySelector('.remove-tag').addEventListener('click', function() {
+        newTagItem.querySelector('.remove-tag').addEventListener('click', function () {
             newTagItem.remove();
         });
     });
@@ -249,5 +253,101 @@
             : "Không có tệp nào được chọn";
     });
 </script>
+
+<%--Xử lí validate--%>
+<script>
+    document.querySelector("form").addEventListener("submit", function (e) {
+        let isValid = true;
+        const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+
+        // Xóa các thông báo lỗi cũ
+        document.querySelectorAll(".error-message").forEach(el => el.remove());
+
+        function showError(input, message) {
+            const error = document.createElement("div");
+            error.className = "error-message";
+            error.style.color = "red";
+            error.style.marginTop = "4px";
+            error.textContent = message;
+            input.insertAdjacentElement("afterend", error);
+        }
+
+        // Validate Tiêu đề
+        const title = document.getElementById("title");
+        if (!title.value.trim()) {
+            showError(title, "Nội dung này không được để trống!");
+            isValid = false;
+        }
+
+        // Validate Phân loại
+        const category = document.getElementById("category");
+        if (!category.value) {
+            showError(category, "Nội dung này không được để trống!");
+            isValid = false;
+        }
+
+        // Validate Số người tuyển dụng
+        const numOfMems = document.getElementById("numOfMems");
+        if (!numOfMems.value || numOfMems.value <= 0) {
+            showError(numOfMems, "Nội dung này không được để trống và phải lớn hơn 0!");
+            isValid = false;
+        }
+
+        // Validate Mô tả
+        const description = document.getElementById("description");
+        if (!description.value.trim()) {
+            showError(description, "Nội dung này không được để trống!");
+            isValid = false;
+        }
+
+        // Validate Ngân sách
+        const budgetMin = document.getElementById("budgetMin");
+        const budgetMinInput = document.getElementById("budgetMinInput");
+        if (!budgetMinInput.value || budgetMinInput.value <= 0) {
+            showError(budgetMin, "Ngân sách Min không được để trống và phải lớn hơn 0!");
+            isValid = false;
+        }
+
+        const budgetMax = document.getElementById("budgetMax");
+        const budgetMaxInput = document.getElementById("budgetMaxInput");
+        let budgetError = "";
+
+        if (!budgetMaxInput.value || budgetMaxInput.value <= 0) {
+            budgetError = "Ngân sách Max không được để trống và phải lớn hơn 0!";
+            showError(budgetMax, budgetError);
+            isValid = false;
+        } else if (parseInt(budgetMaxInput.value) <= parseInt(budgetMinInput.value)) {
+            budgetError = "Ngân sách Max phải lớn hơn Min";
+            showError(budgetMax, budgetError);
+            isValid = false;
+        }
+
+        // Validate ngày phỏng vấn
+        const interviewDate = document.getElementById("interviewDate");
+
+        if (interviewDate.value && interviewDate.value <= today) {
+            showError(interviewDate, "Ngày phỏng vấn phải lớn hơn ngày hiện tại!");
+            isValid = false;
+        }
+
+        // Validate ngày hết hạn tuyển dụng
+        const dueDate = document.getElementById("dueDate");
+
+        if (!dueDate.value.trim()) {
+            showError(dueDate, "Nội dung này không được để trống!")
+            isValid = false;
+        } else {
+            if (dueDate.value && dueDate.value <= today) {
+                showError(dueDate, "Ngày hết hạn tuyển dụng phải lớn hơn ngày hiện tại!");
+                isValid = false;
+            }
+        }
+
+        if (!isValid) {
+            e.preventDefault(); // Ngăn form submit nếu có lỗi
+        }
+    });
+</script>
+
 </body>
 </html>
