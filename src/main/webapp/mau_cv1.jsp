@@ -175,11 +175,28 @@
             color: var(--dark);
             line-height: 1.5;
         }
+        .banner_title {
+            background-image: url(./img/anh1/anh1.png);
+            background-size: 100%;
+            font-size: 40px;
+            height: 200px;
+            display: flex;
+
+            align-items: center;
+        }
     </style>
 </head>
 <body>
+
+
 <%@include file="./includes/header-01.jsp" %>
-<%@include file="./includes/header_under.jsp" %>
+
+<%@include file="./includes/sidebar.jsp" %>
+<div class="maucv_under">
+<div class="py-4 banner_title">
+    <h1 class="text-white font-weight-bold" style="padding-left: 50px;">Danh sách công việc</h1>
+</div>
+</div>
 <div style="display: flex">
 
     <div class="cv-container">
@@ -367,7 +384,7 @@
 
         </div>
     </div>
-    <%@include file="includes/sidebar_cv.jsp" %>
+<%--    <%@include file="includes/sidebar_cv.jsp" %>--%>
 
 </div>
 <%@include file="includes/footer.jsp" %>

@@ -176,7 +176,7 @@
             flex: 1;
             padding: 30px;
             background-color: #f5f7fb;
-            margin-left: 17%;
+
         }
 
         .cv-box {
@@ -184,7 +184,7 @@
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             overflow: hidden;
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
             display: flex;
         }
@@ -386,14 +386,26 @@
             transform: translateY(-3px);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
+        .banner_title {
+            background-image: url(./img/anh1/anh1.png);
+            background-size: 100%;
+            font-size: 40px;
+            height: 200px;
+            display: flex;
+
+            align-items: center;
+        }
 
     </style>
 </head>
 <body>
-<%@include file="./includes/gpt_sidebar.jsp" %>
+<%@include file="includes/header-01.jsp" %>
+<div style="margin-top: 100px" class="py-4 banner_title">
+    <h1 class="text-white font-weight-bold" style="padding-left: 50px;">Danh sách công việc</h1>
+</div>
+<div style="display: flex">
+    <%@include file="./includes/sidebar_createCV.jsp" %>
 
-<%@include file="./includes/sidebar_createCV.jsp" %>
-<!-- CV Content Area -->
 <main class="cv-content">
     <form action="cv?action=update" method="POST" enctype="multipart/form-data">
 
@@ -546,6 +558,17 @@
                                        placeholder="Tên trường khác"
                                        class="form-control other-school-input" style="display: none;">
                             </div>
+                            <script>
+                                document.getElementById('schoolSelect').addEventListener('change', function () {
+                                    var otherInput = document.querySelector('.other-school-input');
+                                    if (this.value === '504') {
+                                        otherInput.style.display = 'block';
+                                    } else {
+                                        otherInput.style.display = 'none';
+                                        otherInput.value = ''; // Xóa giá trị khi không chọn "Khác"
+                                    }
+                                });
+                            </script>
                             <div class="date-group">
                                 <input value="${o.startDate}" type="date" class="form-control"
                                        name="educationStartDate[]">
@@ -586,21 +609,26 @@
                     <c:forEach items="${CV.experienceList}" var="o">
                         <div class="experience-item">
                             <div class="form-group">
-                                <select class="form-control" name="Company[]" required>
+                                <select class="form-control"  id="companySelect" name="Company[] required>
                                     <option value="${o.experienceId}" ${o.experienceId == selectedExperience ? 'selected' : ''}>
                                             ${o.companyName}
                                     </option>
                                     <c:forEach items="${CVDAO.allCompanyName}" var="h">
                                         <option value="${CVDAO.getCompanyIdByName(h)}">${h}</option>
                                     </c:forEach>
-                                    <option value="32">Khác</option> <!-- Value 32 for "Other" -->
+
                                 </select>
                             </div>
+<%--                            <div class="form-group">--%>
+<%--                                <input value="1" type="text" name="otherCompanyName[]"--%>
+<%--                                       placeholder="${o.customCompany}"--%>
+<%--                                       class="form-control other-company-input" style="display: none;">--%>
+<%--                            </div>--%>
                             <div class="form-group">
-                                <input value="${o.customCompany}" type="text" name="otherCompanyName[]"
-                                       placeholder="Tên công ty khác"
+                                <input type="text" name="otherCompanyName[]" placeholder="Tên công ty khác"
                                        class="form-control other-company-input" style="display: none;">
                             </div>
+
                             <div class="date-group">
                                 <input value="${o.startAt}" type="date" class="form-control" name="companyStartDate[]"
                                        required>
@@ -656,8 +684,8 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <input value="${o.customCertification}" type="text" name="otherCertificationName[]"
-                                       placeholder="Chứng chỉ khác"
+                                <input value="1" type="text" name="otherCertificationName[]"
+                                       placeholder="${o.customCertification}"
                                        class="form-control other-certification-input" style="display: none;">
                             </div>
                             <div class="form-group">
@@ -684,10 +712,11 @@
         </button>
 
     </form>
+    <%@include file="./includes/gpt_sidebar.jsp" %>
 </main>
 </div>
 
-
+<%@include file="includes/footer.jsp"%>
 <%--<script>--%>
 <%--    document.getElementById('mainSkill').addEventListener('change', function () {--%>
 <%--        var mainSkillId = this.value;--%>
@@ -704,6 +733,263 @@
 <%--    });--%>
 <%--</script>--%>
 <script>
+    //
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get the form element
+        const cvForm = document.querySelector('form[action="cv?action=create"]');
+
+        // Function to add error message
+        function addErrorMessage(element, message) {
+            // Add error class to input
+            element.classList.add('error-input');
+
+            // Create error message element
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.textContent = message;
+
+            // Insert error message after the element
+            element.parentNode.insertBefore(errorDiv, element.nextSibling);
+        }
+
+        // Function to clear all error messages
+        function clearErrorMessages() {
+            // Remove error classes
+            const errorInputs = document.querySelectorAll('.error-input');
+            errorInputs.forEach(input => input.classList.remove('error-input'));
+
+            // Remove error message elements
+            const errorMessages = document.querySelectorAll('.error-message');
+            errorMessages.forEach(msg => msg.remove());
+        }
+
+        // Validation functions
+        function validateRequired(element, message) {
+            if (!element.value.trim()) {
+                addErrorMessage(element, message);
+                return false;
+            }
+            return true;
+        }
+
+        function validateLength(element, min, max, message) {
+            const value = element.value.trim();
+            if (value.length < min || value.length > max) {
+                addErrorMessage(element, message);
+                return false;
+            }
+            return true;
+        }
+
+        function validateEmail(element, message) {
+            const value = element.value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(value)) {
+                addErrorMessage(element, message);
+                return false;
+            }
+            return true;
+        }
+
+        function validatePhone(element, message) {
+            const value = element.value.trim();
+            const phoneRegex = /^(0|\+84)\d{9,10}$/;
+            if (!phoneRegex.test(value)) {
+                addErrorMessage(element, message);
+                return false;
+            }
+            return true;
+        }
+
+        function validateAge(element, min, max, message) {
+            const birthDate = new Date(element.value);
+            const today = new Date();
+
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+
+            if (age < min || age > max) {
+                addErrorMessage(element, message);
+                return false;
+            }
+            return true;
+        }
+
+        function validateDateRange(startElement, endElement, message) {
+            if (startElement.value && endElement.value) {
+                const startDate = new Date(startElement.value);
+                const endDate = new Date(endElement.value);
+
+                if (endDate <= startDate) {
+                    addErrorMessage(endElement, message);
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // Add submit event listener to the form
+        cvForm.addEventListener('submit', function(event) {
+            // Reset previous error messages
+            clearErrorMessages();
+
+            // Validate form
+            let isValid = true;
+
+            // Validate personal information
+            const fullName = document.querySelector('input[name="cvname"]');
+            if (!validateRequired(fullName, 'Họ và tên không được để trống')) {
+                isValid = false;
+            } else if (!validateLength(fullName, 2, 50, 'Họ và tên phải có từ 2 đến 50 ký tự')) {
+                isValid = false;
+            }
+
+            const position = document.querySelector('input[name="position"]');
+            if (!validateRequired(position, 'Vị trí ứng tuyển không được để trống')) {
+                isValid = false;
+            }
+
+            const sex = document.querySelector('select[name="sex"]');
+            if (!validateRequired(sex, 'Vui lòng chọn giới tính')) {
+                isValid = false;
+            }
+
+            const dateOfBirth = document.querySelector('input[name="date_of_birth"]');
+            if (!validateRequired(dateOfBirth, 'Ngày sinh không được để trống')) {
+                isValid = false;
+            } else if (!validateAge(dateOfBirth, 18, 65, 'Độ tuổi phải từ 18 đến 65')) {
+                isValid = false;
+            }
+
+            const phone = document.querySelector('input[name="sdt"]');
+            if (!validateRequired(phone, 'Số điện thoại không được để trống')) {
+                isValid = false;
+            } else if (!validatePhone(phone, 'Số điện thoại không hợp lệ')) {
+                isValid = false;
+            }
+
+            const email = document.querySelector('input[name="email"]');
+            if (!validateRequired(email, 'Email không được để trống')) {
+                isValid = false;
+            } else if (!validateEmail(email, 'Email không hợp lệ')) {
+                isValid = false;
+            }
+
+            const address = document.querySelector('input[name="address"]');
+            if (!validateRequired(address, 'Địa chỉ không được để trống')) {
+                isValid = false;
+            }
+
+            // Validate experience items
+            const experienceItems = document.querySelectorAll('.experience-item');
+            experienceItems.forEach(function(item, index) {
+                const company = item.querySelector('select[name="Company[]"]');
+                const startDate = item.querySelector('input[name="companyStartDate[]"]');
+                const endDate = item.querySelector('input[name="companyEndDate[]"]');
+                const position = item.querySelector('input[name="position[]"]');
+
+                if (!validateRequired(company, 'Vui lòng chọn công ty')) {
+                    isValid = false;
+                }
+
+                if (!validateRequired(startDate, 'Ngày bắt đầu không được để trống')) {
+                    isValid = false;
+                }
+
+                if (endDate.value && !validateDateRange(startDate, endDate, 'Ngày kết thúc phải sau ngày bắt đầu')) {
+                    isValid = false;
+                }
+
+                if (!validateRequired(position, 'Vị trí không được để trống')) {
+                    isValid = false;
+                }
+            });
+
+            // Validate education items
+            const educationItems = document.querySelectorAll('.education-item');
+            educationItems.forEach(function(item) {
+                const school = item.querySelector('select[name="schoolId[]"]');
+                const startDate = item.querySelector('input[name="educationStartDate[]"]');
+                const endDate = item.querySelector('input[name="educationEndDate[]"]');
+
+                if (!validateRequired(school, 'Vui lòng chọn trường học')) {
+                    isValid = false;
+                }
+
+                if (startDate.value && endDate.value && !validateDateRange(startDate, endDate, 'Ngày kết thúc phải sau ngày bắt đầu')) {
+                    isValid = false;
+                }
+            });
+
+            // Check if form is valid before submission
+            if (!isValid) {
+                event.preventDefault();
+
+                // Scroll to first error
+                const firstError = document.querySelector('.error-input');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstError.focus();
+                }
+            }
+        });
+
+        // Add custom styles for error messages
+        const style = document.createElement('style');
+        style.textContent = `
+        .error-input {
+            border-color: #e74c3c !important;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 4px;
+            margin-bottom: 8px;
+        }
+    `;
+        document.head.appendChild(style);
+
+        // Event listeners for "Other" options
+
+
+    });
+
+    document.getElementById('certificationSelect').addEventListener('change', function() {
+        var otherInput = document.querySelector('.other-certification-input');
+        if (this.value === '1') {
+        otherInput.style.display = 'block';
+    } else {
+        otherInput.style.display = 'none';
+        otherInput.value = ''; // Xóa giá trị khi không chọn "Khác"
+    }
+    });
+    document.getElementById('companySelect').addEventListener('change', function() {
+        var otherInput = document.querySelector('.other-company-input');
+        if (this.value === '1') {
+            otherInput.style.display = 'block';
+        } else {
+            otherInput.style.display = 'none';
+            otherInput.value = ''; // Clear the input when not selecting "Other"
+        }
+    });
+    document.getElementById('skillSelect').addEventListener('change', function() {
+        var otherInput = document.querySelector('.other-skill-input');
+        if (this.value === '1') {
+            otherInput.style.display = 'block';
+            otherInput.setAttribute('required', 'required');
+        } else {
+            otherInput.style.display = 'none';
+            otherInput.removeAttribute('required');
+            otherInput.value = '';
+        }
+    });
+
+    //
     $(document).ready(function () {
         // Add new skill field
         $('#add-skill').click(function () {
@@ -723,7 +1009,7 @@
         // Show "Other Skill" input when "Other" is selected
         $(document).on('change', 'select[name="skillId[]"]', function () {
             const otherInput = $(this).closest('.skill-item').find('.other-skill-input');
-            if ($(this).val() === "31") {
+            if ($(this).val() === "1") {
                 otherInput.show().prop('required', true);
             } else {
                 otherInput.hide().prop('required', false).val('');
@@ -948,7 +1234,7 @@
                                             </c:forEach>
                                         </optgroup>
                                     </c:forEach>
-                                    <option value="31">Khác</option> <!-- Assuming 31 is "Other" -->
+
                                 </select>
                             </div>
 

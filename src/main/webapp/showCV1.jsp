@@ -245,9 +245,10 @@
         .content {
             font-weight: 500;
             font-size: 16px;
-            margin: 10px 0;
             color: #5D7B6F;
+
         }
+
 
         .timeline ul {
             list-style-type: none;
@@ -298,12 +299,26 @@
                 font-size: 26px;
             }
         }
+        .banner_title {
+            background-image: url(./img/anh1/anh1.png);
+            background-size: 100%;
+            font-size: 40px;
+            height: 200px;
+            display: flex;
+
+            align-items: center;
+        }
     </style>
 </head>
 
 <body class="archive post-type-archive post-type-archive-projects wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
 
 <%@include file="includes/header-01.jsp" %>
+
+<div class="py-4 banner_title">
+    <h1 class="text-white font-weight-bold" style="padding-left: 50px;">Danh sách công việc</h1>
+</div>
+<%@include file="./includes/sidebar.jsp" %>
 
 <div class="main-container">
     <div class="content-wrapper">
@@ -342,10 +357,10 @@
                         <div class="skills-container">
                             <h2>${CvDAO.getMainSkillByMainSkillId(o.mainSkillId)}</h2>
                             <div class="skill">
-                                <c:if test="${o.skillId != 31}">
+                                <c:if test="${o.skillId != 1}">
                                     <div class="skill-name">${CvDAO.getSkillBySkillId(o.skillId)}</div>
                                 </c:if>
-                                <c:if test="${o.skillId == 31}">
+                                <c:if test="${o.skillId == 1}">
                                     <div class="skill-name">${o.skillCustom}</div>
                                 </c:if>
                                 <div class="progress-bar">
@@ -380,10 +395,10 @@
                         <hr>
                         <c:forEach items="${CV.educationList}" var="o">
                             <div>
-                                <c:if test="${o.educationId == 95}">
+                                <c:if test="${o.educationId == 504}">
                                     <div class="school">${o.customSchool}</div>
                                 </c:if>
-                                <c:if test="${o.educationId != 95}">
+                                <c:if test="${o.educationId != 504}">
                                     <div class="school">${CvDAO.getSchoolNameById(o.educationId)}</div>
                                 </c:if>
                                 <div class="date">${o.startDate} - ${o.endDate}</div>
@@ -405,10 +420,10 @@
                         <hr>
                         <c:forEach items="${CV.experienceList}" var="o">
                             <div>
-                                <c:if test="${o.experienceId != 32}">
+                                <c:if test="${o.experienceId != 1}">
                                     <div class="name_conpany">${CvDAO.getCompanyNameById(o.experienceId)}</div>
                                 </c:if>
-                                <c:if test="${o.experienceId == 32}">
+                                <c:if test="${o.experienceId == 1}">
                                     <div class="name_conpany">${o.customCompany}</div>
                                 </c:if>
                                 <div class="date">${o.startAt} - ${o.endAt}</div>
@@ -431,10 +446,10 @@
                         <hr>
                         <c:forEach items="${CV.certificationList}" var="o">
                             <div>
-                                <c:if test="${o.certificationId != 35}">
+                                <c:if test="${o.certificationId != 1}">
                                     <div class="name_cc">${CvDAO.getCertificationNameById(o.certificationId)}</div>
                                 </c:if>
-                                <c:if test="${o.certificationId == 35}">
+                                <c:if test="${o.certificationId == 1}">
                                     <div class="name_cc">${o.customCertification}</div>
                                 </c:if>
                                 <div class="date">${o.awardYear}</div>
@@ -452,9 +467,9 @@
             </div>
         </div>
 
-        <div style="margin-right: 20px">
-            <%@include file="includes/sidebar_cv.jsp" %>
-        </div>
+<%--        <div style="margin-right: 20px">--%>
+<%--            <%@include file="includes/sidebar_cv.jsp" %>--%>
+<%--        </div>--%>
     </div>
 </div>
 

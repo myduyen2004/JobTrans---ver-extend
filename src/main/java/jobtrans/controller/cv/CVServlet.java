@@ -517,11 +517,12 @@ public class CVServlet extends HttpServlet {
 
                     // Handle company ID (which is actually experience_id in your DB)
                     int experienceId = Integer.parseInt(companyIds[i]);
+
                     experience.setExperienceId(experienceId);
 
                     // Handle custom company name (for "other" selection)
                     String customCompany = null;
-                    if (experienceId == 32) { // Assuming 32 is "Other" option
+                    if (experienceId == 1) { // Assuming 32 is "Other" option
                         customCompany = (otherCompanyNames != null && i < otherCompanyNames.length)
                                 ? otherCompanyNames[i] : null;
                     }
@@ -534,6 +535,7 @@ public class CVServlet extends HttpServlet {
                             ? dateFormat1.parse(experienceEndDates[i]) : null;
                     experience.setStartAt(startDate);
                     experience.setEndAt(endDate);
+
 
                     // Set other fields
                     experience.setJobPosition(positions[i]);
@@ -571,7 +573,7 @@ public class CVServlet extends HttpServlet {
                     int certificationId = Integer.parseInt(certificationIds[i]);
                     String otherCertificationName = null;
 
-                    if (certificationId == 35) {
+                    if (certificationId == 1) {
                         otherCertificationName = otherCertificationNames[i];
                     } else {
                         otherCertificationName = null;
@@ -625,7 +627,7 @@ public class CVServlet extends HttpServlet {
                     education.setEndDate(dateFormat.parse(educationEndDates[i]));
                     education.setMoreInfor(schoolDescriptions[i]);
 
-                    if (education.getEducationId() == 95 && otherSchoolNames != null && i < otherSchoolNames.length) {
+                    if (education.getEducationId() == 504 && otherSchoolNames != null && i < otherSchoolNames.length) {
                         education.setCustomSchool(otherSchoolNames[i]);
                     }
 
@@ -657,7 +659,7 @@ public class CVServlet extends HttpServlet {
                     int levelSkill = Integer.parseInt(levelSkills[i]);
 
                     // Handle custom skill name
-                    String skillCustom = (skillId == 31 && otherSkillNames != null && i < otherSkillNames.length)
+                    String skillCustom = (skillId == 1 && otherSkillNames != null && i < otherSkillNames.length)
                             ? otherSkillNames[i] : null;
 
                     // Set skill properties

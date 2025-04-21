@@ -51,6 +51,7 @@
 
     .cv-container {
         width: 1100px;
+        margin: 40px;
         display: flex;
         box-shadow: var(--shadow);
         background: white;
@@ -58,7 +59,7 @@
         overflow: hidden;
         position: relative;
         margin-top: 20px;
-        margin-left: 10%;
+        margin-left: 17%;
     }
 
     /* Sidebar Styles */
@@ -227,12 +228,23 @@
     .cv-content > div:nth-child(4) {
         animation-delay: 0.5s;
     }
+    .banner_title {
+        background-image: url(./img/anh1/anh1.png);
+        background-size: 100%;
+        font-size: 40px;
+        height: 200px;
+        display: flex;
+
+        align-items: center;
+    }
 </style>
 <body class="archive post-type-archive post-type-archive-projects wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
 
 
 <%@include file="./includes/header-01.jsp" %>
-<%@include file="./includes/header_under.jsp" %>
+<div class="py-4 banner_title">
+    <h1 class="text-white font-weight-bold" style="padding-left: 50px;">Danh sách công việc</h1>
+</div>
 
 <div style="display: flex">
     <div>
@@ -444,9 +456,9 @@
         </div>
 
     </div>
-    <div style="margin-left: 270px">
-        <%@include file="includes/sidebar_cv.jsp" %>
-    </div>
+<%--    <div style="margin-left: 270px">--%>
+<%--        <%@include file="includes/sidebar_cv.jsp" %>--%>
+<%--    </div>--%>
 </div>
 <%@include file="includes/footer.jsp" %>
 
