@@ -1227,7 +1227,7 @@
                         </li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="profile.jsp"><i class="fas fa-user"></i>Hồ sơ cá nhân</a></li>
-                        <li><a class="dropdown-item" href="my-applications.jsp"><i class="fas fa-file-alt"></i>Đơn ứng tuyển</a></li>
+                        <li><a class="dropdown-item" href="jobGreeting?action=view-applied"><i class="fas fa-file-alt"></i>Đơn ứng tuyển</a></li>
                         <li><a class="dropdown-item" href="my-cvs.jsp"><i class="fas fa-id-card"></i>CV của tôi</a></li>
                         <li><a class="dropdown-item" href="notifications.jsp"><i class="fas fa-bell"></i>Thông báo</a></li>
                         <li><hr class="dropdown-divider"></li>

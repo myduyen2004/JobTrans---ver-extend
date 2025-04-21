@@ -52,15 +52,16 @@
     }
 
     .cv-container {
-        width: 1200px;
+
+        width: 1000px;
         display: flex;
         box-shadow: var(--shadow);
         background: white;
         border-radius: var(--radius);
         overflow: hidden;
         position: relative;
-        margin-top: 20px;
-        margin-left: 10%;
+        margin: 40px;
+        margin-left: 25%;
     }
 
     /* Sidebar Styles */
@@ -375,23 +376,26 @@
     .cv-content > div:nth-child(4) {
         animation-delay: 0.5s;
     }
+    .banner_title {
+        background-image: url(./img/anh1/anh1.png);
+        background-size: 100%;
+        font-size: 40px;
+        height: 200px;
+        display: flex;
+
+        align-items: center;
+    }
 </style>
 <body class="archive post-type-archive post-type-archive-projects wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
 
-<!-- Preloading -->
-<div id="preloader">
-    <div class="spinner">
-        <div class="uil-ripple-css">
-            <div></div>
-            <div></div>
-        </div>
-    </div>
-</div>
 
 
 <%@include file="includes/header-01.jsp" %>
 
-
+<div class="py-4 banner_title">
+    <h1 class="text-white font-weight-bold" style="padding-left: 50px;">Danh sách công việc</h1>
+</div>
+<%@include file="./includes/sidebar.jsp" %>
 <!--Mobile Navigation Toggler-->
 
 
@@ -433,7 +437,7 @@
                         <div style="display: flex" class="skill-item">
                             <div class="skill-name">
                                 <c:choose>
-                                    <c:when test="${skill.skillId != 31}">
+                                    <c:when test="${skill.skillId != 1}">
                                         ${CvDAO.getSkillBySkillId(skill.skillId)}
                                     </c:when>
                                     <c:otherwise>
@@ -485,7 +489,7 @@
                                 <div class="experience-header">
                                     <h3 class="company">
                                         <c:choose>
-                                            <c:when test="${exp.experienceId != 32}">
+                                            <c:when test="${exp.experienceId != 1}">
                                                 ${CvDAO.getCompanyNameById(exp.experienceId)}
                                             </c:when>
                                             <c:otherwise>
@@ -527,7 +531,7 @@
                                     <h3 class="institution">
 
                                         <c:choose>
-                                            <c:when test="${edu.educationId != 95}">
+                                            <c:when test="${edu.educationId != 504}">
                                                 ${CvDAO.getSchoolNameById(edu.educationId)}
                                             </c:when>
                                             <c:otherwise>
@@ -565,7 +569,7 @@
                                 <div class="certification-header">
                                     <h3 class="certification-name">
                                         <c:choose>
-                                            <c:when test="${cert.certificationId != 35}">
+                                            <c:when test="${cert.certificationId != 1}">
                                                 ${CvDAO.getCertificationNameById(cert.certificationId)}
                                             </c:when>
                                             <c:otherwise>
@@ -595,9 +599,9 @@
 
 
     </div>
-    <div style="margin-left: 270px">
-        <%@include file="includes/sidebar_cv.jsp" %>
-    </div>
+<%--    <div style="margin-left: 270px">--%>
+<%--        <%@include file="includes/sidebar_cv.jsp" %>--%>
+<%--    </div>--%>
 </div>
 </div>
 
