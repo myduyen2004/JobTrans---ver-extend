@@ -266,6 +266,37 @@ public class Job {
         NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
         return currencyFormatter.format(budgetMax);
     }
+
+    @Override
+    public String toString() {
+        return "Job{" +
+                "jobId=" + jobId +
+                ", postAccountId=" + postAccountId +
+                ", jobTitle='" + jobTitle + '\'' +
+                ", postDate=" + postDate +
+                ", jobDescription='" + jobDescription + '\'' +
+                ", attachment='" + attachment + '\'' +
+                ", requirements='" + requirements + '\'' +
+                ", benefit='" + benefit + '\'' +
+                ", categoryId=" + categoryId +
+                ", budgetMax=" + budgetMax +
+                ", budgetMin=" + budgetMin +
+                ", dueDatePost=" + dueDatePost +
+                ", dueDateJob=" + dueDateJob +
+                ", haveInterviewed=" + haveInterviewed +
+                ", haveTested=" + haveTested +
+                ", numOfMember=" + numOfMember +
+                ", secureWallet=" + secureWallet +
+                ", statusPost='" + statusPost + '\'' +
+                ", statusJobId=" + statusJobId +
+                ", jobCategory=" + jobCategory +
+                ", tagList=" + tagList +
+                ", jobGreetingList=" + jobGreetingList +
+                ", jobReportList=" + jobReportList +
+                ", cancelRequestList=" + cancelRequestList +
+                '}';
+    }
+
     public static void main(String[] args) {
         // Tạo một đối tượng Job (hoặc class chứa budgetMax của bạn)
         Job job = new Job();

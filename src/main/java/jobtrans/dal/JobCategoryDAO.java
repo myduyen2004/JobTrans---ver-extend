@@ -16,8 +16,33 @@ public class JobCategoryDAO {
         dbConnection = DBConnection.getInstance();
     }
 
+    public JobCategory getCategoryById(int categoryId) throws Exception {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        JobCategory category = null;
 
+        try {
+            conn = DBConnection.getInstance().openConnection(); // Dùng kiểu kết nối giống GroupMember
+            String sql = "SELECT category_id, category_name, description FROM JobCategory WHERE category_id = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, categoryId);
+            rs = ps.executeQuery();
 
+            if (rs.next()) {
+                category = new JobCategory();
+                category.setCategoryId(rs.getInt("category_id"));
+                category.setCategoryName(rs.getString("category_name"));
+                category.setDescription(rs.getString("description"));
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (ps != null) ps.close();
+            if (conn != null) conn.close();
+        }
+
+        return category;
+    }
 
     public JobCategory getJobCategoryByJobId(int jobId) {
         JobCategory jc = null;
@@ -29,12 +54,10 @@ public class JobCategoryDAO {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-
                  jc = new JobCategory();
                 jc.setCategoryId(rs.getInt("category_id"));
                 jc.setCategoryName(rs.getString("category_name"));
                 jc.setDescription(rs.getString("description"));
-
             }
 
         } catch (Exception e) {

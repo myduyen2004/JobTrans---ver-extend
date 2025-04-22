@@ -1,24 +1,28 @@
 package jobtrans.controller.web.job;
 
 
-import jobtrans.dal.JobDAO;
-import jobtrans.model.Account;
-import jobtrans.model.Interview;
-import jobtrans.model.Job;
-import jobtrans.model.JobGreeting;
+import jobtrans.dal.*;
+import jobtrans.model.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.SQLException;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
 
 @WebServlet(name="JobServlet", urlPatterns={"/job"})
 @MultipartConfig(
@@ -27,6 +31,9 @@ import java.util.List;
         maxRequestSize = 1024 * 1024 * 15 // 15 MB
 )
 public class JobServlet extends HttpServlet {
+
+    private static final String UPLOAD_DIR = "job_attachments";
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -58,10 +65,11 @@ public class JobServlet extends HttpServlet {
             case "sort":
                 sapxep(request, response);
                 break;
-            case "detail":
-//                detail(request,response);
+            case "details-job-posted":
+                detailsJobPosted(request,response);
                 break;
-
+            case "downloadFile":
+                downloadFile(request, response);
             default:
                 response.getWriter().print("Lỗi rồi má");
                 break;
@@ -86,6 +94,152 @@ public class JobServlet extends HttpServlet {
             default:
                 resp.getWriter().print("Lỗi rồi má");
                 break;
+        }
+    }
+
+    private void detailsJobPosted(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String jobIdStr = request.getParameter("jobId");
+        int jobId;
+//        HttpSession session = request.getSession();
+//        Account account = (Account) session.getAttribute("account");
+        try {
+            jobId = Integer.parseInt(jobIdStr);
+
+            JobDAO jobDAO = new JobDAO();
+            Job job = jobDAO.getJobById(jobId);
+
+            if (job != null) {
+                // Lấy thông tin các tag của job
+                TagDAO tagDAO = new TagDAO();
+                List<Tag> tagList = tagDAO.getTagsByJobId(jobId);
+                job.setTagList(tagList);
+
+                // Lấy thông tin greeting (ứng viên) của job
+                JobGreetingDAO jobGreetingDAO = new JobGreetingDAO();
+                List<JobGreeting> greetings = jobGreetingDAO.getJobGreetingsByJobId(jobId);
+                job.setJobGreetingList(greetings);
+                request.setAttribute("numOfApplicants", greetings.size());
+
+                // Lấy thông tin category của job
+                JobCategoryDAO categoryDAO = new JobCategoryDAO();
+                JobCategory category = categoryDAO.getCategoryById(job.getCategoryId());
+                job.setJobCategory(category);
+
+                // Lấy thông tin người đăng tin
+                AccountDAO accountDAO = new AccountDAO();
+                Account poster = accountDAO.getAccountById(job.getPostAccountId());
+
+                // Xử lý thông tin deadline
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+                // Xử lý dueDatePost
+                if (job.getDueDatePost() != null) {
+                    String formattedDueDatePost = dateFormat.format(job.getDueDatePost());
+                    request.setAttribute("dueDatePostFormatted", formattedDueDatePost);
+                } else {
+                    request.setAttribute("dueDatePostFormatted", "Chưa xác định");
+                }
+
+                // Xử lý postDate (java.sql.Timestamp)
+                if (job.getPostDate() != null) {
+                    // Convert Timestamp to java.util.Date
+                    java.util.Date postDateUtil = new java.util.Date(job.getPostDate().getTime());
+                    String formattedPostDate = dateFormat.format(postDateUtil);
+                    request.setAttribute("postDateFormatted", formattedPostDate);
+                } else {
+                    request.setAttribute("postDateFormatted", "Chưa xác định");
+                }
+
+                // Xử lý joinDate (java.time.LocalDateTime)
+                if (poster.getJoinDate() != null) {
+                    // Convert LocalDateTime to java.util.Date
+                    java.util.Date joinDateUtil = java.util.Date.from(poster.getJoinDate().atZone(ZoneId.systemDefault()).toInstant());
+                    String formattedJoinDate = dateFormat.format(joinDateUtil);
+                    request.setAttribute("joinDateFormatted", formattedJoinDate);
+                } else {
+                    request.setAttribute("joinDateFormatted", "Chưa xác định");
+                }
+
+                // Tính thời gian còn lại đến deadline
+                try {
+                    if (job.getDueDatePost() != null) {
+                        long currentTime = System.currentTimeMillis();
+                        long duePostTime = job.getDueDatePost().getTime();
+                        long daysLeft = (duePostTime - currentTime) / (1000 * 60 * 60 * 24);
+                        request.setAttribute("daysLeft", daysLeft);
+                    } else {
+                        request.setAttribute("daysLeft", "N/A");
+                    }
+                } catch (Exception e) {
+                    System.err.println("Lỗi khi tính ngày còn lại: " + e.getMessage());
+                    request.setAttribute("daysLeft", "N/A");
+                }
+
+                // Tính thời gian còn lại đến deadline
+                try {
+                    if (job.getDueDatePost() != null) {
+                        long currentTime = System.currentTimeMillis();
+                        long duePostTime = job.getDueDatePost().getTime();
+                        long daysLeft = (duePostTime - currentTime) / (1000 * 60 * 60 * 24);
+                        request.setAttribute("daysLeft", daysLeft);
+                    } else {
+                        request.setAttribute("daysLeft", "N/A");
+                    }
+                } catch (Exception e) {
+                    System.err.println("Lỗi khi tính ngày còn lại: " + e.getMessage());
+                    request.setAttribute("daysLeft", "N/A");
+                }
+
+                // Format ngân sách hiển thị
+                NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                String formattedBudgetMin = currencyFormat.format(job.getBudgetMin());
+                String formattedBudgetMax = currencyFormat.format(job.getBudgetMax());
+                request.setAttribute("budgetRange", formattedBudgetMin + " - " + formattedBudgetMax);
+
+                // Lấy thông tin thêm nếu có
+                if (job.getSecureWallet() == 1) {
+                    request.setAttribute("hasSecureWallet", true);
+                }
+
+                System.out.println(job);
+                System.out.println(poster);
+                System.out.println( job.isHaveInterviewed());
+                System.out.println(job.isHaveTested());
+
+                // Thêm các thông tin khác cho interface
+                request.setAttribute("job", job);
+                request.setAttribute("poster", poster);
+                request.setAttribute("interviewRequired", job.isHaveInterviewed());
+                request.setAttribute("testRequired", job.isHaveTested());
+
+                // Xác định loại trang cần hiển thị dựa trên phiên đăng nhập
+
+
+//                if (account != null) {
+//                    // Kiểm tra xem người dùng đăng nhập có phải là người đăng bài không
+//                    if (account.getAccountId() == job.getPostAccountId()) {
+//                        request.getRequestDispatcher("job-post-detail-employer.jsp").forward(request, response);
+//                    } else {
+//                        request.getRequestDispatcher("job-post-detail-employee.jsp").forward(request, response);
+//                    }
+//                } else {
+                request.getRequestDispatcher("job-post-detail-employee.jsp").forward(request, response);
+//                }
+            } else {
+                request.setAttribute("errorMessage", "Không tìm thấy công việc với ID: " + jobIdStr);
+                request.getRequestDispatcher("error.jsp").forward(request, response);
+            }
+        } catch (NumberFormatException e) {
+            System.err.println("Lỗi định dạng jobId: " + jobIdStr);
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "ID công việc không hợp lệ: " + jobIdStr);
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+        } catch (Exception e) {
+            System.err.println("Lỗi không xác định: " + e.getMessage());
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Đã xảy ra lỗi không xác định: " + e.getMessage());
+            request.getRequestDispatcher("error.jsp").forward(request, response);
         }
     }
 
@@ -357,7 +511,150 @@ public class JobServlet extends HttpServlet {
 
         viewPostedJobList(request, response);
     }
-}
+
+    private void downloadFile(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Lấy tên tệp từ request parameter
+        String fileName = request.getParameter("file");
+        String jobIdStr = request.getParameter("jobId");
+
+        if (fileName == null || fileName.isEmpty() || jobIdStr == null || jobIdStr.isEmpty()) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Tên tệp hoặc ID công việc không hợp lệ");
+            return;
+        }
+
+        try {
+            int jobId = Integer.parseInt(jobIdStr);
+
+            // Kiểm tra quyền truy cập tệp (xác thực người dùng có quyền truy cập công việc này)
+            // Ví dụ: người dùng đã đăng nhập và là người đăng công việc hoặc ứng viên đã được chấp nhận
+            HttpSession session = request.getSession();
+            Account loggedInUser = (Account) session.getAttribute("account");
+
+            if (loggedInUser == null) {
+                response.sendRedirect(request.getContextPath() + "/login.jsp");
+                return;
+            }
+
+            JobDAO jobDAO = new JobDAO();
+            Job job = jobDAO.getJobById(jobId);
+
+            // Kiểm tra xem tệp có thuộc về công việc này không
+            if (job == null || job.getAttachment() == null || !job.getAttachment().contains(fileName)) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Tệp không tồn tại hoặc không thuộc về công việc này");
+                return;
+            }
+
+            // Tạo đường dẫn tệp
+            String filePath = getUploadPath(request) + File.separator + fileName;
+            File file = new File(filePath);
+
+            if (!file.exists()) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Tệp không tồn tại");
+                return;
+            }
+
+            // Thiết lập thông tin phản hồi
+            String mimeType = getServletContext().getMimeType(file.getName());
+            if (mimeType == null) {
+                // Nếu kiểu MIME không được xác định, sử dụng kiểu mặc định
+                mimeType = "application/octet-stream";
+            }
+
+            response.setContentType(mimeType);
+            response.setContentLength((int) file.length());
+
+            // Thiết lập header Content-Disposition để khuyến khích tải xuống
+            String headerKey = "Content-Disposition";
+            String headerValue = String.format("attachment; filename=\"%s\"", file.getName());
+            response.setHeader(headerKey, headerValue);
+
+            // Ghi tệp vào phản hồi
+            try (FileInputStream inStream = new FileInputStream(file);
+                 OutputStream outStream = response.getOutputStream()) {
+
+                byte[] buffer = new byte[4096];
+                int bytesRead;
+
+                while ((bytesRead = inStream.read(buffer)) != -1) {
+                    outStream.write(buffer, 0, bytesRead);
+                }
+            }
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID công việc không hợp lệ");
+        }
+    }
+
+    // Phương thức trợ giúp để lấy đường dẫn upload
+    private String getUploadPath(HttpServletRequest request) {
+        return request.getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
+    }
+//
+//    // Phương thức trợ giúp để lấy kích thước tệp
+//    private long getFileSize(String filePath) {
+//        File file = new File(filePath);
+//        return file.exists() ? file.length() : 0;
+//    }
+//
+//    // Phương thức trợ giúp để định dạng kích thước tệp
+//    private String formatFileSize(long size) {
+//        final double KB = 1024.0;
+//        final double MB = KB * KB;
+//        final double GB = MB * KB;
+//
+//        DecimalFormat df = new DecimalFormat("#.##");
+//
+//        if (size < KB) {
+//            return size + " B";
+//        } else if (size < MB) {
+//            return df.format(size / KB) + " KB";
+//        } else if (size < GB) {
+//            return df.format(size / MB) + " MB";
+//        } else {
+//            return df.format(size / GB) + " GB";
+//        }
+//    }
+//
+//    // Phương thức trợ giúp để xác định loại tệp dựa trên phần mở rộng
+//    private String getFileType(String extension) {
+//        switch (extension.toLowerCase()) {
+//            case "pdf":
+//                return "PDF";
+//            case "doc":
+//            case "docx":
+//                return "DOCX";
+//            case "xls":
+//            case "xlsx":
+//                return "Excel";
+//            case "zip":
+//            case "rar":
+//                return "ZIP";
+//            case "jpg":
+//            case "jpeg":
+//            case "png":
+//                return "Image";
+//            default:
+//                return extension.toUpperCase();
+//        }
+//    }
+//
+//    // Lớp trợ giúp để đại diện cho tệp đính kèm trong giao diện
+//    public static class JobAttachment {
+//        private String fileName;
+//        private String fileType;
+//        private String fileSize;
+//
+//        public JobAttachment(String fileName, String fileType, String fileSize) {
+//            this.fileName = fileName;
+//            this.fileType = fileType;
+//            this.fileSize = fileSize;
+//        }
+//
+//        public String getFileName() { return fileName; }
+//        public String getFileType() { return fileType; }
+//        public String getFileSize() { return fileSize; }
+//    }
+
 
     //    private void viewListApplied(HttpServletRequest request, HttpServletResponse response)
 //            throws ServletException, IOException {
@@ -371,3 +668,4 @@ public class JobServlet extends HttpServlet {
 //        request.getRequestDispatcher("applied-job-list.jsp").forward(request, response);
 //    }
 //}
+}

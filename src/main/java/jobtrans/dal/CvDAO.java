@@ -995,6 +995,42 @@ public class CvDAO {
             insertStmt.executeBatch();
         }
     }
+
+    public List<CV> getCVsByAccountId(int accountId) {
+        List<CV> list = new ArrayList<>();
+        String sql = "SELECT * FROM CV WHERE account_id = ?";
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, accountId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    CV cv = new CV();
+                    cv.setCvId(rs.getInt("CV_id"));
+                    cv.setAccountId(rs.getInt("account_id"));
+                    cv.setJobPosition(rs.getString("job_position"));
+                    cv.setSummary(rs.getString("summary"));
+                    cv.setMoreInfo(rs.getString("more_infor"));
+                    cv.setCreatedAt(rs.getDate("created_at"));
+                    cv.setSex(rs.getString("sex"));
+                    cv.setDateOfBirth(rs.getDate("dateOfBirth"));
+//                    cv.setPhone(rs.getString("phone"));
+                    cv.setEmail(rs.getString("email"));
+                    cv.setAddress(rs.getString("address"));
+                    cv.setCvUpload(rs.getString("CV_upload"));
+                    cv.setAvatarCv(rs.getString("avatar_cv"));
+                    cv.setCvName(rs.getString("name"));
+                    cv.setCvType(rs.getInt("type_id"));
+                    list.add(cv);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return list;
+    }
+
 }
 
 

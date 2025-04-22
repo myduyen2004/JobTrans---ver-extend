@@ -110,4 +110,20 @@ public class JobGreeting {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "JobGreeting{" +
+                "greetingId=" + greetingId +
+                ", jobSeekerId=" + jobSeekerId +
+                ", jobId=" + jobId +
+                ", cvId=" + cvId +
+                ", price=" + price +
+                ", expectedDay=" + expectedDay +
+                ", introduction='" + introduction + '\'' +
+                ", attachment='" + attachment + '\'' +
+                ", haveRead=" + haveRead +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

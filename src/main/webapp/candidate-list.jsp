@@ -8,6 +8,19 @@
     <title>JobTrans &#8211; Nền tảng hỗ trợ thuê, làm việc cho freelancer</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary-gradient: linear-gradient(to right, rgb(21, 32, 112), rgb(39, 64, 179));
+            --primary-dark: rgb(21, 32, 112);
+            --primary-light: rgb(39, 64, 179);
+            --accent: #4caf50;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --gray: #6c757d;
+            --border-radius: 8px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -26,19 +39,83 @@
             padding: 20px;
         }
 
-        header {
-            background: linear-gradient(to right, rgb(21, 32, 112), rgb(39, 64, 179));
-            color: white;
-            padding: 20px 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-            border-radius: 0 0 20px 20px;
+        .job-header {
+            margin: 40px 0;
+            padding: 25px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.5s ease-in-out;
+
         }
 
-        .header-content {
+        .job-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--primary-gradient);
+        }
+
+        .job-title {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .job-title h1 {
+            font-size: 24px;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
+
+        .job-status {
+            background: var(--accent);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .job-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+        }
+
+        .applicant-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .detail-item i {
+            color: var(--primary-light);
+            margin-right: 10px;
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .job-description {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
         }
 
         .brand {
@@ -360,25 +437,82 @@
             border-radius: 50%;
             border: 2px solid white;
         }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--border-radius);
+            background: var(--primary-gradient);
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
     </style>
 </head>
 <body>
-<header>
-    <div class="container">
-        <div class="header-content">
-            <div class="brand">
-                <i class="fas fa-briefcase"></i>
-                <span>JobConnect</span>
-            </div>
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Tìm kiếm lời chào...">
-            </div>
-        </div>
-    </div>
-</header>
 
 <div class="container">
+
+    <section class="job-header">
+        <div class="job-title">
+            <div>
+                <h1>Thiết kế website thương mại điện tử</h1>
+                <div class="applicant-meta">
+                    <span><i class="fas fa-building"></i> Công ty ABC</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Hà Nội</span>
+                    <span><i class="fas fa-calendar-alt"></i> Đăng ngày: 15/04/2025</span>
+                </div>
+            </div>
+            <span class="job-status">Đang tuyển</span>
+        </div>
+
+        <div class="job-details">
+            <div class="detail-item">
+                <i class="fas fa-money-bill-wave"></i>
+                <div>
+                    <strong>Ngân sách:</strong>
+                    <p>15.000.000đ - 25.000.000đ</p>
+                </div>
+            </div>
+            <div class="detail-item">
+                <i class="fas fa-calendar-check"></i>
+                <div>
+                    <strong>Hạn ứng tuyển:</strong>
+                    <p>30/04/2025</p>
+                </div>
+            </div>
+            <div class="detail-item">
+                <i class="fas fa-clock"></i>
+                <div>
+                    <strong>Thời gian hoàn thành:</strong>
+                    <p>45 ngày</p>
+                </div>
+            </div>
+            <div class="detail-item">
+                <i class="fas fa-users"></i>
+                <div>
+                    <strong>Số lượng thành viên:</strong>
+                    <p>3 người</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="job-description">
+            <h3 style="margin-bottom: 10px;">Mô tả công việc</h3>
+            <p>Thiết kế và phát triển website thương mại điện tử với đầy đủ tính năng như giỏ hàng, thanh toán trực tuyến, quản lý sản phẩm và đơn hàng. Yêu cầu sử dụng ReactJS cho frontend và NodeJS cho backend.</p>
+        </div>
+    </section>
+
+    <div style="text-align: end; margin-bottom: 27px">
+        <button class="btn">
+            <i class="fas fa-filter"></i> Lọc
+        </button>
+    </div>
+
     <div class="greeting-filters">
         <div class="filter-group">
             <div class="filter-title">Trạng thái:</div>
@@ -399,7 +533,10 @@
                 <div class="filter-option">Thời gian ngắn nhất</div>
             </div>
         </div>
+
+
     </div>
+
 
     <div class="greeting-list">
         <!-- Card 1 -->
