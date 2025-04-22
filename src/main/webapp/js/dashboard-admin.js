@@ -181,28 +181,82 @@
         const viewMonthlyButton = document.getElementById('viewMonthly');
 
         // Cấu hình chung cho biểu đồ
+        // Cấu hình chung cho biểu đồ với thiết kế hiện đại
         const chartOptions = {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
                 legend: {
                     position: 'top',
+                    align: 'center',
                     labels: {
+                        usePointStyle: true,
+                        pointStyleWidth: 10,
+                        boxWidth: 6,
+                        padding: 15,
                         font: {
-                            family: 'Inter'
+                            family: 'Inter',
+                            size: 12,
+                            weight: '500'
+                        },
+                        color: '#333'
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                    titleColor: '#333',
+                    bodyColor: '#555',
+                    bodyFont: {
+                        family: 'Inter',
+                        size: 13
+                    },
+                    titleFont: {
+                        family: 'Inter',
+                        size: 14,
+                        weight: 'bold'
+                    },
+                    padding: 12,
+                    borderColor: 'rgba(0, 0, 0, 0.1)',
+                    borderWidth: 1,
+                    cornerRadius: 6,
+                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            return label + new Intl.NumberFormat('vi-VN').format(context.parsed.y);
                         }
                     }
                 }
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index',
             },
             scales: {
                 y: {
                     beginAtZero: true,
                     grid: {
-                        color: 'rgba(0, 0, 0, 0.05)'
+                        color: 'rgba(0, 0, 0, 0.04)',
+                        lineWidth: 1,
+                        drawBorder: false
+                    },
+                    border: {
+                        dash: [4, 4],
+                        color: 'rgba(0, 0, 0, 0.1)'
                     },
                     ticks: {
+                        padding: 10,
+                        color: '#555',
                         font: {
-                            family: 'Inter'
+                            family: 'Inter',
+                            size: 11,
+                            weight: '500'
+                        },
+                        callback: function(value) {
+                            return new Intl.NumberFormat('vi-VN').format(value);
                         }
                     }
                 },
@@ -210,12 +264,48 @@
                     grid: {
                         display: false
                     },
+                    border: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    },
                     ticks: {
+                        padding: 10,
+                        color: '#555',
                         font: {
-                            family: 'Inter'
-                        }
+                            family: 'Inter',
+                            size: 11,
+                            weight: '500'
+                        },
+                        maxRotation: 30,
+                        minRotation: 0
                     }
                 }
+            },
+            elements: {
+                line: {
+                    tension: 0.4, // Làm mịn đường
+                    borderWidth: 2,
+                    borderCapStyle: 'round',
+                    fill: true,
+                    backgroundColor: 'rgba(75, 192, 192, 0.1)'
+                },
+                point: {
+                    radius: 3,
+                    hitRadius: 8,
+                    hoverRadius: 5,
+                    hoverBorderWidth: 2
+                }
+            },
+            layout: {
+                padding: {
+                    top: 5,
+                    right: 15,
+                    bottom: 5,
+                    left: 10
+                }
+            },
+            animation: {
+                duration: 1200,
+                easing: 'easeOutQuart'
             }
         };
 
@@ -253,7 +343,7 @@
                     return response.json();
                 })
                 .then(dataFromServer => {
-                    console.log("Dữ liệu trả về từ /JobTrans/JobByDays:", dataFromServer); // Thêm dòng này
+                  
 
                     let labels = [];
                     let postedJobsData = [];
@@ -398,20 +488,45 @@
                                     legend: {
                                         display: true,
                                         position: 'top',
+                                        align: 'center',
                                         labels: {
+                                            usePointStyle: true,
+                                            pointStyleWidth: 10,
+                                            boxWidth: 6,
+                                            padding: 20,
                                             font: {
-                                                family: "Inter"
-                                            }
+                                                family: "Inter",
+                                                size: 12,
+                                                weight: '500'
+                                            },
+                                            color: '#333'
                                         }
                                     },
                                     tooltip: {
+                                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                                        titleColor: '#333',
+                                        bodyColor: '#555',
+                                        bodyFont: {
+                                            family: 'Inter',
+                                            size: 13
+                                        },
+                                        titleFont: {
+                                            family: 'Inter',
+                                            size: 14,
+                                            weight: 'bold'
+                                        },
+                                        padding: 12,
+                                        borderColor: 'rgba(0, 0, 0, 0.1)',
+                                        borderWidth: 1,
+                                        cornerRadius: 8,
+                                        boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
                                         callbacks: {
                                             label: function(context) {
                                                 let label = context.dataset.label || '';
                                                 if (label) {
                                                     label += ': ';
                                                 }
-                                                label += context.parsed.y;
+                                                label += new Intl.NumberFormat('vi-VN').format(context.parsed.y);
                                                 return label;
                                             }
                                         }
@@ -428,18 +543,26 @@
                                             display: true,
                                             drawOnChartArea: true,
                                             drawTicks: false,
-                                            borderDash: [5, 5]
+                                            borderDash: [5, 5],
+                                            color: 'rgba(0, 0, 0, 0.05)'
                                         },
                                         ticks: {
                                             display: true,
                                             padding: 10,
-                                            color: '#b2b9bf',
+                                            color: '#555',
                                             font: {
                                                 size: 11,
                                                 family: "Inter",
-                                                style: 'normal',
+                                                weight: '500',
                                                 lineHeight: 2
                                             },
+                                            callback: function(value) {
+                                                return new Intl.NumberFormat('vi-VN').format(value);
+                                            }
+                                        },
+                                        border: {
+                                            dash: [5, 5],
+                                            color: 'rgba(0, 0, 0, 0.1)'
                                         }
                                     },
                                     x: {
@@ -447,22 +570,49 @@
                                             drawBorder: false,
                                             display: false,
                                             drawOnChartArea: false,
-                                            drawTicks: false,
-                                            borderDash: [5, 5]
+                                            drawTicks: false
                                         },
                                         ticks: {
                                             display: true,
-                                            color: '#b2b9bf',
-                                            padding: 20,
+                                            color: '#555',
+                                            padding: 15,
                                             font: {
                                                 size: 11,
                                                 family: "Inter",
-                                                style: 'normal',
+                                                weight: '500',
                                                 lineHeight: 2
-                                            },
+                                            }
+                                        },
+                                        border: {
+                                            color: 'rgba(0, 0, 0, 0.1)'
                                         }
                                     },
                                 },
+                                elements: {
+                                    line: {
+                                        tension: 0.4,
+                                        borderWidth: 2,
+                                        fill: true,
+                                        borderCapStyle: 'round'
+                                    },
+                                    point: {
+                                        radius: 3,
+                                        borderWidth: 2,
+                                        hitRadius: 6,
+                                        hoverRadius: 5,
+                                        hoverBorderWidth: 2
+                                    }
+                                },
+                                layout: {
+                                    padding: {
+                                        top: 10,
+                                        bottom: 10
+                                    }
+                                },
+                                animation: {
+                                    duration: 1500,
+                                    easing: 'easeOutQuart'
+                                }
                             },
                         });
                     }
@@ -483,27 +633,89 @@
         const viewDailyRevenueButton = document.getElementById('viewDailyRevenue');
         const viewMonthlyRevenueButton = document.getElementById('viewMonthlyRevenue');
 
-        // Cấu hình chung cho biểu đồ
+        // Cấu hình chung cho biểu đồ - Thiết kế hiện đại
         const chartOptions = {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
                 legend: {
                     display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                    titleColor: '#333',
+                    bodyColor: '#555',
+                    bodyFont: {
+                        family: 'Inter',
+                        size: 13
+                    },
+                    titleFont: {
+                        family: 'Inter',
+                        size: 14,
+                        weight: 'bold'
+                    },
+                    padding: 12,
+                    borderColor: 'rgba(0, 0, 0, 0.1)',
+                    borderWidth: 1,
+                    cornerRadius: 6,
+                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                    callbacks: {
+                        label: function(context) {
+                            return new Intl.NumberFormat('vi-VN', {
+                                style: 'currency',
+                                currency: 'VND',
+                                maximumFractionDigits: 0
+                            }).format(context.parsed.y);
+                        }
+                    }
                 }
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index',
             },
             scales: {
                 y: {
                     beginAtZero: true,
                     grid: {
-                        color: 'rgba(0, 0, 0, 0.05)'
+                        color: 'rgba(0, 0, 0, 0.03)',
+                        borderDash: [4, 4],
+                        drawBorder: false
+                    },
+                    border: {
+                        dash: [4, 4],
+                        color: 'rgba(0, 0, 0, 0.1)'
                     },
                     ticks: {
                         callback: function(value) {
-                            return value.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                            // Rút gọn số tiền lớn (triệu, tỷ)
+                            if (value >= 1000000000) {
+                                return (value / 1000000000).toFixed(1) + ' tỷ ₫';
+                            } else if (value >= 1000000) {
+                                return (value / 1000000).toFixed(1) + ' tr ₫';
+                            } else {
+                                return value.toLocaleString('vi-VN') + ' ₫';
+                            }
                         },
+                        padding: 10,
+                        color: '#555',
                         font: {
-                            family: 'Inter'
+                            family: 'Inter',
+                            size: 11,
+                            weight: '500'
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Doanh thu',
+                        font: {
+                            family: 'Inter',
+                            size: 14,
+                            weight: 'bold'
+                        },
+                        color: '#333',
+                        padding: {
+                            bottom: 10
                         }
                     }
                 },
@@ -514,30 +726,63 @@
                     ticks: {
                         font: {
                             family: 'Inter',
-                            size: 12
+                            size: 12,
+                            weight: '500'
                         },
-                        color: '#666',
-                        padding: 10,
-                        maxRotation: 45,  // Góc xoay tối đa cho nhãn
-                        minRotation: 0    // Góc xoay tối thiểu cho nhãn
+                        color: '#555',
+                        padding: 12,
+                        maxRotation: 30,
+                        minRotation: 0
                     },
                     border: {
                         color: 'rgba(0, 0, 0, 0.1)'
                     },
                     title: {
                         display: true,
-                        text: 'Thời gian',  // Thay đổi theo nội dung thực tế của bạn
+                        text: 'Thời gian',
                         font: {
                             family: 'Inter',
                             size: 14,
                             weight: 'bold'
                         },
+                        color: '#333',
                         padding: {
-                            top: 10
+                            top: 15
                         }
                     }
                 }
-            }        };
+            },
+            elements: {
+                line: {
+                    tension: 0.4,
+                    borderWidth: 3,
+                    borderColor: 'rgba(53, 162, 235, 0.8)',
+                    backgroundColor: 'rgba(53, 162, 235, 0.1)',
+                    fill: true,
+                    borderCapStyle: 'round'
+                },
+                point: {
+                    radius: 4,
+                    hitRadius: 10,
+                    hoverRadius: 6,
+                    borderWidth: 3,
+                    borderColor: 'rgba(53, 162, 235, 0.8)',
+                    backgroundColor: '#fff'
+                }
+            },
+            layout: {
+                padding: {
+                    top: 10,
+                    right: 20,
+                    bottom: 10,
+                    left: 10
+                }
+            },
+            animation: {
+                duration: 1200,
+                easing: 'easeOutQuart'
+            }
+        };
 
         // Hàm để lấy dữ liệu từ Servlet và cập nhật biểu đồ
         function fetchRevenueData(url, label) {
@@ -565,7 +810,7 @@
                         });
                         revenueData = dataFromServer.map(item => item.revenue);
                     } else if (url === '/JobTrans/MonthlyRevenue') { // Dữ liệu hàng tháng
-                        labels = dataFromServer.map(item => `Tháng ${item.month}`); // Giả sử server trả về 'month'
+                        labels = dataFromServer.map(item => ` ${item.month}`); // Giả sử server trả về 'month'
                         revenueData = dataFromServer.map(item => item.monthly_revenue); // Giả sử server trả về 'totalRevenue'
                     }
 
@@ -622,20 +867,9 @@
             updateActiveButton(viewMonthlyRevenueButton);
         });
     });
-    // Functions for report interactions
-    function viewReportDetails(reportId) {
-    console.log('Viewing report details for:', reportId);
-    // Implement actual view functionality here
-    // For example, redirect to report page or show modal
-    alert('Viewing details for ' + reportId);
-}
 
-    function viewAllReports() {
-    console.log('Viewing all reports');
-    // Implement actual view all functionality here
-    // For example, redirect to reports page
-    alert('Redirecting to all reports page');
-}
+
+
 
     // Add click event listeners to table rows
     document.querySelectorAll('tbody tr').forEach(row => {
@@ -662,101 +896,88 @@
 });
 
 
-    // Transaction filter functionality
-    function filterTransactions(period) {
-    let filterText = '';
-
-    switch(period) {
-    case 'today':
-    filterText = 'Hiển thị giao dịch hôm nay';
-    // Here you would normally filter the actual data
-    break;
-    case 'yesterday':
-    filterText = 'Hiển thị giao dịch hôm qua';
-    break;
-    case 'week':
-    filterText = 'Hiển thị giao dịch tuần này';
-    break;
-    case 'month':
-    filterText = 'Hiển thị giao dịch tháng này';
-    break;
-    case 'all':
-    filterText = 'Hiển thị tất cả giao dịch';
-    break;
-}
-
-    document.getElementById('transactionFilterText').innerHTML =
-    `<i class="fa fa-calendar text-jobtrans" aria-hidden="true"></i>
-     <span class="font-weight-bold ms-1">${filterText}</span>`;
-
-    // In a real application, this would refresh the table data based on the filter
-    console.log('Filtering transactions for period:', period);
-}
 
     // Initialize Transaction Stats Chart
     document.addEventListener('DOMContentLoaded', function() {
-    var transactionCtx = document.getElementById('transactionStatsChart').getContext('2d');
+        var transactionCtx = document.getElementById('transactionStatsChart').getContext('2d');
 
-    // Create gradient for the chart
-    var gradientStroke = transactionCtx.createLinearGradient(0, 230, 0, 50);
-    gradientStroke.addColorStop(1, 'rgba(101, 132, 250, 0.2)');
-    gradientStroke.addColorStop(0.2, 'rgba(72, 72, 176, 0.0)');
-    gradientStroke.addColorStop(0, 'rgba(101, 132, 250, 0)');
+        // Create gradient for the chart
+        var gradientStroke = transactionCtx.createLinearGradient(0, 230, 0, 50);
+        gradientStroke.addColorStop(1, 'rgba(101, 132, 250, 0.2)');
+        gradientStroke.addColorStop(0.2, 'rgba(72, 72, 176, 0.0)');
+        gradientStroke.addColorStop(0, 'rgba(101, 132, 250, 0)');
 
-    new Chart(transactionCtx, {
-    type: 'line',
-    data: {
-    labels: ['08/04', '09/04', '10/04', '11/04', '12/04', '13/04'],
-    datasets: [{
-    label: 'Số lượng giao dịch',
-    tension: 0.4,
-    borderWidth: 3,
-    pointRadius: 4,
-    borderColor: '#6584fa',
-    backgroundColor: gradientStroke,
-    fill: true,
-    data: [42, 38, 45, 50, 58, 55],
-    maxBarThickness: 6
-}]
-},
-    options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-    legend: {
-    display: false,
-}
-},
-    interaction: {
-    intersect: false,
-    mode: 'index',
-},
-    scales: {
-    y: {
-    beginAtZero: true,
-    grid: {
-    color: 'rgba(0, 0, 0, 0.05)'
-},
-    ticks: {
-    font: {
-    family: 'Inter'
-}
-}
-},
-    x: {
-    grid: {
-    display: false
-},
-    ticks: {
-    font: {
-    family: 'Inter'
-}
-}
-}
-}
-}
-});
-});
+        fetch('/JobTrans/TransactionsByDays')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(dataFromServer => {
+                const labels = dataFromServer.map(item => item.TransactionDate.slice(5)); // Lấy mm/dd từ yyyy-mm-dd
+                const transactionCounts = dataFromServer.map(item => item.NumberOfTransactions);
+
+                new Chart(transactionCtx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Số lượng giao dịch',
+                            tension: 0.4,
+                            borderWidth: 3,
+                            pointRadius: 4,
+                            borderColor: '#6584fa',
+                            backgroundColor: gradientStroke,
+                            fill: true,
+                            data: transactionCounts,
+                            maxBarThickness: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false,
+                            }
+                        },
+                        interaction: {
+                            intersect: false,
+                            mode: 'index',
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(0, 0, 0, 0.05)'
+                                },
+                                ticks: {
+                                    font: {
+                                        family: 'Inter'
+                                    }
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                },
+                                ticks: {
+                                    font: {
+                                        family: 'Inter'
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Lỗi khi lấy dữ liệu giao dịch theo ngày:', error);
+            });
+    });
+
+
     function updateProgressBar(selector, percentage) {
     const progressBar = document.querySelector(selector);
     if (progressBar) {
