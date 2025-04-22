@@ -1,20 +1,25 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: admin
-  Date: 4/20/2025
-  Time: 8:15 AM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <jsp:useBean id="accDao" class="jobtrans.dal.AccountDAO" scope="session"/>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quản lí báo cáo</title>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/report-list.css">
+
+  <style>
+    .page-btn.active {
+      color: white;
+      font-weight: 600;
+      background: var(--primary-gradient);
+      border-color: var(--primary-color);
+    }
+  </style>
 </head>
 <%@include file="includes/header-01.jsp"%>
 <body>
@@ -28,7 +33,7 @@
           <div class="stats-icon">
             <i class="fas fa-file-alt"></i>
           </div>
-          <div class="stats-number">48</div>
+          <div class="stats-number">${accDao.getNumberOfReports()}</div>
           <div class="stats-label">Tất cả báo cáo</div>
         </div>
       </div>
@@ -37,17 +42,8 @@
           <div class="stats-icon">
             <i class="fas fa-check-circle"></i>
           </div>
-          <div class="stats-number">32</div>
+          <div class="stats-number">${accDao.getNumberOfResolvedReports()}</div>
           <div class="stats-label">Đã xử lí</div>
-        </div>
-      </div>
-      <div class="col-md-3 mb-3">
-        <div class="stats-card">
-          <div class="stats-icon">
-            <i class="fas fa-spinner"></i>
-          </div>
-          <div class="stats-number">12</div>
-          <div class="stats-label">Đã từ chối</div>
         </div>
       </div>
       <div class="col-md-3 mb-3">
@@ -55,7 +51,16 @@
           <div class="stats-icon">
             <i class="fas fa-exclamation-circle"></i>
           </div>
-          <div class="stats-number">4</div>
+          <div class="stats-number">${accDao.getNumberOfRejectedReports()}</div>
+          <div class="stats-label">Đã từ chối</div>
+        </div>
+      </div>
+      <div class="col-md-3 mb-3">
+        <div class="stats-card">
+          <div class="stats-icon">
+            <i class="fas fa-spinner"></i>
+          </div>
+          <div class="stats-number">${accDao.getNumberOfPendingReports()}</div>
           <div class="stats-label">Đang chờ</div>
         </div>
       </div>
@@ -91,165 +96,41 @@
     </div>
 
     <!-- Reports List -->
-
-    <div class="reports-container fade-in" style="animation-delay: 0.5s;">
-      <!-- Report Card 1 -->
-      <div class="report-card">
-        <div class="card-body d-flex">
-          <div class="report-icon">
-            <i class="fas fa-chart-line"></i>
-          </div>
-          <div class="flex-grow-1">
-            <div class="d-flex justify-content-between align-items-start mb-2">
-              <h5 class="report-title">Q1 Financial Analysis</h5>
-              <span class="report-status status-completed">Đã xử lí</span>
+    <div class="reports-container fade-in" id="reportsContainer" style="animation-delay: 0.5s;">
+      <c:forEach var="o" items="${reports}">
+        <div class="report-card">
+          <a href="acc-manage?action=viewReportDetail&reportId=${o.reportId}">
+            <div class="card-body d-flex">
+              <div class="report-icon">
+                <i class="fas fa-chart-line"></i>
+              </div>
+              <div class="flex-grow-1">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                  <h5 class="report-title">${accDao.getAccountById(o.reportedAccount).accountName} - ${accDao.getCriteriaById(o.criteriaId).content}</h5>
+                  <c:choose>
+                    <c:when test="${o.status == 'Chờ xử lí'}">
+                      <span class="report-status status-pending">Đang xử lí</span>
+                    </c:when>
+                    <c:when test="${o.status == 'Bị từ chối'}">
+                      <span class="report-status status-in-progress">Đã từ chối</span>
+                    </c:when>
+                    <c:when test="${o.status == 'Đã xử lí'}">
+                      <span class="report-status status-completed">Đã xử lí</span>
+                    </c:when>
+                  </c:choose>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="report-date"><i class="far fa-calendar-alt me-1"></i> <fmt:formatDate value="${o.reportTime}" pattern="dd/MM/yyyy"/></span>
+                </div>
+              </div>
             </div>
-            <p class="mb-2">Comprehensive analysis of Q1 2025 financial performance including KPIs and growth metrics.</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <span class="report-date"><i class="far fa-calendar-alt me-1"></i> April 15, 2025</span>
-              <span>100%</span>
-            </div>
-            <div class="report-progress">
-              <div class="progress-bar" style="width: 100%"></div>
-            </div>
-          </div>
+          </a>
         </div>
-      </div>
+      </c:forEach>
 
-      <!-- Report Card 2 -->
-      <div class="report-card">
-        <div class="card-body d-flex">
-          <div class="report-icon">
-            <i class="fas fa-users"></i>
-          </div>
-          <div class="flex-grow-1">
-            <div class="d-flex justify-content-between align-items-start mb-2">
-              <h5 class="report-title">User Engagement Study</h5>
-              <span class="report-status status-in-progress">Bị từ chối</span>
-            </div>
-            <p class="mb-2">Analysis of user behavior patterns and engagement metrics across platform features.</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <span class="report-date"><i class="far fa-calendar-alt me-1"></i> April 12, 2025</span>
-              <span>68%</span>
-            </div>
-            <div class="report-progress">
-              <div class="progress-bar" style="width: 68%"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Report Card 3 -->
-      <div class="report-card">
-        <div class="card-body d-flex">
-          <div class="report-icon">
-            <i class="fas fa-globe"></i>
-          </div>
-          <div class="flex-grow-1">
-            <div class="d-flex justify-content-between align-items-start mb-2">
-              <h5 class="report-title">Market Expansion Opportunities</h5>
-              <span class="report-status status-completed">Đã xử lí</span>
-            </div>
-            <p class="mb-2">Research on potential market expansion opportunities in Southeast Asia region.</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <span class="report-date"><i class="far fa-calendar-alt me-1"></i> April 8, 2025</span>
-              <span>100%</span>
-            </div>
-            <div class="report-progress">
-              <div class="progress-bar" style="width: 100%"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Report Card 4 -->
-      <div class="report-card">
-        <div class="card-body d-flex">
-          <div class="report-icon">
-            <i class="fas fa-bullseye"></i>
-          </div>
-          <div class="flex-grow-1">
-            <div class="d-flex justify-content-between align-items-start mb-2">
-              <h5 class="report-title">Competitive Analysis</h5>
-              <span class="report-status status-in-progress">Bị từ chối</span>
-            </div>
-            <p class="mb-2">Detailed analysis of key competitors, their strategies, strengths and weaknesses.</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <span class="report-date"><i class="far fa-calendar-alt me-1"></i> April 5, 2025</span>
-              <span>45%</span>
-            </div>
-            <div class="report-progress">
-              <div class="progress-bar" style="width: 45%"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Report Card 5 -->
-      <div class="report-card">
-        <div class="card-body d-flex">
-          <div class="report-icon">
-            <i class="fas fa-file-invoice-dollar"></i>
-          </div>
-          <div class="flex-grow-1">
-            <div class="d-flex justify-content-between align-items-start mb-2">
-              <h5 class="report-title">Budget Forecast 2025</h5>
-              <span class="report-status status-pending">Đang chờ</span>
-            </div>
-            <p class="mb-2">Annual budget forecast and financial planning document for fiscal year 2025.</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <span class="report-date"><i class="far fa-calendar-alt me-1"></i> March 30, 2025</span>
-              <span>20%</span>
-            </div>
-            <div class="report-progress">
-              <div class="progress-bar" style="width: 20%"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Report Card 6 -->
-      <div class="report-card">
-        <div class="card-body d-flex">
-          <div class="report-icon">
-            <i class="fas fa-tasks"></i>
-          </div>
-          <div class="flex-grow-1">
-            <div class="d-flex justify-content-between align-items-start mb-2">
-              <h5 class="report-title">Project Status Summary</h5>
-              <span class="report-status status-completed">Đã xử lí</span>
-            </div>
-            <p class="mb-2">Overview of all active projects with timeline, resource allocation and completion percentage.</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <span class="report-date"><i class="far fa-calendar-alt me-1"></i> March 25, 2025</span>
-              <span>100%</span>
-            </div>
-            <div class="report-progress">
-              <div class="progress-bar" style="width: 100%"></div>
-            </div>
-          </div>
-        </div>
-      </div>
+<%--      Pagination--%>
+      <div id="pagination" class="mt-4 d-flex justify-content-center"></div>
     </div>
-
-    <!-- Pagination -->
-    <nav aria-label="Page navigation" class="mt-4 fade-in" style="animation-delay: 0.6s;">
-      <ul class="pagination">
-        <li class="page-item disabled">
-          <a class="page-link" href="#" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
   </main>
 </div>
 <%@include file="includes/footer.jsp"%>
@@ -275,7 +156,81 @@
         this.querySelector('.report-icon').style.transform = 'rotateY(0deg)';
       });
     });
+
+    const reportsPerPage = 5;
+    const reports = document.querySelectorAll('.report-card');
+    const pagination = document.getElementById('pagination');
+    let currentPage = 1;
+
+    function showPage(page) {
+      const totalPages = Math.ceil(reports.length / reportsPerPage);
+      const start = (page - 1) * reportsPerPage;
+      const end = start + reportsPerPage;
+
+      reports.forEach((report, index) => {
+        report.style.display = (index >= start && index < end) ? 'block' : 'none';
+      });
+
+      // Cập nhật active cho nút số trang
+      const pageButtons = pagination.querySelectorAll('.page-btn.number');
+      pageButtons.forEach((btn, idx) => {
+        btn.classList.toggle('active', idx + 1 === page);
+      });
+
+      // Disable/Enable nút Prev/Next
+      document.getElementById('prevPage').disabled = (page === 1);
+      document.getElementById('nextPage').disabled = (page === totalPages);
+    }
+
+    function setupPagination() {
+      const totalPages = Math.ceil(reports.length / reportsPerPage);
+      pagination.innerHTML = '';
+
+      // Nút Prev
+      const prevBtn = document.createElement('button');
+      prevBtn.id = 'prevPage';
+      prevBtn.className = 'page-btn btn btn-sm btn-outline-secondary mx-1';
+      prevBtn.innerText = '← Trang trước';
+      prevBtn.addEventListener('click', () => {
+        if (currentPage > 1) {
+          currentPage--;
+          showPage(currentPage);
+        }
+      });
+      pagination.appendChild(prevBtn);
+
+      // Nút số trang
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'page-btn number btn btn-sm btn-outline-primary mx-1';
+        btn.innerText = i;
+        btn.addEventListener('click', () => {
+          currentPage = i;
+          showPage(currentPage);
+        });
+        pagination.appendChild(btn);
+      }
+
+      // Nút Next
+      const nextBtn = document.createElement('button');
+      nextBtn.id = 'nextPage';
+      nextBtn.className = 'page-btn btn btn-sm btn-outline-secondary mx-1';
+      nextBtn.innerText = 'Trang sau →';
+      nextBtn.addEventListener('click', () => {
+        if (currentPage < totalPages) {
+          currentPage++;
+          showPage(currentPage);
+        }
+      });
+      pagination.appendChild(nextBtn);
+    }
+
+    if (reports.length > 0) {
+      setupPagination();
+      showPage(currentPage);
+    }
   });
 </script>
+
 </body>
 </html>

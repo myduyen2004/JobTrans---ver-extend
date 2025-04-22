@@ -160,6 +160,7 @@
             </div>
         </div>
     </div>
+    <%@include file="includes/sidebar.jsp"%>
 </main>
 <%@include file="includes/footer.jsp"%>
 <script>

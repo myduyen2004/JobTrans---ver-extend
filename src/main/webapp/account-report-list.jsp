@@ -1,14 +1,11 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: admin
-  Date: 4/20/2025
-  Time: 10:40 AM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+  <jsp:useBean id="jobDao" class="jobtrans.dal.JobDAO" scope="session"/>
+  <jsp:useBean id="accDao" class="jobtrans.dal.AccountDAO" scope="session"/>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Danh sách báo cáo | Tài khoản người dùng</title>
@@ -48,116 +45,62 @@
           <div class="tab-content" id="reportTabsContent">
             <!-- Báo cáo đã tạo -->
             <div class="tab-pane fade show active" id="created" role="tabpanel" aria-labelledby="created-tab">
-              <h5 class="section-heading">Báo cáo đã tạo (8)</h5>
+              <h5 class="section-heading">Báo cáo đã tạo (${accDao.getNumOfReportsByReportBy(accountLogged.accountId)})</h5>
 
-              <div class="report-item d-flex align-items-center">
-                <div class="report-icon">
-                  <i class="fas fa-chart-bar"></i>
-                </div>
-                <div class="flex-grow-1">
-                  <div class="d-flex justify-content-between align-items-start">
-                    <h6 class="mb-1">Báo cáo doanh thu quý 1/2025</h6>
-                    <span class="badge badge-status badge-completed">Hoàn thành</span>
+              <c:forEach items="${reportList}" var="o">
+                <div class="report-item d-flex align-items-center">
+                  <div class="report-icon">
+                    <i class="fas fa-chart-bar"></i>
                   </div>
-                  <p class="text-muted mb-0 small">Cập nhật: 15/04/2025</p>
-                </div>
-              </div>
-
-              <div class="report-item d-flex align-items-center">
-                <div class="report-icon">
-                  <i class="fas fa-file-invoice"></i>
-                </div>
-                <div class="flex-grow-1">
-                  <div class="d-flex justify-content-between align-items-start">
-                    <h6 class="mb-1">Báo cáo chi phí vận hành tháng 3/2025</h6>
-                    <span class="badge badge-status badge-processing">Đang xử lý</span>
+                  <div class="flex-grow-1">
+                    <div class="d-flex justify-content-between align-items-start">
+                      <a href="profile?action=viewReport&reportId=${o.reportId}"><h6 class="mb-1">${accDao.getAccountById(o.reportedAccount).accountName} - ${accDao.getCriteriaById(o.criteriaId).content}</h6></a>
+                      <c:choose>
+                        <c:when test="${o.status == 'Chờ xử lí'}">
+                          <span class="report-status status-pending">Đang xử lí</span>
+                        </c:when>
+                        <c:when test="${o.status == 'Bị từ chối'}">
+                          <span class="report-status status-in-progress">Đã từ chối</span>
+                        </c:when>
+                        <c:when test="${o.status == 'Đã xử lí'}">
+                          <span class="report-status status-completed">Đã xử lí</span>
+                        </c:when>
+                      </c:choose>
+                    </div>
+                    <p class="text-muted mb-0 small">Cập nhật: <fmt:formatDate value="${o.reportTime}" pattern="dd/MM/yyyy"/></p>
                   </div>
-                  <p class="text-muted mb-0 small">Cập nhật: 12/04/2025</p>
                 </div>
-              </div>
-
-              <div class="report-item d-flex align-items-center">
-                <div class="report-icon">
-                  <i class="fas fa-tasks"></i>
-                </div>
-                <div class="flex-grow-1">
-                  <div class="d-flex justify-content-between align-items-start">
-                    <h6 class="mb-1">Báo cáo tiến độ dự án ABC</h6>
-                    <span class="badge badge-status badge-completed">Hoàn thành</span>
-                  </div>
-                  <p class="text-muted mb-0 small">Cập nhật: 10/04/2025</p>
-                </div>
-              </div>
-
-              <div class="report-item d-flex align-items-center">
-                <div class="report-icon">
-                  <i class="fas fa-chart-line"></i>
-                </div>
-                <div class="flex-grow-1">
-                  <div class="d-flex justify-content-between align-items-start">
-                    <h6 class="mb-1">Báo cáo phân tích thị trường</h6>
-                    <span class="badge badge-status badge-completed">Hoàn thành</span>
-                  </div>
-                  <p class="text-muted mb-0 small">Cập nhật: 05/04/2025</p>
-                </div>
-              </div>
-
-              <div class="report-item d-flex align-items-center">
-                <div class="report-icon">
-                  <i class="fas fa-user-friends"></i>
-                </div>
-                <div class="flex-grow-1">
-                  <div class="d-flex justify-content-between align-items-start">
-                    <h6 class="mb-1">Báo cáo nhân sự quý 1/2025</h6>
-                    <span class="badge badge-status badge-completed">Hoàn thành</span>
-                  </div>
-                  <p class="text-muted mb-0 small">Cập nhật: 28/03/2025</p>
-                </div>
-              </div>
+              </c:forEach>
             </div>
 
             <!-- Báo cáo nhận được -->
             <div class="tab-pane fade" id="received" role="tabpanel" aria-labelledby="received-tab">
-              <h5 class="section-heading">Báo cáo nhận được (3)</h5>
+              <h5 class="section-heading">Báo cáo nhận được (${accDao.getNumberOfReportsByReportedAcc(o.reportedAccount)})</h5>
 
-              <div class="report-item d-flex align-items-center">
-                <div class="report-icon">
-                  <i class="fas fa-file-alt"></i>
-                </div>
-                <div class="flex-grow-1">
-                  <div class="d-flex justify-content-between align-items-start">
-                    <h6 class="mb-1">Báo cáo hiệu suất nhóm IT</h6>
-                    <span class="badge badge-status badge-new">Mới</span>
+              <c:forEach items="${reportedList}" var="o">
+                <div class="report-item d-flex align-items-center">
+                  <div class="report-icon">
+                    <i class="fas fa-file-alt"></i>
                   </div>
-                  <p class="text-muted mb-0 small">Từ: Trần Văn B - 18/04/2025</p>
-                </div>
-              </div>
-
-              <div class="report-item d-flex align-items-center">
-                <div class="report-icon">
-                  <i class="fas fa-bug"></i>
-                </div>
-                <div class="flex-grow-1">
-                  <div class="d-flex justify-content-between align-items-start">
-                    <h6 class="mb-1">Báo cáo lỗi hệ thống tháng 3/2025</h6>
-                    <span class="badge badge-status badge-processing">Đang xử lý</span>
+                  <div class="flex-grow-1">
+                    <div class="d-flex justify-content-between align-items-start">
+                      <h6 class="mb-1">${accDao.getAccountById(o.reportedAccount).accountName} - ${accDao.getCriteriaById(o.criteriaId).content}</h6>
+                      <c:choose>
+                        <c:when test="${o.status == 'Chờ xử lí'}">
+                          <span class="report-status status-pending">Đang xử lí</span>
+                        </c:when>
+                        <c:when test="${o.status == 'Bị từ chối'}">
+                          <span class="report-status status-in-progress">Đã từ chối</span>
+                        </c:when>
+                        <c:when test="${o.status == 'Đã xử lí'}">
+                          <span class="report-status status-completed">Đã xử lí</span>
+                        </c:when>
+                      </c:choose>
+                    </div>
+                    <p class="text-muted mb-0 small">Từ: ${accDao.getAccountById(o.reportBy).accountName} - <fmt:formatDate value="${o.reportTime}" pattern="dd/MM/yyyy"/></p>
                   </div>
-                  <p class="text-muted mb-0 small">Từ: Lê Thị C - 10/04/2025</p>
                 </div>
-              </div>
-
-              <div class="report-item d-flex align-items-center">
-                <div class="report-icon">
-                  <i class="fas fa-lightbulb"></i>
-                </div>
-                <div class="flex-grow-1">
-                  <div class="d-flex justify-content-between align-items-start">
-                    <h6 class="mb-1">Báo cáo đề xuất cải tiến quy trình</h6>
-                    <span class="badge badge-status badge-completed">Hoàn thành</span>
-                  </div>
-                  <p class="text-muted mb-0 small">Từ: Phạm Văn D - 02/04/2025</p>
-                </div>
-              </div>
+              </c:forEach>
             </div>
           </div>
         </div>

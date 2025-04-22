@@ -1317,7 +1317,9 @@
                 </tbody>
             </table>
             <div class="show-more-container">
-                <button class="show-more-btn">Xem tất cả báo cáo</button>
+                <a href="profile?action=viewAccountReport">
+                    <button class="show-more-btn">Xem tất cả báo cáo</button>
+                </a>
             </div>
         </div>
     </div>
