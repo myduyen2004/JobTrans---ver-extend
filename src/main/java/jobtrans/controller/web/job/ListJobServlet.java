@@ -23,6 +23,7 @@ public class ListJobServlet extends HttpServlet {
     private static final int JOBS_PER_PAGE = 5; // Số công việc trên một trang, bạn có thể điều chỉnh
     JobCategoryDAO jobCategoryDAO = new JobCategoryDAO();
     JobCategory jobCategory = new JobCategory();
+    JobDAO jobDAO = new JobDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -78,7 +79,7 @@ public class ListJobServlet extends HttpServlet {
             jobTypeFilter = request.getParameter("jobType");
         }
 
-        List<Job> filteredAndSortedJobs;
+        List<Job> filteredAndSortedJobs=jobDAO.getAllJobs();
 
         // Nếu có từ khóa tìm kiếm, thực hiện tìm kiếm
         if (keyword != null && !keyword.trim().isEmpty()) {

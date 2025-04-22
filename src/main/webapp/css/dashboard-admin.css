@@ -66,26 +66,13 @@ body {
     z-index: 0;
 }
 
-.stats-card .icon-shape {
-    width: 55px;
-    height: 55px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 14px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
-}
+.
 
 .stats-card:hover .icon-shape {
     transform: scale(1.1);
 }
 
-.stats-card h5 {
-    font-size: 1.75rem;
-    font-weight: 700;
-    margin-bottom: 0.25rem;
-}
+
 
 /* Icons and buttons */
 .icon-shape {
@@ -275,23 +262,7 @@ tbody tr:hover {
     margin-bottom: 0;
 }
 
-.page-link {
-    border: none;
-    border-radius: 8px;
-    margin: 0 3px;
-    color: var(--jobtrans-dark);
-    transition: all 0.2s;
-}
 
-.page-link:hover {
-    background-color: var(--jobtrans-light);
-    color: var(--jobtrans-primary);
-}
-
-.page-item.active .page-link {
-    background-color: var(--jobtrans-primary);
-    color: white;
-}
 
 /* Responsive adjustments */
 @media (max-width: 992px) {
@@ -342,3 +313,101 @@ tbody tr:hover {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--jobtrans-primary);
 }
+
+
+
+/* Base card styles */
+.card {
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: none;
+    margin-bottom: 24px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Stats card styles */
+.stats-card {
+    position: relative;
+    background: var(--jobtrans-gradient);
+    color: white;
+    border-radius: 16px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.stats-card .card-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.stats-card .row {
+    flex-grow: 1;
+}
+
+.stats-card .col-8 {
+    width: 100%;
+}
+
+.stats-card .icon-shape {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.stats-card h5 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-top: 1rem;
+    margin-bottom: 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+@media (min-width: 992px) {
+    .stats-card h5 {
+        font-size: 1.5rem;
+    }
+}
+
+.stats-card .text-sm {
+    opacity: 0.85;
+    font-size: 0.875rem;
+    display: block;
+}
+
+/* Chart card styles */
+.card.z-index-2 {
+    background: white;
+}
+
+.card.z-index-2 .card-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 1.25rem 1.5rem;
+}
+
+.card.z-index-2 .card-body {
+    padding: 1.25rem;
+}
+
+.chart-container {
+    position: relative;
+    height: 250px;
+    width: 100%;
+}
+
+

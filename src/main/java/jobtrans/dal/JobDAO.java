@@ -657,6 +657,7 @@ public class JobDAO {
         return jobs;
     }
 
+
     public int getNumOfCompleteJobByJobSeekerId(int jobSeekerId) {
         int numOfComplete = 0;
         String query = "select count(*) as num_job_complete from Job join JobGreeting on Job.job_id = JobGreeting.job_id where JobGreeting.status = N'Được nhận' and job.status_job_id = 6 and JobGreeting.job_seeker_id = ?;";
@@ -674,6 +675,11 @@ public class JobDAO {
         }
 
         return numOfComplete;
+    }
+
+    public static void main(String[] args) {
+        JobDAO jobDAO = new JobDAO();
+        System.out.println(jobDAO.getAllJobs().size());
     }
 
 }
