@@ -4,15 +4,19 @@
     <option name="state">
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/webapp/buyers/harry-olson/Dashboard.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/candidate-list.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/detailsJobGreeting.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/edit-account.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/edit-member.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/favoriteJobList.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/greeting.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/includes/footer.jsp" value="file://$PROJECT_DIR$/src/main/webapp/includes" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/includes/gpt_sidebar.jsp" value="file://$PROJECT_DIR$/src/main/webapp/includes" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/includes/header-login.jsp" value="file://$PROJECT_DIR$/src/main/webapp/includes" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/includes/header.jsp" value="file://$PROJECT_DIR$/src/main/webapp/includes" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/includes/sidebar.jsp" value="file://$PROJECT_DIR$/src/main/webapp/includes" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/inforAdmin.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/job-post-detail-employee.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/job_post_detail_employee.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/login-and-register/index.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/loginAndRegister.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
@@ -20,6 +24,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/manage/admin/inforAdmin.jsp" value="file://$PROJECT_DIR$/src/main/webapp/manage/admin" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/mau_cv1.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/signContract.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/test.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/top100.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/userban.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
       </map>
