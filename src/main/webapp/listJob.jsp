@@ -17,7 +17,7 @@
 </head>
 
 <body>
-<%@include file="includes/header-01.jsp"%>
+<%@include file="includes/header.jsp"%>
     <div class="container" style="margin-top: 50px; margin-bottom: 50px">
         <div class="search-bar">
             <form action="viec-lam/" method="GET"> <input type="text" id="searchInput" name="keyword"  placeholder="Nhập từ khóa tìm kiếm...">
@@ -36,9 +36,6 @@
                         <div class="filter-container price">
                             <div class="filter-header price">
                                 Lọc theo giá
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M7 14l5-5 5 5H7z"/>
-                                </svg>
                             </div>
                             <ul class="filter-list price">
                                 <li class="filter-item visible"><a href="viec-lam/?price=under1m&page=1">Giá dưới 1 triệu</a></li>
@@ -89,6 +86,7 @@
                         <!-- Danh sách công việc -->
 
                         <c:if test="${not empty jobList && fn:length(jobList) > 0}">
+
                             <c:forEach var="job" items="${jobList}">
                                 <div class="card mb-3" onclick="window.location.href='jobDetail?id=${job.jobId}'">
                                     <div class="card-body">
