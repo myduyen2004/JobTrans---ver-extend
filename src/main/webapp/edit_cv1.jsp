@@ -561,7 +561,7 @@
                             <script>
                                 document.getElementById('schoolSelect').addEventListener('change', function () {
                                     var otherInput = document.querySelector('.other-school-input');
-                                    if (this.value === '504') {
+                                    if (this.value === '1') {
                                         otherInput.style.display = 'block';
                                     } else {
                                         otherInput.style.display = 'none';

@@ -148,6 +148,41 @@ public class JobDAO {
         }
         return jobs;
     }
+    public JobGreeting getJobGreetingById(int greetingId) {
+        JobGreeting jobGreeting = null;
+        String sql = "SELECT greeting_id, job_seeker_id, job_id, introduction, attachment, " +
+                "price, status, expected_day, cv_id, have_read " +
+                "FROM JobGreeting WHERE greeting_id = ?";
+
+        try (Connection con = dbConnection.openConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, greetingId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                jobGreeting = new JobGreeting();
+                jobGreeting.setGreetingId(rs.getInt("greeting_id"));
+                jobGreeting.setJobSeekerId(rs.getInt("job_seeker_id"));
+                jobGreeting.setJobId(rs.getInt("job_id"));
+                jobGreeting.setIntroduction(rs.getString("introduction"));
+                jobGreeting.setAttachment(rs.getString("attachment"));
+                jobGreeting.setPrice(rs.getInt("price"));
+                jobGreeting.setStatus(rs.getString("status"));
+                jobGreeting.setExpectedDay(rs.getInt("expected_day")); // tên cột mới
+                jobGreeting.setCvId(rs.getInt("cv_id"));
+                // Nếu muốn xử lý have_read:
+                // jobGreeting.setHaveRead(rs.getBoolean("have_read"));
+            }
+
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return jobGreeting;
+    }
     public List<JobGreeting> getJobGreetingByStatus(int accountId, String status) {
         List<JobGreeting> list = new ArrayList<>();
         String sql = "SELECT * FROM JobGreeting WHERE job_seeker_id = ? AND status = ?";

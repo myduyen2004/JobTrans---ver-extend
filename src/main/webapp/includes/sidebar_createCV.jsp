@@ -7,6 +7,8 @@
     <title>CV Builder Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         :root {
             --primary: #4F46E5;
@@ -45,15 +47,20 @@
 
         /* Sidebar Styles */
         .sidebar {
+            border-radius: 30px;
             width: 280px;
-
-            background: white;
-            border-right: 1px solid var(--border);
+            margin-top: 120px;
+            margin-left: 10px;
+            /*border: #0F1B63;*/
+            /*border: 2px solid #0F1B63;*/
+            background-color: whitesmoke;
             display: flex;
             flex-direction: column;
             transition: var(--transition);
             /*position: fixed;*/
             z-index: 50;
+            margin-bottom: 20px;
+
         }
 
         .sidebar-collapsed {
@@ -249,15 +256,7 @@
             padding: 2px 6px;
             border-radius: 999px;
         }
-        .banner_title {
-            background-image: url(../img/anh1/anh1.png);
-            background-size: 100%;
-            font-size: 40px;
-            height: 200px;
-            display: flex;
 
-            align-items: center;
-        }
     </style>
 </head>
 <body>
@@ -267,63 +266,60 @@
 
         <nav class="sidebar-menu">
             <div class="menu-section">
-                <div class="menu-title">
-                    <span>Main Menu</span>
-                </div>
-                <div class="hsidebar-footer">
-                    <button class="htoggle-btn" onclick="toggleSidebar()">
-                        <i class="fas fa-chevron-left toggle-icon"></i>
-                        <span class="menu-text">Collapse</span>
-                    </button>
-                </div>
-                <a href="#" class="menu-item active">
-                    <i class="fas fa-home menu-icon"></i>
-                    <span class="menu-text">Dashboard</span>
-                </a>
-                <a href="#" class="menu-item">
-                    <i class="fas fa-file-alt menu-icon"></i>
-                    <span class="menu-text">My CVs</span>
-                </a>
+
             </div>
 
             <div class="menu-section">
                 <div class="menu-title">
-                    <span>CV Editor</span>
+                    <span>Thiết kế CV</span>
                 </div>
 
                 <a href="#" class="menu-item">
                     <i class="fas fa-palette menu-icon"></i>
-                    <span class="menu-text">Templates</span>
-                    <span class="badge">New</span>
+                    <span class="menu-text">Mẩu CV</span>
+
                 </a>
                 <a href="#" class="menu-item">
                     <i class="fas fa-pen-fancy menu-icon"></i>
-                    <span class="menu-text">Design</span>
+                    <span class="menu-text">Thiết kế</span>
                 </a>
                 <a href="#" class="menu-item">
                     <i class="fas fa-layer-group menu-icon"></i>
-                    <span class="menu-text">Sections</span>
+                    <span class="menu-text">AI</span>
                 </a>
                 <a href="#" class="menu-item">
                     <i class="fas fa-language menu-icon"></i>
-                    <span class="menu-text">Language</span>
+                    <span class="menu-text">Ngôn ngữ</span>
                 </a>
+
             </div>
 
             <div class="menu-section">
                 <div class="menu-title">
-                    <span>Export</span>
+                    <span>In CV</span>
                 </div>
                 <a href="#" class="menu-item">
                     <i class="fas fa-file-pdf menu-icon"></i>
-                    <span class="menu-text">PDF Export</span>
+                    <span class="menu-text">PDF In</span>
                 </a>
                 <a href="#" class="menu-item">
                     <i class="fas fa-file-word menu-icon"></i>
-                    <span class="menu-text">Word Export</span>
+                    <span class="menu-text">Word In</span>
                 </a>
-            </div>
+
+<%--                <div class="hsidebar-footer">--%>
+                    <button class="htoggle-btn" onclick="toggleSidebar()">
+             <div style="margin-right: 60px" class="menu-title">
+                    <span>Thu gọn</span>
+<%--                </div>--%>
+
+
+                    </button>
+                </div>
+
+
         </nav>
+
 
 
 
@@ -343,42 +339,47 @@
 
 
 <script>
-    // Toggle sidebar collapse/expand
     function toggleSidebar() {
         const sidebar = document.getElementById('sidebar');
         sidebar.classList.toggle('sidebar-collapsed');
 
-        const icon = document.querySelector('.toggle-icon');
-        icon.classList.toggle('fa-chevron-left');
-        icon.classList.toggle('fa-chevron-right');
+        const icon = document.querySelector('#toggle-icon i');
+        if (icon) {
+            icon.classList.toggle('fa-chevron-left');
+            icon.classList.toggle('fa-chevron-right');
+        }
+
+        // Đổi chữ "Thu gọn" ↔ "Mở rộng" nếu muốn
+        const toggleText = document.getElementById('toggle-icon');
+        if (toggleText) {
+            toggleText.innerHTML = icon.classList.contains('fa-chevron-left')
+                ? '<i class="fa fa-chevron-left"></i> Thu gọn'
+                : '<i class="fa fa-chevron-right"></i> Mở rộng';
+        }
     }
 
-    // Mobile menu toggle
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const sidebar = document.getElementById('sidebar');
 
-        // Show mobile menu button on small screens
         function checkScreenSize() {
             if (window.innerWidth <= 768) {
-                mobileMenuBtn.style.display = 'block';
-                sidebar.classList.add('sidebar-collapsed');
+                if (mobileMenuBtn) mobileMenuBtn.style.display = 'block';
+                if (sidebar) sidebar.classList.add('sidebar-collapsed');
             } else {
-                mobileMenuBtn.style.display = 'none';
-                sidebar.classList.remove('sidebar-collapsed');
+                if (mobileMenuBtn) mobileMenuBtn.style.display = 'none';
+                if (sidebar) sidebar.classList.remove('sidebar-collapsed');
             }
         }
 
-        // Initial check
         checkScreenSize();
-
-        // Check on resize
         window.addEventListener('resize', checkScreenSize);
 
-        // Toggle sidebar on mobile
-        mobileMenuBtn.addEventListener('click', function() {
-            sidebar.classList.toggle('sidebar-open');
-        });
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', function () {
+                if (sidebar) sidebar.classList.toggle('sidebar-open');
+            });
+        }
     });
 </script>
 </body>

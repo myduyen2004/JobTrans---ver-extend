@@ -467,7 +467,7 @@
                                             </c:forEach>
                                         </optgroup>
                                     </c:forEach>
-                                    <option value="31" ${skill.skillId == 31 ? 'selected' : ''}>Other</option>
+
                                 </select>
 
                                 <div class="form-group">
@@ -535,7 +535,7 @@
                                                     ${company}
                                             </option>
                                         </c:forEach>
-                                        <option value="32" ${exp.experienceId == 32 ? 'selected' : ''}>Other</option>
+
                                     </select>
 
                                     <div class="form-group">
@@ -1070,7 +1070,7 @@
               </c:forEach>
             </optgroup>
           </c:forEach>
-          <option value="31">Other</option>
+
         </select>
 
         <div class="form-group">
@@ -1109,7 +1109,7 @@
             if (e.target && e.target.name === 'skillId[]') {
                 const skillItem = e.target.closest('.skill-item');
                 const otherInput = skillItem.querySelector('.other-skill-input');
-                if (e.target.value === "31") {
+                if (e.target.value === "1") {
                     otherInput.style.display = 'block';
                     otherInput.required = true;
                 } else {
@@ -1123,7 +1123,7 @@
             if (e.target && e.target.name === 'Company[]') {
                 const experienceItem = e.target.closest('.experience-item');
                 const otherInput = experienceItem.querySelector('.other-company-input');
-                if (e.target.value === "32") {
+                if (e.target.value === "1") {
                     otherInput.style.display = 'block';
                     otherInput.required = true;
                 } else {
@@ -1137,7 +1137,7 @@
             if (e.target && e.target.name === 'schoolId[]') {
                 const educationItem = e.target.closest('.education-item');
                 const otherInput = educationItem.querySelector('.other-school-input');
-                if (e.target.value === "") {
+                if (e.target.value === "1") {
                     otherInput.style.display = 'block';
                     otherInput.required = true;
                 } else {
@@ -1151,7 +1151,7 @@
             if (e.target && e.target.name === 'certificationId[]') {
                 const certificationItem = e.target.closest('.certification-item');
                 const otherInput = certificationItem.querySelector('.other-certification-input');
-                if (e.target.value === "") {
+                if (e.target.value === "1") {
                     otherInput.style.display = 'block';
                     otherInput.required = true;
                 } else {

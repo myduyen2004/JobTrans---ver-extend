@@ -32,7 +32,7 @@ public class JobGreetingServlet extends HttpServlet {
                 sapxep(request,response);
                 break;
             case "detail":
-//                detail(request,response);
+                detail(request,response);
                 break;
             default:
                 response.getWriter().print("Lỗi rồi má");
@@ -81,18 +81,20 @@ public class JobGreetingServlet extends HttpServlet {
         request.setAttribute("job", jobGreetings);
         request.getRequestDispatcher("applied-job-list.jsp").forward(request, response);
     }
-//    private void detail(HttpServletRequest request, HttpServletResponse response)
-//            throws ServletException, IOException {
-//        String jobGreetingId  = request.getParameter("jobGreetingId").trim();
-//        String jobId = request.getParameter("jobId").trim();
-//        int jgId = Integer.parseInt(jobGreetingId);
-//        int j = Integer.parseInt(jobId);
-//        JobDAO jd = new JobDAO();
-//        JobGreeting jobGreeting = jd.getJobGreetingById(jgId);
-//        Job job =jd.getJobById(j);
-//        request.setAttribute("jobGreeting ", jobGreeting );
-//        request.setAttribute("job", job);
-//
-//        request.getRequestDispatcher("infor-applied-job-detail.jsp").forward(request, response);
-//    }
+     private void detail(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String jobGreetingId  = request.getParameter("jobGreetingId").trim();
+        String jobId = request.getParameter("jobId").trim();
+
+        int jgId = Integer.parseInt(jobGreetingId);
+        int j = Integer.parseInt(jobId);
+        JobDAO jd = new JobDAO();
+        JobGreeting jobGreeting = jd.getJobGreetingById(jgId);
+
+        Job job =jd.getJobById(j);
+        request.setAttribute("jobGreeting", jobGreeting );
+        request.setAttribute("job", job);
+
+        request.getRequestDispatcher("infor-applied-job-detail.jsp").forward(request, response);
+    }
 }

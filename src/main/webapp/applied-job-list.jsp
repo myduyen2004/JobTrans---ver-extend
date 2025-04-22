@@ -424,7 +424,7 @@
 
                                 </div>
                                 <div class="job-actions">
-                                    <button class="btn btn-outline">Xem chi tiết</button>
+                                    <a href="jobGreeting?action=detail&jobGreetingId=${o.greetingId}&jobId=${jobDetail.postAccountId}" class="btn btn-outline">Xem chi tiết</a>
                                     <a class="btn btn-primary">Liên hệ</a>
                                 </div>
                             </div>

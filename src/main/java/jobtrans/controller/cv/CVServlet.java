@@ -627,7 +627,7 @@ public class CVServlet extends HttpServlet {
                     education.setEndDate(dateFormat.parse(educationEndDates[i]));
                     education.setMoreInfor(schoolDescriptions[i]);
 
-                    if (education.getEducationId() == 504 && otherSchoolNames != null && i < otherSchoolNames.length) {
+                    if (education.getEducationId() == 1 && otherSchoolNames != null && i < otherSchoolNames.length) {
                         education.setCustomSchool(otherSchoolNames[i]);
                     }
 

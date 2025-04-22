@@ -42,7 +42,7 @@
         }
 
         .cong .cv-container {
-            margin-top: 80px;
+            margin-top: 150px;
             margin-left: 100px;
             width: 1000px;
             display: flex;
@@ -209,7 +209,7 @@
             font-family: 'Montserrat', sans-serif;
             font-size: 24px;
             font-weight: 700;
-            color: linear-gradient(to right, #2C3E50, #1C2833);;
+            color-: linear-gradient(to right, #2C3E50, #1C2833);;
             margin-bottom: 20px;
             padding-bottom: 10px;
             border-bottom: 2px solid var(--light);
@@ -381,35 +381,17 @@
                 transform: translateX(-100px);
             }
         }
-        .banner_title {
-            background-image: url(./img/anh1/anh1.png);
-            background-size: 100%;
-            font-size: 40px;
-            height: 200px;
-            display: flex;
 
-            align-items: center;
-        }
-        .error-message {
-            color: #dc3545;
-            font-size: 0.875rem;
-            margin-top: 0.25rem;
-        }
-        .is-invalid {
-            border-color: #dc3545 !important;
-        }
     </style>
 </head>
 <body>
 <%@include file="includes/header-01.jsp" %>
-<div style="margin-top: 100px" class="py-4 banner_title">
-    <h1 class="text-white font-weight-bold" style="padding-left: 50px;">Tạo CV mẩu 2</h1>
-</div>
+
 <div style="display: flex">
 
     <%@include file="./includes/sidebar_createCV.jsp" %>
     <div class="cong">
-        <form action="cv?action=create" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+        <form action="cv?action=create" method="POST" enctype="multipart/form-data">
 
 
             <input type="hidden" name="typeId" value="${param.typeId}">
@@ -425,7 +407,7 @@
                         <input type="file" id="avatar_cv" name="avatar_cv" accept="image/*" style="display: none;">
                     </div>
 
-                    <h2 class="section-title">Contact Info</h2>
+                    <h2 class="section-title">Thông tin các nhân</h2>
                     <div class="form-group">
                         <select class="form-control" name="sex" id="sex">
                             <option value="">-- Chọn giới tính --</option>
@@ -1105,7 +1087,7 @@
                 if (e.target && e.target.name === 'schoolId[]') {
                     const educationItem = e.target.closest('.education-item');
                     const otherInput = educationItem.querySelector('.other-school-input');
-                    if (e.target.value === "504") {
+                    if (e.target.value === "1") {
                         otherInput.style.display = 'block';
                         otherInput.required = true;
                     } else {
