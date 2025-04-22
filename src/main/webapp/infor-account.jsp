@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -7,12 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thông tin tài khoản</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <style>
         /* Reset CSS */
         * {
@@ -30,7 +25,7 @@
 
         .container {
             max-width: 1200px;
-            margin: 0 auto;
+            margin: 50px auto;
             padding: 20px;
         }
 
@@ -115,6 +110,10 @@
             text-decoration: none;
             border: none;
             cursor: pointer;
+        }
+
+        .edit-button:hover {
+            background-color: #e4e4e4;
         }
 
         /* Content sections */
@@ -271,6 +270,7 @@
             border-radius: 6px;
             font-style: italic;
             color: #4b5563;
+            text-align: center;
         }
     </style>
     <style>
@@ -628,13 +628,6 @@
             --danger-color: #f44336;
         }
 
-        body {
-            /*background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);*/
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            min-height: 100vh;
-            padding-bottom: 40px;
-        }
-
         .page-header {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             color: white;
@@ -858,6 +851,10 @@
             justify-content: flex-end;
         }
 
+        .btn-add-container a{
+            text-decoration: none;
+        }
+
         .btn-add {
             background-color: var(--success-color);
             border-color: var(--success-color);
@@ -909,7 +906,8 @@
     </style>
 </head>
 <body>
-<div class="container">
+<%@include file="includes/header-01.jsp"%>
+<div class="container" >
     <!-- Header -->
     <div class="profile-header">
         <img class="profile-avatar" src=" ${account.avatar}" alt="Ảnh đại diện">
@@ -944,14 +942,16 @@
                         <div class="info-label">Chuyên môn</div>
                         <div class="info-value">${account.speciality}</div>
                     </div>
-                    <div class="info-item">
-                        <div class="info-label">Kinh nghiệm</div>
-                        <div class="info-value">${account.experienceYears}</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Học vấn</div>
-                        <div class="info-value">${account.education}</div>
-                    </div>
+                    <c:if test="${account.typeAccount == 'Cá nhân'}">
+                        <div class="info-item">
+                            <div class="info-label">Kinh nghiệm</div>
+                            <div class="info-value">${account.experienceYears}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Học vấn</div>
+                            <div class="info-value">${account.education}</div>
+                        </div>
+                    </c:if>
                     <div class="info-item">
                         <div class="info-label">Trạng thái</div>
                         <div class="info-value">${account.status}</div>
@@ -995,36 +995,45 @@
                             <div class="info-value">${account.phone}</div>
                         </div>
                     </div>
-                    <div class="contact-item">
-                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
-                        <div class="contact-detail">
-                            <div class="info-label">Địa chỉ</div>
-                            <div class="info-value">${account.address}</div>
+                    <c:if test="${account.typeAccount == 'Cá nhân'}">
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <div class="contact-detail">
+                                <div class="info-label">Địa chỉ</div>
+                                <div class="info-value">${account.address}</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon"><i class="fas fa-birthday-cake"></i></div>
-                        <div class="contact-detail">
-                            <div class="info-label">Ngày sinh</div>
-                            <div class="info-value">${account.dateOfBirth}</div>
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-birthday-cake"></i></div>
+                            <div class="contact-detail">
+                                <div class="info-label">Ngày sinh</div>
+                                <div class="info-value">${account.dateOfBirth}</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon"><i class="fas fa-venus-mars"></i></div>
-                        <div class="contact-detail">
-                            <div class="info-label">Giới tính</div>
-                            <div class="info-value">${account.gender}</div>
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-venus-mars"></i></div>
+                            <div class="contact-detail">
+                                <div class="info-label">Giới tính</div>
+                                <div class="info-value">${account.gender}</div>
+                            </div>
                         </div>
-                    </div>
+                    </c:if>
                 </div>
             </div>
 
 
             <div class="card">
                 <h2 class="card-title">Chữ ký số</h2>
+                <c:if test="${account.signature != null}">
                 <div class="signature">
-                    "Sáng tạo không giới hạn, chất lượng là ưu tiên hàng đầu."
+                    <img class="signature-placeholder" src="${account.signature}" alt="Chữ ký của ${account.accountName}">
                 </div>
+                </c:if>
+                <c:if test="${account.signature == null}">
+                    <div class="signature">
+                        <p>Chưa có chữ kỹ</p>
+                    </div>
+                </c:if>
             </div>
         </div>
     </div>
@@ -1037,9 +1046,9 @@
             </div>
         </div>
 
-        <div class="container">
+        <div>
             <div class="btn-add-container">
-                <a href="group?action=showAddMember&account_id=${account.accountId}" class="btn btn-add btn-action">
+                <a href="group?action=showAddMember&account_id=${account.accountId}" class="btn-add btn-action">
                     <i class="fas fa-plus"></i> Thêm thành viên
                 </a>
             </div>
@@ -1061,7 +1070,7 @@
                                                 <%--                                            <span class="badge badge-custom badge-specialty">--%>
                                                 <%--                                                <i class="fas fa-laptop-code"></i> ${members.speciality}--%>
                                                 <%--                                            </span>--%>
-                                            <span class="badge badge-custom badge-experience">
+                                            <span class="badge-custom badge-experience">
                                                   <i class="fas fa-briefcase"></i>Số năm kinh nghiệm: ${members.experienceYears}
                                             </span>
                                         </div>
@@ -1070,7 +1079,7 @@
                             </div>
 
                             <div class="px-4 py-3 d-grid">
-                                <button class="btn btn-details btn-action" type="button"
+                                <button class="btn-details btn-action" type="button"
                                         data-bs-toggle="collapse"
                                         data-bs-target="#memberDetails${loop.index}"
                                         aria-expanded="false"
@@ -1196,15 +1205,15 @@
                                         <i class="fas fa-user"></i>
                                     </div>
                                     <div>
-                                        <div class="info-value">ID: TN-001</div>
+                                        <div class="info-value">ID: ${members.memberId}</div>
                                     </div>
                                 </div>
 
                                 <div>
-                                    <a href="#" class="btn btn-edit btn-action me-2">
+                                    <a href="group?action=showUpdateMember&memberId=${members.memberId}" class="btn-edit btn-action me-2" style="text-decoration: none">
                                         <i class="fas fa-edit"></i> Chỉnh sửa
                                     </a>
-                                    <a href="group?action=delete&memberId=${members.memberId}&accountId=${members.accountId}" class="btn btn-delete btn-action">
+                                    <a href="group?action=delete&memberId=${members.memberId}&accountId=${members.accountId}" class="btn-delete btn-action" style="text-decoration: none">
                                         <i class="fas fa-trash-alt"></i> Xóa
                                     </a>
                                 </div>
@@ -1308,10 +1317,15 @@
                 </tbody>
             </table>
             <div class="show-more-container">
-                <button class="show-more-btn">Xem tất cả báo cáo</button>
+                <a href="profile?action=viewAccountReport">
+                    <button class="show-more-btn">Xem tất cả báo cáo</button>
+                </a>
             </div>
         </div>
     </div>
-</div>
+</div >
+<%@include file="includes/footer.jsp"%>
+<%--<script src="https://cdn.tailwindcss.com"></script>--%>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 </html>

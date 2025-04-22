@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
@@ -53,7 +53,7 @@
         .form-container {
             background-color: white;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 9px rgba(0, 0, 0, 0.05);
             padding: 30px;
             margin-bottom: 20px;
         }
@@ -387,6 +387,7 @@
         .signature-preview img {
             max-width: 100%;
             max-height: 80px;
+            object-fit: cover;
         }
 
         .signature-placeholder {
@@ -407,251 +408,263 @@
     </style>
 </head>
 <body>
-<div class="container">
-    <!-- Header -->
-    <div class="edit-header">
-        <div>
-            <h1 class="header-title">Chỉnh sửa thông tin cá nhân</h1>
-            <p class="header-subtitle">Cập nhật thông tin hồ sơ của bạn để hiển thị cho người khác</p>
-        </div>
-    </div>
+    <div class="container">
+        <%@include file="includes/header-01.jsp"%>
 
-    <form action="profile" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
-        <%--        <input type="hidden" name="action" value="update">--%>
-        <input type="hidden" name="accountId" value="${account.accountId}">
-        <!-- Avatar section -->
-        <div class="form-container">
-            <div class="avatar-upload">
-                <img class="avatar" src="${account.avatar}" alt="Ảnh đại diện">
-                <div class="avatar-actions">
-                    <label for="avatar-upload" class="upload-btn">Tải ảnh lên</label>
-                    <input id="avatar-upload" class="file-upload" type="file" name="avatar" accept="image/*"
-                           style="display: none;"/>
-                    <input type="hidden" name="avatemp" value="${account.avatar}" accept="image/*"/>
-                    <p class="upload-note">Cho phép PNG, JPG hoặc GIF, tối đa 2MB</p>
-                </div>
+        <!-- Header -->
+        <div class="edit-header">
+            <div>
+                <h1 class="header-title">Chỉnh sửa thông tin cá nhân</h1>
+                <p class="header-subtitle">Cập nhật thông tin hồ sơ của bạn để hiển thị cho người khác</p>
             </div>
         </div>
 
-        <!-- Basic information -->
-        <div class="form-container">
-            <div class="form-section">
-                <h2 class="section-title">Thông tin cơ bản</h2>
-                <div class="form-grid">
-                    <div class="form-row form-full-width">
-                        <label for="name" class="form-label required-label">Tên</label>
-                        <input type="text" id="name" class="form-input" name="name" value="${account.accountName}" required>
-                    </div>
-                    <%--                    <div class="form-row">--%>
-                    <%--                        <label for="display-name" class="form-label required-label">Tên hiển thị</label>--%>
-                    <%--                        <input type="text" id="display-name" class="form-input" value="Nguyễn Văn A" required>--%>
-                    <%--                    </div>--%>
-                    <%--                    <div class="form-row">--%>
-                    <%--                        <label for="role" class="form-label">Vai trò</label>--%>
-                    <%--                        <div class="autocomplete-container">--%>
-                    <%--                            <input type="text" id="role" class="form-input" value="Freelancer - Thiết kế đồ họa">--%>
-                    <%--                            <div class="autocomplete-results" id="role-results"></div>--%>
-                    <%--                        </div>--%>
-                    <%--                    </div>--%>
-                    <div class="form-row">
-                        <label for="dob" class="form-label">Ngày sinh</label>
-                        <input type="date" id="dob" class="form-input" name="dob" value="${account.dateOfBirth}">
-                    </div>
-                    <div class="form-row">
-                        <label for="gender" class="form-label">Giới tính</label>
-                        <select id="gender" name="gender" class="form-select">
-                            <option value="Nam" ${account.gender == 'Nam' ? 'selected' : ''}>Nam</option>
-                            <option value="Nữ" ${account.gender == 'Nữ' ? 'selected' : ''}>Nữ</option>
-                            <option value="Khác" ${account.gender == 'Khác' ? 'selected' : ''}>Khác</option>
-                        </select>
-                    </div>
-
-                    <div class="form-row form-full-width">
-                        <label for="bio" class="form-label">Giới thiệu</label>
-                        <textarea id="bio" name="bio" class="form-textarea">${account.bio}</textarea>
+        <form action="profile" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
+<%--            <input type="hidden" name="action" value="update">--%>
+            <input type="hidden" name="accountId" value="${account.accountId}">
+            <!-- Avatar section -->
+            <div class="form-container">
+                <div class="avatar-upload">
+                    <img class="avatar" src="${account.avatar}" alt="Ảnh đại diện">
+                    <div class="avatar-actions">
+                        <label for="avatar-upload" class="upload-btn">Tải ảnh lên</label>
+                        <input id="avatar-upload" class="file-upload" type="file" name="avatar" accept="image/*"
+                               style="display: none;"/>
+                        <input type="hidden" name="avatemp" value="${account.avatar}" accept="image/*"/>
+                        <p class="upload-note">Cho phép PNG, JPG hoặc GIF, tối đa 2MB</p>
                     </div>
                 </div>
             </div>
 
-            <div class="section-divider"></div>
+            <!-- Basic information -->
+            <div class="form-container">
+                <div class="form-section">
+                    <h2 class="section-title">Thông tin cơ bản</h2>
+                    <div class="form-grid">
+                        <div class="form-row form-full-width">
+                            <label for="name" class="form-label required-label">Tên</label>
+                            <input type="text" id="name" class="form-input" name="name" value="${account.accountName}" required>
+                        </div>
+                        <%--                    <div class="form-row">--%>
+                        <%--                        <label for="display-name" class="form-label required-label">Tên hiển thị</label>--%>
+                        <%--                        <input type="text" id="display-name" class="form-input" value="Nguyễn Văn A" required>--%>
+                        <%--                    </div>--%>
+                        <%--                    <div class="form-row">--%>
+                        <%--                        <label for="role" class="form-label">Vai trò</label>--%>
+                        <%--                        <div class="autocomplete-container">--%>
+                        <%--                            <input type="text" id="role" class="form-input" value="Freelancer - Thiết kế đồ họa">--%>
+                        <%--                            <div class="autocomplete-results" id="role-results"></div>--%>
+                        <%--                        </div>--%>
+                        <%--                    </div>--%>
 
-            <!-- Professional info -->
-            <div class="form-section">
-                <h2 class="section-title">Thông tin chuyên môn</h2>
-                <div class="form-grid">
-                    <div class="form-row">
-                        <label for="speciality" class="form-label">Chuyên môn</label>
-                        <div class="autocomplete-container">
-                            <input type="text" id="speciality" class="form-input" name="speciality" value="${account.speciality}">
-                            <div class="autocomplete-results" id="specialty-results"></div>
+                        <c:if test="${account.typeAccount == 'Cá nhân'}">
+                            <div class="form-row">
+                                <label for="dob" class="form-label">Ngày sinh</label>
+                                <input type="date" id="dob" class="form-input" name="dob" value="${account.dateOfBirth}">
+                            </div>
+                            <div class="form-row">
+                                <label for="gender" class="form-label">Giới tính</label>
+                                <select id="gender" name="gender" class="form-select">
+                                    <option value="Nam" ${account.gender == 'Nam' ? 'selected' : ''}>Nam</option>
+                                    <option value="Nữ" ${account.gender == 'Nữ' ? 'selected' : ''}>Nữ</option>
+                                    <option value="Khác" ${account.gender == 'Khác' ? 'selected' : ''}>Khác</option>
+                                </select>
+                            </div>
+                        </c:if>
+                        <div class="form-row form-full-width">
+                            <label for="bio" class="form-label">Giới thiệu</label>
+                            <textarea id="bio" name="bio" class="form-textarea">${account.bio}</textarea>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <label for="experience" class="form-label">Kinh nghiệm (năm)</label>
-                        <input type="number" id="experience" class="form-input" name="experienceYears" value="${account.experienceYears}"
-                               min="0" max="50">
-                    </div>
-                    <div class="form-row">
-                        <label for="education" class="form-label">Học vấn</label>
-                        <div class="autocomplete-container">
-                            <input type="text" id="education" class="form-input" name="education" value="${account.education}">
-                            <div class="autocomplete-results" id="education-results"></div>
+                </div>
+
+                <div class="section-divider"></div>
+
+                <!-- Professional info -->
+                <div class="form-section">
+                    <h2 class="section-title">Thông tin chuyên môn</h2>
+                    <div class="form-grid">
+                        <div class="form-row">
+                            <label for="speciality" class="form-label">Chuyên môn</label>
+                            <div class="autocomplete-container">
+                                <input type="text" id="speciality" class="form-input" name="speciality" value="${account.speciality}">
+                                <div class="autocomplete-results" id="specialty-results"></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-row">
-                        <label for="status" class="form-label">Trạng thái</label>
-                        <select id="status" class="form-select" name="status">
-                            <option value="Đang hoạt động" ${account.status == 'Đang hoạt động' ? 'selected' : ''}>Đang
-                                hoạt động
-                            </option>
-                            <option value="Bị cấm" ${account.status == 'Bị cấm' ? 'selected' : ''}>Bị cấm</option>
-                            <option value="Chờ xử lí" ${account.status == 'Chờ xử lí' ? 'selected' : ''}>Chờ xử lí</option>
-                        </select>
-                    </div>
-                    <div class="form-row form-full-width">
-                        <label for="skills" class="form-label">Kỹ năng</label>
-                        <div class="tags-input-container">
-                            <div class="tag">
-                                Photoshop
-                                <span class="tag-close">&times;</span>
+                        <c:if test="${account.typeAccount == 'Cá nhân'}">
+                            <div class="form-row">
+                                <label for="experience" class="form-label">Kinh nghiệm (năm)</label>
+                                <input type="number" id="experience" class="form-input" name="experienceYears" value="${account.experienceYears}"
+                                       min="0" max="50">
                             </div>
-                            <div class="tag">
-                                Illustrator
-                                <span class="tag-close">&times;</span>
-                            </div>
-                            <div class="tag">
-                                UI/UX
-                                <span class="tag-close">&times;</span>
-                            </div>
-                            <div class="tag">
-                                Web Design
-                                <span class="tag-close">&times;</span>
-                            </div>
-                            <input type="text" id="skills" class="tags-input" name="skills" placeholder="Thêm kỹ năng...">
-                        </div>
-                        <div class="autocomplete-results" id="skills-results"></div>
-                        <p class="help-text">Nhấn Enter để thêm kỹ năng mới</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section-divider"></div>
-
-            <!-- Contact info -->
-            <div class="form-section">
-                <h2 class="section-title">Thông tin liên hệ</h2>
-                <div class="form-grid">
-                    <div class="form-row">
-                        <label for="email" class="form-label required-label">Email</label>
-                        <input type="email" id="email" class="form-input" value="${account.email}" required>
-                    </div>
-                    <div class="form-row">
-                        <label for="phone" class="form-label">Điện thoại</label>
-                        <input type="tel" id="phone" class="form-input" name="phone" value="${account.phone}">
-                    </div>
-                    <div class="form-row form-full-width">
-                        <label for="address" class="form-label">Địa chỉ</label>
-                        <input type="text" id="address" class="form-input" name="address" value="${account.address}">
-                    </div>
-                </div>
-            </div>
-
-            <div class="section-divider"></div>
-
-            <!-- Social media -->
-            <div class="form-section">
-                <h2 class="section-title">Mạng xã hội</h2>
-                <div class="form-grid">
-                    <div class="form-row">
-                        <label for="facebook" class="form-label">Facebook</label>
-                        <input type="url" id="facebook" class="form-input" placeholder="https://facebook.com/username">
-                    </div>
-                    <div class="form-row">
-                        <label for="linkedin" class="form-label">LinkedIn</label>
-                        <input type="url" id="linkedin" class="form-input"
-                               placeholder="https://linkedin.com/in/username">
-                    </div>
-                    <div class="form-row">
-                        <label for="instagram" class="form-label">Instagram</label>
-                        <input type="url" id="instagram" class="form-input"
-                               placeholder="https://instagram.com/username">
-                    </div>
-                    <div class="form-row">
-                        <label for="portfolio" class="form-label">Website/Portfolio</label>
-                        <input type="url" id="portfolio" class="form-input" placeholder="https://yourportfolio.com">
-                    </div>
-                </div>
-            </div>
-
-            <div class="section-divider"></div>
-
-            <!-- Signature as image -->
-            <div class="form-section">
-                <h2 class="section-title">Chữ ký hình ảnh</h2>
-                <div class="form-row">
-                    <label class="form-label">Chữ ký của bạn</label>
-                    <div class="signature-upload">
-                        <div class="signature-preview">
-                            <c:if test="${account.signature != null}">
-                                <span class="signature-placeholder">${account.signature}</span>
-                            </c:if>
-                            <c:if test="${account.signature == null}">
-                                <span class="signature-placeholder">Chưa có chữ ký</span>
-                                <div class="signature-actions">
-                                    <label for="signature-upload" class="upload-btn">Tải ảnh chữ ký lên</label>
-                                    <input type="file" id="signature-upload" class="file-input" name="signature" accept="image/*">
+                            <div class="form-row">
+                                <label for="education" class="form-label">Học vấn</label>
+                                <div class="autocomplete-container">
+                                    <input type="text" id="education" class="form-input" name="education" value="${account.education}">
+                                    <div class="autocomplete-results" id="education-results"></div>
                                 </div>
-                                <p class="help-text">Chữ ký hình ảnh sẽ hiển thị dưới thông tin hồ sơ của bạn. Cho phép PNG, JPG
-                                    hoặc GIF, tối đa 1MB
-                                </p>
-                            </c:if>
+                            </div>
+                        </c:if>
+                        <div class="form-row">
+                            <label for="status" class="form-label">Trạng thái</label>
+                            <select id="status" class="form-select" name="status" style="padding: 12px 15px;">
+                                <option value="Đang hoạt động" ${account.status == 'Đang hoạt động' ? 'selected' : ''}>Đang
+                                    hoạt động
+                                </option>
+                                <option value="Bị cấm" ${account.status == 'Bị cấm' ? 'selected' : ''}>Bị cấm</option>
+                                <option value="Chờ xử lí" ${account.status == 'Chờ xử lí' ? 'selected' : ''}>Chờ xử lí</option>
+                            </select>
+                        </div>
+
+                        <c:if test="${account.typeAccount == 'Cá nhân'}">
+                            <div class="form-row form-full-width">
+                                <label for="skills" class="form-label">Kỹ năng</label>
+                                <div class="tags-input-container">
+                                    <div class="tag">
+                                        Photoshop
+                                        <span class="tag-close">&times;</span>
+                                    </div>
+                                    <div class="tag">
+                                        Illustrator
+                                        <span class="tag-close">&times;</span>
+                                    </div>
+                                    <div class="tag">
+                                        UI/UX
+                                        <span class="tag-close">&times;</span>
+                                    </div>
+                                    <div class="tag">
+                                        Web Design
+                                        <span class="tag-close">&times;</span>
+                                    </div>
+                                    <input type="text" id="skills" class="tags-input" name="skills" placeholder="Thêm kỹ năng...">
+                                </div>
+                                <div class="autocomplete-results" id="skills-results"></div>
+                                <p class="help-text">Nhấn Enter để thêm kỹ năng mới</p>
+                            </div>
+                        </c:if>
+                    </div>
+                </div>
+
+                <div class="section-divider"></div>
+
+                <!-- Contact info -->
+                <div class="form-section">
+                    <h2 class="section-title">Thông tin liên hệ</h2>
+                    <div class="form-grid">
+                        <div class="form-row">
+                            <label for="email" class="form-label required-label">Email</label>
+                            <input type="email" id="email" class="form-input" value="${account.email}" required>
+                        </div>
+                        <div class="form-row">
+                            <label for="phone" class="form-label">Điện thoại</label>
+                            <input type="tel" id="phone" class="form-input" name="phone" value="${account.phone}">
+                        </div>
+                        <div class="form-row form-full-width">
+                            <label for="address" class="form-label">Địa chỉ</label>
+                            <input type="text" id="address" class="form-input" name="address" value="${account.address}">
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="section-divider"></div>
+                <div class="section-divider"></div>
 
-            <!-- Privacy settings -->
-            <div class="form-section">
-                <h2 class="section-title">Cài đặt riêng tư</h2>
-                <div class="form-row">
-                    <div class="toggle-container">
-                        <span class="toggle-label">Hiển thị thông tin liên hệ</span>
-                        <label class="toggle-switch">
-                            <input type="checkbox" checked>
-                            <span class="toggle-slider"></span>
-                        </label>
+                <!-- Social media -->
+    <%--            <div class="form-section">--%>
+    <%--                <h2 class="section-title">Mạng xã hội</h2>--%>
+    <%--                <div class="form-grid">--%>
+    <%--                    <div class="form-row">--%>
+    <%--                        <label for="facebook" class="form-label">Facebook</label>--%>
+    <%--                        <input type="url" id="facebook" class="form-input" placeholder="https://facebook.com/username">--%>
+    <%--                    </div>--%>
+    <%--                    <div class="form-row">--%>
+    <%--                        <label for="linkedin" class="form-label">LinkedIn</label>--%>
+    <%--                        <input type="url" id="linkedin" class="form-input"--%>
+    <%--                               placeholder="https://linkedin.com/in/username">--%>
+    <%--                    </div>--%>
+    <%--                    <div class="form-row">--%>
+    <%--                        <label for="instagram" class="form-label">Instagram</label>--%>
+    <%--                        <input type="url" id="instagram" class="form-input"--%>
+    <%--                               placeholder="https://instagram.com/username">--%>
+    <%--                    </div>--%>
+    <%--                    <div class="form-row">--%>
+    <%--                        <label for="portfolio" class="form-label">Website/Portfolio</label>--%>
+    <%--                        <input type="url" id="portfolio" class="form-input" placeholder="https://yourportfolio.com">--%>
+    <%--                    </div>--%>
+    <%--                </div>--%>
+    <%--            </div>--%>
+
+    <%--            <div class="section-divider"></div>--%>
+
+                <!-- Signature as image -->
+                <div class="form-section">
+                    <h2 class="section-title">Chữ ký hình ảnh</h2>
+                    <div class="form-row">
+                        <label class="form-label">Chữ ký của bạn</label>
+                        <div class="signature-upload">
+
+                                <c:if test="${account.signature != null}">
+                                    <div class="signature-preview">
+                                        <img class="signature-placeholder" src="${account.signature}" alt="Chữ ký của ${account.accountName}">
+                                    </div>
+                                </c:if>
+                                <c:if test="${account.signature == null}">
+                                    <div class="signature-preview">
+                                        <img class="signature-placeholder" src="${account.signature}" alt="Chưa có chữ ký">
+                                    </div>
+                                    <div class="signature-actions">
+                                        <label for="signature-upload" class="upload-btn">Tải ảnh chữ ký lên</label>
+                                        <input type="file" id="signature-upload" class="file-input" name="signature" accept="image/*">
+                                    </div>
+                                    <p class="help-text">Chữ ký hình ảnh sẽ hiển thị dưới thông tin hồ sơ của bạn. Cho phép PNG, JPG
+                                        hoặc GIF, tối đa 1MB
+                                    </p>
+                                </c:if>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="toggle-container">
-                        <span class="toggle-label">Hiển thị báo cáo nhận được</span>
-                        <label class="toggle-switch">
-                            <input type="checkbox">
-                            <span class="toggle-slider"></span>
-                        </label>
+
+                <div class="section-divider"></div>
+
+                <!-- Privacy settings -->
+                <div class="form-section">
+                    <h2 class="section-title">Cài đặt riêng tư</h2>
+                    <div class="form-row">
+                        <div class="toggle-container">
+                            <span class="toggle-label">Hiển thị thông tin liên hệ</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="toggle-container">
+                            <span class="toggle-label">Hiển thị báo cáo nhận được</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="toggle-container">
+                            <span class="toggle-label">Hiển thị trạng thái hoạt động</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="toggle-container">
-                        <span class="toggle-label">Hiển thị trạng thái hoạt động</span>
-                        <label class="toggle-switch">
-                            <input type="checkbox" checked>
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
                 </div>
-            </div>
-
-            <div class="form-actions">
-                <button type="button" class="btn btn-secondary">Hủy</button>
-                <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
-            </div>
-        </div>
-    </form>
-</div>
-
+        </form>
+    </div>
+<%@include file="includes/footer.jsp"%>
 <script>
     function initTagsFromDatabase() {
         // Lấy giá trị từ input ẩn (được điền từ database)

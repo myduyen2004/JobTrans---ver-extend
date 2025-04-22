@@ -1,29 +1,44 @@
 package jobtrans.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Notification {
     private int notificationId;
     private int accountId;
     private String notificationTitle;
     private String notificationContent;
-    private Date notificationTime;
+    private String notificationType; // "Giao dịch", "Hệ thống", "Tương tác"
+    private LocalDateTime notificationTime;
     private boolean haveRead;
+    private String linkDetail;
 
-    // Constructors
+    public String getLinkDetail() {
+        return linkDetail;
+    }
+
+    public void setLinkDetail(String linkDetail) {
+        this.linkDetail = linkDetail;
+    }
+
     public Notification() {
     }
 
-    public Notification(int notificationId, int accountId, String notificationTitle, String notificationContent, Date notificationTime, boolean haveRead) {
+    public Notification(int notificationId, int accountId, String notificationTitle,
+                        String notificationContent, String notificationType,
+                        LocalDateTime notificationTime, boolean haveRead, String linkDetail) {
         this.notificationId = notificationId;
         this.accountId = accountId;
         this.notificationTitle = notificationTitle;
         this.notificationContent = notificationContent;
+        this.notificationType = notificationType;
         this.notificationTime = notificationTime;
         this.haveRead = haveRead;
+        this.linkDetail = linkDetail;
     }
 
-    // Getters and Setters
+
+    // Getter và Setter
+
     public int getNotificationId() {
         return notificationId;
     }
@@ -56,11 +71,19 @@ public class Notification {
         this.notificationContent = notificationContent;
     }
 
-    public Date getNotificationTime() {
+    public String getNotificationType() {
+        return notificationType;
+    }
+
+    public void setNotificationType(String notificationType) {
+        this.notificationType = notificationType;
+    }
+
+    public LocalDateTime getNotificationTime() {
         return notificationTime;
     }
 
-    public void setNotificationTime(Date notificationTime) {
+    public void setNotificationTime(LocalDateTime notificationTime) {
         this.notificationTime = notificationTime;
     }
 

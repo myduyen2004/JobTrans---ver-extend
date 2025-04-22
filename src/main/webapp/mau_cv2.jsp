@@ -39,6 +39,7 @@
     }
 
     .cong body {
+    body {
         font-family: 'Roboto', sans-serif;
         background-color: #f5f7fa;
         color: var(--text);
@@ -46,7 +47,6 @@
         min-height: 100vh;
         display: flex;
         justify-content: center;
-        padding: 40px 0;
     }
 
     .cong .cv-container {
@@ -391,7 +391,7 @@
     }
 
 </style>
-<body class="archive post-type-archive post-type-archive-projects wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
+<body>
 
 
 <%@include file="./includes/header-01.jsp" %>
@@ -614,7 +614,8 @@
     <%--        <%@include file="includes/sidebar_cv.jsp" %>--%>
     <%--    </div>--%>
 </div>
-<%@include file="includes/footer.jsp" %>
 
 </body>
+<%@include file="includes/footer.jsp" %>
+
 </html>

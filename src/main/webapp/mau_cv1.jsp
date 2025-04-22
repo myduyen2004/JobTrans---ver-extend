@@ -6,7 +6,6 @@
     <title>Sample CV Preview</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Roboto:wght@300;400;500;700&display=swap"
           rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         :root {
             --primary: #4361ee;
@@ -18,19 +17,6 @@
             --border: #dee2e6;
             /*--shadow: 0 4px 20px rgba(0, 0, 0, 0.08);*/
             /*--radius: 8px;*/
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Roboto', sans-serif;
-        }
-
-        body {
-            top: 0;
-            background-color: #f5f7fb;
-            padding: 30px;
         }
 
         .cv-container {
@@ -187,6 +173,20 @@
     </div>
 
     <div style="display: flex">
+<div style="display: flex">
+    <div class="cv-container">
+        <!-- Left Sidebar -->
+        <div class="cv-sidebar">
+            <img src="/api/placeholder/180/180" alt="Profile Photo" class="profile-img">
+
+            <h2 class="section-title">Liên hệ</h2>
+            <div class="contact-info">
+                <p><i class="fas fa-venus-mars"></i> Nam</p>
+                <p><i class="fas fa-birthday-cake"></i> 15/07/1995</p>
+                <p><i class="fas fa-phone"></i> 098 765 4321</p>
+                <p><i class="fas fa-envelope"></i> nguyen.van.a@gmail.com</p>
+                <p><i class="fas fa-map-marker-alt"></i> Quận 1, TP. Hồ Chí Minh</p>
+            </div>
 
         <div class="cv-container">
             <!-- Left Sidebar -->
@@ -382,5 +382,8 @@
     </div>
     <%@include file="includes/footer.jsp" %>
 
+    <%@include file="includes/sidebar_cv.jsp" %>
+</div>
 </body>
+<%@include file="includes/footer.jsp" %>
 </html>

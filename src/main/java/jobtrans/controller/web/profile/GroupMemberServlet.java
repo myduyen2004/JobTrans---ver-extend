@@ -14,6 +14,7 @@ import javax.servlet.http.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Member;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -50,6 +51,13 @@ public class GroupMemberServlet extends HttpServlet {
                     throw new RuntimeException(e);
                 }
                 break;
+            case "showUpdateMember":
+                try {
+                    showUpdateMember(request, response);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                break;
             case "delete":
                 try {
                     deleteMember(request, response);
@@ -65,31 +73,288 @@ public class GroupMemberServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        response.setContentType("text/html;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
-        switch (action) {
-            case "create":
-                try {
-                    createMember(request, response);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
+        if(action == null){
+            try {
+                Account sessionAccount = (Account) session.getAttribute("sessionAccount");
+                if (sessionAccount == null) {
+                    response.sendRedirect("login.jsp");
+                    return;
                 }
-                break;
-            case "delete":
-                try {
-                    deleteMember(request, response);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
+                Account account = accountDAO.getAccountById(sessionAccount.getAccountId());
+                // Create new member object and populate it from request parameters
+                GroupMember member = new GroupMember();
+
+                member.setAccountId(account.getAccountId());
+//            String accountId = request.getParameter("accountId");
+//            if (accountId != null && !accountId.isEmpty()) {
+//                member.setAccountId(Integer.parseInt(accountId));
+//            }
+
+                member.setMemberName(request.getParameter("memberName"));
+                member.setBio(request.getParameter("bio"));
+                String dobString = request.getParameter("dateOfBirth");
+                if (dobString != null && !dobString.isEmpty()) {
+                    LocalDate localDate = LocalDate.parse(dobString); // yyyy-MM-dd
+                    java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
+                    member.setDateOfBirth(sqlDate);
                 }
-                break;
-            case "update":
-                try {
-                    updateMember(request, response);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
+
+                member.setAddress(request.getParameter("address"));
+                member.setPhone(request.getParameter("phone"));
+                member.setSpeciality(request.getParameter("speciality"));
+                member.setGender(request.getParameter("gender"));
+                member.setExperienceYears(Integer.parseInt(request.getParameter("experienceYears")));
+                String statusParam = request.getParameter("status");
+                member.setStatus(statusParam != null && statusParam.equals("on") ? "Đang hoạt động" : "Ngừng hoạt động");
+
+                member.setEducation(request.getParameter("education"));
+                member.setPosition(request.getParameter("position"));
+                member.setSkills(request.getParameter("skills"));
+
+                // Handle file upload for avatar
+                Part filePart = request.getPart("avatar");
+                if (filePart != null && filePart.getSize() > 0) {
+                    String fileName = getUniqueFileName(getSubmittedFileName(filePart));
+                    String uploadPath = getServletContext().getRealPath("/") + "img/avatar/";
+
+                    // Create directory if it doesn't exist
+                    File uploadDir = new File(uploadPath);
+                    if (!uploadDir.exists()) {
+                        uploadDir.mkdirs();
+                    }
+
+                    // Save the file
+                    filePart.write(uploadPath + fileName);
+                    member.setAvatarMember("img/avatar/" + fileName);
+                } else {
+                    member.setAvatarMember("img/default-avatar.jpg");
                 }
-                break;
-            default:
-                break;
+
+                // Save member to database
+                boolean success = groupMemberDAO.createMember(member);
+
+//            response.getWriter().print(member);
+
+                if (success) {
+                    // Thêm thông báo thành công
+                    session.setAttribute("successMessage", "Cập nhật thành viên thành công!");
+                    response.sendRedirect("group?action=view&account_id=" + account.getAccountId());
+                } else {
+                    request.setAttribute("error", "Không thể cập nhật thành viên");
+                    request.setAttribute("member", member);
+                    response.sendRedirect("group?action=view&account_id=" + account.getAccountId());
+                }
+
+//            if (success) {
+//                // Check if we need to send welcome email
+//                boolean sendEmail = "on".equals(request.getParameter("sendWelcomeEmail"));
+//                if (sendEmail) {
+//                    // Code to send welcome email would go here
+//                    // For now we'll just set a message about it
+//                    request.getSession().setAttribute("emailSent", true);
+//                }
+//
+//                response.sendRedirect(request.getContextPath() + "/member/");
+//            } else {
+//                request.setAttribute("error", "Failed to create member");
+//                request.setAttribute("member", member); // Send back the filled form
+//                request.getRequestDispatcher("/WEB-INF/views/member/form.jsp").forward(request, response);
+//            }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                request.setAttribute("error", "An error occurred: " + e.getMessage());
+                request.getRequestDispatcher("404.html").forward(request, response);
+            }
+        } else if (action.equals("update")) {
+            try {
+                Account sessionAccount = (Account) session.getAttribute("sessionAccount");
+                if (sessionAccount == null) {
+                    response.sendRedirect("login.jsp");
+                    return;
+                }
+                Account account = accountDAO.getAccountById(sessionAccount.getAccountId());
+
+                int memberId = Integer.parseInt(request.getParameter("memberId"));
+
+                // Get existing member
+                GroupMember member = groupMemberDAO.getMemberByMemberId(memberId);
+                if (member == null) {
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                    return;
+                }
+
+                String memberName = request.getParameter("memberName");
+                System.out.println("Tên thành viên (servlet): " + memberName);
+
+                member.setMemberName(request.getParameter("memberName"));
+                member.setBio(request.getParameter("bio"));
+                String dobString = request.getParameter("dateOfBirth");
+                if (dobString != null && !dobString.isEmpty()) {
+                    LocalDate localDate = LocalDate.parse(dobString); // yyyy-MM-dd
+                    java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
+                    member.setDateOfBirth(sqlDate);
+                }
+
+                member.setAddress(request.getParameter("address"));
+                member.setPhone(request.getParameter("phone"));
+                member.setSpeciality(request.getParameter("speciality"));
+                member.setGender(request.getParameter("gender"));
+                member.setExperienceYears(Integer.parseInt(request.getParameter("experienceYears")));
+                String statusParam = request.getParameter("status");
+                member.setStatus(statusParam != null && statusParam.equals("on") ? "Đang hoạt động" : "Ngừng hoạt động");
+                member.setEducation(request.getParameter("education"));
+                member.setPosition(request.getParameter("position"));
+                member.setSkills(request.getParameter("skills"));
+
+                // Handle file upload for avatar
+            Part filePart = request.getPart("avatar");
+            if (filePart != null && filePart.getSize() > 0) {
+                String fileName = getUniqueFileName(getSubmittedFileName(filePart));
+                String uploadPath = getServletContext().getRealPath("/") + "img/avatar/";
+
+                // Create directory if it doesn't exist
+                File uploadDir = new File(uploadPath);
+                if (!uploadDir.exists()) {
+                    uploadDir.mkdirs();
+                }
+
+                // Delete old avatar file if it's not the default
+                if (member.getAvatarMember() != null && !member.getAvatarMember().equals("img/default-avatar.jpg")) {
+                    File oldFile = new File(getServletContext().getRealPath("/") + member.getAvatarMember());
+                    if (oldFile.exists()) {
+                        oldFile.delete();
+                    }
+                }
+
+                // Save the new file
+                filePart.write(uploadPath + fileName);
+                member.setAvatarMember("img/avatar/" + fileName);
+            }
+
+                // Update member in database
+                boolean success = groupMemberDAO.updateMember(member);
+//            response.getWriter().print(member);
+//            response.sendRedirect("group?action=view&account_id=" + account.getAccountId());
+            if (success) {
+                // Thêm thông báo thành công
+                session.setAttribute("successMessage", "Cập nhật thành viên thành công!");
+                response.sendRedirect("group?action=view&account_id=" + account.getAccountId());
+            } else {
+                request.setAttribute("error", "Không thể cập nhật thành viên");
+                request.setAttribute("member", member);
+                response.sendRedirect("group?action=view&account_id=" + account.getAccountId());
+            }
+
+            } catch (NumberFormatException e) {
+                response.getWriter().print(e.getMessage());
+            } catch (Exception e) {
+                response.getWriter().print(e.getMessage());
+                request.setAttribute("error", "An error occurred: " + e.getMessage());
+                request.getRequestDispatcher("/WEB-INF/views/member/form.jsp").forward(request, response);
+            }
+        }
+
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        response.setContentType("text/html;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+
+        try {
+            Account sessionAccount = (Account) session.getAttribute("sessionAccount");
+            if (sessionAccount == null) {
+                response.sendRedirect("login.jsp");
+                return;
+            }
+            Account account = accountDAO.getAccountById(sessionAccount.getAccountId());
+
+            int memberId = Integer.parseInt(request.getParameter("memberId"));
+
+            // Get existing member
+            GroupMember member = groupMemberDAO.getMemberByMemberId(memberId);
+            if (member == null) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
+
+            String memberName = request.getParameter("memberName");
+            System.out.println("Tên thành viên (servlet): " + memberName);
+
+            member.setMemberName(request.getParameter("memberName"));
+            member.setBio(request.getParameter("bio"));
+            String dobString = request.getParameter("dateOfBirth");
+            if (dobString != null && !dobString.isEmpty()) {
+                LocalDate localDate = LocalDate.parse(dobString); // yyyy-MM-dd
+                java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
+                member.setDateOfBirth(sqlDate);
+            }
+
+            member.setAddress(request.getParameter("address"));
+            member.setPhone(request.getParameter("phone"));
+            member.setSpeciality(request.getParameter("speciality"));
+            member.setGender(request.getParameter("gender"));
+            member.setExperienceYears(Integer.parseInt(request.getParameter("experienceYears")));
+            String statusParam = request.getParameter("status");
+            member.setStatus(statusParam != null && statusParam.equals("on") ? "Đang hoạt động" : "Ngừng hoạt động");
+            member.setEducation(request.getParameter("education"));
+            member.setPosition(request.getParameter("position"));
+            member.setSkills(request.getParameter("skills"));
+
+            // Handle file upload for avatar
+//            Part filePart = request.getPart("avatar");
+//            if (filePart != null && filePart.getSize() > 0) {
+//                String fileName = getUniqueFileName(getSubmittedFileName(filePart));
+//                String uploadPath = getServletContext().getRealPath("/") + "img/avatar/";
+//
+//                // Create directory if it doesn't exist
+//                File uploadDir = new File(uploadPath);
+//                if (!uploadDir.exists()) {
+//                    uploadDir.mkdirs();
+//                }
+//
+//                // Delete old avatar file if it's not the default
+//                if (member.getAvatarMember() != null && !member.getAvatarMember().equals("img/default-avatar.jpg")) {
+//                    File oldFile = new File(getServletContext().getRealPath("/") + member.getAvatarMember());
+//                    if (oldFile.exists()) {
+//                        oldFile.delete();
+//                    }
+//                }
+//
+//                // Save the new file
+//                filePart.write(uploadPath + fileName);
+//                member.setAvatarMember("img/avatar/" + fileName);
+//            }
+
+            // Update member in database
+            boolean success = groupMemberDAO.updateMember(member);
+//            response.getWriter().print(member);
+//            response.sendRedirect("group?action=view&account_id=" + account.getAccountId());
+            System.out.println(member);
+//            if (success) {
+//                // Thêm thông báo thành công
+//                session.setAttribute("successMessage", "Cập nhật thành viên thành công!");
+//                response.sendRedirect("group?action=view&account_id=" + account.getAccountId());
+//            } else {
+//                request.setAttribute("error", "Không thể cập nhật thành viên");
+//                request.setAttribute("member", member);
+//                response.sendRedirect("group?action=view&account_id=" + account.getAccountId());
+//            }
+
+        } catch (NumberFormatException e) {
+            response.getWriter().print(e.getMessage());
+        } catch (Exception e) {
+            response.getWriter().print(e.getMessage());
+            request.setAttribute("error", "An error occurred: " + e.getMessage());
+            request.getRequestDispatcher("/WEB-INF/views/member/form.jsp").forward(request, response);
         }
     }
 
@@ -110,76 +375,66 @@ public class GroupMemberServlet extends HttpServlet {
     }
 
     private void showAddMember(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        HttpSession session = request.getSession();
-//        Account account = (Account) session.getAttribute("sessionAccount");
-//        Account account01 = accountDAO.getAccountById(account.getAccountId());
-//        List<GroupMember> members = groupMemberDAO.getMembersByAccountId(account.getAccountId());
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("sessionAccount");
+        Account account01 = accountDAO.getAccountById(account.getAccountId());
 
-        int accountId = Integer.parseInt(request.getParameter("account_id"));
-        Account account01 = accountDAO.getAccountById(accountId);
         request.setAttribute("account", account01);
         request.getRequestDispatcher("add-member.jsp").forward(request, response);
     }
 
-    private void updateMemberInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        int memberId = Integer.parseInt(request.getParameter("member_id"));
+    private void showUpdateMember(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("sessionAccount");
+        if (account == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+        Account account01 = accountDAO.getAccountById(account.getAccountId());
+        int memberId = Integer.parseInt(request.getParameter("memberId"));
         GroupMember member = groupMemberDAO.getMemberByMemberId(memberId);
 
-        // Update member information from form data
-        member.setMemberName(request.getParameter("memberName"));
-        String dateOfBirthStr = request.getParameter("dateOfBirth");
-        if (dateOfBirthStr != null && !dateOfBirthStr.isEmpty()) {
-            try {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Date dateOfBirth = dateFormat.parse(dateOfBirthStr);
-                member.setDateOfBirth(new java.sql.Date(dateOfBirth.getTime()));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
+        System.out.println(member);
 
-        member.setGender(request.getParameter("gender"));
-        String experienceYearsStr = request.getParameter("experienceYears");
-        if (experienceYearsStr != null && !experienceYearsStr.isEmpty()) {
-            member.setExperienceYears(Integer.parseInt(experienceYearsStr));
-        }
-
-        member.setEducation(request.getParameter("education"));
-        member.setBio(request.getParameter("bio"));
-        member.setSpeciality(request.getParameter("speciality"));
-
-        // Save updated member
-        boolean updated = groupMemberDAO.updateMember(member);
-
-        // Redirect back to the team account page
-        if (updated) {
-            request.setAttribute("message", "Member information updated successfully!");
-        } else {
-            request.setAttribute("error", "Failed to update member information.");
-        }
-        request.setAttribute("error", new Error("Lỗi xảy ra"));
-        PrintWriter out = response.getWriter();
-        response.setContentType("text/html");
-        response.setCharacterEncoding("UTF-8");
-        response.sendRedirect(request.getContextPath() + "/group?action=showUpdateGroup&account_id=" + member.getAccountId());
+//        int accountId = Integer.parseInt(request.getParameter("account_id"));
+//        Account account01 = accountDAO.getAccountById(accountId);
+        request.setAttribute("account", account01);
+        request.setAttribute("member", member);
+        request.getRequestDispatcher("edit-member.jsp").forward(request, response);
     }
 
     private void createMember(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            response.setContentType("text/html;charset=UTF-8");
-            request.setCharacterEncoding("UTF-8");
-            response.setCharacterEncoding("UTF-8");
-            // Create new member object and populate it from request parameters
-            GroupMember member = new GroupMember();
 
-            String accountId = request.getParameter("accountId");
-            member.setMemberName(request.getParameter("memberName"));
-            String accountIdParam = request.getParameter("accountId");
-            if (accountIdParam != null && !accountIdParam.isEmpty()) {
-                member.setAccountId(Integer.parseInt(accountIdParam));
+    }
+
+    private void updateMember(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        response.setContentType("text/html;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        try {
+            Account sessionAccount = (Account) session.getAttribute("sessionAccount");
+            if (sessionAccount == null) {
+                response.sendRedirect("login.jsp");
+                return;
+            }
+            Account account = accountDAO.getAccountById(sessionAccount.getAccountId());
+
+            int memberId = Integer.parseInt(request.getParameter("memberId"));
+
+            // Get existing member
+            GroupMember member = groupMemberDAO.getMemberByMemberId(memberId);
+            if (member == null) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                return;
             }
 
+            String memberName = request.getParameter("memberName");
+            System.out.println("Tên thành viên (servlet): " + memberName);
+
+            member.setMemberName(request.getParameter("memberName"));
             member.setBio(request.getParameter("bio"));
             String dobString = request.getParameter("dateOfBirth");
             if (dobString != null && !dobString.isEmpty()) {
@@ -188,7 +443,6 @@ public class GroupMemberServlet extends HttpServlet {
                 member.setDateOfBirth(sqlDate);
             }
 
-
             member.setAddress(request.getParameter("address"));
             member.setPhone(request.getParameter("phone"));
             member.setSpeciality(request.getParameter("speciality"));
@@ -196,118 +450,15 @@ public class GroupMemberServlet extends HttpServlet {
             member.setExperienceYears(Integer.parseInt(request.getParameter("experienceYears")));
             String statusParam = request.getParameter("status");
             member.setStatus(statusParam != null && statusParam.equals("on") ? "Đang hoạt động" : "Ngừng hoạt động");
-
             member.setEducation(request.getParameter("education"));
             member.setPosition(request.getParameter("position"));
+            member.setSkills(request.getParameter("skills"));
 
             // Handle file upload for avatar
             Part filePart = request.getPart("avatar");
             if (filePart != null && filePart.getSize() > 0) {
                 String fileName = getUniqueFileName(getSubmittedFileName(filePart));
                 String uploadPath = getServletContext().getRealPath("/") + "img/avatar/";
-
-                // Create directory if it doesn't exist
-                File uploadDir = new File(uploadPath);
-                if (!uploadDir.exists()) {
-                    uploadDir.mkdirs();
-                }
-
-                // Save the file
-                filePart.write(uploadPath + fileName);
-                member.setAvatarMember("img/avatar/" + fileName);
-            } else {
-                member.setAvatarMember("img/avatar-default.jpg");
-            }
-
-            // Save member to database
-            boolean success = groupMemberDAO.createMember(member);
-
-            response.sendRedirect("group?action=view&account_id=" + accountId);
-
-
-//            if (success) {
-//                // Check if we need to send welcome email
-//                boolean sendEmail = "on".equals(request.getParameter("sendWelcomeEmail"));
-//                if (sendEmail) {
-//                    // Code to send welcome email would go here
-//                    // For now we'll just set a message about it
-//                    request.getSession().setAttribute("emailSent", true);
-//                }
-//
-//                response.sendRedirect(request.getContextPath() + "/member/");
-//            } else {
-//                request.setAttribute("error", "Failed to create member");
-//                request.setAttribute("member", member); // Send back the filled form
-//                request.getRequestDispatcher("/WEB-INF/views/member/form.jsp").forward(request, response);
-//            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            request.setAttribute("error", "An error occurred: " + e.getMessage());
-            request.getRequestDispatcher("404.html").forward(request, response);
-        }
-    }
-
-    private void updateMember(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        try {
-            // Get member ID from request
-            int memberId = Integer.parseInt(request.getParameter("memberId"));
-
-            // Get existing member
-            GroupMember member = groupMemberDAO.getMemberById(memberId);
-            if (member == null) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND);
-                return;
-            }
-
-            // Update member properties from request parameters
-            member.setMemberName(request.getParameter("memberName"));
-
-            // Handle account ID
-            String accountIdParam = request.getParameter("accountId");
-            if (accountIdParam != null && !accountIdParam.isEmpty()) {
-                member.setAccountId(Integer.parseInt(accountIdParam));
-            }
-
-            member.setBio(request.getParameter("bio"));
-
-            // Handle date of birth
-            String dobString = request.getParameter("dateOfBirth");
-            if (dobString != null && !dobString.isEmpty()) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                Date dob = sdf.parse(dobString);
-                member.setDateOfBirth(dob);
-            }
-
-            member.setSpeciality(request.getParameter("specialty"));
-            member.setGender(request.getParameter("memberGender"));
-
-            // Handle experience years
-            String expParam = request.getParameter("experience");
-            if (expParam != null && !expParam.isEmpty()) {
-                if (expParam.equals("1")) {
-                    member.setExperienceYears(0); // Under 1 year
-                } else if (expParam.equals("1-3")) {
-                    member.setExperienceYears(2); // Average of 1-3
-                } else if (expParam.equals("3-5")) {
-                    member.setExperienceYears(4); // Average of 3-5
-                } else if (expParam.equals("5+")) {
-                    member.setExperienceYears(5); // 5+ years
-                }
-            }
-
-            // Status (active/inactive)
-            String statusParam = request.getParameter("status");
-            member.setStatus(statusParam != null && statusParam.equals("on") ? "active" : "inactive");
-
-            member.setEducation(request.getParameter("education"));
-            member.setPosition(request.getParameter("memberRole"));
-
-            // Handle file upload for avatar
-            Part filePart = request.getPart("imageUpload");
-            if (filePart != null && filePart.getSize() > 0) {
-                String fileName = getUniqueFileName(getSubmittedFileName(filePart));
-                String uploadPath = getServletContext().getRealPath("/") + "uploads/avatars/";
 
                 // Create directory if it doesn't exist
                 File uploadDir = new File(uploadPath);
@@ -325,22 +476,24 @@ public class GroupMemberServlet extends HttpServlet {
 
                 // Save the new file
                 filePart.write(uploadPath + fileName);
-                member.setAvatarMember("uploads/avatars/" + fileName);
+                member.setAvatarMember("img/avatar/" + fileName);
             }
 
             // Update member in database
             boolean success = groupMemberDAO.updateMember(member);
 
-//            if (success) {
-//                response.sendRedirect(request.getContextPath() + "/member/view/" + memberId);
-//            } else {
-//                request.setAttribute("error", "Failed to update member");
-//                request.setAttribute("member", member); // Send back the filled form
-//                request.getRequestDispatcher("/WEB-INF/views/member/form.jsp").forward(request, response);
-//            }
-        } catch (ParseException e) {
-            request.setAttribute("error", "Invalid date format");
-            request.getRequestDispatcher("/WEB-INF/views/member/form.jsp").forward(request, response);
+//            response.sendRedirect("group?action=view&account_id=" + account.getAccountId());
+
+            if (success) {
+                // Thêm thông báo thành công
+                session.setAttribute("successMessage", "Cập nhật thành viên thành công!");
+                response.sendRedirect("group?action=view&account_id=" + account.getAccountId());
+            } else {
+                request.setAttribute("error", "Không thể cập nhật thành viên");
+                request.setAttribute("member", member);
+                response.sendRedirect("group?action=view&account_id=" + account.getAccountId());
+            }
+
         } catch (NumberFormatException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         } catch (Exception e) {

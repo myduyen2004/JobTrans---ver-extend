@@ -1,7 +1,6 @@
 package jobtrans.dal;
 
-import jobtrans.model.Account;
-import jobtrans.model.Transaction;
+import jobtrans.model.*;
 import jobtrans.utils.DBConnection;
 import jobtrans.utils.ImgHandler;
 import jobtrans.utils.PasswordEncoder;
@@ -10,6 +9,7 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,7 +47,7 @@ public class AccountDAO {
         account.setSkills(rs.getNString("skills"));
         account.setBio(rs.getNString("bio"));
         account.setPoint(rs.getInt("point"));
-        account.setStarRate(rs.getBigDecimal("star_rate"));
+        account.setStarRate(rs.getDouble("star_rate"));
         account.setAmountWallet(rs.getBigDecimal("amount_wallet"));
         account.setVerifiedLink(rs.getString("verified_link"));
         account.setVerifiedAccount(rs.getBoolean("verified_account"));
@@ -241,7 +241,7 @@ public class AccountDAO {
         }
     }
 
-    //Method to update an account
+//    Method to update an account
     public boolean updateAccountByEmail(Account account) {
         String sql = "UPDATE Account SET " +
                 "account_name = ?, password = ?, avatar = ?, oauth_id = ?, oauth_provider = ?, " +
@@ -287,7 +287,7 @@ public class AccountDAO {
                 stmt.setNull(15, Types.INTEGER);
             }
 
-            stmt.setBigDecimal(16, account.getStarRate());
+            stmt.setBigDecimal(16, BigDecimal.valueOf(account.getStarRate()));
             stmt.setBigDecimal(17, account.getAmountWallet());
             stmt.setNString(18, account.getVerifiedLink());
             stmt.setBoolean(19, account.isVerifiedAccount());
@@ -374,7 +374,7 @@ public class AccountDAO {
                 stmt.setNull(15, Types.INTEGER);
             }
 
-            stmt.setBigDecimal(16, account.getStarRate());
+            stmt.setBigDecimal(16, BigDecimal.valueOf(account.getStarRate()));
             stmt.setBigDecimal(17, account.getAmountWallet());
             stmt.setNString(18, account.getVerifiedLink());
             stmt.setBoolean(19, account.isVerifiedAccount());
@@ -466,10 +466,412 @@ public class AccountDAO {
         }
     }
 
-    public static void main(String[] args) {
-        AccountDAO dao = new AccountDAO();
-        System.out.println(dao.getAllUserAccounts());
+    public List<Account> get5Accounts() {
+        List<Account> accounts = new ArrayList<>();
+        String sql = "SELECT TOP 5 account_name, avatar, address, speciality, point, star_rate\n" +
+                "FROM Account\n" +
+                "WHERE status = N'Đang hoạt động'\n" +
+                "ORDER BY point DESC, star_rate DESC;";
+
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Account account = new Account();
+                account.setAccountName(rs.getString("account_name"));
+                account.setAvatar(rs.getString("avatar"));
+                account.setAddress(rs.getString("address"));
+                account.setSpeciality(rs.getString("speciality"));
+                account.setPoint(rs.getInt("point"));
+                account.setStarRate(rs.getDouble("star_rate"));
+                accounts.add(account);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace(); // hoặc log lỗi tùy dự án
+        }
+
+        return accounts;
     }
 
+
+    public boolean addAmountWallet(int accountId, BigDecimal amount) {
+        String sql = "UPDATE Account SET amount_wallet = amount_wallet + ? WHERE account_id = ?";
+        try (PreparedStatement ps = dbConnection.openConnection().prepareStatement(sql)) {
+            ps.setBigDecimal(1, amount);
+            ps.setInt(2, accountId);
+            int rows = ps.executeUpdate();
+            return rows > 0;
+
+    public List<Report> getReportByreportedAccount(int reportedId) {
+        List<Report> list = new ArrayList<>();
+
+        String query = "select * from Report where reported_account=?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, reportedId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Report report = new Report();
+                report.setReportId(rs.getInt("report_id"));
+                report.setJobId(rs.getInt("job_id"));
+                report.setReportedAccount(rs.getInt("reported_account"));
+                report.setReportBy(rs.getInt("report_by"));
+                report.setCriteriaId(rs.getInt("criteria_id"));
+                report.setContentReport(rs.getString("content_report"));
+                report.setAttachment(rs.getString("attachment"));
+                report.setReportTime(rs.getTimestamp("report_time"));
+                report.setStatus(rs.getString("status"));
+                list.add(report);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
+    }
+
+    public List<Report> getReportByreportBy(int reporterId) {
+        List<Report> list = new ArrayList<>();
+
+        String query = "select * from Report where report_by=?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, reporterId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Report report = new Report();
+                report.setReportId(rs.getInt("report_id"));
+                report.setJobId(rs.getInt("job_id"));
+                report.setReportedAccount(rs.getInt("reported_account"));
+                report.setReportBy(rs.getInt("report_by"));
+                report.setCriteriaId(rs.getInt("criteria_id"));
+                report.setContentReport(rs.getString("content_report"));
+                report.setAttachment(rs.getString("attachment"));
+                report.setReportTime(rs.getTimestamp("report_time"));
+                report.setStatus(rs.getString("status"));
+                list.add(report);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
+    }
+
+    public Criteria getCriteriaById(int criteriaId) {
+        Criteria criteria = new Criteria();
+
+        String query = "select * from Criteria where criteria_id=?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, criteriaId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                criteria.setCriteriaId(rs.getInt("criteria_id"));
+                criteria.setCriteriaPoint(rs.getInt("criteria_point"));
+                criteria.setContent(rs.getString("content"));
+                criteria.setLabelTag(rs.getString("label_tag"));
+                criteria.setTypeCriteria(rs.getString("type_criteria"));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return criteria;
+    }
+
+    public int getNumberOfReportsByReportedAcc(int id) {
+        int count = 0;
+
+        String query = "select count(*) nums from Report where reported_account=?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("nums");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return count;
+    }
+
+    public int getNumOfReportsByReportBy(int id){
+        int count = 0;
+
+        String query = "select count(*) nums from Report where report_by=?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("nums");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return count;
+    }
+
+    public int getNumberOfReports() {
+        int count = 0;
+
+        String query = "select count(*) nums from Report";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("nums");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return count;
+    }
+
+    public int getNumberOfResolvedReports() {
+        int count = 0;
+
+        String query = "select count(*) nums from Report where status=?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setNString(1,"Đã xử lí");
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("nums");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return count;
+    }
+
+    public int getNumberOfRejectedReports() {
+        int count = 0;
+
+        String query = "select count(*) nums from Report where status=?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setNString(1,"Bị từ chối");
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("nums");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return count;
+    }
+
+    public int getNumberOfPendingReports() {
+        int count = 0;
+
+        String query = "select count(*) nums from Report where status=?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setNString(1,"Chờ xử lí");
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("nums");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return count;
+    }
+
+    public List<Report> getReports() {
+        List<Report> list = new ArrayList<>();
+
+        String query = "select * from Report";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Report report = new Report();
+                report.setReportId(rs.getInt("report_id"));
+                report.setJobId(rs.getInt("job_id"));
+                report.setReportedAccount(rs.getInt("reported_account"));
+                report.setReportBy(rs.getInt("report_by"));
+                report.setCriteriaId(rs.getInt("criteria_id"));
+                report.setContentReport(rs.getString("content_report"));
+                report.setAttachment(rs.getString("attachment"));
+                report.setReportTime(rs.getTimestamp("report_time"));
+                report.setStatus(rs.getString("status"));
+                list.add(report);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
+    }
+
+    public Report getReportById(int reportId) {
+        Report report = new Report();
+
+        String query = "select * from Report where report_id=?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, reportId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                report.setReportId(rs.getInt("report_id"));
+                report.setJobId(rs.getInt("job_id"));
+                report.setReportedAccount(rs.getInt("reported_account"));
+                report.setReportBy(rs.getInt("report_by"));
+                report.setCriteriaId(rs.getInt("criteria_id"));
+                report.setContentReport(rs.getString("content_report"));
+                report.setAttachment(rs.getString("attachment"));
+                report.setReportTime(rs.getTimestamp("report_time"));
+                report.setStatus(rs.getString("status"));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return report;
+    }
+
+    public boolean updateReportStatus(int reportId, String status) {
+        String query = "update Report set status=? where report_id=?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setNString(1, status);
+            ps.setInt(2, reportId);
+            int rowEffect = ps.executeUpdate();
+            return rowEffect > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updatePointAccount(int accountId, int point) {
+        String query = "update Account set point=point + ? where account_id=?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, point);
+            ps.setInt(2, accountId);
+            int rowEffect = ps.executeUpdate();
+            return rowEffect > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    public boolean updateCountAccount(int accountId, int count) {
+        String query = "update Account set count=? where account_id=?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, count);
+            ps.setInt(2, accountId);
+            int rowEffect = ps.executeUpdate();
+            return rowEffect > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean banAccount(int accountId) {
+        String query = "update Account set status=? where account_id=?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setNString(1,"Bị cấm");
+            ps.setInt(2, accountId);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean insertPointHistory(int accountId, int criteriaId, String pointNote){
+        String sql = "INSERT INTO PointHistory (account_id, criteria_id, point_note) VALUES (?, ?, ?)";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, accountId);
+            ps.setInt(2, criteriaId);
+            ps.setNString(3, pointNote);
+            int rowEffect = ps.executeUpdate();
+            return rowEffect > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+
+
+    }
+
+    public static void main(String[] args) {
+        AccountDAO dao = new AccountDAO();
+        Account account = dao.getAccountById(6);
+        System.out.println(account.getStarRate());
+
+
+
+    }
+
+    public boolean substractAmountWallet(int accountId, BigDecimal amount) {
+        String sql = "UPDATE Account SET amount_wallet = amount_wallet - ? WHERE account_id = ? AND amount_wallet >= ?";
+        try (PreparedStatement ps = dbConnection.openConnection().prepareStatement(sql)) {
+            ps.setBigDecimal(1, amount);
+            ps.setInt(2, accountId);
+            ps.setBigDecimal(3, amount); // để tránh âm ví
+            int rows = ps.executeUpdate();
+            return rows > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
+
+
 

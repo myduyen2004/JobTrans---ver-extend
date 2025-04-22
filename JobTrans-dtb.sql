@@ -372,9 +372,14 @@ CREATE TABLE JobTag (
     job_tag_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
     tag_id INT NOT NULL,
     job_id INT NOT NULL,
-    FOREIGN KEY (job_tag_id) REFERENCES Job(job_id),
+    FOREIGN KEY (job_id) REFERENCES Job(job_id),
     FOREIGN KEY (tag_id) REFERENCES Tag(tag_id)
 );
+-- Xóa bằng tool FK liên quan đến job_id
+-- Bước 2: Thêm lại ràng buộc khóa ngoại với ON DELETE CASCADE
+ALTER TABLE JobTag
+ADD CONSTRAINT FK_JobTag_Job FOREIGN KEY (job_id) REFERENCES Job(job_id) ON DELETE CASCADE;
+
 CREATE TABLE Test (
     test_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	job_id INT NOT NULL, -- test dành cho job nào
@@ -394,6 +399,11 @@ CREATE TABLE Interview (
     -- Thiết lập khóa ngoại tham chiếu đến bảng Job
     CONSTRAINT FK_Interview_Job FOREIGN KEY (job_id) REFERENCES Job(job_id) 
 );
+
+-- Xóa bằng tool FK liên quan đến job_id
+-- Bước 2: Thêm lại ràng buộc khóa ngoại với ON DELETE CASCADE
+ALTER TABLE Interview
+ADD CONSTRAINT FK_Interview_Job FOREIGN KEY (job_id) REFERENCES Job(job_id) ON DELETE CASCADE;
 
 CREATE TABLE JobGreeting (
     greeting_id INT IDENTITY(1,1) PRIMARY KEY,
@@ -555,9 +565,133 @@ CREATE TABLE [Transaction] (
 
 -- Insert type
 INSERT INTO CV_Type (type_name, description, price_cv, image_cv)
-VALUES 
-('Basic CV', N'CV cơ bản với thông tin cá nhân và kinh nghiệm làm việc.', 100000, 'basic_cv_image_url.jpg'),
-('Professional CV', N'CV chuyên nghiệp với các kỹ năng, chứng chỉ, và dự án đã thực hiện.', 200000, 'professional_cv_image_url.jpg'),
-('Creative CV', N'CV sáng tạo, phù hợp cho các ngành thiết kế, nghệ thuật.', 250000, 'creative_cv_image_url.jpg'),
-('Executive CV', N'CV cao cấp cho các ứng viên cấp cao, bao gồm các dự án quản lý và thành tựu nổi bật.', 500000, 'executive_cv_image_url.jpg');
+VALUES
+    ('Basic CV', N'CV cơ bản với thông tin cá nhân và kinh nghiệm làm việc.', 100000, 'basic_cv_image_url.jpg'),
+    ('Professional CV', N'CV chuyên nghiệp với các kỹ năng, chứng chỉ, và dự án đã thực hiện.', 200000, 'professional_cv_image_url.jpg'),
+    ('Creative CV', N'CV sáng tạo, phù hợp cho các ngành thiết kế, nghệ thuật.', 250000, 'creative_cv_image_url.jpg'),
+    ('Executive CV', N'CV cao cấp cho các ứng viên cấp cao, bao gồm các dự án quản lý và thành tựu nổi bật.', 500000, 'executive_cv_image_url.jpg');
 
+INSERT INTO School (school_name)
+VALUES
+    (N'Đại học Bách Khoa Hà Nội'),
+    (N'Đại học Quốc gia TP.HCM'),
+    (N'Đại học Kinh tế Quốc dân'),
+    (N'Đại học FPT'),
+    (N'Khác');
+INSERT INTO Certification (certification_name)
+VALUES
+    (N'Chứng chỉ IELTS'),
+    (N'Chứng chỉ TOEIC'),
+    (N'Chứng chỉ MOS'),
+    (N'Chứng chỉ Lập trình Java cơ bản'),
+    (N'Khác');
+INSERT INTO Company (company_name, description)
+VALUES
+    (N'Công ty Cổ phần ABC', N'Công ty công nghệ chuyên về phát triển phần mềm.'),
+    (N'Tập đoàn XYZ', N'Tập đoàn đa quốc gia hoạt động trong lĩnh vực tài chính và ngân hàng.'),
+    (N'Công ty TNHH DEF', N'Chuyên cung cấp giải pháp thương mại điện tử.'),
+    (N'Công ty StartUp GHI', N'Khởi nghiệp trong lĩnh vực AI và dữ liệu lớn.'),
+    (N'Khác', N'');
+INSERT INTO Main_Skill (main_skill)
+VALUES
+    (N'Lập trình'),
+    (N'Ngôn ngữ'),
+    (N'Thiết kế'),
+    (N'Quản lý dự án'),
+    (N'Khác');
+INSERT INTO Skill (mainSkill_id, skill)
+VALUES
+    (1, N'Java'),
+    (1, N'Python'),
+    (2, N'Tiếng Anh'),
+    (2, N'Tiếng Hàn'),
+    (3, N'Photoshop'),
+    (3, N'Figma'),
+    (4, N'Scrum'),
+    (4, N'Kanban'),
+    (5, N'Khác');
+
+INSERT INTO JobCategory (category_name, description)
+VALUES
+    (N'Design', N'Công việc liên quan đến thiết kế đồ họa, UI/UX...'),
+    (N'Marketing', N'Công việc liên quan đến quảng cáo, truyền thông...'),
+    (N'Công nghệ & IT', N'Lập trình, phát triển phần mềm, kỹ thuật máy tính...'),
+    (N'Dịch thuật', N'Biên phiên dịch các ngôn ngữ khác nhau'),
+    (N'Tư vấn Coaching', N'Huấn luyện viên, tư vấn phát triển cá nhân'),
+    (N'Khác', N'Các công việc khác chưa được phân loại');
+-- Insert tag
+INSERT INTO Tag (tag_name, description) VALUES
+                                            (N'Java', N'Lập trình Java cơ bản đến nâng cao'),
+                                            (N'Python', N'Ngôn ngữ lập trình phổ biến cho AI'),
+                                            (N'JavaScript', N'Dùng để phát triển web frontend/backend'),
+                                            (N'HTML', N'Ngôn ngữ đánh dấu siêu văn bản'),
+                                            (N'CSS', N'Thiết kế giao diện website'),
+                                            (N'JSP', N'JavaServer Pages cho web Java'),
+                                            (N'Node.js', N'Môi trường chạy JavaScript phía server'),
+                                            (N'Angular', N'Framework front-end của Google'),
+                                            (N'React', N'Thư viện front-end phổ biến'),
+                                            (N'Vue.js', N'Framework JavaScript dễ học'),
+                                            (N'C#', N'Lập trình .NET của Microsoft'),
+                                            (N'ASP.NET', N'Phát triển web bằng .NET'),
+                                            (N'PHP', N'Ngôn ngữ lập trình web phổ biến'),
+                                            (N'MySQL', N'Hệ quản trị cơ sở dữ liệu mã nguồn mở'),
+                                            (N'SQL Server', N'Hệ quản trị cơ sở dữ liệu của Microsoft'),
+                                            (N'PostgreSQL', N'Cơ sở dữ liệu quan hệ mạnh mẽ'),
+                                            (N'MongoDB', N'Cơ sở dữ liệu NoSQL'),
+                                            (N'Docker', N'Container hóa ứng dụng'),
+                                            (N'Kubernetes', N'Quản lý container'),
+                                            (N'Linux', N'Hệ điều hành mã nguồn mở'),
+                                            (N'Git', N'Hệ thống quản lý phiên bản'),
+                                            (N'GitHub', N'Nền tảng lưu trữ mã nguồn'),
+                                            (N'AWS', N'Nền tảng điện toán đám mây'),
+                                            (N'Azure', N'Dịch vụ đám mây của Microsoft'),
+                                            (N'Firebase', N'Nền tảng backend cho ứng dụng web/mobile'),
+                                            (N'Flutter', N'Phát triển ứng dụng di động đa nền tảng'),
+                                            (N'Android', N'Phát triển ứng dụng di động Android'),
+                                            (N'iOS', N'Phát triển ứng dụng cho hệ điều hành Apple'),
+                                            (N'Unity', N'Phát triển game'),
+                                            (N'AI', N'Trí tuệ nhân tạo và học máy');
+
+DROP TABLE [dbo].[AccountReport]
+DROP TABLE [dbo].[JobReport]
+
+CREATE TABLE Report (
+                        report_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+                        job_id INT,
+                        reported_account INT,
+                        report_by INT,
+                        criteria_id INT,
+                        content_report NVARCHAR(MAX),
+                        attachment NVARCHAR(MAX),
+                        report_time DATETIME DEFAULT GETDATE(),
+                        status NVARCHAR(200) DEFAULT N'Chờ xử lí' CHECK (status IN (N'Chờ xử lí', N'Bị từ chối', N'Đã xử lí')) ,
+                        FOREIGN KEY (job_id) REFERENCES Job(job_id),
+                        FOREIGN KEY (reported_account) REFERENCES Account(account_id),
+                        FOREIGN KEY (report_by) REFERENCES Account(account_id),
+                        FOREIGN KEY (criteria_id) REFERENCES Criteria(criteria_id)
+);
+
+DROP TABLE [Transaction]
+
+-- Tạo bảng Transaction
+CREATE TABLE [Transaction] (
+    transaction_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    sender_id INT NOT NULL,
+    receiver_id INT,
+    job_id INT,
+    amount DECIMAL(18,2) NOT NULL,
+    created_date DATETIME DEFAULT GETDATE(),
+    description NVARCHAR(MAX),
+    transaction_type NVARCHAR(50) DEFAULT N'Thêm tiền' CHECK (transaction_type IN (N'Thêm tiền', N'Trừ tiền', N'Rút tiền')) ,
+    status BIT DEFAULT 1,
+
+    -- Thiết lập khóa ngoại
+    CONSTRAINT FK_Transaction_Sender FOREIGN KEY (sender_id)
+    REFERENCES Account(account_id),
+
+    CONSTRAINT FK_Transaction_Receiver FOREIGN KEY (receiver_id)
+    REFERENCES Account(account_id) ,
+
+    CONSTRAINT FK_Transaction_Job FOREIGN KEY (job_id)
+    REFERENCES Job(job_id)
+    );
