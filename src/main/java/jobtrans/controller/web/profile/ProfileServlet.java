@@ -25,9 +25,11 @@ import java.util.logging.Logger;
 //import jobtrans.model.GroupMember;
 //import org.mindrot.jbcrypt.BCrypt;
 import jobtrans.dal.AccountDAO;
+import jobtrans.dal.NotificationDAO;
 import jobtrans.dal.TransactionDAO;
 import jobtrans.model.Account;
 import jobtrans.model.GroupMember;
+import jobtrans.model.Notification;
 import jobtrans.model.Transaction;
 
 @WebServlet(name = "ProfileServlet", urlPatterns = {"/profile"})
@@ -58,6 +60,9 @@ public class ProfileServlet extends HttpServlet {
                 break;
             case "updateProfile":
 //                updateProfile(request, response);
+                break;
+            case "notification":
+                viewNotification(request,response);
                 break;
             default:
                 response.sendRedirect("infor-account.jsp"); // Trang lỗi nếu action không hợp lệ
@@ -277,7 +282,16 @@ public class ProfileServlet extends HttpServlet {
         request.setAttribute("transList", transList);
         request.getRequestDispatcher("wallet.jsp").forward(request, response);
     }
+    private void viewNotification(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
+        HttpSession session = request.getSession();
+        Account sessionAccount = (Account) session.getAttribute("sessionAccount");
+        NotificationDAO notificationDAO = new NotificationDAO();
+        List<Notification> notificationList = notificationDAO.getNotificationByAccountId(sessionAccount.getAccountId());
+        request.setAttribute("notificationList", notificationList);
+        request.getRequestDispatcher("notification-list.jsp").forward(request, response);
+    }
     //    private void changePassword(HttpServletRequest request, HttpServletResponse response)
 //            throws ServletException, IOException {
 //        HttpSession session = request.getSession();

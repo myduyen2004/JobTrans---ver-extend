@@ -1124,7 +1124,7 @@
                                 </div>
                             </div>
                             <div class="dropdown-footer">
-                                <a href="notifications.jsp">Xem tất cả thông báo</a>
+                                <a href="notification?action=notification">Xem tất cả thông báo</a>
                             </div>
                         </div>
                     </div>
