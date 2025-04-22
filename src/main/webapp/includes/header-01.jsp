@@ -1240,6 +1240,8 @@
               </div>
             </li>
             <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="profile.jsp"><i class="fas fa-user"></i>Hồ sơ cá nhân</a></li>
+            <li><a class="dropdown-item" href="jobGreeting?action=view-applied"><i class="fas fa-file-alt"></i>Đơn ứng tuyển</a></li>
             <c:if test="${sessionScope.sessionAccount.typeAccount == 'Nhóm'}">
               <li><a class="dropdown-item" href="group?action=view&account_id=${sessionScope.sessionAccount.accountId}"><i class="fas fa-user"></i>Hồ sơ cá nhân</a></li>
             </c:if>

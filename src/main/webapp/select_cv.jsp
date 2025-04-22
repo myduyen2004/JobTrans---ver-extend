@@ -37,7 +37,7 @@
 		margin-left: 14%;
 		margin-right: 14%;
 		margin-top: 50px;
-		width: 1100px;
+		width: 1200px;
 	}
 
 	/* Title */
@@ -233,6 +233,15 @@
 			width: 100%;
 		}
 	}
+	.banner_title {
+		background-image: url(./img/anh1/anh1.png);
+		background-size: 100%;
+		font-size: 40px;
+		height: 200px;
+		display: flex;
+		margin-top: 15px;
+		align-items: center;
+	}
 </style>
 
 <body class="archive post-type-archive post-type-archive-projects wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
@@ -242,8 +251,12 @@
 
 <%@include file="includes/header-01.jsp"%>
 
-
+<div class="py-4 banner_title">
+	<h1 class="text-white font-weight-bold" style="padding-left: 50px;">Danh sách CV của bạn</h1>
+</div>
 <div class="container_cv">
+
+
 	<div class="content" id="content">
 		<div class="cv-container">
 			<h2 class="cv-title">Chọn mẫu CV</h2>
@@ -257,7 +270,7 @@
 								<div style="display: flex">
 									<p class="cv-description">${o.typeName}</p>
 
-									<span class="cv-price free">${o.priceCv}</span>
+									<span class="cv-price free">free</span>
 								</div>
 								<p>${o.description}</p>
 								<div class="button-group">
@@ -293,8 +306,6 @@
 </div>
 <%@include file="includes/footer.jsp" %>
 
-<!--======= Back to Top =======-->
-<div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
 
 <script>
 	document.addEventListener("DOMContentLoaded", function () {

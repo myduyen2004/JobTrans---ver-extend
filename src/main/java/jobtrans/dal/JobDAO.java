@@ -311,7 +311,11 @@ public class JobDAO {
             return false;
         }
     }
-
+    public JobGreeting getJobGreetingById(int greetingId) {
+        JobGreeting jobGreeting = null;
+        String sql = "SELECT greeting_id, job_seeker_id, job_id, introduction, attachment, " +
+                "price, status, expected_day, cv_id, have_read " +
+                "FROM JobGreeting WHERE greeting_id = ?";
     public void updateInterviewByJobId(Interview interview){
         String sql = "UPDATE Interview SET "
                 + "start_date = ?, "
@@ -408,6 +412,25 @@ public class JobDAO {
         try (Connection con = dbConnection.openConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
+            ps.setInt(1, greetingId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                jobGreeting = new JobGreeting();
+                jobGreeting.setGreetingId(rs.getInt("greeting_id"));
+                jobGreeting.setJobSeekerId(rs.getInt("job_seeker_id"));
+                jobGreeting.setJobId(rs.getInt("job_id"));
+                jobGreeting.setIntroduction(rs.getString("introduction"));
+                jobGreeting.setAttachment(rs.getString("attachment"));
+                jobGreeting.setPrice(rs.getInt("price"));
+                jobGreeting.setStatus(rs.getString("status"));
+                jobGreeting.setExpectedDay(rs.getInt("expected_day")); // tên cột mới
+                jobGreeting.setCvId(rs.getInt("cv_id"));
+                // Nếu muốn xử lý have_read:
+                // jobGreeting.setHaveRead(rs.getBoolean("have_read"));
+            }
+
+            rs.close();
             ps.setInt(1, categoryId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -422,6 +445,8 @@ public class JobDAO {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        return jobGreeting;
+    }
 
         return jobCategory;
     }

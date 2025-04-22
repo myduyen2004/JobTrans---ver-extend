@@ -350,18 +350,19 @@
                         <input type="text" placeholder="Tìm kiếm theo tên công việc hoặc công ty">
                     </div>
                     <div class="filter-group">
-                        <form action="job" method="get">
+                        <form action="jobGreeting" method="get">
                             <input type="hidden" name="action" value="list-job-by-status">
                             <select name="status" onchange="this.form.submit()">
                                 <option value="">-- Chọn trạng thái --</option>
+                                <option value="Chờ xét duyệt">Chờ xét duyệt</option>
                                 <option value="Chờ phỏng vấn">Chờ phỏng vấn</option>
-                                <option value="Chờ xác nhận">Chờ xác nhận</option>
-                                <option value="Được duyệt">Được duyệt</option>
+                                <option value="Được nhận">Được nhận</option>
+                                <option value="Bị từ chối">Bị từ chối</option>
                                 <option value="tất cả">tất cả</option>
                             </select>
                         </form>
 
-                        <form id="sortForm" action="job" method="get">
+                        <form id="sortForm" action="jobGreeting" method="get">
                             <input type="hidden" name="action" value="sort">
 
                             <select name="sort" onchange="document.getElementById('sortForm').submit()">
@@ -383,7 +384,7 @@
                     </div>
                 </div>
 
-                <form action="job" method="get">
+                <form action="jobGreeting" method="get">
                     <input type="hidden" name="action" value="detail">
 
                     <div class="jobs-list">
@@ -411,7 +412,9 @@
                                         <span class="detail-label">Mức lương</span>
                                         <span class="detail-value"><fmt:formatNumber value="${jobDetail.budgetMin}"
                                                                                      type="currency"
-                                                                                     currencyCode="VND"/></span>
+                                                                                     currencyCode="VND"/> - <fmt:formatNumber value="${jobDetail.budgetMax}"
+                                                                                                                              type="currency"
+                                                                                                                              currencyCode="VND"/></span>
                                     </div>
                                     <div class="job-detail">
                                         <span class="detail-label">Thời hạn</span>
@@ -421,7 +424,7 @@
 
                                 </div>
                                 <div class="job-actions">
-                                    <button class="btn btn-outline">Xem chi tiết</button>
+                                    <a href="jobGreeting?action=detail&jobGreetingId=${o.greetingId}&jobId=${jobDetail.postAccountId}" class="btn btn-outline">Xem chi tiết</a>
                                     <a class="btn btn-primary">Liên hệ</a>
                                 </div>
                             </div>
