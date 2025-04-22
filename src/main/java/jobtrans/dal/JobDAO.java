@@ -233,6 +233,25 @@ public class JobDAO {
         }
     }
 
+    public void insertTest(Test test) {
+        String sql = "INSERT INTO Test(job_id, test_link, have_required) " +
+                "VALUES (?, ?, ?)";
+
+        try {
+            Connection conn = dbConnection.openConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setInt(1, test.getJobId());
+            ps.setString(2, test.getTestLink());
+            ps.setBoolean(3, test.isHaveRequired());
+
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public int addJob(Job job) {
         int jobId = -1;
 
@@ -367,7 +386,7 @@ public class JobDAO {
         }
     }
 
-    public void deleteJobByJobId(int jobId){
+    public boolean deleteJobByJobId(int jobId){
         String sql = "DELETE FROM Job WHERE job_id = ?";
 
         try {
@@ -375,8 +394,10 @@ public class JobDAO {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, jobId);
             int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            return false;
         }
     }
 
@@ -634,6 +655,31 @@ public class JobDAO {
             Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, e);
         }
         return jobs;
+    }
+
+
+    public int getNumOfCompleteJobByJobSeekerId(int jobSeekerId) {
+        int numOfComplete = 0;
+        String query = "select count(*) as num_job_complete from Job join JobGreeting on Job.job_id = JobGreeting.job_id where JobGreeting.status = N'Được nhận' and job.status_job_id = 6 and JobGreeting.job_seeker_id = ?;";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, jobSeekerId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                numOfComplete = rs.getInt("num_job_complete");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return numOfComplete;
+    }
+
+    public static void main(String[] args) {
+        JobDAO jobDAO = new JobDAO();
+        System.out.println(jobDAO.getAllJobs().size());
     }
 
 }

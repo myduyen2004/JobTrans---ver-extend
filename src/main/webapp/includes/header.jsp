@@ -1015,7 +1015,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
     <div class="container-fluid navbar-container">
         <a class="navbar-brand" href="index.jsp">
-            <img src="img/logo/logo.png" alt="JobTrans Logo" class="d-inline-block align-text-top">
+            <img src="<%= request.getContextPath() %>/img/logo/logo.png" alt="JobTrans Logo" class="d-inline-block align-text-top">
             <span>JobTrans</span>
         </a>
 
@@ -1026,10 +1026,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item active">
-                    <a class="nav-link active" href="home">Trang chủ</a>
+                    <a class="nav-link active" href="/JobTrans/home">Trang chủ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="viec-lam">Công việc</a>
+                    <a class="nav-link" href="/JobTrans/viec-lam">Công việc</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

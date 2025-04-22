@@ -13,6 +13,7 @@ public class TransactionDAO {
     public TransactionDAO() {
         dbConnection = DBConnection.getInstance();
     }
+
     private Transaction mapToTransaction(ResultSet rs) throws SQLException {
         Transaction t = new Transaction();
         t.setTransactionId(rs.getInt("transaction_id"));
@@ -97,6 +98,7 @@ public class TransactionDAO {
             return false;
         }
     }
+
 
 
 }
