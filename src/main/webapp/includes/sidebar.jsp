@@ -139,20 +139,20 @@
     .user-info {
         display: flex;
         align-items: center;
-        padding: 18px 20px;
+        /*padding: 18px 20px;*/
         border-top: 1px solid rgba(255, 255, 255, 0.08);
         background: rgba(0, 0, 0, 0.15);
     }
 
     .user-avatar {
-        width: 40px;
-        height: 40px;
+        width: 45px;
+        height: 45px;
         border-radius: 50%;
         background: linear-gradient(45deg, #6584fa, #8373e6);
         display: flex;
-        align-items: center;
+        /*align-items: center;*/
         /*justify-content: center;*/
-        margin-right: 12px;
+        /*margin-right: 12px;*/
         color: white;
         font-weight: bold;
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);

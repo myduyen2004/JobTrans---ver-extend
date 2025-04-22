@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Time;
@@ -24,10 +25,15 @@ import java.util.logging.Logger;
 //import jobtrans.model.GroupMember;
 //import org.mindrot.jbcrypt.BCrypt;
 import jobtrans.dal.AccountDAO;
+import jobtrans.dal.NotificationDAO;
 import jobtrans.dal.TransactionDAO;
 import jobtrans.model.Account;
 import jobtrans.model.GroupMember;
+
+import jobtrans.model.Notification;
+
 import jobtrans.model.Report;
+
 import jobtrans.model.Transaction;
 
 @WebServlet(name = "ProfileServlet", urlPatterns = {"/profile"})
@@ -48,10 +54,10 @@ public class ProfileServlet extends HttpServlet {
 //                changePassword(request, response);
                 break;
             case "wallet":
-//                loadWallet(request, response);
+                loadWallet(request, response);
                 break;
             case "addWallet":
-//                addWallet(request, response);
+                addWallet(request, response);
                 break;
             case "showUpdateForm":
                 showUpdateForm(request, response);
@@ -59,12 +65,17 @@ public class ProfileServlet extends HttpServlet {
             case "updateProfile":
 //                updateProfile(request, response);
                 break;
+
+            case "notification":
+                viewNotification(request,response);
+
             case "viewAccountReport":
                 showAccountReport(request, response);
                 break;
             case "viewReport":
                 int id = Integer.parseInt(request.getParameter("reportId"));
                 showReportDetail(request,response,id);
+
                 break;
             default:
                 response.sendRedirect("infor-account.jsp"); // Trang lỗi nếu action không hợp lệ
@@ -225,6 +236,76 @@ public class ProfileServlet extends HttpServlet {
         request.getRequestDispatcher("edit-account.jsp").forward(request, response);
 
     }
+    private void loadWallet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("sessionAccount");
+        AccountDAO userDao = new AccountDAO();
+        TransactionDAO transDao = new TransactionDAO();
+        ArrayList<Transaction> transList = new ArrayList<>();
+        try {
+            transList = (ArrayList<Transaction>) transDao.getTransactionBySenderIdOrReceiverId(account.getAccountId());
+        } catch (Exception ex) {
+            Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        request.setAttribute("account", account);
+        request.setAttribute("transList", transList);
+        request.getRequestDispatcher("wallet.jsp").forward(request, response);
+    }
+
+
+    private void addWallet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("sessionAccount");
+        AccountDAO accountDao = new AccountDAO();
+        TransactionDAO transactionDao = new TransactionDAO();
+        // Kiểm tra xem 'amount-add' có tồn tại trong session không
+        String amount = (String) session.getAttribute("amount-add");
+        if (amount != null) {
+            Transaction transaction = new Transaction();
+            transaction.setSenderId(account.getAccountId());
+            transaction.setReceiverId(account.getAccountId());
+            transaction.setAmount(new BigDecimal(amount));
+            transaction.setDescription("Nạp tiền vào ví");
+            transaction.setTransactionType("Thêm tiền");
+            transaction.setStatus(true);
+            try {
+                transactionDao.addTransaction(transaction);
+            } catch (Exception ex) {
+                Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            account.setAmountWallet(account.getAmountWallet().add(transaction.getAmount()));
+            accountDao.addAmountWallet(account.getAccountId(), new BigDecimal(amount));
+            // Xóa 'amount-add' khỏi session sau khi xử lý
+            session.removeAttribute("amount-add");
+        }else{
+            response.getWriter().print(amount);
+        }
+
+        ArrayList<Transaction> transList = new ArrayList<>();
+        try {
+            transList = (ArrayList<Transaction>) transactionDao.getTransactionBySenderIdOrReceiverId(account.getAccountId());
+        } catch (Exception ex) {
+            Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        request.setAttribute("account", account);
+        request.setAttribute("transList", transList);
+        request.getRequestDispatcher("wallet.jsp").forward(request, response);
+    }
+    private void viewNotification(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        HttpSession session = request.getSession();
+        Account sessionAccount = (Account) session.getAttribute("sessionAccount");
+        NotificationDAO notificationDAO = new NotificationDAO();
+        List<Notification> notificationList = notificationDAO.getNotificationByAccountId(sessionAccount.getAccountId());
+        request.setAttribute("notificationList", notificationList);
+        request.getRequestDispatcher("notification-list.jsp").forward(request, response);
+    }
 
     private void showAccountReport(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
@@ -261,6 +342,7 @@ public class ProfileServlet extends HttpServlet {
             resp.sendRedirect("home");
         }
     }
+
 
     //    private void changePassword(HttpServletRequest request, HttpServletResponse response)
 //            throws ServletException, IOException {

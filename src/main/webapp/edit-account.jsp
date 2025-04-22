@@ -420,7 +420,7 @@
         </div>
 
         <form action="profile" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
-            <%--        <input type="hidden" name="action" value="update">--%>
+<%--            <input type="hidden" name="action" value="update">--%>
             <input type="hidden" name="accountId" value="${account.accountId}">
             <!-- Avatar section -->
             <div class="form-container">

@@ -1,5 +1,6 @@
 package jobtrans.model;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class Transaction {
@@ -7,7 +8,7 @@ public class Transaction {
     private int senderId;
     private int receiverId;
     private Integer jobId;
-    private int amount;
+    private BigDecimal amount;
     private Date createdDate;
     private String description;
     private String transactionType;
@@ -16,7 +17,7 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(int transactionId, int senderId, int receiverId, Integer jobId, int amount, Date createdDate,
+    public Transaction(int transactionId, int senderId, int receiverId, Integer jobId, BigDecimal amount, Date createdDate,
                        String description, String transactionType, boolean status) {
         this.transactionId = transactionId;
         this.senderId = senderId;
@@ -63,11 +64,11 @@ public class Transaction {
         this.jobId = jobId;
     }
 
-    public int getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

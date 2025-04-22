@@ -670,3 +670,28 @@ CREATE TABLE Report (
                         FOREIGN KEY (report_by) REFERENCES Account(account_id),
                         FOREIGN KEY (criteria_id) REFERENCES Criteria(criteria_id)
 );
+
+DROP TABLE [Transaction]
+
+-- Tạo bảng Transaction
+CREATE TABLE [Transaction] (
+    transaction_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    sender_id INT NOT NULL,
+    receiver_id INT,
+    job_id INT,
+    amount DECIMAL(18,2) NOT NULL,
+    created_date DATETIME DEFAULT GETDATE(),
+    description NVARCHAR(MAX),
+    transaction_type NVARCHAR(50) DEFAULT N'Thêm tiền' CHECK (transaction_type IN (N'Thêm tiền', N'Trừ tiền', N'Rút tiền')) ,
+    status BIT DEFAULT 1,
+
+    -- Thiết lập khóa ngoại
+    CONSTRAINT FK_Transaction_Sender FOREIGN KEY (sender_id)
+    REFERENCES Account(account_id),
+
+    CONSTRAINT FK_Transaction_Receiver FOREIGN KEY (receiver_id)
+    REFERENCES Account(account_id) ,
+
+    CONSTRAINT FK_Transaction_Job FOREIGN KEY (job_id)
+    REFERENCES Job(job_id)
+    );
