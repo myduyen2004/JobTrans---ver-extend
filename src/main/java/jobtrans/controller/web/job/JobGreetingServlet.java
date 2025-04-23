@@ -17,9 +17,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name="JobGreetingServlet", urlPatterns={"/jobGreeting"})
-import java.util.ArrayList;
-import java.util.List;
 
 @WebServlet(name="JobGreetingServlet", urlPatterns={"/job-greeting"})
 public class JobGreetingServlet extends HttpServlet {
@@ -101,10 +98,5 @@ public class JobGreetingServlet extends HttpServlet {
         request.setAttribute("job", job);
 
         request.getRequestDispatcher("infor-applied-job-detail.jsp").forward(request, response);
-    }
-        JobGreetingDAO jobGreetingDAO = new JobGreetingDAO();
-        List<JobGreeting> jobGreetings = jobGreetingDAO.getListJobGreetingBySeekerId(account);
-        request.setAttribute("job", jobGreetings);  // "jobGreetings" là key để jsp lấy ra
-        request.getRequestDispatcher("applied-job-list.jsp").forward(request, response);
     }
 }

@@ -15,7 +15,6 @@
 
 <body style="font-family: Inter, sans-serif">
 <%@include file="includes/header-01.jsp" %>
-<%@include file="includes/sidebar.jsp" %>
 <div class="content" id="content">
     <div class="main-content">
         <section class="section-padding">
@@ -92,7 +91,6 @@
                 </div>
             </div>
         </section>
-        <%@include file="includes/sidebar.jsp"%>
     </div>
     <%@include file="includes/footer.jsp" %>
 </div>

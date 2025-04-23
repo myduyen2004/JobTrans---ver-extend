@@ -496,14 +496,6 @@ public class AccountDAO {
     }
 
 
-    public boolean addAmountWallet(int accountId, BigDecimal amount) {
-        String sql = "UPDATE Account SET amount_wallet = amount_wallet + ? WHERE account_id = ?";
-        try (PreparedStatement ps = dbConnection.openConnection().prepareStatement(sql)) {
-            ps.setBigDecimal(1, amount);
-            ps.setInt(2, accountId);
-            int rows = ps.executeUpdate();
-            return rows > 0;
-
     public List<Report> getReportByreportedAccount(int reportedId) {
         List<Report> list = new ArrayList<>();
 
@@ -794,6 +786,17 @@ public class AccountDAO {
             return false;
         }
 
+    }
+    public boolean addAmountWallet(int accountId, BigDecimal amount) {
+        String sql = "UPDATE Account SET amount_wallet = amount_wallet + ? WHERE account_id = ?";
+        try (PreparedStatement ps = dbConnection.openConnection().prepareStatement(sql)) {
+            ps.setBigDecimal(1, amount);
+            ps.setInt(2, accountId);
+            int rows = ps.executeUpdate();
+            return rows > 0;
+        }catch(Exception e) {
+        e.printStackTrace();
+        return false;}
     }
 
     public boolean updateCountAccount(int accountId, int count) {

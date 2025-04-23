@@ -42,7 +42,7 @@
         }
 
         .cong .cv-container {
-            margin-top: 150px;
+            margin-top: 80px;
             margin-left: 100px;
             width: 1000px;
             display: flex;
@@ -209,7 +209,7 @@
             font-family: 'Montserrat', sans-serif;
             font-size: 24px;
             font-weight: 700;
-            color-: linear-gradient(to right, #2C3E50, #1C2833);;
+            color: linear-gradient(to right, #2C3E50, #1C2833);;
             margin-bottom: 20px;
             padding-bottom: 10px;
             border-bottom: 2px solid var(--light);
@@ -229,12 +229,12 @@
             background: var(--accent);
         }
 
-         .btn-group {
+        .btn-group {
             display: flex;
             gap: 10px;
         }
 
-       .btn {
+        .btn {
             padding: 8px 16px;
             border: none;
             border-radius: var(--radius);
@@ -381,17 +381,35 @@
                 transform: translateX(-100px);
             }
         }
+        .banner_title {
+            background-image: url(./img/anh1/anh1.png);
+            background-size: 100%;
+            font-size: 40px;
+            height: 200px;
+            display: flex;
 
+            align-items: center;
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        .is-invalid {
+            border-color: #dc3545 !important;
+        }
     </style>
 </head>
 <body>
 <%@include file="includes/header-01.jsp" %>
-
+<div style="margin-top: 100px" class="py-4 banner_title">
+    <h1 class="text-white font-weight-bold" style="padding-left: 50px;">Tạo CV mẩu 2</h1>
+</div>
 <div style="display: flex">
 
     <%@include file="./includes/sidebar_createCV.jsp" %>
     <div class="cong">
-        <form action="cv?action=create" method="POST" enctype="multipart/form-data">
+        <form action="cv?action=create" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
 
 
             <input type="hidden" name="typeId" value="${param.typeId}">
@@ -407,7 +425,7 @@
                         <input type="file" id="avatar_cv" name="avatar_cv" accept="image/*" style="display: none;">
                     </div>
 
-                    <h2 class="section-title">Thông tin các nhân</h2>
+                    <h2 class="section-title">Contact Info</h2>
                     <div class="form-group">
                         <select class="form-control" name="sex" id="sex">
                             <option value="">-- Chọn giới tính --</option>
@@ -620,219 +638,219 @@
         </form>
     </div>
 </div>
-    <%@include file="./includes/gpt_sidebar.jsp" %>
+<%@include file="./includes/gpt_sidebar.jsp" %>
 <div style="margin-top: 30px">
-<%@include file="includes/footer.jsp"%>
+    <%@include file="includes/footer.jsp"%>
 </div>
-    <script>
-        //validate
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get the form element
-            const cvForm = document.querySelector('form[action="cv?action=create"]');
+<script>
+    //validate
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get the form element
+        const cvForm = document.querySelector('form[action="cv?action=create"]');
 
-            // Function to add error message
-            function addErrorMessage(element, message) {
-                // Add error class to input
-                element.classList.add('error-input');
+        // Function to add error message
+        function addErrorMessage(element, message) {
+            // Add error class to input
+            element.classList.add('error-input');
 
-                // Create error message element
-                const errorDiv = document.createElement('div');
-                errorDiv.className = 'error-message';
-                errorDiv.textContent = message;
+            // Create error message element
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.textContent = message;
 
-                // Insert error message after the element
-                element.parentNode.insertBefore(errorDiv, element.nextSibling);
+            // Insert error message after the element
+            element.parentNode.insertBefore(errorDiv, element.nextSibling);
+        }
+
+        // Function to clear all error messages
+        function clearErrorMessages() {
+            // Remove error classes
+            const errorInputs = document.querySelectorAll('.error-input');
+            errorInputs.forEach(input => input.classList.remove('error-input'));
+
+            // Remove error message elements
+            const errorMessages = document.querySelectorAll('.error-message');
+            errorMessages.forEach(msg => msg.remove());
+        }
+
+        // Validation functions
+        function validateRequired(element, message) {
+            if (!element.value.trim()) {
+                addErrorMessage(element, message);
+                return false;
+            }
+            return true;
+        }
+
+        function validateLength(element, min, max, message) {
+            const value = element.value.trim();
+            if (value.length < min || value.length > max) {
+                addErrorMessage(element, message);
+                return false;
+            }
+            return true;
+        }
+
+        function validateEmail(element, message) {
+            const value = element.value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(value)) {
+                addErrorMessage(element, message);
+                return false;
+            }
+            return true;
+        }
+
+        function validatePhone(element, message) {
+            const value = element.value.trim();
+            const phoneRegex = /^(0|\+84)\d{9,10}$/;
+            if (!phoneRegex.test(value)) {
+                addErrorMessage(element, message);
+                return false;
+            }
+            return true;
+        }
+
+        function validateAge(element, min, max, message) {
+            const birthDate = new Date(element.value);
+            const today = new Date();
+
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
             }
 
-            // Function to clear all error messages
-            function clearErrorMessages() {
-                // Remove error classes
-                const errorInputs = document.querySelectorAll('.error-input');
-                errorInputs.forEach(input => input.classList.remove('error-input'));
-
-                // Remove error message elements
-                const errorMessages = document.querySelectorAll('.error-message');
-                errorMessages.forEach(msg => msg.remove());
+            if (age < min || age > max) {
+                addErrorMessage(element, message);
+                return false;
             }
+            return true;
+        }
 
-            // Validation functions
-            function validateRequired(element, message) {
-                if (!element.value.trim()) {
-                    addErrorMessage(element, message);
+        function validateDateRange(startElement, endElement, message) {
+            if (startElement.value && endElement.value) {
+                const startDate = new Date(startElement.value);
+                const endDate = new Date(endElement.value);
+
+                if (endDate <= startDate) {
+                    addErrorMessage(endElement, message);
                     return false;
                 }
-                return true;
+            }
+            return true;
+        }
+
+        // Add submit event listener to the form
+        cvForm.addEventListener('submit', function(event) {
+            // Reset previous error messages
+            clearErrorMessages();
+
+            // Validate form
+            let isValid = true;
+
+            // Validate personal information
+            const fullName = document.querySelector('input[name="cvname"]');
+            if (!validateRequired(fullName, 'Họ và tên không được để trống')) {
+                isValid = false;
+            } else if (!validateLength(fullName, 2, 50, 'Họ và tên phải có từ 2 đến 50 ký tự')) {
+                isValid = false;
             }
 
-            function validateLength(element, min, max, message) {
-                const value = element.value.trim();
-                if (value.length < min || value.length > max) {
-                    addErrorMessage(element, message);
-                    return false;
-                }
-                return true;
+            const position = document.querySelector('input[name="position"]');
+            if (!validateRequired(position, 'Vị trí ứng tuyển không được để trống')) {
+                isValid = false;
             }
 
-            function validateEmail(element, message) {
-                const value = element.value.trim();
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(value)) {
-                    addErrorMessage(element, message);
-                    return false;
-                }
-                return true;
+            const sex = document.querySelector('select[name="sex"]');
+            if (!validateRequired(sex, 'Vui lòng chọn giới tính')) {
+                isValid = false;
             }
 
-            function validatePhone(element, message) {
-                const value = element.value.trim();
-                const phoneRegex = /^(0|\+84)\d{9,10}$/;
-                if (!phoneRegex.test(value)) {
-                    addErrorMessage(element, message);
-                    return false;
-                }
-                return true;
+            const dateOfBirth = document.querySelector('input[name="date_of_birth"]');
+            if (!validateRequired(dateOfBirth, 'Ngày sinh không được để trống')) {
+                isValid = false;
+            } else if (!validateAge(dateOfBirth, 18, 65, 'Độ tuổi phải từ 18 đến 65')) {
+                isValid = false;
             }
 
-            function validateAge(element, min, max, message) {
-                const birthDate = new Date(element.value);
-                const today = new Date();
-
-                let age = today.getFullYear() - birthDate.getFullYear();
-                const monthDiff = today.getMonth() - birthDate.getMonth();
-
-                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-                    age--;
-                }
-
-                if (age < min || age > max) {
-                    addErrorMessage(element, message);
-                    return false;
-                }
-                return true;
+            const phone = document.querySelector('input[name="sdt"]');
+            if (!validateRequired(phone, 'Số điện thoại không được để trống')) {
+                isValid = false;
+            } else if (!validatePhone(phone, 'Số điện thoại không hợp lệ')) {
+                isValid = false;
             }
 
-            function validateDateRange(startElement, endElement, message) {
-                if (startElement.value && endElement.value) {
-                    const startDate = new Date(startElement.value);
-                    const endDate = new Date(endElement.value);
-
-                    if (endDate <= startDate) {
-                        addErrorMessage(endElement, message);
-                        return false;
-                    }
-                }
-                return true;
+            const email = document.querySelector('input[name="email"]');
+            if (!validateRequired(email, 'Email không được để trống')) {
+                isValid = false;
+            } else if (!validateEmail(email, 'Email không hợp lệ')) {
+                isValid = false;
             }
 
-            // Add submit event listener to the form
-            cvForm.addEventListener('submit', function(event) {
-                // Reset previous error messages
-                clearErrorMessages();
+            const address = document.querySelector('input[name="address"]');
+            if (!validateRequired(address, 'Địa chỉ không được để trống')) {
+                isValid = false;
+            }
 
-                // Validate form
-                let isValid = true;
+            // Validate experience items
+            const experienceItems = document.querySelectorAll('.experience-item');
+            experienceItems.forEach(function(item, index) {
+                const company = item.querySelector('select[name="Company[]"]');
+                const startDate = item.querySelector('input[name="companyStartDate[]"]');
+                const endDate = item.querySelector('input[name="companyEndDate[]"]');
+                const position = item.querySelector('input[name="position[]"]');
 
-                // Validate personal information
-                const fullName = document.querySelector('input[name="cvname"]');
-                if (!validateRequired(fullName, 'Họ và tên không được để trống')) {
-                    isValid = false;
-                } else if (!validateLength(fullName, 2, 50, 'Họ và tên phải có từ 2 đến 50 ký tự')) {
-                    isValid = false;
-                }
-
-                const position = document.querySelector('input[name="position"]');
-                if (!validateRequired(position, 'Vị trí ứng tuyển không được để trống')) {
+                if (!validateRequired(company, 'Vui lòng chọn công ty')) {
                     isValid = false;
                 }
 
-                const sex = document.querySelector('select[name="sex"]');
-                if (!validateRequired(sex, 'Vui lòng chọn giới tính')) {
+                if (!validateRequired(startDate, 'Ngày bắt đầu không được để trống')) {
                     isValid = false;
                 }
 
-                const dateOfBirth = document.querySelector('input[name="date_of_birth"]');
-                if (!validateRequired(dateOfBirth, 'Ngày sinh không được để trống')) {
-                    isValid = false;
-                } else if (!validateAge(dateOfBirth, 18, 65, 'Độ tuổi phải từ 18 đến 65')) {
+                if (endDate.value && !validateDateRange(startDate, endDate, 'Ngày kết thúc phải sau ngày bắt đầu')) {
                     isValid = false;
                 }
 
-                const phone = document.querySelector('input[name="sdt"]');
-                if (!validateRequired(phone, 'Số điện thoại không được để trống')) {
+                if (!validateRequired(position, 'Vị trí không được để trống')) {
                     isValid = false;
-                } else if (!validatePhone(phone, 'Số điện thoại không hợp lệ')) {
-                    isValid = false;
-                }
-
-                const email = document.querySelector('input[name="email"]');
-                if (!validateRequired(email, 'Email không được để trống')) {
-                    isValid = false;
-                } else if (!validateEmail(email, 'Email không hợp lệ')) {
-                    isValid = false;
-                }
-
-                const address = document.querySelector('input[name="address"]');
-                if (!validateRequired(address, 'Địa chỉ không được để trống')) {
-                    isValid = false;
-                }
-
-                // Validate experience items
-                const experienceItems = document.querySelectorAll('.experience-item');
-                experienceItems.forEach(function(item, index) {
-                    const company = item.querySelector('select[name="Company[]"]');
-                    const startDate = item.querySelector('input[name="companyStartDate[]"]');
-                    const endDate = item.querySelector('input[name="companyEndDate[]"]');
-                    const position = item.querySelector('input[name="position[]"]');
-
-                    if (!validateRequired(company, 'Vui lòng chọn công ty')) {
-                        isValid = false;
-                    }
-
-                    if (!validateRequired(startDate, 'Ngày bắt đầu không được để trống')) {
-                        isValid = false;
-                    }
-
-                    if (endDate.value && !validateDateRange(startDate, endDate, 'Ngày kết thúc phải sau ngày bắt đầu')) {
-                        isValid = false;
-                    }
-
-                    if (!validateRequired(position, 'Vị trí không được để trống')) {
-                        isValid = false;
-                    }
-                });
-
-                // Validate education items
-                const educationItems = document.querySelectorAll('.education-item');
-                educationItems.forEach(function(item) {
-                    const school = item.querySelector('select[name="schoolId[]"]');
-                    const startDate = item.querySelector('input[name="educationStartDate[]"]');
-                    const endDate = item.querySelector('input[name="educationEndDate[]"]');
-
-                    if (!validateRequired(school, 'Vui lòng chọn trường học')) {
-                        isValid = false;
-                    }
-
-                    if (startDate.value && endDate.value && !validateDateRange(startDate, endDate, 'Ngày kết thúc phải sau ngày bắt đầu')) {
-                        isValid = false;
-                    }
-                });
-
-                // Check if form is valid before submission
-                if (!isValid) {
-                    event.preventDefault();
-
-                    // Scroll to first error
-                    const firstError = document.querySelector('.error-input');
-                    if (firstError) {
-                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        firstError.focus();
-                    }
                 }
             });
 
-            // Add custom styles for error messages
-            const style = document.createElement('style');
-            style.textContent = `
+            // Validate education items
+            const educationItems = document.querySelectorAll('.education-item');
+            educationItems.forEach(function(item) {
+                const school = item.querySelector('select[name="schoolId[]"]');
+                const startDate = item.querySelector('input[name="educationStartDate[]"]');
+                const endDate = item.querySelector('input[name="educationEndDate[]"]');
+
+                if (!validateRequired(school, 'Vui lòng chọn trường học')) {
+                    isValid = false;
+                }
+
+                if (startDate.value && endDate.value && !validateDateRange(startDate, endDate, 'Ngày kết thúc phải sau ngày bắt đầu')) {
+                    isValid = false;
+                }
+            });
+
+            // Check if form is valid before submission
+            if (!isValid) {
+                event.preventDefault();
+
+                // Scroll to first error
+                const firstError = document.querySelector('.error-input');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstError.focus();
+                }
+            }
+        });
+
+        // Add custom styles for error messages
+        const style = document.createElement('style');
+        style.textContent = `
         .error-input {
             border-color: #e74c3c !important;
         }
@@ -844,36 +862,36 @@
             margin-bottom: 8px;
         }
     `;
-            document.head.appendChild(style);
+        document.head.appendChild(style);
 
-            // Event listeners for "Other" options
+        // Event listeners for "Other" options
 
 
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+        // Avatar Upload Preview
+        const avatarUpload = document.getElementById('avatar_cv');
+        const avatarPreview = document.getElementById('avatar-preview');
+
+        avatarUpload.addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    avatarPreview.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
         });
-        document.addEventListener("DOMContentLoaded", function () {
-            // Avatar Upload Preview
-            const avatarUpload = document.getElementById('avatar_cv');
-            const avatarPreview = document.getElementById('avatar-preview');
 
-            avatarUpload.addEventListener('change', function (e) {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function (event) {
-                        avatarPreview.src = event.target.result;
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
+        // Add Experience Section
+        const addExperienceBtn = document.getElementById('add-experience');
+        const experienceContainer = document.querySelector('.experience-section');
 
-            // Add Experience Section
-            const addExperienceBtn = document.getElementById('add-experience');
-            const experienceContainer = document.querySelector('.experience-section');
-
-            addExperienceBtn.addEventListener('click', function () {
-                const newExperience = document.createElement('div');
-                newExperience.classList.add('experience-item');
-                newExperience.innerHTML = `
+        addExperienceBtn.addEventListener('click', function () {
+            const newExperience = document.createElement('div');
+            newExperience.classList.add('experience-item');
+            newExperience.innerHTML = `
         <select class="main-form-control" name="Company[]" required>
           <option value="">Select Company</option>
           <c:forEach items="${CVDAO.allCompanyName}" var="o">
@@ -901,24 +919,24 @@
         </div>
       `;
 
-                experienceContainer.appendChild(newExperience);
-            });
+            experienceContainer.appendChild(newExperience);
+        });
 
-            // Remove Experience
-            experienceContainer.addEventListener('click', function (e) {
-                if (e.target.classList.contains('remove-experience')) {
-                    e.target.closest('.experience-item').remove();
-                }
-            });
+        // Remove Experience
+        experienceContainer.addEventListener('click', function (e) {
+            if (e.target.classList.contains('remove-experience')) {
+                e.target.closest('.experience-item').remove();
+            }
+        });
 
-            // Add Education Section
-            const addEducationBtn = document.getElementById('add-education');
-            const educationContainer = document.querySelector('.educations-section');
+        // Add Education Section
+        const addEducationBtn = document.getElementById('add-education');
+        const educationContainer = document.querySelector('.educations-section');
 
-            addEducationBtn.addEventListener('click', function () {
-                const newEducation = document.createElement('div');
-                newEducation.classList.add('education-item');
-                newEducation.innerHTML = `
+        addEducationBtn.addEventListener('click', function () {
+            const newEducation = document.createElement('div');
+            newEducation.classList.add('education-item');
+            newEducation.innerHTML = `
         <select class="main-form-control" name="schoolId[]">
           <option value="">Select Institution</option>
           <c:forEach items="${CVDAO.allSchoolNames}" var="o">
@@ -945,24 +963,24 @@
         </div>
       `;
 
-                educationContainer.appendChild(newEducation);
-            });
+            educationContainer.appendChild(newEducation);
+        });
 
-            // Remove Education
-            educationContainer.addEventListener('click', function (e) {
-                if (e.target.classList.contains('remove-education')) {
-                    e.target.closest('.education-item').remove();
-                }
-            });
+        // Remove Education
+        educationContainer.addEventListener('click', function (e) {
+            if (e.target.classList.contains('remove-education')) {
+                e.target.closest('.education-item').remove();
+            }
+        });
 
-            // Add Certification Section
-            const addCertificationBtn = document.getElementById('add-certification');
-            const certificationContainer = document.querySelector('.certification-section');
+        // Add Certification Section
+        const addCertificationBtn = document.getElementById('add-certification');
+        const certificationContainer = document.querySelector('.certification-section');
 
-            addCertificationBtn.addEventListener('click', function () {
-                const newCertification = document.createElement('div');
-                newCertification.classList.add('certification-item');
-                newCertification.innerHTML = `
+        addCertificationBtn.addEventListener('click', function () {
+            const newCertification = document.createElement('div');
+            newCertification.classList.add('certification-item');
+            newCertification.innerHTML = `
         <select class="main-form-control" name="certificationId[]">
           <option value="">Select Certification</option>
           <c:forEach items="${CVDAO.allCertificationNames}" var="o">
@@ -986,25 +1004,25 @@
         </div>
       `;
 
-                certificationContainer.appendChild(newCertification);
-            });
+            certificationContainer.appendChild(newCertification);
+        });
 
-            // Remove Certification
-            certificationContainer.addEventListener('click', function (e) {
-                if (e.target.classList.contains('remove-certification')) {
-                    e.target.closest('.certification-item').remove();
-                }
-            });
+        // Remove Certification
+        certificationContainer.addEventListener('click', function (e) {
+            if (e.target.classList.contains('remove-certification')) {
+                e.target.closest('.certification-item').remove();
+            }
+        });
 
-            // Add Skill Section
-            const addSkillBtn = document.getElementById('add-skill');
-            const skillsContainer = document.querySelector('.skills-section');
+        // Add Skill Section
+        const addSkillBtn = document.getElementById('add-skill');
+        const skillsContainer = document.querySelector('.skills-section');
 
-            addSkillBtn.addEventListener('click', function () {
-                const newSkill = document.createElement('div');
-                newSkill.classList.add('skill-item');
-                newSkill.style.marginTop = '15px';
-                newSkill.innerHTML = `
+        addSkillBtn.addEventListener('click', function () {
+            const newSkill = document.createElement('div');
+            newSkill.classList.add('skill-item');
+            newSkill.style.marginTop = '15px';
+            newSkill.innerHTML = `
         <select class="form-control" name="mainSkillId[]" required style="margin-bottom: 10px;">
           <option value="">Select Skill Category</option>
           <c:forEach items="${CVDAO.allMainSkill}" var="o">
@@ -1043,75 +1061,75 @@
         </div>
       `;
 
-                skillsContainer.appendChild(newSkill);
-            });
-
-            // Remove Skill
-            skillsContainer.addEventListener('click', function (e) {
-                if (e.target.classList.contains('remove-skill')) {
-                    e.target.closest('.skill-item').remove();
-                }
-            });
-
-            // Show "Other" input fields when "Other" is selected
-            document.addEventListener('change', function (e) {
-                // For skills
-                if (e.target && e.target.name === 'skillId[]') {
-                    const skillItem = e.target.closest('.skill-item');
-                    const otherInput = skillItem.querySelector('.other-skill-input');
-                    if (e.target.value === "1") {
-                        otherInput.style.display = 'block';
-                        otherInput.required = true;
-                    } else {
-                        otherInput.style.display = 'none';
-                        otherInput.required = false;
-                        otherInput.value = '';
-                    }
-                }
-
-                // For companies
-                if (e.target && e.target.name === 'Company[]') {
-                    const experienceItem = e.target.closest('.experience-item');
-                    const otherInput = experienceItem.querySelector('.other-company-input');
-                    if (e.target.value === "1") {
-                        otherInput.style.display = 'block';
-                        otherInput.required = true;
-                    } else {
-                        otherInput.style.display = 'none';
-                        otherInput.required = false;
-                        otherInput.value = '';
-                    }
-                }
-
-                // For schools
-                if (e.target && e.target.name === 'schoolId[]') {
-                    const educationItem = e.target.closest('.education-item');
-                    const otherInput = educationItem.querySelector('.other-school-input');
-                    if (e.target.value === "1") {
-                        otherInput.style.display = 'block';
-                        otherInput.required = true;
-                    } else {
-                        otherInput.style.display = 'none';
-                        otherInput.required = false;
-                        otherInput.value = '';
-                    }
-                }
-
-                // For certifications
-                if (e.target && e.target.name === 'certificationId[]') {
-                    const certificationItem = e.target.closest('.certification-item');
-                    const otherInput = certificationItem.querySelector('.other-certification-input');
-                    if (e.target.value === "1") {
-                        otherInput.style.display = 'block';
-                        otherInput.required = true;
-                    } else {
-                        otherInput.style.display = 'none';
-                        otherInput.required = false;
-                        otherInput.value = '';
-                    }
-                }
-            });
+            skillsContainer.appendChild(newSkill);
         });
-    </script>
+
+        // Remove Skill
+        skillsContainer.addEventListener('click', function (e) {
+            if (e.target.classList.contains('remove-skill')) {
+                e.target.closest('.skill-item').remove();
+            }
+        });
+
+        // Show "Other" input fields when "Other" is selected
+        document.addEventListener('change', function (e) {
+            // For skills
+            if (e.target && e.target.name === 'skillId[]') {
+                const skillItem = e.target.closest('.skill-item');
+                const otherInput = skillItem.querySelector('.other-skill-input');
+                if (e.target.value === "1") {
+                    otherInput.style.display = 'block';
+                    otherInput.required = true;
+                } else {
+                    otherInput.style.display = 'none';
+                    otherInput.required = false;
+                    otherInput.value = '';
+                }
+            }
+
+            // For companies
+            if (e.target && e.target.name === 'Company[]') {
+                const experienceItem = e.target.closest('.experience-item');
+                const otherInput = experienceItem.querySelector('.other-company-input');
+                if (e.target.value === "1") {
+                    otherInput.style.display = 'block';
+                    otherInput.required = true;
+                } else {
+                    otherInput.style.display = 'none';
+                    otherInput.required = false;
+                    otherInput.value = '';
+                }
+            }
+
+            // For schools
+            if (e.target && e.target.name === 'schoolId[]') {
+                const educationItem = e.target.closest('.education-item');
+                const otherInput = educationItem.querySelector('.other-school-input');
+                if (e.target.value === "504") {
+                    otherInput.style.display = 'block';
+                    otherInput.required = true;
+                } else {
+                    otherInput.style.display = 'none';
+                    otherInput.required = false;
+                    otherInput.value = '';
+                }
+            }
+
+            // For certifications
+            if (e.target && e.target.name === 'certificationId[]') {
+                const certificationItem = e.target.closest('.certification-item');
+                const otherInput = certificationItem.querySelector('.other-certification-input');
+                if (e.target.value === "1") {
+                    otherInput.style.display = 'block';
+                    otherInput.required = true;
+                } else {
+                    otherInput.style.display = 'none';
+                    otherInput.required = false;
+                    otherInput.value = '';
+                }
+            }
+        });
+    });
+</script>
 </body>
 </html>

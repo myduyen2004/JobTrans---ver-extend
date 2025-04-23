@@ -467,9 +467,9 @@
             </div>
         </div>
 
-<%--        <div style="margin-right: 20px">--%>
-<%--            <%@include file="includes/sidebar_cv.jsp" %>--%>
-<%--        </div>--%>
+        <%--        <div style="margin-right: 20px">--%>
+        <%--            <%@include file="includes/sidebar_cv.jsp" %>--%>
+        <%--        </div>--%>
     </div>
 </div>
 

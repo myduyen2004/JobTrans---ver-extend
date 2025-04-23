@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 public class JobDAO {
     private final DBConnection dbConnection;
     List<Job> jobs = new ArrayList<>();
+
     //tao setter
     public void setJobs(List<Job> jobs) {
         this.jobs = jobs;
@@ -131,7 +132,6 @@ public class JobDAO {
         return list;
     }
 
-
     public int getNumOfJobGreetingByJobId(int jobId) {
         int numOfJobGreeting = 0;
         String query = "Select COUNT(*) num_of_jobGreeting FROM JobGreeting WHERE job_id=?";
@@ -199,7 +199,7 @@ public class JobDAO {
 
     public int getMaxJobId() {
         String sql = "SELECT MAX(job_id) AS maxJobId FROM Job";
-        try{
+        try {
             Connection conn = dbConnection.openConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -311,12 +311,9 @@ public class JobDAO {
             return false;
         }
     }
-    public JobGreeting getJobGreetingById(int greetingId) {
-        JobGreeting jobGreeting = null;
-        String sql = "SELECT greeting_id, job_seeker_id, job_id, introduction, attachment, " +
-                "price, status, expected_day, cv_id, have_read " +
-                "FROM JobGreeting WHERE greeting_id = ?";
-    public void updateInterviewByJobId(Interview interview){
+
+
+    public void updateInterviewByJobId(Interview interview) {
         String sql = "UPDATE Interview SET "
                 + "start_date = ?, "
                 + "interview_link = ?, "
@@ -336,7 +333,7 @@ public class JobDAO {
         }
     }
 
-    public void deleteJobTagByJobId(int jobId){
+    public void deleteJobTagByJobId(int jobId) {
         String sql = "DELETE FROM JobTag WHERE job_id = ?";
 
         try {
@@ -349,7 +346,7 @@ public class JobDAO {
         }
     }
 
-    public void updateJobByJobId(Job job){
+    public void updateJobByJobId(Job job) {
         String sql = "UPDATE Job SET " +
                 "job_title = ?, " +
                 "job_description = ?, " +
@@ -390,7 +387,7 @@ public class JobDAO {
         }
     }
 
-    public boolean deleteJobByJobId(int jobId){
+    public boolean deleteJobByJobId(int jobId) {
         String sql = "DELETE FROM Job WHERE job_id = ?";
 
         try {
@@ -412,25 +409,7 @@ public class JobDAO {
         try (Connection con = dbConnection.openConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setInt(1, greetingId);
-            ResultSet rs = ps.executeQuery();
 
-            if (rs.next()) {
-                jobGreeting = new JobGreeting();
-                jobGreeting.setGreetingId(rs.getInt("greeting_id"));
-                jobGreeting.setJobSeekerId(rs.getInt("job_seeker_id"));
-                jobGreeting.setJobId(rs.getInt("job_id"));
-                jobGreeting.setIntroduction(rs.getString("introduction"));
-                jobGreeting.setAttachment(rs.getString("attachment"));
-                jobGreeting.setPrice(rs.getInt("price"));
-                jobGreeting.setStatus(rs.getString("status"));
-                jobGreeting.setExpectedDay(rs.getInt("expected_day")); // tên cột mới
-                jobGreeting.setCvId(rs.getInt("cv_id"));
-                // Nếu muốn xử lý have_read:
-                // jobGreeting.setHaveRead(rs.getBoolean("have_read"));
-            }
-
-            rs.close();
             ps.setInt(1, categoryId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -445,8 +424,6 @@ public class JobDAO {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return jobGreeting;
-    }
 
         return jobCategory;
     }
@@ -487,6 +464,7 @@ public class JobDAO {
 
         return list;
     }
+
     public List<JobGreeting> search(int accountId, String sort) {
         List<JobGreeting> list = new ArrayList<>();
 
@@ -540,6 +518,7 @@ public class JobDAO {
         }
         return list;
     }
+
     public List<JobGreeting> getJobGreetingByJobSeekerId(int jobSeekerId) {
         List<JobGreeting> list = new ArrayList<>();
         String sql = "SELECT * FROM JobGreeting WHERE job_seeker_id = ?";
@@ -571,6 +550,7 @@ public class JobDAO {
         }
         return list;
     }
+
     public Job getJobById(int id) {
         Job job = null;
         String sql = "SELECT * FROM Job WHERE job_id = ?";
@@ -700,6 +680,42 @@ public class JobDAO {
         }
 
         return numOfComplete;
+    }
+
+    public JobGreeting getJobGreetingById(int greetingId) {
+        JobGreeting jobGreeting = null;
+        String sql = "SELECT greeting_id, job_seeker_id, job_id, introduction, attachment, " +
+                "price, status, expected_day, cv_id, have_read " +
+                "FROM JobGreeting WHERE greeting_id = ?";
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+
+
+            ps.setInt(1, greetingId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                jobGreeting = new JobGreeting();
+                jobGreeting.setGreetingId(rs.getInt("greeting_id"));
+                jobGreeting.setJobSeekerId(rs.getInt("job_seeker_id"));
+                jobGreeting.setJobId(rs.getInt("job_id"));
+                jobGreeting.setIntroduction(rs.getString("introduction"));
+                jobGreeting.setAttachment(rs.getString("attachment"));
+                jobGreeting.setPrice(rs.getInt("price"));
+                jobGreeting.setStatus(rs.getString("status"));
+                jobGreeting.setExpectedDay(rs.getInt("expected_day")); // tên cột mới
+                jobGreeting.setCvId(rs.getInt("cv_id"));
+                // Nếu muốn xử lý have_read:
+                // jobGreeting.setHaveRead(rs.getBoolean("have_read"));
+            }
+
+
+            rs.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return jobGreeting;
     }
 
     public static void main(String[] args) {

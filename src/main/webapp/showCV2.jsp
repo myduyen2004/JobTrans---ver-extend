@@ -599,9 +599,9 @@
 
 
     </div>
-<%--    <div style="margin-left: 270px">--%>
-<%--        <%@include file="includes/sidebar_cv.jsp" %>--%>
-<%--    </div>--%>
+    <%--    <div style="margin-left: 270px">--%>
+    <%--        <%@include file="includes/sidebar_cv.jsp" %>--%>
+    <%--    </div>--%>
 </div>
 </div>
 
