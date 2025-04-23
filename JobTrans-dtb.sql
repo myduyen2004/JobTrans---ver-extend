@@ -40,7 +40,7 @@ CREATE TABLE Group_Member (
     member_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
     member_name NVARCHAR(50),
     account_id INT NOT NULL,
-	avatar_member NVARCHAR(MAX) DEFAULT 'default-avatar.jpg',
+	avatar_member NVARCHAR(MAX) DEFAULT 'img/default-avatar.jpg',
 	gender NVARCHAR(10),
 	date_of_birth DATE,
 	phone VARCHAR(50),
