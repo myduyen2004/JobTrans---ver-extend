@@ -70,9 +70,96 @@ public class JobServlet extends HttpServlet {
                 break;
             case "downloadFile":
                 downloadFile(request, response);
+            case "view-candidates-list":
+                viewCandidatesList(request, response);
             default:
                 response.getWriter().print("Lỗi rồi má");
                 break;
+        }
+
+    }
+
+    private void viewCandidatesList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        try {
+//            Account account = (Account) session.getAttribute("sessionAccount");
+//            int accountId = account.getAccountId();
+            int jobId = Integer.parseInt(request.getParameter("jobId"));
+
+            JobDAO jobDAO = new JobDAO();
+            Job job = jobDAO.getJobById(jobId);
+
+            AccountDAO accountDAO = new AccountDAO();
+            Account poster = accountDAO.getAccountById(job.getPostAccountId());
+
+            JobGreetingDAO jobGreetingDAO = new JobGreetingDAO();
+            List<JobGreeting> jobGreetingsList = jobGreetingDAO.getJobGreetingsByJobId(jobId);
+
+            job.setJobGreetingList(jobGreetingsList);
+            request.setAttribute("numOfApplicants", jobGreetingsList.size());
+
+            NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+            String formattedBudgetMin = currencyFormat.format(job.getBudgetMin());
+            String formattedBudgetMax = currencyFormat.format(job.getBudgetMax());
+            request.setAttribute("budgetRange", formattedBudgetMin + " - " + formattedBudgetMax);
+
+            // Xử lý thông tin deadline
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+            // Xử lý dueDatePost
+            if (job.getDueDatePost() != null) {
+                String formattedDueDatePost = dateFormat.format(job.getDueDatePost());
+                request.setAttribute("dueDatePostFormatted", formattedDueDatePost);
+            } else {
+                request.setAttribute("dueDatePostFormatted", "Chưa xác định");
+            }
+
+            // Xử lý postDate (java.sql.Timestamp)
+            if (job.getPostDate() != null) {
+                // Convert Timestamp to java.util.Date
+                java.util.Date postDateUtil = new java.util.Date(job.getPostDate().getTime());
+                String formattedPostDate = dateFormat.format(postDateUtil);
+                request.setAttribute("postDateFormatted", formattedPostDate);
+            } else {
+                request.setAttribute("postDateFormatted", "Chưa xác định");
+            }
+
+            // Xử lý joinDate (java.time.LocalDateTime)
+            if (poster.getJoinDate() != null) {
+                // Convert LocalDateTime to java.util.Date
+                java.util.Date joinDateUtil = java.util.Date.from(poster.getJoinDate().atZone(ZoneId.systemDefault()).toInstant());
+                String formattedJoinDate = dateFormat.format(joinDateUtil);
+                request.setAttribute("joinDateFormatted", formattedJoinDate);
+            } else {
+                request.setAttribute("joinDateFormatted", "Chưa xác định");
+            }
+
+            // Tính thời gian còn lại đến deadline
+            try {
+                if (job.getDueDatePost() != null) {
+                    long currentTime = System.currentTimeMillis();
+                    long duePostTime = job.getDueDatePost().getTime();
+                    long daysLeft = (duePostTime - currentTime) / (1000 * 60 * 60 * 24);
+                    request.setAttribute("daysLeft", daysLeft);
+                } else {
+                    request.setAttribute("daysLeft", "N/A");
+                }
+            } catch (Exception e) {
+                System.err.println("Lỗi khi tính ngày còn lại: " + e.getMessage());
+                request.setAttribute("daysLeft", "N/A");
+            }
+
+            System.out.println(jobGreetingsList);
+            System.out.println(job);
+            System.out.println(poster);
+            System.out.println(jobGreetingsList.size());
+
+            request.setAttribute("poster", poster);
+            request.setAttribute("job", job);
+            request.setAttribute("jobGreetingsList", jobGreetingsList);
+            request.getRequestDispatcher("candidate-list.jsp").forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }

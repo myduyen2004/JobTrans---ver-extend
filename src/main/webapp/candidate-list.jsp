@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!DOCTYPE html>
@@ -7,451 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JobTrans &#8211; Nền tảng hỗ trợ thuê, làm việc cho freelancer</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary-gradient: linear-gradient(to right, rgb(21, 32, 112), rgb(39, 64, 179));
-            --primary-dark: rgb(21, 32, 112);
-            --primary-light: rgb(39, 64, 179);
-            --accent: #4caf50;
-            --light: #f8f9fa;
-            --dark: #343a40;
-            --gray: #6c757d;
-            --border-radius: 8px;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-
-        body {
-            background-color: #f5f7fb;
-            color: #333;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .job-header {
-            margin: 40px 0;
-            padding: 25px;
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            position: relative;
-            overflow: hidden;
-            animation: fadeIn 0.5s ease-in-out;
-
-        }
-
-        .job-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 5px;
-            height: 100%;
-            background: var(--primary-gradient);
-        }
-
-        .job-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .job-title h1 {
-            font-size: 24px;
-            color: var(--primary-dark);
-            margin-bottom: 10px;
-        }
-
-        .job-status {
-            background: var(--accent);
-            color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .job-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-        }
-
-        .applicant-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin: 20px 0;
-            color: var(--gray);
-            font-size: 14px;
-        }
-
-        .detail-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .detail-item i {
-            color: var(--primary-light);
-            margin-right: 10px;
-            font-size: 18px;
-            width: 24px;
-            text-align: center;
-        }
-
-        .job-description {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-        }
-
-        .brand {
-            font-size: 24px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-        }
-
-        .brand i {
-            margin-right: 10px;
-            font-size: 28px;
-        }
-
-        .search-bar {
-            display: flex;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 30px;
-            padding: 8px 15px;
-            width: 300px;
-            transition: all 0.3s ease;
-        }
-
-        .search-bar:focus-within {
-            background: rgba(255, 255, 255, 0.3);
-            width: 350px;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-
-        .search-bar input {
-            background: transparent;
-            border: none;
-            color: white;
-            outline: none;
-            width: 100%;
-            padding: 5px 10px;
-        }
-
-        .search-bar input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .search-bar i {
-            color: white;
-        }
-
-        .greeting-filters {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .filter-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .filter-title {
-            font-weight: 600;
-            color: #555;
-        }
-
-        .filter-options {
-            display: flex;
-            gap: 10px;
-        }
-
-        .filter-option {
-            background: #f0f2f5;
-            border-radius: 20px;
-            padding: 8px 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 14px;
-        }
-
-        .filter-option:hover, .filter-option.active {
-            background: linear-gradient(to right, rgb(21, 32, 112), rgb(39, 64, 179));
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .greeting-list {
-            display: block;
-            /*grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));*/
-            gap: 25px;
-        }
-
-        .greeting-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            overflow: hidden;
-            transition: all 0.3s ease;
-            animation: fadeIn 0.5s ease-out;
-            position: relative;
-            margin: 30px 0;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .greeting-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(21, 32, 112, 0.15);
-        }
-
-        .greeting-status {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            z-index: 1;
-        }
-
-        .status-pending {
-            background-color: #FFF8E5;
-            color: #FFA113;
-        }
-
-        .status-interview {
-            background-color: #E5F5FF;
-            color: #0095FF;
-        }
-
-        .status-rejected {
-            background-color: #FFE5E5;
-            color: #FF4D4F;
-        }
-
-        .status-accepted {
-            background-color: #E5FFF2;
-            color: #00C853;
-        }
-
-        .greeting-header {
-            padding: 20px;
-            background: linear-gradient(to right, rgba(21, 32, 112, 0.9), rgba(39, 64, 179, 0.9));
-            color: white;
-            position: relative;
-        }
-
-        .job-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .job-company {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-
-        .greeting-body {
-            padding: 20px;
-        }
-
-        .greeting-info {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .info-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .info-item i {
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: rgba(21, 32, 112, 0.1);
-            color: rgb(39, 64, 179);
-            border-radius: 50%;
-        }
-
-        .greeting-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            border-top: 1px solid #eee;
-            background: #f9fafc;
-        }
-
-        .seeker-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .seeker-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(to right, rgb(21, 32, 112), rgb(39, 64, 179));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-        }
-
-        .view-details {
-            padding: 8px 15px;
-            background: linear-gradient(to right, rgb(21, 32, 112), rgb(39, 64, 179));
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .view-details:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(21, 32, 112, 0.3);
-        }
-
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 40px;
-            gap: 5px;
-        }
-
-        .page-item {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        .page-item:hover, .page-item.active {
-            background: linear-gradient(to right, rgb(21, 32, 112), rgb(39, 64, 179));
-            color: white;
-        }
-
-        .page-nav {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            background: #f0f2f5;
-            transition: all 0.3s ease;
-        }
-
-        .page-nav:hover {
-            background: #e4e6eb;
-        }
-
-        /* Animation for cards */
-        .greeting-card:nth-child(odd) {
-            animation-delay: 0.2s;
-        }
-
-        .greeting-card:nth-child(even) {
-            animation-delay: 0.4s;
-        }
-
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(39, 64, 179, 0.4);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(39, 64, 179, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(39, 64, 179, 0);
-            }
-        }
-
-        .unread-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            width: 12px;
-            height: 12px;
-            background: #FF4D4F;
-            border-radius: 50%;
-            border: 2px solid white;
-        }
-
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: var(--border-radius);
-            background: var(--primary-gradient);
-            color: white;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-    </style>
+    <jsp:useBean id="accountDAO" class="jobtrans.dal.AccountDAO" scope="page" />
+    <link rel="stylesheet" href="css/candidate-list.css">
 </head>
 <body>
 
@@ -460,14 +18,14 @@
     <section class="job-header">
         <div class="job-title">
             <div>
-                <h1>Thiết kế website thương mại điện tử</h1>
+                <h1>${job.jobTitle}</h1>
                 <div class="applicant-meta">
-                    <span><i class="fas fa-building"></i> Công ty ABC</span>
-                    <span><i class="fas fa-map-marker-alt"></i> Hà Nội</span>
-                    <span><i class="fas fa-calendar-alt"></i> Đăng ngày: 15/04/2025</span>
+                    <span><i class="fas fa-user"></i> ${poster.accountName}</span>
+                    <span><i class="fas fa-map-marker-alt"></i> ${poster.address}</span>
+                    <span><i class="fas fa-calendar-alt"></i> Đăng ngày: ${postDateFormatted}</span>
                 </div>
             </div>
-            <span class="job-status">Đang tuyển</span>
+            <span class="job-status">${job.statusPost}</span>
         </div>
 
         <div class="job-details">
@@ -475,43 +33,37 @@
                 <i class="fas fa-money-bill-wave"></i>
                 <div>
                     <strong>Ngân sách:</strong>
-                    <p>15.000.000đ - 25.000.000đ</p>
+                    <p>${budgetRange}</p>
                 </div>
             </div>
             <div class="detail-item">
                 <i class="fas fa-calendar-check"></i>
                 <div>
                     <strong>Hạn ứng tuyển:</strong>
-                    <p>30/04/2025</p>
+                    <p>${dueDatePostFormatted}</p>
                 </div>
             </div>
             <div class="detail-item">
                 <i class="fas fa-clock"></i>
                 <div>
-                    <strong>Thời gian hoàn thành:</strong>
-                    <p>45 ngày</p>
+                    <strong>Thời gian còn lại:</strong>
+                    <p>${daysLeft}</p>
                 </div>
             </div>
             <div class="detail-item">
                 <i class="fas fa-users"></i>
                 <div>
-                    <strong>Số lượng thành viên:</strong>
-                    <p>3 người</p>
+                    <strong>Số lượng tuyển dụng:</strong>
+                    <p>${job.numOfMember}</p>
                 </div>
             </div>
         </div>
 
         <div class="job-description">
             <h3 style="margin-bottom: 10px;">Mô tả công việc</h3>
-            <p>Thiết kế và phát triển website thương mại điện tử với đầy đủ tính năng như giỏ hàng, thanh toán trực tuyến, quản lý sản phẩm và đơn hàng. Yêu cầu sử dụng ReactJS cho frontend và NodeJS cho backend.</p>
+            <p>${job.jobDescription}</p>
         </div>
     </section>
-
-    <div style="text-align: end; margin-bottom: 27px">
-        <button class="btn">
-            <i class="fas fa-filter"></i> Lọc
-        </button>
-    </div>
 
     <div class="greeting-filters">
         <div class="filter-group">
@@ -533,131 +85,556 @@
                 <div class="filter-option">Thời gian ngắn nhất</div>
             </div>
         </div>
-
-
     </div>
 
+    <section class="applicants-list">
+        <h2 style="margin-bottom: 30px">Danh Sách Ứng Viên (${job.jobGreetingList.size( )})</h2>
 
-    <div class="greeting-list">
-        <!-- Card 1 -->
-        <div class="greeting-card pulse">
-            <div class="greeting-status status-pending">Chờ xét duyệt</div>
-            <div class="greeting-header">
-                <div class="job-title">Lập trình viên Front-end</div>
-                <div class="job-company">Tech Solutions Inc.</div>
-            </div>
-            <div class="greeting-body">
-                <div class="greeting-info">
-                    <div class="info-item">
-                        <i class="fas fa-money-bill-wave"></i>
-                        <span>Giá đề xuất: 15,000,000 VND</span>
+        <!-- Ứng viên 1 -->
+        <c:if test="${not empty job.jobGreetingList}">
+            <c:forEach var="greeting" items="${job.jobGreetingList}">
+                <div class="applicant-card pulse">
+                    <div class="applicant-avatar">
+                        <img src="${accountDAO.getAccountById(greeting.jobSeekerId).avatar}" alt="Avatar của ${accountDAO.getAccountById(greeting.jobSeekerId).accountName}">
                     </div>
-                    <div class="info-item">
-                        <i class="fas fa-calendar-alt"></i>
-                        <span>Thời gian hoàn thành: 30 ngày</span>
+                    <div class="applicant-info">
+                        <div class="applicant-name">
+                            Nguyễn Văn A
+                            <i class="fas fa-check-circle verified-badge" title="Đã xác thực"></i>
+                        </div>
+                        <div class="applicant-meta">
+                            <span><i class="fas fa-star"></i> ${accountDAO.getAccountById(greeting.jobSeekerId).starRate}</span>
+                            <span><i class="fas fa-briefcase"></i> ${accountDAO.getAccountById(greeting.jobSeekerId).experienceYears} năm kinh nghiệm</span>
+                            <span><i class="fas fa-money-bill"></i> ${greeting.price}</span>
+                            <span><i class="fas fa-calendar"></i> ${greeting.expectedDay}</span>
+                        </div>
+<%--                        <div class="applicant-skills">--%>
+<%--                            <span class="skill-tag">ReactJS</span>--%>
+<%--                            <span class="skill-tag">NodeJS</span>--%>
+<%--                            <span class="skill-tag">MongoDB</span>--%>
+<%--                            <span class="skill-tag">UI/UX</span>--%>
+<%--                        </div>--%>
                     </div>
-                    <div class="info-item">
-                        <i class="fas fa-file-alt"></i>
-                        <span>CV: Front-end Developer CV.pdf</span>
-                    </div>
-                </div>
-            </div>
-            <div class="greeting-footer">
-                <div class="seeker-info">
-                    <div class="seeker-avatar">NT</div>
-                    <div>
-                        <div>Nguyễn Thanh</div>
-                    </div>
-                </div>
-                <button class="view-details">
-                    Chi tiết <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
-        </div>
+                    <div class="applicant-actions">
+                        <c:if test="${greeting.status == 'Chờ xét duyệt'}">
+                            <span class="status-badge status-pending">${greeting.status}</span>
+                        </c:if>
+                        <c:if test="${greeting.status == 'Chờ phỏng vấn'}">
+                            <span class="status-badge status-interview">${greeting.status}</span>
+                        </c:if>
+                        <c:if test="${greeting.status == 'Bị từ chối'}">
+                            <span class="status-badge status-rejected">${greeting.status}</span>
+                        </c:if>
+                        <c:if test="${greeting.status == 'Được nhận'}">
+                            <span class="status-badge status-accepted">${greeting.status}</span>
+                        </c:if>
 
-        <!-- Card 2 -->
-        <div class="greeting-card pulse">
-            <div class="greeting-status status-interview">Chờ phỏng vấn</div>
-            <div class="greeting-header">
-                <div class="job-title">UI/UX Designer</div>
-                <div class="job-company">Creative Design Studio</div>
-            </div>
-            <div class="greeting-body">
-                <div class="greeting-info">
-                    <div class="info-item">
-                        <i class="fas fa-money-bill-wave"></i>
-                        <span>Giá đề xuất: 20,000,000 VND</span>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-calendar-alt"></i>
-                        <span>Thời gian hoàn thành: 45 ngày</span>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-file-alt"></i>
-                        <span>CV: UI Designer Portfolio.pdf</span>
+                        <a href="job-greeting-detail.html" class="action-btn btn-view">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
-            </div>
-            <div class="greeting-footer">
-                <div class="seeker-info">
-                    <div class="seeker-avatar">LH</div>
-                    <div>
-                        <div>Lê Hương</div>
-                    </div>
-                </div>
-                <button class="view-details">
-                    Chi tiết <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="greeting-card pulse">
-            <div class="greeting-status status-rejected">Bị từ chối</div>
-            <div class="greeting-header">
-                <div class="job-title">Data Analyst</div>
-                <div class="job-company">Data Insights Group</div>
-            </div>
-            <div class="greeting-body">
-                <div class="greeting-info">
-                    <div class="info-item">
-                        <i class="fas fa-money-bill-wave"></i>
-                        <span>Giá đề xuất: 18,000,000 VND</span>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-calendar-alt"></i>
-                        <span>Thời gian hoàn thành: 20 ngày</span>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-file-alt"></i>
-                        <span>CV: Data Analysis Expert.pdf</span>
-                    </div>
-                </div>
-            </div>
-            <div class="greeting-footer">
-                <div class="seeker-info">
-                    <div class="seeker-avatar">TM</div>
-                    <div>
-                        <div>Trần Minh</div>
-                    </div>
-                </div>
-                <button class="view-details">
-                    Chi tiết <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
-        </div>
-    </div>
+            </c:forEach>
+        </c:if>
+        <!-- Ứng viên 2 -->
+    </section>
 
     <div class="pagination">
-        <div class="page-nav"><i class="fas fa-chevron-left"></i></div>
-        <div class="page-item active">1</div>
-        <div class="page-item">2</div>
-        <div class="page-item">3</div>
-        <div class="page-item">4</div>
-        <div class="page-item">5</div>
-        <div class="page-nav"><i class="fas fa-chevron-right"></i></div>
+        <span class="pagination-item"><i class="fas fa-chevron-left"></i></span>
+        <span class="pagination-item active">1</span>
+        <span class="pagination-item">2</span>
+        <span class="pagination-item">3</span>
+        <span class="pagination-item">...</span>
+        <span class="pagination-item">5</span>
+        <span class="pagination-item"><i class="fas fa-chevron-right"></i></span>
     </div>
 </div>
+<%--Phân trang--%>
+<script >
+    document.addEventListener('DOMContentLoaded', function() {
+        // Cấu hình phân trang
+        const itemsPerPage = 5;
+        const applicantCards = document.querySelectorAll('.applicant-card');
+        const totalApplicants = applicantCards.length;
+        const totalPages = Math.ceil(totalApplicants / itemsPerPage);
+
+        // Cập nhật số lượng ứng viên trong tiêu đề
+        const applicantsCountElement = document.querySelector('.applicants-list h2');
+        if (applicantsCountElement) {
+            applicantsCountElement.textContent = `Danh Sách Ứng Viên (${totalApplicants})`;
+        }
+
+        // Khởi tạo phân trang
+        initPagination();
+
+        // Hiển thị trang đầu tiên
+        showPage(1);
+
+        function initPagination() {
+            // Xóa phân trang cũ nếu có
+            const paginationDiv = document.querySelector('.pagination');
+            paginationDiv.innerHTML = '';
+
+            // Nút trang trước
+            const prevBtn = document.createElement('span');
+            prevBtn.className = 'pagination-item';
+            prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+            prevBtn.addEventListener('click', function() {
+                const activePage = document.querySelector('.pagination-item.active');
+                if (activePage && activePage.textContent !== '1') {
+                    showPage(parseInt(activePage.textContent) - 1);
+                }
+            });
+            paginationDiv.appendChild(prevBtn);
+
+            // Tạo các nút số trang
+            if (totalPages <= 5) {
+                // Hiển thị tất cả các trang nếu ≤ 5 trang
+                for (let i = 1; i <= totalPages; i++) {
+                    createPageButton(i, paginationDiv);
+                }
+            } else {
+                // Hiển thị trang 1, 2, ..., trang cuối nếu > 5 trang
+                createPageButton(1, paginationDiv);
+                createPageButton(2, paginationDiv);
+
+                // Thêm nút "..."
+                const ellipsis = document.createElement('span');
+                ellipsis.className = 'pagination-item ellipsis';
+                ellipsis.textContent = '...';
+                paginationDiv.appendChild(ellipsis);
+
+                // Thêm trang gần cuối và trang cuối
+                createPageButton(totalPages - 1, paginationDiv);
+                createPageButton(totalPages, paginationDiv);
+            }
+
+            // Nút trang sau
+            const nextBtn = document.createElement('span');
+            nextBtn.className = 'pagination-item';
+            nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+            nextBtn.addEventListener('click', function() {
+                const activePage = document.querySelector('.pagination-item.active');
+                if (activePage && parseInt(activePage.textContent) < totalPages) {
+                    showPage(parseInt(activePage.textContent) + 1);
+                }
+            });
+            paginationDiv.appendChild(nextBtn);
+        }
+
+        function createPageButton(pageNum, container) {
+            const pageBtn = document.createElement('span');
+            pageBtn.className = 'pagination-item';
+            pageBtn.textContent = pageNum;
+            if (pageNum === 1) {
+                pageBtn.classList.add('active');
+            }
+            pageBtn.addEventListener('click', function() {
+                showPage(pageNum);
+            });
+            container.appendChild(pageBtn);
+            return pageBtn;
+        }
+
+        function showPage(pageNum) {
+            // Cập nhật nút active
+            const paginationItems = document.querySelectorAll('.pagination-item');
+            paginationItems.forEach(item => {
+                if (item.textContent == pageNum) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+
+            // Ẩn tất cả các ứng viên
+            applicantCards.forEach(card => {
+                card.style.display = 'none';
+            });
+
+            // Hiển thị các ứng viên của trang hiện tại
+            const startIndex = (pageNum - 1) * itemsPerPage;
+            const endIndex = Math.min(startIndex + itemsPerPage, totalApplicants);
+
+            for (let i = startIndex; i < endIndex; i++) {
+                if (applicantCards[i]) {
+                    applicantCards[i].style.display = 'flex';
+                }
+            }
+
+            // Cập nhật UI phân trang khi số trang > 5
+            updatePaginationUI(pageNum);
+        }
+
+        function updatePaginationUI(currentPage) {
+            if (totalPages <= 5) return;
+
+            const paginationItems = Array.from(document.querySelectorAll('.pagination-item:not(:first-child):not(:last-child)'));
+            const ellipsisItem = document.querySelector('.pagination-item.ellipsis');
+
+            // Xử lý hiển thị phân trang động khi có nhiều trang
+            if (currentPage <= 3) {
+                // Hiển thị trang 1, 2, 3, ..., totalPages
+                paginationItems.forEach((item, index) => {
+                    if (index === 0) item.textContent = '1';
+                    else if (index === 1) item.textContent = '2';
+                    else if (index === 2) {
+                        if (ellipsisItem) {
+                            item.textContent = '3';
+                            ellipsisItem.style.display = 'inline-block';
+                        }
+                    }
+                    else if (index === paginationItems.length - 2) item.textContent = totalPages - 1;
+                    else if (index === paginationItems.length - 1) item.textContent = totalPages;
+                });
+            } else if (currentPage >= totalPages - 2) {
+                // Hiển thị trang 1, ..., totalPages-2, totalPages-1, totalPages
+                paginationItems.forEach((item, index) => {
+                    if (index === 0) item.textContent = '1';
+                    else if (index === 1) {
+                        if (ellipsisItem) {
+                            ellipsisItem.style.display = 'inline-block';
+                        }
+                    }
+                    else if (index === paginationItems.length - 3) item.textContent = totalPages - 2;
+                    else if (index === paginationItems.length - 2) item.textContent = totalPages - 1;
+                    else if (index === paginationItems.length - 1) item.textContent = totalPages;
+                });
+            } else {
+                // Hiển thị trang 1, ..., currentPage, ..., totalPages
+                paginationItems.forEach((item, index) => {
+                    if (index === 0) item.textContent = '1';
+                    else if (index === 1) {
+                        if (ellipsisItem) {
+                            ellipsisItem.style.display = 'inline-block';
+                            item.textContent = currentPage;
+                        }
+                    }
+                    else if (index === paginationItems.length - 2) {
+                        if (ellipsisItem) {
+                            ellipsisItem.style.display = 'inline-block';
+                        }
+                    }
+                    else if (index === paginationItems.length - 1) item.textContent = totalPages;
+                });
+            }
+        }
+    });
+</script>
+
+<%--Lọc Greeting--%>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Lấy tất cả các filter option
+        const filterOptions = document.querySelectorAll('.filter-option');
+        const statusFilterOptions = document.querySelectorAll('.filter-group:nth-child(1) .filter-option');
+        const sortFilterOptions = document.querySelectorAll('.filter-group:nth-child(2) .filter-option');
+
+        // Lấy tất cả các applicant cards
+        const applicantCards = document.querySelectorAll('.applicant-card');
+        const originalCards = Array.from(applicantCards);
+
+        // Lưu trữ trạng thái lọc và sắp xếp hiện tại
+        let currentStatusFilter = 'Tất cả';
+        let currentSortFilter = 'Mới nhất';
+
+        // Thêm event listener cho tất cả các filter option
+        filterOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                // Cập nhật active status trong filter group hiện tại
+                const parentGroup = this.parentElement;
+                parentGroup.querySelectorAll('.filter-option').forEach(opt => {
+                    opt.classList.remove('active');
+                });
+                this.classList.add('active');
+
+                // Cập nhật trạng thái lọc hiện tại
+                if (parentGroup.parentElement.querySelector('.filter-title').textContent.includes('Trạng thái')) {
+                    currentStatusFilter = this.textContent;
+                } else if (parentGroup.parentElement.querySelector('.filter-title').textContent.includes('Sắp xếp')) {
+                    currentSortFilter = this.textContent;
+                }
+
+                // Áp dụng lọc và sắp xếp
+                applyFilters();
+            });
+        });
+
+        // Hàm áp dụng cả bộ lọc và sắp xếp
+        function applyFilters() {
+            const filteredCards = filterByStatus(originalCards, currentStatusFilter);
+            const sortedCards = sortCards(filteredCards, currentSortFilter);
+
+            // Hiển thị các cards đã lọc và sắp xếp
+            displayCards(sortedCards);
+
+            // Cập nhật phân trang
+            initPagination(sortedCards);
+            showPage(1, sortedCards);
+        }
+
+        // Hàm lọc theo trạng thái
+        function filterByStatus(cards, statusFilter) {
+            if (statusFilter === 'Tất cả') {
+                return cards;
+            }
+
+            return cards.filter(card => {
+                const statusBadge = card.querySelector('.status-badge');
+                const cardStatus = statusBadge ? statusBadge.textContent.trim() : '';
+
+                // Map giữa filter option và status trong card
+                const statusMap = {
+                    'Chờ xét duyệt': 'Chờ xét duyệt',
+                    'Chờ phỏng vấn': 'Chờ phỏng vấn',
+                    'Bị từ chối': 'Bị từ chối',
+                    'Được nhận': 'Được nhận'
+                };
+
+                return cardStatus === statusMap[statusFilter];
+            });
+        }
+
+        // Hàm sắp xếp cards
+        function sortCards(cards, sortBy) {
+            const sortedCards = [...cards];
+
+            switch (sortBy) {
+                case 'Mới nhất':
+                    // Mặc định là mới nhất, không cần sắp xếp gì thêm
+                    break;
+
+                case 'Giá cao nhất':
+                    sortedCards.sort((a, b) => {
+                        const priceA = extractPrice(a);
+                        const priceB = extractPrice(b);
+                        return priceB - priceA;
+                    });
+                    break;
+
+                case 'Thời gian ngắn nhất':
+                    sortedCards.sort((a, b) => {
+                        const daysA = extractDays(a);
+                        const daysB = extractDays(b);
+                        return daysA - daysB;
+                    });
+                    break;
+            }
+
+            return sortedCards;
+        }
+
+        // Hàm lấy giá trị price từ card
+        function extractPrice(card) {
+            const priceText = card.querySelector('.fas.fa-money-bill').parentElement.textContent.trim();
+            // Trích xuất giá trị số từ chuỗi (ví dụ: "500000" từ "500000 VND")
+            const priceMatch = priceText.match(/(\d+)/);
+            return priceMatch ? parseInt(priceMatch[0]) : 0;
+        }
+
+        // Hàm lấy số ngày từ card
+        function extractDays(card) {
+            const dayText = card.querySelector('.fas.fa-calendar').parentElement.textContent.trim();
+            // Trích xuất số ngày từ chuỗi (ví dụ: "7" từ "7 ngày")
+            const dayMatch = dayText.match(/(\d+)/);
+            return dayMatch ? parseInt(dayMatch[0]) : 0;
+        }
+
+        // Hàm hiển thị các cards
+        function displayCards(cards) {
+            const container = document.querySelector('.applicants-list');
+            const heading = container.querySelector('h2');
+
+            // Xóa tất cả các card hiện tại
+            Array.from(container.children).forEach(child => {
+                if (child !== heading) {
+                    child.remove();
+                }
+            });
+
+            // Thêm các card đã lọc và sắp xếp
+            cards.forEach(card => {
+                container.appendChild(card);
+            });
+
+            // Cập nhật số lượng ứng viên trong tiêu đề
+            heading.textContent = `Danh Sách Ứng Viên (${cards.length})`;
+        }
+
+        // Hàm khởi tạo phân trang
+        function initPagination(cardsToShow) {
+            const itemsPerPage = 5;
+            const totalApplicants = cardsToShow.length;
+            const totalPages = Math.ceil(totalApplicants / itemsPerPage);
+
+            // Xóa phân trang cũ nếu có
+            const paginationDiv = document.querySelector('.pagination');
+            if (!paginationDiv) {
+                // Tạo phân trang nếu chưa có
+                const newPaginationDiv = document.createElement('div');
+                newPaginationDiv.className = 'pagination';
+                document.querySelector('.applicants-list').after(newPaginationDiv);
+                initPaginationUI(newPaginationDiv, totalPages, cardsToShow);
+            } else {
+                paginationDiv.innerHTML = '';
+                initPaginationUI(paginationDiv, totalPages, cardsToShow);
+            }
+        }
+
+        function initPaginationUI(paginationDiv, totalPages, cardsToShow) {
+            // Nút trang trước
+            const prevBtn = document.createElement('span');
+            prevBtn.className = 'pagination-item';
+            prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+            prevBtn.addEventListener('click', function() {
+                const activePage = document.querySelector('.pagination-item.active');
+                if (activePage && activePage.textContent !== '1') {
+                    showPage(parseInt(activePage.textContent) - 1, cardsToShow);
+                }
+            });
+            paginationDiv.appendChild(prevBtn);
+
+            // Tạo các nút số trang
+            if (totalPages <= 5) {
+                // Hiển thị tất cả các trang nếu ≤ 5 trang
+                for (let i = 1; i <= totalPages; i++) {
+                    createPageButton(i, paginationDiv, cardsToShow);
+                }
+            } else {
+                // Hiển thị trang 1, 2, ..., trang cuối nếu > 5 trang
+                createPageButton(1, paginationDiv, cardsToShow);
+                createPageButton(2, paginationDiv, cardsToShow);
+
+                // Thêm nút "..."
+                const ellipsis = document.createElement('span');
+                ellipsis.className = 'pagination-item ellipsis';
+                ellipsis.textContent = '...';
+                paginationDiv.appendChild(ellipsis);
+
+                // Thêm trang gần cuối và trang cuối
+                createPageButton(totalPages - 1, paginationDiv, cardsToShow);
+                createPageButton(totalPages, paginationDiv, cardsToShow);
+            }
+
+            // Nút trang sau
+            const nextBtn = document.createElement('span');
+            nextBtn.className = 'pagination-item';
+            nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+            nextBtn.addEventListener('click', function() {
+                const activePage = document.querySelector('.pagination-item.active');
+                if (activePage && parseInt(activePage.textContent) < totalPages) {
+                    showPage(parseInt(activePage.textContent) + 1, cardsToShow);
+                }
+            });
+            paginationDiv.appendChild(nextBtn);
+        }
+
+        function createPageButton(pageNum, container, cardsToShow) {
+            const pageBtn = document.createElement('span');
+            pageBtn.className = 'pagination-item';
+            pageBtn.textContent = pageNum;
+            if (pageNum === 1) {
+                pageBtn.classList.add('active');
+            }
+            pageBtn.addEventListener('click', function() {
+                showPage(pageNum, cardsToShow);
+            });
+            container.appendChild(pageBtn);
+            return pageBtn;
+        }
+
+        function showPage(pageNum, cardsToShow) {
+            const itemsPerPage = 5;
+
+            // Cập nhật nút active
+            const paginationItems = document.querySelectorAll('.pagination-item');
+            paginationItems.forEach(item => {
+                if (item.textContent == pageNum) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+
+            // Ẩn tất cả các ứng viên
+            cardsToShow.forEach(card => {
+                card.style.display = 'none';
+            });
+
+            // Hiển thị các ứng viên của trang hiện tại
+            const startIndex = (pageNum - 1) * itemsPerPage;
+            const endIndex = Math.min(startIndex + itemsPerPage, cardsToShow.length);
+
+            for (let i = startIndex; i < endIndex; i++) {
+                if (cardsToShow[i]) {
+                    cardsToShow[i].style.display = 'flex';
+                }
+            }
+
+            // Cập nhật UI phân trang khi số trang > 5
+            updatePaginationUI(pageNum, cardsToShow);
+        }
+
+        function updatePaginationUI(currentPage, cardsToShow) {
+            const itemsPerPage = 5;
+            const totalPages = Math.ceil(cardsToShow.length / itemsPerPage);
+
+            if (totalPages <= 5) return;
+
+            const paginationItems = Array.from(document.querySelectorAll('.pagination-item:not(:first-child):not(:last-child)'));
+            const ellipsisItem = document.querySelector('.pagination-item.ellipsis');
+
+            // Xử lý hiển thị phân trang động khi có nhiều trang
+            if (currentPage <= 3) {
+                // Hiển thị trang 1, 2, 3, ..., totalPages
+                paginationItems.forEach((item, index) => {
+                    if (index === 0) item.textContent = '1';
+                    else if (index === 1) item.textContent = '2';
+                    else if (index === 2) {
+                        if (ellipsisItem) {
+                            item.textContent = '3';
+                            ellipsisItem.style.display = 'inline-block';
+                        }
+                    }
+                    else if (index === paginationItems.length - 2) item.textContent = totalPages - 1;
+                    else if (index === paginationItems.length - 1) item.textContent = totalPages;
+                });
+            } else if (currentPage >= totalPages - 2) {
+                // Hiển thị trang 1, ..., totalPages-2, totalPages-1, totalPages
+                paginationItems.forEach((item, index) => {
+                    if (index === 0) item.textContent = '1';
+                    else if (index === 1) {
+                        if (ellipsisItem) {
+                            ellipsisItem.style.display = 'inline-block';
+                        }
+                    }
+                    else if (index === paginationItems.length - 3) item.textContent = totalPages - 2;
+                    else if (index === paginationItems.length - 2) item.textContent = totalPages - 1;
+                    else if (index === paginationItems.length - 1) item.textContent = totalPages;
+                });
+            } else {
+                // Hiển thị trang 1, ..., currentPage, ..., totalPages
+                paginationItems.forEach((item, index) => {
+                    if (index === 0) item.textContent = '1';
+                    else if (index === 1) {
+                        if (ellipsisItem) {
+                            ellipsisItem.style.display = 'inline-block';
+                            item.textContent = currentPage;
+                        }
+                    }
+                    else if (index === paginationItems.length - 2) {
+                        if (ellipsisItem) {
+                            ellipsisItem.style.display = 'inline-block';
+                        }
+                    }
+                    else if (index === paginationItems.length - 1) item.textContent = totalPages;
+                });
+            }
+        }
+
+        // Khởi tạo ban đầu
+        initPagination(originalCards);
+        showPage(1, originalCards);
+    });
+</script>
 
 <script>
     // Animation for filter options
