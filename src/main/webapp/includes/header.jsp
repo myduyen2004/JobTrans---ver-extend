@@ -1014,7 +1014,7 @@
 </style>
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
     <div class="container-fluid navbar-container">
-        <a class="navbar-brand" href="index.jsp">
+        <a class="navbar-brand" href="/JobTrans/index.jsp">
             <img src="<%= request.getContextPath() %>/img/logo/logo.png" alt="JobTrans Logo" class="d-inline-block align-text-top">
             <span>JobTrans</span>
         </a>
@@ -1228,16 +1228,16 @@
                         </li>
                         <li><hr class="dropdown-divider"></li>
                         <c:if test="${sessionScope.sessionAccount.typeAccount == 'Nhóm'}">
-                            <li><a class="dropdown-item" href="group?action=view&account_id=${sessionScope.sessionAccount.accountId}"><i class="fas fa-user"></i>Hồ sơ cá nhân</a></li>
+                            <li><a class="dropdown-item" href="/JobTrans/group?action=view&account_id=${sessionScope.sessionAccount.accountId}"><i class="fas fa-user"></i>Hồ sơ cá nhân</a></li>
                         </c:if>
                         <c:if test="${sessionScope.sessionAccount.typeAccount == 'Cá nhân'}">
-                            <li><a class="dropdown-item" href="profile?action=view&account_id=${sessionScope.sessionAccount.accountId}"><i class="fas fa-user"></i>Hồ sơ cá nhân</a></li>
+                            <li><a class="dropdown-item" href="/JobTrans/profile?action=view&account_id=${sessionScope.sessionAccount.accountId}"><i class="fas fa-user"></i>Hồ sơ cá nhân</a></li>
                         </c:if>
-                        <li><a class="dropdown-item" href="my-applications.jsp"><i class="fas fa-file-alt"></i>Đơn ứng tuyển</a></li>
-                        <li><a class="dropdown-item" href="my-cvs.jsp"><i class="fas fa-id-card"></i>CV của tôi</a></li>
-                        <li><a class="dropdown-item" href="notifications.jsp"><i class="fas fa-bell"></i>Thông báo</a></li>
+                        <li><a class="dropdown-item" href="/JobTrans/my-applications.jsp"><i class="fas fa-file-alt"></i>Đơn ứng tuyển</a></li>
+                        <li><a class="dropdown-item" href="/JobTrans/my-cvs.jsp"><i class="fas fa-id-card"></i>CV của tôi</a></li>
+                        <li><a class="dropdown-item" href="/JobTrans/notifications.jsp"><i class="fas fa-bell"></i>Thông báo</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="settings.jsp"><i class="fas fa-cog"></i>Cài đặt</a></li>
+                        <li><a class="dropdown-item" href="/JobTrans/settings.jsp"><i class="fas fa-cog"></i>Cài đặt</a></li>
                         <li><a class="dropdown-item logout-item" href="logout"><i class="fas fa-sign-out-alt"></i>Đăng xuất</a></li>
                     </ul>
                 </div>
