@@ -722,7 +722,51 @@ public class JobDAO {
         System.out.println(jobDAO.getAllJobs().size());
     }
 
+    public int countTotalJobsByAccountId(int accountId) {
+        String query = "SELECT COUNT(*) FROM Job WHERE post_account_id = ?";
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, accountId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
+
+    public int countCompletedJobsByAccountId(int accountId) {
+        String query = "SELECT COUNT(*) FROM Job WHERE post_account_id = ? AND status_job_id = 6"; // 'Hoàn thành' status_job_id = 6
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, accountId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public double getJobCompletionRateByAccountId(int accountId) {
+        int total = countTotalJobsByAccountId(accountId);
+        if (total == 0) {
+            return 0.0;
+        }
+        int completed = countCompletedJobsByAccountId(accountId);
+        return (completed * 100.0) / total;
+    }
+
 }
+
 
 
 

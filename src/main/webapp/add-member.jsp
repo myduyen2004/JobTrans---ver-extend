@@ -7,10 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thêm thành viên mới</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/add-member.css">
-
 </head>
 <%@include file="includes/header-01.jsp"%>
 <body>
@@ -86,14 +84,15 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="memberName" name="memberName" placeholder="Họ và tên">
+                                        <input type="text" class="form-control" id="memberName" name="memberName" placeholder="Họ và tên" required>
                                         <label for="memberName">Họ và tên</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" placeholder="Ngày sinh">
+                                        <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" placeholder="Ngày sinh" required>
                                         <label for="dateOfBirth">Ngày sinh</label>
+                                        <small id="dob-error" class="error-message" style="color: red; display: none;"></small>
                                     </div>
                                 </div>
                             </div>
@@ -138,7 +137,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="number" class="form-control" id="experienceYears" name="experienceYears" placeholder="Chuyên môn">
+                                        <input type="number" class="form-control" id="experienceYears" name="experienceYears" placeholder="Số năm kinh nghiệm" required>
                                         <label for="experienceYears">Số năm kinh nghiệm</label>
                                     </div>
                                 </div>
@@ -156,7 +155,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-floating">
-                                        <textarea class="form-control" id="skills" name="skills" style="height: 100px" placeholder="Kỹ năng"></textarea>
+                                        <input class="form-control" id="skills" name="skills" placeholder="Kỹ năng">
                                         <label for="skills">Kỹ năng (cách nhau bởi dấu phẩy)</label>
                                     </div>
                                 </div>
@@ -169,12 +168,6 @@
                             <h4 class="form-section-title"><i class="fas fa-address-card"></i> Thông tin liên hệ</h4>
 
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-floating">
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email">
-                                        <label for="email">Email</label>
-                                    </div>
-                                </div>
                                 <div class="col-md-12">
                                     <div class="form-floating">
                                         <input type="tel" class="form-control" id="phone" name="phone" placeholder="Số điện thoại">
@@ -217,10 +210,10 @@
                             </div>
 
                             <div class="btn-container animate__animated animate__fadeIn animate__delay-3s">
-                                <button type="button" class="btn btn-outline-secondary btn-action" id="btnCancel">
+                                <button type="button" class="btn btn-outline-secondary btn-action" id="btnCancel" style="border-radius: 30px; padding: 10px 20px;">
                                     <i class="fas fa-times"></i> Hủy bỏ
                                 </button>
-                                <button type="submit" class="btn btn-primary btn-action" id="btnSubmit">
+                                <button type="submit" class="btn btn-primary btn-action" id="btnSubmit"  style="background-image: linear-gradient(to right, rgb(21, 32, 112), rgb(39, 64, 179));color: white; border-radius: 30px; padding: 10px 20px;">
                                     <i class="fas fa-save"></i> Lưu thành viên
                                     <span class="loader ms-2" id="submitLoader"></span>
                                 </button>
@@ -245,6 +238,314 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<%--Validate các trường--%>
+<script>
+    // Validation cho form thông tin cá nhân
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+        const dobInput = document.getElementById('dateOfBirth');
+        const dobError = document.getElementById('dob-error');
+        const specialityInput = document.getElementById('speciality');
+        const skillsInput = document.getElementById('skills');
+        const educationInput = document.getElementById('education');
+        let addressInput = document.getElementById('address');
+        const phoneInput = document.getElementById('phone');
+
+        // Danh sách 63 tỉnh thành Việt Nam
+        const vietnamProvinces = [
+            "An Giang", "Bà Rịa - Vũng Tàu", "Bắc Giang", "Bắc Kạn", "Bạc Liêu",
+            "Bắc Ninh", "Bến Tre", "Bình Định", "Bình Dương", "Bình Phước",
+            "Bình Thuận", "Cà Mau", "Cần Thơ", "Cao Bằng", "Đà Nẵng",
+            "Đắk Lắk", "Đắk Nông", "Điện Biên", "Đồng Nai", "Đồng Tháp",
+            "Gia Lai", "Hà Giang", "Hà Nam", "Hà Nội", "Hà Tĩnh",
+            "Hải Dương", "Hải Phòng", "Hậu Giang", "Hòa Bình", "Hưng Yên",
+            "Khánh Hòa", "Kiên Giang", "Kon Tum", "Lai Châu", "Lâm Đồng",
+            "Lạng Sơn", "Lào Cai", "Long An", "Nam Định", "Nghệ An",
+            "Ninh Bình", "Ninh Thuận", "Phú Thọ", "Phú Yên", "Quảng Bình",
+            "Quảng Nam", "Quảng Ngãi", "Quảng Ninh", "Quảng Trị", "Sóc Trăng",
+            "Sơn La", "Tây Ninh", "Thái Bình", "Thái Nguyên", "Thanh Hóa",
+            "Thừa Thiên Huế", "Tiền Giang", "TP Hồ Chí Minh", "Trà Vinh", "Tuyên Quang",
+            "Vĩnh Long", "Vĩnh Phúc", "Yên Bái"
+        ];
+
+        // Hàm tạo và hiển thị thông báo lỗi
+        function showError(element, message) {
+            // Kiểm tra xem đã có thông báo lỗi chưa
+            let errorElement = element.nextElementSibling;
+            if (!errorElement || !errorElement.classList.contains('error-message')) {
+                // Tạo phần tử thông báo lỗi mới
+                errorElement = document.createElement('small');
+                errorElement.classList.add('error-message');
+                errorElement.style.color = 'red';
+                errorElement.style.display = 'block';
+                errorElement.style.marginTop = '5px';
+                // Chèn sau input
+                element.parentNode.insertBefore(errorElement, element.nextSibling);
+            }
+
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+            return false;
+        }
+
+        // Hàm ẩn thông báo lỗi
+        function hideError(element) {
+            const errorElement = element.nextElementSibling;
+            if (errorElement && errorElement.classList.contains('error-message')) {
+                errorElement.style.display = 'none';
+            }
+            return true;
+        }
+
+        // Hàm viết hoa chữ cái đầu của mỗi từ
+        function capitalizeFirstLetter(string) {
+            return string.replace(/\b\w/g, function(l) { return l.toUpperCase(); });
+        }
+
+        // Thêm datalist cho tỉnh thành Việt Nam
+        if (addressInput) {
+            // Tạo hoặc thay thế input text bằng dropdown select
+            const parentElement = addressInput.parentElement;
+            const labelText = parentElement.querySelector('label') ? parentElement.querySelector('label').textContent : 'Địa chỉ';
+
+            // Tạo select element mới
+            const selectElement = document.createElement('select');
+            selectElement.id = addressInput.id;
+            selectElement.name = addressInput.name;
+            selectElement.className = addressInput.className;
+            selectElement.required = addressInput.required;
+
+            // Thêm option mặc định
+            const defaultOption = document.createElement('option');
+            defaultOption.value = "";
+            defaultOption.textContent = "-- Chọn tỉnh thành --";
+            defaultOption.selected = true;
+            defaultOption.disabled = true;
+            selectElement.appendChild(defaultOption);
+
+            // Thêm các option cho tỉnh thành
+            vietnamProvinces.forEach(province => {
+                const option = document.createElement('option');
+                option.value = province;
+                option.textContent = province;
+                selectElement.appendChild(option);
+            });
+
+            // Thay thế input cũ bằng select mới
+            parentElement.replaceChild(selectElement, addressInput);
+
+            // Cập nhật biến addressInput để trỏ đến select mới
+            addressInput = selectElement;
+
+            // Thêm CSS để làm đẹp select
+            const style = document.createElement('style');
+            style.textContent = `
+            select#${addressInput.id} {
+                width: 100%;
+                padding: 8px 12px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                appearance: none;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: right 10px center;
+                background-size: 16px;
+                cursor: pointer;
+            }
+            select#${addressInput.id}:focus {
+                outline: none;
+                border-color: #4299e1;
+                box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+            }
+            select#${addressInput.id} option {
+                padding: 8px;
+            }
+        `;
+            document.head.appendChild(style);
+
+            // Cập nhật event listener cho select thay vì input
+            addressInput.addEventListener('change', function() {
+                const addressValue = this.value.trim();
+                if (addressValue === "") {
+                    showError(this, 'Vui lòng chọn tỉnh thành');
+                } else {
+                    hideError(this);
+                }
+            });
+        }
+
+        // Validation khi submit form
+        form.addEventListener('submit', function(event) {
+            let isValid = true;
+
+            // Kiểm tra ngày sinh
+            if(dobInput) {
+                const dobValue = new Date(dobInput.value);
+                const today = new Date();
+
+                // Tính tuổi
+                let age = today.getFullYear() - dobValue.getFullYear();
+                const monthDiff = today.getMonth() - dobValue.getMonth();
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dobValue.getDate())) {
+                    age--;
+                }
+
+                // Kiểm tra tuổi >= 18 và không phải ngày ở tương lai
+                if (dobInput.value === "") {
+                    isValid = showError(dobInput, 'Vui lòng nhập ngày sinh');
+                } else if (age < 18 || dobValue > today) {
+                    dobError.textContent = age < 18 ? 'Bạn phải đủ 18 tuổi trở lên.' : 'Ngày sinh không thể là ngày trong tương lai.';
+                    dobError.style.display = 'block';
+                    isValid = false;
+                } else {
+                    dobError.style.display = 'none';
+                }
+            }
+
+            // Kiểm tra chuyên môn không chỉ chứa số
+            if(specialityInput && specialityInput.value.trim() !== '') {
+                if(/^\d+$/.test(specialityInput.value.trim())) {
+                    isValid = showError(specialityInput, 'Chuyên môn không được chỉ chứa số');
+                } else {
+                    hideError(specialityInput);
+                }
+            }
+
+            if(skillsInput && skillsInput.value.trim() !== '') {
+                if(/^\d+$/.test(skillsInput.value.trim())) {
+                    isValid = showError(skillsInput, 'Kĩ năng không được chỉ chứa số');
+                } else {
+                    hideError(skillsInput);
+                }
+            }
+
+            // Kiểm tra học vấn không chỉ chứa số
+            if(educationInput && educationInput.value.trim() !== '') {
+                if(/^\d+$/.test(educationInput.value.trim())) {
+                    isValid = showError(educationInput, 'Học vấn không được chỉ chứa số');
+                } else {
+                    hideError(educationInput);
+                }
+            }
+
+            // Kiểm tra địa chỉ được chọn
+            if(addressInput && addressInput.value.trim() === '') {
+                isValid = showError(addressInput, 'Vui lòng chọn tỉnh thành');
+            } else if(addressInput) {
+                hideError(addressInput);
+            }
+
+            // Kiểm tra số điện thoại
+            if(phoneInput) {
+                if(phoneInput.value.trim() === '') {
+                    isValid = showError(phoneInput, 'Vui lòng nhập số điện thoại');
+                } else if(!/^\d{10}$/.test(phoneInput.value.trim())) {
+                    isValid = showError(phoneInput, 'Số điện thoại phải có đúng 10 chữ số');
+                } else {
+                    hideError(phoneInput);
+                }
+            }
+
+            if(!isValid) {
+                event.preventDefault();
+            }
+        });
+
+        // Validation khi nhập dữ liệu
+        if(dobInput) {
+            dobInput.addEventListener('change', function() {
+                if(this.value === "") {
+                    showError(this, 'Vui lòng nhập ngày sinh');
+                    return;
+                }
+
+                const dobValue = new Date(this.value);
+                const today = new Date();
+
+                // Tính tuổi
+                let age = today.getFullYear() - dobValue.getFullYear();
+                const monthDiff = today.getMonth() - dobValue.getMonth();
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dobValue.getDate())) {
+                    age--;
+                }
+
+                // Kiểm tra tuổi >= 18 và không phải ngày ở tương lai
+                if (age < 18 || dobValue > today) {
+                    dobError.textContent = age < 18 ? 'Bạn phải đủ 18 tuổi trở lên.' : 'Ngày sinh không thể là ngày trong tương lai.';
+                    dobError.style.display = 'block';
+                } else {
+                    dobError.style.display = 'none';
+                }
+            });
+        }
+
+        // Chuyên môn - viết hoa chữ cái đầu
+        if(specialityInput) {
+            specialityInput.addEventListener('blur', function() {
+                if(this.value.trim() !== '') {
+                    if(/^\d+$/.test(this.value.trim())) {
+                        showError(this, 'Chuyên môn không được chỉ chứa số');
+                    } else {
+                        hideError(this);
+                        this.value = capitalizeFirstLetter(this.value);
+                    }
+                }
+            });
+        }
+
+        if(skillsInput) {
+            skillsInput.addEventListener('blur', function() {
+                if(this.value.trim() !== '') {
+                    if(/^\d+$/.test(this.value.trim())) {
+                        showError(this, 'Kĩ năng không được chỉ chứa số');
+                    } else {
+                        hideError(this);
+                        this.value = capitalizeFirstLetter(this.value);
+                    }
+                }
+            });
+        }
+
+        // Học vấn - viết hoa chữ cái đầu
+        if(educationInput) {
+            educationInput.addEventListener('blur', function() {
+                if(this.value.trim() !== '') {
+                    if(/^\d+$/.test(this.value.trim())) {
+                        showError(this, 'Học vấn không được chỉ chứa số');
+                    } else {
+                        hideError(this);
+                        this.value = capitalizeFirstLetter(this.value);
+                    }
+                }
+            });
+        }
+
+        // Validation cho số điện thoại - chỉ cho phép nhập số
+        if(phoneInput) {
+            // Loại bỏ ký tự không phải số khi nhập
+            phoneInput.addEventListener('input', function() {
+                this.value = this.value.replace(/\D/g, '');
+
+                // Giới hạn độ dài tối đa 10 số
+                if(this.value.length > 10) {
+                    this.value = this.value.slice(0, 10);
+                }
+            });
+
+            // Kiểm tra đúng 10 chữ số khi blur
+            phoneInput.addEventListener('blur', function() {
+                if(this.value.trim() === '') {
+                    showError(this, 'Vui lòng nhập số điện thoại');
+                } else if(!/^\d{10}$/.test(this.value.trim())) {
+                    showError(this, 'Số điện thoại phải có đúng 10 chữ số');
+                } else {
+                    hideError(this);
+                }
+            });
+        }
+    });
+</script>
+
 <script>
     // Progress bar animation
     document.addEventListener('DOMContentLoaded', function() {
@@ -316,16 +617,6 @@
                     updateProgress();
                 }
                 reader.readAsDataURL(file);
-            }
-        });
-
-        // Xử lý nút hủy bỏ
-        document.getElementById('btnCancel').addEventListener('click', function() {
-            if(confirm('Bạn có chắc muốn hủy bỏ việc thêm thành viên mới?')) {
-                document.getElementById('memberForm').reset();
-                document.querySelector('.progress-bar').style.width = '0%';
-                document.getElementById('completionRate').textContent = '0%';
-                document.getElementById('imagePreview').src = '/api/placeholder/180/180';
             }
         });
 
