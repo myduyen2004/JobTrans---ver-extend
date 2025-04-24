@@ -14,7 +14,7 @@
 <body>
 
 <div class="container">
-
+<%@include file="includes/header-01.jsp"%>
     <section class="job-header">
         <div class="job-title">
             <div>
@@ -129,7 +129,7 @@
                             <span class="status-badge status-accepted">${greeting.status}</span>
                         </c:if>
 
-                        <a href="job-greeting-detail.html" class="action-btn btn-view">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
+                        <a href="job-greeting?action=view-details-greeting&greetingId=${greeting.greetingId}" class="action-btn btn-view">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
             </c:forEach>
@@ -147,6 +147,9 @@
         <span class="pagination-item"><i class="fas fa-chevron-right"></i></span>
     </div>
 </div>
+
+<%@include file="includes/footer.jsp"%>
+
 <%--Phân trang--%>
 <script >
     document.addEventListener('DOMContentLoaded', function() {

@@ -1,12 +1,26 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chi tiết lời chào việc làm</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>Chi tiết đơn ứng tuyển</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <style>
+        :root {
+            --primary-gradient: linear-gradient(to right, rgb(21, 32, 112), rgb(39, 64, 179));
+            --dark-blue: rgb(21, 32, 112);
+            --light-blue: rgb(39, 64, 179);
+            --text-light: #f8f9fa;
+            --text-dark: #343a40;
+            --border-radius: 12px;
+            --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -15,8 +29,8 @@
         }
 
         body {
-            background-color: #f5f7fb;
-            color: #333;
+            background-color: #f8f9fa;
+            color: var(--text-dark);
         }
 
         .container {
@@ -26,504 +40,428 @@
         }
 
         header {
-            background: linear-gradient(to right, rgb(21, 32, 112), rgb(39, 64, 179));
+            background: var(--primary-gradient);
             color: white;
             padding: 20px 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             margin-bottom: 30px;
-            border-radius: 0 0 20px 20px;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            box-shadow: var(--box-shadow);
         }
 
         .header-content {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
         }
 
-        .brand {
+        .logo {
             font-size: 24px;
             font-weight: bold;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
         }
 
-        .brand i {
-            margin-right: 10px;
+        .page-title {
             font-size: 28px;
+            margin-bottom: 20px;
+            color: var(--text-light);
+            animation: fadeInDown 1s;
         }
 
-        .back-button {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 30px;
-            padding: 8px 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .back-button:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateX(-5px);
-        }
-
-        .greeting-detail-container {
-            display: grid;
-            grid-template-columns: 3fr 2fr;
-            gap: 30px;
-            animation: fadeIn 0.6s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .greeting-main {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        .card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
             overflow: hidden;
+            animation: fadeIn 0.8s;
         }
 
-        .greeting-header {
-            padding: 30px;
-            background: linear-gradient(to right, rgba(21, 32, 112, 0.95), rgba(39, 64, 179, 0.95));
+        .card-header-a {
+            background: var(--primary-gradient);
             color: white;
-            position: relative;
+            padding: 20px;
+            font-size: 18px;
+            font-weight: bold;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
         }
 
-        .greeting-title {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 10px;
+        .card-body-a {
+            padding: 20px 40px;
         }
 
-        .greeting-company {
-            font-size: 16px;
-            opacity: 0.9;
-            margin-bottom: 15px;
-        }
-
-        .greeting-date {
-            font-size: 14px;
-            opacity: 0.8;
-        }
-
-        .greeting-status-badge {
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-size: 14px;
-            font-weight: 600;
-            margin-top: 5px;
-            display: inline-block;
-        }
-
-        .status-pending {
-            background-color: #FFF8E5;
-            color: #FFA113;
-        }
-
-        .status-interview {
-            background-color: #E5F5FF;
-            color: #0095FF;
-        }
-
-        .status-rejected {
-            background-color: #FFE5E5;
-            color: #FF4D4F;
-        }
-
-        .status-accepted {
-            background-color: #E5FFF2;
-            color: #00C853;
-        }
-
-        .greeting-content {
-            padding: 30px;
-        }
-
-        .greeting-section {
+        .applicant-info {
+            display: flex;
             margin-bottom: 30px;
+            animation: fadeInUp 1s;
         }
 
-        .greeting-section:last-child {
-            margin-bottom: 0;
+        .avatar-container-a {
+            width: 120px;
+            height: 120px;
+            margin-right: 20px;
+            position: relative;
+            flex-shrink: 0;
         }
 
-        .section-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: rgb(21, 32, 112);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .section-title i {
-            width: 30px;
-            height: 30px;
-            background: rgba(21, 32, 112, 0.1);
+        .avatar {
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgb(39, 64, 179);
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        .introduction-text {
-            line-height: 1.6;
-            color: #444;
-            text-align: justify;
-        }
-
-        .detail-value {
-            font-weight: 500;
-            color: #333;
-        }
-
-        .attachment-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: #f7f9fc;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .attachment-item:hover {
-            background: #eef2f7;
-            transform: translateX(5px);
-        }
-
-        .attachment-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(to right, rgb(21, 32, 112), rgb(39, 64, 179));
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .verification-badge {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background-color: #28a745;
             color: white;
-        }
-
-        .attachment-info {
-            flex: 1;
-        }
-
-        .attachment-title {
-            font-weight: 500;
-            margin-bottom: 3px;
-        }
-
-        .attachment-size {
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 12px;
-            color: #777;
         }
 
-        .attachment-actions {
+        .applicant-details {
+            flex-grow: 1;
+        }
+
+        .applicant-name {
+            font-size: 24px;
+            margin-bottom: 5px;
+            color: var(--dark-blue);
+        }
+
+        .applicant-rating {
+            color: #ffc107;
+            margin-bottom: 10px;
+        }
+
+        .info-row {
             display: flex;
+            margin-bottom: 10px;
+        }
+
+        .info-label {
+            width: 180px;
+            font-weight: 500;
+            color: #6c757d;
+        }
+
+        .info-value {
+            flex-grow: 1;
+        }
+
+        .tags {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
             gap: 10px;
         }
 
-        .attachment-action {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: #f0f2f5;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #555;
-            transition: all 0.3s ease;
+        .tag {
+            background: linear-gradient(135deg, rgba(39, 64, 179, 0.1), rgba(21, 32, 112, 0.2));
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: var(--dark-blue);
+            display: inline-block;
+            transition: var(--transition);
         }
 
-        .attachment-action:hover {
-            background: rgb(39, 64, 179);
-            color: white;
+        .tag:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
         }
 
-        .greeting-sidebar {
+        .job-details {
+            margin-bottom: 30px;
+            animation: fadeInUp 1.2s;
+        }
+
+        .job-title {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--dark-blue);
+        }
+
+        .job-params {
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
             gap: 20px;
-        }
-
-        .sidebar-card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .sidebar-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(21, 32, 112, 0.15);
-        }
-
-        .sidebar-card-header {
-            padding: 20px;
-            background: linear-gradient(to right, rgba(21, 32, 112, 0.95), rgba(39, 64, 179, 0.95));
-            color: white;
-        }
-
-        .sidebar-card-title {
-            font-size: 18px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .sidebar-card-content {
-            padding: 20px;
-        }
-
-        .seeker-profile {
-            display: flex;
-            align-items: center;
-            gap: 15px;
             margin-bottom: 20px;
         }
 
-        .seeker-avatar {
-            width: 70px;
-            height: 70px;
+        .job-param {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon-circle {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            overflow: hidden;
-            position: relative;
-            background: linear-gradient(to right, rgb(21, 32, 112), rgb(39, 64, 179));
+            background: var(--primary-gradient);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 24px;
-            font-weight: bold;
         }
 
-        .seeker-info {
-            flex: 1;
-        }
-
-        .seeker-name {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .seeker-role {
-            color: #777;
-            font-size: 14px;
-        }
-
-        .profile-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-
-        .stat-item {
-            background: #f7f9fc;
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 20px;
-            font-weight: 600;
-            color: rgb(39, 64, 179);
-            margin-bottom: 5px;
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: #777;
+        .introduction {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            border-left: 4px solid var(--light-blue);
+            animation: fadeInUp 1.4s;
         }
 
         .cv-preview {
-            border: 1px solid #eee;
-            border-radius: 10px;
-            height: 200px;
+            margin-bottom: 30px;
+            animation: fadeInUp 1.6s;
+        }
+
+        .cv-container {
+            height: 600px;
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #f7f9fc;
-            margin-bottom: 20px;
-            overflow: hidden;
             position: relative;
+            overflow: hidden;
+            border: 1px solid #dee2e6;
         }
 
-        .cv-preview img {
-            max-width: 100%;
-            max-height: 100%;
+        .cv-placeholder {
+            width: 100%;
+            height: 100%;
             object-fit: contain;
         }
 
-        .cv-preview-overlay {
+        .cv-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(21, 32, 112, 0.7);
+            background-color: rgba(0, 0, 0, 0.5);
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             opacity: 0;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
 
-        .cv-preview:hover .cv-preview-overlay {
+        .cv-container:hover .cv-overlay {
             opacity: 1;
         }
 
-        .preview-button {
-            background: white;
-            color: rgb(39, 64, 179);
+        .btn-a {
+            padding: 12px 24px;
+            border-radius: 30px;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.3s ease;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .preview-button:hover {
-            transform: scale(1.05);
-        }
-
-        .action-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .action-button {
-            padding: 12px 0;
-            border-radius: 8px;
-            font-weight: 600;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .accept-button {
-            background: linear-gradient(to right, rgb(21, 32, 112), rgb(39, 64, 179));
+        .btn-primary {
+            background: var(--primary-gradient);
             color: white;
         }
 
-        .reject-button {
-            background: #f0f2f5;
-            color: #555;
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--light-blue);
+            color: var(--light-blue);
         }
 
-        .action-button:hover {
+        .btn-a:hover {
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .action-button.accept-button:hover {
-            box-shadow: 0 5px 15px rgba(21, 32, 112, 0.3);
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
-        .timeline {
-            position: relative;
-            padding-left: 30px;
+        .attachment {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            animation: fadeInUp 1.8s;
         }
 
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 10px;
+        .attachment-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .attachment-details {
+            flex-grow: 1;
+        }
+
+        .attachment-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .attachment-size {
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .actions {
+            padding: 20px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            animation: fadeInUp 2s;
+        }
+
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background-color: #ffc107;
+            color: #212529;
+        }
+
+        .status-interview {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        .status-rejected {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .status-approved {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
             top: 0;
+            left: 0;
+            width: 100%;
             height: 100%;
-            width: 2px;
-            background: #eee;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
         }
 
-        .timeline-item {
-            position: relative;
+        .modal-content {
+            background-color: white;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: zoomIn 0.3s;
+        }
+
+        .modal-header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .form-group {
             margin-bottom: 20px;
         }
 
-        .timeline-item:last-child {
-            margin-bottom: 0;
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
         }
 
-        .timeline-dot {
-            position: absolute;
-            left: -30px;
-            top: 0;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: white;
-            border: 2px solid rgb(39, 64, 179);
-            z-index: 1;
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: var(--border-radius);
         }
 
-        .timeline-dot.active {
-            background: rgb(39, 64, 179);
+        .form-control:focus {
+            outline: none;
+            border-color: var(--light-blue);
+            box-shadow: 0 0 0 3px rgba(39, 64, 179, 0.2);
         }
 
-        .timeline-content {
-            background: #f7f9fc;
-            border-radius: 10px;
-            padding: 15px;
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
         }
 
-        .timeline-date {
-            font-size: 12px;
-            color: #777;
-            margin-bottom: 5px;
-        }
-
-        .timeline-title {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .timeline-description {
-            font-size: 14px;
-            color: #555;
-        }
-
-        /* Animation */
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(39, 64, 179, 0.4);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(39, 64, 179, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(39, 64, 179, 0);
-            }
-        }
-
-        .fade-in-up {
-            animation: fadeInUp 0.6s both;
+        /* Animation keyframes */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         @keyframes fadeInUp {
@@ -537,363 +475,409 @@
             }
         }
 
-        .sidebar-card:nth-child(1) {
-            animation-delay: 0.2s;
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .sidebar-card:nth-child(2) {
-            animation-delay: 0.4s;
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
-        .sidebar-card:nth-child(3) {
-            animation-delay: 0.6s;
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
-        /* Responsive */
-        @media (max-width: 992px) {
-            .greeting-detail-container {
-                grid-template-columns: 1fr;
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .applicant-info {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .avatar-container-a {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+
+            .info-row {
+                flex-direction: column;
+                margin-bottom: 15px;
+            }
+
+            .info-label {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+
+            .job-params {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .btn-a {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .actions {
+                flex-direction: column;
             }
         }
     </style>
 </head>
 <body>
-<header>
-    <div class="container">
-        <div class="header-content">
-            <div class="brand">
-                <i class="fas fa-briefcase"></i>
-                <span>JobConnect</span>
-            </div>
-            <div class="back-button">
-                <i class="fas fa-arrow-left"></i>
-                <span>Quay lại danh sách</span>
-            </div>
-        </div>
-    </div>
-</header>
-
+<%@include file="includes/header-01.jsp"%>
 <div class="container">
-    <div class="greeting-detail-container">
-        <div class="greeting-main fade-in-up">
-            <div class="greeting-header">
-                <div>
-                    <div class="greeting-title">Lập trình viên Front-end</div>
-                    <div class="greeting-company">Tech Solutions Inc.</div>
-                    <div class="greeting-date">Ngày gửi: 15/04/2025</div>
-                </div>
-                <div class="greeting-status-badge status-interview">Chờ phỏng vấn</div>
-            </div>
-
-            <div class="greeting-content">
-                <div class="greeting-section">
-                    <div class="section-title">
-                        <i class="fas fa-info-circle"></i>
-                        <span>Thông tin cơ bản</span>
-                    </div>
-                    <div class="info-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                        <div class="info-item">
-                            <div style="color: #777; margin-bottom: 5px;">Giá đề xuất:</div>
-                            <div class="detail-value">20,000,000 VND</div>
-                        </div>
-                        <div class="info-item">
-                            <div style="color: #777; margin-bottom: 5px;">Thời gian hoàn thành:</div>
-                            <div class="detail-value">30 ngày</div>
-                        </div>
-                        <div class="info-item">
-                            <div style="color: #777; margin-bottom: 5px;">Tình trạng:</div>
-                            <div class="detail-value">Đã đọc</div>
-                        </div>
-                        <div class="info-item">
-                            <div style="color: #777; margin-bottom: 5px;">Mã CV:</div>
-                            <div class="detail-value">CV-2025-0438</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="greeting-section">
-                    <div class="section-title">
-                        <i class="fas fa-comment-alt"></i>
-                        <span>Thư giới thiệu</span>
-                    </div>
-                    <div class="introduction-text">
-                        <p>Kính gửi Quý công ty Tech Solutions Inc.,</p>
-                        <br>
-                        <p>Tôi viết thư này để bày tỏ sự quan tâm của mình đối với vị trí Lập trình viên Front-end mà quý công ty đang tuyển dụng. Với hơn 5 năm kinh nghiệm trong việc phát triển giao diện người dùng và 3 năm làm việc chuyên sâu với các công nghệ như React, Angular và Vue.js, tôi tin rằng mình có thể đóng góp tích cực cho đội ngũ của quý công ty.</p>
-                        <br>
-                        <p>Trong vai trò Front-end Developer tại công ty hiện tại, tôi đã phát triển nhiều dự án thành công với giao diện người dùng thân thiện, đáp ứng và hiệu suất cao. Tôi cũng có kinh nghiệm làm việc với RESTful APIs, GraphQL và có hiểu biết về các framework back-end như Node.js và Laravel.</p>
-                        <br>
-                        <p>Tôi đặc biệt ấn tượng với sản phẩm của Tech Solutions và tin rằng kỹ năng của tôi sẽ phù hợp với các dự án sắp tới của công ty. Tôi được biết đến là một người có tinh thần đội nhóm tốt, luôn học hỏi công nghệ mới và giải quyết vấn đề một cách sáng tạo.</p>
-                        <br>
-                        <p>Kính mong Quý công ty xem xét ứng tuyển của tôi và mong nhận được phản hồi tích cực. Tôi sẵn sàng cho buổi phỏng vấn để thảo luận thêm về cách tôi có thể đóng góp cho thành công của Tech Solutions.</p>
-                        <br>
-                        <p>Trân trọng,<br>Nguyễn Thanh</p>
-                    </div>
-                </div>
-
-                <div class="greeting-section">
-                    <div class="section-title">
-                        <i class="fas fa-paperclip"></i>
-                        <span>Tài liệu đính kèm</span>
-                    </div>
-                    <div class="attachments-list">
-                        <div class="attachment-item">
-                            <div class="attachment-icon">
-                                <i class="fas fa-file-pdf"></i>
-                            </div>
-                            <div class="attachment-info">
-                                <div class="attachment-title">Front-end Developer CV.pdf</div>
-                                <div class="attachment-size">2.4 MB</div>
-                            </div>
-                            <div class="attachment-actions">
-                                <div class="attachment-action">
-                                    <i class="fas fa-eye"></i>
-                                </div>
-                                <div class="attachment-action">
-                                    <i class="fas fa-download"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="attachment-item">
-                            <div class="attachment-icon">
-                                <i class="fas fa-file-word"></i>
-                            </div>
-                            <div class="attachment-info">
-                                <div class="attachment-title">Thư giới thiệu.docx</div>
-                                <div class="attachment-size">568 KB</div>
-                            </div>
-                            <div class="attachment-actions">
-                                <div class="attachment-action">
-                                    <i class="fas fa-eye"></i>
-                                </div>
-                                <div class="attachment-action">
-                                    <i class="fas fa-download"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="attachment-item">
-                            <div class="attachment-icon">
-                                <i class="fas fa-file-image"></i>
-                            </div>
-                            <div class="attachment-info">
-                                <div class="attachment-title">Portfolio Screenshot.png</div>
-                                <div class="attachment-size">1.2 MB</div>
-                            </div>
-                            <div class="attachment-actions">
-                                <div class="attachment-action">
-                                    <i class="fas fa-eye"></i>
-                                </div>
-                                <div class="attachment-action">
-                                    <i class="fas fa-download"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="card">
+        <div class="card-header-a">
+            <span>Thông tin ứng viên</span>
+            <div class="status-badge status-interview">${jobGreeting.status}</div>
         </div>
-
-        <div class="greeting-sidebar">
-            <div class="sidebar-card fade-in-up">
-                <div class="sidebar-card-header">
-                    <div class="sidebar-card-title">
-                        <i class="fas fa-user-circle"></i>
-                        <span>Thông tin ứng viên</span>
+        <div class="card-body-a">
+            <div class="applicant-info">
+                <div class="avatar-container-a">
+                    <img src="${account.avatar}" alt="Ảnh đại diện" class="avatar">
+                    <div class="verification-badge">
+                        <i class="fas fa-check"></i>
                     </div>
                 </div>
-                <div class="sidebar-card-content">
-                    <div class="seeker-profile">
-                        <div class="seeker-avatar">NT</div>
-                        <div class="seeker-info">
-                            <div class="seeker-name">Nguyễn Thanh</div>
-                            <div class="seeker-role">Front-end Developer</div>
+                <div class="applicant-details">
+                    <h2 class="applicant-name">${account.accountName}</h2>
+                    <div class="applicant-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span>4.5</span>
+                    </div>
+                    <div class="" style="display: grid; grid-template-columns: auto auto;">
+                        <div class="info-row">
+                            <div class="info-label">Điểm:</div>
+                            <div class="info-value">${account.point}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Số điện thoại:</div>
+                            <div class="info-value">${account.phone}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Chuyên môn:</div>
+                            <div class="info-value">${account.speciality}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Số năm kinh nghiệm:</div>
+                            <div class="info-value">${account.experienceYears}</div>
                         </div>
                     </div>
-                    <div class="profile-stats">
-                        <div class="stat-item">
-                            <div class="stat-value">25</div>
-                            <div class="stat-label">Công việc đã ứng tuyển</div>
+<%--                    <div class="tags">--%>
+<%--                        <span class="tag">JavaScript</span>--%>
+<%--                        <span class="tag">ReactJS</span>--%>
+<%--                        <span class="tag">NodeJS</span>--%>
+<%--                        <span class="tag">SQL Server</span>--%>
+<%--                        <span class="tag">UI/UX</span>--%>
+<%--                    </div>--%>
+                </div>
+            </div>
+
+            <div class="job-details">
+                <h3 class="job-title" style="margin-bottom: 20px">Chi tiết báo giá</h3>
+                <div class="job-params">
+                    <div class="job-param">
+                        <div class="icon-circle">
+                            <i class="fas fa-coins"></i>
                         </div>
-                        <div class="stat-item">
-                            <div class="stat-value">18</div>
-                            <div class="stat-label">Công việc đã nhận</div>
+                        <div>
+                            <div class="param-label">Báo giá</div>
+                            <div class="param-value">${formattedPrice} VNĐ</div>
                         </div>
-                        <div class="stat-item">
-                            <div class="stat-value">4.8</div>
-                            <div class="stat-label">Đánh giá (5 sao)</div>
+                    </div>
+                    <div class="job-param">
+                        <div class="icon-circle">
+                            <i class="fas fa-calendar-alt"></i>
                         </div>
-                        <div class="stat-item">
-                            <div class="stat-value">5</div>
-                            <div class="stat-label">Năm kinh nghiệm</div>
+                        <div>
+                            <div class="param-label">Thời gian dự kiến</div>
+                            <div class="param-value">${jobGreeting.expectedDay} ngày</div>
+                        </div>
+                    </div>
+<%--                    <div class="job-param">--%>
+<%--                        <div class="icon-circle">--%>
+<%--                            <i class="fas fa-clock"></i>--%>
+<%--                        </div>--%>
+<%--                        <div>--%>
+<%--                            <div class="param-label">Ngày ứng tuyển</div>--%>
+<%--                            <div class="param-value">${jobGreeting.introduction}</div>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+                </div>
+            </div>
+
+            <div class="introduction">
+                <h3 class="intro-title" style="margin-bottom: 10px">Thư giới thiệu</h3>
+                <p>${jobGreeting.introduction}</p>
+            </div>
+
+            <div class="cv-preview">
+                <h3 class="cv-title" style="margin-bottom: 20px">Xem CV</h3>
+                <div class="cv-container">
+                    <img src="/api/placeholder/800/1000" alt="CV Preview" class="cv-placeholder">
+                    <div class="cv-overlay">
+                        <div class="btn-group">
+                            <a  class="btn-a btn-primary" id="viewCvBtn">
+                                <i class="fas fa-eye"></i> Xem CV
+                            </a>
+                            <a class="btn-a btn-outline" id="downloadCvBtn" style="background-color: #FFFFFF">
+                                <i class="fas fa-download"></i> Tải xuống
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="sidebar-card fade-in-up">
-                <div class="sidebar-card-header">
-                    <div class="sidebar-card-title">
+            <div class="attachment">
+
+                <c:if test="${jobGreeting.attachment == null}">
+                    <div style="text-align: center;margin: auto;font-style: italic;">
+                        <p>Không có tệp đính kèm</p>
+                    </div>
+                </c:if>
+                <c:if test="${jobGreeting.attachment != null}">
+                    <div class="attachment-icon">
                         <i class="fas fa-file-alt"></i>
-                        <span>CV của ứng viên</span>
                     </div>
-                </div>
-                <div class="sidebar-card-content">
-                    <div class="cv-preview">
-                        <img src="/api/placeholder/400/300" alt="CV Preview">
-                        <div class="cv-preview-overlay">
-                            <button class="preview-button">Xem chi tiết</button>
-                        </div>
+                    <div class="attachment-details">
+                        <div class="attachment-name">${jobGreeting.attachment}</div>
+                            <%--                    <div class="attachment-size">5.2 MB</div>--%>
                     </div>
-                    <div class="action-buttons">
-                        <div class="action-button accept-button pulse">
-                            <i class="fas fa-check"></i> Chấp nhận
-                        </div>
-                        <div class="action-button reject-button">
-                            <i class="fas fa-times"></i> Từ chối
-                        </div>
-                    </div>
-                </div>
+                    <a href="uploads/attachments/${jobGreeting.attachment}" download class="btn-a btn-outline">
+                        <i class="fas fa-download"></i>
+                    </a>
+                </c:if>
             </div>
 
-            <div class="sidebar-card fade-in-up">
-                <div class="sidebar-card-header">
-                    <div class="sidebar-card-title">
-                        <i class="fas fa-history"></i>
-                        <span>Tiến trình xử lý</span>
-                    </div>
-                </div>
-                <div class="sidebar-card-content">
-                    <div class="timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-dot active"></div>
-                            <div class="timeline-content">
-                                <div class="timeline-date">15/04/2025, 09:45</div>
-                                <div class="timeline-title">Đã gửi lời chào</div>
-                                <div class="timeline-description">Ứng viên đã gửi lời chào cho công việc này</div>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot active"></div>
-                            <div class="timeline-content">
-                                <div class="timeline-date">16/04/2025, 14:30</div>
-                                <div class="timeline-title">Đã đọc</div>
-                                <div class="timeline-description">Nhà tuyển dụng đã đọc lời chào của bạn</div>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot active"></div>
-                            <div class="timeline-content">
-                                <div class="timeline-date">17/04/2025, 10:15</div>
-                                <div class="timeline-title">Chờ phỏng vấn</div>
-                                <div class="timeline-description">Bạn đã được chọn để phỏng vấn cho vị trí này</div>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="timeline-content">
-                                <div class="timeline-date">--/--/----, --:--</div>
-                                <div class="timeline-title">Kết quả phỏng vấn</div>
-                                <div class="timeline-description">Chưa có kết quả</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="actions">
+                <button class="btn-a btn-outline" id="rejectBtn">
+                    <i class="fas fa-times"></i> Từ chối
+                </button>
+                <c:if test="${jobGreeting.status == 'Chờ xét duyệt'}">
+                    <a href="job-greeting?action=accept-to-interview&greetingId=${jobGreeting.greetingId}" class="btn-a btn-primary" style="text-decoration: none">
+                        <i class="fas fa-check"></i> Duyệt phỏng vấn
+                    </a>
+                </c:if>
+                <c:if test="${jobGreeting.status == 'Chờ phỏng vấn'}">
+                    <button class="btn-a btn-outline" id="interviewBtn">
+                        <i class="fas fa-calendar-check"></i> Cập nhật phỏng vấn
+                    </button>
+                    <a class="btn-a btn-primary" id="approveBtn">
+                        <i class="fas fa-check"></i> Chấp nhận ứng viên
+                    </a>
+                </c:if>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Modal phỏng vấn -->
+<div class="modal" id="interviewModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Đặt lịch phỏng vấn</h4>
+            <button class="modal-close" id="closeInterviewModal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label class="form-label">Ngày phỏng vấn</label>
+                <input type="date" class="form-control" min="2025-04-24">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Thời gian</label>
+                <input type="time" class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Hình thức</label>
+                <select class="form-control">
+                    <option>Trực tiếp</option>
+                    <option>Online</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Ghi chú</label>
+                <textarea class="form-control" placeholder="Nhập thông tin chi tiết về buổi phỏng vấn..."></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-a btn-outline" id="cancelInterviewModal">Hủy</button>
+            <button class="btn-a btn-primary">Xác nhận</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal từ chối -->
+<div class="modal" id="rejectModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Từ chối ứng viên</h4>
+            <button class="modal-close" id="closeRejectModal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label class="form-label">Lý do từ chối</label>
+                <select class="form-control">
+                    <option>Không đáp ứng yêu cầu kỹ năng</option>
+                    <option>Thiếu kinh nghiệm</option>
+                    <option>Mức lương đề xuất không phù hợp</option>
+                    <option>Thời gian dự kiến không phù hợp</option>
+                    <option>Khác</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Ghi chú</label>
+                <textarea class="form-control" placeholder="Nhập thông tin phản hồi cho ứng viên..."></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-a btn-outline" id="cancelRejectModal">Hủy</button>
+            <a href="job-greeting?action=refuse-candidate&greetingId=${jobGreeting.greetingId}" class="btn-a btn-primary" style="text-decoration: none">Xác nhận</a>
+        </div>
+    </div>
+</div>
+
+<!-- Modal xác nhận chấp nhận -->
+<div class="modal" id="approveModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Xác nhận chấp nhận ứng viên</h4>
+            <button class="modal-close" id="closeApproveModal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>Bạn có chắc chắn muốn chấp nhận ứng viên <strong>Nguyễn Văn A</strong> với mức giá <strong>5.000.000 VNĐ</strong> và thời gian dự kiến <strong>15 ngày</strong>?</p>
+            <div class="form-group">
+                <label class="form-label">Ghi chú</label>
+                <textarea class="form-control" placeholder="Nhập thông tin bổ sung (nếu có)..."></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-a btn-outline" id="cancelApproveModal">Hủy</button>
+            <button class="btn-a btn-primary">Xác nhận</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal xem CV -->
+<div class="modal" id="viewCvModal">
+    <div class="modal-content" style="width: 95%; max-width: 800px; height: 90vh;">
+        <div class="modal-header">
+            <h4 class="modal-title">CV của Nguyễn Văn A</h4>
+            <button class="modal-close" id="closeViewCvModal">&times;</button>
+        </div>
+        <div class="modal-body" style="padding: 0; height: calc(90vh - 130px);">
+            <iframe src="/api/placeholder/800/1000" style="width: 100%; height: 100%; border: none;"></iframe>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-a btn-outline" id="cancelViewCvModal">Đóng</button>
+            <button class="btn-a btn-primary">
+                <i class="fas fa-download"></i> Tải xuống
+            </button>
+        </div>
+    </div>
+</div>
+
 <script>
-    // Animation for back button
-    const backButton = document.querySelector('.back-button');
-    backButton.addEventListener('click', function() {
-        window.history.back();
-    });
+    document.getElementById("downloadBtn").addEventListener("click", function() {
+        // Lấy tên tệp từ `${jobGreeting.attachment}`
+        var attachmentFileName = "${jobGreeting.attachment}";
 
-    // Animation for attachment items
-    const attachmentItems = document.querySelectorAll('.attachment-item');
-    attachmentItems.forEach(item => {
-        item.addEventListener('mouseenter', function() {
-            this.style.transition = 'all 0.3s ease';
+        // Tạo URL đầy đủ cho tệp tải xuống
+        var downloadUrl = '/uploads/attachments/' + attachmentFileName;
+
+        // Tạo thẻ <a> để tải tệp
+        var link = document.createElement("a");
+        link.href = downloadUrl;  // Đường dẫn tải tệp
+        link.download = attachmentFileName;  // Đặt tên tệp khi tải về
+
+        // Thực hiện tải tệp
+        link.click();
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        // Animation for tags
+        $('.tag').hover(function() {
+            $(this).addClass('animate__animated animate__pulse');
+        }, function() {
+            $(this).removeClass('animate__animated animate__pulse');
         });
-    });
 
-    // Animation for action buttons
-    const actionButtons = document.querySelectorAll('.action-button');
-    actionButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            if (this.classList.contains('accept-button')) {
-                this.innerHTML = '<i class="fas fa-check-circle"></i> Đã chấp nhận';
-                this.style.background = '#00C853';
+        // Modal handling
+        $('#interviewBtn').click(function() {
+            $('#interviewModal').css('display', 'flex');
+        });
 
-                // Update status badge
-                const statusBadge = document.querySelector('.greeting-status-badge');
-                statusBadge.className = 'greeting-status-badge status-accepted';
-                statusBadge.textContent = 'Được nhận';
+        $('#closeInterviewModal, #cancelInterviewModal').click(function() {
+            $('#interviewModal').css('display', 'none');
+        });
 
-                // Update timeline
-                const lastTimelineDot = document.querySelector('.timeline-item:last-child .timeline-dot');
-                lastTimelineDot.classList.add('active');
+        $('#rejectBtn').click(function() {
+            $('#rejectModal').css('display', 'flex');
+        });
 
-                const lastTimelineDate = document.querySelector('.timeline-item:last-child .timeline-date');
-                const lastTimelineDescription = document.querySelector('.timeline-item:last-child .timeline-description');
+        $('#closeRejectModal, #cancelRejectModal').click(function() {
+            $('#rejectModal').css('display', 'none');
+        });
 
-                const today = new Date();
-                const formattedDate = `${today.getDate().toString().padStart(2, '0')}/${(today.getMonth() + 1).toString().padStart(2, '0')}/${today.getFullYear()}, ${today.getHours().toString().padStart(2, '0')}:${today.getMinutes().toString().padStart(2, '0')}`;
+        $('#approveBtn').click(function() {
+            $('#approveModal').css('display', 'flex');
+        });
 
-                lastTimelineDate.textContent = formattedDate;
-                lastTimelineDescription.textContent = 'Ứng viên đã được chấp nhận cho vị trí này';
-            } else if (this.classList.contains('reject-button')) {
-                this.innerHTML = '<i class="fas fa-times-circle"></i> Đã từ chối';
-                this.style.background = '#FF4D4F';
-                this.style.color = 'white';
+        $('#closeApproveModal, #cancelApproveModal').click(function() {
+            $('#approveModal').css('display', 'none');
+        });
 
-                // Update status badge
-                const statusBadge = document.querySelector('.greeting-status-badge');
-                statusBadge.className = 'greeting-status-badge status-rejected';
-                statusBadge.textContent = 'Bị từ chối';
+        $('#viewCvBtn').click(function() {
+            $('#viewCvModal').css('display', 'flex');
+        });
 
-                // Update timeline
-                const lastTimelineDot = document.querySelector('.timeline-item:last-child .timeline-dot');
-                lastTimelineDot.classList.add('active');
+        $('#closeViewCvModal, #cancelViewCvModal').click(function() {
+            $('#viewCvModal').css('display', 'none');
+        });
 
-                const lastTimelineDate = document.querySelector('.timeline-item:last-child .timeline-date');
-                const lastTimelineDescription = document.querySelector('.timeline-item:last-child .timeline-description');
-
-                const today = new Date();
-                const formattedDate = `${today.getDate().toString().padStart(2, '0')}/${(today.getMonth() + 1).toString().padStart(2, '0')}/${today.getFullYear()}, ${today.getHours().toString().padStart(2, '0')}:${today.getMinutes().toString().padStart(2, '0')}`;
-
-                lastTimelineDate.textContent = formattedDate;
-                lastTimelineDescription.textContent = 'Ứng viên đã bị từ chối cho vị trí này';
+        // Close modals when clicking outside
+        $('.modal').click(function(e) {
+            if ($(e.target).hasClass('modal')) {
+                $(this).css('display', 'none');
             }
         });
-    });
 
-    // Preview CV functionality
-    const previewButton = document.querySelector('.preview-button');
-    previewButton.addEventListener('click', function() {
-        alert('Xem CV chi tiết của ứng viên');
-        // Ở đây có thể thêm code để mở modal hoặc trang mới hiển thị CV đầy đủ
-    });
-
-    // Attachment actions
-    const viewButtons = document.querySelectorAll('.attachment-action:first-child');
-    viewButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const fileName = this.parentElement.previousElementSibling.querySelector('.attachment-title').textContent;
-            alert(`Đang mở tài liệu: ${fileName}`);
-        });
-    });
-
-    const downloadButtons = document.querySelectorAll('.attachment-action:last-child');
-    downloadButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const fileName = this.parentElement.previousElementSibling.querySelector('.attachment-title').textContent;
-            alert(`Đang tải xuống: ${fileName}`);
+        // Animation for buttons
+        $('.btn').hover(function() {
+            $(this).addClass('animate__animated animate__pulse');
+        }, function() {
+            $(this).removeClass('animate__animated animate__pulse');
         });
     });
 </script>
+<%@include file="includes/footer.jsp"%>
 </body>
 </html>

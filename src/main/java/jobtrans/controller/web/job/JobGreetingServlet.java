@@ -47,9 +47,132 @@ public class JobGreetingServlet extends HttpServlet {
             case "show-send-application":
                 showSendApplication(request, response);
                 break;
+            case "view-details-greeting":
+                viewDetailsGreeting(request, response);
+                break;
+            case "accept-to-interview":
+                acceptToInterview(request, response);
+                break;
+            case "refuse-candidate":
+                refuseCandidate(request, response);
+                break;
             default:
                 response.getWriter().print("Lỗi rồi má");
                 break;
+        }
+    }
+
+    private void acceptToInterview(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        try {
+            Account account = (Account) session.getAttribute("sessionAccount");
+
+            int jobGreetingId = Integer.parseInt(request.getParameter("greetingId"));
+            JobGreetingDAO jobGreetingDAO = new JobGreetingDAO();
+            JobGreeting jobGreeting = jobGreetingDAO.getJobGreetingById(jobGreetingId);
+            boolean updated = jobGreetingDAO.updateStatus(jobGreetingId, "Chờ phỏng vấn");
+
+            System.out.println(jobGreeting);
+
+            if (updated) {
+                response.sendRedirect("job?action=view-candidates-list&jobId=" + jobGreeting.getJobId());
+            } else {
+                // Xử lý khi có lỗi
+
+                request.setAttribute("errorMessage", "Không thể cập nhật trạng thái phỏng vấn.");
+                request.getRequestDispatcher("404.html").forward(request, response);
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "ID không đúng định dạng: " + e.getMessage());
+            request.getRequestDispatcher("404.html").forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Lỗi xảy ra: " + e.getMessage());
+            request.getRequestDispatcher("404.html").forward(request, response);
+        }
+    }
+
+    private void refuseCandidate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        try {
+            Account account = (Account) session.getAttribute("sessionAccount");
+
+            int jobGreetingId = Integer.parseInt(request.getParameter("greetingId"));
+            JobGreetingDAO jobGreetingDAO = new JobGreetingDAO();
+            JobGreeting jobGreeting = jobGreetingDAO.getJobGreetingById(jobGreetingId);
+            boolean updated = jobGreetingDAO.updateStatus(jobGreetingId, "Bị từ chối");
+
+            System.out.println(jobGreeting);
+
+            if (updated) {
+                response.sendRedirect("job?action=view-candidates-list&jobId=" + jobGreeting.getJobId());
+            } else {
+                // Xử lý khi có lỗi
+
+                request.setAttribute("errorMessage", "Không thể cập nhật trạng thái phỏng vấn.");
+                request.getRequestDispatcher("404.html").forward(request, response);
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "ID không đúng định dạng: " + e.getMessage());
+            request.getRequestDispatcher("404.html").forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Lỗi xảy ra: " + e.getMessage());
+            request.getRequestDispatcher("404.html").forward(request, response);
+        }
+    }
+
+    private void viewDetailsGreeting(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        try {
+            Account account = (Account) session.getAttribute("sessionAccount");
+            if (account == null) {
+                response.sendRedirect("login.jsp");
+            }
+            int greetingId = Integer.parseInt(request.getParameter("greetingId"));
+
+
+            JobGreetingDAO jobGreetingDAO = new JobGreetingDAO();
+            JobGreeting jobGreeting = jobGreetingDAO.getJobGreetingById(greetingId);
+
+            CvDAO cvDAO = new CvDAO();
+            CV cv = cvDAO.getCvById(jobGreeting.getCvId());
+
+            AccountDAO accountDAO = new AccountDAO();
+            Account account1 = accountDAO.getAccountById(jobGreeting.getJobSeekerId());
+
+            // Format price to Vietnam Dong
+            NumberFormat vnCurrencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+            String formattedPrice = vnCurrencyFormat.format(jobGreeting.getPrice());
+
+            // Format attachment
+            if (jobGreeting.getAttachment() != null) {
+                String attachmentFullPath = jobGreeting.getAttachment();
+                // Lấy tên tệp từ đường dẫn (bao gồm cả phần "원고지-Nguyễn Hữu Quang.docx")
+                String attachmentFileName = attachmentFullPath.substring(attachmentFullPath.lastIndexOf("/") + 1);
+
+                // Nếu bạn muốn loại bỏ phần trước tên tệp (số ở đầu), bạn có thể làm như sau:
+//                String fileNameWithoutNumber = attachmentFileName.substring(attachmentFileName.indexOf("_") + 1);
+
+                jobGreeting.setAttachment(attachmentFileName); // Cập nhật giá trị tệp sau khi loại bỏ phần số đầu
+            }
+            jobGreeting.setHaveRead(true);
+
+            // Create Notification to Candidate
+
+            System.out.println(cv);
+            System.out.println(jobGreeting);
+            System.out.println(account);
+
+            request.setAttribute("formattedPrice", formattedPrice);
+            request.setAttribute("cv", cv);
+            request.setAttribute("jobGreeting", jobGreeting);
+            request.setAttribute("account", account1);
+            request.getRequestDispatcher("details-job-greeting.jsp").forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -97,7 +220,6 @@ public class JobGreetingServlet extends HttpServlet {
             jobGreeting.setAttachment(attachment);
             jobGreeting.setHaveRead(false);
             jobGreeting.setStatus("Chờ xét duyệt");
-
 
             System.out.println(jobGreeting);
 

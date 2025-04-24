@@ -111,4 +111,47 @@ public class JobGreetingDAO {
         return greetings;
     }
 
+    public JobGreeting getJobGreetingById(int greetingId) {
+        JobGreeting jobGreeting = null;
+        String sql = "SELECT * FROM JobGreeting WHERE greeting_id = ?";
+
+        try (Connection conn = DBConnection.getInstance().openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, greetingId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    jobGreeting = mapToJobGreeting(rs);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return jobGreeting;
+    }
+
+    public boolean updateStatus(int jobGreetingId, String newStatus) {
+//        Connection conn = null;
+//        PreparedStatement stmt = null;
+        String sql = "UPDATE JobGreeting SET status = ? WHERE greeting_id = ?";
+
+        try (Connection conn = DBConnection.getInstance().openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)){
+
+            // Thiết lập các tham số
+            ps.setString(1, newStatus);
+            ps.setLong(2, jobGreetingId);
+
+            // Thực thi câu lệnh update
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
