@@ -28,7 +28,7 @@
 
 <body>
 <%@include file="includes/header-01.jsp" %>
-<%@include file="includes/sidebar.jsp" %>
+<%--<%@include file="includes/sidebar.jsp" %>--%>
 
 <div class="content" id="content">
     <div class="main-content">

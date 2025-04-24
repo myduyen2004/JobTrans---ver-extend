@@ -8,6 +8,8 @@
 		padding: 60px 0 40px;
 		position: relative;
 		overflow: hidden;
+		margin-bottom: 0;
+		margin-top: 70px;
 	}
 
 	.footer-container {

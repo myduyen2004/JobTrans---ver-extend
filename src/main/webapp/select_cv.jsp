@@ -13,7 +13,6 @@
 	<title>Công việc của tôi &#8211; ProLancer</title>
 	<meta name='robots' content='max-image-preview:large' />
 	<style>img:is([sizes="auto" ], [sizes^="auto," ]) { contain-intrinsic-size: 3000px 1500px }</style>
-	<link rel="stylesheet" href="css/styles.css">
 	<link rel="icon" type="image/png" href="wp-content/uploads/2021/09/logo.png">
 </head>
 <style>
@@ -21,7 +20,7 @@
 	.container_cv {
 		display: flex;
 		min-height: calc(100vh - 200px);
-		background-color: #f8f9fa;
+		background-color: #f0f2f8;
 	}
 
 	/* CV Container */
@@ -30,7 +29,7 @@
 		padding: 30px;
 		background-color: white;
 		border-radius: 8px;
-		box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+		box-shadow: 0 2px 15px rgba(21, 42, 105, 0.1);
 		margin: 20px;
 		max-height: 80vh;
 		overflow-y: auto;
@@ -42,12 +41,12 @@
 
 	/* Title */
 	.cv-title {
-		color: #4a4a4a;
+		color: rgb(21, 42, 105);
 		font-size: 24px;
 		font-weight: 600;
 		margin-bottom: 30px;
 		padding-bottom: 10px;
-		border-bottom: 2px solid #6c63ff;
+		border-bottom: 2px solid rgb(54, 75, 140);
 		display: inline-block;
 	}
 
@@ -59,14 +58,14 @@
 		border-radius: 8px;
 		padding: 20px;
 		margin-bottom: 20px;
-		box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+		box-shadow: 0 3px 10px rgba(21, 42, 105, 0.08);
 		transition: transform 0.3s ease, box-shadow 0.3s ease;
-		border-left: 4px solid #6c63ff;
+		border-left: 4px solid rgb(54, 75, 140);
 	}
 
 	.cv-card:hover {
 		transform: translateY(-3px);
-		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+		box-shadow: 0 5px 15px rgba(21, 42, 105, 0.15);
 	}
 
 	/* CV Image */
@@ -75,7 +74,7 @@
 		height: 200px;
 		object-fit: cover;
 		border-radius: 6px;
-		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+		box-shadow: 0 2px 5px rgba(21, 42, 105, 0.15);
 	}
 
 	/* CV Info */
@@ -94,24 +93,24 @@
 	.cv-description {
 		font-size: 18px;
 		font-weight: 500;
-		color: #333;
+		color: rgb(21, 42, 105);
 		margin-right: 15px;
 	}
 
 	/* Price Tag */
 	.cv-price {
-		background: #6c63ff;
+		background: linear-gradient(to right, rgb(21, 42, 105), rgb(54, 75, 140));
 		color: white;
-		font-size: 14px;
-		padding: 6px 15px;
-		border-radius: 20px;
+		font-size: 15px;
+		padding: 15px 15px;
+		border-radius: 10px;
 		font-weight: 600;
 		white-space: nowrap;
 		margin-left: auto;
 	}
 
 	.cv-price.free {
-		background: #37d67a;
+		background: linear-gradient(to right, rgb(21, 42, 105), rgb(54, 75, 140));
 	}
 
 	/* Buttons */
@@ -136,23 +135,24 @@
 	}
 
 	.view-btn {
-		background: #f0f0ff;
-		color: #6c63ff;
-		border: 1px solid #6c63ff;
+		background: rgba(21, 42, 105, 0.1);
+		color: rgb(21, 42, 105);
+		border: 1px solid rgb(21, 42, 105);
 	}
 
 	.use-btn {
-		background: #6c63ff;
+		background: linear-gradient(to right, rgb(21, 42, 105), rgb(54, 75, 140));
 		color: white;
 	}
 
 	.view-btn:hover {
-		background: #6c63ff;
+		background: linear-gradient(to right, rgb(21, 42, 105), rgb(54, 75, 140));
 		color: white;
 	}
 
 	.use-btn:hover {
-		background: #5a52d6;
+		background: linear-gradient(to right, rgb(30, 53, 120), rgb(64, 85, 150));
+		box-shadow: 0 4px 8px rgba(21, 42, 105, 0.3);
 	}
 
 	/* Scrollbar styling */
@@ -166,27 +166,26 @@
 	}
 
 	.cv-container::-webkit-scrollbar-thumb {
-		background: #c1c1c1;
+		background: rgb(54, 75, 140, 0.6);
 		border-radius: 10px;
 	}
 
 	.cv-container::-webkit-scrollbar-thumb:hover {
-		background: #a8a8a8;
+		background: rgb(54, 75, 140, 0.8);
 	}
 
 	/* Back to top button */
 	#backtotop {
-		display: none;
 		position: fixed;
 		bottom: 30px;
 		right: 30px;
-		background: #6c63ff;
+		background: linear-gradient(to right, rgb(21, 42, 105), rgb(54, 75, 140));
 		color: white;
 		width: 50px;
 		height: 50px;
 		border-radius: 50%;
 		cursor: pointer;
-		box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+		box-shadow: 0 4px 15px rgba(21, 42, 105, 0.3);
 		transition: all 0.3s;
 		display: flex;
 		align-items: center;
@@ -195,16 +194,27 @@
 	}
 
 	#backtotop:hover {
-		background: #5a52d6;
+		background: linear-gradient(to right, rgb(30, 53, 120), rgb(64, 85, 150));
 		transform: translateY(-3px);
-		box-shadow: 0 6px 20px rgba(108, 99, 255, 0.4);
+		box-shadow: 0 6px 20px rgba(21, 42, 105, 0.4);
+	}
+
+	/* Banner Title */
+	.banner_title {
+		background-image: linear-gradient(rgba(21, 42, 105, 0.8), rgba(54, 75, 140, 0.8)), url(./img/anh1/anh1.png);
+		background-size: cover;
+		background-position: center;
+		font-size: 40px;
+		height: 200px;
+		display: flex;
+		margin-top: 15px;
+		align-items: center;
 	}
 
 	/* Responsive adjustments */
 	@media (max-width: 992px) {
 		.container_cv {
 			flex-direction: column;
-
 		}
 
 		.cv-container {
@@ -233,15 +243,6 @@
 			width: 100%;
 		}
 	}
-	.banner_title {
-		background-image: url(./img/anh1/anh1.png);
-		background-size: 100%;
-		font-size: 40px;
-		height: 200px;
-		display: flex;
-		margin-top: 15px;
-		align-items: center;
-	}
 </style>
 
 <body class="archive post-type-archive post-type-archive-projects wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
@@ -250,10 +251,6 @@
 
 
 <%@include file="includes/header-01.jsp"%>
-
-<div class="py-4 banner_title">
-	<h1 class="text-white font-weight-bold" style="padding-left: 50px;">Danh sách CV của bạn</h1>
-</div>
 <div class="container_cv">
 
 
@@ -270,7 +267,7 @@
 								<div style="display: flex">
 									<p class="cv-description">${o.typeName}</p>
 
-									<span class="cv-price free">free</span>
+									<span class="cv-price free">Free</span>
 								</div>
 								<p>${o.description}</p>
 								<div class="button-group">

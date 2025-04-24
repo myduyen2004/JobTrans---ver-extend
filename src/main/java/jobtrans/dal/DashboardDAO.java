@@ -118,20 +118,21 @@ return weeklyRevenueList;
     public List<Map<String, Object>> getJobStatisticsByDay() {
         List<Map<String, Object>> statisticsByDay  = new ArrayList<>();
 
-            String sql = "SELECT\n" +
-                    "    CAST(post_date AS DATE) AS job_date,\n" +
-                    "    COUNT(*) AS total_jobs,\n" +
-                    "    SUM(CASE WHEN status_job_id = 6 THEN 1 ELSE 0 END) AS completed_jobs,\n" +
-                    "    SUM(CASE WHEN status_job_id != 6 THEN 1 ELSE 0 END) AS posted_jobs\n" +
-                    "FROM\n" +
-                    "    Job\n" +
-                    "WHERE\n" +
-                    "    post_date >= DATEADD(wk, DATEDIFF(wk, 7, GETDATE()), 0) -- Lấy ngày thứ Hai của tuần hiện tại\n" +
-                    "    AND post_date < DATEADD(wk, DATEDIFF(wk, 7, GETDATE()), 7) -- Lấy ngày thứ Hai của tuần tiếp theo\n" +
-                    "GROUP BY\n" +
-                    "    CAST(post_date AS DATE)\n" +
-                    "ORDER BY\n" +
-                    "    job_date;";
+        String sql ="\n" +
+                "\t SELECT\n" +
+                "    CAST(post_date AS DATE) AS job_date,\n" +
+                "    COUNT(*) AS total_jobs,\n" +
+                "    SUM(CASE WHEN status_job_id = 6 THEN 1 ELSE 0 END) AS completed_jobs,\n" +
+                "    SUM(CASE WHEN status_job_id != 6 THEN 1 ELSE 0 END) AS posted_jobs\n" +
+                "FROM\n" +
+                "    Job\n" +
+                "WHERE\n" +
+                "    post_date >= DATEADD(DAY, -7, CAST(GETDATE() AS DATE))  -- Ngày 7 ngày trước\n" +
+                "    AND post_date <= CAST(GETDATE() AS DATE)  -- Ngày hiện tại\n" +
+                "GROUP BY\n" +
+                "    CAST(post_date AS DATE)\n" +
+                "ORDER BY\n" +
+                "    job_date;";
         try (Connection conn = dbConnection.openConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {

@@ -15,15 +15,12 @@ import java.util.Map;
 
 @WebServlet(name = "DashboardServlet", urlPatterns = {"/WeeklyRevenue", "/MonthlyRevenue","/JobsByYears","/JobByDays","/JobByMonths","/TransactionsByDays","/Transactions"})
 public class DashboardServlet extends HttpServlet {
-    private DashboardDAO   dashboardDAO = new DashboardDAO();
+    private DashboardDAO dashboardDAO = new DashboardDAO();
     private Gson gson =new Gson();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-
-
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         String period = request.getParameter("period"); // Lấy tham số lọc (nếu có)

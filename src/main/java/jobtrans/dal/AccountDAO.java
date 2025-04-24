@@ -126,17 +126,16 @@ public class AccountDAO {
 
     // Hàm checkLogin
     public Account checkLogin(String email, String password) {
-        Account account = getAccountByEmail(email); // Lấy thông tin account theo email
-        if (account != null) {
-            if(account.getPassword() == null) {
-                return null;
-            } else if (PasswordEncoder.matches(password, account.getPassword())) {
-                return account;
-            }
-        }else {
+        Account account = getAccountByEmail(email); // Lấy tài khoản theo email
+
+        if (account == null || account.getPassword() == null) {
             return null;
         }
-        return account;
+        if (PasswordEncoder.matches(password, account.getPassword().trim())) {
+            return account;
+        } else {
+            return null;
+        }
     }
 
     // Method to get an account by ID
@@ -851,16 +850,6 @@ public class AccountDAO {
 
 
     }
-
-    public static void main(String[] args) {
-        AccountDAO dao = new AccountDAO();
-        Account account = dao.getAccountById(6);
-        System.out.println(account.getStarRate());
-
-
-
-    }
-
     public boolean substractAmountWallet(int accountId, BigDecimal amount) {
         String sql = "UPDATE Account SET amount_wallet = amount_wallet - ? WHERE account_id = ? AND amount_wallet >= ?";
         try (PreparedStatement ps = dbConnection.openConnection().prepareStatement(sql)) {

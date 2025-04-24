@@ -14,7 +14,7 @@
 <body>
 <%@include file="/includes/header-01.jsp" %>
 
-        <%@include file="/includes/sidebar.jsp" %>
+<%--        <%@include file="/includes/sidebar.jsp" %>--%>
             <div class="container">
                 <div class="header clearfix">
 

@@ -312,7 +312,6 @@ public class JobDAO {
         }
     }
 
-
     public void updateInterviewByJobId(Interview interview) {
         String sql = "UPDATE Interview SET "
                 + "start_date = ?, "

@@ -190,19 +190,11 @@
 
 
 <%@include file="./includes/header-01.jsp" %>
-
-<%@include file="./includes/sidebar.jsp" %>
-<div class="maucv_under">
-    <div class="py-4 banner_title">
-        <h1 class="text-white font-weight-bold" style="padding-left: 50px;">Danh sách công việc</h1>
-    </div>
-</div>
 <div style="display: flex">
-
     <div class="cv-container">
         <!-- Left Sidebar -->
         <div class="cv-sidebar">
-            <img src="/api/placeholder/180/180" alt="Profile Photo" class="profile-img">
+            <img src="img/default-avatar.jpg" alt="Profile Photo" class="profile-img">
 
             <h2 class="section-title">Liên hệ</h2>
             <div class="contact-info">

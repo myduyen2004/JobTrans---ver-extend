@@ -402,14 +402,8 @@
 <body>
 
 <%@include file="includes/header-01.jsp" %>
-<div style="margin-top: 100px" class="py-4 banner_title">
-    <h1 class="text-white font-weight-bold" style="padding-left: 50px;">Danh sách công việc</h1>
-</div>
 <div style="display: flex">
     <%@include file="./includes/sidebar_createCV.jsp" %>
-
-
-    <!-- CV Content Area -->
     <main class="cv-content">
         <form action="cv?action=create" method="POST" enctype="multipart/form-data">
 
@@ -693,22 +687,8 @@
     </main>
 
 </div>
-<%--&lt;%&ndash;<div style="&ndash;%&gt;--%>
-<%--&lt;%&ndash;    margin-top: 100px;&ndash;%&gt;--%>
-<%--&lt;%&ndash;  width: 100%;&ndash;%&gt;--%>
-<%--&lt;%&ndash;  background: linear-gradient(to right, rgba(15, 27, 99, 0.95), rgba(25, 37, 109, 0.88));&ndash;%&gt;--%>
-<%--&lt;%&ndash;  color: white;&ndash;%&gt;--%>
-<%--&lt;%&ndash;  padding: 60px 0 40px;&ndash;%&gt;--%>
-<%--&lt;%&ndash;  position: relative; /* hoặc absolute/fixed nếu cần */&ndash;%&gt;--%>
-<%--&lt;%&ndash;  overflow: hidden;&ndash;%&gt;--%>
-<%--&lt;%&ndash;  z-index: 9999;&ndash;%&gt;--%>
-<%--">--%>
 <%@include file="includes/footer.jsp" %>
-</div>
-
 </body>
-
-
 <%--<script>--%>
 <%--    document.getElementById('mainSkill').addEventListener('change', function () {--%>
 <%--        var mainSkillId = this.value;--%>

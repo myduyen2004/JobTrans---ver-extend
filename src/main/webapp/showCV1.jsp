@@ -311,13 +311,10 @@
     </style>
 </head>
 
-<body class="archive post-type-archive post-type-archive-projects wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
+<body>
 
 <%@include file="includes/header-01.jsp" %>
 
-<div class="py-4 banner_title">
-    <h1 class="text-white font-weight-bold" style="padding-left: 50px;">Danh sách công việc</h1>
-</div>
 <%@include file="./includes/sidebar.jsp" %>
 
 <div class="main-container">
