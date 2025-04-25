@@ -5,9 +5,7 @@ import jobtrans.utils.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class DashboardDAO {
     private final DBConnection dbConnection;
@@ -118,21 +116,22 @@ return weeklyRevenueList;
     public List<Map<String, Object>> getJobStatisticsByDay() {
         List<Map<String, Object>> statisticsByDay  = new ArrayList<>();
 
-        String sql ="\n" +
-                "\t SELECT\n" +
-                "    CAST(post_date AS DATE) AS job_date,\n" +
-                "    COUNT(*) AS total_jobs,\n" +
-                "    SUM(CASE WHEN status_job_id = 6 THEN 1 ELSE 0 END) AS completed_jobs,\n" +
-                "    SUM(CASE WHEN status_job_id != 6 THEN 1 ELSE 0 END) AS posted_jobs\n" +
-                "FROM\n" +
-                "    Job\n" +
-                "WHERE\n" +
-                "    post_date >= DATEADD(DAY, -7, CAST(GETDATE() AS DATE))  -- Ngày 7 ngày trước\n" +
-                "    AND post_date <= CAST(GETDATE() AS DATE)  -- Ngày hiện tại\n" +
-                "GROUP BY\n" +
-                "    CAST(post_date AS DATE)\n" +
-                "ORDER BY\n" +
-                "    job_date;";
+            String sql ="\n" +
+                    "\t SELECT\n" +
+                    "    CAST(post_date AS DATE) AS job_date,\n" +
+                    "    COUNT(*) AS total_jobs,\n" +
+                    "    SUM(CASE WHEN status_job_id = 6 THEN 1 ELSE 0 END) AS completed_jobs,\n" +
+                    "    SUM(CASE WHEN status_job_id != 6 THEN 1 ELSE 0 END) AS posted_jobs\n" +
+                    "FROM\n" +
+                    "    Job\n" +
+                    "WHERE\n" +
+                    "    post_date >= DATEADD(DAY, -7, CAST(GETDATE() AS DATE))  -- Ngày 7 ngày trước\n" +
+                    "    AND post_date <= CAST(GETDATE() AS DATE)  -- Ngày hiện tại\n" +
+                    "GROUP BY\n" +
+                    "    CAST(post_date AS DATE)\n" +
+                    "ORDER BY\n" +
+                    "    job_date;";
+
         try (Connection conn = dbConnection.openConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
@@ -595,12 +594,47 @@ return weeklyRevenueList;
         return dashboardStats;
     }
 
+    public Map<String, Object> getAverageTransaction() {
+        Map<String, Object> averageTransaction = new HashMap<>();
+
+
+
+        String sql ="SELECT\n" +
+                "    COUNT(transaction_id) AS TotalTransactions,\n" +
+                "    AVG(amount) AS AverageTransactionAmount,\n" +
+                "    SUM(CASE\n" +
+                "        WHEN transaction_type IN (N'Rút tiền', N'Trừ tiền') THEN -amount\n" +
+                "        WHEN transaction_type = N'Thêm tiền' THEN amount\n" +
+                "        ELSE 0 -- Xử lý các loại giao dịch khác nếu có\n" +
+                "    END) AS NetTransactionAmount,\n" +
+                "    SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*) AS SuccessPercentage,\n" +
+                "    SUM(CASE WHEN status = 0 THEN 1 ELSE 0 END) * 100.0 / COUNT(*) AS FailurePercentage\n" +
+                "FROM\n" +
+                "    [dbo].[Transaction];";
+
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                averageTransaction.put("TotalTransactions", rs.getInt("TotalTransactions"));
+                averageTransaction.put("AverageTransactionAmount", rs.getBigDecimal("AverageTransactionAmount"));
+                averageTransaction.put("totalTransactions", rs.getBigDecimal("NetTransactionAmount"));
+                averageTransaction.put("SuccessPercentage", rs.getInt("SuccessPercentage"));
+                averageTransaction.put("FailurePercentage", rs.getInt("FailurePercentage"));
+            }
+
+        } catch (Exception e) {
+            // Ghi log lỗi chi tiết hơn
+            System.err.println( e.getMessage());
+        }
+        return averageTransaction;
+    }
+
 
     public static void main(String[] args) {
         DashboardDAO dao = new DashboardDAO();
-        System.out.println(dao.getDashboardStats());
-
-
+        System.out.println(dao.getAverageTransaction());
 
     }
 

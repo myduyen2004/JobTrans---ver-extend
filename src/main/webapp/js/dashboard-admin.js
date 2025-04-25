@@ -343,7 +343,7 @@
                     return response.json();
                 })
                 .then(dataFromServer => {
-                  
+
 
                     let labels = [];
                     let postedJobsData = [];

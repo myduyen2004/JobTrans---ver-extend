@@ -1014,7 +1014,7 @@
 </style>
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
     <div class="container-fluid navbar-container">
-        <a class="navbar-brand" href="index.jsp">
+        <a class="navbar-brand" href="/JobTrans/index.jsp">
             <img src="<%= request.getContextPath() %>/img/logo/logo.png" alt="JobTrans Logo" class="d-inline-block align-text-top">
             <span>JobTrans</span>
         </a>
@@ -1240,6 +1240,7 @@
                         <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/dashboard-admin.jsp"><i class="fas fa-file-alt"></i>Quản lí chung</a></li>
                         <%}%>
                         <c:if test="${sessionScope.sessionAccount.typeAccount == 'Nhóm'}">
+
                             <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/group?action=view&account_id=${sessionScope.sessionAccount.accountId}"><i class="fas fa-user"></i>Hồ sơ cá nhân</a></li>
                         </c:if>
                         <c:if test="${sessionScope.sessionAccount.typeAccount == 'Cá nhân'}">

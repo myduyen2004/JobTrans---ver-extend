@@ -17,6 +17,7 @@
 
 </head>
 <jsp:useBean id="dashboard" class="jobtrans.dal.DashboardDAO" scope="session"></jsp:useBean>
+
 <%@include file="includes/header-01.jsp"%>
 <%--<%@include file="includes/sidebar.jsp"%>--%>
 <script src="./js/dashboard-admin.js"></script>
@@ -91,7 +92,7 @@
                                             <i class="fa-solid fa-money-bill text-dark text-lg opacity-10" aria-hidden="true"></i>
                                         </div>
                                         <h5 class="text-white font-weight-bolder mb-0 mt-3" >
-                                            <fmt:formatNumber value="${dashboard.dashboardStats.totalCommission}" pattern="#,###.00" /> VND
+                                            <fmt:formatNumber value="${dashboard.dashboardStats.totalCommission}" pattern="#,###" /> VND
                                         </h5>
                                         <span class="text-white text-sm">Tiền hoa hồng</span>
                                     </div>
@@ -159,8 +160,8 @@
 
         <!-- Charts -->
         <div class="row mt-4">
-            <!-- Daily Jobs Chart -->
 
+            <!-- Daily Jobs Chart -->
             <div class="col-lg-6 mb-lg-0 mb-4">
                 <div class="card">
                     <div class="card-header pb-0 p-3 bg-white">
@@ -206,8 +207,121 @@
                             </nav>
                         </div>
                     </div>
+
+
+                </div>
+
+            </div>
+            <div class="col-lg-6 mb-lg-0 mb-4">
+                <div class="card">
+                    <div class="card-header pb-0 p-3 bg-white">
+                        <h6 class="mb-0 text-jobtrans">Tổng quan giao dịch</h6>
+                        <p class="text-sm mb-0">
+                            <i class="fa fa-arrow-up text-success" aria-hidden="true"></i>
+                        </p>
+                    </div>
+                    <div class="card-body p-3">
+                        <div class="row">
+                            <div class="col-6 mb-4">
+                                <div class="card bg-gradient-jobtrans border-radius-lg">
+                                    <div class="card-body p-3">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="numbers">
+                                                    <p class="text-black text-sm mb-0 opacity-7">Tổng giao dịch</p>
+                                                    <h5 class="text-black font-weight-bolder mb-0">
+                                                        ${dashboard.averageTransaction.get('TotalTransactions')}
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 text-end">
+                                                <div class="icon icon-shape bg-white shadow text-center border-radius-md">
+                                                    <i class="fas fa-exchange-alt text-dark opacity-10" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 mb-4">
+                                <div class="card bg-gradient-jobtrans border-radius-lg">
+                                    <div class="card-body p-3">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="numbers">
+                                                    <p class="text-black text-sm mb-0 opacity-7">Giá trị trung bình</p>
+                                                    <h5 class="text-black font-weight-bolder mb-0">
+                                                        <fmt:formatNumber value="  ${dashboard.averageTransaction.get('AverageTransactionAmount')}" pattern="#,###" /> VND
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 text-end">
+                                                <div class="icon icon-shape bg-white shadow text-center border-radius-md">
+                                                    <i class="fas fa-dollar-sign text-dark opacity-10" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="chart-container pt-3">
+                                        <canvas id="transactionStatsChart" height="230"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-6">
+                                    <div class="d-flex align-items-center">
+                                        <div class="rounded-circle me-2" style="width: 12px; height: 12px; background-color: var(--jobtrans-primary);"></div>
+                                        <span class="text-sm">Thành công</span>
+                                    </div>
+                                    <h4 class="font-weight-bolder mt-2"> ${dashboard.averageTransaction.get('SuccessPercentage')}%</h4>
+                                    <div class="progress mt-2" style="height: 6px;">
+                                        <div class="progress-bar bg-gradient-jobtrans" role="progressbar" style="width: 85%;" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="d-flex align-items-center">
+                                        <div class="rounded-circle me-2" style="width: 12px; height: 12px; background-color: #ffc107;"></div>
+                                        <span class="text-sm">Đang xử lý</span>
+                                    </div>
+                                    <h4 class="font-weight-bolder mt-2">12.5%</h4>
+                                    <div class="progress mt-2" style="height: 6px;">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 12.5%;" aria-valuenow="12.5" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-6">
+                                    <div class="d-flex align-items-center">
+                                        <div class="rounded-circle me-2" style="width: 12px; height: 12px; background-color: #dc3545;"></div>
+                                        <span class="text-sm">Thất bại</span>
+                                    </div>
+                                    <h4 class="font-weight-bolder mt-2"> ${dashboard.averageTransaction.get('FailurePercentage')}%</h4>
+                                    <div class="progress mt-2" style="height: 6px;">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 1.8%;" aria-valuenow="1.8" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="d-flex align-items-center">
+                                        <div class="rounded-circle me-2" style="width: 12px; height: 12px; background-color: #6c757d;"></div>
+                                        <span class="text-sm">Hoàn tiền</span>
+                                    </div>
+                                    <h4 class="font-weight-bolder mt-2">0.5%</h4>
+                                    <div class="progress mt-2" style="height: 6px;">
+                                        <div class="progress-bar bg-secondary" role="progressbar" style="width: 0.5%;" aria-valuenow="0.5" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
+
 
         </div>
 
@@ -266,7 +380,7 @@
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Chi phí</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tiến độ</th>
                                 </tr>
-                                </thead>a
+                                </thead>
                                 <tbody>
                                 <c:forEach items="${jobs}" var="job">
 
@@ -354,199 +468,280 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <%--xử lý biểu đồ cuối cùng--%>
-<script>// Lấy các phần tử DOM
-const transactionTableBody = document.getElementById('transactionTableBody');
-const paginationControls = document.getElementById('paginationControls');
-const transactionCountElement = document.getElementById('transactionCount');
-const filterDropdownButton = document.getElementById('transactionFilterDropdown');
-const dropdownItems = document.querySelectorAll('.dropdown-menu .dropdown-item');
-const itemsPerPage = 5;
-let currentPage = 1;
-let currentPeriod = 'all'; // Giá trị mặc định phù hợp với backend
-
-// Hàm để tải dữ liệu giao dịch từ Servlet
-async function loadTransactions(page, period) {
-    // Kiểm tra và đảm bảo period không bị null hoặc undefined
-    if (!period) {
-        period = currentPeriod;
+<script>
+    // Biến kiểm soát toàn cục đảm bảo script chỉ chạy một lần
+    if (typeof window.transactionScriptExecuted !== 'undefined') {
+        console.log("Script đã được thực thi, bỏ qua.");
     } else {
-        currentPeriod = period;
-    }
+        window.transactionScriptExecuted = true;
+        console.log("Bắt đầu thực thi script giao dịch.");
 
-    currentPage = page;
+        // Lấy các phần tử DOM
+        const transactionTableBody = document.getElementById('transactionTableBody');
+        const paginationControls = document.getElementById('paginationControls');
+        const transactionCountElement = document.getElementById('transactionCount');
+        const filterDropdownButton = document.getElementById('transactionFilterDropdown');
+        const dropdownItems = document.querySelectorAll('.dropdown-menu .dropdown-item');
+        const itemsPerPage = 5;
+        let currentPage = 1;
+        let currentPeriod = 'all'; // Giá trị mặc định phù hợp với backend
+        let isLoadingData = false; // Flag để ngăn gọi loadTransactions nhiều lần đồng thời
 
-    // Log để debug
-    console.log('loadTransactions được gọi với period:', period);
-    console.log('loadTransactions được gọi với page:', page);
-    // Tạo URL với đúng tham số
-    const url = "/JobTrans/Transactions?period=" + period + "&page=" + page;
-    console.log('Request URL:', url);
-
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        displayTransactions(data.transactions);
-        updatePagination(data.totalRecords);
-        console.log('Tổng số bản ghi:', data.totalRecords);
-    } catch (error) {
-        console.error("Lỗi khi tải giao dịch:", error);
-        transactionTableBody.innerHTML = '<tr><td colspan="5" class="text-center">Không thể tải dữ liệu.</td></tr>';
-        paginationControls.innerHTML = '';
-        transactionCountElement.textContent = '';
-    }
-}
-
-// Hàm để hiển thị dữ liệu giao dịch lên bảng
-function displayTransactions(transactions) {
-    transactionTableBody.innerHTML = '';
-    console.log('Hiển thị dữ liệu giao dịch:', transactions);
-
-    if (transactions && transactions.length > 0) {
-        transactions.forEach((transaction, index) => {
-            const row = transactionTableBody.insertRow();
-            const sttCell = row.insertCell();
-            const senderCell = row.insertCell();
-            const dateCell = row.insertCell();
-            const amountCell = row.insertCell();
-            const statusCell = row.insertCell();
-
-            sttCell.textContent = (currentPage - 1) * itemsPerPage + index + 1;
-            senderCell.textContent = transaction.Account || 'N/A';
-            dateCell.textContent = transaction.CreatedDate || 'N/A';
-            amountCell.textContent = formatCurrency(transaction.Amount) || 'N/A';
-            statusCell.innerHTML = getStatusBadge(transaction.Status);
-        });
-        console.log('Bảng đã được cập nhật.');
-    } else {
-        transactionTableBody.innerHTML = '<tr><td colspan="5" class="text-center">Không có giao dịch nào.</td></tr>';
-        console.log('Không có dữ liệu để hiển thị hoặc mảng rỗng.');
-    }
-}
-
-// Hàm định dạng tiền tệ
-function formatCurrency(amount) {
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
-}
-
-// Hàm để tạo badge trạng thái - Đã sửa toán tử so sánh
-function getStatusBadge(status) {
-    if (status == 1) {
-        return '<span class="badge bg-success">Thành công</span>';
-    } else if (status == 0) {
-        return '<span class="badge bg-warning">Đang xử lý</span>';
-    } else {
-        return '<span class="badge bg-secondary">Không xác định</span>';
-    }
-}
-
-// Hàm để cập nhật phân trang
-function updatePagination(totalRecords) {
-    paginationControls.innerHTML = '';
-    const totalPages = Math.ceil(totalRecords / itemsPerPage);
-
-    console.log('Tổng số trang:', totalPages);
-    console.log('Trang hiện tại:', currentPage);
-    console.log('Period hiện tại khi tạo phân trang:', currentPeriod);
-
-    if (totalPages > 1) {
-        // Nút Previous
-        const prevLi = createPaginationButton('Previous', currentPage > 1 ? currentPage - 1 : null);
-        paginationControls.appendChild(prevLi);
-
-        // Các nút số trang
-        for (let i = 1; i <= totalPages; i++) {
-            const pageLi = createPaginationButton(i, i);
-            if (i === currentPage) {
-                pageLi.classList.add('active');
+        // Hàm để tải dữ liệu giao dịch từ Servlet với cơ chế debounce
+        async function loadTransactions(page, period) {
+            // Nếu đang trong quá trình tải dữ liệu, bỏ qua
+            if (isLoadingData) {
+                console.log('Đang tải dữ liệu, bỏ qua yêu cầu mới');
+                return;
             }
-            paginationControls.appendChild(pageLi);
+
+            // Đánh dấu đang tải dữ liệu
+            isLoadingData = true;
+
+            // Kiểm tra và đảm bảo period không bị null hoặc undefined
+            if (!period) {
+                period = currentPeriod;
+            } else {
+                currentPeriod = period;
+            }
+
+            currentPage = page;
+
+            // Tạo URL với đúng tham số
+            const url = "/JobTrans/Transactions?period=" + period + "&page=" + page;
+            console.log('Tải dữ liệu từ:', url);
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                displayTransactions(data.transactions);
+                updatePagination(data.totalRecords);
+            } catch (error) {
+                console.error("Lỗi khi tải giao dịch:", error);
+                transactionTableBody.innerHTML = '<tr><td colspan="5" class="text-center">Không thể tải dữ liệu.</td></tr>';
+                paginationControls.innerHTML = '';
+                transactionCountElement.textContent = '';
+            } finally {
+                // Đánh dấu đã tải xong
+                isLoadingData = false;
+            }
         }
 
-        // Nút Next
-        const nextLi = createPaginationButton('Next', currentPage < totalPages ? currentPage + 1 : null);
-        paginationControls.appendChild(nextLi);
-    }
-}
+        // Hàm để hiển thị dữ liệu giao dịch lên bảng
+        function displayTransactions(transactions) {
+            transactionTableBody.innerHTML = '';
 
-// Hàm tạo một nút phân trang
-function createPaginationButton(label, page) {
-    const li = document.createElement('li');
-    const link = document.createElement('a');
-    li.classList.add('page-item');
+            if (transactions && transactions.length > 0) {
+                transactions.forEach((transaction, index) => {
+                    const row = transactionTableBody.insertRow();
+                    const sttCell = row.insertCell();
+                    const senderCell = row.insertCell();
+                    const dateCell = row.insertCell();
+                    const amountCell = row.insertCell();
+                    const statusCell = row.insertCell();
 
-    if (page === null) {
-        li.classList.add('disabled');
-    }
+                    sttCell.textContent = (currentPage - 1) * itemsPerPage + index + 1;
+                    senderCell.textContent = transaction.Account || 'N/A';
+                    dateCell.textContent = transaction.CreatedDate || 'N/A';
+                    amountCell.textContent = formatCurrency(transaction.Amount) || 'N/A';
+                    statusCell.innerHTML = getStatusBadge(transaction.Status);
+                });
+            } else {
+                transactionTableBody.innerHTML = '<tr><td colspan="5" class="text-center">Không có giao dịch nào.</td></tr>';
+            }
+        }
 
-    link.classList.add('page-link');
-    link.href = '#';
-    link.textContent = label;
+        // Hàm định dạng tiền tệ
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+        }
 
-    if (page !== null) {
-        link.addEventListener('click', function(event) {
-            event.preventDefault();
-            console.log(`Clicked on page ${page} with period ${currentPeriod}`);
-            // Quan trọng: Truyền cả period hiện tại vào
-            loadTransactions(page, currentPeriod);
+        // Hàm để tạo badge trạng thái
+        function getStatusBadge(status) {
+            if (status == 1) {
+                return '<span class="badge bg-success">Thành công</span>';
+            } else if (status == 0) {
+                return '<span class="badge bg-danger">Đã hủy</span>';
+            } else {
+                return '<span class="badge bg-secondary">Không xác định</span>';
+            }
+        }
+
+        // Hàm để cập nhật phân trang
+        function updatePagination(totalRecords) {
+            paginationControls.innerHTML = '';
+            const totalPages = Math.ceil(totalRecords / itemsPerPage);
+
+            if (totalPages > 1) {
+                // Nút Previous
+                const prevLi = createPaginationButton('Previous', currentPage > 1 ? currentPage - 1 : null);
+                paginationControls.appendChild(prevLi);
+
+                // Các nút số trang
+                for (let i = 1; i <= totalPages; i++) {
+                    const pageLi = createPaginationButton(i, i);
+                    if (i === currentPage) {
+                        pageLi.classList.add('active');
+                    }
+                    paginationControls.appendChild(pageLi);
+                }
+
+                // Nút Next
+                const nextLi = createPaginationButton('Next', currentPage < totalPages ? currentPage + 1 : null);
+                paginationControls.appendChild(nextLi);
+            }
+        }
+
+        // Hàm tạo một nút phân trang
+        function createPaginationButton(label, page) {
+            const li = document.createElement('li');
+            const link = document.createElement('button');
+            li.classList.add('page-item');
+
+            if (page === null) {
+                li.classList.add('disabled');
+                link.disabled = true;
+            }
+
+            link.classList.add('page-link');
+            link.type = 'button';
+            link.textContent = label;
+
+            if (page !== null) {
+                // Sử dụng closure thay vì data attribute để tránh xung đột
+                link.onclick = (function(pageNum) {
+                    return function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log('Chuyển đến trang:', pageNum);
+                        loadTransactions(pageNum, currentPeriod);
+                        return false;
+                    };
+                })(page);
+            }
+
+            li.appendChild(link);
+            return li;
+        }
+
+        // Ánh xạ giữa text hiển thị và giá trị gửi đến server
+        const filterMapping = {
+            'hôm nay': 'today',
+            'hôm qua': 'yesterday',
+            'tuần này': 'week',
+            'tất cả': 'all'
+        };
+
+        // Hàm thiết lập sự kiện cho dropdown filter
+        // Hàm thiết lập sự kiện cho dropdown filter
+        function setupFilterEvents() {
+            // Thay đổi selector để chỉ nhắm vào dropdown filter cụ thể
+            const items = document.querySelectorAll('#transactionFilterMenu .dropdown-item');
+            // hoặc sử dụng parent container cụ thể:
+            // const items = filterDropdownButton.nextElementSibling.querySelectorAll('.dropdown-item');
+
+            items.forEach(item => {
+                // Kiểm tra xem đây có phải là filter item hay không
+                const displayText = item.textContent.trim().toLowerCase();
+                if (filterMapping[displayText]) {
+                    // Chỉ áp dụng cho các item là filter period
+                    item.onclick = function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        const period = filterMapping[displayText] || 'all';
+                        console.log('Lọc theo period:', period);
+                        currentPeriod = period;
+
+                        // Reset về trang 1 khi thay đổi bộ lọc
+                        loadTransactions(1, period);
+
+                        if (filterDropdownButton) {
+                            filterDropdownButton.textContent = item.textContent.trim();
+                        }
+
+                        return false;
+                    };
+                }
+                // Các dropdown item khác sẽ giữ nguyên hành vi mặc định
+            });
+        }
+
+        // Hàm để lưu period hiện tại vào localStorage
+        function savePeriodToStorage() {
+            try {
+                localStorage.setItem('currentTransactionPeriod', currentPeriod);
+            } catch (e) {
+                console.error("Không thể lưu vào localStorage:", e);
+            }
+        }
+
+        // Hàm để khôi phục period từ localStorage
+        function restorePeriodFromStorage() {
+            try {
+                const savedPeriod = localStorage.getItem('currentTransactionPeriod');
+                if (savedPeriod) {
+                    currentPeriod = savedPeriod;
+                    console.log("Khôi phục period từ localStorage:", currentPeriod);
+                }
+            } catch (e) {
+                console.error("Không thể đọc từ localStorage:", e);
+            }
+        }
+
+        // Hàm khởi tạo với setTimeout để trì hoãn và tránh xung đột
+        function initializeTransactions() {
+            console.log("Bắt đầu khởi tạo giao dịch...");
+
+            // Khôi phục period từ localStorage
+            restorePeriodFromStorage();
+
+            // Thiết lập các sự kiện cho filter
+            setupFilterEvents();
+
+            // Đặt lệnh tải dữ liệu trong setTimeout để tránh xung đột DOM
+            setTimeout(() => {
+                console.log("Tải dữ liệu lần đầu với period:", currentPeriod);
+                loadTransactions(1, currentPeriod);
+            }, 100);
+
+            // Lưu period khi rời trang
+            window.addEventListener('beforeunload', savePeriodToStorage);
+        }
+
+        // Đợi DOM tải xong hoàn toàn trước khi khởi tạo
+        if (document.readyState === 'complete') {
+            console.log("Document đã sẵn sàng, khởi tạo ngay");
+            initializeTransactions();
+        } else {
+            console.log("Đợi document tải xong...");
+            window.addEventListener('load', function() {
+                console.log("Sự kiện load đã kích hoạt");
+                initializeTransactions();
+            }, { once: true });  // once: true đảm bảo hàm chỉ chạy một lần
+        }
+
+        // Cleanup khi rời trang
+        window.addEventListener('unload', function() {
+            if (paginationControls) {
+                const buttons = paginationControls.querySelectorAll('button');
+                buttons.forEach(button => {
+                    button.onclick = null;
+                });
+            }
+
+            document.querySelectorAll('.dropdown-menu .dropdown-item').forEach(item => {
+                item.onclick = null;
+            });
         });
+
+        console.log("Thiết lập script giao dịch hoàn tất.");
     }
 
-    li.appendChild(link);
-    return li;
-}
-
-// Ánh xạ giữa text hiển thị và giá trị gửi đến server
-const filterMapping = {
-    'hôm nay': 'today',
-    'hôm qua': 'yesterday',
-    'tuần này': 'week',
-    'tất cả': 'all'
-};
-
-// Gắn sự kiện cho các mục dropdown lọc
-dropdownItems.forEach(item => {
-    item.addEventListener('click', function(event) {
-        event.preventDefault();
-        const displayText = this.textContent.trim();
-        const period = filterMapping[displayText.toLowerCase()] || 'all';
-
-        console.log('Lọc theo:', displayText, 'với giá trị:', period);
-        // Cập nhật biến currentPeriod trước khi gọi loadTransactions
-        currentPeriod = period;
-        loadTransactions(1, period);
-        filterDropdownButton.textContent = displayText;
-    });
-});
-
-// Lưu period hiện tại vào localStorage để giữ giữa các lần refresh trang
-function savePeriodToStorage() {
-    localStorage.setItem('currentTransactionPeriod', currentPeriod);
-}
-
-// Khôi phục period từ localStorage nếu có
-function restorePeriodFromStorage() {
-    const savedPeriod = localStorage.getItem('currentTransactionPeriod');
-    if (savedPeriod) {
-        currentPeriod = savedPeriod;
-    }
-}
-
-// Tải trang đầu tiên với bộ lọc mặc định khi trang web được tải
-document.addEventListener('DOMContentLoaded', function() {
-    // Khôi phục period nếu có lưu trước đó
-    restorePeriodFromStorage();
-
-    console.log('Trang đã tải - Khởi tạo với period:', currentPeriod);
-    loadTransactions(1, currentPeriod);
-
-    // Lắng nghe sự kiện beforeunload để lưu period hiện tại
-    window.addEventListener('beforeunload', savePeriodToStorage);
-});
 </script>
-
 
 </body>
 </html>
