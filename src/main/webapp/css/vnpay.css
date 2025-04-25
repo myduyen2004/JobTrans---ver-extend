@@ -1,0 +1,158 @@
+/* Main Color Scheme */
+:root {
+    --primary-color: rgb(43, 61, 159);
+    --secondary-color: rgba(103, 135, 254, 0.4);
+    --text-color: #333;
+    --light-text: #f8f9fa;
+    --border-color: #ddd;
+    --success-color: #28a745;
+    --hover-color: #1c2c86;
+}
+
+body {
+    background: #d3d3d3;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--light-text);
+    min-height: 100vh;
+    padding-bottom: 60px;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: var(--text-color);
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Header Styles */
+.header {
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+}
+
+.text-muted {
+    color: var(--primary-color) !important;
+    font-weight: 600;
+}
+
+h3, h4, h5 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+/* Form Elements */
+.form-control {
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(43, 61, 159, 0.25);
+}
+
+.form-group {
+    margin-bottom: 25px;
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Radio Buttons */
+input[type="radio"] {
+    margin-right: 10px;
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
+input[type="radio"]:checked + label {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+label {
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.btn-default{
+    background: linear-gradient(300deg, rgba(103, 135, 254, 0.4) 0%, rgb(43, 61, 159) 100%);
+    color: white; border: none;
+    padding: 15px 35px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 0 6px 12px rgba(43, 61, 159, 0.3);
+    position: relative; overflow: hidden;
+    letter-spacing: 1px;
+    display: block;
+    margin: 0 auto;
+    min-width: 200px;
+    text-transform: uppercase;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(43, 61, 159, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(43, 61, 159, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(43, 61, 159, 0);
+    }
+}
+
+/* Footer Styles */
+.dashboard-footer-spacer {
+    height: 60px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        margin-top: 15px;
+    }
+
+    .btn-default {
+        width: 100%;
+    }
+}
+
+/* VNPAY Modal */
+.vnpay-modal {
+    border-radius: 10px;
+    overflow: hidden;
+}

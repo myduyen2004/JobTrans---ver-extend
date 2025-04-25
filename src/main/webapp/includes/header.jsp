@@ -1026,37 +1026,37 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item active">
-                    <a class="nav-link active" href="/JobTrans/home">Trang chủ</a>
+                    <a class="nav-link active" href="http://localhost:8080/JobTrans/home">Trang chủ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/JobTrans/viec-lam">Công việc</a>
+                    <a class="nav-link" href="http://localhost:8080/JobTrans/viec-lam">Công việc</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Tạo CV
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="cv?action=type"><i class="fas fa-file-alt"></i>Tạo CV</a></li>
-                        <li><a class="dropdown-item" href="cv?action=list"><i class="fas fa-file-alt"></i>CV của tôi</a></li>
+                        <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/cv?action=type"><i class="fas fa-file-alt"></i>Tạo CV</a></li>
+                        <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/cv?action=list"><i class="fas fa-file-alt"></i>CV của tôi</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="api.jsp"><i class="fas fa-tools"></i>Công cụ AI</a></li>
+                        <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/api.jsp"><i class="fas fa-tools"></i>Công cụ AI</a></li>
                     </ul>
 
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="home?action=top100">Top 100</a>
+                    <a class="nav-link " href="http://localhost:8080/JobTrans/home?action=top100">Top 100</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="home?action=top100">Chính sách</a>
+                    <a class="nav-link " href="http://localhost:8080/JobTrans/home?action=top100">Chính sách</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="about-me.jsp">Về chúng tôi</a>
+                    <a class="nav-link" href="http://localhost:8080/JobTrans/about-me.jsp">Về chúng tôi</a>
                 </li>
             </ul>
             <%if (account == null) {%>
             <div class="d-flex align-items-center">
-                <a href="login.jsp" class="btn btn-login">Đăng nhập</a>
-                <a href="register.jsp" class="btn btn-signup">Đăng ký</a>
+                <a href="http://localhost:8080/JobTrans/login.jsp" class="btn btn-login">Đăng nhập</a>
+                <a href="http://localhost:8080/JobTrans/register.jsp" class="btn btn-signup">Đăng ký</a>
             </div>
             <%} else{%>
             <div class="d-flex align-items-center user-profile-container">
@@ -1124,7 +1124,7 @@
                                 </div>
                             </div>
                             <div class="dropdown-footer">
-                                <a href="notifications.jsp">Xem tất cả thông báo</a>
+                                <a href="notification?action=notification">Xem tất cả thông báo</a>
                             </div>
                         </div>
                     </div>
@@ -1212,33 +1212,48 @@
                 <div class="dropdown">
                     <div class="avatar-icon" id="userDropdown" data-bs-toggle="dropdown">
                         <div class="user-avatar dropdown-toggle" role="button"  aria-expanded="false">
+                            <%if(account.getOauthId() != null){%>
                             <img src="<%=account.getAvatar()%>" alt="User Avatar" class="user-avatar-img" >
+                            <%}else if(account.getOauthId() == null){%>
+                            <img src="http://localhost:8080/JobTrans/<%=account.getAvatar()%>" alt="User Avatar" class="user-avatar-img" >
+                            <%}%>
                         </div>
                         <span class="avatar-status online"></span>
                     </div>
                     <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu" aria-labelledby="userDropdown">
+
                         <li class="dropdown-user-info">
                             <div class="user-dropdown-avatar">
+                                <%if(account.getOauthId() != null){%>
                                 <img src="<%=account.getAvatar()%>" alt="User Avatar">
+                                <%}else if(account.getOauthId() == null){%>
+                                <img src="http://localhost:8080/JobTrans/<%=account.getAvatar()%>" alt="User Avatar">
+
+                                <%}%>
                             </div>
                             <div class="user-dropdown-details">
                                 <h6><%=account.getAccountName()%></h6>
                                 <span class="user-email"><%=account.getEmail()%>></span>
                             </div>
                         </li>
-                        <li><hr class="dropdown-divider"></li>
+                        <%if (account.getRole().equals("Admin")) {%>
+                        <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/dashboard-admin.jsp"><i class="fas fa-file-alt"></i>Quản lí chung</a></li>
+                        <%}%>
                         <c:if test="${sessionScope.sessionAccount.typeAccount == 'Nhóm'}">
-                            <li><a class="dropdown-item" href="/JobTrans/group?action=view&account_id=${sessionScope.sessionAccount.accountId}"><i class="fas fa-user"></i>Hồ sơ cá nhân</a></li>
+
+                            <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/group?action=view&account_id=${sessionScope.sessionAccount.accountId}"><i class="fas fa-user"></i>Hồ sơ cá nhân</a></li>
                         </c:if>
                         <c:if test="${sessionScope.sessionAccount.typeAccount == 'Cá nhân'}">
-                            <li><a class="dropdown-item" href="/JobTrans/profile?action=view&account_id=${sessionScope.sessionAccount.accountId}"><i class="fas fa-user"></i>Hồ sơ cá nhân</a></li>
+                            <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/profile?action=view&account_id=${sessionScope.sessionAccount.accountId}"><i class="fas fa-user"></i>Hồ sơ cá nhân</a></li>
                         </c:if>
-                        <li><a class="dropdown-item" href="/JobTrans/my-applications.jsp"><i class="fas fa-file-alt"></i>Đơn ứng tuyển</a></li>
-                        <li><a class="dropdown-item" href="/JobTrans/my-cvs.jsp"><i class="fas fa-id-card"></i>CV của tôi</a></li>
-                        <li><a class="dropdown-item" href="/JobTrans/notifications.jsp"><i class="fas fa-bell"></i>Thông báo</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="/JobTrans/settings.jsp"><i class="fas fa-cog"></i>Cài đặt</a></li>
-                        <li><a class="dropdown-item logout-item" href="logout"><i class="fas fa-sign-out-alt"></i>Đăng xuất</a></li>
+                        <%if(account.getRole().equals("Người dùng")){%>
+                        <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/job-greeting?action=view-applied"><i class="fas fa-file-alt"></i>Quản lí công việc</a></li>
+                        <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/my-cvs.jsp"><i class="fas fa-id-card"></i>CV của tôi</a></li>
+                        <%} else if (account.getRole().equals("Admin")) {%>
+                        <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/acc-manage?action=viewAllReports"><i class="fas fa-id-card"></i>Quản lí báo cáo</a></li>
+                        <%}%>
+                        <li><a class="dropdown-item" href="profile?action=wallet"><i class="fas fa-file-alt"></i>Ví của tôi</a></li>
+                        <li><a class="dropdown-item logout-item" href="http://localhost:8080/JobTrans/logout"><i class="fas fa-sign-out-alt"></i>Đăng xuất</a></li>
                     </ul>
                 </div>
             </div>

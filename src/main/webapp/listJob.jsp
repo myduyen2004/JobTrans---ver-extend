@@ -17,7 +17,7 @@
 </head>
 
 <body>
-<%@include file="includes/header.jsp"%>
+<%@include file="includes/header-01.jsp"%>
     <div class="container" style="margin-top: 50px; margin-bottom: 50px">
         <div class="search-bar">
             <form action="viec-lam/" method="GET"> <input type="text" id="searchInput" name="keyword"  placeholder="Nhập từ khóa tìm kiếm...">

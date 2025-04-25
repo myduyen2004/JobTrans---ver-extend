@@ -17,8 +17,9 @@
 
 </head>
 <jsp:useBean id="dashboard" class="jobtrans.dal.DashboardDAO" scope="session"></jsp:useBean>
-<%@include file="includes/header.jsp"%>
-<%@include file="includes/sidebar.jsp"%>
+
+<%@include file="includes/header-01.jsp"%>
+<%--<%@include file="includes/sidebar.jsp"%>--%>
 <script src="./js/dashboard-admin.js"></script>
 <body class="g-sidenav-show bg-gray-100">
 <div class="content" id="content">

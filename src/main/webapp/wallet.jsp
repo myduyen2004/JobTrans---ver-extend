@@ -5,259 +5,251 @@
 --%>
 
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JobTrans - Trang Cá Nhân</title>
-    <link rel="stylesheet" type="text/css" href="css/wallet.css" />
+    <link rel="stylesheet" type="text/css" href="css/wallet.css"/>
+    <style>
+        #noResults {
+            display: none;
+            margin-top: 10px;
+            color: #888;
+            font-style: italic;
+        }
+    </style>
+
 </head>
 
 <body>
-<%@include file="includes/header-01.jsp"%>
-<%@include file="includes/sidebar.jsp"%>
+<%@include file="includes/header-01.jsp" %>
+<%--<%@include file="includes/sidebar.jsp" %>--%>
 
 <div class="content" id="content">
-<div class="main-content">
-    <!-- Profile Section -->
-    <div class="profile-section">
-        <div class="row align-items-center">
-            <div class="col-md-8">
-                <div class="d-flex align-items-center">
-                    <img class="profile-avatar me-4" src="img/home/user-demo.jpg" alt="Nguyễn Văn User">
-                    <div>
-                        <h2 class="mb-2">Nguyễn Văn User</h2>
-                        <div class="rating mb-2">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="social-icons">
-                            <a href="#" class="social-icon linkedin">
-                                <i class="fab fa-linkedin-in"></i>
-                            </a>
+    <div class="main-content">
+        <!-- Profile Section -->
+        <div class="profile-section">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="d-flex align-items-center">
+                        <img class="profile-avatar me-4" src="${account.avatar}" alt="Nguyễn Văn User">
+                        <div>
+                            <h2 class="mb-2">${account.accountName}</h2>
+                            <div class="rating mb-2">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="social-icons">
+                                <a href="#" class="social-icon linkedin">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="d-flex justify-content-md-end mt-3 mt-md-0">
-                    <div class="row">
+                <div class="col-md-4">
+                    <div class="d-flex justify-content-md-end mt-3 mt-md-0">
+                        <div class="row">
                             <div class="stat-label text-muted">Số điểm:</div>
-                            <div class="stat-value"><i class="fas fa-medal me-1"></i>1735 điểm</div>
+                            <div class="stat-value"><i class="fas fa-medal me-1"></i>${account.point} điểm</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Account Balance Section -->
-    <div class="account-balance">
-        <div class="row align-items-center">
-            <div class="col-md-8">
-                <h3 class="fw-bold mb-3"><i class="fas fa-wallet me-2"></i>Số dư tài khoản:</h3>
-                <div class="d-flex align-items-center">
-                    <span class="h4 mb-0">100.000</span>
-                    <span class="ms-2 text-muted">Coin</span>
+        <!-- Account Balance Section -->
+        <div class="account-balance">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h3 class="fw-bold mb-3"><i class="fas fa-wallet me-2"></i>Số dư tài khoản:</h3>
+                    <div class="d-flex align-items-center">
+                        <span class="h4 mb-0">
+                            <fmt:formatNumber value="${account.amountWallet}" type="number" groupingUsed="true"/> VNĐ
+                        </span>
+                        <span class="ms-2 text-muted">Xu</span>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                <button class="btn btn-deposit btn-lg me-2">
-                    <i class="fas fa-plus-circle me-2"></i>Nạp
-                </button>
-                <button class="btn btn-withdraw btn-lg">
-                    <i class="fas fa-minus-circle me-2"></i>Rút
-                </button>
+                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                    <button class="btn btn-deposit btn-lg me-2" onclick="location.href='vnpay.jsp'">
+                        <i class="fas fa-plus-circle me-2"></i>Nạp
+                    </button>
+                    <button class="btn btn-withdraw btn-lg" onclick="location.href='WithdrawServlet'">
+                        <i class="fas fa-minus-circle me-2"></i>Rút
+                    </button>
+                </div>
+
             </div>
         </div>
-    </div>
 
-    <!-- Transactions Section -->
+        <!-- Transactions Section -->
 
         <!-- Filter Section -->
-    <div class="transactions">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h3 class="fw-bold"><i class="fas fa-history me-2"></i>Giao dịch</h3>
-            <div>
-                <button id="resetFilters" class="btn btn-outline-secondary">
-                    <i class="fas fa-redo-alt me-2"></i>Đặt lại bộ lọc
-                </button>
+        <div class="transactions">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="fw-bold"><i class="fas fa-history me-2"></i>Giao dịch</h3>
             </div>
-        </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="dateFilter" class="form-label">Lọc theo ngày:</label>
+                    <input type="date" id="dateFilter" class="form-control" onchange="filterTransactions()">
+                </div>
+            </div>
 
-        <!-- Filter Section -->
-        <div class="row g-3 mb-4">
-            <div class="col-md-2 col-sm-6">
-                <div class="form-group">
-                    <label class="form-label">Từ ngày</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
-                        <input type="date" id="fromDate" class="form-control">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-6">
-                <div class="form-group">
-                    <label class="form-label">Đến ngày</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
-                        <input type="date" id="toDate" class="form-control">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-6">
-                <div class="form-group">
-                    <label class="form-label">Hình thức</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-exchange-alt"></i></span>
-                        <select id="transactionType" class="form-select">
-                            <option value="">Tất cả</option>
-                            <option value="nap">Nạp tiền</option>
-                            <option value="rut">Rút tiền</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="form-group">
-                    <label class="form-label">Trạng thái</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-check-circle"></i></span>
-                        <select id="status" class="form-select">
-                            <option value="">Tất cả</option>
-                            <option value="success">Thành công</option>
-                            <option value="failed">Thất bại</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6 d-flex align-items-end">
-                <button id="filterBtn" class="btn btn-deposit">
-                    <i class="fas fa-filter me-2"></i>Lọc
-                </button>
-            </div>
-        </div>
+            <!-- Transaction Table -->
+            <div class="table-responsive">
+                <table id="transactionTable" class="table table-hover">
+                    <thead class="table-light">
+                    <tr>
+                        <th><i class="far fa-clock me-2"></i>Giờ</th>
+                        <th><i class="fas fa-coins me-2"></i>Số tiền</th>
+                        <th><i class="fas fa-exchange-alt me-2"></i>Hình thức</th>
+                        <th><i class="fas fa-info-circle me-2"></i>Trạng thái</th>
+                        <th><i class="fas fa-comment-alt me-2"></i>Nội dung</th>
+                    </tr>
+                    </thead>
+                    <tbody id="transactionBody">
 
-        <!-- Transaction Table -->
-        <div class="table-responsive">
-            <table id="transactionTable" class="table table-hover">
-                <thead class="table-light">
-                <tr>
-                    <th><i class="far fa-clock me-2"></i>Giờ</th>
-                    <th><i class="fas fa-coins me-2"></i>Số tiền</th>
-                    <th><i class="fas fa-exchange-alt me-2"></i>Hình thức</th>
-                    <th><i class="fas fa-info-circle me-2"></i>Trạng thái</th>
-                    <th><i class="fas fa-comment-alt me-2"></i>Nội dung</th>
-                </tr>
-                </thead>
-                <tbody id="transactionBody">
-                <!-- Dữ liệu giao dịch được hiển thị trực tiếp -->
-                <tr>
-                    <td>16:00:41 15/01/2025</td>
-                    <td>500.000</td>
-                    <td><span class="badge bg-deposit"><i class="fas fa-plus-circle me-1"></i>Nạp tiền</span></td>
-                    <td><span class="badge bg-success-status"><i class="fas fa-check-circle me-1"></i>Thành công</span></td>
-                    <td>Nạp tiền vào JobTrans</td>
-                </tr>
-                <tr>
-                    <td>20:56:23 15/01/2025</td>
-                    <td>200.000</td>
-                    <td><span class="badge bg-withdraw"><i class="fas fa-minus-circle me-1"></i>Rút tiền</span></td>
-                    <td><span class="badge bg-failed-status"><i class="fas fa-times-circle me-1"></i>Thất bại</span></td>
-                    <td>Rút tiền vào ví cá nhân</td>
-                </tr>
-                <tr>
-                    <td>21:01:36 15/01/2025</td>
-                    <td>200.000</td>
-                    <td><span class="badge bg-withdraw"><i class="fas fa-minus-circle me-1"></i>Rút tiền</span></td>
-                    <td><span class="badge bg-success-status"><i class="fas fa-check-circle me-1"></i>Thành công</span></td>
-                    <td>Rút tiền vào ví cá nhân</td>
-                </tr>
-                <tr>
-                    <td>08:30:15 16/01/2025</td>
-                    <td>300.000</td>
-                    <td><span class="badge bg-deposit"><i class="fas fa-plus-circle me-1"></i>Nạp tiền</span></td>
-                    <td><span class="badge bg-success-status"><i class="fas fa-check-circle me-1"></i>Thành công</span></td>
-                    <td>Nạp tiền từ thẻ ngân hàng</td>
-                </tr>
-                <tr>
-                    <td>14:22:50 16/01/2025</td>
-                    <td>150.000</td>
-                    <td><span class="badge bg-withdraw"><i class="fas fa-minus-circle me-1"></i>Rút tiền</span></td>
-                    <td><span class="badge bg-success-status"><i class="fas fa-check-circle me-1"></i>Thành công</span></td>
-                    <td>Rút tiền vào ví MoMo</td>
-                </tr>
-                </tbody>
-            </table>
-            <div id="noResults">
-                <i class="fas fa-search me-2"></i>Không tìm thấy giao dịch nào phù hợp với bộ lọc
-            </div>
-        </div>
+                    <c:forEach var="trans" items="${transList}">
+                        <tr class="transactionRow">
+                        <td>
+                                <fmt:formatDate value="${trans.createdDate}" pattern="HH:mm:ss dd/MM/yyyy"/>
+                            </td>
+                            <td>
+                                <fmt:formatNumber value="${trans.amount}" type="number" groupingUsed="true"/> VNĐ
+                            </td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${trans.transactionType == 'DEPOSIT'}">
+                                        <span class="badge bg-deposit"><i
+                                                class="fas fa-plus-circle me-1"></i>Nạp tiền</span>
+                                    </c:when>
+                                    <c:when test="${trans.transactionType == 'WITHDRAW'}">
+                                        <span class="badge bg-withdraw"><i class="fas fa-minus-circle me-1"></i>Rút tiền</span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span class="badge bg-secondary"><i class="fas fa-question-circle me-1"></i>Khác</span>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${trans.status}">
+                                        <span class="badge bg-success-status"><i class="fas fa-check-circle me-1"></i>Thành công</span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span class="badge bg-failed-status"><i class="fas fa-times-circle me-1"></i>Thất bại</span>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td>${trans.description}</td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
 
-        <!-- Pagination -->
-        <nav class="mt-4">
-            <ul id="pagination" class="pagination justify-content-center">
-                <!-- Phân trang được hiển thị trực tiếp -->
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true"><i class="fas fa-chevron-left"></i></span>
-                    </a>
-                </li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true"><i class="fas fa-chevron-right"></i></span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+                </table>
+                <c:if test="${empty transList}">
+                    <div id="noResults">
+                        <i class="fas fa-search me-2"></i>Không tìm thấy giao dịch nào phù hợp với bộ lọc
+                    </div>
+                </c:if>
+            </div>
+            <nav>
+                <ul class="pagination justify-content-center mt-3" id="pagination">
+                    <!-- Các nút phân trang sẽ được thêm bằng JS -->
+                </ul>
+            </nav>
+
+        </div>
     </div>
 
 </div>
 <script>
-    // Giữ lại một số chức năng JavaScript cơ bản để xử lý các tương tác
-    document.addEventListener('DOMContentLoaded', function() {
-        const fromDateInput = document.getElementById('fromDate');
-        const toDateInput = document.getElementById('toDate');
-        const typeSelect = document.getElementById('transactionType');
-        const statusSelect = document.getElementById('status');
-        const filterBtn = document.getElementById('filterBtn');
-        const resetBtn = document.getElementById('resetFilters');
+    const rowsPerPage = 5;
+    let currentPage = 1;
+    let filteredRows = [];
 
-        // Xử lý nút đặt lại bộ lọc
-        resetBtn.addEventListener('click', function() {
-            fromDateInput.value = '';
-            toDateInput.value = '';
-            typeSelect.value = '';
-            statusSelect.value = '';
-            // Trong thực tế, bạn sẽ cần thêm mã để làm mới bảng dữ liệu
-        });
+    function formatDate(dateString) {
+        const parts = dateString.split(" ");
+        return parts[1].split("/").reverse().join("-");
+    }
 
-        // Xử lý nút lọc
-        filterBtn.addEventListener('click', function() {
-            // Trong thực tế, bạn sẽ cần thêm mã để lọc dữ liệu
-            // Hiện tại chỉ hiển thị thông báo để minh họa
-            alert('Chức năng lọc sẽ được triển khai ở phía máy chủ');
-        });
+    function filterTransactions() {
+        const dateInput = document.getElementById("dateFilter").value;
+        const allRows = Array.from(document.querySelectorAll(".transactionRow"));
 
-        // Xử lý phân trang
-        const pageLinks = document.querySelectorAll('.page-link');
-        pageLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                // Trong thực tế, bạn sẽ cần thêm mã để chuyển trang
+        if (dateInput === "") {
+            filteredRows = allRows;
+        } else {
+            filteredRows = allRows.filter(row => {
+                const dateText = row.querySelector("td").innerText.trim(); // lấy cột giờ
+                const rowDate = formatDate(dateText);
+                return rowDate === dateInput;
             });
-        });
+        }
 
+        currentPage = 1;
+        updateTable();
+        updatePagination();
+    }
+
+    function updateTable() {
+        const allRows = Array.from(document.querySelectorAll(".transactionRow"));
+        allRows.forEach(row => row.style.display = "none");
+
+        const start = (currentPage - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+
+        filteredRows.slice(start, end).forEach(row => row.style.display = "");
+    }
+
+    function updatePagination() {
+        const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+        const pagination = document.getElementById("pagination");
+
+        pagination.innerHTML = "";
+
+        for (let i = 1; i <= totalPages; i++) {
+            const li = document.createElement("li");
+            li.classList.add("page-item");
+            if (i === currentPage) li.classList.add("active");
+
+            const a = document.createElement("a");
+            a.classList.add("page-link");
+            a.href = "#";
+            a.innerText = i;
+            a.addEventListener("click", function (e) {
+                e.preventDefault();
+                currentPage = i;
+                updateTable();
+                updatePagination();
+            });
+
+            li.appendChild(a);
+            pagination.appendChild(li);
+        }
+
+        // Ẩn thông báo nếu có dữ liệu
+        document.getElementById("noResults").style.display = filteredRows.length === 0 ? "block" : "none";
+    }
+
+    // Khởi tạo khi trang load
+    window.addEventListener("DOMContentLoaded", function () {
+        filteredRows = Array.from(document.querySelectorAll(".transactionRow"));
+        updateTable();
+        updatePagination();
     });
 </script>
-<%@include file="includes/footer.jsp"%>
+
+<%@include file="includes/footer.jsp" %>
 
 </body>
 </html>

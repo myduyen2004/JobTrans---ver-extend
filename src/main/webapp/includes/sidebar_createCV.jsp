@@ -1,332 +1,386 @@
-<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>CV Builder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Builder Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         :root {
-            /*--primary: #4361ee;*/
-            /*--primary-light: #e0e7ff;*/
-            /*--secondary: #3f37c9;*/
-            /*--dark: #1e1e1e;*/
-            /*--light: #f8f9fa;*/
-            /*--gray: #6c757d;*/
-            /*--border: #dee2e6;*/
-            /*--shadow: 0 4px 20px rgba(0, 0, 0, 0.08);*/
+            --primary: #4F46E5;
+            --primary-light: #EEF2FF;
+            --primary-dark: #4338CA;
+            --secondary: #10B981;
+            --dark: #1F2937;
+            --light: #F9FAFB;
+            --gray: #6B7280;
+            --gray-light: #E5E7EB;
+            --border: #D1D5DB;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        #cv-container {
-            position: relative;
-            margin-left: 250px; /* Bằng với width của sidebar */
-            margin-top: 70px; /* Bằng với height của header */
-            padding: 20px;
-            transition: margin-left 0.3s;
-            width: calc(100% - 250px);
-            min-height: calc(100vh - 70px);
-            background-color: #f5f7fb;
-        }
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Roboto', sans-serif;
         }
 
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.5;
+        }
 
+        /* Layout Structure */
+        .app-container {
+            display: flex;
 
-        /* Header Styles */
-        .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 70px;
-            background: white;
-            box-shadow: var(--shadow);
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            border-radius: 30px;
+            width: 280px;
+            margin-top: 120px;
+            margin-left: 10px;
+            /*border: #0F1B63;*/
+            /*border: 2px solid #0F1B63;*/
+            background-color: whitesmoke;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+            /*position: fixed;*/
+            z-index: 50;
+            margin-bottom: 20px;
+
+        }
+
+        .sidebar-collapsed {
+            width: 80px;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
-            padding: 0 30px;
-            z-index: 1000;
+            justify-content: space-between;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            font-size: 22px;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 20px;
             color: var(--primary);
+            white-space: nowrap;
         }
 
         .logo-icon {
-            font-size: 26px;
-        }
-
-        .header-actions {
-            margin-left: auto;
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            margin-right: 60px;
-        }
-
-        .btn {
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-outline {
-            border: 1px solid var(--primary);
+            font-size: 24px;
             color: var(--primary);
-            background: transparent;
-        }
-
-        .btn-outline:hover {
-            background: var(--primary-light);
-        }
-
-
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--primary);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        /* Sidebar Styles */
-        .sidebar {
-            position: fixed;
-            top: 70px;
-            left: 0;
-            width: 250px;
-            height: calc(100vh - 70px);
-            background: white;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
-            padding: 20px 0;
-            transition: all 0.3s;
-            z-index: 900;
-        }
-
-        .sidebar.collapsed {
-            width: 80px;
         }
 
         .sidebar-menu {
-            list-style: none;
+            flex: 1;
+            padding: 16px 0;
+            overflow-y: auto;
+        }
+
+        .menu-section {
+            margin-bottom: 24px;
+        }
+
+        .menu-title {
+            padding: 8px 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--gray);
+            display: flex;
+            align-items: center;
         }
 
         .menu-item {
             display: flex;
             align-items: center;
             padding: 12px 20px;
-            margin: 5px 0;
-            border-radius: 6px;
+            margin: 0 8px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: var(--transition);
             color: var(--gray);
             text-decoration: none;
+            white-space: nowrap;
         }
 
         .menu-item:hover {
-            background: var(--primary-light);
+            background-color: var(--primary-light);
             color: var(--primary);
         }
 
         .menu-item.active {
-            background: var(--primary-light);
+            background-color: var(--primary-light);
             color: var(--primary);
             font-weight: 500;
         }
 
         .menu-icon {
-            font-size: 20px;
             width: 24px;
-            text-align: center;
-            margin-right: 15px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+            transition: var(--transition);
         }
 
         .menu-text {
-            font-size: 15px;
-            transition: opacity 0.3s;
+            font-size: 14px;
+            font-weight: 500;
+            transition: var(--transition);
         }
 
-        .sidebar.collapsed .menu-text {
+        .sidebar-collapsed .menu-text,
+        .sidebar-collapsed .menu-title span {
             opacity: 0;
             width: 0;
+            height: 0;
             overflow: hidden;
+            display: none;
         }
 
-        .sidebar.collapsed .menu-item {
+        .sidebar-collapsed .menu-item {
             justify-content: center;
             padding: 12px 0;
+            margin: 0 12px;
         }
 
-        .sidebar.collapsed .menu-icon {
+        .sidebar-collapsed .menu-icon {
             margin-right: 0;
-            font-size: 22px;
+            font-size: 20px;
         }
 
-        .divider {
-            height: 1px;
-            background: var(--border);
-            margin: 15px 20px;
+        .hsidebar-footer {
+            padding: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .htoggle-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            border-radius: 8px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .toggle-btn:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .toggle-icon {
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .sidebar-collapsed .toggle-icon {
+            transform: rotate(180deg);
         }
 
         /* Main Content Area */
         .main-content {
-            margin-left: 250px;
-            margin-top: 70px;
-            padding: 30px;
-            transition: all 0.3s;
+            /*flex: 1;*/
+            /*margin-left: 280px;*/
+            /*padding: 24px;*/
+            /*transition: var(--transition);*/
+
         }
 
-        .sidebar.collapsed ~ .main-content {
+        .sidebar-collapsed ~ .main-content {
             margin-left: 80px;
         }
-        @media (max-width: 992px) {
-            .cv-box {
-                flex-direction: column;
-            }
 
-            .cv-sidebar {
-                width: 100%;
-            }
-        }
-
+        /* Responsive Design */
         @media (max-width: 768px) {
             .sidebar {
-                width: 70px;
+                transform: translateX(-100%);
+                z-index: 100;
             }
 
-
-            .menu-text {
-                display: none;
+            .sidebar-open {
+                transform: translateX(0);
             }
 
-            .menu-icon {
-                margin-right: 0;
-                font-size: 20px;
+            .main-content {
+                margin-left: 0;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+                position: fixed;
+                top: 16px;
+                left: 16px;
+                z-index: 90;
+                background: white;
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                padding: 8px;
+                box-shadow: var(--shadow-sm);
             }
         }
+
+        /* Badge for new features */
+        .badge {
+            margin-left: auto;
+            background: var(--secondary);
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 999px;
+        }
+
     </style>
-
-
 </head>
 <body>
-<!-- Header Section -->
-<header class="header">
-    <div class="logo">
-        <i class="fas fa-file-alt logo-icon"></i>
-        <span>CV Builder Pro</span>
-    </div>
+<div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
 
-    <div class="header-actions">
-        <button class="btn btn-outline">
-            <i class="fas fa-eye"></i> Preview
+        <nav class="sidebar-menu">
+            <div class="menu-section">
+
+            </div>
+
+            <div class="menu-section">
+                <div class="menu-title">
+                    <span>Thiết kế CV</span>
+                </div>
+
+                <a href="#" class="menu-item">
+                    <i class="fas fa-palette menu-icon"></i>
+                    <span class="menu-text">Mẩu CV</span>
+
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-pen-fancy menu-icon"></i>
+                    <span class="menu-text">Thiết kế</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-layer-group menu-icon"></i>
+                    <span class="menu-text">AI</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-language menu-icon"></i>
+                    <span class="menu-text">Ngôn ngữ</span>
+                </a>
+
+            </div>
+
+            <div class="menu-section">
+                <div class="menu-title">
+                    <span>In CV</span>
+                </div>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-file-pdf menu-icon"></i>
+                    <span class="menu-text">PDF In</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-file-word menu-icon"></i>
+                    <span class="menu-text">Word In</span>
+                </a>
+
+<%--                <div class="hsidebar-footer">--%>
+                    <button class="htoggle-btn" onclick="toggleSidebar()">
+             <div style="margin-right: 60px" class="menu-title">
+                    <span>Thu gọn</span>
+<%--                </div>--%>
+
+
+                    </button>
+                </div>
+
+
+        </nav>
+
+
+
+
+        <button class="mobile-menu-btn" id="mobileMenuBtn" style="display: none;">
+            <i class="fas fa-bars"></i>
         </button>
-        <button class="btn btn-primary">
-            <i class="fas fa-download"></i> Download
 
-        </button>
+    </aside>
 
-    </div>
+    <!-- Main Content Area -->
+    <main class="main-content" id="mainContent">
 
-</header>
+    </main>
+</div>
 
-<!-- Sidebar Navigation -->
-<nav class="sidebar">
-    <ul class="sidebar-menu">
-        <li>
-            <a href="#" class="menu-item active">
-                <i class="fas fa-home menu-icon"></i>
-                <span class="menu-text">Dashboard</span>
-            </a>
-        </li>
-        <li>
-            <a href="#" class="menu-item">
-                <i class="fas fa-file-alt menu-icon"></i>
-                <span class="menu-text">CV Templates</span>
-            </a>
-        </li>
-        <li>
-            <a href="#" class="menu-item">
-                <i class="fas fa-pen-fancy menu-icon"></i>
-                <span class="menu-text">Design</span>
-            </a>
-        </li>
-        <li>
-            <a href="#" class="menu-item">
-                <i class="fas fa-plus-circle menu-icon"></i>
-                <span class="menu-text">Add Section</span>
-            </a>
-        </li>
-        <li>
-            <a href="#" class="menu-item">
-                <i class="fas fa-language menu-icon"></i>
-                <span class="menu-text">Language</span>
-            </a>
-        </li>
+<!-- Mobile Menu Button (hidden on desktop) -->
 
-        <li class="divider"></li>
-
-        <li>
-            <a href="#" class="menu-item">
-                <i class="fas fa-file-export menu-icon"></i>
-                <span class="menu-text">Export Options</span>
-            </a>
-        </li>
-        <li>
-            <a href="#" class="menu-item">
-                <i class="fas fa-cog menu-icon"></i>
-                <span class="menu-text">Settings</span>
-            </a>
-        </li>
-    </ul>
-
-    <div style="position: absolute; bottom: 20px; left: 0; right: 0; text-align: center;">
-        <button onclick="toggleSidebar()" class="menu-item" style="background: transparent; justify-content: center;">
-            <i class="fas fa-chevron-left menu-icon"></i>
-            <span class="menu-text">Collapse</span>
-        </button>
-    </div>
-</nav>
-
-<!-- Main Content Area -->
-<main class="main-content">
-    <!-- Your CV content will go here -->
-</main>
 
 <script>
     function toggleSidebar() {
-        const sidebar = document.querySelector('.sidebar');
-        sidebar.classList.toggle('collapsed');
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('sidebar-collapsed');
 
-        const icon = document.querySelector('.sidebar .menu-item:last-child i');
-        if (sidebar.classList.contains('collapsed')) {
-            icon.classList.remove('fa-chevron-left');
-            icon.classList.add('fa-chevron-right');
-        } else {
-            icon.classList.remove('fa-chevron-right');
-            icon.classList.add('fa-chevron-left');
+        const icon = document.querySelector('#toggle-icon i');
+        if (icon) {
+            icon.classList.toggle('fa-chevron-left');
+            icon.classList.toggle('fa-chevron-right');
+        }
+
+        // Đổi chữ "Thu gọn" ↔ "Mở rộng" nếu muốn
+        const toggleText = document.getElementById('toggle-icon');
+        if (toggleText) {
+            toggleText.innerHTML = icon.classList.contains('fa-chevron-left')
+                ? '<i class="fa fa-chevron-left"></i> Thu gọn'
+                : '<i class="fa fa-chevron-right"></i> Mở rộng';
         }
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const sidebar = document.getElementById('sidebar');
+
+        function checkScreenSize() {
+            if (window.innerWidth <= 768) {
+                if (mobileMenuBtn) mobileMenuBtn.style.display = 'block';
+                if (sidebar) sidebar.classList.add('sidebar-collapsed');
+            } else {
+                if (mobileMenuBtn) mobileMenuBtn.style.display = 'none';
+                if (sidebar) sidebar.classList.remove('sidebar-collapsed');
+            }
+        }
+
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
+
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', function () {
+                if (sidebar) sidebar.classList.toggle('sidebar-open');
+            });
+        }
+    });
 </script>
 </body>
 </html>

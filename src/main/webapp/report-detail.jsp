@@ -1,17 +1,23 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: admin
-  Date: 4/20/2025
-  Time: 8:40 AM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ page import="jobtrans.utils.CookieUtils" %>
+<%
+    String email = CookieUtils.get("cookemail", request);
+    String password = CookieUtils.get("cookpass", request);
+    String rememberVal = CookieUtils.get("cookrem", request);
+%>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+    <jsp:useBean id="accDao" class="jobtrans.dal.AccountDAO" scope="session"/>
+    <jsp:useBean id="jobDao" class="jobtrans.dal.JobDAO" scope="session"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chi tiết báo cáo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .bg-custom-gradient {
             background: linear-gradient(300deg, rgba(103, 135, 254, 0.4) 0%, rgb(43, 61, 159) 20%);
@@ -86,21 +92,54 @@
             border: 3px solid white;
             z-index: 1;
         }
+
+        .report-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-completed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-in-progress {
+            background-color: #ffa2a2;
+            color: #0c5460;
+        }
     </style>
 </head>
 <%@include file="includes/header-01.jsp"%>
 <body>
+<%@include file="includes/toast-notification.jsp"%>
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-10 col-md-9 p-4" style="margin-left: 150px">
             <div class="report-header d-flex justify-content-between align-items-center">
-                <h2>Chi tiết báo cáo #12345</h2>
+                <h2>Chi tiết báo cáo</h2>
                 <div>
-                    <span class="badge bg-warning text-dark me-2 status-badge">Đang xử lý</span>
+                    <c:choose>
+                        <c:when test="${report.status == 'Chờ xử lí'}">
+                            <span class="report-status status-pending">Đang xử lí</span>
+                        </c:when>
+                        <c:when test="${report.status == 'Bị từ chối'}">
+                            <span class="report-status status-in-progress">Đã từ chối</span>
+                        </c:when>
+                        <c:when test="${report.status == 'Đã xử lí'}">
+                            <span class="report-status status-completed">Đã xử lí</span>
+                        </c:when>
+                    </c:choose>
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row" style="display: flex; flex-direction: row; justify-content: center;">
                 <div class="col-lg-8">
                     <!-- Report Details -->
                     <div class="card mb-4">
@@ -109,28 +148,38 @@
                         </div>
                         <div class="card-body">
                             <div class="reporter-info">
-                                <img src="/api/placeholder/50/50" alt="Avatar" class="avatar">
+                                <img src="${accDao.getAccountById(report.reportBy).avatar}" alt="${accDao.getAccountById(report.reportBy).accountName}" class="avatar">
                                 <div class="reporter-details">
-                                    <h6 class="mb-0">Nguyễn Văn A</h6>
-                                    <small class="text-muted">nguyen.van.a@example.com</small>
+                                    <h6 class="mb-0">${accDao.getAccountById(report.reportBy).accountName}</h6>
+                                    <small class="text-muted">${accDao.getAccountById(report.reportBy).email}</small>
                                 </div>
                             </div>
 
                             <div class="mb-3">
                                 <h6 class="text-secondary">Tiêu chí báo cáo:</h6>
-                                <span class="badge bg-danger me-2">Vi phạm nội quy</span>
+                                <span class="badge bg-danger me-2">${accDao.getCriteriaById(report.criteriaId).content}</span>
+                            </div>
+
+                            <div class="mb-3">
+                                <h6 class="text-secondary">Người dùng bị báo cáo:</h6>
+                            </div>
+                            <div class="reporter-info" style="padding-left: 20px;">
+                                <img src="${accDao.getAccountById(report.reportedAccount).avatar}" alt="${accDao.getAccountById(report.reportedAccount).accountName}" class="avatar">
+                                <div class="reporter-details">
+                                    <h6 class="mb-0">${accDao.getAccountById(report.reportedAccount).accountName}</h6>
+                                    <small class="text-muted">${accDao.getAccountById(report.reportedAccount).email}</small>
+                                </div>
                             </div>
 
                             <div class="mb-3">
                                 <h6 class="text-secondary">Thời gian báo cáo:</h6>
-                                <p>20/04/2025, 10:35 AM</p>
+                                <p><fmt:formatDate value="${report.reportTime}" pattern="dd/MM/yyyy"/></p>
                             </div>
 
                             <div class="mb-3">
                                 <h6 class="text-secondary">Mô tả chi tiết:</h6>
                                 <div class="report-content">
-                                    <p>Tài khoản này đã đăng nội dung vi phạm quy tắc cộng đồng. Cụ thể là đã đăng tải hình ảnh và bài viết có nội dung quảng cáo trái phép. Đây không phải là lần đầu tiên tài khoản này vi phạm quy định.</p>
-                                    <p>Tôi đã chụp ảnh màn hình và đính kèm các bằng chứng bên dưới. Đề nghị kiểm tra và có biện pháp xử lý kịp thời.</p>
+                                    <p>${report.contentReport}</p>
                                 </div>
                             </div>
 
@@ -139,30 +188,16 @@
                                 <div class="row">
                                     <div class="col-md-4 mb-3">
                                         <div class="card">
-                                            <img src="/api/placeholder/200/150" class="card-img-top" alt="Bằng chứng 1">
+                                            <img src="./job_docs/${report.attachment}" class="card-img-top" alt="Bằng chứng">
                                             <div class="card-body p-2">
-                                                <p class="card-text small">evidence1.jpg</p>
-                                                <a href="#" class="btn btn-sm btn-outline-primary">Xem</a>
+                                                <p class="card-text small">${report.attachment}</p>
+                                                <a href="acc-manage?action=download&fileName=${report.attachment}&reportId=${report.reportId}" class="btn btn-sm btn-outline-primary">Xem</a>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-4 mb-3">
-                                        <div class="card">
-                                            <img src="/api/placeholder/200/150" class="card-img-top" alt="Bằng chứng 2">
-                                            <div class="card-body p-2">
-                                                <p class="card-text small">evidence2.jpg</p>
-                                                <a href="#" class="btn btn-sm btn-outline-primary">Xem</a>
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="col-md-4 mb-3">
-                                        <div class="card">
-                                            <img src="/api/placeholder/200/150" class="card-img-top" alt="Bằng chứng 3">
-                                            <div class="card-body p-2">
-                                                <p class="card-text small">evidence3.jpg</p>
-                                                <a href="#" class="btn btn-sm btn-outline-primary">Xem</a>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -170,114 +205,123 @@
                             <div class="attachment-preview">
                                 <h6 class="text-secondary">Xem trước tệp đính kèm</h6>
                                 <div class="text-center">
-                                    <img src="/api/placeholder/400/320" class="img-fluid" alt="Preview">
+                                    <img src="./job_docs/${report.attachment}" class="img-fluid" alt="Preview">
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Reported Content -->
-                    <div class="card mb-4">
-                        <div class="card-header bg-custom-gradient text-white">
-                            <h5 class="mb-0"><i class="fas fa-file-alt me-2"></i>Nội dung bị báo cáo</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="mb-3">
-                                <div class="d-flex align-items-center mb-3">
-                                    <img src="/api/placeholder/40/40" alt="User Avatar" class="avatar me-2" style="width: 40px; height: 40px;">
-                                    <div>
-                                        <h6 class="mb-0">Trần Văn B</h6>
-                                        <small class="text-muted">@tranvanb • 19/04/2025</small>
-                                    </div>
-                                </div>
-                                <div class="report-content">
-                                    <p>Mua ngay sản phẩm XYZ tại đây! Giảm giá 70% chỉ trong hôm nay! Liên hệ ngay số điện thoại 09xx.xxx.xxx để được tư vấn...</p>
-                                    <p>Đảm bảo hoàn tiền nếu không hài lòng. Sản phẩm nhập khẩu chính hãng, không qua trung gian.</p>
-                                    <div class="border p-2 rounded bg-light">
-                                        <div class="d-flex align-items-center">
-                                            <i class="fas fa-link me-2 text-secondary"></i>
-                                            <span>www.example-spam-site.com/product123</span>
+                    <c:if test="${not empty report.jobId}">
+                        <div class="card mb-4">
+                            <div class="card-header bg-custom-gradient text-white">
+                                <h5 class="mb-0"><i class="fas fa-file-alt me-2"></i>Nội dung bị báo cáo</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <img src="${accDao.getAccountById(report.reportedAccount).avatar}" alt="${accDao.getAccountById(report.reportedAccount).accountName}" class="avatar me-2" style="width: 40px; height: 40px;">
+                                        <div>
+                                            <h6 class="mb-0">${accDao.getAccountById(report.reportedAccount).accountName}</h6>
+                                            <small class="text-muted">${accDao.getAccountById(report.reportedAccount).email} • <fmt:formatDate value="${report.reportTime}" pattern="dd/MM/yyyy"/></small>
                                         </div>
                                     </div>
+                                    <div class="report-content">
+                                        <p style="font-size: 20px;">${jobDao.getJobById(report.jobId).jobTitle}</p>
+                                        <p>${jobDao.getJobById(report.jobId).jobDescription}</p>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <h6 class="text-secondary">Lịch sử vi phạm của người dùng:</h6>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th>Ngày</th>
+                                                <th>Loại vi phạm</th>
+                                                <th>Trạng thái</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <c:forEach var="o" items="${accDao.getReportByreportedAccount(report.reportedAccount)}">
+                                                <tr>
+                                                    <td><fmt:formatDate value="${o.reportTime}" pattern="dd/MM/yyyy"/></td>
+                                                    <td>${accDao.getCriteriaById(o.criteriaId).content}</td>
+                                                    <td>
+                                                        <c:choose>
+                                                            <c:when test="${o.status == 'Chờ xử lí'}">
+                                                                <span class="report-status status-pending">Đang xử lí</span>
+                                                            </c:when>
+                                                            <c:when test="${o.status == 'Bị từ chối'}">
+                                                                <span class="report-status status-in-progress">Đã từ chối</span>
+                                                            </c:when>
+                                                            <c:when test="${o.status == 'Đã xử lí'}">
+                                                                <span class="report-status status-completed">Đã xử lí</span>
+                                                            </c:when>
+                                                        </c:choose>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+                    </c:if>
+                </div>
 
-                            <div class="mb-3">
-                                <h6 class="text-secondary">Lịch sử vi phạm của người dùng:</h6>
-                                <div class="table-responsive">
-                                    <table class="table table-striped">
-                                        <thead>
-                                        <tr>
-                                            <th>Ngày</th>
-                                            <th>Loại vi phạm</th>
-                                            <th>Trạng thái</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td>05/03/2025</td>
-                                            <td>Quảng cáo trái phép</td>
-                                            <td><span class="badge bg-danger">Đã xử lý</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>15/02/2025</td>
-                                            <td>Spam</td>
-                                            <td><span class="badge bg-danger">Đã xử lý</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>20/04/2025</td>
-                                            <td>Quảng cáo trái phép</td>
-                                            <td><span class="badge bg-warning text-dark">Đang xử lý</span></td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                <c:if test="${accDao.getAccountById(accountLogged.accountId).role == 'Admin'}">
+                    <div class="col-lg-4">
+                        <!-- Action Card -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-custom-gradient text-white">
+                                <h5 class="mb-0"><i class="fas fa-tasks me-2"></i>Hành động</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-grid gap-2">
+                                    <a href="acc-manage?action=acceptReport&reportId=${report.reportId}">
+                                        <button class="btn btn-success" type="button" style="width: 100%">
+                                            <i class="fas fa-check me-2"></i>Chấp nhận báo cáo
+                                        </button>
+                                    </a>
+                                    <a href="acc-manage?action=rejectReport&reportId=${report.reportId}">
+                                        <button class="btn btn-danger" type="button" style="width: 100%">
+                                            <i class="fas fa-times me-2"></i>Từ chối báo cáo
+                                        </button>
+                                    </a>
+                                    <a href="acc-manage?action=banAccount&reportId=${report.reportId}">
+                                        <button class="btn btn-dark" type="button" style="width: 100%">
+                                            <i class="fas fa-ban me-2"></i>Khóa tài khoản
+                                        </button>
+                                    </a>
                                 </div>
+
+                                <hr>
+
+                                <form action="acc-manage" method="get">
+                                    <input type="hidden" name="reportId" value="${report.reportId}">
+                                    <input type="hidden" name="action" value="saveNote">
+                                    <div class="mb-3">
+                                        <label for="noteToUser" class="form-label">Ghi chú cho người dùng:</label>
+                                        <textarea class="form-control" id="noteToUser" name="note" rows="3" placeholder="Nhập ghi chú..."></textarea>
+                                    </div>
+                                    <div class="d-grid">
+                                        <button class="btn btn-primary" type="submit">
+                                            <i class="fas fa-save me-2"></i>Lưu ghi chú
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="col-lg-4">
-                    <!-- Action Card -->
-                    <div class="card mb-4">
-                        <div class="card-header bg-custom-gradient text-white">
-                            <h5 class="mb-0"><i class="fas fa-tasks me-2"></i>Hành động</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="d-grid gap-2">
-                                <button class="btn btn-success" type="button">
-                                    <i class="fas fa-check me-2"></i>Chấp nhận báo cáo
-                                </button>
-                                <button class="btn btn-danger" type="button">
-                                    <i class="fas fa-times me-2"></i>Từ chối báo cáo
-                                </button>
-                                <button class="btn btn-warning" type="button">
-                                    <i class="fas fa-exclamation-triangle me-2"></i>Cảnh báo người dùng
-                                </button>
-                                <button class="btn btn-dark" type="button">
-                                    <i class="fas fa-ban me-2"></i>Khóa tài khoản
-                                </button>
-                            </div>
-
-                            <hr>
-
-                            <div class="mb-3">
-                                <label for="noteToUser" class="form-label">Ghi chú cho người dùng:</label>
-                                <textarea class="form-control" id="noteToUser" rows="3" placeholder="Nhập ghi chú..."></textarea>
-                            </div>
-                            <div class="d-grid">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-save me-2"></i>Lưu ghi chú
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </c:if>
             </div>
         </div>
     </div>
 </div>
 <%@include file="includes/footer.jsp"%>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<%--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>--%>
 </body>
 </html>

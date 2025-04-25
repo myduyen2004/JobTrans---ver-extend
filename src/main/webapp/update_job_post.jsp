@@ -100,14 +100,18 @@
 
         <div class="form-group">
             <label class="form-label">Ngân sách:</label>
-            <div class="budget-container">
-                <div class="budget-group">
-                    <span class="budget-label">MIN</span>
-                    <input class="budget-input" name="budgetMin" type="number" value="${job.budgetMin}">
+            <div class="row">
+                <div class="col-6">
+                    <div class="budget-group" id="budgetMin">
+                        <span class="budget-label">MIN</span>
+                        <input class="budget-input" name="budgetMin" id="budgetMinInput" type="number" value='0'>
+                    </div>
                 </div>
-                <div class="budget-group">
-                    <span class="budget-label">MAX</span>
-                    <input class="budget-input" name="budgetMax" type="number" value="${job.budgetMax}">
+                <div class="col-6">
+                    <div class="budget-group" id="budgetMax">
+                        <span class="budget-label">MAX</span>
+                        <input class="budget-input" name="budgetMax" id="budgetMaxInput" type="number" value='0'>
+                    </div>
                 </div>
             </div>
         </div>
@@ -155,29 +159,15 @@
         </div>
 
         <div class="row">
-<%--            <c:if test="${job.interviewDate != null}">--%>
-<%--            <div class="col-6">--%>
-<%--                <div class="form-group">--%>
-<%--                    <label class="form-label" for="interviewDate">Ngày phỏng vấn:</label>--%>
-<%--                    <input id="interviewDate" name="interviewDate" class="form-control" type="date" value="${job.interviewDate}">--%>
-<%--                </div>--%>
-<%--            </div>--%>
-<%--            </c:if>--%>
             <c:if test="${job.dueDatePost != null}">
             <div class="col-6">
                 <div class="form-group">
-                    <label class="form-label" for="dueDate">Ngày hết hạn:</label>
+                    <label class="form-label" for="dueDate">Ngày hết hạn tuyển dụng:</label>
                     <input id="dueDate" name="dueDate" class="form-control" type="date" value="${job.dueDatePost}">
                 </div>
             </div>
             </c:if>
         </div>
-<%--        <c:if test="${job.linkInterview != null}">--%>
-<%--        <div class="form-group">--%>
-<%--            <label class="form-label" for="linkInterview">Đường dẫn phỏng vấn:</label>--%>
-<%--            <input id="linkInterview" name="linkInterview" class="form-control" type="text" placeholder="Nhập đường dẫn phỏng vấn" value="${job.linkInterview}">--%>
-<%--        </div>--%>
-<%--        </c:if>--%>
 
         <div class="button-group">
             <button type="submit" class="btn btn-primary">Cập nhật tin tuyển dụng</button>

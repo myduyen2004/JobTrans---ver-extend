@@ -131,6 +131,7 @@ return weeklyRevenueList;
                     "    CAST(post_date AS DATE)\n" +
                     "ORDER BY\n" +
                     "    job_date;";
+
         try (Connection conn = dbConnection.openConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
