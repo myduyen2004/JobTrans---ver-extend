@@ -1247,8 +1247,8 @@
                             <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/profile?action=view&account_id=${sessionScope.sessionAccount.accountId}"><i class="fas fa-user"></i>Hồ sơ cá nhân</a></li>
                         </c:if>
                         <%if(account.getRole().equals("Người dùng")){%>
-                        <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/job-greeting?action=view-applied"><i class="fas fa-file-alt"></i>Quản lí công việc</a></li>
-                        <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/my-cvs.jsp"><i class="fas fa-id-card"></i>CV của tôi</a></li>
+                        <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/profile?action=job-manage-page"><i class="fas fa-file-alt"></i>Quản lí công việc</a></li>
+                        <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/cv?action=list"><i class="fas fa-id-card"></i>CV của tôi</a></li>
                         <%} else if (account.getRole().equals("Admin")) {%>
                         <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/acc-manage?action=viewAllReports"><i class="fas fa-id-card"></i>Quản lí báo cáo</a></li>
                         <%}%>

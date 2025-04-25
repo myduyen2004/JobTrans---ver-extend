@@ -21,15 +21,10 @@
 </head>
 <body>
 <%@include file="includes/header-01.jsp" %>
-<div class="py-4 banner_title">
-    <h1 class="text-white font-weight-bold" style="padding-left: 50px;">Danh sách công việc</h1>
-</div>
 <div class="cong">
 
     <div class="content" id="content">
         <div class="row main-content" id="mainContent">
-
-
             <div class="containerr">
                 <header>
                     <h1 style="font-size: 24px;
@@ -186,11 +181,6 @@
         });
     });
 </script>
-</div>
-
-<!--======= Back to Top =======-->
-<div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
-
 </body>
 
 <!-- Mirrored from themebing.com/wp/prolancer/projects/?projects-layout=projects_left_sidebar by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Jan 2025 09:33:35 GMT -->

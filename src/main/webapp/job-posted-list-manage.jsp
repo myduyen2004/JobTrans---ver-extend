@@ -19,6 +19,17 @@
     <div class="main-content">
         <section class="section-padding">
             <div class="container">
+                <div class="page-title-container">
+                    <h1 class="page-title">Quản Lý Công Việc Đã Đăng</h1>
+                    <p class="page-subtitle">Theo dõi, cập nhật và quản lý danh sách các công việc bạn đã đăng trên nền tảng JobTrans</p>
+                </div>
+                <div class="new-job-btn-container">
+                    <a href="job?action=create-new-job">
+                        <button class="new-job-btn">
+                            <i class="fas fa-plus-circle"></i> Đăng việc mới
+                        </button>
+                    </a>
+                </div>
                 <div class="row mb-4 filter-container">
                     <div class="col-md-8"></div>
                     <div class="col-md-4 d-flex gap-2 align-items-center justify-content-end">
@@ -65,11 +76,21 @@
                                             -
                                                 ${o.budgetMax}<span class="currency-symbol">&#8363;</span>
                                         </div>
-                                        <a href="job?action=posted-job-detail&jobId=${o.jobId}">
-                                            <button class="detail-btn">
-                                                Chi tiết
+                                        <div class="job-card-actions">
+                                            <a href="job?action=posted-job-detail&jobId=${o.jobId}">
+                                                <button class="detail-btn">
+                                                    <i class="fas fa-eye"></i> Chi tiết
+                                                </button>
+                                            </a>
+                                            <a href="job?action=edit-job&jobId=${o.jobId}">
+                                                <button class="edit-btn">
+                                                    <i class="fas fa-edit"></i> Sửa
+                                                </button>
+                                            </a>
+                                            <button class="delete-btn" onclick="confirmDelete(${o.jobId})">
+                                                <i class="fas fa-trash"></i> Xóa
                                             </button>
-                                        </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -96,6 +117,12 @@
 </div>
 
 </body>
-
+<script>
+    function confirmDelete(jobId) {
+        if (confirm("Bạn có chắc chắn muốn xóa công việc này không?")) {
+            window.location.href = "job?action=delete-job&jobId=" + jobId;
+        }
+    }
+</script>
 
 </html>

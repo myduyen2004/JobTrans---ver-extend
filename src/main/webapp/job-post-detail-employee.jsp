@@ -8,11 +8,6 @@
     <title>JobTrans &#8211; Nền tảng hỗ trợ thuê, làm việc cho freelancer</title>
     <meta name='robots' content='max-image-preview:large'/>
     <!--new css -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <!-- Bootstrap 5.3.0 CSS -->
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="css/job-post-detail-employee.css">
     <jsp:useBean id="jobDAO" class="jobtrans.dal.JobDAO" scope="page" />
     <jsp:useBean id="accountDAO" class="jobtrans.dal.AccountDAO" scope="page" />

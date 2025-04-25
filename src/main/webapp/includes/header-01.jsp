@@ -30,7 +30,6 @@
     transition: all 0.4s ease;
     height: 100px; /* Tăng chiều cao tổng thể */
     padding: 10px 0; /* Tăng khoảng cách bên trong */
-    margin-bottom: 20px;
   }
 
   .navbar-brand {
@@ -102,7 +101,8 @@
     0 2px 10px rgba(74, 102, 216, 0.12);
     padding: 12px;
     margin-top: 12px;
-    min-width: 220px;
+    min-width: 230px;
+    line-height: 13px;
     background: #ffffff;
     backdrop-filter: blur(10px);
     transform-origin: top center;
@@ -1257,8 +1257,8 @@
               <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/profile?action=view&account_id=${sessionScope.sessionAccount.accountId}"><i class="fas fa-user"></i>Hồ sơ cá nhân</a></li>
             </c:if>
             <%if(account.getRole().equals("Người dùng")){%>
-            <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/job-greeting?action=view-applied"><i class="fas fa-file-alt"></i>Quản lí công việc</a></li>
-            <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/my-cvs.jsp"><i class="fas fa-id-card"></i>CV của tôi</a></li>
+            <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/profile?action=job-manage-page"><i class="fas fa-file-alt"></i>Quản lí công việc</a></li>
+            <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/cv?action=list"><i class="fas fa-id-card"></i>CV của tôi</a></li>
             <%} else if (account.getRole().equals("Admin")) {%>
             <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/acc-manage?action=viewAllReports"><i class="fas fa-id-card"></i>Quản lí báo cáo</a></li>
             <%}%>

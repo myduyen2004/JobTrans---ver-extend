@@ -75,7 +75,9 @@ public class ProfileServlet extends HttpServlet {
             case "viewReport":
                 int id = Integer.parseInt(request.getParameter("reportId"));
                 showReportDetail(request,response,id);
-
+                break;
+            case "job-manage-page":
+                showJobManage(request, response);
                 break;
             default:
                 response.sendRedirect("infor-account.jsp"); // Trang lỗi nếu action không hợp lệ
@@ -353,6 +355,9 @@ public class ProfileServlet extends HttpServlet {
         } else {
             resp.sendRedirect("home");
         }
+    }
+    private void showJobManage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("job-manage.jsp").forward(request,response);
     }
 
 

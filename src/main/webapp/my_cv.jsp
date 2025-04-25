@@ -1,456 +1,331 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
-<head lang="en-US">
+<head>
 
 <!-- Mirrored from themebing.com/wp/prolancer/projects/?projects-layout=projects_left_sidebar by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Jan 2025 09:33:33 GMT -->
 <!-- Added by HTTrack -->
 <meta http-equiv="content-type" content="text/html;charset=UTF-8"/><!-- /Added by HTTrack -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
+    <title>Quản lí CV</title>
 <style>
-    /* Thiết lập cơ bản */
+    /* CSS cho trang Quản lý CV */
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+    /* Reset và base styles */
     * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: 'Poppins', Arial, sans-serif;
     }
 
-    /* Container chính */
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f5f7fa;
+        color: #333;
+    }
+
+    /* Container styles */
+    .container_cv {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
     .container_listCV {
-        width: 85%;
-        margin: 20px auto;
-        animation: fadeIn 0.8s ease-in-out;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(21, 42, 105, 0.1);
+        overflow: hidden;
+        animation: slideDown 0.5s ease-out;
     }
 
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
-    /* Header */
+    /* Header styles */
     .header {
-        margin-top: 40px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 40px;
-        position: relative;
+        padding: 25px 30px;
+        background: linear-gradient(to right, rgb(21, 42, 105), rgb(54, 75, 140));
+        color: #fff;
+        border-radius: 12px 12px 0 0;
     }
 
-    /* Tab danh sách CV */
     .tab-active {
-        background: rgba(255, 255, 255, 0.8);
-        border: 2px solid rgb(21, 42, 105);
-        padding: 12px 24px;
-        border-radius: 30px;
-        font-size: 16px;
-        color: rgb(21, 42, 105);
-        cursor: pointer;
+        background: transparent;
+        border: none;
+        color: #fff;
+        font-size: 1.2rem;
         font-weight: 600;
-        margin-top: 20px;
-        margin-bottom: 20px;
-        box-shadow: 0 4px 8px rgba(21, 42, 105, 0.2);
+        cursor: pointer;
+        padding: 8px 0;
+        position: relative;
         display: flex;
         align-items: center;
-        transition: all 0.3s ease;
     }
 
-    .tab-active:before {
-        content: "\f022"; /* Font Awesome list icon */
+    .tab-active::before {
+        content: "\f0ae"; /* Font Awesome icon for list */
         font-family: "Font Awesome 5 Free";
         font-weight: 900;
         margin-right: 10px;
-        font-size: 18px;
+        font-size: 1.3rem;
     }
 
-    .tab-active:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(21, 42, 105, 0.3);
-    }
-
-    /* Nút tạo CV */
-    .create-btn {
-        background: linear-gradient(to right, rgb(21, 42, 105), rgb(54, 75, 140));
-        color: white;
-        padding: 14px 30px;
-        border-radius: 50px;
-        font-size: 16px;
-        font-weight: 600;
-        border: none;
-        cursor: pointer;
-        transition: all 0.4s ease;
-        box-shadow: 0 4px 15px rgba(21, 42, 105, 0.4);
-        display: inline-block;
-        position: relative;
-        overflow: hidden;
-        z-index: 1;
-    }
-
-    .create-btn:before {
+    .tab-active::after {
         content: "";
         position: absolute;
-        top: 0;
-        left: -100%;
+        bottom: 0;
+        left: 0;
         width: 100%;
-        height: 100%;
-        background: linear-gradient(to right, rgb(54, 75, 140), rgb(86, 114, 194));
-        transition: all 0.4s ease-in-out;
-        z-index: -1;
+        height: 3px;
+        background-color: #fff;
+        transform: scaleX(1);
+        transition: transform 0.3s ease;
     }
 
-    .create-btn:hover:before {
-        left: 0;
+    .create-btn {
+        background-color: #fff;
+        color: rgb(21, 42, 105);
+        border: none;
+        border-radius: 50px;
+        padding: 12px 25px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .create-btn::before {
+        content: "\f067"; /* Font Awesome icon for plus */
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        margin-right: 8px;
     }
 
     .create-btn:hover {
-        box-shadow: 0 6px 20px rgba(21, 42, 105, 0.6);
         transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
     }
 
-    .create-btn:after {
-        content: "\f067"; /* Font Awesome plus icon */
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
-        margin-left: 10px;
-    }
-
-    /* Danh sách CV */
+    /* CV List styles */
     .cv-list {
-        display: flex;
-        flex-direction: column;
+        padding: 30px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
         gap: 25px;
-        margin-bottom: 40px;
     }
 
-    /* Thẻ CV */
     .cv-card {
-        background: linear-gradient(135deg, #f8f9ff 0%, #eef1f8 100%);
+        background-color: #fff;
+        border-radius: 10px;
         padding: 25px;
-        border-radius: 15px;
-        border: 1px solid #e0e6f5;
-        box-shadow: 0 10px 20px rgba(21, 42, 105, 0.08);
-        margin-right: 0;
+        box-shadow: 0 5px 15px rgba(21, 42, 105, 0.08);
+        transition: all 0.3s ease;
+        border-top: 5px solid rgb(21, 42, 105);
         position: relative;
-        overflow: hidden;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        animation: fadeIn 0.5s ease-out;
     }
 
-    .cv-card:before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 5px;
-        background: linear-gradient(to right, rgb(21, 42, 105), rgb(54, 75, 140));
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
     }
 
     .cv-card:hover {
-        background: #ffffff;
-        border-color: #d0d9f0;
-        box-shadow: 0 15px 30px rgba(21, 42, 105, 0.15);
         transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(21, 42, 105, 0.15);
+    }
+
+    .cv-card::before {
+        content: "\f15c"; /* Font Awesome icon for file */
+        font-family: "Font Awesome 5 Free";
+        font-weight: 400;
+        position: absolute;
+        top: 22px;
+        right: 25px;
+        font-size: 2rem;
+        color: rgba(21, 42, 105, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .cv-card:hover::before {
+        color: rgba(21, 42, 105, 0.2);
+        transform: scale(1.1);
     }
 
     .cv-card p {
         margin-bottom: 12px;
-        color: #555;
-        font-size: 15px;
-        position: relative;
-        padding-left: 28px;
-    }
-
-    .cv-card p strong {
-        color: rgb(21, 42, 105);
-        font-weight: 600;
-    }
-
-    /* Add icons for the CV info */
-    .cv-card p:nth-child(1):before {
-        content: "\f073"; /* Font Awesome calendar icon */
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
-        position: absolute;
-        left: 0;
-        color: rgb(54, 75, 140);
-    }
-
-    .cv-card p:nth-child(2):before {
-        content: "\f2bb"; /* Font Awesome ID card icon */
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
-        position: absolute;
-        left: 0;
-        color: rgb(54, 75, 140);
-    }
-
-    /* Nhóm nút */
-    .button-group {
-        display: flex;
-        gap: 15px;
-        margin-top: 20px;
-        justify-content: flex-end;
-    }
-
-    /* Căn chỉnh kích thước và phong cách nút */
-    .view-btn, .edit-btn, .delete-btn {
-        height: 45px;
-        padding: 0 20px;
-        border-radius: 50px;
-        cursor: pointer;
-        font-size: 14px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        min-width: 110px;
-        text-align: center;
+        font-size: 0.95rem;
         display: flex;
         align-items: center;
-        justify-content: center;
+    }
+
+    .cv-card p:first-child::before {
+        content: "\f073"; /* Font Awesome icon for calendar */
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        margin-right: 10px;
+        color: rgb(54, 75, 140);
+    }
+
+    .cv-card p:nth-child(2)::before {
+        content: "\f02a"; /* Font Awesome icon for tag */
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        margin-right: 10px;
+        color: rgb(54, 75, 140);
+    }
+
+    .button-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .button-group a {
+        text-decoration: none;
+        flex-grow: 1;
+        min-width: 100px;
+    }
+
+    .view-btn, .edit-btn {
+        width: 100%;
+        padding: 10px;
         border: none;
+        border-radius: 5px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .view-btn {
-        background: rgba(21, 42, 105, 0.1);
-        color: rgb(21, 42, 105);
+        background: linear-gradient(to right, rgb(21, 42, 105), rgb(54, 75, 140));
+        color: white;
     }
 
-    .view-btn:before {
-        content: "\f06e"; /* Font Awesome eye icon */
+    .view-btn::before {
+        content: "\f06e"; /* Font Awesome icon for eye */
         font-family: "Font Awesome 5 Free";
         font-weight: 900;
-        margin-right: 8px;
+        margin-right: 6px;
     }
 
     .edit-btn {
-        background: rgba(54, 75, 140, 0.1);
-        color: rgb(54, 75, 140);
+        background-color: transparent;
+        color: rgb(21, 42, 105);
+        border: 1px solid rgb(21, 42, 105);
     }
 
-    .edit-btn:before {
-        content: "\f044"; /* Font Awesome edit icon */
+    .edit-btn:nth-of-type(1)::before {
+        content: "\f044"; /* Font Awesome icon for edit */
         font-family: "Font Awesome 5 Free";
         font-weight: 900;
-        margin-right: 8px;
+        margin-right: 6px;
     }
 
-    .delete-btn {
-        background: rgba(220, 53, 69, 0.1);
-        color: #dc3545;
-    }
-
-    .delete-btn:before {
-        content: "\f2ed"; /* Font Awesome trash icon */
+    .edit-btn:nth-of-type(2)::before {
+        content: "\f2ed"; /* Font Awesome icon for trash */
         font-family: "Font Awesome 5 Free";
         font-weight: 900;
-        margin-right: 8px;
-    }
-
-    .view-btn:hover, .edit-btn:hover, .delete-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        margin-right: 6px;
+        color: #d9534f;
     }
 
     .view-btn:hover {
-        background: rgb(21, 42, 105);
-        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 10px rgba(21, 42, 105, 0.3);
     }
 
     .edit-btn:hover {
-        background: rgb(54, 75, 140);
-        color: white;
+        background-color: rgba(21, 42, 105, 0.1);
     }
 
-    .delete-btn:hover {
-        background: #dc3545;
-        color: white;
-    }
-
-    /* Banner title enhancement */
-    .banner_title {
-        background-image: url(./img/anh1/anh1.png);
-        background-size: cover;
-        background-position: center;
-        height: 250px;
-        display: flex;
-        align-items: center;
-        position: relative;
-        overflow: hidden;
-        margin-top: 15px;
-        margin-bottom: 30px;
-        border-radius: 8px;
-        box-shadow: 0 10px 30px rgba(21, 42, 105, 0.2);
-    }
-
-    .banner_title:after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(to right, rgba(21, 42, 105, 0.8), rgba(54, 75, 140, 0.6));
-        z-index: 1;
-    }
-
-    .banner_title h1 {
-        position: relative;
-        z-index: 2;
-        font-size: 40px;
-        font-weight: 700;
-        padding-left: 50px;
-        animation: slideInLeft 1s ease;
-        color: white;
-        text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    }
-
-    @keyframes slideInLeft {
-        from {
-            transform: translateX(-50px);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-
-    /* Empty state animation */
-    .cv-list:empty:before {
-        content: "Bạn chưa tạo CV nào";
-        display: block;
+    /* Empty state */
+    .empty-cv {
         text-align: center;
         padding: 40px;
-        color: #999;
-        font-style: italic;
+        grid-column: 1 / -1;
         animation: pulse 2s infinite;
-        background: #f8f9ff;
-        border-radius: 15px;
-        box-shadow: 0 5px 15px rgba(21, 42, 105, 0.05);
     }
 
     @keyframes pulse {
-        0% { opacity: 0.6; }
-        50% { opacity: 1; }
-        100% { opacity: 0.6; }
-    }
-
-    /* Container wrapper */
-    .container_cv {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 15px;
-    }
-
-    /* Back to top button enhancement */
-    #backtotop {
-        background: linear-gradient(to right, rgb(21, 42, 105), rgb(54, 75, 140));
-        color: white;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        cursor: pointer;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.4s ease;
-        box-shadow: 0 4px 15px rgba(21, 42, 105, 0.5);
-        z-index: 999;
-    }
-
-    #backtotop.visible {
-        opacity: 1;
-        visibility: visible;
-    }
-
-    #backtotop:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(21, 42, 105, 0.7);
-    }
-
-    /* Fix lỗi cho nút xóa - nút này dùng class edit-btn nhưng cần hiệu ứng của delete-btn */
-    a[href*="action=delete"] .edit-btn {
-        background: rgba(220, 53, 69, 0.1);
-        color: #dc3545;
-    }
-
-    a[href*="action=delete"] .edit-btn:before {
-        content: "\f2ed"; /* Font Awesome trash icon */
-    }
-
-    a[href*="action=delete"] .edit-btn:hover {
-        background: #dc3545;
-        color: white;
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 992px) {
-        .container_listCV {
-            width: 95%;
+        0% {
+            opacity: 0.7;
         }
+        50% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0.7;
+        }
+    }
 
+    .empty-cv i {
+        font-size: 4rem;
+        color: rgb(21, 42, 105);
+        margin-bottom: 20px;
+        opacity: 0.5;
+    }
+
+    .empty-cv p {
+        font-size: 1.2rem;
+        color: #555;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
         .header {
             flex-direction: column;
-            gap: 20px;
-            align-items: center;
+            gap: 15px;
+            padding: 20px;
         }
 
-        .tab-active {
-            margin-top: 10px;
-        }
-
-        .button-group {
-            flex-wrap: wrap;
-            justify-content: center;
+        .cv-list {
+            grid-template-columns: 1fr;
         }
     }
-
-    @media (max-width: 576px) {
-        .button-group {
-            flex-direction: column;
-            width: 100%;
-        }
-
-        .view-btn, .edit-btn, .delete-btn {
-            width: 100%;
-        }
-
-        .banner_title h1 {
-            font-size: 30px;
-            padding-left: 30px;
-        }
-    }
-
 </style>
 </head>
 <%@include file="includes/header-01.jsp" %>
-
 <body>
 
 <div class="container_cv">
-
     <div class="container_listCV">
-
         <div class="header">
             <button class="tab-active">Danh sách CV đã được tạo</button>
-            <button class="create-btn">Tạo CV</button>
+            <button class="create-btn" onclick="window.location.href='cv?action=type'">Tạo CV</button>
         </div>
 
         <div class="cv-list">
             <c:choose>
                 <c:when test="${not empty listcv}">
                     <c:forEach items="${listcv}" var="o">
-
                         <div class="cv-card">
                             <p><strong>Ngày tạo:</strong> ${o.createdAt}</p>
                             <p><strong>Mã CV:</strong> CV0${o.cvId}</p>
-
 
                             <div class="button-group">
                                 <a href="cv?action=view&cvId=${o.cvId}">
@@ -466,9 +341,13 @@
                         </div>
                     </c:forEach>
                 </c:when>
+                <c:otherwise>
+                    <div class="empty-cv">
+                        <i class="far fa-file-alt"></i>
+                        <p>Bạn chưa có CV nào. Hãy tạo CV ngay!</p>
+                    </div>
+                </c:otherwise>
             </c:choose>
-
-
         </div>
     </div>
 </div>

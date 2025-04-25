@@ -1,10 +1,16 @@
 body {
     font-family: 'Inter', sans-serif;
     background-color: #f8f9fc;
-    margin-top: 0px;
+    margin: 0;
     padding: 0;
     color: #333;
     transition: all 0.3s ease;
+}
+
+.container {
+    width: 90%;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
 /* Modern Header with Animation */
@@ -105,145 +111,125 @@ body {
     transition: transform 0.3s ease;
 }
 
-/* Card Styles with Hover Animation */
+/* Card Styles with New Hover Animation */
+/* CSS cho danh sách công việc */
 .card {
-    background-color: white;
-    border-radius: 12px;
-    margin-bottom: 20px;
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     border: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
-    position: relative;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
 }
 
 .card:hover {
-    box-shadow: 0 12px 24px rgba(43, 61, 159, 0.15);
     transform: translateY(-5px);
-}
-
-.card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 0;
-    background: linear-gradient(300deg, rgba(103, 135, 254, 0.9) 0%, rgba(43, 61, 159, 0.9) 100%);
-    transition: height 0.4s ease;
-    z-index: 1;
-    opacity: 0;
-}
-
-.card:hover::before {
-    height: 100%;
-    opacity: 1;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
 }
 
 .card-body {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 24px;
+    padding: 1.5rem;
     position: relative;
-    z-index: 2;
 }
 
-.card:hover .card-title,
-.card:hover .card-text,
-.card:hover .card-category,
-.card:hover .job-salary,
-.card:hover .details-link {
-    color: white;
-    position: relative;
-    z-index: 2;
+.card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 5px;
+    background: linear-gradient(to bottom, rgb(21, 42, 105), rgb(54, 75, 140));
+}
+
+.user-avatar-01 {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 1.5rem;
+    object-fit: cover;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.job-info-container {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
 }
 
 .job-info-left {
-    flex-grow: 1;
-    transition: all 0.3s ease;
+    flex: 1;
 }
 
 .job-info-right {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: flex-end;
-    transition: all 0.3s ease;
-}
-
-.job-badge {
-    background-color: rgba(103, 135, 254, 0.15);
-    color: rgb(43, 61, 159);
-    padding: 6px 16px;
-    border-radius: 20px;
-    display: inline-block;
-    margin-bottom: 12px;
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.card:hover .job-badge {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: white;
+    min-width: 120px;
 }
 
 .card-title {
-    font-size: 22px;
-    font-weight: 700;
-    margin: 0 0 8px 0;
-    color: rgb(43, 61, 159);
-    transition: all 0.3s ease;
-}
-
-.card-text, .card-category {
-    color: #6c757d;
-    margin-bottom: 6px;
-    font-size: 14px;
-    transition: all 0.3s ease;
-}
-
-.card-text strong, .card-category strong {
+    color: rgb(21, 42, 105);
     font-weight: 600;
-    color: #333;
-    transition: all 0.3s ease;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
 }
 
-.card:hover .card-text strong,
-.card:hover .card-category strong {
-    color: white;
+.card-category, .card-text {
+    color: #555;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
 }
 
-.job-date {
-    font-size: 14px;
-    transition: all 0.3s ease;
+.card-category i, .card-text i {
+    margin-right: 8px;
+    color: rgb(54, 75, 140);
 }
 
 .job-salary {
-    font-size: 20px;
-    font-weight: 700;
-    color: rgb(43, 61, 159);
-    margin-bottom: 8px;
-    text-align: right;
-    transition: all 0.3s ease;
+    color: white;
+    background: linear-gradient(to right, rgb(21, 42, 105), rgb(54, 75, 140));
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: inline-block;
+    box-shadow: 0 3px 6px rgba(21, 42, 105, 0.3);
 }
 
 .details-link {
-    color: rgb(103, 135, 254);
+    background: transparent;
+    color: rgb(21, 42, 105);
+    border: 1px solid rgb(21, 42, 105);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-weight: 500;
     text-decoration: none;
-    font-size: 15px;
-    display: inline-block;
-    border: 1px solid rgb(103, 135, 254);
-    border-radius: 25px;
-    padding: 8px 20px;
     transition: all 0.3s ease;
-    background-color: transparent;
 }
 
-.card:hover .details-link {
-    border-color: white;
-    background-color: rgba(255, 255, 255, 0.2);
+.details-link:hover {
+    background: linear-gradient(to right, rgb(21, 42, 105), rgb(54, 75, 140));
+    color: white;
+    border-color: transparent;
+}
+
+.empty-jobs {
+    text-align: center;
+    padding: 3rem 0;
+    color: rgb(21, 42, 105);
+}
+
+.empty-jobs i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.6;
 }
 
 /* Search Bar with Animation */
@@ -254,6 +240,7 @@ body {
     border-radius: 8px;
     overflow: hidden;
     animation: slideDown 0.6s ease-in-out;
+    width: 100%;
 }
 
 @keyframes slideDown {
@@ -282,7 +269,7 @@ body {
 }
 
 #searchButton {
-    padding: 16px 28px;
+    padding: 16px 32px;
     background: linear-gradient(300deg, rgba(103, 135, 254, 1) 0%, rgb(43, 61, 159) 100%);
     color: white;
     border: none;
@@ -294,6 +281,7 @@ body {
 
 #searchButton:hover {
     background: linear-gradient(300deg, rgb(43, 61, 159) 0%, rgba(103, 135, 254, 1) 100%);
+    padding-right: 38px;
 }
 
 /* Filter Containers with Animation */
@@ -399,11 +387,12 @@ body {
     transform: translateX(3px);
 }
 
-/* Pagination with Animation */
+/* Improved Pagination with Navigation */
 .pagination {
-    margin-top: 30px;
+    margin: 30px 0;
     display: flex;
     justify-content: center;
+    align-items: center;
     animation: fadeIn 0.8s ease-in-out;
 }
 
@@ -416,6 +405,8 @@ body {
     border-radius: 8px;
     transition: all 0.3s ease;
     font-weight: 500;
+    min-width: 18px;
+    text-align: center;
 }
 
 .pagination a:hover {
@@ -429,6 +420,28 @@ body {
     color: white;
     border-color: rgb(43, 61, 159);
     box-shadow: 0 4px 8px rgba(43, 61, 159, 0.3);
+}
+
+.pagination a.prev,
+.pagination a.next {
+    background-color: white;
+    position: relative;
+}
+
+.pagination a.prev:before {
+    content: "«";
+    font-weight: bold;
+}
+
+.pagination a.next:before {
+    content: "»";
+    font-weight: bold;
+}
+
+.pagination a.ellipsis {
+    border: none;
+    padding: 10px 5px;
+    pointer-events: none;
 }
 
 /* Hamburger Menu Animation */
@@ -473,11 +486,11 @@ body {
     transform: translateY(2px);
 }
 
-.dropdown-menu {
+.dropdown-menu-01 {
     position: absolute;
     right: 0;
     background-color: white;
-    min-width: 220px;
+    min-width: 250px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     z-index: 10;
     border-radius: 12px;
@@ -488,7 +501,7 @@ body {
     overflow: hidden;
 }
 
-.dropdown-menu a {
+.dropdown-menu-01 a {
     color: #333;
     padding: 14px 18px;
     text-decoration: none;
@@ -497,11 +510,11 @@ body {
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.dropdown-menu a:last-child {
+.dropdown-menu-01 a:last-child {
     border-bottom: none;
 }
 
-.dropdown-menu a:hover {
+.dropdown-menu-01 a:hover {
     background: linear-gradient(300deg, rgba(103, 135, 254, 0.9) 0%, rgb(43, 61, 159) 100%);
     color: white;
     padding-left: 24px;
@@ -511,78 +524,6 @@ body {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
-}
-
-/* Banner with Parallax Effect */
-.banner {
-    background-image: linear-gradient(300deg, rgba(103, 135, 254, 0.7) 0%, rgba(43, 61, 159, 0.9) 100%), url('../img/anh1/anh1.png');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    text-align: center;
-    width: 100%;
-    padding: 80px 0;
-    margin-bottom: 60px;
-    position: relative;
-    overflow: hidden;
-    animation: fadeIn 1s ease-in-out;
-}
-
-.banner::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(103, 135, 254, 0.3) 0%, rgba(43, 61, 159, 0.3) 100%);
-    animation: pulse 8s infinite alternate;
-}
-
-@keyframes pulse {
-    0% {
-        opacity: 0.7;
-    }
-    100% {
-        opacity: 0.9;
-    }
-}
-
-.banner h1 {
-    margin: 0;
-    font-size: 48px;
-    font-weight: 800;
-    color: white;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    position: relative;
-    animation: slideUp 0.8s ease-out;
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.contentBanner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    z-index: 2;
-}
-
-.inforDetail {
-    font-size: 20px;
-    color: white;
-    margin-top: 16px;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    animation: fadeIn 1.2s ease-in-out;
 }
 
 /* Alert Styles */
@@ -597,7 +538,13 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-/* Responsive adjustments */
+/* Responsive Design */
+@media (max-width: 992px) {
+    .container {
+        width: 95%;
+    }
+}
+
 @media (max-width: 768px) {
     .card-body {
         flex-direction: column;
@@ -606,18 +553,19 @@ body {
     .job-info-right {
         align-items: flex-start;
         margin-top: 15px;
+        width: 100%;
     }
 
     .job-salary {
         text-align: left;
     }
 
-    .banner h1 {
-        font-size: 36px;
+    .pagination {
+        flex-wrap: wrap;
     }
 
-    .inforDetail {
-        font-size: 18px;
+    .pagination a {
+        margin-bottom: 8px;
     }
 }
 
@@ -698,4 +646,55 @@ button:active, .btn:active {
 
 .hidden {
     display: none;
+}
+
+/* Row and column layout improvements */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+    width: 100%;
+}
+
+[class*="col-"] {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.col-xl-3 {
+    flex: 0 0 25%;
+    max-width: 25%;
+}
+
+.col-xl-8 {
+    flex: 0 0 66.666667%;
+    max-width: 66.666667%;
+}
+
+.col-xl-1 {
+    flex: 0 0 8.333333%;
+    max-width: 8.333333%;
+}
+
+.col-xl-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+@media (max-width: 1200px) {
+    .col-xl-3, .col-xl-8, .col-xl-1 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .hamburger-menu {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: white;
+        border-radius: 50%;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        z-index: 100;
+    }
 }
