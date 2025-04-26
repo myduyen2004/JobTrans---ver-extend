@@ -21,7 +21,7 @@ public class CV {
     private String address;
     private String avatarCv;
 
-
+    private String linkCVReview;
     private int cvType;
 
 
@@ -32,6 +32,10 @@ public class CV {
 
 
     public CV() {
+    }
+    public CV(int cvId, String linkCVReview) {
+        this.cvId = cvId;
+        this.linkCVReview = linkCVReview;
     }
 
     public CV(int cvId, int accountId, String jobPosition, String summary, Date createdAt) {
@@ -63,6 +67,14 @@ public class CV {
         this.educationList = educationList;
         this.certificationList = certificationList;
         this.experienceList = experienceList;
+    }
+
+    public String getLinkCVReview() {
+        return linkCVReview;
+    }
+
+    public void setLinkCVReview(String linkCVReview) {
+        this.linkCVReview = linkCVReview;
     }
 
     public int getCvId() {

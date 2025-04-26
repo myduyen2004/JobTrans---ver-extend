@@ -42,8 +42,8 @@
         }
 
         .cong .cv-container {
-            margin-top: 150px;
-            margin-left: 100px;
+            margin-top: 90px;
+            margin-left: 110px;
             width: 1000px;
             display: flex;
             background: white;
@@ -269,7 +269,7 @@
         .date-group {
             display: flex;
             gap: 20px;
-            margin-bottom: 15px;
+            margin-top: -15px;
         }
 
         .cong .date-group .form-control {
@@ -284,8 +284,9 @@
             border-radius: var(--radius);
             font-size: 15px;
             transition: var(--transition);
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             background: white;
+            height: 40px;
         }
 
         .cong .main-form-control:focus {
@@ -387,7 +388,7 @@
 <body>
 <%@include file="includes/header-01.jsp" %>
 
-<div style="display: flex">
+<div style="margin-top:80px;display: flex">
 
     <%@include file="./includes/sidebar_createCV.jsp" %>
     <div class="cong">
@@ -485,13 +486,13 @@
                     <div class="content-section">
                         <div class="content-title">
                             Mục tiêu nghề nghiệp
-                            <div class="btn-group">
+                            <div  class="btn-group">
                                 <button type="button" class="btn btn-primary">
                                     <i class="fas fa-edit"></i> Edit
                                 </button>
                             </div>
                         </div>
-                        <textarea class="main-form-control" name="experienceDescription"
+                        <textarea style="height: 100px" class="main-form-control" name="experienceDescription"
                                   placeholder="Mô tả mục tiêu nghề nghiệp của bạn"></textarea>
                     </div>
 
@@ -621,9 +622,7 @@
     </div>
 </div>
     <%@include file="./includes/gpt_sidebar.jsp" %>
-<div style="margin-top: 30px">
-<%@include file="includes/footer.jsp"%>
-</div>
+
     <script>
         //validate
         document.addEventListener('DOMContentLoaded', function() {

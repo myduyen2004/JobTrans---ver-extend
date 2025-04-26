@@ -35,11 +35,12 @@
 
         .cv-container {
 
-            max-width: 1100px;
-            margin: 50px;
+            max-width: 1000px;
+
+            margin: 90px;
             background: white;
             box-shadow: var(--shadow);
-            border-radius: var(--radius);
+
             overflow: hidden;
             display: flex;
         }
@@ -54,6 +55,7 @@
         .cv-main {
             flex: 1;
             padding: 30px;
+            border: 0.5px solid black;
         }
 
         .profile-img {
@@ -181,12 +183,14 @@
 
 <%@include file="./includes/header-01.jsp" %>
 
-<div style="display: flex">
-    <div style="margin-left: -30px; margin-top:-70px">
-    <%@include file="./includes/sidebar_createCV.jsp" %>
-    </div>
 
-    <div style="display: flex">
+
+
+
+    <div  style=" display: flex">
+
+        <%@include file="./includes/sidebar_createCV.jsp" %>
+
 
         <div class="cv-container">
             <!-- Left Sidebar -->
