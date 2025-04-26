@@ -1212,9 +1212,9 @@
                 <div class="dropdown">
                     <div class="avatar-icon" id="userDropdown" data-bs-toggle="dropdown">
                         <div class="user-avatar dropdown-toggle" role="button"  aria-expanded="false">
-                            <%if(account.getOauthId() != null){%>
+                            <%if(account.getAvatar().contains("https://lh3.googleusercontent.com/")){%>
                             <img src="<%=account.getAvatar()%>" alt="User Avatar" class="user-avatar-img" >
-                            <%}else if(account.getOauthId() == null){%>
+                            <%}else {%>
                             <img src="http://localhost:8080/JobTrans/<%=account.getAvatar()%>" alt="User Avatar" class="user-avatar-img" >
                             <%}%>
                         </div>
@@ -1224,11 +1224,10 @@
 
                         <li class="dropdown-user-info">
                             <div class="user-dropdown-avatar">
-                                <%if(account.getOauthId() != null){%>
-                                <img src="<%=account.getAvatar()%>" alt="User Avatar">
-                                <%}else if(account.getOauthId() == null){%>
-                                <img src="http://localhost:8080/JobTrans/<%=account.getAvatar()%>" alt="User Avatar">
-
+                                <%if(account.getAvatar().contains("https://lh3.googleusercontent.com/")){%>
+                                <img src="<%=account.getAvatar()%>" alt="User Avatar" class="user-avatar-img" >
+                                <%}else {%>
+                                <img src="http://localhost:8080/JobTrans/<%=account.getAvatar()%>" alt="User Avatar" class="user-avatar-img" >
                                 <%}%>
                             </div>
                             <div class="user-dropdown-details">
@@ -1250,7 +1249,7 @@
                         <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/profile?action=job-manage-page"><i class="fas fa-file-alt"></i>Quản lí công việc</a></li>
                         <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/cv?action=list"><i class="fas fa-id-card"></i>CV của tôi</a></li>
                         <%} else if (account.getRole().equals("Admin")) {%>
-                        <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/acc-manage?action=viewAllReports"><i class="fas fa-id-card"></i>Quản lí báo cáo</a></li>
+                        <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/admin-manage?action=menu-management"><i class="fas fa-id-card"></i>Menu quản lí</a></li>
                         <%}%>
                         <li><a class="dropdown-item" href="profile?action=wallet"><i class="fas fa-file-alt"></i>Ví của tôi</a></li>
                         <li><a class="dropdown-item logout-item" href="http://localhost:8080/JobTrans/logout"><i class="fas fa-sign-out-alt"></i>Đăng xuất</a></li>

@@ -11,7 +11,6 @@
 
     <title>JobTrans &#8211; Nền tảng hỗ trợ thuê, làm việc cho freelancer</title>
     <meta name='robots' content='max-image-preview:large'/>
-
     <!--new css -->
     <link href="./css/post_job.css" rel="stylesheet"/>
 

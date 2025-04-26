@@ -83,7 +83,7 @@ public class AccountManagement extends HttpServlet {
         if (session.getAttribute("sessionAccount") != null) {
             List<Account> list = accountDAO.getAllUserAccounts();
             req.setAttribute("list", list);
-            req.getRequestDispatcher("user-manage.jsp").forward(req, resp);
+            req.getRequestDispatcher("admin-user-list-manage.jsp").forward(req, resp);
         } else {
             resp.sendRedirect("home");
         }

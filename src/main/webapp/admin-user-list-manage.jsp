@@ -26,110 +26,8 @@
 
 <main class="container-fluid main-container" >
     <div class="row gx-4">
-        <!-- Nội dung chính - danh sách người dùng (10 cột) -->
-        <section class="col-md-9">
-            <div class="container-fluid px-0">
-                <div class="row justify-content-center">
-                    <div class="col-10">
-                        <h1 class="user-list-title text-center">Danh sách người dùng</h1>
-                        <div class="search-container">
-                            <h3 class="search-title">Tìm kiếm thành viên</h3>
-                            <form class="search-form" id="memberSearchForm">
-                                <input type="text" class="search-input" placeholder="Nhập tên người dùng....">
-                                <button type="submit" class="search-button">
-                                    <i class="fas fa-search"></i> Tìm kiếm
-                                </button>
-                            </form>
-                        </div>
-                        <div id="account-list">
-                            <c:forEach items="${list}" var="o" varStatus="status">
-                                <div class="post-box account_in4 user-card"
-                                     data-type="${o.typeAccount == 'Cá nhân' ? 'canhan' : 'nhom'}"
-                                     data-status="${o.status == 'Đang hoạt động' ? 'active' : 'banned'}">
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <a class="d-flex justify-content-center"
-                                               href="acc-manage?action=viewAccountDetails&accId=${o.accountId}">
-                                                <img src="${o.avatar}" alt="User_avatar" class="user-avatar"/>
-                                            </a>
-                                        </div>
-                                        <div class="col-md-7">
-                                            <div class="seller-content">
-                                                <h4 class="mb-2 d-flex align-items-center user-name">
-                                                    <a href="acc-manage?action=viewAccountDetails&accId=${o.accountId}" class="name_value">${o.accountName}</a>
-                                                    <c:if test="${o.verifiedAccount}">
-                                                        <i class="fas fa-check-circle verified text-primary ms-2"
-                                                           title="Verified"></i>
-                                                    </c:if>
-                                                </h4>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <p class="user-speciality">${o.speciality}</p>
-                                                    <c:choose>
-                                                        <c:when test="${o.status == 'Đang hoạt động'}">
-                                                                <span class="status-badge active-status">
-                                                                        ${o.status}
-                                                                </span>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <span class="status-badge banned-status">${o.status}</span>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </div>
-                                                <ul class="list-inline mb-lg-0 mt-2">
-                                                    <li class="list-inline-item mb-2">
-                                                        <i class="fas fa-users"></i> ${o.typeAccount}
-                                                    </li>
-                                                    <li class="list-inline-item">
-                                                        <i class="fas fa-map-marked-alt"></i> ${o.address}
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 text-center d-flex flex-column justify-content-center">
-                                            <div class="mx-auto mb-2">
-                                                <span class="user-point-label">Điểm: </span>
-                                                <span class="point_value">${o.point}</span>
-                                            </div>
-                                            <a class="detail-link"
-                                               href="acc-manage?action=viewAccountDetails&accId=${o.accountId}">
-                                                Xem chi tiết
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </c:forEach>
-                        </div>
-
-                        <!-- Phân trang -->
-                        <div id="pagination" class="mt-4 d-flex justify-content-center">
-                            <nav>
-                                <ul class="pagination">
-                                    <c:if test="${currentPage > 1}">
-                                        <li class="page-item">
-                                            <a class="page-link" href="?page=${currentPage - 1}">Trang trước</a>
-                                        </li>
-                                    </c:if>
-                                    <c:forEach begin="1" end="${totalPages}" var="i">
-                                        <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                            <a class="page-link" href="?page=${i}">${i}</a>
-                                        </li>
-                                    </c:forEach>
-                                    <c:if test="${currentPage < totalPages}">
-                                        <li class="page-item">
-                                            <a class="page-link" href="?page=${currentPage + 1}">Trang sau</a>
-                                        </li>
-                                    </c:if>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <!-- Phần tiêu chí lọc (2 cột) -->
         <aside class="col-md-2">
-
             <div class="filter-card mb-4">
                 <h2 class="filter-title">Phân loại</h2>
                 <div class="mb-3">
@@ -202,6 +100,108 @@
                 </div>
             </div>
         </aside>
+        <!-- Nội dung chính - danh sách người dùng (10 cột) -->
+        <section class="col-md-10">
+            <div class="container-fluid px-0">
+                <div class="row justify-content-center">
+                    <div class="col-10">
+                        <h1 class="user-list-title text-center">Danh sách người dùng</h1>
+                        <div class="search-container">
+                            <h3 class="search-title">Tìm kiếm thành viên</h3>
+                            <form class="search-form" id="memberSearchForm">
+                                <input type="text" class="search-input" placeholder="Nhập tên người dùng....">
+                                <button type="submit" class="search-button">
+                                    <i class="fas fa-search"></i> Tìm kiếm
+                                </button>
+                            </form>
+                        </div>
+                        <div id="account-list">
+                            <c:forEach items="${list}" var="o" varStatus="status">
+                                <div class="post-box account_in4 user-card"
+                                     data-type="${o.typeAccount == 'Cá nhân' ? 'canhan' : 'nhom'}"
+                                     data-status="${o.status == 'Đang hoạt động' ? 'active' : 'banned'}">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <a class="d-flex justify-content-center"
+                                               href="acc-manage?action=viewAccountDetails&accId=${o.accountId}">
+                                                <img src="${o.avatar}" alt="User_avatar" class="user-avatar"/>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="seller-content">
+                                                <h4 class="mb-2 d-flex align-items-center user-name-01">
+                                                    <a href="acc-manage?action=viewAccountDetails&accId=${o.accountId}" class="name_value">${o.accountName}</a>
+                                                    <c:if test="${o.verifiedAccount}">
+                                                        <i class="fas fa-check-circle verified text-primary ms-2"
+                                                           title="Verified"></i>
+                                                    </c:if>
+                                                </h4>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <p class="user-speciality">${o.speciality}</p>
+                                                    <c:choose>
+                                                        <c:when test="${o.status == 'Đang hoạt động'}">
+                                                                <span class="status-badge active-status">
+                                                                        ${o.status}
+                                                                </span>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <span class="status-badge banned-status">${o.status}</span>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </div>
+                                                <ul class="list-inline mb-lg-0 mt-2">
+                                                    <li class="list-inline-item mb-2">
+                                                        <i class="fas fa-users"></i> ${o.typeAccount}
+                                                    </li>
+                                                    <li class="list-inline-item">
+                                                        <i class="fas fa-map-marked-alt"></i> ${o.address}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 text-center d-flex flex-column justify-content-center">
+                                            <div class="mx-auto mb-2">
+                                                <span class="user-point-label">Điểm: </span>
+                                                <span class="point_value">${o.point}</span>
+                                            </div>
+                                            <a class="detail-link"
+                                               href="acc-manage?action=viewAccountDetails&accId=${o.accountId}">
+                                                Xem chi tiết
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:forEach>
+                        </div>
+
+                        <!-- Phân trang -->
+                        <div id="pagination" class="mt-4 d-flex justify-content-center">
+                            <nav>
+                                <ul class="pagination">
+                                    <c:if test="${currentPage > 1}">
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page=${currentPage - 1}">Trang trước</a>
+                                        </li>
+                                    </c:if>
+                                    <c:forEach begin="1" end="${totalPages}" var="i">
+                                        <li class="page-item ${i == currentPage ? 'active' : ''}">
+                                            <a class="page-link" href="?page=${i}">${i}</a>
+                                        </li>
+                                    </c:forEach>
+                                    <c:if test="${currentPage < totalPages}">
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page=${currentPage + 1}">Trang sau</a>
+                                        </li>
+                                    </c:if>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
     </div>
 </main>
 

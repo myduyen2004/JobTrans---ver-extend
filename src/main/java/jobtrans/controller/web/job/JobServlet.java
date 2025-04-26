@@ -865,7 +865,7 @@ public class JobServlet extends HttpServlet {
 //        List<JobGreeting> jobGreetings = jobDAO.getJobGreetingByJobSeekerId(accountId);
 //
 //        request.setAttribute("job", jobGreetings);  // "jobGreetings" là key để jsp lấy ra
-//        request.getRequestDispatcher("applied-job-list.jsp").forward(request, response);
+//        request.getRequestDispatcher("applied-job-list-01.jsp").forward(request, response);
 //    }
 //    private void listJobByStatus(HttpServletRequest request, HttpServletResponse response)
 //            throws ServletException, IOException {
@@ -882,7 +882,7 @@ public class JobServlet extends HttpServlet {
 //        }
 //
 //        request.setAttribute("job", jobGreetings);
-//        request.getRequestDispatcher("applied-job-list.jsp").forward(request, response);
+//        request.getRequestDispatcher("applied-job-list-01.jsp").forward(request, response);
 //    }
 //    private void sapxep(HttpServletRequest request, HttpServletResponse response)
 //            throws ServletException, IOException {
@@ -895,7 +895,7 @@ public class JobServlet extends HttpServlet {
 //        jobGreetings = jobDAO.search(accountId,sort);
 //
 //        request.setAttribute("job", jobGreetings);
-//        request.getRequestDispatcher("applied-job-list.jsp").forward(request, response);
+//        request.getRequestDispatcher("applied-job-list-01.jsp").forward(request, response);
 //    }
 ////    private void detail(HttpServletRequest request, HttpServletResponse response)
 ////            throws ServletException, IOException {
@@ -913,7 +913,7 @@ public class JobServlet extends HttpServlet {
 ////    }
 //
 //        request.setAttribute("job", jobGreetings);  // "jobGreetings" là key để jsp lấy ra
-//        request.getRequestDispatcher("applied-job-list.jsp").forward(request, response);
+//        request.getRequestDispatcher("applied-job-list-01.jsp").forward(request, response);
 //    }
 //}
 }

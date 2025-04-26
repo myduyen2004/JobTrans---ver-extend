@@ -24,7 +24,7 @@
                     <p class="page-subtitle">Theo dõi, cập nhật và quản lý danh sách các công việc bạn đã đăng trên nền tảng JobTrans</p>
                 </div>
                 <div class="new-job-btn-container">
-                    <a href="job?action=create-new-job">
+                    <a href="post_job.jsp">
                         <button class="new-job-btn">
                             <i class="fas fa-plus-circle"></i> Đăng việc mới
                         </button>
@@ -52,7 +52,7 @@
                 </div>
 
                 <div class="row justify-content-center">
-                    <div class="search-result col-lg-9">
+                    <div class="search-result col-lg-10">
                         <c:forEach var="o" items="${jobList}" varStatus="status">
                             <div class="post-box">
                                 <input type="hidden" name="jobId" value="${o.jobId}"/>
@@ -61,7 +61,7 @@
                                         class="fas fa-bolt"></i>
                                 </div>
                                 <div class="row m-3">
-                                    <div class="col-md-9">
+                                    <div class="col-md-6">
                                         <a class="project-title" href="job?action=posted-job-detail&jobId=${o.jobId}">
                                             <h3>${o.jobTitle}</h3>
                                         </a>
@@ -70,7 +70,7 @@
                                             Hạn tuyển: <span>${o.dueDatePost}</span>
                                         </div>
                                     </div>
-                                    <div class="col-md-3 d-flex flex-column align-items-center justify-content-center">
+                                    <div class="col-md-6 d-flex flex-column align-items-center justify-content-center">
                                         <div class="price-display">
                                                 ${o.budgetMin}<span class="currency-symbol">&#8363;</span>
                                             -

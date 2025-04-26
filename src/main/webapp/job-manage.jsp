@@ -25,12 +25,12 @@
             <div class="feature-content">
                 <div class="job-count">8</div>
                 <p class="feature-desc">Quản lý tất cả công việc bạn đã đăng, theo dõi ứng viên và cập nhật thông tin.</p>
-                <button class="feature-button">Xem Tất Cả</button>
+                <button class="feature-button" onclick="location.href='job?action=view-posted-jobs'">Xem Tất Cả</button>
             </div>
         </div>
 
         <!-- Applied Jobs -->
-        <div class="feature-card" onclick="location.href='jobs?action=applied-jobs'">
+        <div class="feature-card" onclick="location.href='job?action=view-applied'">
             <div class="feature-header">
                 <i class="fas fa-paper-plane feature-icon"></i>
                 <h2>Công Việc Đã Ứng Tuyển</h2>
@@ -38,7 +38,7 @@
             <div class="feature-content">
                 <div class="job-count">12</div>
                 <p class="feature-desc">Theo dõi trạng thái ứng tuyển, phản hồi từ nhà tuyển dụng và lịch phỏng vấn.</p>
-                <button class="feature-button">Xem Tất Cả</button>
+                <button class="feature-button" onclick="location.href='job?action=view-applied'">Xem Tất Cả</button>
             </div>
         </div>
     </div>
