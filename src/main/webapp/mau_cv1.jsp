@@ -37,11 +37,10 @@
 
         .cv-container {
 
-            max-width: 1100px;
-            margin: 40px auto;
+            max-width: 1000px;
+            margin: 90px;
             background: white;
             box-shadow: var(--shadow);
-            border-radius: var(--radius);
             overflow: hidden;
             display: flex;
         }
@@ -56,6 +55,7 @@
         .cv-main {
             flex: 1;
             padding: 30px;
+            border: 0.5px solid black;
         }
 
         .profile-img {
@@ -190,21 +190,20 @@
 
 
 <%@include file="./includes/header-01.jsp" %>
-<div style="display: flex">
-    <div class="cv-container">
-        <!-- Left Sidebar -->
-        <div class="cv-sidebar">
-            <img src="img/default-avatar.jpg" alt="Profile Photo" class="profile-img">
 
-            <h2 class="section-title">Liên hệ</h2>
-            <div class="contact-info">
-                <p><i class="fas fa-venus-mars"></i> Nam</p>
-                <p><i class="fas fa-birthday-cake"></i> 15/07/1995</p>
-                <p><i class="fas fa-phone"></i> 098 765 4321</p>
-                <p><i class="fas fa-envelope"></i> nguyen.van.a@gmail.com</p>
-                <p><i class="fas fa-map-marker-alt"></i> Quận 1, TP. Hồ Chí Minh</p>
-            </div>
 
+
+
+
+    <div  style=" display: flex">
+
+        <%@include file="./includes/sidebar_createCV.jsp" %>
+
+
+        <div class="cv-container">
+            <!-- Left Sidebar -->
+            <div class="cv-sidebar">
+                <img src="/api/placeholder/180/180" alt="Profile Photo" class="profile-img">
             <h2 class="section-title">Kỹ Năng</h2>
             <div class="skills-container">
                 <!-- Technical Skills -->

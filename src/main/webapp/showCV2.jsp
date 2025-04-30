@@ -18,6 +18,7 @@
     <link rel="icon" type="image/png" href="wp-content/uploads/2021/09/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 </head>
 <style>
@@ -40,43 +41,45 @@
         box-sizing: border-box;
     }
 
-    body {
+    .cv_box body {
         font-family: 'Roboto', sans-serif;
         background-color: #f5f7fa;
         color: var(--text);
         line-height: 1.6;
         min-height: 100vh;
-
+        display: flex;
         justify-content: center;
         padding: 40px 0;
     }
-
-    .cv-container {
-
-        width: 1000px;
+      .cv-container2{
+        margin-left: 110px;
+        margin-top: 90px;
+        margin-bottom: 20px;
+    }
+    .cv_box {
         display: flex;
-        box-shadow: var(--shadow);
+
+
+        max-height: 1000px;
+        max-width: 1000px;
         background: white;
-        border-radius: var(--radius);
         overflow: hidden;
         position: relative;
-        margin: 40px;
-        margin-left: 25%;
     }
 
     /* Sidebar Styles */
-    .cv-sidebar {
+    .cv_box .cv-sidebar {
         width: 350px;
-        background: var(--primary);
+        background: linear-gradient(to right, #2C3E50, #1C2833);
         color: white;
         padding: 40px 30px;
         position: relative;
         z-index: 1;
     }
 
-    .avatar-container {
-        width: 200px;
-        height: 200px;
+    .cv_box .avatar-container {
+        width: 250px;
+        height: 250px;
         border-radius: 50%;
         margin: 0 auto 30px;
         border: 4px solid white;
@@ -86,17 +89,17 @@
         transition: var(--transition);
     }
 
-    .avatar-container:hover {
+    .cv_box .avatar-container:hover {
         transform: scale(1.03);
     }
 
-    .avatar-container img {
+    .cv_box .avatar-container img {
         width: 100%;
         height: 100%;
         object-fit: cover;
     }
 
-    .avatar-upload {
+    .cv_box .avatar-upload {
         position: absolute;
         bottom: 0;
         left: 0;
@@ -110,7 +113,7 @@
         transition: var(--transition);
     }
 
-    .avatar-container:hover .avatar-upload {
+    .cv_box .avatar-container:hover .avatar-upload {
         opacity: 1;
     }
 
@@ -132,7 +135,7 @@
         bottom: -2px;
         width: 50px;
         height: 2px;
-        background: var(--accent);
+        background: linear-gradient(to right, #2C3E50, #1C2833);;
     }
 
     .form-group {
@@ -150,7 +153,7 @@
         transition: var(--transition);
     }
 
-    .form-control:focus {
+    .cv_box .form-control:focus {
         outline: none;
         border-color: var(--accent);
         background: rgba(255, 255, 255, 0.2);
@@ -166,11 +169,12 @@
     }
 
     /* Main Content Styles */
-    .cv-content {
+    .cv_box .cv-content {
         flex: 1;
         padding: 50px;
         background: white;
         position: relative;
+        border: 0.5px solid black;
     }
 
     .header-section {
@@ -192,12 +196,12 @@
         transition: var(--transition);
     }
 
-    .name-input:focus {
+    .cv_box .name-input:focus {
         outline: none;
         border-bottom-color: var(--primary);
     }
 
-    .position-input {
+    .cv_box .position-input {
         font-size: 20px;
         color: var(--secondary);
         border: none;
@@ -206,22 +210,23 @@
         margin: 0 auto;
         padding: 5px 0;
         transition: var(--transition);
+        
     }
 
-    .position-input:focus {
+    .cv_box .position-input:focus {
         outline: none;
         color: var(--primary);
     }
 
-    .content-section {
-        margin-bottom: 40px;
+    .cv_box .content-section {
+        margin-bottom: 20px;
     }
 
-    .content-title {
+    .cv_box .content-title {
         font-family: 'Montserrat', sans-serif;
         font-size: 24px;
         font-weight: 700;
-        color: var(--primary);
+        color-: linear-gradient(to right, #2C3E50, #1C2833);;
         margin-bottom: 20px;
         padding-bottom: 10px;
         border-bottom: 2px solid var(--light);
@@ -231,7 +236,7 @@
         align-items: center;
     }
 
-    .content-title:after {
+    .cv_box .content-title:after {
         content: '';
         position: absolute;
         left: 0;
@@ -259,12 +264,12 @@
         gap: 5px;
     }
 
-    .btn-primary {
+    .cv_box .btn-primary {
         background: var(--accent);
         color: white;
     }
 
-    .btn-primary:hover {
+    .cv_box .btn-primary:hover {
         background: #2980b9;
         transform: translateY(-2px);
     }
@@ -284,12 +289,12 @@
         margin-bottom: 15px;
     }
 
-    .date-group .form-control {
+    .cv_box .date-group .form-control {
         flex: 1;
     }
 
     /* Main content form controls */
-    .main-form-control {
+    .cv_box .main-form-control {
         width: 100%;
         padding: 12px 15px;
         border: 1px solid var(--border);
@@ -300,13 +305,13 @@
         background: white;
     }
 
-    .main-form-control:focus {
+    .cv_box .main-form-control:focus {
         outline: none;
         border-color: var(--accent);
         box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
     }
 
-    textarea.main-form-control {
+    .cv_box . textarea.main-form-control {
         min-height: 120px;
     }
 
@@ -344,73 +349,75 @@
         }
     }
 
-    .cv-sidebar > div,
-    .cv-content > div {
+    .cv_box .cv-sidebar > div,
+    .cv_box .cv-content > div {
         animation: fadeIn 0.5s ease-out forwards;
     }
 
-    .cv-sidebar > div:nth-child(1) {
+    .cv_box .cv-sidebar > div:nth-child(1) {
         animation-delay: 0.1s;
     }
 
-    .cv-sidebar > div:nth-child(2) {
+    .cv_box .cv-sidebar > div:nth-child(2) {
         animation-delay: 0.2s;
     }
 
-    .cv-sidebar > div:nth-child(3) {
+    .cv_box .cv-sidebar > div:nth-child(3) {
         animation-delay: 0.3s;
     }
 
-    .cv-content > div:nth-child(1) {
+    .cv_box .cv-content > div:nth-child(1) {
         animation-delay: 0.2s;
     }
 
-    .cv-content > div:nth-child(2) {
+    .cv_box .cv-content > div:nth-child(2) {
         animation-delay: 0.3s;
     }
 
-    .cv-content > div:nth-child(3) {
+    .cv_box .cv-content > div:nth-child(3) {
         animation-delay: 0.4s;
     }
 
-    .cv-content > div:nth-child(4) {
+    .cv_box .cv-content > div:nth-child(4) {
         animation-delay: 0.5s;
     }
-    .banner_title {
-        background-image: url(./img/anh1/anh1.png);
-        background-size: 100%;
-        font-size: 40px;
-        height: 200px;
-        display: flex;
 
-        align-items: center;
+
+    .cv_box .cv-content {
+        transition: var(--transition);
+        margin-right: 0;
     }
+
+    .cv_box .dashboard-sidebar.expanded ~ .cv-content {
+        margin-right: 350px;
+    }
+
+    @media (max-width: 992px) {
+        .dashboard-sidebar.expanded ~ .cv-content {
+            margin-right: 0;
+            transform: translateX(-100px);
+        }
+    }
+
 </style>
 <body class="archive post-type-archive post-type-archive-projects wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
 
 
-
 <%@include file="includes/header-01.jsp" %>
 
-<div class="py-4 banner_title">
-    <h1 class="text-white font-weight-bold" style="padding-left: 50px;">Danh sách công việc</h1>
-</div>
-<%@include file="./includes/sidebar.jsp" %>
-<!--Mobile Navigation Toggler-->
-
-
 <div style="display: flex">
-    <div>
-        <div class="cv-container">
+    <%@include file="./includes/sidebar_createCV.jsp" %>
+    <!--Mobile Navigation Toggler-->
 
-
+    <div class="cv-container2">
+        <div class="cv_box">
             <!-- Left Sidebar -->
             <div class="cv-sidebar">
                 <div style="width: 240px; height: 240px" class="avatar-container">
                     <img id="avatar-preview" src="${CV.avatarCv}" alt="">
                 </div>
 
-                <h2 class="section-title">Contact Info</h2>
+                <h2 class="section-title">Thông tin cá nhân</h2>
 
                 <div class="form-group">
                     <div class="contact-info"><i class="fas fa-phone"></i> ${CV.sdt}</div>
@@ -431,7 +438,7 @@
                 </div>
 
 
-                <h2 class="section-title">Skill</h2>
+                <h2 class="section-title">Kỹ năng</h2>
                 <div class="skills-section">
                     <c:forEach items="${CV.skillList}" var="skill">
                         <div style="display: flex" class="skill-item">
@@ -473,7 +480,7 @@
                 </div>
 
                 <div class="content-section">
-                    <div class="content-title">Professional Summary</div>
+                    <div class="content-title">Mục tiêu nghề nghiệp</div>
                     <div class="content-text">
                         <p>${CV.summary}.</p>
 
@@ -482,12 +489,12 @@
 
 
                 <div class="content-section">
-                    <div class="content-title">Work Experience</div>
+                    <div class="content-title">Kinh nghiệm làm việc</div>
                     <div style="margin-left: 40px">
                         <c:forEach items="${CV.experienceList}" var="exp">
                             <div class="experience-item">
                                 <div class="experience-header">
-                                    <h3 class="company">
+                                    <h5 class="company">
                                         <c:choose>
                                             <c:when test="${exp.experienceId != 1}">
                                                 ${CvDAO.getCompanyNameById(exp.experienceId)}
@@ -496,7 +503,7 @@
                                                 ${exp.customCompany}
                                             </c:otherwise>
                                         </c:choose>
-                                    </h3>
+                                    </h5>
                                     <div class="position-date">
                                         <span class="position">${exp.jobPosition}</span>
                                         <span class="date">
@@ -523,12 +530,12 @@
                 </div>
 
                 <div class="content-section">
-                    <div class="content-title">Education</div>
+                    <div class="content-title">Học vấn</div>
                     <div style="margin-left: 40px">
                         <c:forEach items="${CV.educationList}" var="edu">
                             <div class="education-item">
                                 <div class="education-header">
-                                    <h3 class="institution">
+                                    <h5 class="institution">
 
                                         <c:choose>
                                             <c:when test="${edu.educationId != 504}">
@@ -538,7 +545,7 @@
                                                 ${edu.customSchool}
                                             </c:otherwise>
                                         </c:choose>
-                                    </h3>
+                                    </h5>
                                     <div class="degree-date">
                                         <span class="degree">${edu.fieldOfStudy} - ${edu.degree}</span>
                                         <span class="date">
@@ -559,7 +566,7 @@
                 </div>
 
                 <div class="content-section">
-                    <div class="content-title">Certifications</div>
+                    <div class="content-title">Chứng chỉ & giải thưởng</div>
 
 
                     <div style="margin-left: 40px">
@@ -567,7 +574,7 @@
                         <c:forEach items="${CV.certificationList}" var="cert">
                             <div class="certification-item">
                                 <div class="certification-header">
-                                    <h3 class="certification-name">
+                                    <h5 class="certification-name">
                                         <c:choose>
                                             <c:when test="${cert.certificationId != 1}">
                                                 ${CvDAO.getCertificationNameById(cert.certificationId)}
@@ -576,7 +583,7 @@
                                                 ${cert.customCertification}
                                             </c:otherwise>
                                         </c:choose>
-                                    </h3>
+                                    </h5>
                                     <span class="date">
                                 <fmt:formatDate value="${cert.awardYear}" pattern="yyyy"/>
                             </span>
@@ -597,12 +604,8 @@
 
         </div>
 
-
     </div>
-    <%--    <div style="margin-left: 270px">--%>
-    <%--        <%@include file="includes/sidebar_cv.jsp" %>--%>
-    <%--    </div>--%>
-</div>
+
 </div>
 
 
