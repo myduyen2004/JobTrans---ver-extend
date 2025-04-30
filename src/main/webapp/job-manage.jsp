@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+    <jsp:useBean id="jobDao" class="jobtrans.dal.JobDAO" scope="session"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản Lý Công Việc</title>
@@ -23,7 +24,7 @@
                 <h2>Công Việc Đã Đăng</h2>
             </div>
             <div class="feature-content">
-                <div class="job-count">8</div>
+                <div class="job-count">${jobDao.countTotalJobsByAccountId(account.accountId)}</div>
                 <p class="feature-desc">Quản lý tất cả công việc bạn đã đăng, theo dõi ứng viên và cập nhật thông tin.</p>
                 <button class="feature-button" onclick="location.href='job?action=view-posted-jobs'">Xem Tất Cả</button>
             </div>
@@ -36,7 +37,7 @@
                 <h2>Công Việc Đã Ứng Tuyển</h2>
             </div>
             <div class="feature-content">
-                <div class="job-count">12</div>
+                <div class="job-count">${jobDao.countJobGreetingByJobSeekerId(account.accountId)}</div>
                 <p class="feature-desc">Theo dõi trạng thái ứng tuyển, phản hồi từ nhà tuyển dụng và lịch phỏng vấn.</p>
                 <button class="feature-button" onclick="location.href='job?action=view-applied'">Xem Tất Cả</button>
             </div>

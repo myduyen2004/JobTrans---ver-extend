@@ -99,7 +99,7 @@
     <div class="reports-container fade-in" id="reportsContainer" style="animation-delay: 0.5s;">
       <c:forEach var="o" items="${reports}">
         <div class="report-card">
-          <a href="acc-manage?action=viewReportDetail&reportId=${o.reportId}">
+          <a href="report-manage?action=viewReportDetail&reportId=${o.reportId}">
             <div class="card-body d-flex">
               <div class="report-icon">
                 <i class="fas fa-chart-line"></i>

@@ -185,29 +185,55 @@
 
                             <div class="mb-3">
                                 <h6 class="text-secondary">Tệp đính kèm:</h6>
-                                <div class="row">
-                                    <div class="col-md-4 mb-3">
-                                        <div class="card">
-                                            <img src="./job_docs/${report.attachment}" class="card-img-top" alt="Bằng chứng">
-                                            <div class="card-body p-2">
-                                                <p class="card-text small">${report.attachment}</p>
-                                                <a href="acc-manage?action=download&fileName=${report.attachment}&reportId=${report.reportId}" class="btn btn-sm btn-outline-primary">Xem</a>
+                                <c:if test="${report.attachment != null and not empty report.attachment}">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <div class="card">
+                                                <img src="./job_docs/${report.attachment}" class="card-img-top" alt="Bằng chứng">
+                                                <div class="card-body p-2">
+                                                    <p class="card-text small">${report.attachment}</p>
+                                                    <a href="report-manage?action=download&fileName=${report.attachment}&reportId=${report.reportId}" class="btn btn-sm btn-outline-primary">Xem</a>
+                                                </div>
                                             </div>
                                         </div>
+                                        <div class="col-md-4 mb-3">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                        </div>
                                     </div>
-                                    <div class="col-md-4 mb-3">
+                                </c:if>
+                                <c:if test="${report.attachment == null or empty report.attachment}">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <div class="card">
+                                                Không có tệp đính kèm
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                        </div>
                                     </div>
-                                    <div class="col-md-4 mb-3">
-                                    </div>
-                                </div>
+                                </c:if>
                             </div>
 
-                            <div class="attachment-preview">
-                                <h6 class="text-secondary">Xem trước tệp đính kèm</h6>
-                                <div class="text-center">
-                                    <img src="./job_docs/${report.attachment}" class="img-fluid" alt="Preview">
+                            <c:if test="${report.attachment != null and not empty report.attachment}">
+                                <div class="attachment-preview">
+                                    <h6 class="text-secondary">Xem trước tệp đính kèm</h6>
+                                    <div class="text-center">
+                                        <img src="./job_docs/${report.attachment}" class="img-fluid" alt="Preview">
+                                    </div>
                                 </div>
-                            </div>
+                            </c:if>
+
+                            <c:if test="${report.attachment == null or empty report.attachment}">
+                                <div class="attachment-preview">
+                                    <h6 class="text-secondary">Xem trước tệp đính kèm</h6>
+                                    <div class="text-center">
+                                        Không có bằng chứng
+                                    </div>
+                                </div>
+                            </c:if>
                         </div>
                     </div>
 
@@ -281,17 +307,17 @@
                             </div>
                             <div class="card-body">
                                 <div class="d-grid gap-2">
-                                    <a href="acc-manage?action=acceptReport&reportId=${report.reportId}">
+                                    <a href="report-manage?action=acceptReport&reportId=${report.reportId}">
                                         <button class="btn btn-success" type="button" style="width: 100%">
                                             <i class="fas fa-check me-2"></i>Chấp nhận báo cáo
                                         </button>
                                     </a>
-                                    <a href="acc-manage?action=rejectReport&reportId=${report.reportId}">
+                                    <a href="report-manage?action=rejectReport&reportId=${report.reportId}">
                                         <button class="btn btn-danger" type="button" style="width: 100%">
                                             <i class="fas fa-times me-2"></i>Từ chối báo cáo
                                         </button>
                                     </a>
-                                    <a href="acc-manage?action=banAccount&reportId=${report.reportId}">
+                                    <a href="report-manage?action=banAccount&reportId=${report.reportId}">
                                         <button class="btn btn-dark" type="button" style="width: 100%">
                                             <i class="fas fa-ban me-2"></i>Khóa tài khoản
                                         </button>
@@ -300,7 +326,7 @@
 
                                 <hr>
 
-                                <form action="acc-manage" method="get">
+                                <form action="report-manage" method="get">
                                     <input type="hidden" name="reportId" value="${report.reportId}">
                                     <input type="hidden" name="action" value="saveNote">
                                     <div class="mb-3">
