@@ -1,5 +1,3 @@
-
-
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -18,8 +16,8 @@
             --light: #f8f9fa;
             --gray: #6c757d;
             --border: #dee2e6;
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            --radius: 8px;
+            /*--shadow: 0 4px 20px rgba(0, 0, 0, 0.08);*/
+            /*--radius: 8px;*/
         }
 
         * {
@@ -37,11 +35,13 @@
 
         .cv-container {
 
-            max-width: 1100px;
-            margin: 40px auto;
+            max-width: 1000px;
+
+            margin-left:230px;
+            margin-top: 30px;
             background: white;
             box-shadow: var(--shadow);
-            border-radius: var(--radius);
+            margin-bottom: 30px;
             overflow: hidden;
             display: flex;
         }
@@ -56,6 +56,7 @@
         .cv-main {
             flex: 1;
             padding: 30px;
+            border: 0.5px solid black;
         }
 
         .profile-img {
@@ -175,26 +176,22 @@
             color: var(--dark);
             line-height: 1.5;
         }
-        .banner_title {
-            background-image: url(./img/anh1/anh1.png);
-            background-size: 100%;
-            font-size: 40px;
-            height: 200px;
-            display: flex;
 
-            align-items: center;
-        }
     </style>
 </head>
 <body>
 
 
 <%@include file="./includes/header-01.jsp" %>
-<div style="display: flex">
+
+<div>
+
+
+
     <div class="cv-container">
         <!-- Left Sidebar -->
         <div class="cv-sidebar">
-            <img src="img/default-avatar.jpg" alt="Profile Photo" class="profile-img">
+            <img src="/api/placeholder/180/180" alt="Profile Photo" class="profile-img">
 
             <h2 class="section-title">Liên hệ</h2>
             <div class="contact-info">
@@ -271,7 +268,8 @@
             <h2 class="section-title">Thông tin bổ sung</h2>
             <p style="line-height: 1.5;">Tôi là người có khả năng làm việc độc lập và theo nhóm, có khả năng quản lý
                 thời
-                gian hiệu quả và chịu được áp lực công việc cao. Tôi luôn tìm kiếm cơ hội phát triển bản thân và học hỏi
+                gian hiệu quả và chịu được áp lực công việc cao. Tôi luôn tìm kiếm cơ hội phát triển bản thân và học
+                hỏi
                 những điều mới.</p>
         </div>
 
@@ -284,7 +282,8 @@
 
             <h3 class="main-section-title">Mục tiêu nghề nghiệp</h3>
             <div class="section-divider"></div>
-            <p class="item-description">Trở thành một Senior Java Developer giỏi trong vòng 3 năm tới, đóng góp vào sự
+            <p class="item-description">Trở thành một Senior Java Developer giỏi trong vòng 3 năm tới, đóng góp vào
+                sự
                 phát
                 triển của công ty bằng kỹ năng chuyên môn cao và góp phần xây dựng các hệ thống phần mềm chất lượng,
                 hiệu
@@ -325,7 +324,8 @@
                 </div>
                 <div class="item-subtitle">Java Developer | TP. Hồ Chí Minh</div>
                 <div class="item-description">
-                    Phát triển các ứng dụng web sử dụng Java, Spring Boot, Hibernate và RESTful API. Tham gia vào các dự
+                    Phát triển các ứng dụng web sử dụng Java, Spring Boot, Hibernate và RESTful API. Tham gia vào
+                    các dự
                     án
                     phát triển hệ thống ngân hàng và fintech.
                 </div>
@@ -343,7 +343,8 @@
                 </div>
                 <div class="item-subtitle">Junior Developer | TP. Hồ Chí Minh</div>
                 <div class="item-description">
-                    Phát triển và bảo trì các ứng dụng web sử dụng Java, JSP, Servlet. Tham gia vào quá trình kiểm thử
+                    Phát triển và bảo trì các ứng dụng web sử dụng Java, JSP, Servlet. Tham gia vào quá trình kiểm
+                    thử
                     và
                     triển khai phần mềm.
                 </div>
@@ -377,7 +378,7 @@
         </div>
     </div>
     <%--    <%@include file="includes/sidebar_cv.jsp" %>--%>
-
+</div>
 </div>
 <%@include file="includes/footer.jsp" %>
 

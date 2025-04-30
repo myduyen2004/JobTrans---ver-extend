@@ -191,9 +191,10 @@
 
         .cv-sidebar {
             width: 300px;
-            background: #5D7B6F;
+            background: #4a5568;
             color: white;
             padding: 30px 20px;
+            height: 250px;
         }
 
         .cv-main {
@@ -245,6 +246,7 @@
         /* Form Elements */
         .form-group {
             margin-bottom: 15px;
+
         }
 
         .form-control {
@@ -273,9 +275,9 @@
             font-size: 18px;
             font-weight: 600;
             margin: 25px 0 15px;
-            color: #EAE7D6;
+            color: #0a0a2b;
             padding-bottom: 8px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            #4a5568 border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .main-section-title {
@@ -387,6 +389,12 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
+        .main-info {
+            background-color: #4a5568;
+            height: 250px;
+            margin: -30px;
+        }
+
 
     </style>
 </head>
@@ -417,285 +425,292 @@
                         </label>
                         <input type="file" id="avatar_cv" name="avatar_cv" accept="image/*">
                     </div>
+                    <div style="margin-top:50px;border:1px solid #0a0a2b;border-radius:20px; padding:30px">
+                        <h2  class="section-title">Liên hệ</h2>
 
-                    <h2 class="section-title">Liên hệ</h2>
+                        <div class="form-group">
+                            <select class="form-control" name="sex" id="sex">
+                                <option value="">-- Chọn giới tính --</option>
 
-                    <div class="form-group">
-                        <select class="form-control" name="sex" id="sex">
-                            <option value="">-- Chọn giới tính --</option>
+                                <option class="indented-option" value="nam"> Nam</option>
+                                <option value="nữ"> Nữ</option>
 
-                            <option class="indented-option" value="nam"> Nam</option>
-                            <option value="nữ"> Nữ</option>
-
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <input type="date" class="form-control" name="date_of_birth" placeholder="Ngày sinh">
-                    </div>
-                    <div class="form-group">
-                        <input type="tel" class="form-control" name="sdt" placeholder="Số điện thoại">
-                    </div>
-                    <div class="form-group">
-                        <input type="email" class="form-control" name="email" placeholder="Email">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="address" placeholder="Địa chỉ">
-                    </div>
-
-                    <div class="skill-section">
-                        <h2 id="skillTitle" class="section-title">Kỹ Năng</h2>
-                        <div class="skill-item">
-                            <div class="form-group">
-                                <select class="form-control" name="mainSkillId[]" required>
-                                    <option value="">Chọn tiêu đề kỹ năng</option>
-                                    <c:forEach items="${CVDAO.allMainSkill}" var="o">
-                                        <option value="${o.mainSkillId}">${o.mainSkillName}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <select class="form-control" name="skillId[]" id="skillSelect" required>
-                                    <option value="">Chọn kỹ năng</option>
-                                    <c:forEach items="${CVDAO.allMainSkill}" var="o">
-                                        <optgroup label="${o.mainSkillName}">
-                                            <c:forEach items="${CVDAO.getSkillByMainSkill(o.mainSkillId)}" var="h">
-                                                <option value="${h.skillId}"
-                                                        data-mainskill="${o.mainSkillId}">${h.skillName}</option>
-                                            </c:forEach>
-                                        </optgroup>
-                                    </c:forEach>
-
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <input type="text" name="otherSkillName[]" placeholder="Tên kỹ năng khác"
-                                       class="form-control other-skill-input" style="display: none;">
-                            </div>
-
-                            <script>
-                                document.getElementById('skillSelect').addEventListener('change', function () {
-                                    var otherInput = document.querySelector('.other-skill-input');
-                                    if (this.value === '1') {
-                                        otherInput.style.display = 'block';
-                                    } else {
-                                        otherInput.style.display = 'none';
-                                        otherInput.value = ''; // Xóa giá trị khi không chọn "Khác"
-                                    }
-                                });
-                            </script>
-
-                            <div class="form-group">
-                                <select class="form-control" name="levelSkill[]" required>
-                                    <option value="">Chọn level</option>
-                                    <% for (int i = 1; i <= 100; i++) { %>
-                                    <option value="<%= i %>"><%= i %>%</option>
-                                    <% } %>
-                                </select>
-                            </div>
-
+                            </select>
                         </div>
-
-                        <div style="text-align: right;">
-                            <button type="button" id="add-skill" class="btn-add">
-                                <i class="fas fa-plus"></i> Thêm kỹ năng
-                            </button>
+                        <div class="form-group">
+                            <input type="date" class="form-control" name="date_of_birth" placeholder="Ngày sinh">
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" class="form-control" name="sdt" placeholder="Số điện thoại">
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" name="email" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="address" placeholder="Địa chỉ">
                         </div>
                     </div>
+                    <div style="border-radius: 20px; margin-top:40px;padding:30px;border: 1px #0a0a2b solid " class="skill-section">
+                            <h2 id="skillTitle" class="section-title">Kỹ Năng</h2>
+                            <div class="skill-item">
+                                <div class="form-group">
+                                    <select class="form-control" name="mainSkillId[]" required>
+                                        <option value="">Chọn tiêu đề kỹ năng</option>
+                                        <c:forEach items="${CVDAO.allMainSkill}" var="o">
+                                            <option value="${o.mainSkillId}">${o.mainSkillName}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
 
-                    <h2 id="extraInfoTitle" class="section-title">Thông tin bổ sung</h2>
-                    <div class="form-group">
-                        <textarea name="more_infor" class="form-control" placeholder="Thông tin bổ sung"></textarea>
-                    </div>
-                </div>
+                                <div class="form-group">
+                                    <select class="form-control" name="skillId[]" id="skillSelect" required>
+                                        <option value="">Chọn kỹ năng</option>
+                                        <c:forEach items="${CVDAO.allMainSkill}" var="o">
+                                            <optgroup label="${o.mainSkillName}">
+                                                <c:forEach items="${CVDAO.getSkillByMainSkill(o.mainSkillId)}" var="h">
+                                                    <option value="${h.skillId}"
+                                                            data-mainskill="${o.mainSkillId}">${h.skillName}</option>
+                                                </c:forEach>
+                                            </optgroup>
+                                        </c:forEach>
 
-                <!-- Main CV Content -->
-                <div class="cv-main">
-                    <div class="main-info">
-                        <input type="text" name="cvname" class="form-control" placeholder="Họ và tên"
-                               style="font-size: 24px; font-weight: 600; border: none; border-bottom: 2px solid #eee; padding: 10px 0; margin-bottom: 15px;">
-                        <input type="text" name="position" class="form-control" placeholder="Vị trí ứng tuyển"
-                               style="font-size: 18px; border: none; padding: 5px 0;">
-                    </div>
+                                    </select>
+                                </div>
 
-                    <div class="career-goal-section">
-                        <h3 class="main-section-title" id="careerGoalTitle">Mục tiêu nghề nghiệp</h3>
-                        <div class="section-divider"></div>
-                        <textarea name="experienceDescription" class="form-control"
-                                  placeholder="Mô tả mục tiêu nghề nghiệp của bạn"></textarea>
-                    </div>
+                                <div class="form-group">
+                                    <input type="text" name="otherSkillName[]" placeholder="Tên kỹ năng khác"
+                                           class="form-control other-skill-input" style="display: none;">
+                                </div>
 
-                    <div class="education-section">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <h3 id="educationTitle" class="main-section-title">Học vấn</h3>
-                            <div>
-                                <button type="button" id="add-education" class="btn-add">
-                                    <i class="fas fa-plus"></i> Thêm
+                                <script>
+                                    document.getElementById('skillSelect').addEventListener('change', function () {
+                                        var otherInput = document.querySelector('.other-skill-input');
+                                        if (this.value === '1') {
+                                            otherInput.style.display = 'block';
+                                        } else {
+                                            otherInput.style.display = 'none';
+                                            otherInput.value = ''; // Xóa giá trị khi không chọn "Khác"
+                                        }
+                                    });
+                                </script>
+
+                                <div class="form-group">
+                                    <select class="form-control" name="levelSkill[]" required>
+                                        <option value="">Chọn level</option>
+                                        <% for (int i = 1; i <= 100; i++) { %>
+                                        <option value="<%= i %>"><%= i %>%</option>
+                                        <% } %>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div style="text-align: right;">
+                                <button type="button" id="add-skill" class="btn-add">
+                                    <i class="fas fa-plus"></i> Thêm kỹ năng
                                 </button>
                             </div>
                         </div>
-                        <div class="education-item">
-                            <div class="form-group">
-                                <select class="form-control" name="schoolId[]" id="schoolSelect">
-                                    <option value="">Chọn trường học</option>
-                                    <c:forEach items="${CVDAO.allSchoolNames}" var="o">
-                                        <option value="${CVDAO.getSchoolIdByName(o)}">${o}</option>
-                                    </c:forEach>
+<div style="border-radius: 20px; margin-top:40px;padding:30px;border: 1px #0a0a2b solid">
+                        <h2 id="extraInfoTitle" class="section-title">Thông tin bổ sung</h2>
+                        <div class="form-group">
+                            <textarea name="more_infor" class="form-control" placeholder="Thông tin bổ sung"></textarea>
+                        </div>
+                    </div>
+                </div>
 
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" name="otherSchoolName[]" placeholder="Tên trường khác"
-                                       class="form-control other-school-input" style="display: none;">
-                            </div>
+                    <!-- Main CV Content -->
+                    <div class="cv-main">
+                        <div class="main-info">
+                              <div style="padding-left:100px;padding-top: 60px;width: 500px">
+                            <input type="text" name="cvname" class="form-control" placeholder="Họ và tên"
+                                   style="font-size: 24px; font-weight: 600; border: none; border-bottom: 2px solid #eee; padding: 10px 0; margin-bottom: 15px;">
+                            <input type="text" name="position" class="form-control" placeholder="Vị trí ứng tuyển"
+                                   style="font-size: 18px; border: none; padding: 5px 0;">
+                              </div>
+                        </div>
 
-                            <script>
-                                document.getElementById('schoolSelect').addEventListener('change', function () {
-                                    var otherInput = document.querySelector('.other-school-input');
-                                    if (this.value === '1') {
-                                        otherInput.style.display = 'block';
-                                    } else {
-                                        otherInput.style.display = 'none';
-                                        otherInput.value = ''; // Xóa giá trị khi không chọn "Khác"
-                                    }
-                                });
-                            </script>
-                            <div class="date-group">
-                                <input type="date" class="form-control" name="educationStartDate[]">
-                                <input type="date" class="form-control" name="educationEndDate[]">
+                        <div style="border-radius: 20px; margin-top:40px;padding:30px;border: 1px solid"
+                             class="career-goal-section">
+                            <h3 s class="main-section-title" id="careerGoalTitle">Mục tiêu nghề nghiệp</h3>
+                            <div class="section-divider"></div>
+                            <textarea name="experienceDescription" class="form-control"
+                                      placeholder="Mô tả mục tiêu nghề nghiệp của bạn"></textarea>
+                        </div>
+
+                        <div style="margin-top:20px;border:1px solid;border-radius:20px; padding:30px"
+                             class="education-section">
+                            <div style="display: flex; justify-content: space-between; align-items: center">
+                                <h3 id="educationTitle" class="main-section-title">Học vấn</h3>
+                                <div>
+                                    <button type="button" id="add-education" class="btn-add">
+                                        <i class="fas fa-plus"></i> Thêm
+                                    </button>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="major[]" placeholder="Chuyên ngành">
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="degree[]" placeholder="Bằng cấp">
-                            </div>
-                            <div class="form-group">
+                            <div class="education-item">
+                                <div class="form-group">
+                                    <select class="form-control" name="schoolId[]" id="schoolSelect">
+                                        <option value="">Chọn trường học</option>
+                                        <c:forEach items="${CVDAO.allSchoolNames}" var="o">
+                                            <option value="${CVDAO.getSchoolIdByName(o)}">${o}</option>
+                                        </c:forEach>
+
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="otherSchoolName[]" placeholder="Tên trường khác"
+                                           class="form-control other-school-input" style="display: none;">
+                                </div>
+
+                                <script>
+                                    document.getElementById('schoolSelect').addEventListener('change', function () {
+                                        var otherInput = document.querySelector('.other-school-input');
+                                        if (this.value === '1') {
+                                            otherInput.style.display = 'block';
+                                        } else {
+                                            otherInput.style.display = 'none';
+                                            otherInput.value = ''; // Xóa giá trị khi không chọn "Khác"
+                                        }
+                                    });
+                                </script>
+                                <div class="date-group">
+                                    <input type="date" class="form-control" name="educationStartDate[]">
+                                    <input type="date" class="form-control" name="educationEndDate[]">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="major[]" placeholder="Chuyên ngành">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="degree[]" placeholder="Bằng cấp">
+                                </div>
+                                <div class="form-group">
                             <textarea class="form-control" name="school_Description[]"
                                       placeholder="Thông tin thêm"></textarea>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="experience-section">
-                        <!-- ... existing header ... -->
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <h3 id="experienceTitle" class="main-section-title">Kinh nghiệm làm việc</h3>
-                            <div>
-                                <button type="button" id="add-experience" class="btn-add">
-                                    <i class="fas fa-plus"></i> Thêm
-                                </button>
+                        <div style="margin-top:20px;border:1px solid;border-radius:20px; padding:30px"
+                             class="experience-section">
+                            <!-- ... existing header ... -->
+                            <div style="display: flex; justify-content: space-between; align-items: center">
+                                <h3 id="experienceTitle" class="main-section-title">Kinh nghiệm làm việc</h3>
+                                <div>
+                                    <button type="button" id="add-experience" class="btn-add">
+                                        <i class="fas fa-plus"></i> Thêm
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="experience-item">
-                            <div class="form-group">
-                                <select class="form-control" name="Company[]" id="companySelect" required>
-                                    <option value="">Chọn công ty</option>
-                                    <c:forEach items="${CVDAO.allCompanyName}" var="o">
-                                        <option value="${CVDAO.getCompanyIdByName(o)}">${o}</option>
-                                    </c:forEach>
+                            <div class="experience-item">
+                                <div class="form-group">
+                                    <select class="form-control" name="Company[]" id="companySelect" required>
+                                        <option value="">Chọn công ty</option>
+                                        <c:forEach items="${CVDAO.allCompanyName}" var="o">
+                                            <option value="${CVDAO.getCompanyIdByName(o)}">${o}</option>
+                                        </c:forEach>
 
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" name="otherCompanyName[]" placeholder="Tên công ty khác"
-                                       class="form-control other-company-input" style="display: none;">
-                            </div>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="otherCompanyName[]" placeholder="Tên công ty khác"
+                                           class="form-control other-company-input" style="display: none;">
+                                </div>
 
 
-                            <div class="date-group">
-                                <input type="date" class="form-control" name="companyStartDate[]" required>
-                                <input type="date" class="form-control" name="companyEndDate[]">
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="position[]" placeholder="Vị trí"
-                                       required>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="description[]"
-                                       placeholder="Thông tin công việc">
-                            </div>
-                            <div class="form-group">
+                                <div class="date-group">
+                                    <input type="date" class="form-control" name="companyStartDate[]" required>
+                                    <input type="date" class="form-control" name="companyEndDate[]">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="position[]" placeholder="Vị trí"
+                                           required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="description[]"
+                                           placeholder="Thông tin công việc">
+                                </div>
+                                <div class="form-group">
                             <textarea class="form-control" name="work_achievements[]"
                                       placeholder="Thành tích"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="address[]"
-                                       placeholder="địa chỉ">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="certification-section">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <h3 id="certificateTitle" class="main-section-title">Chứng chỉ & giải thưởng</h3>
-                            <div>
-                                <button type="button" id="add-certification" class="btn-add">
-                                    <i class="fas fa-plus"></i> Thêm
-                                </button>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="address[]"
+                                           placeholder="địa chỉ">
+                                </div>
                             </div>
                         </div>
-                        <div class="section-divider"></div>
-                        <div class="certification-item">
-                            <div class="form-group">
-                                <select class="form-control" name="certificationId[]" id="certificationSelect">
-                                    <option value="">Chọn chứng chỉ</option>
-                                    <c:forEach items="${CVDAO.allCertificationNames}" var="o">
-                                        <option value="${CVDAO.getCertificationIdByName(o)}">${o}</option>
-                                    </c:forEach>
-                                    <!-- Thêm lựa chọn "Khác" -->
-                                </select>
+
+                        <div style="margin-top:20px;border:1px solid;border-radius:20px;padding: 30px"
+                             class="certification-section">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <h3 id="certificateTitle" class="main-section-title">Chứng chỉ & giải thưởng</h3>
+                                <div>
+                                    <button type="button" id="add-certification" class="btn-add">
+                                        <i class="fas fa-plus"></i> Thêm
+                                    </button>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <input type="text" name="otherCertificationName[]" placeholder="Chứng chỉ khác"
-                                       class="form-control other-certification-input" style="display: none;">
-                            </div>
+                            <div class="section-divider"></div>
+                            <div class="certification-item">
+                                <div class="form-group">
+                                    <select class="form-control" name="certificationId[]" id="certificationSelect">
+                                        <option value="">Chọn chứng chỉ</option>
+                                        <c:forEach items="${CVDAO.allCertificationNames}" var="o">
+                                            <option value="${CVDAO.getCertificationIdByName(o)}">${o}</option>
+                                        </c:forEach>
+                                        <!-- Thêm lựa chọn "Khác" -->
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="otherCertificationName[]" placeholder="Chứng chỉ khác"
+                                           class="form-control other-certification-input" style="display: none;">
+                                </div>
 
-                            <script>
+                                <script>
 
-                                // document.getElementById("careerGoalTitle").addEventListener("click", function(e) {
-                                //     e.preventDefault();
-                                //
-                                //     // Lấy nội dung từ phần tử ẩn
-                                //     const careerGuideContent = document.getElementById("careerGuideContent").innerHTML;
-                                //
-                                //     // Cập nhật sidebar
-                                //     const instructionContainer = document.getElementById("cvInstructions");
-                                //     instructionContainer.innerHTML = careerGuideContent;
-                                //     instructionContainer.style.display = "block";
-                                //
-                                //     // Ẩn các container khác nếu cần
-                                //     document.getElementById("cvTemplates").style.display = "none";
-                                // });
+                                    // document.getElementById("careerGoalTitle").addEventListener("click", function(e) {
+                                    //     e.preventDefault();
+                                    //
+                                    //     // Lấy nội dung từ phần tử ẩn
+                                    //     const careerGuideContent = document.getElementById("careerGuideContent").innerHTML;
+                                    //
+                                    //     // Cập nhật sidebar
+                                    //     const instructionContainer = document.getElementById("cvInstructions");
+                                    //     instructionContainer.innerHTML = careerGuideContent;
+                                    //     instructionContainer.style.display = "block";
+                                    //
+                                    //     // Ẩn các container khác nếu cần
+                                    //     document.getElementById("cvTemplates").style.display = "none";
+                                    // });
 
 
-                                document.getElementById('certificationSelect').addEventListener('change', function () {
-                                    var otherInput = document.querySelector('.other-certification-input');
-                                    if (this.value === '1') {
-                                        otherInput.style.display = 'block';
-                                    } else {
-                                        otherInput.style.display = 'none';
-                                        otherInput.value = ''; // Xóa giá trị khi không chọn "Khác"
-                                    }
-                                });
-                            </script>
-                            <div class="form-group">
-                                <input type="date" class="form-control" name="awardYear[]">
-                            </div>
-                            <div class="form-group">
+                                    document.getElementById('certificationSelect').addEventListener('change', function () {
+                                        var otherInput = document.querySelector('.other-certification-input');
+                                        if (this.value === '1') {
+                                            otherInput.style.display = 'block';
+                                        } else {
+                                            otherInput.style.display = 'none';
+                                            otherInput.value = ''; // Xóa giá trị khi không chọn "Khác"
+                                        }
+                                    });
+                                </script>
+                                <div class="form-group">
+                                    <input type="date" class="form-control" name="awardYear[]">
+                                </div>
+                                <div class="form-group">
                             <textarea class="form-control" name="prizeDescription[]"
                                       placeholder="Mô tả giải thưởng"></textarea>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+
                 </div>
-
-
-            </div>
-            <button type="submit" class="submit-btn">
-                <i class="fas fa-download"></i> Tạo CV
-            </button>
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-download"></i> Tạo CV
+                </button>
 
         </form>
 
@@ -1351,13 +1366,13 @@
         const container = document.getElementById("cvTemplates");
 
         // Kiểm tra nếu hướng dẫn chưa hiển thị => không làm gì
-        if ((instructionContainer.style.display !== "block") &&((container.style.display === "none"))) {
+        if ((instructionContainer.style.display !== "block") && ((container.style.display === "none"))) {
             alert("Vui lòng nhấn vào 'Hướng dẫn tạo CV' trước khi xem nội dung chi tiết.");
             return;
         }
 
         // Nếu đang hiển thị hướng dẫn, ẩn nó và hiển thị nội dung tương ứng
-        if( (instructionContainer.style.display === "block") || (container.style.display === "block")) {
+        if ((instructionContainer.style.display === "block") || (container.style.display === "block")) {
             instructionContainer.style.display = "none";
             container.innerHTML = htmlContent;
             container.style.display = "block";
