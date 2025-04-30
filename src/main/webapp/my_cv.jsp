@@ -1,179 +1,330 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html lang="en-US">
+<html>
+<head>
 
 <!-- Mirrored from themebing.com/wp/prolancer/projects/?projects-layout=projects_left_sidebar by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Jan 2025 09:33:33 GMT -->
 <!-- Added by HTTrack -->
 <meta http-equiv="content-type" content="text/html;charset=UTF-8"/><!-- /Added by HTTrack -->
+    <title>Quản lí CV</title>
+<style>
+    /* CSS cho trang Quản lý CV */
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
-<style>* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
+    /* Reset và base styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-/* Container chính */
-.container_listCV {
-    width: 80%;
-    margin: 20px auto;
-    margin-right: 50px;
-}
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f5f7fa;
+        color: #333;
+    }
 
-/* Header */
-.header {
-    margin-top: 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 40px;
-    margin-right: 70px;
-}
+    /* Container styles */
+    .container_cv {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
 
-/* Tab danh sách CV */
-.tab-active {
-    background: transparent;
-    border: 2px solid #6c63ff;
-    padding: 10px 20px;
-    border-radius: 20px;
-    font-size: 16px;
-    color: #6c63ff;
-    cursor: pointer;
+    .container_listCV {
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(21, 42, 105, 0.1);
+        overflow: hidden;
+        animation: slideDown 0.5s ease-out;
+    }
 
-    margin-top: 50px;
-    margin-bottom: 20px;
-}
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 
-/* Nút tạo CV */
-.create-btn {
-    background: linear-gradient(135deg, #0a0a2b, #3f3d56); /* Gradient tạo chiều sâu */
-    color: white;
-    padding: 12px 28px;
-    border-radius: 25px;
-    font-size: 16px;
-    font-weight: 500;
-    border: none; /* Loại bỏ viền cứng */
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(10, 10, 43, 0.3);
-    display: inline-block;
-    transform: translateX(-50%);
-    margin-left: 50%;
-}
+    /* Header styles */
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 25px 30px;
+        background: linear-gradient(to right, rgb(21, 42, 105), rgb(54, 75, 140));
+        color: #fff;
+        border-radius: 12px 12px 0 0;
+    }
 
-.create-btn:hover {
-    background: linear-gradient(135deg, #1e1e60, #5a5870); /* Màu hover đậm hơn */
-    box-shadow: 0 6px 15px rgba(10, 10, 43, 0.5);
-    transform: translateX(-50%) translateY(-2px); /* Nhô nhẹ lên */
-}
+    .tab-active {
+        background: transparent;
+        border: none;
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 8px 0;
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
 
-/* Danh sách CV */
-.cv-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    .tab-active::before {
+        content: "\f0ae"; /* Font Awesome icon for list */
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        margin-right: 10px;
+        font-size: 1.3rem;
+    }
 
-}
+    .tab-active::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background-color: #fff;
+        transform: scaleX(1);
+        transition: transform 0.3s ease;
+    }
 
-/* Thẻ CV */
-.cv-card {
-    background: #f8f8f8;
-    padding: 20px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-    margin-right: 17%;
+    .create-btn {
+        background-color: #fff;
+        color: rgb(21, 42, 105);
+        border: none;
+        border-radius: 50px;
+        padding: 12px 25px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
 
-}
-.cv-card:hover {
-    background: #ffffff;
-    border-color: #ccc;
-    box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.15);
-    transform: translateY(-5px);
-    transition: all 0.3s ease;
-}
+    .create-btn::before {
+        content: "\f067"; /* Font Awesome icon for plus */
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        margin-right: 8px;
+    }
 
-/* Nhóm nút */
-.button-group {
-    display: flex;
-    margin-left: 60px;
-    gap: 40px; /* Khoảng cách giữa các nút */
-    margin-top: 15px;
-}
+    .create-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+    }
 
+    /* CV List styles */
+    .cv-list {
+        padding: 30px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 25px;
+    }
 
-/* Căn chỉnh kích thước và phong cách nút */
-.view-btn, .edit-btn, .delete-btn {
-    height: 45px;
-    background: #e0e0ff; /* Màu nền nhẹ */
-    color: #6c63ff; /* Màu chữ */
-    border: none;
-    padding: 8px 16px; /* Tăng padding */
-    border-radius: 20px; /* Bo tròn đẹp hơn */
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.3s ease-in-out;
-    min-width: 90px; /* Đảm bảo nút đều nhau */
-    text-align: center;
-}
-.view-btn:hover,
-.edit-btn:hover,
-.delete-btn:hover {
-    background: #6c63ff; /* Màu nền đậm khi hover */
-    color: #ffffff;       /* Màu chữ trắng khi hover */
-    transform: translateY(-2px); /* Hiệu ứng nổi nhẹ */
-    box-shadow: 0 4px 10px rgba(108, 99, 255, 0.3); /* Đổ bóng */
-}
+    .cv-card {
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 5px 15px rgba(21, 42, 105, 0.08);
+        transition: all 0.3s ease;
+        border-top: 5px solid rgb(21, 42, 105);
+        position: relative;
+        animation: fadeIn 0.5s ease-out;
+    }
 
-/*!* Hiệu ứng hover *!*/
-/*.view-btn:hover, .edit-btn:hover, .delete-btn:hover {*/
-/*    background: #6c63ff;*/
-/*    color: white;*/
-/*    margin-left: 40px;*/
-/*    min-width: 90px; !* Đảm bảo nút đều nhau *!*/
-/*    text-align: center;*/
-/*}*/
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
 
-.banner_title {
-    background-image: url(./img/anh1/anh1.png);
-    background-size: 100%;
-    font-size: 40px;
-    height: 200px;
-    display: flex;
-    margin-top: 15px;
-    align-items: center;
-}
+    .cv-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(21, 42, 105, 0.15);
+    }
 
+    .cv-card::before {
+        content: "\f15c"; /* Font Awesome icon for file */
+        font-family: "Font Awesome 5 Free";
+        font-weight: 400;
+        position: absolute;
+        top: 22px;
+        right: 25px;
+        font-size: 2rem;
+        color: rgba(21, 42, 105, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .cv-card:hover::before {
+        color: rgba(21, 42, 105, 0.2);
+        transform: scale(1.1);
+    }
+
+    .cv-card p {
+        margin-bottom: 12px;
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .cv-card p:first-child::before {
+        content: "\f073"; /* Font Awesome icon for calendar */
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        margin-right: 10px;
+        color: rgb(54, 75, 140);
+    }
+
+    .cv-card p:nth-child(2)::before {
+        content: "\f02a"; /* Font Awesome icon for tag */
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        margin-right: 10px;
+        color: rgb(54, 75, 140);
+    }
+
+    .button-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .button-group a {
+        text-decoration: none;
+        flex-grow: 1;
+        min-width: 100px;
+    }
+
+    .view-btn, .edit-btn {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .view-btn {
+        background: linear-gradient(to right, rgb(21, 42, 105), rgb(54, 75, 140));
+        color: white;
+    }
+
+    .view-btn::before {
+        content: "\f06e"; /* Font Awesome icon for eye */
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        margin-right: 6px;
+    }
+
+    .edit-btn {
+        background-color: transparent;
+        color: rgb(21, 42, 105);
+        border: 1px solid rgb(21, 42, 105);
+    }
+
+    .edit-btn:nth-of-type(1)::before {
+        content: "\f044"; /* Font Awesome icon for edit */
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        margin-right: 6px;
+    }
+
+    .edit-btn:nth-of-type(2)::before {
+        content: "\f2ed"; /* Font Awesome icon for trash */
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        margin-right: 6px;
+        color: #d9534f;
+    }
+
+    .view-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 10px rgba(21, 42, 105, 0.3);
+    }
+
+    .edit-btn:hover {
+        background-color: rgba(21, 42, 105, 0.1);
+    }
+
+    /* Empty state */
+    .empty-cv {
+        text-align: center;
+        padding: 40px;
+        grid-column: 1 / -1;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% {
+            opacity: 0.7;
+        }
+        50% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0.7;
+        }
+    }
+
+    .empty-cv i {
+        font-size: 4rem;
+        color: rgb(21, 42, 105);
+        margin-bottom: 20px;
+        opacity: 0.5;
+    }
+
+    .empty-cv p {
+        font-size: 1.2rem;
+        color: #555;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .header {
+            flex-direction: column;
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .cv-list {
+            grid-template-columns: 1fr;
+        }
+    }
 </style>
-
+</head>
+<%@include file="includes/header-01.jsp" %>
 <body>
 
-<%@include file="includes/header-01.jsp" %>
-
-<div style="margin-top: 20px" class="py-4 banner_title">
-    <h1 class="text-white font-weight-bold" style="padding-left: 50px;">Danh sách CV của bạn</h1>
-</div>
-
-
 <div class="container_cv">
-
     <div class="container_listCV">
-
         <div class="header">
             <button class="tab-active">Danh sách CV đã được tạo</button>
-
         </div>
 
         <div class="cv-list">
             <c:choose>
                 <c:when test="${not empty listcv}">
                     <c:forEach items="${listcv}" var="o">
-
                         <div class="cv-card">
                             <p><strong>Ngày tạo:</strong> ${o.createdAt}</p>
                             <p><strong>Mã CV:</strong> CV0${o.cvId}</p>
-
 
                             <div class="button-group">
                                 <a href="cv?action=view&cvId=${o.cvId}">
@@ -190,14 +341,17 @@
                         </div>
                     </c:forEach>
                 </c:when>
+                <c:otherwise>
+                    <div class="empty-cv">
+                        <i class="far fa-file-alt"></i>
+                        <p>Bạn chưa có CV nào. Hãy tạo CV ngay!</p>
+                    </div>
+                </c:otherwise>
             </c:choose>
-
-
         </div>
     </div>
 </div>
+</body>
 <%@include file="includes/footer.jsp" %>
 
-<!--======= Back to Top =======-->
-<div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
 </html>

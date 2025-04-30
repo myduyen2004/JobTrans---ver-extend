@@ -1,5 +1,5 @@
 
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -7,578 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thêm thành viên mới</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #6787fe;
-            --secondary-color: #6c63ff;
-            --accent-color: #f0f4ff;
-            --light-color: #f8f9fa;
-            --dark-color: #343a40;
-            --success-color: #4caf50;
-            --warning-color: #ff9800;
-            --danger-color: #f44336;
-        }
-
-        body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-            padding: 0;
-            margin: 0;
-            overflow-x: hidden;
-        }
-
-        .page-header {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            padding: 30px 0;
-            margin-bottom: 40px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .page-header::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
-            animation: rotate 25s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .header-container {
-            position: relative;
-            z-index: 1;
-        }
-
-        .card {
-            border: none;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            margin-bottom: 30px;
-            overflow: hidden;
-            animation: slideInUp 0.8s ease-out;
-        }
-
-        @keyframes slideInUp {
-            from {
-                transform: translate3d(0, 40px, 0);
-                opacity: 0;
-            }
-            to {
-                transform: translate3d(0, 0, 0);
-                opacity: 1;
-            }
-        }
-
-        .card-header {
-            background: linear-gradient(45deg, var(--accent-color) 0%, white 100%);
-            padding: 20px;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .card-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--dark-color);
-            margin-bottom: 0;
-            padding-left: 15px;
-            border-left: 4px solid var(--primary-color);
-            animation: fadeIn 1s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .form-floating {
-            margin-bottom: 20px;
-        }
-
-        .form-floating > label {
-            padding-left: 1rem;
-            color: #6c757d;
-        }
-
-        .form-control:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.25rem rgba(78, 84, 200, 0.25);
-        }
-
-        .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            padding: 12px 25px;
-            border-radius: 50px;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            transition: all 0.3s;
-        }
-
-        .btn-primary:hover {
-            background-color: #3a40b5;
-            border-color: #3a40b5;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(78, 84, 200, 0.3);
-        }
-
-        .btn-action {
-            border-radius: 50px;
-            padding: 12px 25px;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .btn-action i {
-            margin-right: 8px;
-        }
-
-        .btn-outline-secondary {
-            border-color: #ced4da;
-            color: #6c757d;
-            background-color: white;
-        }
-
-        .btn-outline-secondary:hover {
-            background-color: #f8f9fa;
-            color: #343a40;
-            border-color: #ced4da;
-        }
-
-        .avatar-upload {
-            position: relative;
-            max-width: 180px;
-            margin: 0 auto 30px;
-        }
-
-        .avatar-edit {
-            position: absolute;
-            right: 0;
-            z-index: 1;
-            bottom: 0;
-        }
-
-        .avatar-edit input {
-            display: none;
-        }
-
-        .avatar-edit label {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--primary-color);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            color: white;
-            transition: all 0.3s;
-        }
-
-        .avatar-edit label:hover {
-            background: #3a40b5;
-            transform: scale(1.1);
-        }
-
-        .avatar-preview {
-            width: 180px;
-            height: 180px;
-            position: relative;
-            border-radius: 20px;
-            border: 5px solid white;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        .avatar-preview img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .form-section {
-            padding: 20px;
-            animation: fadeInRight 0.8s ease-out;
-        }
-
-        @keyframes fadeInRight {
-            from {
-                transform: translate3d(20px, 0, 0);
-                opacity: 0;
-            }
-            to {
-                transform: translate3d(0, 0, 0);
-                opacity: 1;
-            }
-        }
-
-        .form-section-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: var(--dark-color);
-            display: flex;
-            align-items: center;
-        }
-
-        .form-section-title i {
-            margin-right: 10px;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--accent-color);
-            color: var(--primary-color);
-            border-radius: 8px;
-        }
-
-        .btn-container {
-            display: flex;
-            gap: 15px;
-            margin-top: 10px;
-        }
-
-        .divider {
-            height: 1px;
-            background: linear-gradient(to right, transparent, rgba(0,0,0,0.05), transparent);
-            margin: 25px 0;
-        }
-
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
-        }
-
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .toggle-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 34px;
-        }
-
-        .toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .toggle-slider {
-            background-color: var(--success-color);
-        }
-
-        input:checked + .toggle-slider:before {
-            transform: translateX(26px);
-        }
-
-        .form-check-input:checked {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-        }
-
-        .input-group-text {
-            background-color: var(--accent-color);
-            color: var(--primary-color);
-            border: 1px solid #ced4da;
-        }
-
-        .floating-buttons {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            z-index: 1000;
-        }
-
-        .floating-button {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 1.4rem;
-            animation: pulse 2s infinite;
-            text-align: center;
-        }
-
-        .floating-button i {
-            margin-top: 18px;
-        }
-
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(78, 84, 200, 0.4);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(78, 84, 200, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(78, 84, 200, 0);
-            }
-        }
-
-        .floating-button:hover {
-            transform: scale(1.1);
-        }
-
-        .floating-button-primary {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .floating-button-secondary {
-            background-color: white;
-            color: var(--dark-color);
-        }
-
-        /* Animation khi nhập liệu */
-        .form-control:focus + label {
-            color: var(--primary-color);
-            font-weight: 500;
-        }
-
-        .form-control:not(:placeholder-shown) + label {
-            color: var(--primary-color);
-        }
-
-        /* Animation khi scroll */
-        .scroll-animation {
-            animation: fadeInUp 0.8s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                transform: translate3d(0, 40px, 0);
-                opacity: 0;
-            }
-            to {
-                transform: translate3d(0, 0, 0);
-                opacity: 1;
-            }
-        }
-
-        /* Animation cho các phần tử */
-        .animate-delay-1 {
-            animation-delay: 0.2s;
-        }
-
-        .animate-delay-2 {
-            animation-delay: 0.4s;
-        }
-
-        .animate-delay-3 {
-            animation-delay: 0.6s;
-        }
-
-        /* Animation cho nút checkbox */
-        .form-check-input {
-            transition: all 0.3s;
-        }
-
-        .form-check-input:checked {
-            transform: scale(1.1);
-        }
-
-        /* Loading animation */
-        .loader {
-            width: 48px;
-            height: 48px;
-            border: 5px solid var(--primary-color);
-            border-bottom-color: transparent;
-            border-radius: 50%;
-            display: none;
-            box-sizing: border-box;
-            animation: rotation 1s linear infinite;
-        }
-
-        @keyframes rotation {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* Parallax effect */
-        .parallax-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        .parallax-circle {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0.05;
-            background: white;
-        }
-
-        .circle-1 {
-            width: 300px;
-            height: 300px;
-            top: -100px;
-            right: -50px;
-            animation: float 15s ease-in-out infinite;
-        }
-
-        .circle-2 {
-            width: 200px;
-            height: 200px;
-            bottom: -50px;
-            left: 10%;
-            animation: float 20s ease-in-out infinite reverse;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
-        }
-
-        /* Tooltip custom animation */
-        .custom-tooltip {
-            position: relative;
-            display: inline-block;
-        }
-
-        .custom-tooltip .tooltip-text {
-            visibility: hidden;
-            width: 120px;
-            background-color: var(--dark-color);
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 5px 0;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            margin-left: -60px;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .custom-tooltip .tooltip-text::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: var(--dark-color) transparent transparent transparent;
-        }
-
-        .custom-tooltip:hover .tooltip-text {
-            visibility: visible;
-            opacity: 1;
-            animation: fadeInUp 0.3s;
-        }
-
-        /* Progress Bar Animation */
-        .progress-bar {
-            transition: width 1.5s ease-in-out;
-        }
-
-        .progress {
-            margin-bottom: 20px;
-            height: 10px;
-            background-color: #e9ecef;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-
-        /* Card flip animation */
-        .card-flip {
-            perspective: 1000px;
-            margin-bottom: 20px;
-        }
-
-        .card-flip-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.8s;
-            transform-style: preserve-3d;
-        }
-
-        .card-flip:hover .card-flip-inner {
-            transform: rotateY(180deg);
-        }
-
-        .card-flip-front, .card-flip-back {
-            width: 100%;
-            height: 100%;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            border-radius: 15px;
-            overflow: hidden;
-        }
-
-        .card-flip-back {
-            background-color: var(--accent-color);
-            transform: rotateY(180deg);
-            position: absolute;
-            top: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-    </style>
+    <link rel="stylesheet" href="css/add-member.css">
 </head>
+<%@include file="includes/header-01.jsp"%>
 <body>
+
 <div class="page-header text-center">
     <div class="parallax-bg">
         <div class="parallax-circle circle-1"></div>
@@ -597,7 +31,7 @@
         </div>
         <div class="card-body">
             <form action="group" method="post" id="memberForm" accept-charset="UTF-8" enctype="multipart/form-data">
-                <input type="hidden" name="action" value="create">
+<%--                <input type="hidden" name="action" value="create">--%>
                 <input type="hidden" name="accountId" value="${account.accountId}">
 
                 <div class="row">
@@ -610,7 +44,7 @@
                             </div>
 
                             <div class="avatar-preview">
-                                <img src="img\avatar-default.jpg" id="imagePreview" alt="Ảnh đại diện">
+                                <img src="img/default-avatar.jpg" id="imagePreview" alt="Ảnh đại diện">
                             </div>
 
                         </div>
@@ -618,7 +52,7 @@
                         <div class="text-center">
                             <div class="form-check form-switch d-flex justify-content-center align-items-center mb-4">
                                 <label class="toggle-switch ms-2">
-                                    <input type="checkbox" checked>
+                                    <input type="checkbox" name="status" checked>
                                     <span class="toggle-slider"></span>
                                 </label>
                                 <span class="ms-2">Hoạt động</span>
@@ -650,14 +84,15 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="memberName" name="memberName" placeholder="Họ và tên">
+                                        <input type="text" class="form-control" id="memberName" name="memberName" placeholder="Họ và tên" required>
                                         <label for="memberName">Họ và tên</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" placeholder="Ngày sinh">
+                                        <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" placeholder="Ngày sinh" required>
                                         <label for="dateOfBirth">Ngày sinh</label>
+                                        <small id="dob-error" class="error-message" style="color: red; display: none;"></small>
                                     </div>
                                 </div>
                             </div>
@@ -702,7 +137,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="number" class="form-control" id="experienceYears" name="experienceYears" placeholder="Chuyên môn">
+                                        <input type="number" class="form-control" id="experienceYears" name="experienceYears" placeholder="Số năm kinh nghiệm" required>
                                         <label for="experienceYears">Số năm kinh nghiệm</label>
                                     </div>
                                 </div>
@@ -720,7 +155,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-floating">
-                                        <textarea class="form-control" id="skills" name="skills" name="skills" style="height: 100px" placeholder="Kỹ năng"></textarea>
+                                        <input class="form-control" id="skills" name="skills" placeholder="Kỹ năng">
                                         <label for="skills">Kỹ năng (cách nhau bởi dấu phẩy)</label>
                                     </div>
                                 </div>
@@ -733,13 +168,7 @@
                             <h4 class="form-section-title"><i class="fas fa-address-card"></i> Thông tin liên hệ</h4>
 
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-floating">
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email">
-                                        <label for="email">Email</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-floating">
                                         <input type="tel" class="form-control" id="phone" name="phone" placeholder="Số điện thoại">
                                         <label for="phone">Số điện thoại</label>
@@ -774,17 +203,17 @@
 
                         <div class="my-4 d-flex justify-content-between align-items-center">
                             <div class="form-check animate__animated animate__fadeIn animate__delay-3s">
-                                <input class="form-check-input" type="checkbox" id="sendWelcomeEmail">
+                                <input class="form-check-input" type="checkbox" id="sendWelcomeEmail" name="sendWelcomeEmail">
                                 <label class="form-check-label" for="sendWelcomeEmail">
                                     Gửi email chào mừng
                                 </label>
                             </div>
 
                             <div class="btn-container animate__animated animate__fadeIn animate__delay-3s">
-                                <button type="button" class="btn btn-outline-secondary btn-action" id="btnCancel">
+                                <button type="button" class="btn btn-outline-secondary btn-action" id="btnCancel" style="border-radius: 30px; padding: 10px 20px;">
                                     <i class="fas fa-times"></i> Hủy bỏ
                                 </button>
-                                <button type="submit" class="btn btn-primary btn-action" id="btnSubmit">
+                                <button type="submit" class="btn btn-primary btn-action" id="btnSubmit"  style="background-image: linear-gradient(to right, rgb(21, 32, 112), rgb(39, 64, 179));color: white; border-radius: 30px; padding: 10px 20px;">
                                     <i class="fas fa-save"></i> Lưu thành viên
                                     <span class="loader ms-2" id="submitLoader"></span>
                                 </button>
@@ -809,6 +238,314 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<%--Validate các trường--%>
+<script>
+    // Validation cho form thông tin cá nhân
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+        const dobInput = document.getElementById('dateOfBirth');
+        const dobError = document.getElementById('dob-error');
+        const specialityInput = document.getElementById('speciality');
+        const skillsInput = document.getElementById('skills');
+        const educationInput = document.getElementById('education');
+        let addressInput = document.getElementById('address');
+        const phoneInput = document.getElementById('phone');
+
+        // Danh sách 63 tỉnh thành Việt Nam
+        const vietnamProvinces = [
+            "An Giang", "Bà Rịa - Vũng Tàu", "Bắc Giang", "Bắc Kạn", "Bạc Liêu",
+            "Bắc Ninh", "Bến Tre", "Bình Định", "Bình Dương", "Bình Phước",
+            "Bình Thuận", "Cà Mau", "Cần Thơ", "Cao Bằng", "Đà Nẵng",
+            "Đắk Lắk", "Đắk Nông", "Điện Biên", "Đồng Nai", "Đồng Tháp",
+            "Gia Lai", "Hà Giang", "Hà Nam", "Hà Nội", "Hà Tĩnh",
+            "Hải Dương", "Hải Phòng", "Hậu Giang", "Hòa Bình", "Hưng Yên",
+            "Khánh Hòa", "Kiên Giang", "Kon Tum", "Lai Châu", "Lâm Đồng",
+            "Lạng Sơn", "Lào Cai", "Long An", "Nam Định", "Nghệ An",
+            "Ninh Bình", "Ninh Thuận", "Phú Thọ", "Phú Yên", "Quảng Bình",
+            "Quảng Nam", "Quảng Ngãi", "Quảng Ninh", "Quảng Trị", "Sóc Trăng",
+            "Sơn La", "Tây Ninh", "Thái Bình", "Thái Nguyên", "Thanh Hóa",
+            "Thừa Thiên Huế", "Tiền Giang", "TP Hồ Chí Minh", "Trà Vinh", "Tuyên Quang",
+            "Vĩnh Long", "Vĩnh Phúc", "Yên Bái"
+        ];
+
+        // Hàm tạo và hiển thị thông báo lỗi
+        function showError(element, message) {
+            // Kiểm tra xem đã có thông báo lỗi chưa
+            let errorElement = element.nextElementSibling;
+            if (!errorElement || !errorElement.classList.contains('error-message')) {
+                // Tạo phần tử thông báo lỗi mới
+                errorElement = document.createElement('small');
+                errorElement.classList.add('error-message');
+                errorElement.style.color = 'red';
+                errorElement.style.display = 'block';
+                errorElement.style.marginTop = '5px';
+                // Chèn sau input
+                element.parentNode.insertBefore(errorElement, element.nextSibling);
+            }
+
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+            return false;
+        }
+
+        // Hàm ẩn thông báo lỗi
+        function hideError(element) {
+            const errorElement = element.nextElementSibling;
+            if (errorElement && errorElement.classList.contains('error-message')) {
+                errorElement.style.display = 'none';
+            }
+            return true;
+        }
+
+        // Hàm viết hoa chữ cái đầu của mỗi từ
+        function capitalizeFirstLetter(string) {
+            return string.replace(/\b\w/g, function(l) { return l.toUpperCase(); });
+        }
+
+        // Thêm datalist cho tỉnh thành Việt Nam
+        if (addressInput) {
+            // Tạo hoặc thay thế input text bằng dropdown select
+            const parentElement = addressInput.parentElement;
+            const labelText = parentElement.querySelector('label') ? parentElement.querySelector('label').textContent : 'Địa chỉ';
+
+            // Tạo select element mới
+            const selectElement = document.createElement('select');
+            selectElement.id = addressInput.id;
+            selectElement.name = addressInput.name;
+            selectElement.className = addressInput.className;
+            selectElement.required = addressInput.required;
+
+            // Thêm option mặc định
+            const defaultOption = document.createElement('option');
+            defaultOption.value = "";
+            defaultOption.textContent = "-- Chọn tỉnh thành --";
+            defaultOption.selected = true;
+            defaultOption.disabled = true;
+            selectElement.appendChild(defaultOption);
+
+            // Thêm các option cho tỉnh thành
+            vietnamProvinces.forEach(province => {
+                const option = document.createElement('option');
+                option.value = province;
+                option.textContent = province;
+                selectElement.appendChild(option);
+            });
+
+            // Thay thế input cũ bằng select mới
+            parentElement.replaceChild(selectElement, addressInput);
+
+            // Cập nhật biến addressInput để trỏ đến select mới
+            addressInput = selectElement;
+
+            // Thêm CSS để làm đẹp select
+            const style = document.createElement('style');
+            style.textContent = `
+            select#${addressInput.id} {
+                width: 100%;
+                padding: 8px 12px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                appearance: none;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: right 10px center;
+                background-size: 16px;
+                cursor: pointer;
+            }
+            select#${addressInput.id}:focus {
+                outline: none;
+                border-color: #4299e1;
+                box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+            }
+            select#${addressInput.id} option {
+                padding: 8px;
+            }
+        `;
+            document.head.appendChild(style);
+
+            // Cập nhật event listener cho select thay vì input
+            addressInput.addEventListener('change', function() {
+                const addressValue = this.value.trim();
+                if (addressValue === "") {
+                    showError(this, 'Vui lòng chọn tỉnh thành');
+                } else {
+                    hideError(this);
+                }
+            });
+        }
+
+        // Validation khi submit form
+        form.addEventListener('submit', function(event) {
+            let isValid = true;
+
+            // Kiểm tra ngày sinh
+            if(dobInput) {
+                const dobValue = new Date(dobInput.value);
+                const today = new Date();
+
+                // Tính tuổi
+                let age = today.getFullYear() - dobValue.getFullYear();
+                const monthDiff = today.getMonth() - dobValue.getMonth();
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dobValue.getDate())) {
+                    age--;
+                }
+
+                // Kiểm tra tuổi >= 18 và không phải ngày ở tương lai
+                if (dobInput.value === "") {
+                    isValid = showError(dobInput, 'Vui lòng nhập ngày sinh');
+                } else if (age < 18 || dobValue > today) {
+                    dobError.textContent = age < 18 ? 'Bạn phải đủ 18 tuổi trở lên.' : 'Ngày sinh không thể là ngày trong tương lai.';
+                    dobError.style.display = 'block';
+                    isValid = false;
+                } else {
+                    dobError.style.display = 'none';
+                }
+            }
+
+            // Kiểm tra chuyên môn không chỉ chứa số
+            if(specialityInput && specialityInput.value.trim() !== '') {
+                if(/^\d+$/.test(specialityInput.value.trim())) {
+                    isValid = showError(specialityInput, 'Chuyên môn không được chỉ chứa số');
+                } else {
+                    hideError(specialityInput);
+                }
+            }
+
+            if(skillsInput && skillsInput.value.trim() !== '') {
+                if(/^\d+$/.test(skillsInput.value.trim())) {
+                    isValid = showError(skillsInput, 'Kĩ năng không được chỉ chứa số');
+                } else {
+                    hideError(skillsInput);
+                }
+            }
+
+            // Kiểm tra học vấn không chỉ chứa số
+            if(educationInput && educationInput.value.trim() !== '') {
+                if(/^\d+$/.test(educationInput.value.trim())) {
+                    isValid = showError(educationInput, 'Học vấn không được chỉ chứa số');
+                } else {
+                    hideError(educationInput);
+                }
+            }
+
+            // Kiểm tra địa chỉ được chọn
+            if(addressInput && addressInput.value.trim() === '') {
+                isValid = showError(addressInput, 'Vui lòng chọn tỉnh thành');
+            } else if(addressInput) {
+                hideError(addressInput);
+            }
+
+            // Kiểm tra số điện thoại
+            if(phoneInput) {
+                if(phoneInput.value.trim() === '') {
+                    isValid = showError(phoneInput, 'Vui lòng nhập số điện thoại');
+                } else if(!/^\d{10}$/.test(phoneInput.value.trim())) {
+                    isValid = showError(phoneInput, 'Số điện thoại phải có đúng 10 chữ số');
+                } else {
+                    hideError(phoneInput);
+                }
+            }
+
+            if(!isValid) {
+                event.preventDefault();
+            }
+        });
+
+        // Validation khi nhập dữ liệu
+        if(dobInput) {
+            dobInput.addEventListener('change', function() {
+                if(this.value === "") {
+                    showError(this, 'Vui lòng nhập ngày sinh');
+                    return;
+                }
+
+                const dobValue = new Date(this.value);
+                const today = new Date();
+
+                // Tính tuổi
+                let age = today.getFullYear() - dobValue.getFullYear();
+                const monthDiff = today.getMonth() - dobValue.getMonth();
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dobValue.getDate())) {
+                    age--;
+                }
+
+                // Kiểm tra tuổi >= 18 và không phải ngày ở tương lai
+                if (age < 18 || dobValue > today) {
+                    dobError.textContent = age < 18 ? 'Bạn phải đủ 18 tuổi trở lên.' : 'Ngày sinh không thể là ngày trong tương lai.';
+                    dobError.style.display = 'block';
+                } else {
+                    dobError.style.display = 'none';
+                }
+            });
+        }
+
+        // Chuyên môn - viết hoa chữ cái đầu
+        if(specialityInput) {
+            specialityInput.addEventListener('blur', function() {
+                if(this.value.trim() !== '') {
+                    if(/^\d+$/.test(this.value.trim())) {
+                        showError(this, 'Chuyên môn không được chỉ chứa số');
+                    } else {
+                        hideError(this);
+                        this.value = capitalizeFirstLetter(this.value);
+                    }
+                }
+            });
+        }
+
+        if(skillsInput) {
+            skillsInput.addEventListener('blur', function() {
+                if(this.value.trim() !== '') {
+                    if(/^\d+$/.test(this.value.trim())) {
+                        showError(this, 'Kĩ năng không được chỉ chứa số');
+                    } else {
+                        hideError(this);
+                        this.value = capitalizeFirstLetter(this.value);
+                    }
+                }
+            });
+        }
+
+        // Học vấn - viết hoa chữ cái đầu
+        if(educationInput) {
+            educationInput.addEventListener('blur', function() {
+                if(this.value.trim() !== '') {
+                    if(/^\d+$/.test(this.value.trim())) {
+                        showError(this, 'Học vấn không được chỉ chứa số');
+                    } else {
+                        hideError(this);
+                        this.value = capitalizeFirstLetter(this.value);
+                    }
+                }
+            });
+        }
+
+        // Validation cho số điện thoại - chỉ cho phép nhập số
+        if(phoneInput) {
+            // Loại bỏ ký tự không phải số khi nhập
+            phoneInput.addEventListener('input', function() {
+                this.value = this.value.replace(/\D/g, '');
+
+                // Giới hạn độ dài tối đa 10 số
+                if(this.value.length > 10) {
+                    this.value = this.value.slice(0, 10);
+                }
+            });
+
+            // Kiểm tra đúng 10 chữ số khi blur
+            phoneInput.addEventListener('blur', function() {
+                if(this.value.trim() === '') {
+                    showError(this, 'Vui lòng nhập số điện thoại');
+                } else if(!/^\d{10}$/.test(this.value.trim())) {
+                    showError(this, 'Số điện thoại phải có đúng 10 chữ số');
+                } else {
+                    hideError(this);
+                }
+            });
+        }
+    });
+</script>
+
 <script>
     // Progress bar animation
     document.addEventListener('DOMContentLoaded', function() {
@@ -883,16 +620,6 @@
             }
         });
 
-        // Xử lý nút hủy bỏ
-        document.getElementById('btnCancel').addEventListener('click', function() {
-            if(confirm('Bạn có chắc muốn hủy bỏ việc thêm thành viên mới?')) {
-                document.getElementById('memberForm').reset();
-                document.querySelector('.progress-bar').style.width = '0%';
-                document.getElementById('completionRate').textContent = '0%';
-                document.getElementById('imagePreview').src = '/api/placeholder/180/180';
-            }
-        });
-
         // Tooltip tùy chỉnh
         const tooltips = document.querySelectorAll('.custom-tooltip');
         tooltips.forEach(tooltip => {
@@ -930,5 +657,6 @@
         });
     });
 </script>
+<%@include file="includes/footer.jsp"%>
 </body>
 </html>

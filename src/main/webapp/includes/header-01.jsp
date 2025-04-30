@@ -1,9 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="jobtrans.model.Account" %>
 <%
   Account account = (Account) session.getAttribute("sessionAccount");
 %>
-<!-- Bootstrap CSS -->
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <!-- Font Awesome -->
@@ -15,22 +15,22 @@
 
 <style>
   /* Custom styles to enhance Bootstrap navbar */
-
-
   body {
-    padding-top: 10000px; /* Tăng giá trị nếu muốn header cao hơn */
+    padding-top: 100px; /* Tăng giá trị nếu muốn header cao hơn */
+  }
+  body {
+    overflow-x: hidden;
   }
   .navbar-custom {
     background-color: #fff;
     position: fixed;
     top: 0;
     left: 0;
-    width: 99%;
+    width: 100%;
     z-index: 1000;
     transition: all 0.4s ease;
     height: 100px; /* Tăng chiều cao tổng thể */
     padding: 10px 0; /* Tăng khoảng cách bên trong */
-    margin-bottom: 20px;
   }
 
   .navbar-brand {
@@ -102,7 +102,8 @@
     0 2px 10px rgba(74, 102, 216, 0.12);
     padding: 12px;
     margin-top: 12px;
-    min-width: 220px;
+    min-width: 230px;
+    line-height: 13px;
     background: #ffffff;
     backdrop-filter: blur(10px);
     transform-origin: top center;
@@ -287,9 +288,9 @@
   }
 
   /* Body padding to account for fixed navbar */
-  body {
-    padding-top: 85px;
-  }
+  /*body {*/
+  /*  padding-top: 85px;*/
+  /*}*/
 
   /* Responsive adjustments for small screens */
   @media (max-width: 480px) {
@@ -678,14 +679,14 @@
 
   .user-avatar::after {
     content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
     border-radius: 50%;
-    z-index: 1;
+    /*position: absolute;*/
+    /*top: 0;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*bottom: 0;*/
+    /*background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));*/
+    /*z-index: 1;*/
   }
 
   .user-avatar:hover {
@@ -764,9 +765,9 @@
     }
   }
 
-  .dropdown-user-info {
+  .dropdown-user-info   {
     background: linear-gradient(135deg, #6584fa, #2B3D9F);
-    padding: 25px;
+    padding: 15px;
     display: flex;
     align-items: center;
     color: #fff;
@@ -787,10 +788,9 @@
   }
 
   .user-dropdown-avatar {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    margin-right: 18px;
     border: 3px solid rgba(255, 255, 255, 0.6);
     overflow: hidden;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
@@ -802,7 +802,9 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
     transition: all 0.5s ease;
+    border-radius: 50%;
   }
 
   .user-dropdown-avatar:hover img {
@@ -812,6 +814,7 @@
   .user-dropdown-details {
     position: relative;
     z-index: 2;
+    left: 10px;
   }
 
   .user-dropdown-details h6 {
@@ -841,6 +844,7 @@
     margin-top: 8px;
     letter-spacing: 0.3px;
   }
+
 
   /* Menu items */
   .user-dropdown-menu .dropdown-item {
@@ -1022,8 +1026,8 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
   <div class="container-fluid navbar-container">
-    <a class="navbar-brand" href="index.jsp">
-      <img src="img/logo/logo.png" alt="JobTrans Logo" class="d-inline-block align-text-top">
+    <a class="navbar-brand" href="http://localhost:8080/JobTrans/index.jsp">
+      <img src="http://localhost:8080/JobTrans/img/logo/logo.png" alt="JobTrans Logo" class="d-inline-block align-text-top">
       <span>JobTrans</span>
     </a>
 
@@ -1033,53 +1037,38 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" href="index.jsp">Trang chủ</a>
+        <li class="nav-item active">
+          <a class="nav-link active" href="http://localhost:8080/JobTrans/home">Trang chủ</a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Công việc
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="jobs.jsp"><i class="fas fa-list-ul"></i>Tất cả công việc</a></li>
-            <li><a class="dropdown-item" href="jobs-by-category.jsp"><i class="fas fa-th-large"></i>Theo danh mục</a></li>
-            <li><a class="dropdown-item" href="jobs-by-location.jsp"><i class="fas fa-map-marker-alt"></i>Theo địa điểm</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="saved-jobs.jsp"><i class="fas fa-heart"></i>Công việc đã lưu</a></li>
-          </ul>
+        <li class="nav-item">
+          <a class="nav-link" href="http://localhost:8080/JobTrans/viec-lam">Công việc</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Tạo CV
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="cv?action=type"><i class="fas fa-file-alt"></i>Tạo CV</a></li>
-            <li><a class="dropdown-item" href="cv?action=list"><i class="fas fa-file-alt"></i>CV của tôi</a></li>
+            <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/cv?action=type"><i class="fas fa-file-alt"></i>Tạo CV</a></li>
+            <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/cv?action=list"><i class="fas fa-file-alt"></i>CV của tôi</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="api.jsp"><i class="fas fa-tools"></i>Công cụ AI</a></li>
+            <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/api.jsp"><i class="fas fa-tools"></i>Công cụ AI</a></li>
           </ul>
+
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="employer.jsp">Nhà tuyển dụng</a>
+          <a class="nav-link " href="http://localhost:8080/JobTrans/home?action=top100">Top 100</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="about-me.jsp">Về chúng tôi</a>
+          <a class="nav-link" href="http://localhost:8080/JobTrans/employer.jsp">Chính sách</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="http://localhost:8080/JobTrans/about-me.jsp">Về chúng tôi</a>
         </li>
       </ul>
-        <!-- Notification and Message icons -->
-
-        <!-- User info section -->
-
-        <!-- User avatar dropdown -->
-<%--        <div class="d-flex align-items-center">--%>
-<%--          <a href="login.jsp" class="btn btn-login">Đăng nhập</a>--%>
-<%--          <a href="signup.jsp" class="btn btn-signup">Đăng ký</a>--%>
-<%--        </div>--%>
-
       <%if (account == null) {%>
       <div class="d-flex align-items-center">
-        <a href="login.jsp" class="btn btn-login">Đăng nhập</a>
-        <a href="register.jsp" class="btn btn-signup">Đăng ký</a>
+        <a href="http://localhost:8080/JobTrans/login.jsp" class="btn btn-login">Đăng nhập</a>
+        <a href="http://localhost:8080/JobTrans/register.jsp" class="btn btn-signup">Đăng ký</a>
       </div>
       <%} else{%>
       <div class="d-flex align-items-center user-profile-container">
@@ -1147,7 +1136,7 @@
                 </div>
               </div>
               <div class="dropdown-footer">
-                <a href="notifications.jsp">Xem tất cả thông báo</a>
+                <a href="notification?action=notification">Xem tất cả thông báo</a>
               </div>
             </div>
           </div>
@@ -1233,34 +1222,54 @@
 
         <!-- User avatar dropdown -->
         <div class="dropdown">
-          <a href="#" class="user-avatar dropdown-toggle" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="<%=account.getAvatar()%>" alt="User Avatar" class="user-avatar-img">
+          <div class="avatar-icon" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="user-avatar dropdown-toggle" role="button"  >
+              <%if(account.getAvatar().contains("https://lh3.googleusercontent.com/")){%>
+              <img src="<%=account.getAvatar()%>" alt="User Avatar" class="user-avatar-img" >
+              <%}else {%>
+              <img src="http://localhost:8080/JobTrans/<%=account.getAvatar()%>" alt="User Avatar" class="user-avatar-img" >
+              <%}%>
+            </div>
             <span class="avatar-status online"></span>
-          </a>
+          </div>
           <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu" aria-labelledby="userDropdown">
+
             <li class="dropdown-user-info">
               <div class="user-dropdown-avatar">
-                <img src="<%=account.getAvatar()%>" alt="User Avatar">
+                <%if(account.getAvatar().contains("https://lh3.googleusercontent.com/")){%>
+                <img src="<%=account.getAvatar()%>" alt="User Avatar" class="user-avatar-img" >
+                <%}else {%>
+                <img src="http://localhost:8080/JobTrans/<%=account.getAvatar()%>" alt="User Avatar" class="user-avatar-img" >
+                <%}%>
               </div>
               <div class="user-dropdown-details">
                 <h6><%=account.getAccountName()%></h6>
-                <span class="user-email">nguyenvana@example.com</span>
+                <span class="user-email"><%=account.getEmail()%>></span>
               </div>
             </li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="profile.jsp"><i class="fas fa-user"></i>Hồ sơ cá nhân</a></li>
-            <li><a class="dropdown-item" href="jobGreeting?action=view-applied"><i class="fas fa-file-alt"></i>Đơn ứng tuyển</a></li>
-            <li><a class="dropdown-item" href="my-cvs.jsp"><i class="fas fa-id-card"></i>CV của tôi</a></li>
-            <li><a class="dropdown-item" href="notifications.jsp"><i class="fas fa-bell"></i>Thông báo</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="settings.jsp"><i class="fas fa-cog"></i>Cài đặt</a></li>
-            <li><a class="dropdown-item logout-item" href="logout"><i class="fas fa-sign-out-alt"></i>Đăng xuất</a></li>
+            <%if (account.getRole().equals("Admin")) {%>
+            <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/dashboard-admin.jsp"><i class="fas fa-file-alt"></i>Quản lí chung</a></li>
+            <%}%>
+            <c:if test="${sessionScope.sessionAccount.typeAccount == 'Nhóm'}">
+              <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/group?action=view&account_id=${sessionScope.sessionAccount.accountId}"><i class="fas fa-user"></i>Hồ sơ cá nhân</a></li>
+            </c:if>
+            <c:if test="${sessionScope.sessionAccount.typeAccount == 'Cá nhân'}">
+              <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/profile?action=view&account_id=${sessionScope.sessionAccount.accountId}"><i class="fas fa-user"></i>Hồ sơ cá nhân</a></li>
+            </c:if>
+            <%if(account.getRole().equals("Người dùng")){%>
+            <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/profile?action=job-manage-page"><i class="fas fa-file-alt"></i>Quản lí công việc</a></li>
+            <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/cv?action=list"><i class="fas fa-id-card"></i>CV của tôi</a></li>
+            <%} else if (account.getRole().equals("Admin")) {%>
+            <li><a class="dropdown-item" href="http://localhost:8080/JobTrans/admin-manage?action=menu-management"><i class="fas fa-id-card"></i>Menu quản lí</a></li>
+            <%}%>
+            <li><a class="dropdown-item" href="profile?action=wallet"><i class="fas fa-file-alt"></i>Ví của tôi</a></li>
+            <li><a class="dropdown-item logout-item" href="http://localhost:8080/JobTrans/logout"><i class="fas fa-sign-out-alt"></i>Đăng xuất</a></li>
           </ul>
         </div>
       </div>
       <%}%>
 
-      </div>
+    </div>
   </div>
 </nav>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

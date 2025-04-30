@@ -310,13 +310,12 @@
     </style>
 </head>
 
-<body class="archive post-type-archive post-type-archive-projects wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
+<body>
 
 <%@include file="includes/header-01.jsp" %>
 
 <div style="display: flex">
     <%@include file="./includes/sidebar_createCV.jsp" %>
-
     <div class="main-container">
         <div class="content-wrapper">
             <div class="cv-container">
@@ -464,6 +463,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 

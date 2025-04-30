@@ -387,6 +387,15 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
+        .banner_title {
+            background-image: url(./img/anh1/anh1.png);
+            background-size: 100%;
+            font-size: 40px;
+            height: 200px;
+            display: flex;
+
+            align-items: center;
+        }
 
     </style>
 </head>
@@ -399,8 +408,6 @@
 <div style="margin-top:140px;display: flex">
     <%@include file="./includes/sidebar_createCV.jsp" %>
 
-
-    <!-- CV Content Area -->
     <main class="cv-content">
         <form action="cv?action=create" method="POST" enctype="multipart/form-data">
 
@@ -523,7 +530,6 @@
                         <textarea name="experienceDescription" class="form-control"
                                   placeholder="Mô tả mục tiêu nghề nghiệp của bạn"></textarea>
                     </div>
-
                     <div class="education-section">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <h3 class="main-section-title">Học vấn</h3>
@@ -552,6 +558,7 @@
                                 document.getElementById('schoolSelect').addEventListener('change', function () {
                                     var otherInput = document.querySelector('.other-school-input');
                                     if (this.value === '1') {
+
                                         otherInput.style.display = 'block';
                                     } else {
                                         otherInput.style.display = 'none';
@@ -601,7 +608,6 @@
                                        class="form-control other-company-input" style="display: none;">
                             </div>
 
-
                             <div class="date-group">
                                 <input type="date" class="form-control" name="companyStartDate[]" required>
                                 <input type="date" class="form-control" name="companyEndDate[]">
@@ -609,6 +615,7 @@
                             <div class="form-group">
                                 <input type="text" class="form-control" name="position[]" placeholder="Vị trí"
                                        required>
+
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control" name="description[]"
@@ -690,8 +697,6 @@
 </div>
 
 </body>
-
-
 <%--<script>--%>
 <%--    document.getElementById('mainSkill').addEventListener('change', function () {--%>
 <%--        var mainSkillId = this.value;--%>
@@ -981,7 +986,7 @@
 
 
     // Add this JavaScript code at the end of your page or in a separate file
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         // Get the form element
         const cvForm = document.querySelector('form[action="cv?action=create"]');
 
@@ -1080,7 +1085,7 @@
         }
 
         // Add submit event listener to the form
-        cvForm.addEventListener('submit', function (event) {
+        cvForm.addEventListener('submit', function(event) {
             // Reset previous error messages
             clearErrorMessages();
 
@@ -1133,7 +1138,7 @@
 
             // Validate experience items
             const experienceItems = document.querySelectorAll('.experience-item');
-            experienceItems.forEach(function (item, index) {
+            experienceItems.forEach(function(item, index) {
                 const company = item.querySelector('select[name="Company[]"]');
                 const startDate = item.querySelector('input[name="companyStartDate[]"]');
                 const endDate = item.querySelector('input[name="companyEndDate[]"]');
@@ -1158,7 +1163,7 @@
 
             // Validate education items
             const educationItems = document.querySelectorAll('.education-item');
-            educationItems.forEach(function (item) {
+            educationItems.forEach(function(item) {
                 const school = item.querySelector('select[name="schoolId[]"]');
                 const startDate = item.querySelector('input[name="educationStartDate[]"]');
                 const endDate = item.querySelector('input[name="educationEndDate[]"]');
@@ -1179,7 +1184,7 @@
                 // Scroll to first error
                 const firstError = document.querySelector('.error-input');
                 if (firstError) {
-                    firstError.scrollIntoView({behavior: 'smooth', block: 'center'});
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     firstError.focus();
                 }
             }

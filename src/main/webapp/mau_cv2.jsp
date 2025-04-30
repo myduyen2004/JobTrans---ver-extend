@@ -38,13 +38,13 @@
         box-sizing: border-box;
     }
 
-    .cong body {
+    body {
         font-family: 'Roboto', sans-serif;
         background-color: #f5f7fa;
         color: var(--text);
         line-height: 1.6;
         min-height: 100vh;
-        display: flex;
+
         justify-content: center;
         padding: 40px 0;
     }
@@ -55,25 +55,29 @@
         margin-left: 110px;
         width: 1000px;
         display: flex;
+        box-shadow: var(--shadow);
         background: white;
 
         overflow: hidden;
         position: relative;
+        margin-top: 20px;
+        margin-left: 17%;
     }
 
     /* Sidebar Styles */
-    .cong .cv-sidebar {
+    .cv-sidebar {
         width: 350px;
-        background: linear-gradient(to right, #2C3E50, #1C2833);
+        background: var(--primary);
         color: white;
         padding: 40px 30px;
         position: relative;
         z-index: 1;
     }
 
-    .cong .avatar-container {
-        width: 250px;
-        height: 250px;
+    .avatar-container {
+
+        width: 100px;
+        height: 100px;
         border-radius: 50%;
         margin: 0 auto 30px;
         border: 4px solid white;
@@ -83,31 +87,19 @@
         transition: var(--transition);
     }
 
-    .cong .avatar-container:hover {
+    .avatar-container:hover {
         transform: scale(1.03);
     }
 
-    .cong .avatar-container img {
+    .avatar-container img {
         width: 100%;
         height: 100%;
         object-fit: cover;
     }
 
-    .cong .avatar-upload {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: rgba(0, 0, 0, 0.7);
-        color: white;
-        padding: 10px;
-        text-align: center;
-        font-size: 14px;
-        opacity: 0;
-        transition: var(--transition);
-    }
 
-    .cong .avatar-container:hover .avatar-upload {
+
+    .avatar-container:hover .avatar-upload {
         opacity: 1;
     }
 
@@ -129,33 +121,14 @@
         bottom: -2px;
         width: 50px;
         height: 2px;
-        background: linear-gradient(to right, #2C3E50, #1C2833);;
+        background: var(--accent);
     }
 
     .form-group {
         margin-bottom: 20px;
     }
 
-    .form-control {
-        width: 100%;
-        padding: 12px 15px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: var(--radius);
-        background: rgba(255, 255, 255, 0.1);
-        color: white;
-        font-size: 15px;
-        transition: var(--transition);
-    }
 
-    .cong .form-control:focus {
-        outline: none;
-        border-color: var(--accent);
-        background: rgba(255, 255, 255, 0.2);
-    }
-
-    .form-control::placeholder {
-        color: rgba(255, 255, 255, 0.7);
-    }
 
     textarea.form-control {
         min-height: 100px;
@@ -163,7 +136,7 @@
     }
 
     /* Main Content Styles */
-    .cong .cv-content {
+    .cv-content {
         flex: 1;
         padding: 50px;
         background: white;
@@ -176,50 +149,19 @@
         margin-bottom: 50px;
     }
 
-    .name-input {
-        font-size: 32px;
-        font-weight: 700;
-        color: var(--dark);
-        border: none;
-        border-bottom: 2px solid var(--accent);
-        padding: 10px 0;
-        text-align: center;
-        width: 80%;
-        margin: 0 auto 15px;
-        font-family: 'Montserrat', sans-serif;
-        transition: var(--transition);
-    }
 
-    .cong .name-input:focus {
-        outline: none;
-        border-bottom-color: var(--primary);
-    }
 
-    .cong .position-input {
-        font-size: 20px;
-        color: var(--secondary);
-        border: none;
-        text-align: center;
-        width: 80%;
-        margin: 0 auto;
-        padding: 5px 0;
-        transition: var(--transition);
-    }
 
-    .cong .position-input:focus {
-        outline: none;
-        color: var(--primary);
-    }
 
-    .cong .content-section {
+    .content-section {
         margin-bottom: 40px;
     }
 
-    .cong .content-title {
+    .content-title {
         font-family: 'Montserrat', sans-serif;
         font-size: 24px;
         font-weight: 700;
-        color-: linear-gradient(to right, #2C3E50, #1C2833);;
+        color: var(--primary);
         margin-bottom: 20px;
         padding-bottom: 10px;
         border-bottom: 2px solid var(--light);
@@ -229,7 +171,7 @@
         align-items: center;
     }
 
-    .cong .content-title:after {
+    .content-title:after {
         content: '';
         position: absolute;
         left: 0;
@@ -239,96 +181,11 @@
         background: var(--accent);
     }
 
-    .btn-group {
-        display: flex;
-        gap: 10px;
-    }
 
-    .btn {
-        padding: 8px 16px;
-        border: none;
-        border-radius: var(--radius);
-        font-size: 14px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: var(--transition);
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-    }
-
-    .cong .btn-primary {
-        background: var(--accent);
-        color: white;
-    }
-
-    .cong .btn-primary:hover {
-        background: #2980b9;
-        transform: translateY(-2px);
-    }
-
-    .btn-danger {
-        background: #e74c3c;
-        color: white;
-    }
-
-    .btn-danger:hover {
-        background: #c0392b;
-    }
-
-    .date-group {
-        display: flex;
-        gap: 20px;
-        margin-bottom: 15px;
-    }
-
-    .cong .date-group .form-control {
-        flex: 1;
-    }
-
-    /* Main content form controls */
-    .cong .main-form-control {
-        width: 100%;
-        padding: 12px 15px;
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        font-size: 15px;
-        transition: var(--transition);
-        margin-bottom: 15px;
-        background: white;
-    }
-
-    .cong .main-form-control:focus {
-        outline: none;
-        border-color: var(--accent);
-        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-    }
-
-    .cong. textarea.main-form-control {
+    textarea.main-form-control {
         min-height: 120px;
     }
 
-    .submit-btn {
-        background: var(--primary);
-        color: white;
-        padding: 14px 30px;
-        font-size: 16px;
-        font-weight: 600;
-        border: none;
-        border-radius: var(--radius);
-        cursor: pointer;
-        transition: var(--transition);
-        display: block;
-        margin: 40px auto 0;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-
-    .submit-btn:hover {
-        background: var(--secondary);
-        transform: translateY(-3px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    }
 
     /* Animation */
     @keyframes fadeIn {
@@ -342,61 +199,55 @@
         }
     }
 
-    .cong.cv-sidebar > div,
-    .cong.cv-content > div {
+    .cv-sidebar > div,
+    .cv-content > div {
         animation: fadeIn 0.5s ease-out forwards;
     }
 
-    .cong.cv-sidebar > div:nth-child(1) {
+    .cv-sidebar > div:nth-child(1) {
         animation-delay: 0.1s;
     }
 
-    .cong.cv-sidebar > div:nth-child(2) {
+    .cv-sidebar > div:nth-child(2) {
         animation-delay: 0.2s;
     }
 
-    .cong.cv-sidebar > div:nth-child(3) {
+    .cv-sidebar > div:nth-child(3) {
         animation-delay: 0.3s;
     }
 
-    .cong.cv-content > div:nth-child(1) {
+    .cv-content > div:nth-child(1) {
         animation-delay: 0.2s;
     }
 
-    .cong.cv-content > div:nth-child(2) {
+    .cv-content > div:nth-child(2) {
         animation-delay: 0.3s;
     }
 
-    .cong.cv-content > div:nth-child(3) {
+    .cv-content > div:nth-child(3) {
         animation-delay: 0.4s;
     }
 
-    .cong.cv-content > div:nth-child(4) {
+    .cv-content > div:nth-child(4) {
         animation-delay: 0.5s;
     }
+    .banner_title {
+        background-image: url(./img/anh1/anh1.png);
+        background-size: 100%;
+        font-size: 40px;
+        height: 200px;
+        display: flex;
 
-
-    .cong.cv-content {
-        transition: var(--transition);
-        margin-right: 0;
+        align-items: center;
     }
-
-    .cong.dashboard-sidebar.expanded ~ .cv-content {
-        margin-right: 350px;
-    }
-
-    @media (max-width: 992px) {
-        .dashboard-sidebar.expanded ~ .cv-content {
-            margin-right: 0;
-            transform: translateX(-100px);
-        }
-    }
-
 </style>
 <body class="archive post-type-archive post-type-archive-projects wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
 
 
 <%@include file="./includes/header-01.jsp" %>
+<div class="py-4 banner_title">
+    <h1 class="text-white font-weight-bold" style="padding-left: 50px;">Danh sách công việc</h1>
+</div>
 
 
 <div  style="display: flex">
@@ -611,6 +462,7 @@
 
         </div>
     </div>
+
 
     </div>
 

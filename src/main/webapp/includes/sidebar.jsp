@@ -139,20 +139,20 @@
     .user-info {
         display: flex;
         align-items: center;
-        padding: 18px 20px;
+        /*padding: 18px 20px;*/
         border-top: 1px solid rgba(255, 255, 255, 0.08);
         background: rgba(0, 0, 0, 0.15);
     }
 
     .user-avatar {
-        width: 40px;
-        height: 40px;
+        width: 45px;
+        height: 45px;
         border-radius: 50%;
         background: linear-gradient(45deg, #6584fa, #8373e6);
         display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 12px;
+        /*align-items: center;*/
+        /*justify-content: center;*/
+        /*margin-right: 12px;*/
         color: white;
         font-weight: bold;
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
@@ -336,23 +336,13 @@
         </div>
 
         <div class="sidebar-category">Nâng cao</div>
-        <a href="#" style="--i:7"><i class="fas fa-calendar-alt"></i> Quản lí CV</a>
+        <a href="cv?action=list" style="--i:7"><i class="fas fa-calendar-alt"></i> Quản lí CV</a>
         <a href="#" style="--i:10"><i class="fas fa-comments"></i> Tin nhắn</a>
         <a href="#" style="--i:11"><i class="fas fa-bell"></i> Thông báo</a>
 
 
         <div class="sidebar-category">Hệ thống</div>
-        <a href="#" style="--i:14"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
-    </div>
-
-    <div class="user-info">
-        <div class="user-avatar">
-            NT
-        </div>
-        <div class="user-details">
-            <div class="user-name">Nguyễn Tuấn</div>
-            <div class="user-email">nguyentuan@example.com</div>
-        </div>
+        <a href="logout" style="--i:14"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
     </div>
 </div>
 

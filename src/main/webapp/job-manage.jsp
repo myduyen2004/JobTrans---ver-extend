@@ -1,298 +1,188 @@
-<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
-<html lang="en-US">
-
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Quản lí Công việc &#8211; JobTrans </title>
-    <link rel="icon" type="image/png" href="img/logo/logo.png">
-    <!DOCTYPE html>
-    <html lang="vi">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Quản lí công việc</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Roboto:wght@500&display=swap" rel="stylesheet">
-        <!-- Font Awesome for icons -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        <style>
-            /* Enhanced Task Management Styling */
-            body {
-                background-color: #f5f7fa;
-                font-family: 'Roboto', sans-serif;
-            }
-
-            .task-container {
-                max-width: 800px;
-                padding: 30px 25px 40px;
-                background-color: white;
-                margin-top: 120px;
-                border-radius: 16px;
-                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-                animation: fadeIn 0.6s ease;
-            }
-
-            @keyframes fadeIn {
-                from { opacity: 0; transform: translateY(10px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-
-            .task-title {
-                font-family: 'Poppins', sans-serif;
-                font-weight: 700;
-                font-size: 26px;
-                letter-spacing: 0.5px;
-                margin-bottom: 30px;
-                color: #1a2b5f;
-                text-align: center;
-                position: relative;
-                padding-bottom: 15px;
-            }
-
-            .task-title:after {
-                content: '';
-                position: absolute;
-                bottom: 0;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 60px;
-                height: 3px;
-                background: linear-gradient(90deg, #6787fe, #9dabff);
-                border-radius: 3px;
-            }
-
-            .row.justify-content-center {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-                gap: 20px;
-                margin-bottom: 30px;
-            }
-
-            .task-card {
-                background-color: #FFFFFF;
-                border-radius: 14px;
-                border: 2px solid rgba(103, 135, 254, 0.4);
-                margin-bottom: 8px;
-                display: flex;
-                align-items: center;
-                padding: 18px 20px;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                text-decoration: none;
-                color: inherit;
-                box-shadow: 0 3px 12px rgba(103, 135, 254, 0.06);
-                position: relative;
-                overflow: hidden;
-            }
-
-            .task-card::before {
-                content: '';
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 5px;
-                height: 100%;
-                background: linear-gradient(180deg, rgba(103, 135, 254, 0.6), rgba(103, 135, 254, 0.2));
-                border-radius: 3px 0 0 3px;
-                opacity: 0;
-                transition: opacity 0.3s ease;
-            }
-
-            .task-card:hover, .task-card:focus {
-                background-color: #f8f9ff;
-                border-color: rgba(103, 135, 254, 0.8);
-                color: inherit;
-                transform: translateY(-3px);
-                box-shadow: 0 8px 16px rgba(103, 135, 254, 0.12);
-            }
-
-            .task-card:hover::before, .task-card:focus::before {
-                opacity: 1;
-            }
-
-            .task-card:active {
-                transform: translateY(0);
-                box-shadow: 0 4px 8px rgba(103, 135, 254, 0.1);
-                background-color: #f0f4ff;
-            }
-
-            .icon-container {
-                width: 48px;
-                height: 48px;
-                border-radius: 12px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin-right: 18px;
-                transition: all 0.3s ease;
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-            }
-
-            .task-card:hover .icon-container {
-                transform: scale(1.1);
-            }
-
-            .contract-icon {
-                background-color: rgba(76, 217, 100, 0.15);
-                color: #4CD964;
-            }
-
-            .ship-icon {
-                background-color: rgba(0, 122, 255, 0.15);
-                color: #007AFF;
-            }
-
-            .chat-icon {
-                background-color: rgba(255, 149, 0, 0.15);
-                color: #FF9500;
-            }
-
-            .partner-icon {
-                background-color: rgba(175, 82, 222, 0.15);
-                color: #AF52DE;
-            }
-
-            .task-card-title {
-                font-family: 'Roboto', sans-serif;
-                font-weight: 500;
-                font-size: 16px;
-                color: #333;
-                margin: 0;
-                transition: all 0.3s ease;
-            }
-
-            .task-card:hover .task-card-title {
-                transform: translateX(5px);
-                color: #1a2b5f;
-            }
-
-            .confirm-button {
-                background: linear-gradient(to right, #0B1741, #2a3b70);
-                border-radius: 25px;
-                border: none;
-                color: white;
-                font-family: 'Roboto', sans-serif;
-                font-weight: 500;
-                font-size: 16px;
-                text-align: center;
-                padding: 12px 30px;
-                margin: 35px auto 5px;
-                display: block;
-                min-width: 200px;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                box-shadow: 0 6px 15px rgba(11, 23, 65, 0.2);
-                position: relative;
-                overflow: hidden;
-            }
-
-            .confirm-button::after {
-                content: '';
-                position: absolute;
-                top: -50%;
-                left: -50%;
-                width: 200%;
-                height: 200%;
-                background: rgba(255, 255, 255, 0.1);
-                transform: rotate(45deg);
-                transition: transform 0.6s ease;
-                pointer-events: none;
-            }
-
-            .confirm-button:hover {
-                background: linear-gradient(to right, #152a69, #364b8c);
-                box-shadow: 0 8px 20px rgba(11, 23, 65, 0.3);
-                transform: translateY(-2px);
-            }
-
-            .confirm-button:hover::after {
-                transform: rotate(45deg) translate(50%, 50%);
-            }
-
-            .confirm-button:active {
-                transform: translateY(1px);
-                box-shadow: 0 4px 10px rgba(11, 23, 65, 0.25);
-            }
-
-            /* Responsive adjustments */
-            @media (min-width: 768px) {
-                .task-title {
-                    font-size: 30px;
-                    margin-bottom: 35px;
-                }
-
-                .task-card-title {
-                    font-size: 18px;
-                }
-
-                .confirm-button {
-                    font-size: 17px;
-                    min-width: 220px;
-                }
-            }
-
-            @media (max-width: 767px) {
-                .task-container {
-                    margin-top: 100px;
-                    padding: 25px 15px 30px;
-                }
-
-                .row.justify-content-center {
-                    grid-template-columns: 1fr;
-                }
-
-                .task-card {
-                    margin-bottom: 15px;
-                }
-            }
-        </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Công Việc</title>
+    <link rel="stylesheet" href="css/job-manage.css">
 </head>
-<%@include file="includes/header-02.jsp"%>
+<%@include file="includes/header-01.jsp"%>
 <body>
-<div class="container task-container">
-    <div class="row justify-content-center">
-        <div class="col-12">
-            <h1 class="task-title">QUẢN LÍ CÔNG VIỆC</h1>
+<div class="job-management-container">
+    <h1 class="page-title">Quản Lý Công Việc</h1>
+
+    <!-- Main Features -->
+    <div class="main-features">
+        <!-- Posted Jobs -->
+        <div class="feature-card" onclick="location.href='job?action=view-posted-jobs'">
+            <div class="feature-header">
+                <i class="fas fa-briefcase feature-icon"></i>
+                <h2>Công Việc Đã Đăng</h2>
+            </div>
+            <div class="feature-content">
+                <div class="job-count">8</div>
+                <p class="feature-desc">Quản lý tất cả công việc bạn đã đăng, theo dõi ứng viên và cập nhật thông tin.</p>
+                <button class="feature-button" onclick="location.href='job?action=view-posted-jobs'">Xem Tất Cả</button>
+            </div>
+        </div>
+
+        <!-- Applied Jobs -->
+        <div class="feature-card" onclick="location.href='job?action=view-applied'">
+            <div class="feature-header">
+                <i class="fas fa-paper-plane feature-icon"></i>
+                <h2>Công Việc Đã Ứng Tuyển</h2>
+            </div>
+            <div class="feature-content">
+                <div class="job-count">12</div>
+                <p class="feature-desc">Theo dõi trạng thái ứng tuyển, phản hồi từ nhà tuyển dụng và lịch phỏng vấn.</p>
+                <button class="feature-button" onclick="location.href='job?action=view-applied'">Xem Tất Cả</button>
+            </div>
         </div>
     </div>
 
-    <div class="row justify-content-center">
-        <!-- First row -->
-            <a href="#" class="task-card">
-                <div class="icon-container contract-icon">
-                    <i class="fas fa-file-contract"></i>
-                </div>
-                <span class="task-card-title">Xem hợp đồng</span>
-            </a>
-
-            <a href="#" class="task-card">
-                <div class="icon-container ship-icon">
-                    <i class="fas fa-shopping-cart"></i>
-                </div>
-                <span class="task-card-title">Ship Offline</span>
-            </a>
-            <a href="#" class="task-card">
-                <div class="icon-container chat-icon">
-                    <i class="fas fa-comment-dots"></i>
-                </div>
-                <span class="task-card-title">Chat</span>
-            </a>
-            <a href="#" class="task-card">
-                <div class="icon-container partner-icon">
-                    <i class="fas fa-user-friends"></i>
-                </div>
-                <span class="task-card-title">Đối tác</span>
-            </a>
+    <!-- Saved Jobs -->
+    <div class="minor-feature">
+        <div class="minor-feature-header">
+            <h2 class="minor-feature-title">
+                <i class="fas fa-bookmark"></i>
+                Công Việc Đã Lưu
+            </h2>
+            <span class="job-count-sm">5 công việc</span>
+        </div>
+        <p>Danh sách công việc bạn đã lưu để xem lại sau. Bạn có thể dễ dàng quản lý và ứng tuyển vào bất kỳ lúc nào.</p>
+        <a href="jobs?action=saved-jobs" class="view-all-btn">Xem Tất Cả</a>
     </div>
 
-    <div class="row justify-content-center">
-        <div class="col-12 text-center">
-            <button class="confirm-button">Xác nhận hoàn thành</button>
+    <!-- Recent Jobs -->
+    <div class="recent-jobs">
+        <h2 class="section-title">
+            <i class="fas fa-history"></i>
+            Đã đăng gần đây
+        </h2>
+
+        <div class="job-grid">
+            <!-- Job 1 -->
+            <div class="job-card">
+                <span class="job-badge">Mới</span>
+                <h3 class="job-title">Lập Trình Viên Frontend React</h3>
+                <p class="job-company">
+                    <i class="fas fa-building"></i>
+                    Tech Solutions Vietnam
+                </p>
+                <div class="job-info">
+                        <span class="job-salary">
+                            <i class="fas fa-money-bill-wave"></i>
+                            15-20 triệu
+                        </span>
+                    <span class="job-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Hà Nội
+                        </span>
+                </div>
+                <p class="job-posted">Đăng tải: 23/04/2025</p>
+                <div class="job-actions">
+                    <a href="jobs?action=view-job&jobId=101" class="job-btn job-btn-primary">Chi Tiết</a>
+                    <a href="jobs?action=save-job&jobId=101" class="job-btn job-btn-secondary">
+                        <i class="far fa-bookmark"></i> Lưu
+                    </a>
+                </div>
+            </div>
+
+            <!-- Job 2 -->
+            <div class="job-card">
+                <h3 class="job-title">UI/UX Designer (Senior)</h3>
+                <p class="job-company">
+                    <i class="fas fa-building"></i>
+                    Creative Design Studio
+                </p>
+                <div class="job-info">
+                        <span class="job-salary">
+                            <i class="fas fa-money-bill-wave"></i>
+                            25-30 triệu
+                        </span>
+                    <span class="job-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            TP.HCM
+                        </span>
+                </div>
+                <p class="job-posted">Đăng tải: 22/04/2025</p>
+                <div class="job-actions">
+                    <a href="jobs?action=view-job&jobId=102" class="job-btn job-btn-primary">Chi Tiết</a>
+                    <a href="jobs?action=save-job&jobId=102" class="job-btn job-btn-secondary">
+                        <i class="far fa-bookmark"></i> Lưu
+                    </a>
+                </div>
+            </div>
+
+            <!-- Job 3 -->
+            <div class="job-card">
+                <h3 class="job-title">Chuyên Viên Digital Marketing</h3>
+                <p class="job-company">
+                    <i class="fas fa-building"></i>
+                    Ecommerce Solutions
+                </p>
+                <div class="job-info">
+                        <span class="job-salary">
+                            <i class="fas fa-money-bill-wave"></i>
+                            18-22 triệu
+                        </span>
+                    <span class="job-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Đà Nẵng
+                        </span>
+                </div>
+                <p class="job-posted">Đăng tải: 20/04/2025</p>
+                <div class="job-actions">
+                    <a href="jobs?action=view-job&jobId=103" class="job-btn job-btn-primary">Chi Tiết</a>
+                    <a href="jobs?action=save-job&jobId=103" class="job-btn job-btn-secondary">
+                        <i class="far fa-bookmark"></i> Lưu
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+<%@include file="includes/footer.jsp"%>
+
+<script>
+    // Animations and interactions
+    document.addEventListener('DOMContentLoaded', function() {
+        // Reveal animations for job cards with delay
+        const jobCards = document.querySelectorAll('.job-card');
+        jobCards.forEach((card, index) => {
+            setTimeout(() => {
+                card.style.animation = `fadeInUp 0.5s ease forwards`;
+            }, 100 * index);
+
+            // Hover effects
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+            });
+
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Add click effect to buttons
+        const buttons = document.querySelectorAll('button, .job-btn');
+        buttons.forEach(button => {
+            button.addEventListener('mousedown', function() {
+                this.style.transform = 'scale(0.95)';
+            });
+
+            button.addEventListener('mouseup', function() {
+                this.style.transform = '';
+            });
+
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+            });
+        });
+    });
+</script>
 </body>
 </html>

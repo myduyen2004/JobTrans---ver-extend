@@ -9,15 +9,15 @@ public class ApiConfig {
     // Thay thế cấu hình OpenAI bằng OpenRouter
 //    public static final String OPENROUTER_API_KEY = System.getProperty("OPENROUTER_API_KEY") != null ?
 //            System.getProperty("OPENROUTER_API_KEY") : System.getenv("OPENROUTER_API_KEY");
-    public static final String OPENROUTER_API_KEY;
+    public static final String OPENROUTER_API_KEY = "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";
 
-    static {
-        try {
-            OPENROUTER_API_KEY = getOpenRouterApiKey();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    static {
+//        try {
+//            OPENROUTER_API_KEY = getOpenRouterApiKey();
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     public static final String OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
 
