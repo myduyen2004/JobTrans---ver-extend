@@ -591,29 +591,11 @@ public class JobDAO {
             System.out.println("Search Keyword (Java): " + searchKeyword);
 
             while (rs.next()) {
-                Job job = new Job();
-                job.setJobId(rs.getInt("job_id"));
-                job.setPostAccountId(rs.getInt("post_account_id"));
-                job.setJobTitle(rs.getString("job_title"));
-                job.setPostDate(Timestamp.valueOf(rs.getTimestamp("post_date").toLocalDateTime())); // Chuyển đổi Timestamp sang LocalDateTime (Java 8+)
-                job.setJobDescription(rs.getString("job_description"));
-                job.setCategoryId(rs.getInt("category_id"));
-                job.setBudgetMax(BigDecimal.valueOf(rs.getFloat("budget_max")));
-                job.setBudgetMin(BigDecimal.valueOf(rs.getFloat("budget_min")));
-                job.setDueDatePost(Date.valueOf(rs.getDate("due_date_post").toLocalDate())); // Chuyển đổi Date sang LocalDate (Java 8+)
-                job.setDueDateJob(Date.valueOf(rs.getDate("due_date_job").toLocalDate())); // Chuyển đổi Date sang LocalDate (Java 8+)
-                job.setHaveInterviewed(rs.getBoolean("is_interviewed"));
-                job.setHaveTested(rs.getBoolean("is_tested"));
-                job.setNumOfMember(rs.getInt("num_of_member"));
-                job.setSecureWallet(rs.getInt("secure_wallet"));
-                job.setStatusPost(rs.getString("status_post"));
-                job.setStatusJobId(rs.getInt("status_job_id"));
-                jobList.add(job);
+                jobList.add(mapToJob(rs));
 
                 // Log the found job
                 System.out.println("Đã tìm thấy kết quả.");
-                System.out.println("Job Title: " + job.getJobTitle());
-                System.out.println("Description: " + job.getJobDescription());
+
             }
 
             if (jobList.isEmpty()) {
@@ -717,9 +699,9 @@ public class JobDAO {
         return jobGreeting;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         JobDAO jobDAO = new JobDAO();
-        System.out.println(jobDAO.getAllJobs().size());
+        System.out.println(jobDAO.searchJobsByKeyword("Phát"));
     }
 
     public int countTotalJobsByAccountId(int accountId) {
