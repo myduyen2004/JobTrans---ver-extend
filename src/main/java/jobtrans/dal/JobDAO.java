@@ -701,7 +701,7 @@ public class JobDAO {
 
     public static void main(String[] args) throws Exception {
         JobDAO jobDAO = new JobDAO();
-        System.out.println(jobDAO.searchJobsByKeyword("Phát"));
+        System.out.println(jobDAO.getAllJobs().size());
     }
 
     public int countTotalJobsByAccountId(int accountId) {
