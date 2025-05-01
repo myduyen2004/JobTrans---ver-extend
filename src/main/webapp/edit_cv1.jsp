@@ -176,6 +176,7 @@
             flex: 1;
             padding: 30px;
             background-color: #f5f7fb;
+            margin-top: 100px;
 
         }
 
@@ -400,12 +401,13 @@
 </head>
 <body>
 <%@include file="includes/header-01.jsp" %>
-<div style="margin-top: 100px" class="py-4 banner_title">
-    <h1 class="text-white font-weight-bold" style="padding-left: 50px;">Danh sách công việc</h1>
+<div style="margin-top: 100px">
+    <%@include file="includes/header_cv.jsp" %>
 </div>
 <div style="display: flex">
+    <div style="margin-top: 80px">
     <%@include file="./includes/sidebar_createCV.jsp" %>
-
+    </div>
     <main class="cv-content">
         <form action="cv?action=update" method="POST" enctype="multipart/form-data">
 
@@ -561,7 +563,7 @@
                                 <script>
                                     document.getElementById('schoolSelect').addEventListener('change', function () {
                                         var otherInput = document.querySelector('.other-school-input');
-                                        if (this.value === '504') {
+                                        if (this.value === '1') {
                                             otherInput.style.display = 'block';
                                         } else {
                                             otherInput.style.display = 'none';
@@ -717,21 +719,7 @@
 </div>
 
 <%@include file="includes/footer.jsp"%>
-<%--<script>--%>
-<%--    document.getElementById('mainSkill').addEventListener('change', function () {--%>
-<%--        var mainSkillId = this.value;--%>
-<%--        var skillSelect = document.getElementById('skill');--%>
-<%--        skillSelect.innerHTML = '<option value="">Chọn kỹ năng</option>'; // reset--%>
 
-<%--        fetch('CV?action=getSkillByMainSkill&mainSkillId=' + mainSkillId)--%>
-<%--            .then(response => response.json())--%>
-<%--            .then(data => {--%>
-<%--                data.forEach(skill => {--%>
-<%--                    skillSelect.innerHTML += `<option value="${skill.skillId}">${skill.skillName}</option>`;--%>
-<%--                });--%>
-<%--            });--%>
-<%--    });--%>
-<%--</script>--%>
 <script>
     //
     document.addEventListener('DOMContentLoaded', function() {

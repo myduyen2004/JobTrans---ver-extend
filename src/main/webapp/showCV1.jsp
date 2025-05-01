@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Roboto:wght@300;400;500;700&display=swap"
           rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -29,6 +29,7 @@
 
         /* Main layout containers */
         .main-container {
+
             display: flex;
             min-height: 100vh;
 
@@ -42,10 +43,10 @@
 
         .cv-container {
             flex: 1;
-            padding: 20px;
-            width: 1100px;
-            margin-left: 50px;
-            margin-top: 50px;
+            margin-bottom: 30px;
+            width: 1000px;
+            margin-left: 125px;
+            margin-top: 15px;
         }
 
         /* CV Box Styling */
@@ -306,19 +307,126 @@
             }
         }
 
+        .menu-section2 {
+            margin-bottom: 24px;
+        }
 
+        .menu-item2 {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            margin: 30px 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            background: linear-gradient(to right, #152070, #2740b3);
+            text-decoration: none;
+            white-space: nowrap;
+            flex-direction: column;
+            border: 1px solid wheat;
+            width: 90px;
+            height: 90px;
+
+
+        }
+        .menu-text2 {
+
+            font-size: 12px;
+            padding-top: 15px;
+            font-weight: 500;
+            color: white;
+            transition: var(--transition);
+        }
+        .menu-icon{
+            color: whitesmoke;
+        }
+        .action-buttons {
+            display: flex;
+            margin-left: 180px;
+            gap: 15px;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .download-pdf {
+            background: linear-gradient(to right, #152070, #2740b3);
+            color: white;
+            border: none;
+        }
+
+        .download-pdf:hover {
+            background: linear-gradient(to right, #2740b3, #152070);
+            transform: translateY(-2px);
+        }
+
+        .edit-cv {
+            background: #4a6fa5;
+            color: white;
+            border: none;
+        }
+
+        .edit-cv:hover {
+            background: #3a5a8a;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .cv-box {
+                flex-direction: column;
+            }
+
+            .cv-sidebar {
+                width: 100%;
+                border-radius: 0;
+            }
+
+            .item-header {
+                flex-direction: column;
+            }
+
+            .item-period {
+                margin-top: 3px;
+            }
+        }
     </style>
 </head>
 
-<body>
+<body class="archive post-type-archive post-type-archive-projects wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
 
 <%@include file="includes/header-01.jsp" %>
 
-<div style="display: flex">
-    <%@include file="./includes/sidebar_createCV.jsp" %>
+    <h1 class="text-white font-weight-bold" style="padding-left: 50px;">Chỉnh sửa CV</h1>
+</div>
+
+<div >
+
+
+
     <div class="main-container">
         <div class="content-wrapper">
             <div class="cv-container">
+                <div class="action-buttons">
+                    <a href="#" id="downloadPdfBtn" class="action-btn download-pdf">
+                        <i class="fas fa-file-pdf" style="margin-right: 8px;"></i>
+                        Tải CV dạng PDF
+                    </a>
+                    <a href="edit-cv?id=${CV.cvId}" class="action-btn edit-cv">
+                        <i class="fas fa-edit" style="margin-right: 8px;"></i>
+                        Chỉnh sửa CV
+                    </a>
+                </div>
                 <div class="cv_box">
                     <div class="cv_header">
                         <div class="cv_picture_avatar">
@@ -463,7 +571,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -471,6 +578,79 @@
 
 <!--======= Back to Top =======-->
 <div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
+<script>
+    function generatePDF() {
+        try {
+            const element = document.querySelector('.cv_box');
+            if (!element) {
+                throw new Error('CV content not found');
+            }
+
+            const opt = {
+                margin: 10,
+                filename: 'my_cv.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: {
+                    scale: 2,
+                    logging: true,
+                    useCORS: true
+                },
+                jsPDF: {
+                    unit: 'mm',
+                    format: 'a4',
+                    orientation: 'portrait'
+                }
+            };
+
+            // Show loading indicator
+            const loading = document.createElement('div');
+            loading.style.position = 'fixed';
+            loading.style.top = '0';
+            loading.style.left = '0';
+            loading.style.width = '100%';
+            loading.style.height = '100%';
+            loading.style.backgroundColor = 'rgba(0,0,0,0.5)';
+            loading.style.display = 'flex';
+            loading.style.justifyContent = 'center';
+            loading.style.alignItems = 'center';
+            loading.style.zIndex = '9999';
+            loading.innerHTML = '<div style="color: white; font-size: 24px;">Generating PDF...</div>';
+            document.body.appendChild(loading);
+
+            // Generate PDF
+            html2pdf()
+                .set(opt)
+                .from(element)
+                .save()
+                .then(() => {
+                    document.body.removeChild(loading);
+                })
+                .catch(err => {
+                    document.body.removeChild(loading);
+                    console.error('PDF generation failed:', err);
+                    alert('Failed to generate PDF. Please try again.');
+                });
+
+        } catch (error) {
+            console.error('Error in generatePDF:', error);
+            alert('An error occurred while generating PDF: ' + error.message);
+        }
+    }
+
+    // Initialize after DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        const pdfLink = document.querySelector('.menu-item2 .fa-file-pdf')?.closest('.menu-item2');
+        if (pdfLink) {
+            pdfLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                generatePDF();
+            });
+        } else {
+            console.warn('PDF download link not found');
+        }
+    });
+    </script>
 
 </body>
+
 </html>
