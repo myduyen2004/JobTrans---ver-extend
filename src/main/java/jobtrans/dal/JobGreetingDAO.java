@@ -154,4 +154,19 @@ public class JobGreetingDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public boolean hasApplied(int jobSeekerId, int jobId) throws SQLException {
+        String sql = "SELECT TOP 1 * FROM JobGreeting WHERE job_seeker_id = ? AND job_id = ?";
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, jobSeekerId);
+            ps.setInt(2, jobId);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
 }

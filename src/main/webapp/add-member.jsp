@@ -203,14 +203,14 @@
 
                         <div class="my-4 d-flex justify-content-between align-items-center">
                             <div class="form-check animate__animated animate__fadeIn animate__delay-3s">
-                                <input class="form-check-input" type="checkbox" id="sendWelcomeEmail" name="sendWelcomeEmail">
-                                <label class="form-check-label" for="sendWelcomeEmail">
-                                    Gửi email chào mừng
-                                </label>
+<%--                                <input class="form-check-input" type="checkbox" id="sendWelcomeEmail" name="sendWelcomeEmail">--%>
+<%--                                <label class="form-check-label" for="sendWelcomeEmail">--%>
+<%--                                    Gửi email chào mừng--%>
+<%--                                </label>--%>
                             </div>
 
                             <div class="btn-container animate__animated animate__fadeIn animate__delay-3s">
-                                <button type="button" class="btn btn-outline-secondary btn-action" id="btnCancel" style="border-radius: 30px; padding: 10px 20px;">
+                                <button type="button" class="btn btn-outline-secondary btn-action" id="btnCancel" onclick="history.back();" style="border-radius: 30px; padding: 10px 20px;">
                                     <i class="fas fa-times"></i> Hủy bỏ
                                 </button>
                                 <button type="submit" class="btn btn-primary btn-action" id="btnSubmit"  style="background-image: linear-gradient(to right, rgb(21, 32, 112), rgb(39, 64, 179));color: white; border-radius: 30px; padding: 10px 20px;">
@@ -243,13 +243,38 @@
     // Validation cho form thông tin cá nhân
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.querySelector('form');
+        const nameInput = document.getElementById('memberName'); // Thêm trường tên thành viên
         const dobInput = document.getElementById('dateOfBirth');
         const dobError = document.getElementById('dob-error');
         const specialityInput = document.getElementById('speciality');
         const skillsInput = document.getElementById('skills');
         const educationInput = document.getElementById('education');
+        const experienceYearsInput = document.getElementById('experienceYears');
         let addressInput = document.getElementById('address');
         const phoneInput = document.getElementById('phone');
+
+        // Kiểm tra các phần tử có tồn tại không
+        if (!form) {
+            console.error('Không tìm thấy form trong trang');
+            return;
+        }
+
+        // Pattern để kiểm tra ký tự đặc biệt
+        // Cho phép chữ cái, số, dấu cách, dấu phẩy, dấu chấm và dấu tiếng Việt
+        const specialCharsPattern = /[^\p{L}\p{N}\s\.,]/u;
+
+        // Pattern đặc biệt cho tên - chỉ cho phép chữ cái, dấu cách và dấu tiếng Việt
+        const nameSpecialCharsPattern = /[^\p{L}\s]/u;
+
+        // Hàm kiểm tra ký tự đặc biệt
+        function hasSpecialChars(value) {
+            return specialCharsPattern.test(value);
+        }
+
+        // Hàm kiểm tra ký tự đặc biệt cho tên (không cho phép số)
+        function hasNameSpecialChars(value) {
+            return nameSpecialCharsPattern.test(value);
+        }
 
         // Danh sách 63 tỉnh thành Việt Nam
         const vietnamProvinces = [
@@ -270,6 +295,8 @@
 
         // Hàm tạo và hiển thị thông báo lỗi
         function showError(element, message) {
+            if (!element) return false;
+
             // Kiểm tra xem đã có thông báo lỗi chưa
             let errorElement = element.nextElementSibling;
             if (!errorElement || !errorElement.classList.contains('error-message')) {
@@ -290,6 +317,8 @@
 
         // Hàm ẩn thông báo lỗi
         function hideError(element) {
+            if (!element) return true;
+
             const errorElement = element.nextElementSibling;
             if (errorElement && errorElement.classList.contains('error-message')) {
                 errorElement.style.display = 'none';
@@ -299,11 +328,44 @@
 
         // Hàm viết hoa chữ cái đầu của mỗi từ
         function capitalizeFirstLetter(string) {
-            return string.replace(/\b\w/g, function(l) { return l.toUpperCase(); });
+            return string.toLowerCase() // Chuyển toàn bộ về chữ thường trước
+                .split(' ')   // Tách thành các từ
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Viết hoa chữ cái đầu mỗi từ
+                .join(' ');    // Ghép lại thành chuỗi
+        }
+
+        // Hàm kiểm tra tuổi từ ngày sinh
+        function validateAge(dobValue) {
+            const dobDate = new Date(dobValue);
+            const today = new Date();
+
+            // Kiểm tra ngày sinh hợp lệ
+            if (isNaN(dobDate.getTime())) {
+                return { valid: false, age: 0, message: 'Ngày sinh không hợp lệ' };
+            }
+
+            // Tính tuổi
+            let age = today.getFullYear() - dobDate.getFullYear();
+            const monthDiff = today.getMonth() - dobDate.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dobDate.getDate())) {
+                age--;
+            }
+
+            // Kiểm tra tuổi >= 18 và không phải ngày ở tương lai
+            if (dobDate > today) {
+                return { valid: false, age: age, message: 'Ngày sinh không thể là ngày trong tương lai' };
+            } else if (age < 18) {
+                return { valid: false, age: age, message: 'Bạn phải đủ 18 tuổi trở lên' };
+            }
+
+            return { valid: true, age: age, message: '' };
         }
 
         // Thêm datalist cho tỉnh thành Việt Nam
         if (addressInput) {
+            // Lấy giá trị hiện tại từ input (đây là giá trị từ database)
+            const currentAddress = addressInput.value;
+
             // Tạo hoặc thay thế input text bằng dropdown select
             const parentElement = addressInput.parentElement;
             const labelText = parentElement.querySelector('label') ? parentElement.querySelector('label').textContent : 'Địa chỉ';
@@ -319,8 +381,13 @@
             const defaultOption = document.createElement('option');
             defaultOption.value = "";
             defaultOption.textContent = "-- Chọn tỉnh thành --";
-            defaultOption.selected = true;
             defaultOption.disabled = true;
+
+            // Chỉ chọn option mặc định nếu không có giá trị từ database
+            if (!currentAddress || currentAddress.trim() === "") {
+                defaultOption.selected = true;
+            }
+
             selectElement.appendChild(defaultOption);
 
             // Thêm các option cho tỉnh thành
@@ -328,6 +395,12 @@
                 const option = document.createElement('option');
                 option.value = province;
                 option.textContent = province;
+
+                // Chọn option nếu trùng với giá trị từ database
+                if (province === currentAddress) {
+                    option.selected = true;
+                }
+
                 selectElement.appendChild(option);
             });
 
@@ -340,27 +413,27 @@
             // Thêm CSS để làm đẹp select
             const style = document.createElement('style');
             style.textContent = `
-            select#${addressInput.id} {
-                width: 100%;
-                padding: 8px 12px;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-                appearance: none;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-                background-repeat: no-repeat;
-                background-position: right 10px center;
-                background-size: 16px;
-                cursor: pointer;
-            }
-            select#${addressInput.id}:focus {
-                outline: none;
-                border-color: #4299e1;
-                box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
-            }
-            select#${addressInput.id} option {
-                padding: 8px;
-            }
-        `;
+        select#${addressInput.id} {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 16px;
+            cursor: pointer;
+        }
+        select#${addressInput.id}:focus {
+            outline: none;
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+        }
+        select#${addressInput.id} option {
+            padding: 8px;
+        }
+    `;
             document.head.appendChild(style);
 
             // Cập nhật event listener cho select thay vì input
@@ -374,55 +447,96 @@
             });
         }
 
+        // Thực hiện validation ban đầu cho các trường bắt buộc
+        function initialValidation() {
+            // Kiểm tra các trường bắt buộc khi trang được tải
+            if (nameInput && nameInput.required && nameInput.value.trim() === '') {
+                showError(nameInput, 'Vui lòng nhập tên thành viên');
+            }
+
+            if (dobInput && dobInput.required && dobInput.value.trim() === '') {
+                showError(dobInput, 'Vui lòng nhập ngày sinh');
+            }
+
+            if (addressInput && addressInput.required && addressInput.value.trim() === '') {
+                showError(addressInput, 'Vui lòng chọn tỉnh thành');
+            }
+
+            if (phoneInput && phoneInput.required && phoneInput.value.trim() === '') {
+                showError(phoneInput, 'Vui lòng nhập số điện thoại');
+            }
+
+            if (experienceYearsInput && experienceYearsInput.required && experienceYearsInput.value.trim() === '') {
+                showError(experienceYearsInput, 'Vui lòng nhập số năm kinh nghiệm');
+            }
+        }
+
         // Validation khi submit form
         form.addEventListener('submit', function(event) {
             let isValid = true;
 
-            // Kiểm tra ngày sinh
-            if(dobInput) {
-                const dobValue = new Date(dobInput.value);
-                const today = new Date();
-
-                // Tính tuổi
-                let age = today.getFullYear() - dobValue.getFullYear();
-                const monthDiff = today.getMonth() - dobValue.getMonth();
-                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dobValue.getDate())) {
-                    age--;
-                }
-
-                // Kiểm tra tuổi >= 18 và không phải ngày ở tương lai
-                if (dobInput.value === "") {
-                    isValid = showError(dobInput, 'Vui lòng nhập ngày sinh');
-                } else if (age < 18 || dobValue > today) {
-                    dobError.textContent = age < 18 ? 'Bạn phải đủ 18 tuổi trở lên.' : 'Ngày sinh không thể là ngày trong tương lai.';
-                    dobError.style.display = 'block';
-                    isValid = false;
+            // Kiểm tra tên thành viên
+            if (nameInput) {
+                const nameValue = nameInput.value.trim();
+                if (nameValue === '') {
+                    isValid = showError(nameInput, 'Vui lòng nhập tên thành viên');
+                } else if (hasNameSpecialChars(nameValue)) {
+                    isValid = showError(nameInput, 'Tên không được chứa ký tự đặc biệt hoặc số');
                 } else {
-                    dobError.style.display = 'none';
+                    hideError(nameInput);
                 }
             }
 
-            // Kiểm tra chuyên môn không chỉ chứa số
+            // Kiểm tra ngày sinh
+            if(dobInput) {
+                if (dobInput.value === "") {
+                    isValid = showError(dobInput, 'Vui lòng nhập ngày sinh');
+                } else {
+                    const ageCheck = validateAge(dobInput.value);
+                    if (!ageCheck.valid) {
+                        if (dobError) {
+                            dobError.textContent = ageCheck.message;
+                            dobError.style.display = 'block';
+                        } else {
+                            showError(dobInput, ageCheck.message);
+                        }
+                        isValid = false;
+                    } else if (dobError) {
+                        dobError.style.display = 'none';
+                    } else {
+                        hideError(dobInput);
+                    }
+                }
+            }
+
+            // Kiểm tra chuyên môn không chỉ chứa số và không có ký tự đặc biệt
             if(specialityInput && specialityInput.value.trim() !== '') {
                 if(/^\d+$/.test(specialityInput.value.trim())) {
                     isValid = showError(specialityInput, 'Chuyên môn không được chỉ chứa số');
+                } else if (hasSpecialChars(specialityInput.value.trim())) {
+                    isValid = showError(specialityInput, 'Chuyên môn không được chứa ký tự đặc biệt');
                 } else {
                     hideError(specialityInput);
                 }
             }
 
+            // Kiểm tra kĩ năng không chỉ chứa số và không có ký tự đặc biệt
             if(skillsInput && skillsInput.value.trim() !== '') {
                 if(/^\d+$/.test(skillsInput.value.trim())) {
                     isValid = showError(skillsInput, 'Kĩ năng không được chỉ chứa số');
+                } else if (hasSpecialChars(skillsInput.value.trim())) {
+                    isValid = showError(skillsInput, 'Kĩ năng không được chứa ký tự đặc biệt');
                 } else {
                     hideError(skillsInput);
                 }
             }
 
-            // Kiểm tra học vấn không chỉ chứa số
+            // Kiểm tra học vấn không chỉ chứa số và không có ký tự đặc biệt
             if(educationInput && educationInput.value.trim() !== '') {
                 if(/^\d+$/.test(educationInput.value.trim())) {
                     isValid = showError(educationInput, 'Học vấn không được chỉ chứa số');
+                } else if (hasSpecialChars(educationInput.value.trim())) {
+                    isValid = showError(educationInput, 'Học vấn không được chứa ký tự đặc biệt');
                 } else {
                     hideError(educationInput);
                 }
@@ -446,75 +560,164 @@
                 }
             }
 
+            // Kiểm tra số năm kinh nghiệm
+            if (experienceYearsInput) {
+                const expValue = experienceYearsInput.value.trim();
+
+                if (expValue === '') {
+                    isValid = showError(experienceYearsInput, 'Vui lòng nhập số năm kinh nghiệm');
+                } else if (!/^\d+$/.test(expValue)) {
+                    isValid = showError(experienceYearsInput, 'Số năm kinh nghiệm phải là số nguyên dương');
+                } else {
+                    // Nếu có dobInput và hợp lệ, kiểm tra so với tuổi
+                    if (dobInput && dobInput.value) {
+                        const ageCheck = validateAge(dobInput.value);
+                        if (ageCheck.valid) {
+                            const experience = parseInt(expValue);
+
+                            if (experience < 0) {
+                                isValid = showError(experienceYearsInput, 'Số năm kinh nghiệm không thể âm');
+                            } else if (experience >= ageCheck.age) {
+                                isValid = showError(experienceYearsInput, 'Số năm kinh nghiệm phải nhỏ hơn tuổi của bạn');
+                            } else {
+                                hideError(experienceYearsInput);
+                            }
+                        }
+                    } else {
+                        // Chỉ kiểm tra có phải là số nguyên dương không
+                        const experience = parseInt(expValue);
+                        if (experience < 0) {
+                            isValid = showError(experienceYearsInput, 'Số năm kinh nghiệm không thể âm');
+                        } else {
+                            hideError(experienceYearsInput);
+                        }
+                    }
+                }
+            }
+
             if(!isValid) {
                 event.preventDefault();
             }
         });
 
-        // Validation khi nhập dữ liệu
+        // Validation cho trường tên thành viên
+        if (nameInput) {
+            nameInput.addEventListener('input', function() {
+                hideError(this);
+            });
+
+            nameInput.addEventListener('blur', function() {
+                const nameValue = this.value.trim();
+                if (nameValue === '') {
+                    showError(this, 'Vui lòng nhập tên thành viên');
+                } else if (hasNameSpecialChars(nameValue)) {
+                    showError(this, 'Tên không được chứa ký tự đặc biệt hoặc số');
+                } else {
+                    hideError(this);
+                    // Viết hoa chữ cái đầu
+                    this.value = capitalizeFirstLetter(nameValue);
+                }
+            });
+        }
+
+        // Thêm validation khi bắt đầu nhập dữ liệu (input event)
         if(dobInput) {
+            // Xử lý khi người dùng bắt đầu nhập (xóa thông báo lỗi ngay lập tức)
+            dobInput.addEventListener('input', function() {
+                // Xóa thông báo lỗi ngay khi người dùng bắt đầu nhập
+                if (dobError) {
+                    dobError.style.display = 'none';
+                }
+                hideError(this);
+            });
+
+            // Validation khi người dùng thay đổi giá trị hoặc rời khỏi trường
             dobInput.addEventListener('change', function() {
                 if(this.value === "") {
+                    // Xóa thông báo lỗi cũ trước khi hiển thị thông báo lỗi mới
+                    if (dobError) {
+                        dobError.style.display = 'none';
+                    }
                     showError(this, 'Vui lòng nhập ngày sinh');
                     return;
                 }
 
-                const dobValue = new Date(this.value);
-                const today = new Date();
+                const ageCheck = validateAge(this.value);
+                if (!ageCheck.valid) {
+                    // Xóa thông báo lỗi cũ trước khi hiển thị thông báo lỗi mới
+                    hideError(this);
 
-                // Tính tuổi
-                let age = today.getFullYear() - dobValue.getFullYear();
-                const monthDiff = today.getMonth() - dobValue.getMonth();
-                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dobValue.getDate())) {
-                    age--;
-                }
-
-                // Kiểm tra tuổi >= 18 và không phải ngày ở tương lai
-                if (age < 18 || dobValue > today) {
-                    dobError.textContent = age < 18 ? 'Bạn phải đủ 18 tuổi trở lên.' : 'Ngày sinh không thể là ngày trong tương lai.';
-                    dobError.style.display = 'block';
+                    if (dobError) {
+                        dobError.textContent = ageCheck.message;
+                        dobError.style.display = 'block';
+                    } else {
+                        showError(this, ageCheck.message);
+                    }
                 } else {
-                    dobError.style.display = 'none';
+                    // Nếu ngày sinh hợp lệ, ẩn cả thông báo lỗi chính và error-message
+                    if (dobError) {
+                        dobError.style.display = 'none';
+                    }
+                    hideError(this);
                 }
             });
         }
 
-        // Chuyên môn - viết hoa chữ cái đầu
+        // Chuyên môn - viết hoa chữ cái đầu và kiểm tra ký tự đặc biệt
         if(specialityInput) {
+            specialityInput.addEventListener('input', function() {
+                hideError(this);
+            });
+
             specialityInput.addEventListener('blur', function() {
                 if(this.value.trim() !== '') {
                     if(/^\d+$/.test(this.value.trim())) {
                         showError(this, 'Chuyên môn không được chỉ chứa số');
+                    } else if (hasSpecialChars(this.value.trim())) {
+                        showError(this, 'Chuyên môn không được chứa ký tự đặc biệt');
                     } else {
                         hideError(this);
-                        this.value = capitalizeFirstLetter(this.value);
+                        this.value = capitalizeFirstLetter(this.value.trim());
                     }
                 }
             });
         }
 
+        // Kĩ năng - viết hoa chữ cái đầu và kiểm tra ký tự đặc biệt
         if(skillsInput) {
+            skillsInput.addEventListener('input', function() {
+                hideError(this);
+            });
+
             skillsInput.addEventListener('blur', function() {
                 if(this.value.trim() !== '') {
                     if(/^\d+$/.test(this.value.trim())) {
                         showError(this, 'Kĩ năng không được chỉ chứa số');
+                    } else if (hasSpecialChars(this.value.trim())) {
+                        showError(this, 'Kĩ năng không được chứa ký tự đặc biệt');
                     } else {
                         hideError(this);
-                        this.value = capitalizeFirstLetter(this.value);
+                        this.value = capitalizeFirstLetter(this.value.trim());
                     }
                 }
             });
         }
 
-        // Học vấn - viết hoa chữ cái đầu
+        // Học vấn - viết hoa chữ cái đầu và kiểm tra ký tự đặc biệt
         if(educationInput) {
+            educationInput.addEventListener('input', function() {
+                hideError(this);
+            });
+
             educationInput.addEventListener('blur', function() {
                 if(this.value.trim() !== '') {
                     if(/^\d+$/.test(this.value.trim())) {
                         showError(this, 'Học vấn không được chỉ chứa số');
+                    } else if (hasSpecialChars(this.value.trim())) {
+                        showError(this, 'Học vấn không được chứa ký tự đặc biệt');
                     } else {
                         hideError(this);
-                        this.value = capitalizeFirstLetter(this.value);
+                        this.value = capitalizeFirstLetter(this.value.trim());
                     }
                 }
             });
@@ -530,6 +733,8 @@
                 if(this.value.length > 10) {
                     this.value = this.value.slice(0, 10);
                 }
+
+                hideError(this);
             });
 
             // Kiểm tra đúng 10 chữ số khi blur
@@ -543,6 +748,60 @@
                 }
             });
         }
+
+        // Validation cho số năm kinh nghiệm
+        if (experienceYearsInput) {
+            // Chỉ cho phép nhập số và loại bỏ các ký tự khác
+            experienceYearsInput.addEventListener('input', function() {
+                this.value = this.value.replace(/\D/g, '');
+
+                // Giới hạn tối đa 2 chữ số (99 năm kinh nghiệm)
+                if (this.value.length > 2) {
+                    this.value = this.value.slice(0, 2);
+                }
+
+                hideError(this);
+            });
+
+            // Kiểm tra so với tuổi khi blur
+            experienceYearsInput.addEventListener('blur', function() {
+                const expValue = this.value.trim();
+
+                if (expValue === '') {
+                    showError(this, 'Vui lòng nhập số năm kinh nghiệm');
+                    return;
+                }
+
+                if (!/^\d+$/.test(expValue)) {
+                    showError(this, 'Số năm kinh nghiệm phải là số nguyên dương');
+                    return;
+                }
+
+                const experience = parseInt(expValue);
+
+                if (experience < 0) {
+                    showError(this, 'Số năm kinh nghiệm không thể âm');
+                    return;
+                }
+
+                // Nếu có ngày sinh và hợp lệ, kiểm tra so với tuổi
+                if (dobInput && dobInput.value) {
+                    const ageCheck = validateAge(dobInput.value);
+                    if (ageCheck.valid) {
+                        if (experience >= ageCheck.age) {
+                            showError(this, 'Số năm kinh nghiệm phải nhỏ hơn tuổi của bạn');
+                        } else {
+                            hideError(this);
+                        }
+                    }
+                } else {
+                    hideError(this);
+                }
+            });
+        }
+
+        // Chạy validation ban đầu
+        initialValidation();
     });
 </script>
 
