@@ -1,5 +1,7 @@
 package jobtrans.model;
 
+import jdk.jfr.Category;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -13,8 +15,29 @@ public class Transaction {
     private String description;
     private String transactionType;
     private boolean status;
+    private JobCategory category;
+
+    public JobCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(JobCategory category) {
+        this.category = category;
+    }
 
     public Transaction() {
+    }
+
+    public Transaction(int senderId, int receiverId, Integer jobId, BigDecimal amount, Date createdDate, String description, String transactionType, boolean status, JobCategory category) {
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+        this.jobId = jobId;
+        this.amount = amount;
+        this.createdDate = createdDate;
+        this.description = description;
+        this.transactionType = transactionType;
+        this.status = status;
+        this.category = category;
     }
 
     public Transaction(int transactionId, int senderId, int receiverId, Integer jobId, BigDecimal amount, Date createdDate,
@@ -102,5 +125,20 @@ public class Transaction {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "transactionId=" + transactionId +
+                ", senderId=" + senderId +
+                ", receiverId=" + receiverId +
+                ", jobId=" + jobId +
+                ", amount=" + amount +
+                ", createdDate=" + createdDate +
+                ", description='" + description + '\'' +
+                ", transactionType='" + transactionType + '\'' +
+                ", status=" + status +
+                '}';
     }
 }

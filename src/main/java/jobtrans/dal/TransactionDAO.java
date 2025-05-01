@@ -3,8 +3,11 @@ package jobtrans.dal;
 import jobtrans.model.Transaction;
 import jobtrans.utils.DBConnection;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class TransactionDAO {
@@ -30,6 +33,7 @@ public class TransactionDAO {
         t.setStatus(rs.getBoolean("status"));
         return t;
     }
+
     // Lấy danh sách giao dịch theo senderId và receiverId
     public List<Transaction> getTransactionsBySenderAndReceiver(int senderId, int receiverId) {
         List<Transaction> list = new ArrayList<>();
@@ -99,6 +103,123 @@ public class TransactionDAO {
         }
     }
 
+    public List<Transaction> getAllTransaction() {
+        List<Transaction> list = new ArrayList<>();
+        String sql = "SELECT * FROM [Transaction]";
+
+        try (PreparedStatement ps = dbConnection.openConnection().prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(mapToTransaction(rs));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
 
+    public void updateTransaction(Transaction transaction) {
+        String sql = "UPDATE [dbo].[Transaction] " +
+                "SET  " +
+                "[amount] = ?, " +
+                "[created_date] = ?, " +
+                "[description] = ?, " +
+                "[transaction_type] = ?, " +
+                "[status] = ? " +
+                "WHERE transaction_id = ?"; // Changed to transaction_id
+
+        try (PreparedStatement preparedStatement = dbConnection.openConnection().prepareStatement(sql)) {
+
+            preparedStatement.setBigDecimal(1, transaction.getAmount()); // Use setBigDecimal
+            preparedStatement.setTimestamp(2, new java.sql.Timestamp(transaction.getCreatedDate().getTime()));
+            preparedStatement.setString(3, transaction.getDescription());
+            preparedStatement.setString(4, transaction.getTransactionType());
+            preparedStatement.setBoolean(5, transaction.isStatus());
+            preparedStatement.setInt(6, transaction.getTransactionId()); // Use transaction_id
+
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            // Xử lý ngoại lệ (ví dụ: ghi log, thông báo lỗi)
+            e.printStackTrace();
+        }
+    }
+    public void insertTransaction(Transaction transaction) {
+        String sql = "INSERT INTO [dbo].[Transaction] " +
+                "([sender_id], [receiver_id], [job_id], [amount], [created_date], [description], [transaction_type], [status]) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement preparedStatement = dbConnection.openConnection().prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, transaction.getSenderId());
+            preparedStatement.setInt(2, transaction.getReceiverId());
+            preparedStatement.setInt(3, transaction.getJobId());
+            preparedStatement.setBigDecimal(4, transaction.getAmount());
+            preparedStatement.setTimestamp(5, new java.sql.Timestamp(transaction.getCreatedDate().getTime()));
+            preparedStatement.setString(6, transaction.getDescription());
+            preparedStatement.setString(7, transaction.getTransactionType());
+            preparedStatement.setBoolean(8, transaction.isStatus());
+
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            // Xử lý ngoại lệ (ví dụ: ghi log, thông báo lỗi)
+            e.printStackTrace();
+        }
+    }
+    public List<Transaction> getTransactionsByKeyword(String keyword) throws Exception {
+        String sql = "SELECT * FROM [dbo].[Transaction] " +
+                "WHERE LOWER(transaction_id) LIKE LOWER(?) OR LOWER(description) LIKE LOWER(?)";
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<Transaction> transactionList = new ArrayList<>();
+
+        try {
+            ps = dbConnection.openConnection().prepareStatement(sql); // Sử dụng lại dbConnection
+            String searchKeyword = "%" + keyword + "%";
+            ps.setNString(1, searchKeyword);
+            ps.setNString(2, searchKeyword);
+            rs = ps.executeQuery();
+
+            // Kiểm tra giá trị tìm kiếm
+            System.out.println("Search Keyword (Java): " + searchKeyword);
+
+            while (rs.next()) {
+                Transaction transaction = new Transaction();
+                transaction.setTransactionId(rs.getInt("transaction_id"));
+                transaction.setTransactionType(rs.getString("transaction_type"));
+                transaction.setAmount(rs.getBigDecimal("amount"));
+                transaction.setDescription(rs.getString("description"));
+                transaction.setCreatedDate(rs.getTimestamp("created_date"));
+                transaction.setStatus(rs.getBoolean("status"));
+                // Các trường khác của Transaction
+                transactionList.add(transaction);
+                System.out.println("Đã tìm thấy kết quả.");
+            }
+            if (transactionList.isEmpty()) {
+                System.out.println("Không tìm thấy kết quả nào.");
+            }
+
+        } finally {
+            // Đóng tài nguyên
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            //Không đóng connection ở đây vì connection có thể được quản lý ở nơi khác
+        }
+        return transactionList;
+    }
+
+    public static void main(String[] args) throws Exception {
+        // 2. Tạo một đối tượng TransactionDAO
+        TransactionDAO transactionDAO = new TransactionDAO();
+
+        System.out.println( transactionDAO.getTransactionsByKeyword("2"));
+
+
+    }
 }
