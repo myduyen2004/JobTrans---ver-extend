@@ -13,6 +13,7 @@
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 <head>
     <jsp:useBean id="jobDao" class="jobtrans.dal.JobDAO" scope="session"/>
+    <jsp:useBean id="tagDao" class="jobtrans.dal.TagDAO" scope="session"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -50,7 +51,7 @@
                 <div class="form-group">
                     <label class="form-label" for="category">Phân loại:</label>
                     <select id="category" name="category" class="form-control">
-                        <option disabled selected>${jobDao.getCategoryById(job.categoryId).categoryName}</option>
+                        <option value="${jobDao.getCategoryById(job.categoryId).categoryId}" selected>${jobDao.getCategoryById(job.categoryId).categoryName}</option>
                         <c:forEach var="category" items="${jobDao.getAllCategory()}">
                             <option value="${category.categoryId}">${category.categoryName}</option>
                         </c:forEach>
@@ -62,9 +63,24 @@
                 <div class="form-group">
                     <label class="form-label">Tag:</label>
                     <div class="tag-container">
+<%--                        Tag dã có--%>
+                        <c:forEach items="${tagDao.getTagsByJobId(job.jobId)}" var="o">
+                            <div class="tag-item">
+                                <select name="tag" class="form-control">
+                                    <option value="${o.tagId}" selected>${o.tagName}</option>
+                                    <c:forEach var="tag" items="${jobDao.getAllTag()}">
+                                        <option value="${tag.tagId}">${tag.tagName}</option>
+                                    </c:forEach>
+                                </select>
+                                <button type="button" class="btn-add remove-tag">
+                                    <i class="fas fa-times-circle fa-lg"></i>
+                                </button>
+                            </div>
+                        </c:forEach>
+<%--                    Thêm tag mới--%>
                         <div class="tag-item">
-                            <select name="tag" class="form-control">
-                                <option disabled selected>Chọn Tag</option>
+                            <select id="tag" name="tag" class="form-control">
+                                <option value="" disabled selected>Chọn Tag</option>
                                 <c:forEach var="tag" items="${jobDao.getAllTag()}">
                                     <option value="${tag.tagId}">${tag.tagName}</option>
                                 </c:forEach>
@@ -104,41 +120,44 @@
                 <div class="col-6">
                     <div class="budget-group" id="budgetMin">
                         <span class="budget-label">MIN</span>
-                        <input class="budget-input" name="budgetMin" id="budgetMinInput" type="number" value='0'>
+                        <input class="budget-input" name="budgetMin" id="budgetMinInput" type="number" value="${job.budgetMin}">
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="budget-group" id="budgetMax">
                         <span class="budget-label">MAX</span>
-                        <input class="budget-input" name="budgetMax" id="budgetMaxInput" type="number" value='0'>
+                        <input class="budget-input" name="budgetMax" id="budgetMaxInput" type="number" value="${job.budgetMax}">
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="form-label">Kiểm tra:</label>
-            <div class="radio-group">
-                <label class="radio-container">
-                    <input name="kiemtra" type="radio" value="yes" id="kiemtra-yes">
-                    Có
-                </label>
-                <label class="radio-container">
-                    <input name="kiemtra" type="radio" value="no" id="kiemtra-no" checked>
-                    Không
-                </label>
-            </div>
-        </div>
-
-        <div id="kiemtra-options" class="form-group hidden">
+        <div id="kiemtra-options">
             <div class="row">
                 <div class="col-12">
-                    <label class="form-label" for="kiemtra-content">Nội dung kiểm tra:</label>
-                    <textarea id="kiemtra-content" name="kiemtra-content" class="form-control" placeholder="Nhập nội dung kiểm tra"></textarea>
+                    <label class="form-label" for="kiemtra-content">Đường dẫn kiểm tra:</label>
+                    <input id="kiemtra-content" name="kiemtra-content" class="form-control" value="${jobDao.getTestByJobId(job.jobId).testLink}"/>
                 </div>
                 <div class="col-6">
                     <label class="form-label" for="kiemtra-required">Bắt buộc:</label>
                     <select id="kiemtra-required" name="kiemtra-required" class="form-control">
+                        <option value="<c:choose>
+                                <c:when test="${jobDao.getTestByJobId(job.jobId).haveRequired}">
+                                    yes
+                                </c:when>
+                                <c:otherwise>
+                                    no
+                                </c:otherwise>
+                            </c:choose>" disabled selected>
+                            <c:choose>
+                                <c:when test="${jobDao.getTestByJobId(job.jobId).haveRequired}">
+                                    Có
+                                </c:when>
+                                <c:otherwise>
+                                    Không
+                                </c:otherwise>
+                            </c:choose>
+                        </option>
                         <option value="yes">Có</option>
                         <option value="no">Không</option>
                     </select>
@@ -205,19 +224,6 @@
     });
 </script>
 <script>
-    // Xử lý hiển thị tùy chọn kiểm tra
-    document.getElementById('kiemtra-yes').addEventListener('change', function() {
-        if (this.checked) {
-            document.getElementById('kiemtra-options').classList.remove('hidden');
-        }
-    });
-
-    document.getElementById('kiemtra-no').addEventListener('change', function() {
-        if (this.checked) {
-            document.getElementById('kiemtra-options').classList.add('hidden');
-        }
-    });
-
     <%--// Hiển thị tên file khi upload--%>
     <%--document.getElementById('upload').addEventListener('change', function() {--%>
     <%--    const fileName = this.files.length > 0 ?--%>
@@ -257,6 +263,128 @@
         document.getElementById("file-names").innerHTML = fileNames.length
             ? "Đã chọn: " + fileNames.join(", ")
             : "Không có tệp nào được chọn";
+    });
+</script>
+
+<%--Xử lí validate--%>
+<script>
+    document.querySelector("form").addEventListener("submit", function (e) {
+        let isValid = true;
+        const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+
+        // Xóa các thông báo lỗi cũ
+        document.querySelectorAll(".error-message").forEach(el => el.remove());
+
+        function showError(input, message) {
+            const error = document.createElement("div");
+            error.className = "error-message";
+            error.style.color = "red";
+            error.style.marginTop = "4px";
+            error.textContent = message;
+            input.insertAdjacentElement("afterend", error);
+        }
+
+        // Validate Tiêu đề
+        const title = document.getElementById("title");
+        if (!title.value.trim()) {
+            showError(title, "Nội dung này không được để trống!");
+            isValid = false;
+        }
+
+        // Validate Phân loại
+        const category = document.getElementById("category");
+        if (!category.value.trim()) {
+            showError(category, "Nội dung này không được để trống!");
+            isValid = false;
+        }
+
+        // Validate Tag
+        // const tag = document.getElementById("tag");
+        // if (!tag.value) {
+        //     showError(tag, "Nội dung này không được để trống!");
+        //     isValid = false;
+        // }
+
+        // Validate Số người tuyển dụng
+        const numOfMems = document.getElementById("numOfMems");
+        if (!numOfMems.value || numOfMems.value <= 0) {
+            showError(numOfMems, "Nội dung này không được để trống và phải lớn hơn 0!");
+            isValid = false;
+        }
+
+        // Validate Mô tả
+        const description = document.getElementById("description");
+        if (!description.value.trim()) {
+            showError(description, "Nội dung này không được để trống!");
+            isValid = false;
+        }
+
+        // Validate yêu cầu
+        const requirement = document.getElementById("requirement");
+        if (!requirement.value.trim()) {
+            showError(requirement, "Nội dung này không được để trống!");
+            isValid = false;
+        }
+
+        // Validate benefit
+        const benefit = document.getElementById("benefit");
+        if (!benefit.value.trim()) {
+            showError(benefit, "Nội dung này không được để trống!");
+            isValid = false;
+        }
+
+        // Validate Ngân sách
+        const budgetMin = document.getElementById("budgetMin");
+        const budgetMinInput = document.getElementById("budgetMinInput");
+        if (!budgetMinInput.value || budgetMinInput.value <= 0) {
+            showError(budgetMin, "Ngân sách Min không được để trống và phải lớn hơn 0!");
+            isValid = false;
+        }
+
+        const budgetMax = document.getElementById("budgetMax");
+        const budgetMaxInput = document.getElementById("budgetMaxInput");
+        let budgetError = "";
+
+        if (!budgetMaxInput.value || budgetMaxInput.value <= 0) {
+            budgetError = "Ngân sách Max không được để trống và phải lớn hơn 0!";
+            showError(budgetMax, budgetError);
+            isValid = false;
+        } else if (parseInt(budgetMaxInput.value) <= parseInt(budgetMinInput.value)) {
+            budgetError = "Ngân sách Max phải lớn hơn Min";
+            showError(budgetMax, budgetError);
+            isValid = false;
+        }
+
+        // Validate kiemtra-content
+        const testContent = document.getElementById("kiemtra-content");
+        if (!testContent.value.trim()) {
+            showError(testContent, "Nội dung này không được để trống!");
+            isValid = false;
+        }
+
+        // Validate kiemtra-required
+        const testRequired = document.getElementById("kiemtra-required");
+        if (!testRequired.value.trim()) {
+            showError(testRequired, "Nội dung này không được để trống!");
+            isValid = false;
+        }
+
+        // Validate ngày hết hạn tuyển dụng
+        const dueDate = document.getElementById("dueDate");
+
+        if (!dueDate.value.trim()) {
+            showError(dueDate, "Nội dung này không được để trống!")
+            isValid = false;
+        } else {
+            if (dueDate.value && dueDate.value <= today) {
+                showError(dueDate, "Ngày hết hạn tuyển dụng phải lớn hơn ngày hiện tại!");
+                isValid = false;
+            }
+        }
+
+        if (!isValid) {
+            e.preventDefault(); // Ngăn form submit nếu có lỗi
+        }
     });
 </script>
 </body>

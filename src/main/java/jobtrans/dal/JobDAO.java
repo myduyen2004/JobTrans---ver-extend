@@ -233,6 +233,47 @@ public class JobDAO {
         }
     }
 
+
+    public void insertTest(Test test) {
+        String sql = "INSERT INTO Test(job_id, test_link, have_required) " +
+                "VALUES (?, ?, ?)";
+
+        try {
+            Connection conn = dbConnection.openConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setInt(1, test.getJobId());
+            ps.setNString(2, test.getTestLink());
+            ps.setBoolean(3, test.isHaveRequired());
+
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateTest(Test test) {
+        String sql = "UPDATE Test SET "
+                + "test_link = ?, "
+                + "have_required = ? "
+                + "WHERE job_id = ?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setString(1, test.getTestLink());
+            ps.setBoolean(2, test.isHaveRequired());
+            ps.setInt(3, test.getJobId());
+
+            int rowsAffected = ps.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     public int addJob(Job job) {
         int jobId = -1;
 
@@ -339,7 +380,7 @@ public class JobDAO {
                 "due_date_post = ?, " +
                 "have_interviewed = ?, " +
                 "have_tested = ?, " +
-                "num_of_member = ?, " +
+                "num_of_member = ? " +
                 "WHERE job_id = ?";
 
         try {
@@ -636,10 +677,153 @@ public class JobDAO {
         return jobs;
     }
 
+    public int getNumOfCompleteJobByJobSeekerId(int jobSeekerId) {
+        int numOfComplete = 0;
+        String query = "select count(*) as num_job_complete from Job join JobGreeting on Job.job_id = JobGreeting.job_id where JobGreeting.status = N'Được nhận' and job.status_job_id = 6 and JobGreeting.job_seeker_id = ?;";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, jobSeekerId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                numOfComplete = rs.getInt("num_job_complete");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return numOfComplete;
+    }
+
+    public int countJobGreetingByJobSeekerId(int jobSeekerId) {
+        int nums = 0;
+        String query = "select count(*) as nums from JobGreeting where job_seeker_id = ?;";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, jobSeekerId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                nums = rs.getInt("nums");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return nums;
+    }
+
+    public JobGreeting getJobGreetingById(int greetingId) {
+        JobGreeting jobGreeting = null;
+        String sql = "SELECT greeting_id, job_seeker_id, job_id, introduction, attachment, " +
+                "price, status, expected_day, cv_id, have_read " +
+                "FROM JobGreeting WHERE greeting_id = ?";
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+
+
+            ps.setInt(1, greetingId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                jobGreeting = new JobGreeting();
+                jobGreeting.setGreetingId(rs.getInt("greeting_id"));
+                jobGreeting.setJobSeekerId(rs.getInt("job_seeker_id"));
+                jobGreeting.setJobId(rs.getInt("job_id"));
+                jobGreeting.setIntroduction(rs.getString("introduction"));
+                jobGreeting.setAttachment(rs.getString("attachment"));
+                jobGreeting.setPrice(rs.getInt("price"));
+                jobGreeting.setStatus(rs.getString("status"));
+                jobGreeting.setExpectedDay(rs.getInt("expected_day")); // tên cột mới
+                jobGreeting.setCvId(rs.getInt("cv_id"));
+                // Nếu muốn xử lý have_read:
+                // jobGreeting.setHaveRead(rs.getBoolean("have_read"));
+            }
+
+
+            rs.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return jobGreeting;
+    }
+
     public static void main(String[] args) {
         JobDAO jobDAO = new JobDAO();
         System.out.println(jobDAO.getAllJobs().size());
     }
+
+
+    public int countTotalJobsByAccountId(int accountId) {
+        String query = "SELECT COUNT(*) FROM Job WHERE post_account_id = ?";
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, accountId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
+
+    public int countCompletedJobsByAccountId(int accountId) {
+        String query = "SELECT COUNT(*) FROM Job WHERE post_account_id = ? AND status_job_id = 6"; // 'Hoàn thành' status_job_id = 6
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, accountId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public double getJobCompletionRateByAccountId(int accountId) {
+        int total = countTotalJobsByAccountId(accountId);
+        if (total == 0) {
+            return 0.0;
+        }
+        int completed = countCompletedJobsByAccountId(accountId);
+        return (completed * 100.0) / total;
+    }
+
+    public Test getTestByJobId(int jobId) {
+        Test test = null;
+        String query = "SELECT * FROM Test WHERE job_id = ?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, jobId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                test = new Test();
+                test.setTestId(rs.getInt("test_id"));
+                test.setJobId(rs.getInt("job_id"));
+                test.setTestLink(rs.getString("test_link"));
+                test.setHaveRequired(rs.getBoolean("have_required"));
+                test.setCreatedAt(rs.getTimestamp("created_at"));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return test;
+    }
+
 }
 
 

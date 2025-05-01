@@ -357,7 +357,15 @@ public class ProfileServlet extends HttpServlet {
         }
     }
     private void showJobManage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("job-manage.jsp").forward(request,response);
+        HttpSession session = request.getSession();
+        if (session.getAttribute("sessionAccount") != null) {
+            Account account = (Account) session.getAttribute("sessionAccount");
+            Account account1 = accountDAO.getAccountById(account.getAccountId());
+            request.setAttribute("account", account1);
+            request.getRequestDispatcher("job-manage.jsp").forward(request, response);
+        }else{
+            response.sendRedirect("home");
+        }
     }
 
 
