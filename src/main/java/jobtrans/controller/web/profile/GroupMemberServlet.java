@@ -3,8 +3,10 @@ package jobtrans.controller.web.profile;
 import com.google.gson.Gson;
 import jobtrans.dal.AccountDAO;
 import jobtrans.dal.GroupMemberDAO;
+import jobtrans.dal.ReportDAO;
 import jobtrans.model.Account;
 import jobtrans.model.GroupMember;
+import jobtrans.model.Report;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -31,7 +33,7 @@ import java.util.List;
 public class GroupMemberServlet extends HttpServlet {
     private GroupMemberDAO groupMemberDAO = new GroupMemberDAO();
     private AccountDAO accountDAO = new AccountDAO();
-
+    private ReportDAO reportDAO = new ReportDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -363,6 +365,8 @@ public class GroupMemberServlet extends HttpServlet {
 
         Account account01 = accountDAO.getAccountById(account.getAccountId());
         List<GroupMember> members = groupMemberDAO.getMembersByAccountId(account.getAccountId());
+        List<Report> reportList = reportDAO.getLatest5ReportsByAccount(account.getAccountId());
+        request.setAttribute("reportList", reportList);
         request.setAttribute("account", account01);
         request.setAttribute("memberList", members);
 
