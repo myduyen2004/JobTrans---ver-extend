@@ -13,20 +13,28 @@
 
     <!--new css -->
     <link rel="stylesheet" href="css/job-post-detail-employee.css">
-    <jsp:useBean id="jobDAO" class="jobtrans.dal.JobDAO" scope="page"/>
-    <jsp:useBean id="accountDAO" class="jobtrans.dal.AccountDAO" scope="page"/>
+    <jsp:useBean id="jobDAO" class="jobtrans.dal.JobDAO" scope="page" />
+    <jsp:useBean id="accountDAO" class="jobtrans.dal.AccountDAO" scope="page" />
+    <jsp:useBean id="jobGreetingDAO" class="jobtrans.dal.JobGreetingDAO" scope="page" />
+
 </head>
 <body>
-<%@include file="includes/header-01.jsp" %>
-<div class="container">
-    <div class="job-header">
-        <h1>${job.jobTitle}</h1>
-        <div class="job-meta">
-            <div class="job-meta-item">
-                <i class="fa-solid fa-tags"></i>
-                <c:forEach items="${tagList}" var="o">
-                    <span class="tag">${o.tagName} </span>
-                </c:forEach>
+<%@include file="includes/header-01.jsp"%>
+
+    <div class="container">
+        <div class="job-header">
+            <div>
+                <h1>${job.jobTitle}</h1>
+                <div class="job-meta">
+                    <div class="job-meta-item">
+                        <i class="fa-solid fa-tags"></i>
+                        <span>IT</span>
+                    </div>
+                </div>
+            </div>
+            <div class="job-status ${job.statusPost == 'Đang tuyển' ? 'recruiting' :
+                      job.statusPost == 'Hết hạn' ? 'expired' :'closed'}">
+                ${job.statusPost}
             </div>
         </div>
     </div>
@@ -49,60 +57,18 @@
                     <div class="stat-value"><fmt:formatDate value="${job.postDate}" pattern="dd-MM-yyyy"/></div>
                     <div class="stat-label">Ngày đăng</div>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-value"><fmt:formatDate value="${job.dueDatePost}" pattern="dd-MM-yyyy"/></div>
-                    <div class="stat-label">Hạn ứng tuyển</div>
+
+                <div class="card">
+                    <h2>Yêu cầu</h2>
+                    <p>${job.requirements}</p>
+
                 </div>
             </div>
 
-            <div class="card">
-                <h2>Mô tả công việc</h2>
-                <p>${job.jobDescription}</p>
-            </div>
+                <div class="card">
+                    <h2>Quyền lợi</h2>
+                    <p>${job.benefit}</p>
 
-            <div class="card">
-                <h2>Yêu cầu</h2>
-                <ul style="padding-left: 20px;">
-                    <li>${job.requirements}</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <h2>Quyền lợi</h2>
-                <ul style="padding-left: 20px;">
-                    <li>${job.benefit}</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <h2>Kỹ năng yêu cầu</h2>
-                <div class="tags-container">
-                    <c:forEach items="${tagList}" var="o">
-                        <span class="tag">${o.tagName} </span>
-                    </c:forEach>
-                </div>
-            </div>
-
-            <div class="card">
-                <h2>Tài liệu đính kèm</h2>
-                <div class="file-downloads">
-                    <c:if test="${job.attachment != null and not empty job.attachment}">
-                        <div class="file-item">
-                            <div class="file-info">
-                                <div class="file-name">${job.attachment}</div>
-                                <div class="file-meta">PDF</div>
-                            </div>
-                            <a href="job?action=download&file=${job.attachment}&jobId=${job.jobId}"
-                               class="file-download-btn">
-                                <i class="bi bi-download"></i>
-                            </a>
-                        </div>
-                    </c:if>
-                    <c:if test="${job.attachment == null or empty job.attachment}">
-                        <div class="null-attachment">
-                            <p>Không có file đính kém</p>
-                        </div>
-                    </c:if>
                 </div>
             </div>
 
@@ -170,55 +136,84 @@
                 </div>
             </div>
 
-            <c:if test="${job.postAccountId != loggedAccountId}">
-                <div class="card">
-                    <div>
-                        <a href="job-greeting?action=show-send-application&jobId=${job.jobId}" class="btn btn-gradient"
-                           style="color: white;">
-                            <i class="bi bi-send me-2"></i>Gửi chào giá
-                        </a>
-                        <a class="btn btn-outline-secondary">
-                            <i class="bi bi-bookmark me-2"></i>Lưu công việc
-                        </a>
-                        <a class="btn btn-outline-secondary">
-                            <i class="bi bi-flag me-2"></i>Báo cáo vi phạm
-                        </a>
+                <c:if test="${sessionScope.account.accountId != poster.accountId}">
+                    <div class="card">
+                        <div>
+                            <c:if test="${not jobGreetingDAO.hasApplied(account.accountId,job.jobId)}">
+                                <a href="job-greeting?action=show-send-application&jobId=${job.jobId}" class="btn btn-gradient" style="color: white;">
+                                    <i class="bi bi-send me-2"></i>Gửi chào giá
+                                </a>
+                            </c:if>
+                            <a class="btn btn-outline-secondary">
+                                <i class="bi bi-bookmark me-2"></i>Lưu công việc
+                            </a>
+                            <a class="btn btn-outline-secondary">
+                                <i class="bi bi-flag me-2"></i>Báo cáo vi phạm
+                            </a>
+                        </div>
                     </div>
-                </div>
-            </c:if>
+                </c:if>
 
-            <%--                side bar postUser--%>
-            <c:if test="${job.postAccountId == loggedAccountId}">
-                <div class="card">
-                    <div>
-                        <a href="job?action=pre-update&jobId=${job.jobId}" class="btn btn-gradient"
-                           style="color: white;">
-                            <i class="bi bi-send me-2"></i> Cập nhật công việc
-                        </a>
-                        <a href="javascript:void(0)" onclick="openDeleteModal('${job.jobId}')"
-                           class="btn-delete" style="width: 100%">
-                            <i class="fas fa-trash-alt"></i> Xóa công việc
-                        </a>
+                <c:if test="${sessionScope.account.accountId == poster.accountId}">
+                    <div class="card stats-card">
+                        <h5 class="section-title">Thống kê công việc</h5>
+
+    <%--                    <div class="stat-row">--%>
+    <%--                        <div class="stat-icon">--%>
+    <%--                            <i class="bi bi-eye"></i>--%>
+    <%--                        </div>--%>
+    <%--                        <div class="stat-text">Lượt xem</div>--%>
+    <%--                        <div class="stat-value">12</div>--%>
+    <%--                    </div>--%>
+
+                        <div class="stat-row">
+                            <div class="stat-icon">
+                                <i class="bi bi-people"></i>
+                            </div>
+                            <div class="stat-text">Số lượt chào giá</div>
+                            <div class="stat-value">${numOfApplicants}</div>
+                        </div>
+
+                        <div class="stat-row">
+                            <div class="stat-icon">
+                                <i class="bi bi-bookmark"></i>
+                            </div>
+                            <div class="stat-text">Lượt lưu</div>
+                            <div class="stat-value">35</div>
+                        </div>
                     </div>
-                </div>
-            </c:if>
+                </c:if>
+<%--                <div class="card">--%>
+<%--                    <h2>Chào giá cho công việc này</h2>--%>
+<%--                    <form id="jobApplicationForm">--%>
+<%--                        <div class="form-group">--%>
+<%--                            <label for="price">Mức giá (VNĐ)</label>--%>
+<%--                            <input type="number" id="price" class="form-control" placeholder="Nhập mức giá đề xuất" required>--%>
+<%--                        </div>--%>
+<%--                        <div class="form-group">--%>
+<%--                            <label for="expectedDays">Thời gian dự kiến hoàn thành (ngày)</label>--%>
+<%--                            <input type="number" id="expectedDays" class="form-control" placeholder="Số ngày dự kiến" required>--%>
+<%--                        </div>--%>
+<%--                        <div class="form-group">--%>
+<%--                            <label for="cv">Chọn CV</label>--%>
+<%--                            <select id="cv" class="form-control" required>--%>
+<%--                                <option value="">-- Chọn CV --</option>--%>
+<%--                                <option value="1">CV Web Developer</option>--%>
+<%--                                <option value="2">CV UI/UX Designer</option>--%>
+<%--                                <option value="3">CV Frontend Developer</option>--%>
+<%--                            </select>--%>
+<%--                        </div>--%>
+<%--                        <div class="form-group">--%>
+<%--                            <label for="introduction">Giới thiệu chung</label>--%>
+<%--                            <textarea id="introduction" class="form-control" placeholder="Giới thiệu về bản thân và kinh nghiệm của bạn liên quan đến công việc này" required></textarea>--%>
+<%--                        </div>--%>
+<%--                        <div class="form-group">--%>
+<%--                            <label for="attachment">Chọn tệp đính kèm để gửi</label>--%>
+<%--                            <input type="file" id="attachment" class="form-control">--%>
+<%--                        </div>--%>
+<%--                        <button type="submit" class="btn btn-block">Gửi chào giá</button>--%>
+<%--                    </form>--%>
 
-            <div class="card stats-card">
-                <h5 class="section-title">Thống kê công việc</h5>
-                <div class="stat-row">
-                    <div class="stat-icon">
-                        <i class="bi bi-people"></i>
-                    </div>
-                    <div class="stat-text">Số lượt chào giá</div>
-                    <div class="stat-value">${jobDAO.getNumOfJobGreetingByJobId(job.jobId)}</div>
-                </div>
-
-<%--                <div class="stat-row">--%>
-<%--                    <div class="stat-icon">--%>
-<%--                        <i class="bi bi-bookmark"></i>--%>
-<%--                    </div>--%>
-<%--                    <div class="stat-text">Lượt lưu</div>--%>
-<%--                    <div class="stat-value">35</div>--%>
 <%--                </div>--%>
             </div>
             <%--                <div class="card">--%>
@@ -255,16 +250,15 @@
         </div>
     </div>
 
-    <div class="card">
-        <div style="display: flex; align-items: center; justify-content: space-between;">
-            <h2>Danh sách ứng viên (${jobDAO.getNumOfJobGreetingByJobId(job.jobId)})</h2>
-            <span>
-                <a href="job?action=view-candidates-list&jobId=${job.jobId}" class="btn btn-gradient" style="color: white;">
-                    Danh sách ứng viên >>
-                </a>
-            </span>
-        </div>
-        <c:if test="${not empty jobDAO.getJobGreetingsByJobId(job.jobId)}">
+        <div class="card">
+            <div class="d-flex justify-content-between">
+                <h2>Danh sách ứng viên (${numOfApplicants})</h2>
+                <c:if test="${jobDAO.isPostOwner(job.jobId,sessionScope.account.accountId)}">
+                    <a href="job?action=view-candidates-list&jobId=${job.jobId}" style="text-decoration: none">Xem chi tiết >></a>
+                </c:if>
+            </div>
+            <hr>
+            <c:if test="${not empty job.jobGreetingList}">
             <ul class="applicant-list">
                 <c:forEach var="greeting" items="${jobDAO.getJobGreetingsByJobId(job.jobId)}">
                     <li class="applicant-item">

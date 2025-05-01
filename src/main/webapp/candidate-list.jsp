@@ -63,6 +63,7 @@
             <h3 style="margin-bottom: 10px;">Mô tả công việc</h3>
             <p>${job.jobDescription}</p>
         </div>
+
     </section>
 
     <div class="greeting-filters">
@@ -88,12 +89,12 @@
     </div>
 
     <section class="applicants-list">
-        <h2 style="margin-bottom: 30px">Danh Sách Ứng Viên (${job.jobGreetingList.size( )})</h2>
+        <h2 style="margin-bottom: 30px">Danh Sách Ứng Viên</h2>
 
         <!-- Ứng viên 1 -->
         <c:if test="${not empty job.jobGreetingList}">
             <c:forEach var="greeting" items="${job.jobGreetingList}">
-                <div class="applicant-card pulse">
+                <div class="applicant-card">
                     <div class="applicant-avatar">
                         <img src="${accountDAO.getAccountById(greeting.jobSeekerId).avatar}" alt="Avatar của ${accountDAO.getAccountById(greeting.jobSeekerId).accountName}">
                     </div>
@@ -134,7 +135,6 @@
                 </div>
             </c:forEach>
         </c:if>
-        <!-- Ứng viên 2 -->
     </section>
 
     <div class="pagination">

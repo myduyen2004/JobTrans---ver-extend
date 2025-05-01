@@ -5,19 +5,14 @@ import jobtrans.dal.*;
 import jobtrans.model.*;
 import jobtrans.dal.AccountDAO;
 import jobtrans.dal.JobDAO;
-import jobtrans.model.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -91,12 +86,20 @@ public class JobServlet extends HttpServlet {
     private void viewCandidatesList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         try {
-//            Account account = (Account) session.getAttribute("sessionAccount");
-//            int accountId = account.getAccountId();
-            int jobId = Integer.parseInt(request.getParameter("jobId"));
+            Account account = (Account) session.getAttribute("sessionAccount");
+            if (account == null) {
+                response.sendRedirect("login.jsp");
+                return;
+            }
 
+            int jobId = Integer.parseInt(request.getParameter("jobId"));
             JobDAO jobDAO = new JobDAO();
             Job job = jobDAO.getJobById(jobId);
+
+            if (job == null) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Job not found");
+                return;
+            }
 
             AccountDAO accountDAO = new AccountDAO();
             Account poster = accountDAO.getAccountById(job.getPostAccountId());
@@ -104,73 +107,66 @@ public class JobServlet extends HttpServlet {
             JobGreetingDAO jobGreetingDAO = new JobGreetingDAO();
             List<JobGreeting> jobGreetingsList = jobGreetingDAO.getJobGreetingsByJobId(jobId);
 
-            job.setJobGreetingList(jobGreetingsList);
-            request.setAttribute("numOfApplicants", jobGreetingsList.size());
+            // Set job greetings list safely
+            job.setJobGreetingList(jobGreetingsList != null ? jobGreetingsList : new ArrayList<>());
+            request.setAttribute("numOfApplicants", jobGreetingsList != null ? jobGreetingsList.size() : 0);
 
+            // Format currency
             NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
             String formattedBudgetMin = currencyFormat.format(job.getBudgetMin());
             String formattedBudgetMax = currencyFormat.format(job.getBudgetMax());
             request.setAttribute("budgetRange", formattedBudgetMin + " - " + formattedBudgetMax);
 
-            // Xử lý thông tin deadline
+            // Format dates
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-            // Xử lý dueDatePost
+            // Handle dueDatePost
             if (job.getDueDatePost() != null) {
                 String formattedDueDatePost = dateFormat.format(job.getDueDatePost());
                 request.setAttribute("dueDatePostFormatted", formattedDueDatePost);
+
+                // Calculate days left
+                long currentTime = System.currentTimeMillis();
+                long duePostTime = job.getDueDatePost().getTime();
+                long daysLeft = (duePostTime - currentTime) / (1000 * 60 * 60 * 24);
+                request.setAttribute("daysLeft", daysLeft);
             } else {
                 request.setAttribute("dueDatePostFormatted", "Chưa xác định");
+                request.setAttribute("daysLeft", "N/A");
             }
 
-            // Xử lý postDate (java.sql.Timestamp)
+            // Handle postDate
             if (job.getPostDate() != null) {
-                // Convert Timestamp to java.util.Date
                 java.util.Date postDateUtil = new java.util.Date(job.getPostDate().getTime());
-                String formattedPostDate = dateFormat.format(postDateUtil);
-                request.setAttribute("postDateFormatted", formattedPostDate);
+                request.setAttribute("postDateFormatted", dateFormat.format(postDateUtil));
             } else {
                 request.setAttribute("postDateFormatted", "Chưa xác định");
             }
 
-            // Xử lý joinDate (java.time.LocalDateTime)
-            if (poster.getJoinDate() != null) {
-                // Convert LocalDateTime to java.util.Date
+            // Handle joinDate
+            if (poster != null && poster.getJoinDate() != null) {
                 java.util.Date joinDateUtil = java.util.Date.from(poster.getJoinDate().atZone(ZoneId.systemDefault()).toInstant());
-                String formattedJoinDate = dateFormat.format(joinDateUtil);
-                request.setAttribute("joinDateFormatted", formattedJoinDate);
+                request.setAttribute("joinDateFormatted", dateFormat.format(joinDateUtil));
             } else {
                 request.setAttribute("joinDateFormatted", "Chưa xác định");
             }
 
-            // Tính thời gian còn lại đến deadline
-            try {
-                if (job.getDueDatePost() != null) {
-                    long currentTime = System.currentTimeMillis();
-                    long duePostTime = job.getDueDatePost().getTime();
-                    long daysLeft = (duePostTime - currentTime) / (1000 * 60 * 60 * 24);
-                    request.setAttribute("daysLeft", daysLeft);
-                } else {
-                    request.setAttribute("daysLeft", "N/A");
-                }
-            } catch (Exception e) {
-                System.err.println("Lỗi khi tính ngày còn lại: " + e.getMessage());
-                request.setAttribute("daysLeft", "N/A");
-            }
-
-            System.out.println(jobGreetingsList);
-            System.out.println(job);
-            System.out.println(poster);
-            System.out.println(jobGreetingsList.size());
-
+            // Set attributes for JSP
             request.setAttribute("poster", poster);
             request.setAttribute("job", job);
             request.setAttribute("jobGreetingsList", jobGreetingsList);
-            request.getRequestDispatcher("candidate-list.jsp").forward(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
+            // Forward to JSP
+            request.getRequestDispatcher("candidate-list.jsp").forward(request, response);
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid job ID");
+        } catch (Exception e) {
+            // Log the error properly
+            e.printStackTrace();
+            if (!response.isCommitted()) {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Server error: " + e.getMessage());
+            }
+        }
     }
 
     @Override
@@ -197,11 +193,15 @@ public class JobServlet extends HttpServlet {
             throws ServletException, IOException {
         String jobIdStr = request.getParameter("jobId");
         int jobId;
-//        HttpSession session = request.getSession();
-//        Account account = (Account) session.getAttribute("account");
+        HttpSession session = request.getSession();
         try {
-            jobId = Integer.parseInt(jobIdStr);
+            Account account = (Account) session.getAttribute("sessionAccount");
+            if (account == null) {
+                response.sendRedirect("login.jsp");
+                return;
+            }
 
+            jobId = Integer.parseInt(jobIdStr);
             JobDAO jobDAO = new JobDAO();
             Job job = jobDAO.getJobById(jobId);
 
@@ -304,6 +304,7 @@ public class JobServlet extends HttpServlet {
                 System.out.println(job.isHaveTested());
 
                 // Thêm các thông tin khác cho interface
+                session.setAttribute("account", account);
                 request.setAttribute("job", job);
                 request.setAttribute("poster", poster);
                 request.setAttribute("interviewRequired", job.isHaveInterviewed());
@@ -490,8 +491,22 @@ public class JobServlet extends HttpServlet {
             }
             job.setAttachment(fileName);
 
+            //Xu ly Interview
+//            Interview interview = new Interview();
+//            String interDate = request.getParameter("interviewDate");
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//            if (interDate != null && !interDate.isEmpty()) {
+//                // Convert từ String sang java.util.Date
+//                job.setHaveInterviewed(true);
+//                try {
+//                    interview.setStartDate(dateFormat.parse(interDate));
+//                } catch (ParseException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            } else {
+//                job.setHaveInterviewed(false);
+//            }
 
-            job.setHaveInterviewed(false);
 
             String dueDateStr = request.getParameter("dueDate");
             if (dueDateStr != null && !dueDateStr.isEmpty()) {
@@ -501,6 +516,11 @@ public class JobServlet extends HttpServlet {
 
             //Them cong viec moi
             int jobId = jobDAO.addJob(job);
+
+            //Them Interview
+//            interview.setJobId(jobId);
+//            jobDAO.insertInterview(interview);
+
 
             //Them test moi
             testO.setJobId(jobId);
@@ -609,6 +629,22 @@ public class JobServlet extends HttpServlet {
             }
             job.setAttachment(fileName);
 
+            //Xu ly Interview
+            Interview interview = new Interview();
+            String interDate = request.getParameter("interviewDate");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//            if (interDate != null && !interDate.isEmpty()) {
+//                // Convert từ String sang java.util.Date
+//                job.setHaveInterviewed(true);
+//                try {
+//                    interview.setStartDate(dateFormat.parse(interDate));
+//                } catch (ParseException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            } else {
+//                job.setHaveInterviewed(false);
+//            }
+
 
             String dueDateStr = request.getParameter("dueDate");
             if (dueDateStr != null && !dueDateStr.isEmpty()) {
@@ -618,7 +654,10 @@ public class JobServlet extends HttpServlet {
 
             job.setHaveInterviewed(false);
 
-            jobDAO.updateJobByJobId(job);
+            //Them Interview
+//            interview.setJobId(jobId);
+//            jobDAO.updateInterviewByJobId(interview);
+
 
             //add test moi
             testO.setJobId(jobId);
@@ -727,78 +766,58 @@ public class JobServlet extends HttpServlet {
 //        }
 //    }
 
-    private void downloadFile(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        // Lấy tên tệp từ request parameter
-        String fileName = request.getParameter("file");
-        String jobIdStr = request.getParameter("jobId");
+protected void downloadFile(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    // Get file path from request parameter
+    String filePath = request.getParameter("filePath");
 
-        if (fileName == null || fileName.isEmpty() || jobIdStr == null || jobIdStr.isEmpty()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Tên tệp hoặc ID công việc không hợp lệ");
+
+    try {
+        if (filePath == null || filePath.isEmpty()) {
+            // Check if response is committed before sending error
+            if (!response.isCommitted()) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "File path is required");
+            }
             return;
         }
 
-        try {
-            int jobId = Integer.parseInt(jobIdStr);
+        File file = new File(filePath);
 
-            // Kiểm tra quyền truy cập tệp (xác thực người dùng có quyền truy cập công việc này)
-            // Ví dụ: người dùng đã đăng nhập và là người đăng công việc hoặc ứng viên đã được chấp nhận
-            HttpSession session = request.getSession();
-            Account loggedInUser = (Account) session.getAttribute("sessionAccount");
-
-            if (loggedInUser == null) {
-                response.sendRedirect(request.getContextPath() + "/login.jsp");
-                return;
+        // Verify file exists
+        if (!file.exists()) {
+            if (!response.isCommitted()) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "File not found");
             }
+            return;
+        }
 
-            JobDAO jobDAO = new JobDAO();
-            Job job = jobDAO.getJobById(jobId);
+        // Set response headers before writing content
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
+        response.setContentLength((int) file.length());
 
-            // Kiểm tra xem tệp có thuộc về công việc này không
-            if (job == null || job.getAttachment() == null || !job.getAttachment().contains(fileName)) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Tệp không tồn tại hoặc không thuộc về công việc này");
-                return;
+        // Stream the file content
+        try (InputStream in = new FileInputStream(file);
+             OutputStream out = response.getOutputStream()) {
+
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = in.read(buffer)) != -1) {
+                out.write(buffer, 0, bytesRead);
             }
+        }
 
-            // Tạo đường dẫn tệp
-            String filePath = getUploadPath(request) + File.separator + fileName;
-            File file = new File(filePath);
+    } catch (Exception e) {
+        // Log the error
+        e.printStackTrace();
 
-            if (!file.exists()) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Tệp không tồn tại");
-                return;
-            }
-
-            // Thiết lập thông tin phản hồi
-            String mimeType = getServletContext().getMimeType(file.getName());
-            if (mimeType == null) {
-                // Nếu kiểu MIME không được xác định, sử dụng kiểu mặc định
-                mimeType = "application/octet-stream";
-            }
-
-            response.setContentType(mimeType);
-            response.setContentLength((int) file.length());
-
-            // Thiết lập header Content-Disposition để khuyến khích tải xuống
-            String headerKey = "Content-Disposition";
-            String headerValue = String.format("attachment; filename=\"%s\"", file.getName());
-            response.setHeader(headerKey, headerValue);
-
-            // Ghi tệp vào phản hồi
-            try (FileInputStream inStream = new FileInputStream(file);
-                 OutputStream outStream = response.getOutputStream()) {
-
-                byte[] buffer = new byte[4096];
-                int bytesRead;
-
-                while ((bytesRead = inStream.read(buffer)) != -1) {
-                    outStream.write(buffer, 0, bytesRead);
-                }
-            }
-        } catch (NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID công việc không hợp lệ");
+        // Only send error if response isn't committed yet
+        if (!response.isCommitted()) {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error downloading file");
         }
     }
+}
+
     // Phương thức trợ giúp để lấy đường dẫn upload
     private String getUploadPath(HttpServletRequest request) {
         return request.getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;

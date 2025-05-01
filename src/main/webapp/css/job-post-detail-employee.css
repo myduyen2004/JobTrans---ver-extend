@@ -38,11 +38,31 @@ body {
     padding: 20px;
     border-radius: 10px;
     margin-bottom: 20px;
+    justify-content: space-between;
+    display: flex;
 }
 
 .job-header h1 {
     font-size: 24px;
     margin-bottom: 10px;
+}
+
+.job-status {
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    height: fit-content;
+}
+
+.job-status.recruiting {
+    background-color: #e3f7e8;
+    color: #00a854;
+}
+
+.job-status.expired {
+    background-color: #ffebee;
+    color: #f44336;
 }
 
 .job-meta {
@@ -79,9 +99,6 @@ body {
 
 .card h2 {
     font-size: 18px;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border-color);
 }
 
 .tags-container {

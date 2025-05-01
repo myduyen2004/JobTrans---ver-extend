@@ -644,10 +644,14 @@
                     <img src="/api/placeholder/800/1000" alt="CV Preview" class="cv-placeholder">
                     <div class="cv-overlay">
                         <div class="btn-group">
-                            <a  class="btn-a btn-primary" id="viewCvBtn">
+                            <a href="cv?action=view&cvId=${jobGreeting.cvId}" class="btn-a btn-primary"
+<%--                               id="viewCvBtn"--%>
+                               style="text-decoration: none">
                                 <i class="fas fa-eye"></i> Xem CV
                             </a>
-                            <a class="btn-a btn-outline" id="downloadCvBtn" style="background-color: #FFFFFF">
+                            <a class="btn-a btn-outline"
+<%--                               id="downloadCvBtn" --%>
+                               style="background-color: #FFFFFF; text-decoration: none">
                                 <i class="fas fa-download"></i> Tải xuống
                             </a>
                         </div>
@@ -675,25 +679,47 @@
                     </a>
                 </c:if>
             </div>
-
+            <c:if test="${jobGreeting.status == 'Chờ phỏng vấn'}">
+                <!-- Thông báo cập nhật lịch phỏng vấn chỉ hiển thị khi chưa có lịch phỏng vấn -->
+                <c:if test="${interview == null}">
+                    <div>
+                        <p style="color: red; font-style: italic; font-size: 16px; margin-bottom: 10px;text-align: right; margin-right: 40px;">
+                            Vui lòng cập nhật lịch phỏng vấn tới ứng viên
+                        </p>
+                    </div>
+                </c:if>
+                <c:if test="${interview != null}">
+                    <div>
+                        <p style="color: green; font-style: italic; font-size: 16px; margin-bottom: 10px;text-align: right; margin-right: 40px;">
+                            Đã cập nhật lịch phỏng vấn tới ứng viên
+                        </p>
+                    </div>
+                </c:if>
+            </c:if>
             <div class="actions">
+
                 <button class="btn-a btn-outline" id="rejectBtn">
                     <i class="fas fa-times"></i> Từ chối
                 </button>
                 <c:if test="${jobGreeting.status == 'Chờ xét duyệt'}">
                     <a href="job-greeting?action=accept-to-interview&greetingId=${jobGreeting.greetingId}" class="btn-a btn-primary" style="text-decoration: none">
-                        <i class="fas fa-check"></i> Duyệt phỏng vấn
+                        <i class="fas fa-check"></i> Duyệt CV
                     </a>
                 </c:if>
                 <c:if test="${jobGreeting.status == 'Chờ phỏng vấn'}">
                     <button class="btn-a btn-outline" id="interviewBtn">
                         <i class="fas fa-calendar-check"></i> Cập nhật phỏng vấn
                     </button>
-                    <a class="btn-a btn-primary" id="approveBtn">
-                        <i class="fas fa-check"></i> Chấp nhận ứng viên
-                    </a>
+
+                    <!-- Nút chấp nhận ứng viên chỉ hiển thị sau khi phỏng vấn kết thúc -->
+                    <c:if test="${isInterviewCompleted}">
+                        <a href="job-greeting?action=approve-candidate&greetingId=${jobGreeting.greetingId}" class="btn-a btn-primary" id="approveBtn" style="text-decoration: none">
+                            <i class="fas fa-check"></i> Chấp nhận ứng viên
+                        </a>
+                    </c:if>
                 </c:if>
             </div>
+
         </div>
     </div>
 </div>
@@ -705,33 +731,177 @@
             <h4 class="modal-title">Đặt lịch phỏng vấn</h4>
             <button class="modal-close" id="closeInterviewModal">&times;</button>
         </div>
-        <div class="modal-body">
-            <div class="form-group">
-                <label class="form-label">Ngày phỏng vấn</label>
-                <input type="date" class="form-control" min="2025-04-24">
+        <form action="interview?action=create" method="post">
+            <div class="modal-body">
+                <input type="hidden" name="greetingId" value="${jobGreeting.greetingId}">
+                <c:if test="${interview != null}">
+                    <input type="hidden" name="interviewId" value="${interview.interviewId}">
+                </c:if>
+
+                <div class="form-group">
+                    <label class="form-label">Ngày phỏng vấn</label>
+                    <input type="date" name="interviewDate" class="form-control" min="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>"
+                           value="${interview != null ? interview.interviewDate : ''}" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Thời gian</label>
+                    <input type="time" name="interviewTime" class="form-control"
+                           value="${interview != null ? interview.interviewTime : ''}" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Hình thức</label>
+                    <select name="interviewForm" class="form-control" id="interviewForm" required>
+                        <option value="Offline" ${interview != null && interview.interviewForm == 'Offline' ? 'selected' : ''}>Offline</option>
+                        <option value="Online" ${interview != null && interview.interviewForm == 'Online' ? 'selected' : ''}>Online</option>
+                    </select>
+                </div>
+
+                <!-- Địa chỉ phỏng vấn - hiển thị nếu hình thức là Offline -->
+                <div class="form-group" id="addressGroup">
+                    <label class="form-label">Địa chỉ phỏng vấn</label>
+                    <input type="text" name="interviewAddress" id="interviewAddress" class="form-control"
+                           value="${interview != null ? interview.interviewAddress : ''}"
+                           pattern="^(?=.*[a-zA-Z])([a-zA-Z0-9\s,./-]*)$"
+                           title="Địa chỉ không thể chỉ chứa số và không được chứa ký tự đặc biệt (ngoại trừ dấu phẩy, dấu chấm, dấu gạch ngang và dấu gạch chéo)">
+                    <div class="invalid-feedback" id="addressFeedback">
+                        Địa chỉ không hợp lệ! Địa chỉ phải chứa ít nhất một chữ cái và không chứa ký tự đặc biệt.
+                    </div>
+                </div>
+
+                <!-- Link phỏng vấn - hiển thị nếu hình thức là Online -->
+                <div class="form-group" id="linkGroup" style="display:none;">
+                    <label class="form-label">Link phỏng vấn</label>
+                    <input type="text" name="interviewLink" class="form-control"
+                           value="${interview != null ? interview.interviewLink : ''}">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Ghi chú</label>
+                    <textarea name="interviewNote" class="form-control" placeholder="Nhập thông tin chi tiết về buổi phỏng vấn...">${interview != null ? interview.interviewNote : ''}</textarea>
+                </div>
             </div>
-            <div class="form-group">
-                <label class="form-label">Thời gian</label>
-                <input type="time" class="form-control">
+            <div class="modal-footer">
+                <button type="button" class="btn-a btn-outline" id="cancelInterviewModal">Hủy</button>
+                <button type="submit" class="btn-a btn-primary">Xác nhận</button>
             </div>
-            <div class="form-group">
-                <label class="form-label">Hình thức</label>
-                <select class="form-control">
-                    <option>Trực tiếp</option>
-                    <option>Online</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Ghi chú</label>
-                <textarea class="form-control" placeholder="Nhập thông tin chi tiết về buổi phỏng vấn..."></textarea>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn-a btn-outline" id="cancelInterviewModal">Hủy</button>
-            <button class="btn-a btn-primary">Xác nhận</button>
-        </div>
+        </form>
     </div>
 </div>
+
+
+<!-- Script validate form phỏng vấn-->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const interviewForm = document.getElementById('interviewForm');
+        const addressGroup = document.getElementById('addressGroup');
+        const linkGroup = document.getElementById('linkGroup');
+        const interviewAddress = document.getElementById('interviewAddress');
+        const addressFeedback = document.getElementById('addressFeedback');
+
+        // Thiết lập ban đầu - nếu là form mới (Offline mặc định)
+        const isOnline = '${interview != null ? interview.interviewForm : ""}' === 'Online';
+
+        // Ẩn/hiện các trường phù hợp dựa trên hình thức phỏng vấn
+        if (isOnline) {
+            addressGroup.style.display = 'none';
+            linkGroup.style.display = 'block';
+            interviewAddress.removeAttribute('required');
+            document.querySelector('input[name="interviewLink"]').setAttribute('required', 'required');
+        } else {
+            addressGroup.style.display = 'block';
+            linkGroup.style.display = 'none';
+            interviewAddress.setAttribute('required', 'required');
+            document.querySelector('input[name="interviewLink"]').removeAttribute('required');
+        }
+
+        // Xử lý khi thay đổi hình thức phỏng vấn
+        interviewForm.addEventListener('change', function() {
+            if (this.value === 'Online') {
+                addressGroup.style.display = 'none';
+                linkGroup.style.display = 'block';
+                interviewAddress.removeAttribute('required');
+                document.querySelector('input[name="interviewLink"]').setAttribute('required', 'required');
+            } else {
+                addressGroup.style.display = 'block';
+                linkGroup.style.display = 'none';
+                interviewAddress.setAttribute('required', 'required');
+                document.querySelector('input[name="interviewLink"]').removeAttribute('required');
+            }
+        });
+
+        // Validate địa chỉ phỏng vấn
+        interviewAddress.addEventListener('input', function() {
+            validateAddress(this);
+        });
+
+        // Validation khi submit form
+        document.querySelector('form').addEventListener('submit', function(event) {
+            if (interviewForm.value === 'Offline' && !validateAddress(interviewAddress)) {
+                event.preventDefault();
+            }
+        });
+
+        function validateAddress(input) {
+            // Kiểm tra địa chỉ không chỉ chứa số và không chứa ký tự đặc biệt (ngoại trừ dấu phẩy, dấu chấm, dấu gạch ngang và dấu gạch chéo)
+            const addressRegex = /^(?=.*[a-zA-Z])([a-zA-Z0-9\s,./-]*)$/;
+            const isValid = addressRegex.test(input.value);
+
+            if (!isValid) {
+                input.classList.add('is-invalid');
+                addressFeedback.style.display = 'block';
+                return false;
+            } else {
+                input.classList.remove('is-invalid');
+                addressFeedback.style.display = 'none';
+                return true;
+            }
+        }
+    });
+</script>
+<!-- JavaScript để xử lý form -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Hiển thị modal phỏng vấn
+        const interviewBtn = document.getElementById('interviewBtn');
+        const interviewModal = document.getElementById('interviewModal');
+        const closeInterviewModal = document.getElementById('closeInterviewModal');
+        const cancelInterviewModal = document.getElementById('cancelInterviewModal');
+
+        interviewBtn.addEventListener('click', function() {
+            interviewModal.style.display = 'block';
+        });
+
+        closeInterviewModal.addEventListener('click', function() {
+            interviewModal.style.display = 'none';
+        });
+
+        cancelInterviewModal.addEventListener('click', function() {
+            interviewModal.style.display = 'none';
+        });
+
+        // Xử lý thay đổi hình thức phỏng vấn
+        const interviewForm = document.getElementById('interviewForm');
+        const addressGroup = document.getElementById('addressGroup');
+        const linkGroup = document.getElementById('linkGroup');
+
+        interviewForm.addEventListener('change', function() {
+            if (this.value === 'Offline') {
+                addressGroup.style.display = 'block';
+                linkGroup.style.display = 'none';
+            } else {
+                addressGroup.style.display = 'none';
+                linkGroup.style.display = 'block';
+            }
+        });
+
+        // Đóng modal khi click bên ngoài
+        window.addEventListener('click', function(event) {
+            if (event.target === interviewModal) {
+                interviewModal.style.display = 'none';
+            }
+        });
+    });
+</script>
 
 <!-- Modal từ chối -->
 <div class="modal" id="rejectModal">
@@ -802,24 +972,6 @@
         </div>
     </div>
 </div>
-
-<script>
-    document.getElementById("downloadBtn").addEventListener("click", function() {
-        // Lấy tên tệp từ `${jobGreeting.attachment}`
-        var attachmentFileName = "${jobGreeting.attachment}";
-
-        // Tạo URL đầy đủ cho tệp tải xuống
-        var downloadUrl = '/uploads/attachments/' + attachmentFileName;
-
-        // Tạo thẻ <a> để tải tệp
-        var link = document.createElement("a");
-        link.href = downloadUrl;  // Đường dẫn tải tệp
-        link.download = attachmentFileName;  // Đặt tên tệp khi tải về
-
-        // Thực hiện tải tệp
-        link.click();
-    });
-</script>
 
 <script>
     $(document).ready(function() {
