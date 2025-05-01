@@ -1,6 +1,4 @@
 package jobtrans.controller.web.job;
-
-
 import jobtrans.dal.*;
 import jobtrans.model.*;
 import jobtrans.dal.AccountDAO;
