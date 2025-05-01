@@ -407,18 +407,22 @@ public class JobDAO {
         }
     }
 
-    public void deleteJobByJobId(int jobId){
+    public boolean deleteJobByJobId(int jobId) {
         String sql = "DELETE FROM Job WHERE job_id = ?";
 
-        try {
-            Connection con = dbConnection.openConnection();
-            PreparedStatement ps = con.prepareStatement(sql);
+        try (Connection con = dbConnection.openConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setInt(1, jobId);
             int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            return false; // hoặc throw nếu muốn xử lý ở nơi khác
         }
     }
+
 
     public JobCategory getCategoryById(int categoryId) {
         JobCategory jobCategory = null;
@@ -565,6 +569,7 @@ public class JobDAO {
         }
         return list;
     }
+
     public Job getJobById(int id) {
         Job job = null;
         String sql = "SELECT * FROM Job WHERE job_id = ?";
@@ -810,9 +815,9 @@ public class JobDAO {
             }
         }
     }
-
-}
-
+    public Test getTestByJobId(int jobId) {
+        Test test = null;
+        String query = "SELECT * FROM Test WHERE job_id = ?";
 
         try {
             Connection con = dbConnection.openConnection();
@@ -835,6 +840,11 @@ public class JobDAO {
     }
 
 }
+
+
+
+
+
 
 
 
