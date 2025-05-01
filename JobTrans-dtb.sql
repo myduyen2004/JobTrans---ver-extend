@@ -15,13 +15,13 @@ CREATE TABLE Account (
     phone VARCHAR(50),
 	address NVARCHAR(MAX),
 	education NVARCHAR(255),
-	speciality NVARCHAR(500), 
+	speciality NVARCHAR(500),
 	experience_years INT,
 	skills NVARCHAR(MAX), -- xử lí như tách tag
 	bio NVARCHAR(MAX),
-	point INT DEFAULT 0, 
+	point INT DEFAULT 0,
 	star_rate FLOAT DEFAULT 0,
-	amount_wallet DECIMAL(18, 2) DEFAULT 0, 
+	amount_wallet DECIMAL(18, 2) DEFAULT 0,
 	verified_link NVARCHAR(MAX),
     verified_account BIT,
 	complete_percent DECIMAL(5, 4),
@@ -315,18 +315,25 @@ CREATE TABLE Conversation (
                               CONSTRAINT FK_Conversation_Job FOREIGN KEY (job_id) REFERENCES Job(job_id) ON DELETE CASCADE
 );
 CREATE TABLE Message (
-                         message_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-                         job_id INT NOT NULL,
-                         sender_id INT NOT NULL,
+                         message_id INT IDENTITY(1,1) PRIMARY KEY,
                          conversation_id INT NOT NULL,
-                         attachment VARCHAR(MAX),
-    content NVARCHAR(MAX),
-    sent_time DATETIME DEFAULT GETDATE(),
-    CONSTRAINT FK_Message_Job FOREIGN KEY (job_id) REFERENCES Job(job_id),
-    CONSTRAINT FK_Message_Account FOREIGN KEY (sender_id) REFERENCES Account(account_id),
-    CONSTRAINT FK_Message_Conversation FOREIGN KEY (conversation_id) REFERENCES Conversation(conversation_id) 
-	ON DELETE CASCADE 
-	ON UPDATE CASCADE
+                         sender_id INT NOT NULL,
+                         content NVARCHAR(MAX),
+                         sent_time DATETIME DEFAULT GETDATE(),
+                         replied_to_id INT,
+                         is_sticker BIT DEFAULT 0,
+                         attachment_url VARCHAR(255),
+                         CONSTRAINT FK_Message_Account FOREIGN KEY (sender_id) REFERENCES Account(account_id),
+                         CONSTRAINT FK_Message_Conversation FOREIGN KEY (conversation_id) REFERENCES Conversation(conversation_id)
+                             ON DELETE CASCADE
+                             ON UPDATE CASCADE
+);
+ALTER TABLE Message
+    ADD is_sticker BIT DEFAULT 0;
+CREATE TABLE Stickers (
+                          sticker_id INT IDENTITY(1,1) PRIMARY KEY,
+                          sticker_url VARCHAR(255) NOT NULL,
+                          sticker_name NVARCHAR(50)
 );
 CREATE TABLE Shipment (
                           shipment_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -468,3 +475,16 @@ CREATE TABLE Report (
                         FOREIGN KEY (report_by) REFERENCES Account(account_id),
                         FOREIGN KEY (criteria_id) REFERENCES Criteria(criteria_id)
 );
+
+INSERT INTO [JobTransnew].[dbo].[Stickers] ([sticker_url], [sticker_name])
+VALUES
+    ('stickers/corgi.png', 'corgi'),
+    ('stickers/so-cute.png', 'so-cute'),
+    ('stickers/strawberry-milk.png', 'strawberry-milk'),
+    ('stickers/paper-plane.png', 'paper-plane'),
+    ('stickers/sun.png', 'sun'),
+    ('stickers/book.png', 'book'),
+    ('stickers/heart-shape.png', 'heart-shape'),
+    ('stickers/cat.png', 'cat'),
+    ('stickers/emoticon.png', 'emoticon'),
+    ('stickers/smile.png', 'smile');
