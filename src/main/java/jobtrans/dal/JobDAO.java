@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 public class JobDAO {
     private final DBConnection dbConnection;
     List<Job> jobs = new ArrayList<>();
-
     //tao setter
     public void setJobs(List<Job> jobs) {
         this.jobs = jobs;
@@ -132,6 +131,7 @@ public class JobDAO {
         return list;
     }
 
+
     public int getNumOfJobGreetingByJobId(int jobId) {
         int numOfJobGreeting = 0;
         String query = "Select COUNT(*) num_of_jobGreeting FROM JobGreeting WHERE job_id=?";
@@ -199,7 +199,7 @@ public class JobDAO {
 
     public int getMaxJobId() {
         String sql = "SELECT MAX(job_id) AS maxJobId FROM Job";
-        try {
+        try{
             Connection conn = dbConnection.openConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -225,25 +225,6 @@ public class JobDAO {
             ps.setTimestamp(1, new java.sql.Timestamp(interview.getStartDate().getTime()));  // LocalDateTime -> Timestamp
             ps.setString(2, interview.getInterviewLink());
             ps.setInt(3, interview.getJobId());
-
-            ps.executeUpdate();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void insertTest(Test test) {
-        String sql = "INSERT INTO Test(job_id, test_link, have_required) " +
-                "VALUES (?, ?, ?)";
-
-        try {
-            Connection conn = dbConnection.openConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
-
-            ps.setInt(1, test.getJobId());
-            ps.setString(2, test.getTestLink());
-            ps.setBoolean(3, test.isHaveRequired());
 
             ps.executeUpdate();
 
@@ -312,7 +293,7 @@ public class JobDAO {
         }
     }
 
-    public void updateInterviewByJobId(Interview interview) {
+    public void updateInterviewByJobId(Interview interview){
         String sql = "UPDATE Interview SET "
                 + "start_date = ?, "
                 + "interview_link = ?, "
@@ -332,7 +313,7 @@ public class JobDAO {
         }
     }
 
-    public void deleteJobTagByJobId(int jobId) {
+    public void deleteJobTagByJobId(int jobId){
         String sql = "DELETE FROM JobTag WHERE job_id = ?";
 
         try {
@@ -345,7 +326,7 @@ public class JobDAO {
         }
     }
 
-    public void updateJobByJobId(Job job) {
+    public void updateJobByJobId(Job job){
         String sql = "UPDATE Job SET " +
                 "job_title = ?, " +
                 "job_description = ?, " +
@@ -386,7 +367,7 @@ public class JobDAO {
         }
     }
 
-    public boolean deleteJobByJobId(int jobId) {
+    public void deleteJobByJobId(int jobId){
         String sql = "DELETE FROM Job WHERE job_id = ?";
 
         try {
@@ -394,10 +375,8 @@ public class JobDAO {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, jobId);
             int rowsAffected = ps.executeUpdate();
-            return rowsAffected > 0;
         } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+            throw new RuntimeException(e);
         }
     }
 
@@ -407,7 +386,6 @@ public class JobDAO {
 
         try (Connection con = dbConnection.openConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
-
 
             ps.setInt(1, categoryId);
             try (ResultSet rs = ps.executeQuery()) {
@@ -463,7 +441,6 @@ public class JobDAO {
 
         return list;
     }
-
     public List<JobGreeting> search(int accountId, String sort) {
         List<JobGreeting> list = new ArrayList<>();
 
@@ -517,7 +494,6 @@ public class JobDAO {
         }
         return list;
     }
-
     public List<JobGreeting> getJobGreetingByJobSeekerId(int jobSeekerId) {
         List<JobGreeting> list = new ArrayList<>();
         String sql = "SELECT * FROM JobGreeting WHERE job_seeker_id = ?";
@@ -549,7 +525,6 @@ public class JobDAO {
         }
         return list;
     }
-
     public Job getJobById(int id) {
         Job job = null;
         String sql = "SELECT * FROM Job WHERE job_id = ?";
@@ -661,112 +636,11 @@ public class JobDAO {
         return jobs;
     }
 
-
-    public int getNumOfCompleteJobByJobSeekerId(int jobSeekerId) {
-        int numOfComplete = 0;
-        String query = "select count(*) as num_job_complete from Job join JobGreeting on Job.job_id = JobGreeting.job_id where JobGreeting.status = N'Được nhận' and job.status_job_id = 6 and JobGreeting.job_seeker_id = ?;";
-
-        try {
-            Connection con = dbConnection.openConnection();
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, jobSeekerId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                numOfComplete = rs.getInt("num_job_complete");
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        return numOfComplete;
-    }
-
-    public JobGreeting getJobGreetingById(int greetingId) {
-        JobGreeting jobGreeting = null;
-        String sql = "SELECT greeting_id, job_seeker_id, job_id, introduction, attachment, " +
-                "price, status, expected_day, cv_id, have_read " +
-                "FROM JobGreeting WHERE greeting_id = ?";
-        try {
-            Connection con = dbConnection.openConnection();
-            PreparedStatement ps = con.prepareStatement(sql);
-
-
-            ps.setInt(1, greetingId);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                jobGreeting = new JobGreeting();
-                jobGreeting.setGreetingId(rs.getInt("greeting_id"));
-                jobGreeting.setJobSeekerId(rs.getInt("job_seeker_id"));
-                jobGreeting.setJobId(rs.getInt("job_id"));
-                jobGreeting.setIntroduction(rs.getString("introduction"));
-                jobGreeting.setAttachment(rs.getString("attachment"));
-                jobGreeting.setPrice(rs.getInt("price"));
-                jobGreeting.setStatus(rs.getString("status"));
-                jobGreeting.setExpectedDay(rs.getInt("expected_day")); // tên cột mới
-                jobGreeting.setCvId(rs.getInt("cv_id"));
-                // Nếu muốn xử lý have_read:
-                // jobGreeting.setHaveRead(rs.getBoolean("have_read"));
-            }
-
-
-            rs.close();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return jobGreeting;
-    }
-
     public static void main(String[] args) {
         JobDAO jobDAO = new JobDAO();
         System.out.println(jobDAO.getAllJobs().size());
     }
-
-    public int countTotalJobsByAccountId(int accountId) {
-        String query = "SELECT COUNT(*) FROM Job WHERE post_account_id = ?";
-        try (Connection conn = dbConnection.openConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-
-            stmt.setInt(1, accountId);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return 0;
-    }
-
-    public int countCompletedJobsByAccountId(int accountId) {
-        String query = "SELECT COUNT(*) FROM Job WHERE post_account_id = ? AND status_job_id = 6"; // 'Hoàn thành' status_job_id = 6
-        try (Connection conn = dbConnection.openConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-
-            stmt.setInt(1, accountId);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    public double getJobCompletionRateByAccountId(int accountId) {
-        int total = countTotalJobsByAccountId(accountId);
-        if (total == 0) {
-            return 0.0;
-        }
-        int completed = countCompletedJobsByAccountId(accountId);
-        return (completed * 100.0) / total;
-    }
-
 }
-
 
 
 

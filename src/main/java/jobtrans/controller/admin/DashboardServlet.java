@@ -1,4 +1,4 @@
-package jobtrans.controller.web.account;
+package jobtrans.controller.admin;
 
 import com.google.gson.Gson;
 import jobtrans.dal.DashboardDAO;
