@@ -38,14 +38,14 @@
                                 <input name="thanh_vien" id="filterCanhan" type="checkbox"/>
                                 <span class="slider"></span>
                             </label>
-                            <span class="filter-label">Cá nhân</span>
+                            <span class="filter-label">Cá nhân (${numPrivate})</span>
                         </li>
                         <li>
                             <label class="switch">
                                 <input name="thanh_vien" id="filterNhom" type="checkbox"/>
                                 <span class="slider"></span>
                             </label>
-                            <span class="filter-label">Nhóm dự án</span>
+                            <span class="filter-label">Nhóm dự án(${numGroup})</span>
                         </li>
                     </ul>
                 </div>
@@ -57,14 +57,14 @@
                                 <input name="active" id="filterActive" type="checkbox"/>
                                 <span class="slider"></span>
                             </label>
-                            <span class="filter-label">Đang hoạt động</span>
+                            <span class="filter-label">Đang hoạt động (${numActive})</span>
                         </li>
                         <li>
                             <label class="switch">
                                 <input name="banned" id="filterBanned" type="checkbox"/>
                                 <span class="slider"></span>
                             </label>
-                            <span class="filter-label">Bị Chặn</span>
+                            <span class="filter-label">Bị Chặn (${numBanned})</span>
                         </li>
                     </ul>
                 </div>
@@ -168,6 +168,18 @@
                                                href="acc-manage?action=viewAccountDetails&accId=${o.accountId}">
                                                 Xem chi tiết
                                             </a>
+                                            <c:if test="${o.status == 'Bị cấm'}">
+                                                <a class="detail-link"
+                                                   href="acc-manage?action=unbanUser&accId=${o.accountId}">
+                                                    Bỏ chặn
+                                                </a>
+                                            </c:if>
+                                            <c:if test="${o.status != 'Bị cấm'}">
+                                                <a class="detail-link"
+                                                   href="acc-manage?action=banUser&accId=${o.accountId}">
+                                                    Chặn
+                                                </a>
+                                            </c:if>
                                         </div>
                                     </div>
                                 </div>

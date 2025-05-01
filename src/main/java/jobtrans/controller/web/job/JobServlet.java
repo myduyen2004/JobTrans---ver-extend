@@ -70,10 +70,12 @@ public class JobServlet extends HttpServlet {
                 break;
             case "downloadFile":
                 downloadFile(request, response);
+                break;
             case "view-candidates-list":
                 viewCandidatesList(request, response);
+                break;
             case "download":
-                downloadFile(request, response);
+                downloadFileJob(request, response);
                 break;
             default:
                 response.getWriter().print("Lỗi rồi má");
@@ -404,13 +406,33 @@ public class JobServlet extends HttpServlet {
         int jobId = Integer.parseInt(request.getParameter("jobId"));
         HttpSession session = request.getSession();
         JobDAO jobDAO = new JobDAO();
+        AccountDAO accountDAO = new AccountDAO();
+        TagDAO tagDAO = new TagDAO();
         if (session.getAttribute("sessionAccount") != null) {
+            Account account = (Account) session.getAttribute("sessionAccount");
+            Account account1 = accountDAO.getAccountById(account.getAccountId());
+            int accountId = account1.getAccountId();
             Job job = jobDAO.getJobById(jobId);
             List<JobGreeting> greetings = jobDAO.getJobGreetingsByJobId(jobId);
+            Test test = jobDAO.getTestByJobId(job.getJobId());
+            Account postAcc = accountDAO.getAccountById(job.getPostAccountId());
+            List<Tag> tagList;
+            try {
+                tagList = tagDAO.getTagsByJobId(jobId);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+            String formattedBudgetMin = currencyFormat.format(job.getBudgetMin());
+            String formattedBudgetMax = currencyFormat.format(job.getBudgetMax());
+            request.setAttribute("budgetRange", formattedBudgetMin + " - " + formattedBudgetMax);
+            request.setAttribute("test", test);
+            request.setAttribute("loggedAccountId", accountId);
+            request.setAttribute("postAcc", postAcc);
+            request.setAttribute("tagList", tagList);
             request.setAttribute("job", job);
             request.setAttribute("greetings", greetings);
-//        response.getWriter().print(job);
-            request.getRequestDispatcher("job-post-detail.jsp").forward(request, response);
+            request.getRequestDispatcher("job-post-detail-employee.jsp").forward(request, response);
         }else {
             response.sendRedirect("home");
         }
@@ -420,6 +442,7 @@ public class JobServlet extends HttpServlet {
         JobDAO jobDAO = new JobDAO();
         AccountDAO accountDAO = new AccountDAO();
         Job job = new Job();
+        TagDAO tagDAO = new TagDAO();
         //Login ok thì mở comment
         HttpSession session = request.getSession();
         if(session.getAttribute("sessionAccount") != null) {
@@ -438,11 +461,9 @@ public class JobServlet extends HttpServlet {
             job.setBudgetMax(new BigDecimal(request.getParameter("budgetMax")));
             //Xu li test
             Test testO = new Test();
-            String test = request.getParameter("kiemtra");
             String testLink = request.getParameter("kiemtra-content");
             String testRequired = request.getParameter("kiemtra-required");
-            if ("yes".equals(test)) {
-                // Người dùng chọn "Có"
+            if (!testLink.isEmpty()) {
                 job.setHaveTested(true);
                 testO.setTestLink(testLink);
                 if ("yes".equals(testRequired)) {
@@ -450,11 +471,7 @@ public class JobServlet extends HttpServlet {
                 } else {
                     testO.setHaveRequired(false);
                 }
-            } else if ("no".equals(test)) {
-                // Người dùng chọn "Không"
-                job.setHaveTested(false);
             } else {
-                // Không chọn gì
                 job.setHaveTested(false);
             }
             Part p = request.getPart("file");
@@ -490,6 +507,7 @@ public class JobServlet extends HttpServlet {
 //                job.setHaveInterviewed(false);
 //            }
 
+
             String dueDateStr = request.getParameter("dueDate");
             if (dueDateStr != null && !dueDateStr.isEmpty()) {
                 // Convert từ String sang java.util.Date
@@ -502,6 +520,7 @@ public class JobServlet extends HttpServlet {
             //Them Interview
 //            interview.setJobId(jobId);
 //            jobDAO.insertInterview(interview);
+
 
             //Them test moi
             testO.setJobId(jobId);
@@ -517,10 +536,26 @@ public class JobServlet extends HttpServlet {
             }
 
             Job jobNew = jobDAO.getJobById(jobId);
+            List<Tag> tagList;
+            try {
+                tagList = tagDAO.getTagsByJobId(jobId);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
             List<JobGreeting> greetings = jobDAO.getJobGreetingsByJobId(jobId);
+            Account postAcc = accountDAO.getAccountById(jobNew.getPostAccountId());
+            Test test = jobDAO.getTestByJobId(jobId);
+            NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+            String formattedBudgetMin = currencyFormat.format(job.getBudgetMin());
+            String formattedBudgetMax = currencyFormat.format(job.getBudgetMax());
+            request.setAttribute("budgetRange", formattedBudgetMin + " - " + formattedBudgetMax);
+            request.setAttribute("test", test);
+            request.setAttribute("loggedAccountId", accountId);
+            request.setAttribute("postAcc", postAcc);
+            request.setAttribute("tagList", tagList);
             request.setAttribute("job", jobNew);
             request.setAttribute("greetings", greetings);
-            request.getRequestDispatcher("job-post-detail.jsp").forward(request, response);
+            request.getRequestDispatcher("job-post-detail-employee.jsp").forward(request, response);
         }else {
             response.sendRedirect("home");
         }
@@ -543,6 +578,12 @@ public class JobServlet extends HttpServlet {
         HttpSession session = request.getSession();
         if (session.getAttribute("sessionAccount") != null) {
             JobDAO jobDAO = new JobDAO();
+            AccountDAO accountDAO = new AccountDAO();
+            TagDAO tagDAO = new TagDAO();
+            Account account = (Account) session.getAttribute("sessionAccount");
+            Account account1 = accountDAO.getAccountById(account.getAccountId());
+            int accountId = account1.getAccountId();
+
             Job job = new Job();
             int jobId = Integer.parseInt(request.getParameter("jobId"));
             Job oldJob = jobDAO.getJobById(jobId);
@@ -556,13 +597,11 @@ public class JobServlet extends HttpServlet {
             job.setBenefit(request.getParameter("benefit"));
             job.setBudgetMin(new BigDecimal(request.getParameter("budgetMin")));
             job.setBudgetMax(new BigDecimal(request.getParameter("budgetMax")));
-            //Xu li test
+            //Xử lý test
             Test testO = new Test();
-            String test = request.getParameter("kiemtra");
             String testLink = request.getParameter("kiemtra-content");
             String testRequired = request.getParameter("kiemtra-required");
-            if ("yes".equals(test)) {
-                // Người dùng chọn "Có"
+            if (!testLink.isEmpty()) {
                 job.setHaveTested(true);
                 testO.setTestLink(testLink);
                 if ("yes".equals(testRequired)) {
@@ -570,11 +609,7 @@ public class JobServlet extends HttpServlet {
                 } else {
                     testO.setHaveRequired(false);
                 }
-            } else if ("no".equals(test)) {
-                // Người dùng chọn "Không"
-                job.setHaveTested(false);
             } else {
-                // Không chọn gì
                 job.setHaveTested(false);
             }
             Part p = request.getPart("file");
@@ -610,21 +645,23 @@ public class JobServlet extends HttpServlet {
 //                job.setHaveInterviewed(false);
 //            }
 
+
             String dueDateStr = request.getParameter("dueDate");
             if (dueDateStr != null && !dueDateStr.isEmpty()) {
                 // Convert từ String sang java.util.Date
                 job.setDueDatePost(Date.valueOf(dueDateStr));
             }
 
-            jobDAO.updateJobByJobId(job);
+            job.setHaveInterviewed(false);
 
             //Them Interview
 //            interview.setJobId(jobId);
 //            jobDAO.updateInterviewByJobId(interview);
 
-            //Them test moi
+
+            //add test moi
             testO.setJobId(jobId);
-            jobDAO.insertTest(testO);
+            jobDAO.updateTest(testO);
 
             //Them JobTag moi
             String[] tags = request.getParameterValues("tag");
@@ -638,10 +675,26 @@ public class JobServlet extends HttpServlet {
             }
 
             Job jobNew = jobDAO.getJobById(jobId);
+            List<Tag> tagList;
+            try {
+                tagList = tagDAO.getTagsByJobId(jobId);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
             List<JobGreeting> greetings = jobDAO.getJobGreetingsByJobId(jobId);
+            Account postAcc = accountDAO.getAccountById(jobNew.getPostAccountId());
+            Test test = jobDAO.getTestByJobId(jobId);
+            NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+            String formattedBudgetMin = currencyFormat.format(job.getBudgetMin());
+            String formattedBudgetMax = currencyFormat.format(job.getBudgetMax());
+            request.setAttribute("budgetRange", formattedBudgetMin + " - " + formattedBudgetMax);
+            request.setAttribute("test", test);
+            request.setAttribute("loggedAccountId", accountId);
+            request.setAttribute("postAcc", postAcc);
+            request.setAttribute("tagList", tagList);
             request.setAttribute("job", jobNew);
             request.setAttribute("greetings", greetings);
-            request.getRequestDispatcher("job-post-detail.jsp").forward(request, response);
+            request.getRequestDispatcher("job-post-detail-employee.jsp").forward(request, response);
         }else{
             response.sendRedirect("home");
         }
@@ -715,9 +768,9 @@ public class JobServlet extends HttpServlet {
 
 protected void downloadFile(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
-
     // Get file path from request parameter
     String filePath = request.getParameter("filePath");
+
 
     try {
         if (filePath == null || filePath.isEmpty()) {
@@ -764,9 +817,83 @@ protected void downloadFile(HttpServletRequest request, HttpServletResponse resp
         }
     }
 }
+
     // Phương thức trợ giúp để lấy đường dẫn upload
     private String getUploadPath(HttpServletRequest request) {
         return request.getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
+    }
+
+    private void downloadFileJob(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Lấy tên tệp từ request parameter
+        String fileName = request.getParameter("file");
+        String jobIdStr = request.getParameter("jobId");
+
+        if (fileName == null || fileName.isEmpty() || jobIdStr == null || jobIdStr.isEmpty()) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Tên tệp hoặc ID công việc không hợp lệ");
+            return;
+        }
+
+        try {
+            int jobId = Integer.parseInt(jobIdStr);
+
+            // Kiểm tra quyền truy cập tệp (xác thực người dùng có quyền truy cập công việc này)
+            // Ví dụ: người dùng đã đăng nhập và là người đăng công việc hoặc ứng viên đã được chấp nhận
+            HttpSession session = request.getSession();
+            Account loggedInUser = (Account) session.getAttribute("sessionAccount");
+
+            if (loggedInUser == null) {
+                response.sendRedirect(request.getContextPath() + "/login.jsp");
+                return;
+            }
+
+            JobDAO jobDAO = new JobDAO();
+            Job job = jobDAO.getJobById(jobId);
+
+            // Kiểm tra xem tệp có thuộc về công việc này không
+            if (job == null || job.getAttachment() == null || !job.getAttachment().contains(fileName)) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Tệp không tồn tại hoặc không thuộc về công việc này");
+                return;
+            }
+
+            // Tạo đường dẫn tệp
+            String filePath = getServletContext().getRealPath("") + "job_docs" + File.separator + fileName;
+            File file = new File(filePath);
+
+            if (!file.exists()) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Tệp không tồn tại");
+                return;
+            }
+
+            // Thiết lập thông tin phản hồi
+            String mimeType = getServletContext().getMimeType(file.getName());
+            if (mimeType == null) {
+                // Nếu kiểu MIME không được xác định, sử dụng kiểu mặc định
+                mimeType = "application/octet-stream";
+            }
+
+            response.setContentType(mimeType);
+            response.setContentLength((int) file.length());
+
+            // Thiết lập header Content-Disposition để khuyến khích tải xuống
+            String headerKey = "Content-Disposition";
+            String headerValue = String.format("attachment; filename=\"%s\"", file.getName());
+            response.setHeader(headerKey, headerValue);
+
+            // Ghi tệp vào phản hồi
+            try (FileInputStream inStream = new FileInputStream(file);
+                 OutputStream outStream = response.getOutputStream()) {
+
+                byte[] buffer = new byte[4096];
+                int bytesRead;
+
+                while ((bytesRead = inStream.read(buffer)) != -1) {
+                    outStream.write(buffer, 0, bytesRead);
+                }
+            }
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID công việc không hợp lệ");
+        }
     }
 //
 //    // Phương thức trợ giúp để lấy kích thước tệp

@@ -26,13 +26,19 @@
                 </c:if>
             </div>
             <div class="profile-role">${account.typeAccount}</div>
-            <div class="profile-location">${account.address}</div>
+            <div class="profile-points">${account.point} Điểm</div>
         </div>
 
-        <div class="profile-actions">
-            <h3 class="text-center">Điểm số: ${account.point}</h3>
-            <a href="#" class="edit-button" style="color: white; background-color: #DC2626;">Chặn</a>
-        </div>
+        <c:if test="${account.status == 'Bị cấm'}">
+            <div class="profile-actions">
+                <a href="acc-manage?action=unbanUserFromDetail&accId=${account.accountId}" class="edit-button" style="color: rgb(39, 64, 179); background-color: white;">Bỏ chặn</a>
+            </div>
+        </c:if>
+        <c:if test="${account.status != 'Bị cấm'}">
+            <div class="profile-actions">
+                <a href="acc-manage?action=banUserFromDetail&accId=${account.accountId}" class="edit-button" style="color: white; background-color: #f44336;">Chặn</a>
+            </div>
+        </c:if>
     </div>
 
     <!-- Body content -->
@@ -43,6 +49,12 @@
                 <h2 class="card-title">Giới thiệu</h2>
                 <p>${account.bio}</p>
             </div>
+            <c:if test="${account.typeAccount == 'Cá nhân'}">
+                <div class="card">
+                    <h2 class="card-title">Kĩ năng</h2>
+                    <p id="skills-tags-container" style="display: flex">${account.skills}</p>
+                </div>
+            </c:if>
             <div class="card">
                 <h2 class="card-title">Thông tin chuyên môn</h2>
                 <div class="info-grid">
@@ -317,6 +329,42 @@
 
 </div>
 <%@include file="includes/footer.jsp" %>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Lấy container chứa các tag kỹ năng
+        const container = document.getElementById('skills-tags-container');
 
+        // Lấy giá trị kỹ năng từ server (giả sử cách nhau bằng dấu phẩy)
+        const skillsString = container.textContent.trim();
+
+        // Xóa nội dung gốc
+        container.innerHTML = '';
+
+        // Kiểm tra nếu có kỹ năng
+        if (skillsString) {
+            // Tách các kỹ năng thành mảng
+            const skillsArray = skillsString.split(',');
+
+            // Tạo tag cho mỗi kỹ năng
+            skillsArray.forEach(skill => {
+                const skillTrimmed = skill.trim();
+                if (skillTrimmed) {
+                    // Tạo thẻ div với class "tag"
+                    const tagElement = document.createElement('div');
+                    tagElement.className = 'tag';
+
+                    // Thêm tên kỹ năng
+                    tagElement.appendChild(document.createTextNode(skillTrimmed));
+
+                    // Thêm tag vào container
+                    container.appendChild(tagElement);
+                }
+            });
+        } else {
+            // Hiển thị thông báo nếu không có kỹ năng
+            container.textContent = 'Chưa có thông tin kỹ năng';
+        }
+    });
+</script>
 </body>
 </html>

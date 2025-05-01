@@ -68,7 +68,7 @@
                                 <li class="filter-item visible"><a href="viec-lam/?price=under1m&page=1">Giá dưới 1 triệu</a></li>
                                 <li class="filter-item visible"><a href="viec-lam/?price=1-2m&sort=${sortType}&page=1">Giá từ 1-2 triệu</a></li>
                                 <li class="filter-item visible"><a href="viec-lam/?price=3-4m&sort=${sortType}&page=1">Giá từ 3-4 triệu</a></li>
-                                <li class="filter-item visible"><a href="viec-lam/?price=4-5m&sort=${sortType}&page=1">Giá từ 4-5 triệu</a></li>
+                                <li class="filter-item visible"><a href="/JobTrans/viec-lam/?price=4-5m&sort=${sortType}&page=1">Giá từ 4-5 triệu</a></li>
                                 <li class="filter-item visible"><a href="viec-lam/?price=5-10m&sort=${sortType}&page=1">Giá từ 5-10 triệu</a></li>
                                 <li class="filter-item visible"><a href="viec-lam/?price=10-20m&sort=${sortType}&page=1">Giá từ 10-20 triệu</a></li>
                                 <li class="filter-item visible"><a href="viec-lam/?price=20-30m&sort=${sortType}&page=1">Giá từ 20-30 triệu</a></li>
@@ -92,11 +92,11 @@
                                 </svg>
                             </div>
                             <ul class="filter-list job">
-                                <li class="filter-item visible"><a href="viec-lam/?jobType=tuvan-coaching&sort=${sortType}&page=1">Tư vấn-Coaching</a></li>
-                                <li class="filter-item visible"><a href="viec-lam/?jobType=dichthuat&sort=${sortType}&page=1">Dịch thuật</a></li>
-                                <li class="filter-item visible"><a href="viec-lam/?jobType=congnghe-it&sort=${sortType}&page=1">Công nghệ & IT</a></li>
-                                <li class="filter-item visible"><a href="viec-lam/?jobType=marketing&sort=${sortType}&page=1">Marketing</a></li>
-                                <li class="filter-item visible"><a href="viec-lam/?jobType=khac&sort=${sortType}&page=1">Khác</a></li>
+                                <li class="filter-item visible"><a href="/JobTrans/viec-lam/?jobType=tuvan,coaching&sort=${sortType}&page=1">Tư vấn-Coaching</a></li>
+                                <li class="filter-item visible"><a href="/JobTrans/viec-lam/?jobType=dichthuat&sort=${sortType}&page=1">Dịch thuật</a></li>
+                                <li class="filter-item visible"><a href="/JobTrans/viec-lam/?jobType=congnghe%26it&sort=${sortType}&page=1">Công nghệ & IT</a></li>
+                                <li class="filter-item visible"><a href="/JobTrans/viec-lam/?jobType=marketing&sort=${sortType}&page=1">Marketing</a></li>
+                                <li class="filter-item visible"><a href="/JobTrans/viec-lam/?jobType=khac&sort=${sortType}&page=1">Khác</a></li>
                             </ul>
                             <div class="filter-more job" onclick="showMoreCViec()">
                                 Xem thêm

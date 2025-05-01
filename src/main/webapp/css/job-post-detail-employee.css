@@ -280,7 +280,6 @@ textarea.form-control {
      /* Styling for the action buttons card */
  .btn {
      width: 100%;
-
  }
 
 .btn i{
@@ -329,6 +328,25 @@ textarea.form-control {
     color: #fff;
 }
 
+.btn-delete {
+    background-color: #f44336;
+    color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: opacity 0.2s;
+    text-align: center;
+    display: inline-block;
+    text-decoration: none;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.btn-delete:hover {
+    background-color: #d32f2f;
+}
 /* Styling for the job stats card */
 
 /* Enhanced styling for the job stats card */

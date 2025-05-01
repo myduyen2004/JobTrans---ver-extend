@@ -830,6 +830,22 @@ public class AccountDAO {
         }
     }
 
+    public boolean unbanAccount(int accountId) {
+        String query = "update Account set status=? where account_id=?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setNString(1,"Đang hoạt động");
+            ps.setInt(2, accountId);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public boolean insertPointHistory(int accountId, int criteriaId, String pointNote){
         String sql = "INSERT INTO PointHistory (account_id, criteria_id, point_note) VALUES (?, ?, ?)";
 
@@ -846,10 +862,50 @@ public class AccountDAO {
             e.printStackTrace();
             return false;
         }
-
-
-
     }
+
+    public int getNumUserByStatus(String status) {
+        String query = "select count(*) nums from Account where status = ? and role !=?";
+
+        int num = 0;
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setNString(1, status);
+            ps.setNString(2, "Admin");
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                num = rs.getInt("nums");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return num;
+    }
+
+    public int getNumUserByTypeAccount(String type) {
+        String query = "select count(*) nums from Account where type_account = ? and role !=?";
+
+        int num = 0;
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setNString(1, type);
+            ps.setNString(2, "Admin");
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                num = rs.getInt("nums");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return num;
+    }
+
     public boolean substractAmountWallet(int accountId, BigDecimal amount) {
         String sql = "UPDATE Account SET amount_wallet = amount_wallet - ? WHERE account_id = ? AND amount_wallet >= ?";
         try (PreparedStatement ps = dbConnection.openConnection().prepareStatement(sql)) {

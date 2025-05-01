@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+    <jsp:useBean id="accDao" class="jobtrans.dal.AccountDAO" scope="session"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu Quản Lý Admin</title>
@@ -35,11 +36,11 @@
                 </li>
 
                 <li class="submenu-item">
-                    <a href="acc-manage?action=viewAllReports" class="submenu-link">
+                    <a href="report-manage?action=viewAllReports" class="submenu-link">
                         <i class="fas fa-flag"></i>
                         <span class="link-text">
                                 Quản lý Report
-                                <span class="badge new">5 mới</span>
+                                <span class="badge new">${accDao.getNumberOfPendingReports()} chờ xử lí</span>
                                 <i class="fas fa-chevron-right arrow"></i>
                             </span>
                     </a>
