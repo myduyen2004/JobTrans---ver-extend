@@ -11,4 +11,3 @@ public interface Configuration {
     public static String pass = "12";
     public static String templatePath = null ;
 }
-

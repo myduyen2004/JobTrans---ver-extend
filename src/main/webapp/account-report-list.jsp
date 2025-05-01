@@ -48,28 +48,30 @@
               <h5 class="section-heading">Báo cáo đã tạo (${accDao.getNumOfReportsByReportBy(accountLogged.accountId)})</h5>
 
               <c:forEach items="${reportList}" var="o">
-                <div class="report-item d-flex align-items-center">
-                  <div class="report-icon">
-                    <i class="fas fa-chart-bar"></i>
-                  </div>
-                  <div class="flex-grow-1">
-                    <div class="d-flex justify-content-between align-items-start">
-                      <a href="profile?action=viewReport&reportId=${o.reportId}"><h6 class="mb-1">${accDao.getAccountById(o.reportedAccount).accountName} - ${accDao.getCriteriaById(o.criteriaId).content}</h6></a>
-                      <c:choose>
-                        <c:when test="${o.status == 'Chờ xử lí'}">
-                          <span class="report-status status-pending">Đang xử lí</span>
-                        </c:when>
-                        <c:when test="${o.status == 'Bị từ chối'}">
-                          <span class="report-status status-in-progress">Đã từ chối</span>
-                        </c:when>
-                        <c:when test="${o.status == 'Đã xử lí'}">
-                          <span class="report-status status-completed">Đã xử lí</span>
-                        </c:when>
-                      </c:choose>
+                <a href="report-manage?action=viewReportDetail&reportId=${o.reportId}" style="text-decoration: none;">
+                  <div class="report-item d-flex align-items-center">
+                    <div class="report-icon">
+                      <i class="fas fa-chart-bar"></i>
                     </div>
-                    <p class="text-muted mb-0 small">Cập nhật: <fmt:formatDate value="${o.reportTime}" pattern="dd/MM/yyyy"/></p>
+                    <div class="flex-grow-1">
+                      <div class="d-flex justify-content-between align-items-start">
+                        <a href="profile?action=viewReport&reportId=${o.reportId}"><h6 class="mb-1">${accDao.getAccountById(o.reportedAccount).accountName} - ${accDao.getCriteriaById(o.criteriaId).content}</h6></a>
+                        <c:choose>
+                          <c:when test="${o.status == 'Chờ xử lí'}">
+                            <span class="report-status status-pending">Đang xử lí</span>
+                          </c:when>
+                          <c:when test="${o.status == 'Bị từ chối'}">
+                            <span class="report-status status-in-progress">Đã từ chối</span>
+                          </c:when>
+                          <c:when test="${o.status == 'Đã xử lí'}">
+                            <span class="report-status status-completed">Đã xử lí</span>
+                          </c:when>
+                        </c:choose>
+                      </div>
+                      <p class="text-muted mb-0 small">Cập nhật: <fmt:formatDate value="${o.reportTime}" pattern="dd/MM/yyyy"/></p>
+                    </div>
                   </div>
-                </div>
+                </a>
               </c:forEach>
             </div>
 
@@ -78,28 +80,30 @@
               <h5 class="section-heading">Báo cáo nhận được (${accDao.getNumberOfReportsByReportedAcc(o.reportedAccount)})</h5>
 
               <c:forEach items="${reportedList}" var="o">
-                <div class="report-item d-flex align-items-center">
-                  <div class="report-icon">
-                    <i class="fas fa-file-alt"></i>
-                  </div>
-                  <div class="flex-grow-1">
-                    <div class="d-flex justify-content-between align-items-start">
-                      <h6 class="mb-1">${accDao.getAccountById(o.reportedAccount).accountName} - ${accDao.getCriteriaById(o.criteriaId).content}</h6>
-                      <c:choose>
-                        <c:when test="${o.status == 'Chờ xử lí'}">
-                          <span class="report-status status-pending">Đang xử lí</span>
-                        </c:when>
-                        <c:when test="${o.status == 'Bị từ chối'}">
-                          <span class="report-status status-in-progress">Đã từ chối</span>
-                        </c:when>
-                        <c:when test="${o.status == 'Đã xử lí'}">
-                          <span class="report-status status-completed">Đã xử lí</span>
-                        </c:when>
-                      </c:choose>
+                <a href="report-manage?action=viewReportDetail&reportId=${o.reportId}" style="text-decoration: none;">
+                  <div class="report-item d-flex align-items-center">
+                    <div class="report-icon">
+                      <i class="fas fa-file-alt"></i>
                     </div>
-                    <p class="text-muted mb-0 small">Từ: ${accDao.getAccountById(o.reportBy).accountName} - <fmt:formatDate value="${o.reportTime}" pattern="dd/MM/yyyy"/></p>
+                    <div class="flex-grow-1">
+                      <div class="d-flex justify-content-between align-items-start">
+                        <h6 class="mb-1">${accDao.getAccountById(o.reportedAccount).accountName} - ${accDao.getCriteriaById(o.criteriaId).content}</h6>
+                        <c:choose>
+                          <c:when test="${o.status == 'Chờ xử lí'}">
+                            <span class="report-status status-pending">Đang xử lí</span>
+                          </c:when>
+                          <c:when test="${o.status == 'Bị từ chối'}">
+                            <span class="report-status status-in-progress">Đã từ chối</span>
+                          </c:when>
+                          <c:when test="${o.status == 'Đã xử lí'}">
+                            <span class="report-status status-completed">Đã xử lí</span>
+                          </c:when>
+                        </c:choose>
+                      </div>
+                      <p class="text-muted mb-0 small">Từ: ${accDao.getAccountById(o.reportBy).accountName} - <fmt:formatDate value="${o.reportTime}" pattern="dd/MM/yyyy"/></p>
+                    </div>
                   </div>
-                </div>
+                </a>
               </c:forEach>
             </div>
           </div>

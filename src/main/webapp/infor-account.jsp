@@ -8,6 +8,10 @@
     <title>Thông tin tài khoản</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="css/infor-account.css">
+    <jsp:useBean id="accountDAO" class="jobtrans.dal.AccountDAO" scope="page" />
+    <jsp:useBean id="reportDAO" class="jobtrans.dal.ReportDAO" scope="page" />
+    <jsp:useBean id="criteriaDAO" class="jobtrans.dal.CriteriaDAO" scope="page" />
+
 </head>
 <body>
 <%@include file="includes/header-01.jsp"%>
@@ -334,88 +338,53 @@
     <div class="reports-container">
         <div class="reports-header">
             <div class="contact-icon"><i class="fas fa-list"></i></div>
-            <h2 class="reports-title">Danh sách các báo cáo nhận được</h2>
-            <div class="reports-count">3 báo cáo</div>
+            <h2 class="reports-title" style="margin-left: 70px">Danh sách các báo cáo nhận được</h2>
+            <div class="reports-count">${reportDAO.getReportCountByReportedAccount(account.accountId)} báo cáo</div>
         </div>
 
         <div class="reports-body">
+            <c:if test="${not empty reportList}">
             <table class="reports-table">
                 <thead>
                 <tr>
                     <th>Người báo cáo</th>
                     <th>Nội dung báo cáo</th>
-                    <th>Tiêu chí vi phạm</th>
+                    <th>Tiêu chí</th>
                     <th>Thời gian</th>
                     <th>Trạng thái</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>
-                        <div class="reporter">
-                            <img src="/api/placeholder/64/64" alt="Trần Văn B" class="reporter-avatar">
-                            Trần Văn B
-                        </div>
-                    </td>
-                    <td>
-                        <div class="report-content">
-                            Không thực hiện dự án theo đúng thỏa thuận và liên tục trì hoãn thời gian bàn giao sản phẩm mà không có thông báo trước.
-                        </div>
-                    </td>
-                    <td>
-                        <span class="criteria" data-tooltip="Vi phạm về việc không tuân thủ thời hạn đã cam kết trong hợp đồng làm việc">Vi phạm thời hạn</span>
-                    </td>
-                    <td>
-                        <div class="report-date">12/04/2025</div>
-                    </td>
-                    <td>
-                        <span class="status-badge status-pending">Đang xử lý</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="reporter">
-                            <img src="/api/placeholder/64/64" alt="Lê Thị C" class="reporter-avatar">
-                            Lê Thị C
-                        </div>
-                    </td>
-                    <td>
-                        <div class="report-content">
-                            Cung cấp thiết kế không đạt chất lượng như đã thỏa thuận và từ chối chỉnh sửa theo yêu cầu của khách hàng.
-                        </div>
-                    </td>
-                    <td>
-                        <span class="criteria" data-tooltip="Vi phạm về chất lượng sản phẩm không đáp ứng các yêu cầu đã thỏa thuận trong hợp đồng">Chất lượng sản phẩm</span>
-                    </td>
-                    <td>
-                        <div class="report-date">05/03/2025</div>
-                    </td>
-                    <td>
-                        <span class="status-badge status-resolved">Đã giải quyết</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="reporter">
-                            <img src="/api/placeholder/64/64" alt="Phạm Văn D" class="reporter-avatar">
-                            Phạm Văn D
-                        </div>
-                    </td>
-                    <td>
-                        <div class="report-content">
-                            Vi phạm bản quyền trong thiết kế đã cung cấp, sử dụng hình ảnh không được phép mà không thông báo cho khách hàng.
-                        </div>
-                    </td>
-                    <td>
-                        <span class="criteria" data-tooltip="Vi phạm quyền sở hữu trí tuệ, sử dụng nội dung có bản quyền không được phép hoặc không đúng quy định">Vi phạm bản quyền</span>
-                    </td>
-                    <td>
-                        <div class="report-date">20/02/2025</div>
-                    </td>
-                    <td>
-                        <span class="status-badge status-rejected">Đã từ chối</span>
-                    </td>
-                </tr>
+                <c:forEach var="report" items="${reportList}">
+                    <tr>
+                        <td>
+                            <div class="reporter">
+                                <img src="${accountDAO.getAccountById(report.reportBy).avatar}" alt="${accountDAO.getAccountById(report.reportBy).accountName}" class="reporter-avatar">
+                                ${accountDAO.getAccountById(report.reportBy).accountName}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="report-content">${report.contentReport}</div>
+                        </td>
+                        <td>
+                            <span class="criteria" data-tooltip="${criteriaDAO.getCriteriaById(report.criteriaId).content}">${criteriaDAO.getCriteriaById(report.criteriaId).labelTag}</span>
+                        </td>
+                        <td>
+                            <div class="report-date">${report.reportTime}</div>
+                        </td>
+                        <td>
+                            <c:if test="${report.status == 'Chờ xử lí'}">
+                                <span class="status-badge status-pending">${report.status}</span>
+                            </c:if>
+                            <c:if test="${report.status == 'Bị từ chối'}">
+                                <span class="status-badge status-rejected">${report.status}</span>
+                            </c:if>
+                            <c:if test="${report.status == 'Đã xử lí'}">
+                                <span class="status-badge status-resolved">${report.status}</span>
+                            </c:if>
+                        </td>
+                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
             <div class="show-more-container">
@@ -423,6 +392,10 @@
                     <button class="show-more-btn">Xem tất cả báo cáo</button>
                 </a>
             </div>
+            </c:if>
+            <c:if test="${empty reportList}">
+                <p style="font-style: italic; text-align: center; margin: 20px 0;">Không có báo cáo nào cho tài khoản này</p>
+            </c:if>
         </div>
     </div>
 </div >

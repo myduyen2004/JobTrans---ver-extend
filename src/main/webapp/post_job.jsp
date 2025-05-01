@@ -33,7 +33,7 @@
                 <div class="form-group">
                     <label class="form-label" for="category">Phân loại:</label>
                     <select id="category" name="category" class="form-control">
-                        <option disabled selected>Chọn phân loại</option>
+                        <option value="" disabled selected>Chọn phân loại</option>
                         <c:forEach var="category" items="${jobDao.getAllCategory()}">
                             <option value="${category.categoryId}">${category.categoryName}</option>
                         </c:forEach>
@@ -46,8 +46,8 @@
                     <label class="form-label">Tag:</label>
                     <div class="tag-container">
                         <div class="tag-item">
-                            <select name="tag" class="form-control">
-                                <option disabled selected>Chọn Tag</option>
+                            <select id="tag" name="tag" class="form-control">
+                                <option value="" disabled selected>Chọn Tag</option>
                                 <c:forEach var="tag" items="${jobDao.getAllTag()}">
                                     <option value="${tag.tagId}">${tag.tagName}</option>
                                 </c:forEach>
@@ -103,30 +103,17 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="form-label">Kiểm tra:</label>
-            <div class="radio-group">
-                <label class="radio-container">
-                    <input name="kiemtra" type="radio" value="yes" id="kiemtra-yes">
-                    Có
-                </label>
-                <label class="radio-container">
-                    <input name="kiemtra" type="radio" value="no" id="kiemtra-no" checked>
-                    Không
-                </label>
-            </div>
-        </div>
-
-        <div id="kiemtra-options" class="form-group hidden">
+        <div id="kiemtra-options" style="margin-bottom: 20px">
             <div class="row">
                 <div class="col-12">
-                    <label class="form-label" for="kiemtra-content">Nội dung kiểm tra:</label>
-                    <textarea id="kiemtra-content" name="kiemtra-content" class="form-control"
-                              placeholder="Nhập nội dung kiểm tra"></textarea>
+                    <label class="form-label" for="kiemtra-content">Đường dẫn kiểm tra:</label>
+                    <input id="kiemtra-content" name="kiemtra-content" class="form-control"
+                              placeholder="Nhập nội dung kiểm tra"/>
                 </div>
                 <div class="col-6">
                     <label class="form-label" for="kiemtra-required">Bắt buộc:</label>
                     <select id="kiemtra-required" name="kiemtra-required" class="form-control">
+                        <option value="" disabled selected>Bắt buộc kiểm tra không?</option>
                         <option value="yes">Có</option>
                         <option value="no">Không</option>
                     </select>
@@ -147,14 +134,7 @@
         </div>
 
         <div class="row">
-            <div class="col-6">
-                <div class="form-group">
-                    <label class="form-label" for="interviewDate">Ngày phỏng vấn:</label>
-                    <input id="interviewDate" name="interviewDate" class="form-control" type="date">
-                </div>
-            </div>
-
-            <div class="col-6">
+            <div class="col-12">
                 <div class="form-group">
                     <label class="form-label" for="dueDate">Ngày hết hạn tuyển dụng:</label>
                     <input id="dueDate" name="dueDate" class="form-control" type="date">
@@ -198,19 +178,6 @@
     });
 </script>
 <script>
-    // Xử lý hiển thị tùy chọn kiểm tra
-    document.getElementById('kiemtra-yes').addEventListener('change', function () {
-        if (this.checked) {
-            document.getElementById('kiemtra-options').classList.remove('hidden');
-        }
-    });
-
-    document.getElementById('kiemtra-no').addEventListener('change', function () {
-        if (this.checked) {
-            document.getElementById('kiemtra-options').classList.add('hidden');
-        }
-    });
-
     <%--// Hiển thị tên file khi upload--%>
     <%--document.getElementById('upload').addEventListener('change', function() {--%>
     <%--    const fileName = this.files.length > 0 ?--%>
@@ -280,8 +247,15 @@
 
         // Validate Phân loại
         const category = document.getElementById("category");
-        if (!category.value) {
+        if (!category.value.trim()) {
             showError(category, "Nội dung này không được để trống!");
+            isValid = false;
+        }
+
+        // Validate Tag
+        const tag = document.getElementById("tag");
+        if (!tag.value) {
+            showError(tag, "Nội dung này không được để trống!");
             isValid = false;
         }
 
@@ -296,6 +270,20 @@
         const description = document.getElementById("description");
         if (!description.value.trim()) {
             showError(description, "Nội dung này không được để trống!");
+            isValid = false;
+        }
+
+        // Validate yêu cầu
+        const requirement = document.getElementById("requirement");
+        if (!requirement.value.trim()) {
+            showError(requirement, "Nội dung này không được để trống!");
+            isValid = false;
+        }
+
+        // Validate benefit
+        const benefit = document.getElementById("benefit");
+        if (!benefit.value.trim()) {
+            showError(benefit, "Nội dung này không được để trống!");
             isValid = false;
         }
 
@@ -321,11 +309,17 @@
             isValid = false;
         }
 
-        // Validate ngày phỏng vấn
-        const interviewDate = document.getElementById("interviewDate");
+        // Validate kiemtra-content
+        const testContent = document.getElementById("kiemtra-content");
+        if (!testContent.value.trim()) {
+            showError(testContent, "Nội dung này không được để trống!");
+            isValid = false;
+        }
 
-        if (interviewDate.value && interviewDate.value <= today) {
-            showError(interviewDate, "Ngày phỏng vấn phải lớn hơn ngày hiện tại!");
+        // Validate kiemtra-required
+        const testRequired = document.getElementById("kiemtra-required");
+        if (!testRequired.value.trim()) {
+            showError(testRequired, "Nội dung này không được để trống!");
             isValid = false;
         }
 

@@ -87,9 +87,13 @@
                                                     <i class="fas fa-edit"></i> Sửa
                                                 </button>
                                             </a>
-                                            <button class="delete-btn" onclick="confirmDelete(${o.jobId})">
-                                                <i class="fas fa-trash"></i> Xóa
-                                            </button>
+<%--                                            <button class="delete-btn" onclick="confirmDelete(${o.jobId})">--%>
+<%--                                                <i class="fas fa-trash"></i> Xóa--%>
+<%--                                            </button>--%>
+                                            <a href="javascript:void(0)" onclick="openDeleteModal('${o.jobId}')"
+                                               class="delete-btn" style="text-decoration: none">
+                                                <i class="fas fa-trash-alt"></i> Xóa
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -117,12 +121,43 @@
 </div>
 
 </body>
-<script>
-    function confirmDelete(jobId) {
-        if (confirm("Bạn có chắc chắn muốn xóa công việc này không?")) {
-            window.location.href = "job?action=delete-job&jobId=" + jobId;
-        }
-    }
-</script>
+<%--<script>--%>
+<%--    function confirmDelete(jobId) {--%>
+<%--        if (confirm("Bạn có chắc chắn muốn xóa công việc này không?")) {--%>
+<%--            window.location.href = "job?action=delete-job&jobId=" + jobId;--%>
+<%--        }--%>
+<%--    }--%>
+<%--</script>--%>
 
+<%--Popup--%>
+<div id="deleteConfirmModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 9999;">
+    <div style="background: white; padding: 20px; border-radius: 8px; width: 500px; text-align: center;">
+        <h5 style="margin-bottom: 20px;">Bạn có chắc chắn muốn xóa công việc này không?</h5>
+        <div class="d-flex justify-content-center gap-2">
+            <button id="confirmDeleteBtn" class="delete-btn" style="color: white; width: 100%">Xóa</button>
+            <button onclick="closeDeleteModal()" class="btn btn-outline-secondary" style="width: 100%">Không</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let jobIdToDelete = null;
+
+    function openDeleteModal(jobId) {
+        jobIdToDelete = jobId;
+        document.getElementById('deleteConfirmModal').style.display = 'flex';
+    }
+
+    function closeDeleteModal() {
+        document.getElementById('deleteConfirmModal').style.display = 'none';
+        jobIdToDelete = null;
+    }
+
+    document.getElementById('confirmDeleteBtn').addEventListener('click', function () {
+        if (jobIdToDelete) {
+            window.location.href = 'job?action=deleteJob&jobId=' + jobIdToDelete;
+        }
+    });
+</script>
 </html>

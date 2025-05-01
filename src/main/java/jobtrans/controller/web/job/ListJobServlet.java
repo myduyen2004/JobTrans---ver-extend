@@ -17,20 +17,17 @@ import java.io.IOException;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 
 
 @WebServlet("/viec-lam")
 public class ListJobServlet extends HttpServlet {
     private static final int JOBS_PER_PAGE = 5; // Số công việc trên một trang, bạn có thể điều chỉnh
     JobCategoryDAO jobCategoryDAO = new JobCategoryDAO();
-    JobCategory jobCategory = new JobCategory();
-    JobDAO jobDAO = new JobDAO();
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String priceFilter = request.getParameter("price");
         String jobTypeFilter = request.getParameter("jobType");
+        System.out.println(jobTypeFilter);
         String sortType = request.getParameter("sort");
         String keyword = request.getParameter("keyword");
         HttpSession session = request.getSession();
@@ -91,7 +88,7 @@ public class ListJobServlet extends HttpServlet {
             jobTypeFilter = request.getParameter("jobType");
         }
 
-        List<Job> filteredAndSortedJobs=jobDAO.getAllJobs();
+        List<Job> filteredAndSortedJobs;
 
         // Nếu có từ khóa tìm kiếm, thực hiện tìm kiếm
         if (keyword != null && !keyword.trim().isEmpty()) {
@@ -112,9 +109,8 @@ public class ListJobServlet extends HttpServlet {
         // Lọc theo loại công việc (đã thay đổi vị trí để lọc trước khi phân trang)
         if (jobTypeFilter != null && !jobTypeFilter.isEmpty() && !jobTypeFilter.equals("all")) {
             String finalJobTypeFilter = jobTypeFilter.toLowerCase();
-
             filteredAndSortedJobs.removeIf(job -> {
-                JobCategory category = jobCategoryDAO.getJobCategoryByJobId(job.getCategoryId());
+                JobCategory category = jobCategoryDAO.getJobCategoryByCategortyJobId(job.getCategoryId());
                 job.setJobCategory(category); // Gán jobCategory vào job
 
                 if (category != null && category.getCategoryName() != null) {
@@ -154,7 +150,7 @@ public class ListJobServlet extends HttpServlet {
         // Lấy JobCategory cho từng công việc HIỂN THỊ TRÊN TRANG HIỆN TẠI nếu chưa có
         for (Job job : jobsToDisplay) {
             if (job.getJobCategory() == null) {
-                JobCategory category = jobCategoryDAO.getJobCategoryByJobId(job.getCategoryId());
+                JobCategory category = jobCategoryDAO.getJobCategoryByCategortyJobId(job.getCategoryId());
                 job.setJobCategory(category);
             }
         }

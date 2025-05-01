@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -26,6 +27,7 @@ import java.util.logging.Logger;
 //import org.mindrot.jbcrypt.BCrypt;
 import jobtrans.dal.AccountDAO;
 import jobtrans.dal.NotificationDAO;
+import jobtrans.dal.ReportDAO;
 import jobtrans.dal.TransactionDAO;
 import jobtrans.model.Account;
 import jobtrans.model.GroupMember;
@@ -41,14 +43,18 @@ import jobtrans.model.Transaction;
 
 public class ProfileServlet extends HttpServlet {
     private AccountDAO accountDAO = new AccountDAO();
-
+    private ReportDAO reportDAO = new ReportDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         switch (action) {
             case "view":
-                viewProfile(request, response);
+                try {
+                    viewProfile(request, response);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
                 break;
             case "changePassword":
 //                changePassword(request, response);
@@ -204,7 +210,7 @@ public class ProfileServlet extends HttpServlet {
     }
 
 
-    private void viewProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void viewProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("sessionAccount");
         if (account == null) {
@@ -212,6 +218,8 @@ public class ProfileServlet extends HttpServlet {
             return;
         }
         Account account01 = accountDAO.getAccountById(account.getAccountId());
+        List<Report> reportList = reportDAO.getLatest5ReportsByAccount(account.getAccountId());
+        request.setAttribute("reportList", reportList);
         request.setAttribute("account", account01);
         request.getRequestDispatcher("infor-account.jsp").forward(request, response);
     }
@@ -246,6 +254,7 @@ public class ProfileServlet extends HttpServlet {
             return;
         }
         Account account01 = accountDAO.getAccountById(account.getAccountId());
+        System.out.println(account01);
         request.setAttribute("account", account01);
         request.getRequestDispatcher("edit-account.jsp").forward(request, response);
 
@@ -357,7 +366,15 @@ public class ProfileServlet extends HttpServlet {
         }
     }
     private void showJobManage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("job-manage.jsp").forward(request,response);
+        HttpSession session = request.getSession();
+        if (session.getAttribute("sessionAccount") != null) {
+            Account account = (Account) session.getAttribute("sessionAccount");
+            Account account1 = accountDAO.getAccountById(account.getAccountId());
+            request.setAttribute("account", account1);
+            request.getRequestDispatcher("job-manage.jsp").forward(request, response);
+        }else{
+            response.sendRedirect("home");
+        }
     }
 
 

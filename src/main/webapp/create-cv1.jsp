@@ -387,15 +387,6 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
-        .banner_title {
-            background-image: url(./img/anh1/anh1.png);
-            background-size: 100%;
-            font-size: 40px;
-            height: 200px;
-            display: flex;
-
-            align-items: center;
-        }
 
     </style>
 </head>
@@ -403,11 +394,13 @@
 
 <%@include file="includes/header-01.jsp" %>
 <div style="margin-top: 100px">
-<%@include file="includes/header_cv.jsp"%>
+    <%@include file="includes/header_cv.jsp" %>
 </div>
 <div style="margin-top:140px;display: flex">
     <%@include file="./includes/sidebar_createCV.jsp" %>
 
+
+    <!-- CV Content Area -->
     <main class="cv-content">
         <form action="cv?action=create" method="POST" enctype="multipart/form-data">
 
@@ -430,8 +423,10 @@
                     <div class="form-group">
                         <select class="form-control" name="sex" id="sex">
                             <option value="">-- Chọn giới tính --</option>
-                            <option value="nam">Nam</option>
-                            <option value="nữ">Nữ</option>
+
+                            <option class="indented-option" value="nam"> Nam</option>
+                            <option value="nữ"> Nữ</option>
+
                         </select>
                     </div>
                     <div class="form-group">
@@ -448,7 +443,7 @@
                     </div>
 
                     <div class="skill-section">
-                        <h2 class="section-title">Kỹ Năng</h2>
+                        <h2 id="skillTitle" class="section-title">Kỹ Năng</h2>
                         <div class="skill-item">
                             <div class="form-group">
                                 <select class="form-control" name="mainSkillId[]" required>
@@ -509,7 +504,7 @@
                         </div>
                     </div>
 
-                    <h2 class="section-title">Thông tin bổ sung</h2>
+                    <h2 id="extraInfoTitle" class="section-title">Thông tin bổ sung</h2>
                     <div class="form-group">
                         <textarea name="more_infor" class="form-control" placeholder="Thông tin bổ sung"></textarea>
                     </div>
@@ -521,18 +516,19 @@
                         <input type="text" name="cvname" class="form-control" placeholder="Họ và tên"
                                style="font-size: 24px; font-weight: 600; border: none; border-bottom: 2px solid #eee; padding: 10px 0; margin-bottom: 15px;">
                         <input type="text" name="position" class="form-control" placeholder="Vị trí ứng tuyển"
-                               style="font-size: 18px; color: var(--primary); border: none; padding: 5px 0;">
+                               style="font-size: 18px; border: none; padding: 5px 0;">
                     </div>
 
                     <div class="career-goal-section">
-                        <h3 class="main-section-title">Mục tiêu nghề nghiệp</h3>
+                        <h3 class="main-section-title" id="careerGoalTitle">Mục tiêu nghề nghiệp</h3>
                         <div class="section-divider"></div>
                         <textarea name="experienceDescription" class="form-control"
                                   placeholder="Mô tả mục tiêu nghề nghiệp của bạn"></textarea>
                     </div>
+
                     <div class="education-section">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <h3 class="main-section-title">Học vấn</h3>
+                            <h3 id="educationTitle" class="main-section-title">Học vấn</h3>
                             <div>
                                 <button type="button" id="add-education" class="btn-add">
                                     <i class="fas fa-plus"></i> Thêm
@@ -558,7 +554,6 @@
                                 document.getElementById('schoolSelect').addEventListener('change', function () {
                                     var otherInput = document.querySelector('.other-school-input');
                                     if (this.value === '1') {
-
                                         otherInput.style.display = 'block';
                                     } else {
                                         otherInput.style.display = 'none';
@@ -586,7 +581,7 @@
                     <div class="experience-section">
                         <!-- ... existing header ... -->
                         <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <h3 class="main-section-title">Kinh nghiệm làm việc</h3>
+                            <h3 id="experienceTitle" class="main-section-title">Kinh nghiệm làm việc</h3>
                             <div>
                                 <button type="button" id="add-experience" class="btn-add">
                                     <i class="fas fa-plus"></i> Thêm
@@ -608,6 +603,7 @@
                                        class="form-control other-company-input" style="display: none;">
                             </div>
 
+
                             <div class="date-group">
                                 <input type="date" class="form-control" name="companyStartDate[]" required>
                                 <input type="date" class="form-control" name="companyEndDate[]">
@@ -615,7 +611,6 @@
                             <div class="form-group">
                                 <input type="text" class="form-control" name="position[]" placeholder="Vị trí"
                                        required>
-
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control" name="description[]"
@@ -634,7 +629,7 @@
 
                     <div class="certification-section">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <h3 class="main-section-title">Chứng chỉ & giải thưởng</h3>
+                            <h3 id="certificateTitle" class="main-section-title">Chứng chỉ & giải thưởng</h3>
                             <div>
                                 <button type="button" id="add-certification" class="btn-add">
                                     <i class="fas fa-plus"></i> Thêm
@@ -658,6 +653,23 @@
                             </div>
 
                             <script>
+
+                                // document.getElementById("careerGoalTitle").addEventListener("click", function(e) {
+                                //     e.preventDefault();
+                                //
+                                //     // Lấy nội dung từ phần tử ẩn
+                                //     const careerGuideContent = document.getElementById("careerGuideContent").innerHTML;
+                                //
+                                //     // Cập nhật sidebar
+                                //     const instructionContainer = document.getElementById("cvInstructions");
+                                //     instructionContainer.innerHTML = careerGuideContent;
+                                //     instructionContainer.style.display = "block";
+                                //
+                                //     // Ẩn các container khác nếu cần
+                                //     document.getElementById("cvTemplates").style.display = "none";
+                                // });
+
+
                                 document.getElementById('certificationSelect').addEventListener('change', function () {
                                     var otherInput = document.querySelector('.other-certification-input');
                                     if (this.value === '1') {
@@ -697,6 +709,8 @@
 </div>
 
 </body>
+
+
 <%--<script>--%>
 <%--    document.getElementById('mainSkill').addEventListener('change', function () {--%>
 <%--        var mainSkillId = this.value;--%>
@@ -986,7 +1000,7 @@
 
 
     // Add this JavaScript code at the end of your page or in a separate file
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         // Get the form element
         const cvForm = document.querySelector('form[action="cv?action=create"]');
 
@@ -1085,7 +1099,7 @@
         }
 
         // Add submit event listener to the form
-        cvForm.addEventListener('submit', function(event) {
+        cvForm.addEventListener('submit', function (event) {
             // Reset previous error messages
             clearErrorMessages();
 
@@ -1138,7 +1152,7 @@
 
             // Validate experience items
             const experienceItems = document.querySelectorAll('.experience-item');
-            experienceItems.forEach(function(item, index) {
+            experienceItems.forEach(function (item, index) {
                 const company = item.querySelector('select[name="Company[]"]');
                 const startDate = item.querySelector('input[name="companyStartDate[]"]');
                 const endDate = item.querySelector('input[name="companyEndDate[]"]');
@@ -1163,7 +1177,7 @@
 
             // Validate education items
             const educationItems = document.querySelectorAll('.education-item');
-            educationItems.forEach(function(item) {
+            educationItems.forEach(function (item) {
                 const school = item.querySelector('select[name="schoolId[]"]');
                 const startDate = item.querySelector('input[name="educationStartDate[]"]');
                 const endDate = item.querySelector('input[name="educationEndDate[]"]');
@@ -1184,7 +1198,7 @@
                 // Scroll to first error
                 const firstError = document.querySelector('.error-input');
                 if (firstError) {
-                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstError.scrollIntoView({behavior: 'smooth', block: 'center'});
                     firstError.focus();
                 }
             }
@@ -1210,6 +1224,320 @@
 
 
     });
+
 </script>
+<script>
+    // const instructionContainer = document.getElementById("cvInstructions");
+    // const container = document.getElementById("cvTemplates");
+    //
+    // const templates = {
+    //     careerGoal: `
+    //         <div class="template">
+    //             <h2 class="template-heading">Hướng dẫn viết Mục tiêu nghề nghiệp</h2>
+    //             <div style="padding: 20px; color: #333; line-height: 1.6">
+    //                 <p><strong>Mục tiêu ngắn hạn:</strong> Nêu rõ bạn muốn học hỏi và phát triển kỹ năng gì trong 6 tháng đến 1 năm đầu làm việc.</p>
+    //                 <p><strong>Mục tiêu dài hạn:</strong> Mô tả định hướng sự nghiệp bạn muốn đạt được trong 3-5 năm tới.</p>
+    //                 <p><strong>Lưu ý:</strong> Hãy viết mục tiêu rõ ràng, thực tế và phù hợp với vị trí ứng tuyển.</p>
+    //             </div>
+    //         </div>
+    //     `,
+    //     education: `
+    //         <div class="template">
+    //             <h2 class="template-heading">Hướng dẫn viết Học vấn</h2>
+    //             <div style="padding: 20px; color: #333; line-height: 1.6">
+    //                 <div style="border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; font-family: Arial, sans-serif; color: #333; max-width: 500px;">
+    //                     <h3 style="font-weight: bold; margin-bottom: 10px;">Gợi ý nội dung cho</h3>
+    //                     <div style="background-color: #f5f7fa; padding: 10px 15px; border-radius: 6px; font-weight: bold; margin-bottom: 15px;">Nhân viên kinh doanh</div>
+    //                     <div>
+    //                         <strong>Đại học TopCV</strong><br>
+    //                         Quản trị kinh doanh<br>
+    //                         2014 - 2019<br>
+    //                         Chuyên ngành Quản trị doanh nghiệp
+    //                     </div>
+    //                     <h4 style="margin-top: 20px; font-weight: bold;">Cách viết</h4>
+    //                     <div style="margin-bottom: 10px; font-weight: bold; color: #1d8348;">👍 Cách viết học vấn hay:</div>
+    //                     <ul style="padding-left: 20px; line-height: 1.6;">
+    //                         <li>Chỉ đưa thông tin học vấn từ sau THPT + các khoá học ngắn hạn, chứng chỉ.</li>
+    //                         <li>Ghi rõ tên ngành học, tên trường, thời gian bắt đầu và kết thúc.</li>
+    //                         <li>Có thể bổ sung điểm số nếu cao hoặc liên quan.</li>
+    //                         <li>Thêm học vấn online nếu liên quan công việc ứng tuyển.</li>
+    //                     </ul>
+    //                     <a href="#" style="display: inline-block; margin-top: 10px; background-color: #e8f0fe; color: #1a73e8; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-weight: bold;">
+    //                         📘 Tham khảo hướng dẫn chi tiết
+    //                     </a>
+    //                 </div>
+    //             </div>
+    //         </div>
+    //     `,
+    //     experience: `
+    //         <div class="template">
+    //             <h2 class="template-heading">Hướng dẫn viết Kinh nghiệm làm việc</h2>
+    //             <div style="padding: 20px; color: #333; line-height: 1.6">
+    //                 <div style="border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; font-family: Arial, sans-serif; color: #333; max-width: 600px;">
+    //                     <h3 style="font-weight: bold;">Gợi ý nội dung cho</h3>
+    //                     <div style="background-color: #f5f7fa; padding: 10px 15px; border-radius: 6px; font-weight: bold; margin-bottom: 15px;">Nhân viên kinh doanh</div>
+    //                     <div>
+    //                         <strong>Công ty ABC</strong><br>
+    //                         Vị trí: Nhân viên Kinh doanh<br>
+    //                         06/2020 - 12/2023<br>
+    //                         - Tìm kiếm, tư vấn khách hàng và ký kết hợp đồng dịch vụ.<br>
+    //                         - Đạt doanh số trung bình 120% mục tiêu hàng quý.<br>
+    //                         - Phối hợp phòng Marketing để triển khai chiến dịch khuyến mãi.
+    //                     </div>
+    //                     <h4 style="margin-top: 20px; font-weight: bold;">Cách viết</h4>
+    //                     <div style="margin-bottom: 10px; font-weight: bold; color: #1d8348;">👍 Cách viết kinh nghiệm làm việc hay:</div>
+    //                     <ul style="padding-left: 20px; line-height: 1.6;">
+    //                         <li>Chỉ nên liệt kê những công việc liên quan.</li>
+    //                         <li>Ghi rõ công ty, chức danh, thời gian, mô tả nhiệm vụ.</li>
+    //                         <li>Dùng số liệu để chứng minh kết quả.</li>
+    //                         <li>Ưu tiên viết từ mới nhất đến cũ nhất.</li>
+    //                     </ul>
+    //                     <a href="#" style="display: inline-block; margin-top: 10px; background-color: #e8f0fe; color: #1a73e8; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-weight: bold;">
+    //                         📘 Tham khảo hướng dẫn chi tiết
+    //                     </a>
+    //                 </div>
+    //             </div>
+    //         </div>
+    //     `,
+    //     certificate: `
+    //         <div class="template">
+    //             <h2 class="template-heading">Hướng dẫn viết Chứng chỉ - Giải thưởng</h2>
+    //             <div style="padding: 20px; color: #333; line-height: 1.6">
+    //                 <div style="border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; font-family: Arial, sans-serif; color: #333; max-width: 600px;">
+    //                     <h3 style="font-weight: bold;">Gợi ý nội dung cho</h3>
+    //                     <div style="background-color: #f5f7fa; padding: 10px 15px; border-radius: 6px; font-weight: bold; margin-bottom: 15px;">Nhân viên kinh doanh</div>
+    //                     <div>
+    //                         <strong>Chứng chỉ:</strong><br>
+    //                         - Chứng chỉ Kỹ năng bán hàng chuyên nghiệp (VietED) - 2022<br>
+    //                         - IELTS 6.5 - 2021<br><br>
+    //                         <strong>Giải thưởng:</strong><br>
+    //                         - Nhân viên kinh doanh xuất sắc quý III - Công ty ABC (2023)<br>
+    //                         - Top 5 cá nhân có doanh số cao nhất năm - Công ty XYZ (2022)
+    //                     </div>
+    //                     <h4 style="margin-top: 20px; font-weight: bold;">Cách viết</h4>
+    //                     <div style="margin-bottom: 10px; font-weight: bold; color: #1d8348;">👍 Cách viết chứng chỉ - giải thưởng hay:</div>
+    //                     <ul style="padding-left: 20px; line-height: 1.6;">
+    //                         <li>Chỉ liệt kê chứng chỉ liên quan công việc ứng tuyển.</li>
+    //                         <li>Ghi rõ tên chứng chỉ/giải thưởng, đơn vị cấp và thời gian nhận.</li>
+    //                         <li>Không nên liệt kê quá nhiều nếu không liên quan.</li>
+    //                         <li>Chứng chỉ nên còn hiệu lực hoặc giá trị thực tiễn.</li>
+    //                     </ul>
+    //                     <a href="#" style="display: inline-block; margin-top: 10px; background-color: #e8f0fe; color: #1a73e8; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-weight: bold;">
+    //                         📘 Tham khảo hướng dẫn chi tiết
+    //                     </a>
+    //                 </div>
+    //             </div>
+    //         </div>
+    //     `
+    // };
+    //
+    // function registerClickHandler(id, templateKey) {
+    //     document.getElementById(id).addEventListener("click", function () {
+    //         if (instructionContainer.style.display === "block") {
+    //             instructionContainer.style.display = "none";
+    //             container.innerHTML = templates[templateKey];
+    //             container.style.display = "block";
+    //         }
+    //     });
+    // }
+    //
+    // registerClickHandler("careerGoalTitle", "careerGoal");
+    // registerClickHandler("educationTitle", "education");
+    // registerClickHandler("experienceTitle", "experience");
+    // registerClickHandler("certificateTitle", "certificate");
+    // //////
+    function showCVInstruction(title, htmlContent) {
+        const instructionContainer = document.getElementById("cvInstructions");
+        const container = document.getElementById("cvTemplates");
+
+        // Kiểm tra nếu hướng dẫn chưa hiển thị => không làm gì
+        if ((instructionContainer.style.display !== "block") &&((container.style.display === "none"))) {
+            alert("Vui lòng nhấn vào 'Hướng dẫn tạo CV' trước khi xem nội dung chi tiết.");
+            return;
+        }
+
+        // Nếu đang hiển thị hướng dẫn, ẩn nó và hiển thị nội dung tương ứng
+        if( (instructionContainer.style.display === "block") || (container.style.display === "block")) {
+            instructionContainer.style.display = "none";
+            container.innerHTML = htmlContent;
+            container.style.display = "block";
+        }
+    }
+
+    document.getElementById("careerGoalTitle").addEventListener("click", function () {
+        const htmlContent = `
+            <div class="template">
+                <h2 class="template-heading">Hướng dẫn viết Mục tiêu nghề nghiệp</h2>
+                <div style="padding: 20px; color: #333; line-height: 1.6">
+                    <p><strong>Mục tiêu ngắn hạn:</strong> Nêu rõ bạn muốn học hỏi và phát triển kỹ năng gì trong 6 tháng đến 1 năm đầu làm việc.</p>
+                    <p><strong>Mục tiêu dài hạn:</strong> Mô tả định hướng sự nghiệp bạn muốn đạt được trong 3-5 năm tới.</p>
+                    <p><strong>Lưu ý:</strong> Hãy viết mục tiêu rõ ràng, thực tế và phù hợp với vị trí ứng tuyển.</p>
+                </div>
+            </div>
+        `;
+        showCVInstruction("careerGoal", htmlContent);
+    });
+
+    document.getElementById("educationTitle").addEventListener("click", function () {
+        const htmlContent = `
+        <div class="template">
+                <h2 class="template-heading">Hướng dẫn viết Học vấn</h2>
+                <div style="padding: 20px; color: #333; line-height: 1.6">
+                    <div style="border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; font-family: Arial, sans-serif; color: #333; max-width: 500px;">
+                        <h3 style="font-weight: bold; margin-bottom: 10px;">Gợi ý nội dung cho</h3>
+                        <div style="background-color: #f5f7fa; padding: 10px 15px; border-radius: 6px; font-weight: bold; margin-bottom: 15px;">Nhân viên kinh doanh</div>
+                        <div>
+                            <strong>Đại học TopCV</strong><br>
+                            Quản trị kinh doanh<br>
+                            2014 - 2019<br>
+                            Chuyên ngành Quản trị doanh nghiệp
+                        </div>
+                        <h4 style="margin-top: 20px; font-weight: bold;">Cách viết</h4>
+                        <div style="margin-bottom: 10px; font-weight: bold; color: #1d8348;">👍 Cách viết học vấn hay:</div>
+                        <ul style="padding-left: 20px; line-height: 1.6;">
+                            <li>Chỉ đưa thông tin học vấn từ sau THPT + các khoá học ngắn hạn, chứng chỉ.</li>
+                            <li>Ghi rõ tên ngành học, tên trường, thời gian bắt đầu và kết thúc.</li>
+                            <li>Có thể bổ sung điểm số nếu cao hoặc liên quan.</li>
+                            <li>Thêm học vấn online nếu liên quan công việc ứng tuyển.</li>
+                        </ul>
+                        <a href="https://www.vietnamworks.com/hrinsider/cach-viet-trinh-do-hoc-van-trong-cv.html" style="display: inline-block; margin-top: 10px; background-color: #e8f0fe; color: #1a73e8; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-weight: bold;">
+                            📘 Tham khảo hướng dẫn chi tiết
+                        </a>
+                    </div>
+                </div>
+            </div>`;
+        showCVInstruction("education", htmlContent);
+    });
+
+    document.getElementById("experienceTitle").addEventListener("click", function () {
+        const htmlContent = `<div class="template">
+                <h2 class="template-heading">Hướng dẫn viết Kinh nghiệm làm việc</h2>
+                <div style="padding: 20px; color: #333; line-height: 1.6">
+                    <div style="border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; font-family: Arial, sans-serif; color: #333; max-width: 600px;">
+                        <h3 style="font-weight: bold;">Gợi ý nội dung cho</h3>
+                        <div style="background-color: #f5f7fa; padding: 10px 15px; border-radius: 6px; font-weight: bold; margin-bottom: 15px;">Nhân viên kinh doanh</div>
+                        <div>
+                            <strong>Công ty ABC</strong><br>
+                            Vị trí: Nhân viên Kinh doanh<br>
+                            06/2020 - 12/2023<br>
+                            - Tìm kiếm, tư vấn khách hàng và ký kết hợp đồng dịch vụ.<br>
+                            - Đạt doanh số trung bình 120% mục tiêu hàng quý.<br>
+                            - Phối hợp phòng Marketing để triển khai chiến dịch khuyến mãi.
+                        </div>
+                        <h4 style="margin-top: 20px; font-weight: bold;">Cách viết</h4>
+                        <div style="margin-bottom: 10px; font-weight: bold; color: #1d8348;">👍 Cách viết kinh nghiệm làm việc hay:</div>
+                        <ul style="padding-left: 20px; line-height: 1.6;">
+                            <li>Chỉ nên liệt kê những công việc liên quan.</li>
+                            <li>Ghi rõ công ty, chức danh, thời gian, mô tả nhiệm vụ.</li>
+                            <li>Dùng số liệu để chứng minh kết quả.</li>
+                            <li>Ưu tiên viết từ mới nhất đến cũ nhất.</li>
+                        </ul>
+                        <a href="https://thuvienphapluat.vn/lao-dong-tien-luong/kinh-nghiem-lam-viec-la-gi-cach-viet-kinh-nghiem-lam-viec-trong-cv-an-tuong-10108.html" style="display: inline-block; margin-top: 10px; background-color: #e8f0fe; color: #1a73e8; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-weight: bold;">
+                            📘 Tham khảo hướng dẫn chi tiết
+                        </a>
+                    </div>
+                </div>
+            </div>`;
+        showCVInstruction("experience", htmlContent);
+    });
+
+    document.getElementById("certificateTitle").addEventListener("click", function () {
+        const htmlContent = ` <div class="template">
+                <h2 class="template-heading">Hướng dẫn viết Chứng chỉ - Giải thưởng</h2>
+                <div style="padding: 20px; color: #333; line-height: 1.6">
+                    <div style="border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; font-family: Arial, sans-serif; color: #333; max-width: 600px;">
+                        <h3 style="font-weight: bold;">Gợi ý nội dung cho</h3>
+                        <div style="background-color: #f5f7fa; padding: 10px 15px; border-radius: 6px; font-weight: bold; margin-bottom: 15px;">Nhân viên kinh doanh</div>
+                        <div>
+                            <strong>Chứng chỉ:</strong><br>
+                            - Chứng chỉ Kỹ năng bán hàng chuyên nghiệp (VietED) - 2022<br>
+                            - IELTS 6.5 - 2021<br><br>
+                            <strong>Giải thưởng:</strong><br>
+                            - Nhân viên kinh doanh xuất sắc quý III - Công ty ABC (2023)<br>
+                            - Top 5 cá nhân có doanh số cao nhất năm - Công ty XYZ (2022)
+                        </div>
+                        <h4 style="margin-top: 20px; font-weight: bold;">Cách viết</h4>
+                        <div style="margin-bottom: 10px; font-weight: bold; color: #1d8348;">👍 Cách viết chứng chỉ - giải thưởng hay:</div>
+                        <ul style="padding-left: 20px; line-height: 1.6;">
+                            <li>Chỉ liệt kê chứng chỉ liên quan công việc ứng tuyển.</li>
+                            <li>Ghi rõ tên chứng chỉ/giải thưởng, đơn vị cấp và thời gian nhận.</li>
+                            <li>Không nên liệt kê quá nhiều nếu không liên quan.</li>
+                            <li>Chứng chỉ nên còn hiệu lực hoặc giá trị thực tiễn.</li>
+                        </ul>
+                        <a href="https://timviec365.vn/blog/cach-viet-chung-chi-trong-cv-new13314.html" style="display: inline-block; margin-top: 10px; background-color: #e8f0fe; color: #1a73e8; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-weight: bold;">
+                            📘 Tham khảo hướng dẫn chi tiết
+                        </a>
+                    </div>
+                </div>
+            </div>`;
+        showCVInstruction("certificate", htmlContent);
+    });
+    document.getElementById("skillTitle").addEventListener("click", function () {
+        const htmlContent = `
+    <div class="template">
+        <h2 class="template-heading">Hướng dẫn viết Kỹ năng</h2>
+        <div style="padding: 20px; color: #333; line-height: 1.6">
+            <div style="border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; font-family: Arial, sans-serif; color: #333; max-width: 500px;">
+                <h3 style="font-weight: bold; margin-bottom: 10px;">Gợi ý nội dung cho</h3>
+                <div style="background-color: #f5f7fa; padding: 10px 15px; border-radius: 6px; font-weight: bold; margin-bottom: 15px;">Nhân viên kinh doanh</div>
+                <div>
+                    <ul style="padding-left: 20px; line-height: 1.6;">
+                        <li>Kỹ năng giao tiếp</li>
+                        <li>Đàm phán và thuyết phục khách hàng</li>
+                        <li>Phân tích thị trường</li>
+                        <li>Kỹ năng làm việc nhóm và độc lập</li>
+                        <li>Sử dụng phần mềm CRM, Excel tốt</li>
+                    </ul>
+                </div>
+                <h4 style="margin-top: 20px; font-weight: bold;">Cách viết</h4>
+                <div style="margin-bottom: 10px; font-weight: bold; color: #1d8348;">👍 Cách viết kỹ năng hiệu quả:</div>
+                <ul style="padding-left: 20px; line-height: 1.6;">
+                    <li>Liệt kê ngắn gọn các kỹ năng liên quan đến công việc ứng tuyển.</li>
+                    <li>Ưu tiên kỹ năng mềm (giao tiếp, lãnh đạo,...) và kỹ năng chuyên môn (tin học, phần mềm,...).</li>
+                    <li>Có thể phân loại theo nhóm: mềm – chuyên môn – ngôn ngữ.</li>
+                    <li>Đánh giá khả năng kỹ năng qua %</li>
+                </ul>
+                <a href="#" style="display: inline-block; margin-top: 10px; background-color: #e8f0fe; color: #1a73e8; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-weight: bold;">
+                    📘 Tham khảo hướng dẫn chi tiết
+                </a>
+            </div>
+        </div>
+    </div>`;
+        showCVInstruction("skill", htmlContent);
+    });
+    document.getElementById("extraInfoTitle").addEventListener("click", function () {
+        const htmlContent = `
+    <div class="template">
+        <h2 class="template-heading">Hướng dẫn viết Thông tin bổ sung</h2>
+        <div style="padding: 20px; color: #333; line-height: 1.6">
+            <div style="border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; font-family: Arial, sans-serif; color: #333; max-width: 500px;">
+                <h3 style="font-weight: bold; margin-bottom: 10px;">Gợi ý nội dung</h3>
+                <div style="background-color: #f5f7fa; padding: 10px 15px; border-radius: 6px; font-weight: bold; margin-bottom: 15px;">Nhân viên kinh doanh</div>
+                <div>
+                    <ul style="padding-left: 20px; line-height: 1.6;">
+                        <li>Sở thích: Đọc sách về marketing, chạy bộ</li>
+                        <li>Hoạt động tình nguyện tại các sự kiện cộng đồng</li>
+                        <li>Thành viên CLB Kỹ năng mềm trường đại học</li>
+                        <li>Tham gia các khoá học online về kỹ năng bán hàng</li>
+                    </ul>
+                </div>
+                <h4 style="margin-top: 20px; font-weight: bold;">Cách viết</h4>
+                <div style="margin-bottom: 10px; font-weight: bold; color: #1d8348;">👍 Gợi ý khi viết phần này:</div>
+                <ul style="padding-left: 20px; line-height: 1.6;">
+                    <li>Viết ngắn gọn các hoạt động, sở thích, thành tích ngoài lề nhưng có liên quan đến công việc.</li>
+                    <li>Tránh liệt kê sở thích quá riêng tư hoặc không phù hợp với môi trường chuyên nghiệp.</li>
+                    <li>Nên thể hiện những điều giúp nổi bật tính cách tích cực hoặc khả năng học hỏi.</li>
+                </ul>
+                <a href="https://careerviet.vn/vi/talentcommunity/cac-ky-nang-trong-cv-giup-chinh-phuc-moi-nha-tuyen-dung.35A52053.html?gad_source=1&gbraid=0AAAAADNFRf-XSX-5jdUhuhKWOFRPloyTu&gclid=Cj0KCQjwlMfABhCWARIsADGXdy-uMy_ya9aSFBplVUCzuTXmxY0RFhWwWpFIAp3_xRJo3GgmantJyI4aAgppEALw_wcB" style="display: inline-block; margin-top: 10px; background-color: #e8f0fe; color: #1a73e8; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-weight: bold;">
+                    📘 Tham khảo hướng dẫn chi tiết
+                </a>
+            </div>
+        </div>
+    </div>`;
+        showCVInstruction("extraInfo", htmlContent);
+    });
+
+</script>
+
 </body>
 </html>

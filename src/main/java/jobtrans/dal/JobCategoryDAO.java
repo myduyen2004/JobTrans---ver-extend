@@ -1,13 +1,11 @@
 package jobtrans.dal;
 
-import jobtrans.model.Job;
 import jobtrans.model.JobCategory;
 import jobtrans.utils.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 
 public class JobCategoryDAO {
     private final DBConnection dbConnection;
@@ -44,7 +42,7 @@ public class JobCategoryDAO {
         return category;
     }
 
-    public JobCategory getJobCategoryByJobId(int jobId) {
+    public JobCategory getJobCategoryByCategortyJobId(int jobId) {
         JobCategory jc = null;
         String sql = "SELECT * FROM JobCategory WHERE category_id = ?";
         try (Connection con = dbConnection.openConnection();
@@ -68,7 +66,7 @@ public class JobCategoryDAO {
 
     public static void main(String[] args) {
         JobCategoryDAO jc = new JobCategoryDAO();
-        System.out.println(jc.getJobCategoryByJobId(1).getCategoryName());
+        System.out.println(jc.getJobCategoryByCategortyJobId(7));
 
     }
 }
