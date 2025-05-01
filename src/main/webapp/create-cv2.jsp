@@ -42,8 +42,9 @@
         }
 
         .cong .cv-container {
-            margin-top: 80px;
-            margin-left: 100px;
+            margin-top: 90px;
+            margin-left: 110px;
+
             width: 1000px;
             display: flex;
             background: white;
@@ -269,7 +270,7 @@
         .date-group {
             display: flex;
             gap: 20px;
-            margin-bottom: 15px;
+            margin-top: -15px;
         }
 
         .cong .date-group .form-control {
@@ -284,8 +285,9 @@
             border-radius: var(--radius);
             font-size: 15px;
             transition: var(--transition);
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             background: white;
+            height: 40px;
         }
 
         .cong .main-form-control:focus {
@@ -402,10 +404,9 @@
 </head>
 <body>
 <%@include file="includes/header-01.jsp" %>
-<div style="margin-top: 100px" class="py-4 banner_title">
-    <h1 class="text-white font-weight-bold" style="padding-left: 50px;">Tạo CV mẩu 2</h1>
-</div>
-<div style="display: flex">
+
+<div style="margin-top:80px;display: flex">
+
 
     <%@include file="./includes/sidebar_createCV.jsp" %>
     <div class="cong">
@@ -503,13 +504,13 @@
                     <div class="content-section">
                         <div class="content-title">
                             Mục tiêu nghề nghiệp
-                            <div class="btn-group">
+                            <div  class="btn-group">
                                 <button type="button" class="btn btn-primary">
                                     <i class="fas fa-edit"></i> Edit
                                 </button>
                             </div>
                         </div>
-                        <textarea class="main-form-control" name="experienceDescription"
+                        <textarea style="height: 100px" class="main-form-control" name="experienceDescription"
                                   placeholder="Mô tả mục tiêu nghề nghiệp của bạn"></textarea>
                     </div>
 
@@ -638,46 +639,27 @@
         </form>
     </div>
 </div>
-<%@include file="./includes/gpt_sidebar.jsp" %>
-<div style="margin-top: 30px">
-    <%@include file="includes/footer.jsp"%>
-</div>
-<script>
-    //validate
-    document.addEventListener('DOMContentLoaded', function() {
-        // Get the form element
-        const cvForm = document.querySelector('form[action="cv?action=create"]');
+    <%@include file="./includes/gpt_sidebar.jsp" %>
 
-        // Function to add error message
-        function addErrorMessage(element, message) {
-            // Add error class to input
-            element.classList.add('error-input');
+    <script>
+        //validate
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the form element
+            const cvForm = document.querySelector('form[action="cv?action=create"]');
 
-            // Create error message element
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'error-message';
-            errorDiv.textContent = message;
+            // Function to add error message
+            function addErrorMessage(element, message) {
+                // Add error class to input
+                element.classList.add('error-input');
 
-            // Insert error message after the element
-            element.parentNode.insertBefore(errorDiv, element.nextSibling);
-        }
+                // Create error message element
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-message';
+                errorDiv.textContent = message;
 
-        // Function to clear all error messages
-        function clearErrorMessages() {
-            // Remove error classes
-            const errorInputs = document.querySelectorAll('.error-input');
-            errorInputs.forEach(input => input.classList.remove('error-input'));
+                // Insert error message after the element
+                element.parentNode.insertBefore(errorDiv, element.nextSibling);
 
-            // Remove error message elements
-            const errorMessages = document.querySelectorAll('.error-message');
-            errorMessages.forEach(msg => msg.remove());
-        }
-
-        // Validation functions
-        function validateRequired(element, message) {
-            if (!element.value.trim()) {
-                addErrorMessage(element, message);
-                return false;
             }
             return true;
         }

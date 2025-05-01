@@ -172,7 +172,7 @@
 
         /* CV Content Area */
         .cv-content {
-            margin-top: 50px;
+            margin-top: 25px;
             flex: 1;
             padding: 30px;
             background-color: #f5f7fb;
@@ -402,8 +402,12 @@
 <body>
 
 <%@include file="includes/header-01.jsp" %>
-<div style="display: flex">
+<div style="margin-top: 100px">
+<%@include file="includes/header_cv.jsp"%>
+</div>
+<div style="margin-top:140px;display: flex">
     <%@include file="./includes/sidebar_createCV.jsp" %>
+
     <main class="cv-content">
         <form action="cv?action=create" method="POST" enctype="multipart/form-data">
 
@@ -526,7 +530,6 @@
                         <textarea name="experienceDescription" class="form-control"
                                   placeholder="Mô tả mục tiêu nghề nghiệp của bạn"></textarea>
                     </div>
-
                     <div class="education-section">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <h3 class="main-section-title">Học vấn</h3>
@@ -554,7 +557,8 @@
                             <script>
                                 document.getElementById('schoolSelect').addEventListener('change', function () {
                                     var otherInput = document.querySelector('.other-school-input');
-                                    if (this.value === '504') {
+                                    if (this.value === '1') {
+
                                         otherInput.style.display = 'block';
                                     } else {
                                         otherInput.style.display = 'none';
@@ -604,13 +608,14 @@
                                        class="form-control other-company-input" style="display: none;">
                             </div>
 
-
                             <div class="date-group">
                                 <input type="date" class="form-control" name="companyStartDate[]" required>
                                 <input type="date" class="form-control" name="companyEndDate[]">
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" name="position[]" placeholder="Vị trí" required>
+                                <input type="text" class="form-control" name="position[]" placeholder="Vị trí"
+                                       required>
+
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control" name="description[]"
@@ -687,7 +692,10 @@
     </main>
 
 </div>
-<%@include file="includes/footer.jsp" %>
+
+
+</div>
+
 </body>
 <%--<script>--%>
 <%--    document.getElementById('mainSkill').addEventListener('change', function () {--%>

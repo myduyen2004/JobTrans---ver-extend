@@ -49,13 +49,15 @@
         padding: 40px 0;
     }
 
-    .cv-container {
-        width: 1100px;
-        margin: 40px;
+    .cong .cv-container {
+        margin-bottom: 20px;
+        margin-top: 90px;
+        margin-left: 110px;
+        width: 1000px;
         display: flex;
         box-shadow: var(--shadow);
         background: white;
-        border-radius: var(--radius);
+
         overflow: hidden;
         position: relative;
         margin-top: 20px;
@@ -139,6 +141,7 @@
         padding: 50px;
         background: white;
         position: relative;
+        border: 0.5px solid black;
     }
 
     .header-section {
@@ -246,8 +249,12 @@
     <h1 class="text-white font-weight-bold" style="padding-left: 50px;">Danh sách công việc</h1>
 </div>
 
-<div style="display: flex">
-    <div>
+
+<div  style="display: flex">
+
+    <%@include file="./includes/sidebar_createCV.jsp" %>
+
+    <div class="cong">
         <div class="cv-container">
 
 
@@ -257,7 +264,7 @@
                     <img id="avatar-preview" src="https://randomuser.me/api/portraits/men/32.jpg" alt="John Doe">
                 </div>
 
-                <h2 class="section-title">Contact Info</h2>
+                <h2 class="section-title">Thông tin cá nhân</h2>
                 <div class="form-group">
                     <div class="contact-info"><i class="fas fa-phone"></i> (123) 456-7890</div>
                 </div>
@@ -271,7 +278,7 @@
                     <div class="contact-info"><i class="fas fa-birthday-cake"></i> June 15, 1990</div>
                 </div>
 
-                <h2 class="section-title">Skills</h2>
+                <h2 class="section-title">Kỹ năng</h2>
                 <div class="skills-section">
                     <div class="skill-item">
                         <div class="skill-name">Java Development</div>
@@ -331,7 +338,7 @@
                 </div>
 
                 <div class="content-section">
-                    <div class="content-title">Professional Summary</div>
+                    <div class="content-title">Mục tiêu nghề nghiệp</div>
                     <div class="content-text">
                         <p>Results-driven Senior Software Engineer with over 8 years of experience in designing and
                             implementing
@@ -347,7 +354,7 @@
                 </div>
 
                 <div class="content-section">
-                    <div class="content-title">Work Experience</div>
+                    <div class="content-title">Kinh nghiệm làm việc</div>
 
                     <div class="experience-item">
                         <div class="experience-header">
@@ -394,7 +401,7 @@
                 </div>
 
                 <div class="content-section">
-                    <div class="content-title">Education</div>
+                    <div class="content-title">Học vấn </div>
 
                     <div class="education-item">
                         <div class="education-header">
@@ -426,7 +433,7 @@
                 </div>
 
                 <div class="content-section">
-                    <div class="content-title">Certifications</div>
+                    <div class="content-title">Chứng chỉ & giải thưởng</div>
 
                     <div class="certification-item">
                         <div class="certification-header">
@@ -454,13 +461,12 @@
 
 
         </div>
+    </div>
+
 
     </div>
-    <%--    <div style="margin-left: 270px">--%>
-    <%--        <%@include file="includes/sidebar_cv.jsp" %>--%>
-    <%--    </div>--%>
-</div>
-<%@include file="includes/footer.jsp" %>
+
 
 </body>
+<%@include file="includes/footer.jsp" %>
 </html>

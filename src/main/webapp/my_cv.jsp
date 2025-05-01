@@ -316,7 +316,6 @@
     <div class="container_listCV">
         <div class="header">
             <button class="tab-active">Danh sách CV đã được tạo</button>
-            <button class="create-btn" onclick="window.location.href='cv?action=type'">Tạo CV</button>
         </div>
 
         <div class="cv-list">
@@ -337,6 +336,7 @@
                                 <a href="cv?action=delete&cvId=${o.cvId}">
                                     <button class="edit-btn">Xóa CV</button>
                                 </a>
+
                             </div>
                         </div>
                     </c:forEach>
