@@ -25,7 +25,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         body {
@@ -715,7 +715,7 @@
 
                     <!-- Nút chấp nhận ứng viên chỉ hiển thị sau khi phỏng vấn kết thúc -->
                     <c:if test="${isInterviewCompleted}">
-                        <a href="job-greeting?action=approve-candidate&greetingId=${jobGreeting.greetingId}" class="btn-a btn-primary" id="approveBtn" style="text-decoration: none">
+                        <a href="contract?action=view-infor-project-contract&greetingId=${jobGreeting.greetingId}" class="btn-a btn-primary" id="approveBtn" style="text-decoration: none">
                             <i class="fas fa-check"></i> Chấp nhận ứng viên
                         </a>
                     </c:if>

@@ -20,7 +20,7 @@
             --pending-color: #6c757d;
             --white: #ffffff;
             --shadow: 0 4px 12px rgba(21, 32, 112, 0.1);
-            --radius: 8px;
+            --radius: 30px;
             --transition: all 0.3s ease;
         }
 
@@ -415,7 +415,7 @@
             padding: 12px 24px;
             border-radius: var(--radius);
             font-weight: 500;
-            font-size: 16px;
+            font-size: 18px;
             cursor: pointer;
             transition: var(--transition);
             border: none;
