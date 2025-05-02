@@ -16,6 +16,33 @@ public class Transaction {
     private String transactionType;
     private boolean status;
     private JobCategory category;
+    private Job job;
+private Account sender;
+private Account receiver;
+
+    public Account getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(Account receiver) {
+        this.receiver = receiver;
+    }
+
+    public Account getSender() {
+        return sender;
+    }
+
+    public void setSender(Account sender) {
+        this.sender = sender;
+    }
+
+    public Job getJob() {
+        return job;
+    }
+
+    public void setJob(Job job) {
+        this.job = job;
+    }
 
     public JobCategory getCategory() {
         return category;

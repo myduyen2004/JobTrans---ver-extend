@@ -1,3 +1,5 @@
+<%@ page import="jobtrans.model.Transaction" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -24,7 +26,7 @@
     <div class="stats-cards">
         <div class="stat-card">
             <h3>TỔNG SỐ GIAO DỊCH</h3>
-            <div class="value">${transactions.size()}</div>
+            <div class="value">${allTransactions}</div>
         </div>
         <div class="stat-card income">
             <h3>TỔNG THU</h3>
@@ -43,9 +45,6 @@
     <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
             <h2>Danh Sách Giao Dịch</h2>
-            <button class="button button-add" onclick="openAddModal()">
-                <span>+</span> Thêm Giao Dịch
-            </button>
         </div>
         <!-- Fix the form to submit with the correct parameters -->
         <form class="search-form" method="get" action="/JobTrans/trans-manage" id="transactionSearchForm">
@@ -68,39 +67,53 @@
             </div>
         </form>
 
-        <div class="filter-section">
-
+        <form action="/JobTrans/trans-manage" method="get"  class="filter-section">
+            <input type="hidden" name="action" value="filterTransaction">
             <div class="filter-item">
                 <label for="dateFrom">Từ ngày</label>
-                <input type="date" id="dateFrom">
+                <input type="date" id="dateFrom" name="startDate">
             </div>
             <div class="filter-item">
                 <label for="dateTo">Đến ngày</label>
-                <input type="date" id="dateTo">
+                <input type="date" id="dateTo" name="endDate">
             </div>
             <div class="filter-item">
                 <label for="status">Trạng thái</label>
-                <select id="status">
+                <select id="status" name="status">
                     <option value="">Tất cả</option>
-                    <option value="success">Thành công</option>
-                    <option value="pending">Đang xử lý</option>
-                    <option value="failed">Thất bại</option>
+                    <option value="true">Thành công</option>
+                    <option value="false">Thất bại</option>
                 </select>
             </div>
             <div class="filter-item">
                 <label for="type">Loại giao dịch</label>
-                <select id="type">
+                <select id="type" name="transactionType">
                     <option value="">Tất cả</option>
                     <option value="income">Thu</option>
                     <option value="expense">Chi</option>
                 </select>
             </div>
             <div class="filter-item" style="display: flex; align-items: flex-end;">
-                <button class="button" style="width: 100%;">Lọc</button>
+                <button type="submit" class="button" style="width: 100%;">Lọc</button>
             </div>
-        </div>
+        </form>
         <div class="table-container">
             <%-- Phần bảng hiển thị giao dịch --%>
+                <%
+                    List<Transaction> transactions = (List<Transaction>) request.getAttribute("transactions");
+                    int currentPage = (Integer) request.getAttribute("currentPage");
+                    int totalPages = (Integer) request.getAttribute("totalPages");
+
+                    // Get the filter parameters from the request
+                    String action = request.getParameter("action");
+                    String startDate = request.getParameter("startDate");
+                    String endDate = request.getParameter("endDate");
+                    String status = request.getParameter("status");
+                    String transactionType = request.getParameter("transactionType");
+                    String search = request.getParameter("search");
+                %>
+
+
             <table>
                 <thead>
                 <tr>
@@ -115,7 +128,6 @@
                 </thead>
                 <tbody>
                 <c:forEach var="transaction" items="${transactions}">
-
 
                     <tr>
                         <td>${transaction.transactionId}</td>
@@ -173,67 +185,128 @@
                                                 '${transaction.description}',
                                                 '${transaction.transactionType}',
                                                 '${transaction.amount}',
-                                                '${transaction.category.categoryName}'
+                                                '${transaction.category.categoryName}',
+                                                '${transaction.job.jobTitle}',
+                                                '${transaction.sender.accountName}',
+                                                '${transaction.receiver.accountName}',
+                                                '${transaction.sender.accountId}',
+                                                '${transaction.receiver.accountId}'
                                                 )">Xem</button>
                                 <button class="button button-small" onclick="openEditModal('${transaction.transactionId}')">Sửa</button>
                             </div>
                         </td>
                     </tr>
                 </c:forEach>
+
                 <c:if test="${empty transactions}">
                     <tr><td colspan="7">Không có giao dịch nào.</td></tr>
                 </c:if>
                 </tbody>
             </table>
         </div>
+        <style>
+            .pagination {
+                display: flex;
+                justify-content: center;
+                margin: 25px auto;
+                padding: 8px;
+                background: linear-gradient(to right, rgb(21, 42, 105), rgb(54, 75, 140));
+                border-radius: 10px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
 
+            .pagination a, .pagination span.ellipsis {
+                color: white;
+                background-color: rgba(255, 255, 255, 0.1);
+                padding: 12px 18px;
+                text-decoration: none;
+                margin: 0 4px;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-width: 20px;
+                font-size: 14px;
+                border-radius: 8px;
+                position: relative;
+                font-weight: 500;
+            }
+
+            .pagination a:hover {
+                background-color: rgba(255, 255, 255, 0.2);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
+
+            .pagination a.active {
+                background-color: white;
+                color: rgb(21, 42, 105);
+                font-weight: 600;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+            }
+
+            .pagination a.disabled {
+                opacity: 0.5;
+                pointer-events: none;
+                background-color: transparent;
+                box-shadow: none;
+            }
+
+            .pagination span.ellipsis {
+                background-color: transparent;
+                box-shadow: none;
+                pointer-events: none;
+                padding: 12px 8px;
+            }
+
+            /* Next/prev arrow styling */
+            .pagination a:first-child, .pagination a:last-child {
+                background-color: rgba(255, 255, 255, 0.15);
+                font-weight: bold;
+                padding: 12px 20px;
+            }
+
+            .pagination a:first-child:hover, .pagination a:last-child:hover {
+                background-color: rgba(255, 255, 255, 0.25);
+            }
+
+            /* For smaller screens */
+            @media (max-width: 576px) {
+                .pagination {
+                    padding: 6px;
+                }
+
+                .pagination a, .pagination span.ellipsis {
+                    padding: 10px 12px;
+                    min-width: 18px;
+                    margin: 0 2px;
+                    font-size: 13px;
+                }
+
+                .pagination a:first-child, .pagination a:last-child {
+                    padding: 10px 14px;
+                }
+            }
+
+            /* For very small screens */
+            @media (max-width: 360px) {
+                .pagination a, .pagination span.ellipsis {
+                    padding: 8px 10px;
+                    min-width: 16px;
+                    margin: 0 1px;
+                }
+            }</style>
         <div class="pagination">
-            <button>&lt;</button>
-            <button class="active">1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>&gt;</button>
+            <a href="?action=<%= action %>&startDate=<%= startDate %>&endDate=<%= endDate %>&status=<%= status %>&transactionType=<%= transactionType %>&search=<%= search %>&page=<%= Math.max(1, currentPage - 1) %>" class="<%= currentPage == 1 ? "disabled" : "" %>">&laquo;</a>
+            <% for (int i = 1; i <= totalPages; i++) { %>
+            <a href="?action=<%= action %>&startDate=<%= startDate %>&endDate=<%= endDate %>&status=<%= status %>&transactionType=<%= transactionType %>&search=<%= search %>&page=<%= i %>" class="<%= currentPage == i ? "active" : "" %>"><%= i %></a>
+            <% } %>
+            <a href="?action=<%= action %>&startDate=<%= startDate %>&endDate=<%= endDate %>&status=<%= status %>&transactionType=<%= transactionType %>&search=<%= search %>&page=<%= Math.min(totalPages, currentPage + 1) %>" class="<%= currentPage == totalPages ? "disabled" : "" %>">&raquo;</a>
         </div>
     </div>
 </div>
 
-<!-- Modal Thêm Giao Dịch -->
-<div id="addModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>Thêm Giao Dịch Mới</h2>
-            <span class="close" onclick="closeModal('addModal')">&times;</span>
-        </div>
-        <form id="addForm">
-            <div class="form-group">
-                <label for="transactionType">Loại giao dịch</label>
-                <select id="transactionType" required>
-                    <option value="income">Thu</option>
-                    <option value="expense">Chi</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="amount">Số tiền (VNĐ)</label>
-                <input type="number" id="amount" required placeholder="Ví dụ: 5000000">
-            </div>
-            <div class="form-group">
-                <label for="description">Mô tả</label>
-                <textarea id="description" rows="3" required placeholder="Mô tả chi tiết giao dịch"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="date">Ngày giao dịch</label>
-                <input type="date" id="date" required>
-            </div>
-            <div class="form-actions">
-                <div class="loader" id="submitLoader"></div>
-                <button type="button" class="button" style="background-color: #ccc;" onclick="closeModal('addModal')">
-                    Hủy
-                </button>
-                <button type="submit" class="button">Lưu</button>
-            </div>
-        </form>
-    </div>
-</div>
 
 <%-- Modal Xem Chi Tiết --%>
 <div id="viewModal" class="modal">
@@ -243,13 +316,18 @@
             <span class="close" onclick="closeModal('viewModal')">&times;</span>
         </div>
         <div id="transactionDetails">
-            <p><strong>Mã giao dịch:</strong> <span id="viewId"></span></p>
-            <p><strong>Ngày tạo:</strong> <span id="viewDate"></span></p>
-            <p><strong>Mô tả:</strong> <span id="viewDescription"></span></p>
-            <p><strong>Loại:</strong> <span id="viewType"></span></p>
-            <p><strong>Số tiền:</strong> <span id="viewAmount"></span></p>
-            <p><strong>Phương thức thanh toán:</strong> <span id="viewPaymentMethod"></span></p>
-            <p><strong>Trạng thái:</strong> <span id="viewStatus" class="status"></span></p>
+            <p><strong>Mã giao dịch: </strong> <span id="viewId"></span></p>
+            <p><strong>Ngày tạo: </strong> <span id="viewDate"></span></p>
+            <p><strong>Tên dự án: </strong> <span id="viewJob"></span></p>
+            <p><strong>Mô tả: </strong> <span id="viewDescription"></span></p>
+            <p><strong>Phân loại: </strong> <span id="viewCategory"></span></p>
+            <p><strong>Người nhận: </strong> <span id="viewReceiver"></span></p>
+            <p><strong>Người gửi: </strong> <span id="viewSender"></span></p>
+            <p><strong>Loại: </strong> <span id="viewType"></span></p>
+            <p><strong>Số tiền: </strong> <span id="viewAmount"></span></p>
+            <p><strong>Phương thức thanh toán: </strong> <span id="viewPaymentMethod"></span></p>
+            <p><strong>Trạng thái: </strong> <span id="viewStatus"  ></span></p>
+
         </div>
         <div class="form-actions">
             <button type="button" class="button" onclick="closeModal('viewModal')">Đóng</button>
@@ -309,14 +387,67 @@
         document.getElementById('addModal').style.display = 'block';
         document.getElementById('date').valueAsDate = new Date();
     }
-    function openViewModal(id, createdDate, status, description, transactionType, amount) {
-        // Hiển thị modal
-        document.getElementById('viewModal').style.display = 'block';
+    // Fixed code sample for handling links with senderAccountId
+    function createSenderLink(viewSender, senderName, senderAccountId) {
+        // Debug the actual value we received
+        console.log("Raw senderAccountId:", senderAccountId);
+        console.log("Type of senderAccountId:", typeof senderAccountId);
 
-        // Cập nhật ID giao dịch
-        document.getElementById('viewId').textContent = id;
+        // Always convert to string and trim, no matter what
+        let safeAccountId = String(senderAccountId || '').trim();
+        console.log("After conversion safeAccountId:", safeAccountId);
 
-        // Định dạng ngày tạo
+        // Create the link with explicit account ID
+        const senderLink = document.createElement('a');
+
+        // Explicitly set the href with the account ID
+        senderLink.href = "acc-manage?action=viewAccountDetails&accId=" + safeAccountId;
+        console.log("Full href:", senderLink.href);
+
+        // Set the text and add to DOM
+        senderLink.textContent = senderName || 'Unknown';
+
+        // Add debugging on click
+        senderLink.onclick = function(e) {
+            console.log("Link clicked with href:", this.href);
+            // Uncomment this line to check if the link is working without actually navigating
+            // e.preventDefault();
+        };
+
+        // Clear previous content and add new link
+        viewSender.innerHTML = '';
+        viewSender.appendChild(senderLink);
+    }
+    function openViewModal(id, createdDate, status, description, transactionType, amount, categoryName, jobTitle, senderName, receiverName, senderAccountId, receiverAccountId) {
+        // Get modal elements
+        const viewModal = document.getElementById('viewModal');
+        const viewId = document.getElementById('viewId');
+        const viewDate = document.getElementById('viewDate');
+        const viewDescription = document.getElementById('viewDescription');
+        const viewType = document.getElementById('viewType');
+        const viewAmount = document.getElementById('viewAmount');
+        const viewPaymentMethod = document.getElementById('viewPaymentMethod');
+        const viewStatus = document.getElementById('viewStatus');
+        const viewCategory = document.getElementById('viewCategory');
+        const viewJob = document.getElementById('viewJob');
+        const viewSender = document.getElementById('viewSender');
+        const viewReceiver = document.getElementById('viewReceiver');
+
+        // Debug values first
+        console.log("Opening modal with values:");
+        console.log("Job Title:", jobTitle);
+        console.log("Sender Name:", senderName);
+        console.log("Receiver Name:", receiverName);
+        console.log("Sender Account ID:", senderAccountId, typeof senderAccountId);
+        console.log("Receiver Account ID:", receiverAccountId, typeof receiverAccountId);
+
+        // Show the modal
+        viewModal.style.display = 'block';
+
+        // Update the modal's content
+        viewId.textContent = id;
+
+        // Format the date
         const formattedDate = new Intl.DateTimeFormat('vi-VN', {
             hour: '2-digit',
             minute: '2-digit',
@@ -325,62 +456,68 @@
             month: 'numeric',
             year: 'numeric'
         }).format(new Date(createdDate));
-        document.getElementById('viewDate').textContent = formattedDate;
+        viewDate.textContent = formattedDate;
 
-        // Cập nhật mô tả
-        document.getElementById('viewDescription').textContent = description;
+        viewDescription.textContent = description;
 
-        // Xử lý loại giao dịch
-        let displayType;
+        // Set transaction type text
+        let displayType = '';
         if (transactionType === 'Trừ tiền' || transactionType === 'Rút tiền') {
             displayType = 'Chi';
         } else if (transactionType === 'Thêm tiền') {
             displayType = 'Thu';
         } else {
-            displayType = transactionType;
+            displayType = transactionType; // Keep original if not a known type
         }
-        document.getElementById('viewType').textContent = displayType;
+        viewType.textContent = displayType;
 
-        // Định dạng số tiền
+        // Format the amount
         const formattedAmount = new Intl.NumberFormat('vi-VN', {
             style: 'currency',
             currency: 'VND'
         }).format(amount);
-        document.getElementById('viewAmount').textContent = formattedAmount;
+        viewAmount.textContent = formattedAmount;
 
-        // Mặc định một số thông tin khác
-        document.getElementById('viewPaymentMethod').textContent = 'Chuyển khoản';
+        viewPaymentMethod.textContent = 'Chuyển khoản'; // Default payment method
 
-        // Xử lý trạng thái giao dịch dựa vào tham số status
-        const statusSpan = document.getElementById('viewStatus');
-
-        // Kiểm tra trạng thái và hiển thị tương ứng
-        if (status === 'true') {
-            statusSpan.textContent = 'Thành công';
-            statusSpan.className = 'status status-success';
-        } else if (status === 'false') {
-            statusSpan.textContent = 'Thất bại';
-            statusSpan.className = 'status status-failed';
-        } else {
-            // Xử lý trạng thái dựa vào loại giao dịch nếu không có status rõ ràng
-            if (transactionType === 'Trừ tiền') {
-                statusSpan.textContent = 'Thành công';
-                statusSpan.className = 'status status-success';
-            } else if (transactionType === 'Rút tiền') {
-                statusSpan.textContent = 'Đang xử lý';
-                statusSpan.className = 'status status-pending';
-            } else if (transactionType === 'Thêm tiền') {
-                statusSpan.textContent = 'Thất bại';
-                statusSpan.className = 'status status-failed';
-            } else {
-                statusSpan.textContent = 'Không xác định';
-                statusSpan.className = 'status';
-            }
+        // Handle the status using a switch for clarity
+        let statusText = '';
+        let statusClass = '';
+        switch (status) {
+            case 'true':
+                statusText = 'Thành công';
+                statusClass = 'status-success';
+                break;
+            case 'false':
+                statusText = 'Thất bại';
+                statusClass = 'status-failed';
+                break;
+            default:
+                // Handle cases where status is not 'true' or 'false'
+                if (transactionType === 'Trừ tiền') {
+                    statusText = 'Thành công';
+                    statusClass = 'status-success';
+                } else if (transactionType === 'Rút tiền') {
+                    statusText = 'Đang xử lý';
+                    statusClass = 'status-pending';
+                } else if (transactionType === 'Thêm tiền') {
+                    statusText = 'Thất bại';
+                    statusClass = 'status-failed';
+                } else {
+                    statusText = 'Không xác định';
+                    statusClass = ''; // Or some default class
+                }
         }
+        viewStatus.textContent = statusText;
+        viewStatus.className = `status ${statusClass}`;
+
+        viewCategory.textContent = categoryName;
+        viewJob.textContent = jobTitle;
+        createSenderLink(viewSender, senderName, senderAccountId);
+        // Use our new function for sender link
+        createSenderLink(viewReceiver, receiverName, receiverAccountId);
+
     }
-
-
-
     function openEditModal(id) {
         const modal = document.getElementById('editModal');
         const form = document.getElementById('editForm');
@@ -434,21 +571,6 @@
             event.target.style.display = 'none';
         }
     }
-
-    // Xử lý sự kiện submit form
-    document.getElementById('addForm').addEventListener('submit', function (e) {
-        e.preventDefault();
-        document.getElementById('submitLoader').style.display = 'block';
-
-        // Giả lập việc gửi dữ liệu
-        setTimeout(function () {
-            document.getElementById('submitLoader').style.display = 'none';
-            closeModal('addModal');
-            alert('Thêm giao dịch thành công!');
-            // Trong thực tế, bạn sẽ làm mới danh sách giao dịch
-        }, 1000);
-    });
-
 
     document.getElementById('editForm').addEventListener('submit', function (e) {
         e.preventDefault();

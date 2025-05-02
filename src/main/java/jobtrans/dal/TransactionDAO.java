@@ -214,11 +214,101 @@ public class TransactionDAO {
         return transactionList;
     }
 
+    public List<Transaction> getFilterTransaction(String startDate, String endDate, List<Boolean> statusList, List<String> transactionTypes) throws Exception {
+        String sql = "SELECT * FROM [dbo].[Transaction] " +
+                "WHERE [created_date] BETWEEN ? AND ? " +
+                "AND [status] IN (";
+
+        // Tạo các tham số IN cho status
+        for (int i = 0; i < statusList.size(); i++) {
+            sql += (i == 0 ? "?" : ", ?");
+        }
+        sql += ") AND [transaction_type] IN (";
+
+        // Tạo các tham số IN cho transaction_type
+        for (int i = 0; i < transactionTypes.size(); i++) {
+            sql += (i == 0 ? "?" : ", ?");
+        }
+        sql += ")";
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<Transaction> transactionList = new ArrayList<>();
+
+        try {
+            ps = dbConnection.openConnection().prepareStatement(sql); // Sử dụng lại dbConnection
+
+            // Set các tham số cho câu lệnh SQL
+            int paramIndex = 1;
+
+            // Set các tham số ngày
+            ps.setString(paramIndex++, startDate);
+            ps.setString(paramIndex++, endDate);
+
+            // Set các tham số status
+            for (Boolean status : statusList) {
+                ps.setBoolean(paramIndex++, status);
+            }
+
+            // Set các tham số transaction_type
+            for (String type : transactionTypes) {
+                ps.setNString(paramIndex++, type);
+            }
+
+            // Debug các tham số tìm kiếm
+            System.out.println("Filter Period: " + startDate + " to " + endDate);
+            System.out.println("Status Filter: " + statusList);
+            System.out.println("Transaction Types: " + transactionTypes);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Transaction transaction = new Transaction();
+                transaction.setTransactionId(rs.getInt("transaction_id"));
+                transaction.setTransactionType(rs.getString("transaction_type"));
+                transaction.setAmount(rs.getBigDecimal("amount"));
+                transaction.setDescription(rs.getString("description"));
+                transaction.setCreatedDate(rs.getTimestamp("created_date"));
+                transaction.setStatus(rs.getBoolean("status"));
+                // Các trường khác của Transaction
+                transactionList.add(transaction);
+            }
+
+            System.out.println("Số lượng kết quả tìm thấy: " + transactionList.size());
+
+        } finally {
+            // Đóng tài nguyên
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            //Không đóng connection ở đây vì connection có thể được quản lý ở nơi khác
+        }
+
+        return transactionList;
+    }
+    // Ví dụ cách sử dụng:
+    public List<Transaction> getTransactionsByDefaultFilter() throws Exception {
+        String startDate = "2025-04-27 00:00:00.000";
+        String endDate = "2025-04-30 00:00:00.000";
+
+        List<Boolean> statusList = new ArrayList<>();
+        statusList.add(false); // status = 0
+        statusList.add(true);  // status = 1
+        List<String> transactionTypes = new ArrayList<>();
+        transactionTypes.add("Trừ tiền");
+        transactionTypes.add("Thêm tiền");
+        transactionTypes.add("Rút tiền");
+
+        return getFilterTransaction(startDate, endDate, statusList, transactionTypes);
+    }
     public static void main(String[] args) throws Exception {
         // 2. Tạo một đối tượng TransactionDAO
         TransactionDAO transactionDAO = new TransactionDAO();
 
-        System.out.println( transactionDAO.getTransactionsByKeyword("2"));
+        System.out.println( transactionDAO.getTransactionsByDefaultFilter());
 
 
     }

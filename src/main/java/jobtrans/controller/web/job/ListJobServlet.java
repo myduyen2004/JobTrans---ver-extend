@@ -23,6 +23,7 @@ import java.util.Comparator;
 public class ListJobServlet extends HttpServlet {
     private static final int JOBS_PER_PAGE = 5; // Số công việc trên một trang, bạn có thể điều chỉnh
     JobCategoryDAO jobCategoryDAO = new JobCategoryDAO();
+    JobDAO jobDAO = new JobDAO();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String priceFilter = request.getParameter("price");
@@ -38,7 +39,7 @@ public class ListJobServlet extends HttpServlet {
         // Lấy JobCategory cho từng công việc  nếu chưa có
         for (Job job : jobs) {
             if (job.getJobCategory() == null) {
-                JobCategory category = jobCategoryDAO.getJobCategoryByJobId(job.getCategoryId());
+                JobCategory category = jobCategoryDAO.getJobCategoryByCategortyJobId(job.getCategoryId());
                 job.setJobCategory(category);
             }
         }

@@ -19,6 +19,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -27,8 +29,11 @@ import java.util.stream.Collectors;
 
 @WebServlet(name = "TransactionManagement", urlPatterns = {"/trans-manage"})
 public class TransactionManagement extends HttpServlet {
+    private static final int TRANSACTIONS_PER_PAGE = 5; // Số giao dịch trên một trang
     TransactionDAO transDAO = new TransactionDAO();
 JobCategoryDAO jobCategoryDAO = new JobCategoryDAO();
+JobDAO jobDAO = new JobDAO();
+AccountDAO accountDAO = new AccountDAO();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -49,6 +54,9 @@ JobCategoryDAO jobCategoryDAO = new JobCategoryDAO();
                     handleTransactionManagement(req, resp);
                     break;
 
+                case"filterTransaction":
+                    filterTransaction(req,resp);
+
                 default:
                     transManage(req, resp);
             }
@@ -56,6 +64,61 @@ JobCategoryDAO jobCategoryDAO = new JobCategoryDAO();
             Logger.getLogger(AccountManagement.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    private void filterTransaction(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        String startDate = req.getParameter("startDate");
+        String endDate = req.getParameter("endDate");
+        String statusParam = req.getParameter("status");
+        String transactionTypeParam = req.getParameter("transactionType");
+        // thu và chi
+        List<String> transactionTypes = new ArrayList<>();
+        if (transactionTypeParam != null && !transactionTypeParam.isEmpty()) {
+            if (transactionTypeParam.equals("income")) {
+                transactionTypes.add("Thêm tiền");
+            } else if (transactionTypeParam.equals("expense")) {
+                transactionTypes.add("Trừ tiền");
+                transactionTypes.add("Rút tiền");
+            }
+        } else {
+            transactionTypes.add("Trừ tiền");
+            transactionTypes.add("Rút tiền");
+            transactionTypes.add("Thêm tiền");
+        }
+        // 0 và 1
+        List<Boolean> status = new ArrayList<>();
+        if (statusParam != null && !statusParam.isEmpty()) {
+            if (statusParam.equals("true")) {
+                status.add(true);
+            } else {
+                if (statusParam.equals("false")) {
+                    status.add(false);
+                }
+            }
+        } else {
+            status.add(true);
+            status.add(false);
+        }
+        List<Transaction> transactions = transDAO.getFilterTransaction(startDate, endDate, status, transactionTypes);
+
+        // Phân trang
+        int currentPage = 1;
+        String pageParam = req.getParameter("page");
+        if (pageParam != null && !pageParam.isEmpty()) {
+            try {
+                currentPage = Integer.parseInt(pageParam);
+            } catch (NumberFormatException e) {
+                currentPage = 1;
+            }
+        }
+        List<Transaction> transactionsToDisplay = getTransactionsForPage(transactions, currentPage, TRANSACTIONS_PER_PAGE);
+        req.setAttribute("transactions", transactionsToDisplay);  // Corrected line
+        req.setAttribute("currentPage", currentPage);
+        req.setAttribute("totalPages", (int) Math.ceil((double) transactions.size() / TRANSACTIONS_PER_PAGE));
+
+        //req.setAttribute("transactions", transactions); //remove this line
+        req.getRequestDispatcher("admin-transaction-list-manage.jsp").forward(req, resp);
+    }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
@@ -70,14 +133,17 @@ JobCategoryDAO jobCategoryDAO = new JobCategoryDAO();
 
     private void transManage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         TransactionDAO transDAO = new TransactionDAO();
-        List<Transaction> transactions = transDAO.getAllTransaction();
+        List<Transaction> allTransactions = transDAO.getAllTransaction(); // Get ALL transactions
+        JobDAO jobDAO = new JobDAO();
+        JobCategoryDAO jobCategoryDAO = new JobCategoryDAO();
+        AccountDAO accountDAO = new AccountDAO();
 
         BigDecimal totalIncome = BigDecimal.ZERO;
         BigDecimal totalExpense = BigDecimal.ZERO;
         BigDecimal balance = BigDecimal.ZERO;
 
-        for (Transaction transaction : transactions) {
-            BigDecimal amount = transaction.getAmount(); // Giả sử getAmount() trả về BigDecimal
+        for (Transaction transaction : allTransactions) { // Use allTransactions here
+            BigDecimal amount = transaction.getAmount();
             String transactionType = transaction.getTransactionType();
 
             if (transactionType.equals("Thêm tiền")) {
@@ -86,20 +152,49 @@ JobCategoryDAO jobCategoryDAO = new JobCategoryDAO();
                 totalExpense = totalExpense.add(amount);
             }
         }
+        for (Transaction trans : allTransactions) {  //and here
+            if (trans.getJob() == null) {
+                Job job = jobDAO.getJobById(trans.getJobId());
+                trans.setJob(job);
+                if (trans.getCategory() == null) {
+                    JobCategory jobCategory = jobCategoryDAO.getJobCategoryByCategortyJobId(job.getCategoryId());
+                    trans.setCategory(jobCategory);
+                }
+            }
+            if (trans.getReceiver() == null) {
+                Account acc = accountDAO.getAccountById(trans.getReceiverId());
+                trans.setReceiver(acc);
+            }
+            if (trans.getSender() == null) {
+                Account acc = accountDAO.getAccountById(trans.getSenderId());
+                trans.setSender(acc);
+            }
+        }
+
+
+        // Phân trang
+        int currentPage = 1;
+        String pageParam = req.getParameter("page");
+        if (pageParam != null && !pageParam.isEmpty()) {
+            try {
+                currentPage = Integer.parseInt(pageParam);
+            } catch (NumberFormatException e) {
+                currentPage = 1;
+            }
+        }
+        List<Transaction> transactionsToDisplay = getTransactionsForPage(allTransactions, currentPage, TRANSACTIONS_PER_PAGE); // Pass allTransactions
+        req.setAttribute("transactions", transactionsToDisplay);
+        req.setAttribute("currentPage", currentPage);
+        req.setAttribute("totalPages", (int) Math.ceil((double) allTransactions.size() / TRANSACTIONS_PER_PAGE));
+
 
         balance = totalIncome.subtract(totalExpense);
-
 
         req.setAttribute("totalIncome", totalIncome);
         req.setAttribute("totalExpense", totalExpense);
         req.setAttribute("balance", balance);
-
-
-        req.setAttribute("transactions", transactions);
-
-
+        req.setAttribute("allTransactions", allTransactions.size());  // Remove this line:  We are sending transactionsToDisplay
         req.getRequestDispatcher("admin-transaction-list-manage.jsp").forward(req, resp);
-
     }
 
     private void handleTransactionManagement(HttpServletRequest request, HttpServletResponse response)
@@ -108,18 +203,30 @@ JobCategoryDAO jobCategoryDAO = new JobCategoryDAO();
         System.out.println("Search term: " + searchTerm);
         List<Transaction> transactions = transDAO.getTransactionsByKeyword(searchTerm);
 
-        // Thiết lập thuộc tính request
-        request.setAttribute("transactions", transactions);
 
+
+        // Phân trang
+        int currentPage = 1;
+        String pageParam = request.getParameter("page");
+        if (pageParam != null && !pageParam.isEmpty()) {
+            try {
+                currentPage = Integer.parseInt(pageParam);
+            } catch (NumberFormatException e) {
+                currentPage = 1;
+            }
+        }
+        List<Transaction> transactionsToDisplay = getTransactionsForPage(transactions, currentPage, TRANSACTIONS_PER_PAGE); // Pass allTransactions
+        request.setAttribute("transactions", transactionsToDisplay);
+        request.setAttribute("currentPage", currentPage);
+        request.setAttribute("totalPages", (int) Math.ceil((double) transactions.size() / TRANSACTIONS_PER_PAGE));
         // Chuyển hướng đến trang JSP
         request.getRequestDispatcher("admin-transaction-list-manage.jsp").forward(request, response);
     }
 
-    private void editTransaction(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void editTransaction(HttpServletRequest req, HttpServletResponse resp) throws  IOException {
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
         PrintWriter out = resp.getWriter();
-
         try {
             // Đọc dữ liệu JSON từ body của request
             BufferedReader reader = req.getReader();
@@ -207,4 +314,18 @@ JobCategoryDAO jobCategoryDAO = new JobCategoryDAO();
         } finally {
             out.close();
         }
-    }}
+    }
+
+    private List<Transaction> getTransactionsForPage(List<Transaction> allTransactions, int currentPage, int transactionsPerPage) {
+        final int TRANSACTIONS_PER_PAGE = transactionsPerPage;
+        int totalTransactions = allTransactions.size();
+        int totalPages = (int) Math.ceil((double) totalTransactions / TRANSACTIONS_PER_PAGE);
+        if (currentPage > totalPages && totalPages > 0) {
+            currentPage = totalPages;
+        }
+        int start = (currentPage - 1) * TRANSACTIONS_PER_PAGE;
+        int end = Math.min(start + TRANSACTIONS_PER_PAGE, totalTransactions);
+        return allTransactions.subList(start, end);
+    }
+
+}
