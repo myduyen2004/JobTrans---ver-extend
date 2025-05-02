@@ -7,7 +7,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <jsp:useBean id="CVDAO" class="jobtrans.dal.CvDAO" scope="session"></jsp:useBean>
     <title>Professional CV Builder - Modern Style</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap"
+          rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         :root {
@@ -133,7 +134,7 @@
             flex: 1;
             padding: 30px;
             background-color: #f5f7fb;
-            margin-top: -100px;
+
         }
 
         .cv-box {
@@ -244,7 +245,7 @@
             font-size: 18px;
             font-weight: 600;
             margin: 25px 0 15px;
-            color:#4a6fa5;
+            color: #4a6fa5;
             padding-bottom: 8px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             letter-spacing: 0.5px;
@@ -255,7 +256,7 @@
             font-size: 20px;
             font-weight: 600;
             margin: 20px 0;
-            color: #4a6fa5 ;
+            color: #4a6fa5;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -410,8 +411,14 @@
 
         /* Animation for sections */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .education-item, .experience-item, .certification-item, .skill-item {
@@ -451,8 +458,8 @@
     <%@include file="includes/header_cv.jsp" %>
 </div>
 <div style="margin-top:140px;display: flex">
-    <div style="margin-top: -100px">
-    <%@include file="./includes/sidebar_createCV.jsp" %>
+    <div style="">
+        <%@include file="./includes/sidebar_createCV.jsp" %>
     </div>
     <!-- CV Content Area -->
     <main class="cv-content">
@@ -464,7 +471,9 @@
                 <!-- Left Sidebar (CV Personal Info) -->
                 <div class="cv-sidebar">
                     <div class="cv-picture-avatar">
-                        <img id="avatar-preview" src="${CV.avatarCv != null ? CV.avatarCv : 'https://via.placeholder.com/200'}" alt="Profile Photo">
+                        <img id="avatar-preview"
+                             src="${CV.avatarCv != null ? CV.avatarCv : 'https://via.placeholder.com/200'}"
+                             alt="Profile Photo">
                         <label for="avatar_cv" class="upload-label">
                             <i class="fas fa-camera"></i> Change Photo
                         </label>
@@ -481,7 +490,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <input type="date" class="form-control" name="date_of_birth" value="${CV.dateOfBirth}" placeholder="Ngày sinh">
+                        <input type="date" class="form-control" name="date_of_birth" value="${CV.dateOfBirth}"
+                               placeholder="Ngày sinh">
                     </div>
                     <div class="form-group">
                         <input type="tel" class="form-control" name="sdt" value="${CV.sdt}" placeholder="Số điện thoại">
@@ -490,7 +500,8 @@
                         <input type="email" class="form-control" name="email" value="${CV.email}" placeholder="Email">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="address" value="${CV.address}" placeholder="Địa chỉ">
+                        <input type="text" class="form-control" name="address" value="${CV.address}"
+                               placeholder="Địa chỉ">
                     </div>
 
                     <div class="skill-section">
@@ -512,7 +523,8 @@
                                         <c:forEach items="${CVDAO.allMainSkill}" var="k">
                                             <optgroup label="${k.mainSkillName}">
                                                 <c:forEach items="${CVDAO.getSkillByMainSkill(k.mainSkillId)}" var="h">
-                                                    <option value="${h.skillId}" data-mainskill="${k.mainSkillId}" ${h.skillId == o.skillId ? 'selected' : ''}>${h.skillName}</option>
+                                                    <option value="${h.skillId}"
+                                                            data-mainskill="${k.mainSkillId}" ${h.skillId == o.skillId ? 'selected' : ''}>${h.skillName}</option>
                                                 </c:forEach>
                                             </optgroup>
                                         </c:forEach>
@@ -520,7 +532,8 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <input type="text" name="otherSkillName[]" value="${o.skillCustom}" placeholder="Tên kỹ năng khác"
+                                    <input type="text" name="otherSkillName[]" value="${o.skillCustom}"
+                                           placeholder="Tên kỹ năng khác"
                                            class="form-control other-skill-input" style="display: none;">
                                 </div>
 
@@ -549,16 +562,19 @@
 
                     <h2 id="extraInfoTitle" class="section-title">Thông tin bổ sung</h2>
                     <div class="form-group">
-                        <textarea name="more_infor" class="form-control" placeholder="Thông tin bổ sung">${CV.moreInfo}</textarea>
+                        <textarea name="more_infor" class="form-control"
+                                  placeholder="Thông tin bổ sung">${CV.moreInfo}</textarea>
                     </div>
                 </div>
 
                 <!-- Main CV Content -->
                 <div class="cv-main">
                     <div class="main-info">
-                        <input type="text" name="cvname" class="form-control" value="${CV.cvName}" placeholder="Họ và tên"
+                        <input type="text" name="cvname" class="form-control" value="${CV.cvName}"
+                               placeholder="Họ và tên"
                                style="height:50px;width: 300px; margin-left: 100px;font-size: 24px; font-weight: 600; border: none; border-bottom: 2px solid var(--border); padding: 10px 0; margin-bottom: 15px;">
-                        <input type="text" name="position" class="form-control" value="${CV.jobPosition}" placeholder="Vị trí ứng tuyển"
+                        <input type="text" name="position" class="form-control" value="${CV.jobPosition}"
+                               placeholder="Vị trí ứng tuyển"
                                style="height:50px;width: 300px; margin-left: 100px;font-size: 18px; border: none; padding: 5px 0;">
                     </div>
 
@@ -589,18 +605,23 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="otherSchoolName[]" value="${o.customSchool}" placeholder="Tên trường khác"
+                                    <input type="text" name="otherSchoolName[]" value="${o.customSchool}"
+                                           placeholder="Tên trường khác"
                                            class="form-control other-school-input" style="display: none;">
                                 </div>
                                 <div class="date-group">
-                                    <input type="date" class="form-control" name="educationStartDate[]" value="${o.startDate}">
-                                    <input type="date" class="form-control" name="educationEndDate[]" value="${o.endDate}">
+                                    <input type="date" class="form-control" name="educationStartDate[]"
+                                           value="${o.startDate}">
+                                    <input type="date" class="form-control" name="educationEndDate[]"
+                                           value="${o.endDate}">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="major[]" value="${o.fieldOfStudy}" placeholder="Chuyên ngành">
+                                    <input type="text" class="form-control" name="major[]" value="${o.fieldOfStudy}"
+                                           placeholder="Chuyên ngành">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="degree[]" value="${o.degree}" placeholder="Bằng cấp">
+                                    <input type="text" class="form-control" name="degree[]" value="${o.degree}"
+                                           placeholder="Bằng cấp">
                                 </div>
                                 <div class="form-group">
                                     <textarea class="form-control" name="school_Description[]"
@@ -617,45 +638,49 @@
 
                     <div class="experience-section">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <h3 id="experienceTitle" class="main-section-title">Kinh nghiệm làm việc</h3>
+                            <h3 class="main-section-title">Kinh nghiệm làm việc</h3>
                             <div>
                                 <button type="button" id="add-experience" class="btn-add">
                                     <i class="fas fa-plus"></i> Thêm
                                 </button>
                             </div>
                         </div>
+                        <div class="section-divider"></div>
                         <c:forEach items="${CV.experienceList}" var="o">
                             <div class="experience-item">
                                 <div class="form-group">
-                                    <select class="form-control" name="Company[]" id="companySelect" required>
-                                        <option value="">Chọn công ty</option>
+                                    <select class="form-control" name="Company[]" required>
+                                        <option value="${o.experienceId}" ${o.experienceId == selectedExperience ? 'selected' : ''}>
+                                                ${o.companyName}
+                                        </option>
                                         <c:forEach items="${CVDAO.allCompanyName}" var="h">
-                                            <option value="${CVDAO.getCompanyIdByName(h)}" ${CVDAO.getCompanyIdByName(h) == o.experienceId ? 'selected' : ''}>${h}</option>
+                                            <option value="${CVDAO.getCompanyIdByName(h)}">${h}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="otherCompanyName[]" value="${o.customCompany}" placeholder="Tên công ty khác"
+                                    <input value="${o.customCompany}" type="text" name="otherCompanyName[]"
+                                           placeholder="Tên công ty khác"
                                            class="form-control other-company-input" style="display: none;">
                                 </div>
                                 <div class="date-group">
-                                    <input type="date" class="form-control" name="companyStartDate[]" value="${o.startAt}" required>
-                                    <input type="date" class="form-control" name="companyEndDate[]" value="${o.endAt}">
+                                    <input value="${o.startAt}" type="date" class="form-control" name="companyStartDate[]" required>
+                                    <input value="${o.endAt}" type="date" class="form-control" name="companyEndDate[]">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="position[]" value="${o.jobPosition}" placeholder="Vị trí"
-                                           required>
+                                    <input value="${o.jobPosition}" type="text" class="form-control" name="position[]"
+                                           placeholder="Vị trí" required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="description[]" value="${o.description}"
+                                    <input value="${o.description}" type="text" class="form-control" name="description[]"
                                            placeholder="Thông tin công việc">
                                 </div>
                                 <div class="form-group">
-                                    <textarea class="form-control" name="work_achievements[]"
-                                              placeholder="Thành tích">${o.achievement}</textarea>
+                <textarea class="form-control" name="work_achievements[]"
+                          placeholder="Thành tích">${o.achievement}</textarea>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="address[]" value="${o.address}"
+                                    <input value="${o.address}" type="text" class="form-control" name="address[]"
                                            placeholder="địa chỉ">
                                 </div>
                                 <div style="text-align: right;">
@@ -688,7 +713,8 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="otherCertificationName[]" value="${o.customCertification}" placeholder="Chứng chỉ khác"
+                                    <input type="text" name="otherCertificationName[]" value="${o.customCertification}"
+                                           placeholder="Chứng chỉ khác"
                                            class="form-control other-certification-input" style="display: none;">
                                 </div>
                                 <div class="form-group">
@@ -930,7 +956,7 @@
     });
 
     // Show "Other" input fields when "Other" option is selected
-    document.addEventListener('change', function(e) {
+    document.addEventListener('change', function (e) {
         if (e.target.id === 'schoolSelect' || e.target.classList.contains('other-school-input')) {
             const otherInput = e.target.closest('.education-item').querySelector('.other-school-input');
             if (e.target.value === '1') {

@@ -486,7 +486,7 @@
                         <h2 id="skillTitle" class="section-title">Kỹ Năng</h2>
                         <div class="skill-item">
                             <div class="form-group">
-                                <select class="form-control" name="mainSkillId[]" required>
+                                <select class="form-control" name="mainSkillId[]" >
                                     <option value="">Chọn tiêu đề kỹ năng</option>
                                     <c:forEach items="${CVDAO.allMainSkill}" var="o">
                                         <option value="${o.mainSkillId}">${o.mainSkillName}</option>
@@ -495,7 +495,7 @@
                             </div>
 
                             <div class="form-group">
-                                <select class="form-control" name="skillId[]" id="skillSelect" required>
+                                <select class="form-control" name="skillId[]" id="skillSelect" >
                                     <option value="">Chọn kỹ năng</option>
                                     <c:forEach items="${CVDAO.allMainSkill}" var="o">
                                         <optgroup label="${o.mainSkillName}">
@@ -514,7 +514,7 @@
                             </div>
 
                             <div class="form-group">
-                                <select class="form-control" name="levelSkill[]" required>
+                                <select class="form-control" name="levelSkill[]">
                                     <option value="">Chọn level</option>
                                     <% for (int i = 1; i <= 100; i++) { %>
                                     <option value="<%= i %>"><%= i %>%</option>
@@ -602,7 +602,7 @@
                         </div>
                         <div class="experience-item">
                             <div class="form-group">
-                                <select class="form-control" name="Company[]" id="companySelect" required>
+                                <select class="form-control" name="Company[]" id="companySelect">
                                     <option value="">Chọn công ty</option>
                                     <c:forEach items="${CVDAO.allCompanyName}" var="o">
                                         <option value="${CVDAO.getCompanyIdByName(o)}">${o}</option>
@@ -614,12 +614,12 @@
                                        class="form-control other-company-input" style="display: none;">
                             </div>
                             <div class="date-group">
-                                <input type="date" class="form-control" name="companyStartDate[]" required>
+                                <input type="date" class="form-control" name="companyStartDate[]">
                                 <input type="date" class="form-control" name="companyEndDate[]">
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control" name="position[]" placeholder="Vị trí"
-                                       required>
+                                       >
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control" name="description[]"
@@ -1063,9 +1063,7 @@
             const endDate = item.querySelector('input[name="companyEndDate[]"]');
             const position = item.querySelector('input[name="position[]"]');
 
-            if (!validateRequired(company, 'Vui lòng chọn công ty')) {
-                isValid = false;
-            }
+
 
             if (!validateRequired(startDate, 'Ngày bắt đầu không được để trống')) {
                 isValid = false;
@@ -1087,9 +1085,7 @@
             const startDate = item.querySelector('input[name="educationStartDate[]"]');
             const endDate = item.querySelector('input[name="educationEndDate[]"]');
 
-            if (!validateRequired(school, 'Vui lòng chọn trường học')) {
-                isValid = false;
-            }
+
 
             if (startDate.value && endDate.value && !validateDateRange(startDate, endDate, 'Ngày kết thúc phải sau ngày bắt đầu')) {
                 isValid = false;
@@ -1109,6 +1105,7 @@
         }
     });
 
+
     // Add custom styles for error messages
     const style = document.createElement('style');
     style.textContent = `
@@ -1125,10 +1122,6 @@
     `;
     document.head.appendChild(style);
 
-    // Event listeners for "Other" options
-
-
-    });
 
 </script>
 <script>

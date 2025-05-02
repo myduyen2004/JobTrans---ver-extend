@@ -408,13 +408,17 @@ public class CVServlet extends HttpServlet {
 
         if (existingCV.getCvType() == 1){
             request.setAttribute("CV", existingCV);
-
             request.getRequestDispatcher("showCV1.jsp").forward(request, response);
         } else if (existingCV.getCvType()==2){
             request.setAttribute("CV", existingCV);
-
             request.getRequestDispatcher("showCV2.jsp").forward(request, response);
-
+        }else if (existingCV.getCvType()==3){
+            request.setAttribute("CV", existingCV);
+            request.getRequestDispatcher("showCV3.jsp").forward(request, response);
+        }
+        else if (existingCV.getCvType()==4){
+            request.setAttribute("CV", existingCV);
+            request.getRequestDispatcher("showCV4.jsp").forward(request, response);
         }
 
 
@@ -694,13 +698,18 @@ public class CVServlet extends HttpServlet {
 
         if (cv.getCvType() == 1){
             request.setAttribute("CV", cv);
-
             request.getRequestDispatcher("showCV1.jsp").forward(request, response);
         } else if (cv.getCvType()==2){
             request.setAttribute("CV", cv);
-
             request.getRequestDispatcher("showCV2.jsp").forward(request, response);
-
+        }
+        else if (cv.getCvType()==3){
+            request.setAttribute("CV", cv);
+            request.getRequestDispatcher("showCV3.jsp").forward(request, response);
+        }
+        else if (cv.getCvType()==4){
+            request.setAttribute("CV", cv);
+            request.getRequestDispatcher("showCV4.jsp").forward(request, response);
         }
 
 
@@ -751,6 +760,9 @@ public class CVServlet extends HttpServlet {
         } else if (cv.getCvType() == 3) {
             request.setAttribute("CV", cv);
             request.getRequestDispatcher("showCV3.jsp").forward(request, response);
+        } else if (cv.getCvType() == 4) {
+            request.setAttribute("CV", cv);
+            request.getRequestDispatcher("showCV4.jsp").forward(request, response);
         }
 
     }
@@ -796,6 +808,9 @@ public class CVServlet extends HttpServlet {
         if (typeId == 3) {
             request.getRequestDispatcher("mau_cv3.jsp").forward(request, response);
         }
+        if (typeId == 4) {
+            request.getRequestDispatcher("mau_cv4.jsp").forward(request, response);
+        }
 
     }
 
@@ -822,6 +837,9 @@ public class CVServlet extends HttpServlet {
         } else if (cv.getCvType() == 3) {
             request.setAttribute("CV", cv);
             request.getRequestDispatcher("edit_cv3.jsp").forward(request, response);
+        }else if (cv.getCvType() == 4) {
+            request.setAttribute("CV", cv);
+            request.getRequestDispatcher("edit_cv4.jsp").forward(request, response);
         }
 
 

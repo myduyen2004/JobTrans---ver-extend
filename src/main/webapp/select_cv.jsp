@@ -3,316 +3,372 @@
 <!DOCTYPE html>
 <html lang="en-US">
 
-<!-- Mirrored from themebing.com/wp/prolancer/projects/?projects-layout=projects_left_sidebar by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Jan 2025 09:33:33 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
 
-	<title>Công việc của tôi &#8211; ProLancer</title>
+	<title>Mẫu CV chuyên nghiệp &#8211; ProLancer</title>
 	<meta name='robots' content='max-image-preview:large' />
-	<style>img:is([sizes="auto" ], [sizes^="auto," ]) { contain-intrinsic-size: 3000px 1500px }</style>
 	<link rel="icon" type="image/png" href="wp-content/uploads/2021/09/logo.png">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <style>
+	:root {
+		--primary-color: #1a3a8f;
+		--secondary-color: #2a56c7;
+		--accent-color: #4a7dff;
+		--text-dark: #2d3748;
+		--text-medium: #4a5568;
+		--text-light: #718096;
+		--light-bg: #f8fafc;
+		--white: #ffffff;
+		--border-radius: 8px;
+		--box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+		--transition: all 0.3s ease;
+	}
+
+	body {
+		font-family: 'Inter', sans-serif;
+		background-color: var(--light-bg);
+		color: var(--text-medium);
+		line-height: 1.6;
+		margin: 0;
+		padding: 0;
+	}
+
 	/* Main Container */
 	.container_cv {
-		display: flex;
-		min-height: calc(100vh - 200px);
-		background-color: #f0f2f8;
-	}
 
-	/* CV Container */
-	.cv-container {
-		flex: 1;
-		padding: 30px;
-		background-color: white;
-		border-radius: 8px;
-		box-shadow: 0 2px 15px rgba(21, 42, 105, 0.1);
-		margin: 20px;
-		max-height: 80vh;
-		overflow-y: auto;
-		margin-left: 14%;
-		margin-right: 14%;
-		margin-top: 50px;
-		width: 1200px;
-	}
-
-	/* Title */
-	.cv-title {
-		color: rgb(21, 42, 105);
-		font-size: 24px;
-		font-weight: 600;
-		margin-bottom: 30px;
-		padding-bottom: 10px;
-		border-bottom: 2px solid rgb(54, 75, 140);
-		display: inline-block;
-	}
-
-	/* CV Card */
-	.cv-card {
-		display: flex;
-		align-items: center;
-		background: white;
-		border-radius: 8px;
+		margin: 0 auto;
 		padding: 20px;
-		margin-bottom: 20px;
-		box-shadow: 0 3px 10px rgba(21, 42, 105, 0.08);
-		transition: transform 0.3s ease, box-shadow 0.3s ease;
-		border-left: 4px solid rgb(54, 75, 140);
 	}
 
-	.cv-card:hover {
-		transform: translateY(-3px);
-		box-shadow: 0 5px 15px rgba(21, 42, 105, 0.15);
+	/* Page Header */
+	.page-header {
+		text-align: center;
+		margin-bottom: 30px;
+		padding: 40px 20px;
+		background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+		color: white;
+		border-radius: var(--border-radius);
+	}
+
+	.page-header h1 {
+		font-size: 2rem;
+		font-weight: 700;
+		margin-bottom: 10px;
+	}
+
+	.page-header p {
+		font-size: 1rem;
+		max-width: 700px;
+		margin: 0 auto;
+		opacity: 0.9;
+	}
+
+	/* Horizontal CV Container */
+	.cv-horizontal-container {
+		width: 1300px;
+		margin-left: 80px;
+		overflow-x: auto;
+		padding: 20px 0;
+		margin-bottom: 40px;
+	}
+
+	.cv-horizontal-scroll {
+		display: inline-flex;
+		gap: 20px;
+		padding-bottom: 20px;
+	}
+
+	/* Compact CV Card */
+	.cv-card-compact {
+		width: 350px;
+		background: var(--white);
+		border-radius: var(--border-radius);
+		overflow: hidden;
+		box-shadow: var(--box-shadow);
+		transition: var(--transition);
+		flex-shrink: 0;
+	}
+
+	.cv-card-compact:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 	}
 
 	/* CV Image */
-	.cv-image {
-		width: 150px;
-		height: 200px;
+	.cv-image-container-compact {
+		position: relative;
+		padding-top: 120%; /* 4:3 aspect ratio */
+		overflow: hidden;
+	}
+
+	.cv-image-compact {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
 		object-fit: cover;
-		border-radius: 6px;
-		box-shadow: 0 2px 5px rgba(21, 42, 105, 0.15);
+		transition: var(--transition);
+	}
+
+	.cv-card-compact:hover .cv-image-compact {
+		transform: scale(1.03);
 	}
 
 	/* CV Info */
-	.cv-info {
-		flex: 1;
-		margin-left: 25px;
+	.cv-info-compact {
+		padding: 15px;
 	}
 
-	.cv-header {
+	.cv-header-compact {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		margin-bottom: 15px;
+		margin-bottom: 10px;
 	}
 
-	.cv-description {
-		font-size: 18px;
-		font-weight: 500;
-		color: rgb(21, 42, 105);
-		margin-right: 15px;
+	.cv-title-compact {
+		font-size: 1.1rem;
+		font-weight: 600;
+		color: var(--text-dark);
+		margin: 0;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	/* Price Tag */
-	.cv-price {
-		background: linear-gradient(to right, rgb(21, 42, 105), rgb(54, 75, 140));
+	.cv-price-compact {
+		background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
 		color: white;
-		font-size: 15px;
-		padding: 15px 15px;
-		border-radius: 10px;
+		font-size: 0.75rem;
+		padding: 3px 8px;
+		border-radius: 20px;
 		font-weight: 600;
-		white-space: nowrap;
-		margin-left: auto;
+		margin-left: 8px;
 	}
 
-	.cv-price.free {
-		background: linear-gradient(to right, rgb(21, 42, 105), rgb(54, 75, 140));
+	.cv-description-compact {
+		color: var(--text-medium);
+		font-size: 0.85rem;
+		margin-bottom: 15px;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
 	}
 
 	/* Buttons */
-	.button-group {
+	.button-group-compact {
 		display: flex;
-		gap: 20px;
-		margin-top: 20px;
+		gap: 10px;
 	}
 
-	.view-btn, .use-btn {
-		width: 180px;
-		height: 45px;
-		border-radius: 6px;
-		font-size: 15px;
+	.view-btn-compact, .use-btn-compact {
+		flex: 1;
+		padding: 8px;
+		border-radius: var(--border-radius);
+		font-size: 0.8rem;
 		font-weight: 500;
 		border: none;
 		cursor: pointer;
-		transition: all 0.3s;
+		transition: var(--transition);
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		text-decoration: none;
 	}
 
-	.view-btn {
-		background: rgba(21, 42, 105, 0.1);
-		color: rgb(21, 42, 105);
-		border: 1px solid rgb(21, 42, 105);
+	.view-btn-compact {
+		background: transparent;
+		color: var(--primary-color);
+		border: 1px solid var(--primary-color);
 	}
 
-	.use-btn {
-		background: linear-gradient(to right, rgb(21, 42, 105), rgb(54, 75, 140));
+	.use-btn-compact {
+		background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
 		color: white;
 	}
 
-	.view-btn:hover {
-		background: linear-gradient(to right, rgb(21, 42, 105), rgb(54, 75, 140));
+	.view-btn-compact:hover {
+		background: var(--primary-color);
 		color: white;
 	}
 
-	.use-btn:hover {
-		background: linear-gradient(to right, rgb(30, 53, 120), rgb(64, 85, 150));
-		box-shadow: 0 4px 8px rgba(21, 42, 105, 0.3);
+	.use-btn-compact:hover {
+		background: linear-gradient(to right, var(--secondary-color), var(--accent-color));
 	}
 
 	/* Scrollbar styling */
-	.cv-container::-webkit-scrollbar {
-		width: 8px;
+	.cv-horizontal-container::-webkit-scrollbar {
+		height: 8px;
 	}
 
-	.cv-container::-webkit-scrollbar-track {
+	.cv-horizontal-container::-webkit-scrollbar-track {
 		background: #f1f1f1;
 		border-radius: 10px;
 	}
 
-	.cv-container::-webkit-scrollbar-thumb {
-		background: rgb(54, 75, 140, 0.6);
+	.cv-horizontal-container::-webkit-scrollbar-thumb {
+		background: rgba(42, 86, 199, 0.6);
 		border-radius: 10px;
 	}
 
-	.cv-container::-webkit-scrollbar-thumb:hover {
-		background: rgb(54, 75, 140, 0.8);
+	.cv-horizontal-container::-webkit-scrollbar-thumb:hover {
+		background: rgba(42, 86, 199, 0.8);
 	}
 
-	/* Back to top button */
-	#backtotop {
-		position: fixed;
-		bottom: 30px;
-		right: 30px;
-		background: linear-gradient(to right, rgb(21, 42, 105), rgb(54, 75, 140));
-		color: white;
-		width: 50px;
-		height: 50px;
+	/* Navigation arrows */
+	.scroll-arrows {
+		display: flex;
+		justify-content: center;
+		gap: 15px;
+		margin-top: 15px;
+	}
+
+	.scroll-arrow {
+		background: var(--white);
+		width: 40px;
+		height: 40px;
 		border-radius: 50%;
-		cursor: pointer;
-		box-shadow: 0 4px 15px rgba(21, 42, 105, 0.3);
-		transition: all 0.3s;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		z-index: 99;
+		box-shadow: var(--box-shadow);
+		cursor: pointer;
+		transition: var(--transition);
 	}
 
-	#backtotop:hover {
-		background: linear-gradient(to right, rgb(30, 53, 120), rgb(64, 85, 150));
-		transform: translateY(-3px);
-		box-shadow: 0 6px 20px rgba(21, 42, 105, 0.4);
-	}
-
-	/* Banner Title */
-	.banner_title {
-		background-image: linear-gradient(rgba(21, 42, 105, 0.8), rgba(54, 75, 140, 0.8)), url(./img/anh1/anh1.png);
-		background-size: cover;
-		background-position: center;
-		font-size: 40px;
-		height: 200px;
-		display: flex;
-		margin-top: 15px;
-		align-items: center;
+	.scroll-arrow:hover {
+		background: var(--primary-color);
+		color: var(--white);
 	}
 
 	/* Responsive adjustments */
-	@media (max-width: 992px) {
-		.container_cv {
+	@media (max-width: 768px) {
+		.page-header {
+			padding: 30px 15px;
+		}
+
+		.page-header h1 {
+			font-size: 1.5rem;
+		}
+
+		.cv-card-compact {
+			width: 240px;
+		}
+	}
+
+	@media (max-width: 576px) {
+		.page-header {
+			padding: 25px 10px;
+		}
+
+		.page-header h1 {
+			font-size: 1.3rem;
+		}
+
+		.cv-card-compact {
+			width: 220px;
+		}
+
+		.button-group-compact {
 			flex-direction: column;
-		}
-
-		.cv-container {
-			margin-left: 0;
-			width: auto;
-			margin-right: 50px;
-		}
-
-		.cv-card {
-			flex-direction: column;
-			align-items: flex-start;
-			height: auto;
-		}
-
-		.cv-image {
-			margin-bottom: 15px;
-		}
-
-		.button-group {
-			flex-direction: column;
-			gap: 10px;
-			width: 100%;
-		}
-
-		.view-btn, .use-btn {
-			width: 100%;
 		}
 	}
 </style>
 
 <body class="archive post-type-archive post-type-archive-projects wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
 
-<!-- Preloading -->
-
-
 <%@include file="includes/header-01.jsp"%>
+
 <div class="container_cv">
-
-
 	<div class="content" id="content">
-		<div class="cv-container">
-			<h2 class="cv-title">Chọn mẫu CV</h2>
+		<!-- Page Header -->
+		<div class="page-header">
+			<h1>Mẫu CV Chuyên Nghiệp</h1>
+			<p>Chọn từ bộ sưu tập mẫu CV được thiết kế chuyên nghiệp</p>
+		</div>
 
-			<c:choose>
-				<c:when test="${not empty cvTypes}">
-					<c:forEach items="${cvTypes}" var="o">
-						<div class="cv-card">
-							<img src="${o.imageCv}" alt="" class="cv-image">
-							<div class="cv-info">
-								<div style="display: flex">
-									<p class="cv-description">${o.typeName}</p>
-
-									<span class="cv-price free">Free</span>
+		<!-- Horizontal CV Container -->
+		<div class="cv-horizontal-container">
+			<div class="cv-horizontal-scroll">
+				<c:choose>
+					<c:when test="${not empty cvTypes}">
+						<c:forEach items="${cvTypes}" var="o">
+							<div class="cv-card-compact">
+								<div class="cv-image-container-compact">
+									<img src="${o.imageCv}" alt="${o.typeName}" class="cv-image-compact">
 								</div>
-								<p>${o.description}</p>
-								<div class="button-group">
-									<a  href="cv?action=mauCV&typeId=${o.typeId}" class="view-btn">Xem mẫu</a>
-									<c:choose>
-										<c:when test="${o.typeId == 1}">
-											<a href="create-cv1.jsp?typeId=${o.typeId}">
-												<button class="use-btn">Sử dụng</button>
-											</a>
-										</c:when>
-
-										<c:when test="${o.typeId == 2}">
-											<a href="create-cv2.jsp?typeId=${o.typeId}">
-												<button class="use-btn">Sử dụng</button>
-											</a>
-										</c:when>
-
-										<c:when test="${o.typeId == 3}">
-											<a href="create-cv3.jsp?typeId=${o.typeId}">
-												<button class="use-btn">Sử dụng</button>
-											</a>
-										</c:when>
-									</c:choose>
+								<div class="cv-info-compact">
+									<div class="cv-header-compact">
+										<h3 class="cv-title-compact">${o.typeName}</h3>
+										<span class="cv-price-compact">Free</span>
+									</div>
+									<p class="cv-description-compact">${o.description}</p>
+									<div class="button-group-compact">
+										<a href="cv?action=mauCV&typeId=${o.typeId}" class="view-btn-compact">Xem</a>
+										<c:choose>
+											<c:when test="${o.typeId == 1}">
+												<a href="create-cv1.jsp?typeId=${o.typeId}" class="use-btn-compact">Dùng</a>
+											</c:when>
+											<c:when test="${o.typeId == 2}">
+												<a href="create-cv2.jsp?typeId=${o.typeId}" class="use-btn-compact">Dùng</a>
+											</c:when>
+											<c:when test="${o.typeId == 3}">
+												<a href="create-cv3.jsp?typeId=${o.typeId}" class="use-btn-compact">Dùng</a>
+											</c:when>
+											<c:when test="${o.typeId == 4}">
+												<a href="create-cv4.jsp?typeId=${o.typeId}" class="use-btn-compact">Dùng</a>
+											</c:when>
+										</c:choose>
+									</div>
 								</div>
 							</div>
-						</div>
-					</c:forEach>
-				</c:when>
-			</c:choose>
+						</c:forEach>
+					</c:when>
+				</c:choose>
+			</div>
+		</div>
 
+		<!-- Navigation Arrows (optional) -->
+		<div class="scroll-arrows">
+			<div class="scroll-arrow" onclick="scrollHorizontally(-300)">
+				<i class="fas fa-chevron-left"></i>
+			</div>
+			<div class="scroll-arrow" onclick="scrollHorizontally(300)">
+				<i class="fas fa-chevron-right"></i>
+			</div>
 		</div>
 	</div>
 </div>
+
 <%@include file="includes/footer.jsp" %>
 
-
 <script>
+	// Horizontal scrolling function
+	function scrollHorizontally(amount) {
+		const container = document.querySelector('.cv-horizontal-scroll');
+		container.scrollBy({
+			left: amount,
+			behavior: 'smooth'
+		});
+	}
+
+	// Back to top button functionality
 	document.addEventListener("DOMContentLoaded", function () {
 		const backToTop = document.getElementById("backtotop");
 
 		function toggleBackToTop() {
 			if (window.scrollY > 300) {
-				backToTop.style.display = "block";
+				backToTop.classList.add('active');
 			} else {
-				backToTop.style.display = "none";
+				backToTop.classList.remove('active');
 			}
 		}
 
@@ -321,8 +377,6 @@
 		});
 
 		window.addEventListener("scroll", toggleBackToTop);
-
-		// Ẩn nút khi mới vào trang
 		toggleBackToTop();
 	});
 </script>
