@@ -2,6 +2,7 @@ package jobtrans.controller.web.job;
 
 import jobtrans.dal.JobCategoryDAO;
 import jobtrans.dal.JobDAO;
+import jobtrans.model.Account;
 import jobtrans.model.Job;
 import jobtrans.model.JobCategory;
 import java.math.BigDecimal;
@@ -11,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ import java.util.Comparator;
 public class ListJobServlet extends HttpServlet {
     private static final int JOBS_PER_PAGE = 5; // Số công việc trên một trang, bạn có thể điều chỉnh
     JobCategoryDAO jobCategoryDAO = new JobCategoryDAO();
+    JobDAO jobDAO = new JobDAO();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String priceFilter = request.getParameter("price");
@@ -28,8 +31,18 @@ public class ListJobServlet extends HttpServlet {
         System.out.println(jobTypeFilter);
         String sortType = request.getParameter("sort");
         String keyword = request.getParameter("keyword");
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("sessionAccount");
         int currentPage = 1;
+        List<Job> jobs = jobDAO.getAllJobs();
 
+        // Lấy JobCategory cho từng công việc  nếu chưa có
+        for (Job job : jobs) {
+            if (job.getJobCategory() == null) {
+                JobCategory category = jobCategoryDAO.getJobCategoryByCategortyJobId(job.getCategoryId());
+                job.setJobCategory(category);
+            }
+        }
         // Lấy thông tin từ Path Info trước (ưu tiên cho lần đầu sắp xếp/lọc)
         String pathInfo = request.getPathInfo();
         if (pathInfo != null && !pathInfo.equals("/")) {
@@ -97,7 +110,6 @@ public class ListJobServlet extends HttpServlet {
         // Lọc theo loại công việc (đã thay đổi vị trí để lọc trước khi phân trang)
         if (jobTypeFilter != null && !jobTypeFilter.isEmpty() && !jobTypeFilter.equals("all")) {
             String finalJobTypeFilter = jobTypeFilter.toLowerCase();
-
             filteredAndSortedJobs.removeIf(job -> {
                 JobCategory category = jobCategoryDAO.getJobCategoryByCategortyJobId(job.getCategoryId());
                 job.setJobCategory(category); // Gán jobCategory vào job
@@ -144,10 +156,12 @@ public class ListJobServlet extends HttpServlet {
             }
         }
 
+
         // Truyền dữ liệu cho JSP
         request.setAttribute("start", start);
         request.setAttribute("end", end);
         request.setAttribute("jobList", jobsToDisplay);
+        request.setAttribute("job", jobs);
         request.setAttribute("totalJobs", totalJobs);
         request.setAttribute("currentPage", currentPage);
         request.setAttribute("totalPages", totalPages);
@@ -155,7 +169,16 @@ public class ListJobServlet extends HttpServlet {
         request.setAttribute("priceFilter", priceFilter);
         request.setAttribute("jobTypeFilter", jobTypeFilter);
 
-        request.getRequestDispatcher("/listJob.jsp").forward(request, response);
+
+
+
+
+        if (account != null && "Admin".equals(account.getRole())) {
+            // Admin xem danh sách job
+            request.getRequestDispatcher("/admin-job-list-manage.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("/listJob.jsp").forward(request, response);
+        }
     }
 
     @Override

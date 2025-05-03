@@ -1,5 +1,7 @@
 package jobtrans.model;
 
+import jdk.jfr.Category;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -13,8 +15,56 @@ public class Transaction {
     private String description;
     private String transactionType;
     private boolean status;
+    private JobCategory category;
+    private Job job;
+private Account sender;
+private Account receiver;
+
+    public Account getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(Account receiver) {
+        this.receiver = receiver;
+    }
+
+    public Account getSender() {
+        return sender;
+    }
+
+    public void setSender(Account sender) {
+        this.sender = sender;
+    }
+
+    public Job getJob() {
+        return job;
+    }
+
+    public void setJob(Job job) {
+        this.job = job;
+    }
+
+    public JobCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(JobCategory category) {
+        this.category = category;
+    }
 
     public Transaction() {
+    }
+
+    public Transaction(int senderId, int receiverId, Integer jobId, BigDecimal amount, Date createdDate, String description, String transactionType, boolean status, JobCategory category) {
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+        this.jobId = jobId;
+        this.amount = amount;
+        this.createdDate = createdDate;
+        this.description = description;
+        this.transactionType = transactionType;
+        this.status = status;
+        this.category = category;
     }
 
     public Transaction(int transactionId, int senderId, int receiverId, Integer jobId, BigDecimal amount, Date createdDate,
@@ -102,5 +152,20 @@ public class Transaction {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "transactionId=" + transactionId +
+                ", senderId=" + senderId +
+                ", receiverId=" + receiverId +
+                ", jobId=" + jobId +
+                ", amount=" + amount +
+                ", createdDate=" + createdDate +
+                ", description='" + description + '\'' +
+                ", transactionType='" + transactionType + '\'' +
+                ", status=" + status +
+                '}';
     }
 }

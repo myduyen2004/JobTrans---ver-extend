@@ -345,113 +345,287 @@ public class JobGreetingServlet extends HttpServlet {
      */
 //    private void sendNotification(int recipientId, int jobId, String applicantName, String jobTitle) {
 //        try {
-//            NotificationDAO notificationDAO = new NotificationDAO();
+//            Account account = (Account) session.getAttribute("sessionAccount");
+//            if (account == null) {
+//                response.sendRedirect("login.jsp");
+//            }
+//            int greetingId = Integer.parseInt(request.getParameter("greetingId"));
 //
-//            Notification notification = new Notification();
-//            notification.setAccountId(recipientId);
-//            notification.setTitle("Ứng viên mới");
-//            notification.setContent(applicantName + " đã ứng tuyển vào vị trí " + jobTitle);
-//            notification.setType("job_application");
-//            notification.setReferenceId(jobId);
-//            notification.setIsRead(false);
-//            notification.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 //
-//            notificationDAO.createNotification(notification);
+//            JobGreetingDAO jobGreetingDAO = new JobGreetingDAO();
+//            JobGreeting jobGreeting = jobGreetingDAO.getJobGreetingById(greetingId);
+//
+//            CvDAO cvDAO = new CvDAO();
+//            CV cv = cvDAO.getCvById(jobGreeting.getCvId());
+//
+//            AccountDAO accountDAO = new AccountDAO();
+//            Account account1 = accountDAO.getAccountById(jobGreeting.getJobSeekerId());
+//
+//            // Format price to Vietnam Dong
+//            NumberFormat vnCurrencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+//            String formattedPrice = vnCurrencyFormat.format(jobGreeting.getPrice());
+//
+//            // Format attachment
+//            if (jobGreeting.getAttachment() != null) {
+//                String attachmentFullPath = jobGreeting.getAttachment();
+//                // Lấy tên tệp từ đường dẫn (bao gồm cả phần "원고지-Nguyễn Hữu Quang.docx")
+//                String attachmentFileName = attachmentFullPath.substring(attachmentFullPath.lastIndexOf("/") + 1);
+//
+//                // Nếu bạn muốn loại bỏ phần trước tên tệp (số ở đầu), bạn có thể làm như sau:
+////                String fileNameWithoutNumber = attachmentFileName.substring(attachmentFileName.indexOf("_") + 1);
+//
+//                jobGreeting.setAttachment(attachmentFileName); // Cập nhật giá trị tệp sau khi loại bỏ phần số đầu
+//            }
+//            jobGreeting.setHaveRead(true);
+//
+//            // Create Notification to Candidate
+//
+//            System.out.println(cv);
+//            System.out.println(jobGreeting);
+//            System.out.println(account);
+//
+//            request.setAttribute("formattedPrice", formattedPrice);
+//            request.setAttribute("cv", cv);
+//            request.setAttribute("jobGreeting", jobGreeting);
+//            request.setAttribute("account", account1);
+//            request.getRequestDispatcher("details-job-greeting.jsp").forward(request, response);
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
 //    }
-
-    private void showSendApplication(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        try {
-            Account account = (Account) session.getAttribute("sessionAccount");
-            if (account == null) {
-                response.sendRedirect("login.jsp");
-                return;
-            }
-            Account account01 = accountDAO.getAccountById(account.getAccountId());
-
-            int jobId = Integer.parseInt(request.getParameter("jobId"));
-            JobDAO jobDAO = new JobDAO();
-            Job job = jobDAO.getJobById(jobId);
-            System.out.println(job);
-
-            //Xử lý ngân sách dự án
-            NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-            String formattedBudgetMin = currencyFormat.format(job.getBudgetMin());
-            String formattedBudgetMax = currencyFormat.format(job.getBudgetMax());
-            request.setAttribute("formattedBudgetMin", formattedBudgetMin);
-            request.setAttribute("formattedBudgetMax", formattedBudgetMax);
-
-            CvDAO cvDAO = new CvDAO();
-            List<CV> cvList = cvDAO.getCVsByAccountId(account01.getAccountId());
-
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-            request.setAttribute("job", job);
-            request.setAttribute("cvList", cvList);
-            request.setAttribute("account", account01);
-            request.getRequestDispatcher("greeting.jsp").forward(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void viewListApplied(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("sessionAccount");
-        int accountId = account.getAccountId();// tạm fix cứng, sau này lấy từ session
-        JobGreetingDAO jobGreetingDAO = new JobGreetingDAO();
-        List<JobGreeting> jobGreetings = jobGreetingDAO.getListJobGreetingBySeekerId(account);
-        request.setAttribute("job", jobGreetings);  // "jobGreetings" là key để jsp lấy ra
-        request.getRequestDispatcher("applied-job-list.jsp").forward(request, response);
-    }
-    private void listJobByStatus(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String status = request.getParameter("status"); // Lấy tham số từ request
-
-        int accountId = 1; // Tạm fix cứng, sau này lấy từ session
-        JobDAO jobDAO = new JobDAO();
-
-        List<JobGreeting> jobGreetings;
-        if (status == null || status.isEmpty() || "tất cả".equals(status)) {
-            jobGreetings = jobDAO.getJobGreetingByJobSeekerId(accountId);
-        } else {
-            jobGreetings = jobDAO.getJobGreetingByStatus(accountId, status);
-        }
-
-        request.setAttribute("job", jobGreetings);
-        request.getRequestDispatcher("applied-job-list.jsp").forward(request, response);
-    }
-    private void sapxep(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String sort = request.getParameter("sort"); // Lấy tham số từ request
-
-        int accountId = 1; // Tạm fix cứng, sau này lấy từ session
-        JobDAO jobDAO = new JobDAO();
-
-        List<JobGreeting> jobGreetings;
-        jobGreetings = jobDAO.search(accountId,sort);
-
-        request.setAttribute("job", jobGreetings);
-        request.getRequestDispatcher("applied-job-list.jsp").forward(request, response);
-    }
-     private void detail(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String jobGreetingId  = request.getParameter("jobGreetingId").trim();
-        String jobId = request.getParameter("jobId").trim();
-
-        int jgId = Integer.parseInt(jobGreetingId);
-        int j = Integer.parseInt(jobId);
-        JobDAO jd = new JobDAO();
-        JobGreeting jobGreeting = jd.getJobGreetingById(jgId);
-
-        Job job =jd.getJobById(j);
-        request.setAttribute("jobGreeting", jobGreeting );
-        request.setAttribute("job", job);
-
-        request.getRequestDispatcher("infor-applied-job-detail.jsp").forward(request, response);
-    }
-}
+//
+//    @Override
+//    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        request.setCharacterEncoding("UTF-8");
+//        response.setContentType("text/html;charset=UTF-8");
+//
+//        HttpSession session = request.getSession();
+//        Account account = (Account) session.getAttribute("sessionAccount");
+//        if (account == null) {
+//            response.sendRedirect("login.jsp");
+//            return;
+//        }
+//        Account account01 = accountDAO.getAccountById(account.getAccountId());
+//
+//        int jobSeekerId = account01.getAccountId();
+//
+//        try {
+//            // Get regular form parameters directly - assumes not multipart
+//            int jobId = Integer.parseInt(request.getParameter("jobId"));
+//            int cvId = Integer.parseInt(request.getParameter("cv_id"));
+//            int price = Integer.parseInt(request.getParameter("price").replaceAll("[^\\d]", ""));
+//            int expectedDay = Integer.parseInt(request.getParameter("expected_day"));
+//            String introduction = request.getParameter("introduction");
+//
+//            // Kiểm tra tài khoản đã gửi chào giá cho công việc này chưa
+////            if (jobGreetingDAO.checkExistingGreeting(jobSeekerId, jobId)) {
+////                request.setAttribute("errorMessage", "Bạn đã gửi chào giá cho công việc này");
+////                request.getRequestDispatcher("job-detail?jobId=" + jobId).forward(request, response);
+////                return;
+////            }
+//
+//            // Process attachment (if any) using a separate method
+//            String attachment = processAttachment(request);
+//
+//            // Create job greeting object
+//            JobGreeting jobGreeting = new JobGreeting();
+//            jobGreeting.setJobSeekerId(jobSeekerId);
+//            jobGreeting.setJobId(jobId);
+//            jobGreeting.setCvId(cvId);
+//            jobGreeting.setPrice(price);
+//            jobGreeting.setExpectedDay(expectedDay);
+//            jobGreeting.setIntroduction(introduction);
+//            jobGreeting.setAttachment(attachment);
+//            jobGreeting.setHaveRead(false);
+//            jobGreeting.setStatus("Chờ xét duyệt");
+//
+//            System.out.println(jobGreeting);
+//
+//            // Save job greeting to database
+//            boolean success = jobGreetingDAO.insertJobGreeting(jobGreeting);
+//
+//            if (success) {
+//                // Send notification to job poster
+//                Job job = jobDAO.getJobById(jobId);
+//                Account applier = accountDAO.getAccountById(jobSeekerId);
+//
+////                sendNotification(job.getPostAccountId(), jobId, applier.getAccountName(), job.getJobTitle());
+//
+//                // Redirect with success message
+//                request.setAttribute("successMessage", "Gửi chào giá thành công");
+//                response.sendRedirect(request.getContextPath() + "/job?action=details-job-posted&jobId=" + jobId);
+//            } else {
+//                request.setAttribute("errorMessage", "Có lỗi xảy ra, vui lòng thử lại sau");
+//                request.getRequestDispatcher("404.html").forward(request, response);
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            String jobId = request.getParameter("jobId");
+//            String redirectUrl = jobId != null ? "job-detail?jobId=" + jobId : "browse-jobs";
+//            request.setAttribute("errorMessage", "Có lỗi xảy ra: " + e.getMessage());
+//            request.getRequestDispatcher(redirectUrl).forward(request, response);
+//        }
+//    }
+//
+//    /**
+//     * Processes the attachment file upload
+//     */
+//    private String processAttachment(HttpServletRequest request) {
+//        try {
+//            Part filePart = request.getPart("attachment");
+//            if (filePart != null && filePart.getSize() > 0) {
+//                String fileName = getFileName(filePart);
+//                if (fileName != null && !fileName.isEmpty()) {
+//                    // Generate unique filename
+//                    String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
+//
+//                    // Create upload directory
+//                    String uploadPath = request.getServletContext().getRealPath("") + UPLOAD_DIRECTORY;
+//                    java.io.File uploadDir = new java.io.File(uploadPath);
+//                    if (!uploadDir.exists()) {
+//                        uploadDir.mkdirs();
+//                    }
+//
+//                    // Save the file
+//                    filePart.write(uploadPath + java.io.File.separator + uniqueFileName);
+//
+//                    // Return relative path for database
+//                    return UPLOAD_DIRECTORY + "/" + uniqueFileName;
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
+//
+//    /**
+//     * Extracts file name from HTTP header content-disposition
+//     */
+//    private String getFileName(Part part) {
+//        String contentDisp = part.getHeader("content-disposition");
+//        String[] items = contentDisp.split(";");
+//        for (String s : items) {
+//            if (s.trim().startsWith("filename")) {
+//                return s.substring(s.indexOf("=") + 2, s.length() - 1);
+//            }
+//        }
+//        return null;
+//    }
+//
+//    /**
+//     * Sends notification to job poster
+//     */
+////    private void sendNotification(int recipientId, int jobId, String applicantName, String jobTitle) {
+////        try {
+////            NotificationDAO notificationDAO = new NotificationDAO();
+////
+////            Notification notification = new Notification();
+////            notification.setAccountId(recipientId);
+////            notification.setTitle("Ứng viên mới");
+////            notification.setContent(applicantName + " đã ứng tuyển vào vị trí " + jobTitle);
+////            notification.setType("job_application");
+////            notification.setReferenceId(jobId);
+////            notification.setIsRead(false);
+////            notification.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+////
+////            notificationDAO.createNotification(notification);
+////        } catch (Exception e) {
+////            e.printStackTrace();
+////        }
+////    }
+//
+//    private void showSendApplication(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        HttpSession session = request.getSession();
+//        try {
+//            Account account = (Account) session.getAttribute("sessionAccount");
+//            if (account == null) {
+//                response.sendRedirect("login.jsp");
+//                return;
+//            }
+//            Account account01 = accountDAO.getAccountById(account.getAccountId());
+//
+//            int jobId = Integer.parseInt(request.getParameter("jobId"));
+//            JobDAO jobDAO = new JobDAO();
+//            Job job = jobDAO.getJobById(jobId);
+//            System.out.println(job);
+//
+//            //Xử lý ngân sách dự án
+//            NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+//            String formattedBudgetMin = currencyFormat.format(job.getBudgetMin());
+//            String formattedBudgetMax = currencyFormat.format(job.getBudgetMax());
+//            request.setAttribute("formattedBudgetMin", formattedBudgetMin);
+//            request.setAttribute("formattedBudgetMax", formattedBudgetMax);
+//
+//            CvDAO cvDAO = new CvDAO();
+//            List<CV> cvList = cvDAO.getCVsByAccountId(account01.getAccountId());
+//
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+//
+//            request.setAttribute("job", job);
+//            request.setAttribute("cvList", cvList);
+//            request.setAttribute("account", account01);
+//            request.getRequestDispatcher("greeting.jsp").forward(request, response);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    private void viewListApplied(HttpServletRequest request, HttpServletResponse response)
+//            throws ServletException, IOException {
+//        HttpSession session = request.getSession();
+//        Account account = (Account) session.getAttribute("sessionAccount");
+//        int accountId = account.getAccountId();// tạm fix cứng, sau này lấy từ session
+//        JobGreetingDAO jobGreetingDAO = new JobGreetingDAO();
+//        List<JobGreeting> jobGreetings = jobGreetingDAO.getListJobGreetingBySeekerId(account);
+//        request.setAttribute("job", jobGreetings);  // "jobGreetings" là key để jsp lấy ra
+//        request.getRequestDispatcher("applied-job-list.jsp").forward(request, response);
+//    }
+//    private void listJobByStatus(HttpServletRequest request, HttpServletResponse response)
+//            throws ServletException, IOException {
+//        String status = request.getParameter("status"); // Lấy tham số từ request
+//
+//        int accountId = 1; // Tạm fix cứng, sau này lấy từ session
+//        JobDAO jobDAO = new JobDAO();
+//
+//        List<JobGreeting> jobGreetings;
+//        if (status == null || status.isEmpty() || "tất cả".equals(status)) {
+//            jobGreetings = jobDAO.getJobGreetingByJobSeekerId(accountId);
+//        } else {
+//            jobGreetings = jobDAO.getJobGreetingByStatus(accountId, status);
+//        }
+//
+//        request.setAttribute("job", jobGreetings);
+//        request.getRequestDispatcher("applied-job-list.jsp").forward(request, response);
+//    }
+//    private void sapxep(HttpServletRequest request, HttpServletResponse response)
+//            throws ServletException, IOException {
+//        String sort = request.getParameter("sort"); // Lấy tham số từ request
+//
+//        int accountId = 1; // Tạm fix cứng, sau này lấy từ session
+//        JobDAO jobDAO = new JobDAO();
+//
+//        List<JobGreeting> jobGreetings;
+//        jobGreetings = jobDAO.search(accountId,sort);
+//
+//        request.setAttribute("job", jobGreetings);
+//        request.getRequestDispatcher("applied-job-list.jsp").forward(request, response);
+//    }
+//     private void detail(HttpServletRequest request, HttpServletResponse response)
+//            throws ServletException, IOException {
+//        String jobGreetingId  = request.getParameter("jobGreetingId").trim();
+//        String jobId = request.getParameter("jobId").trim();
+//
+//        int jgId = Integer.parseInt(jobGreetingId);
+//        int j = Integer.parseInt(jobId);
+//        JobDAO jd = new JobDAO();
+//        JobGreeting jobGreeting = jd.getJobGreetingById(jgId);
+//
+//        Job job =jd.getJobById(j);
+//        request.setAttribute("jobGreeting", jobGreeting );
+//        request.setAttribute("job", job);
+//
+//        request.getRequestDispatcher("infor-applied-job-detail.jsp").forward(request, response);
+//    }
+//}

@@ -1,4 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -8,6 +12,7 @@
     <meta name='robots' content='max-image-preview:large'/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="./css/user-manage.css" rel="stylesheet"/>
+
 </head>
 
 <body style="font-family: Inter, sans-serif;">
@@ -20,22 +25,6 @@
                 <h2 class="filter-title">Phân loại</h2>
                 <div class="mb-3">
                     <h4 class="filter-subtitle">Loại công việc</h4>
-                    <ul class="filter-list">
-                        <li>
-                            <label class="switch">
-                                <input name="loai_cv" id="filterFulltime" type="checkbox"/>
-                                <span class="slider"></span>
-                            </label>
-                            <span class="filter-label">Toàn thời gian</span>
-                        </li>
-                        <li>
-                            <label class="switch">
-                                <input name="loai_cv" id="filterParttime" type="checkbox"/>
-                                <span class="slider"></span>
-                            </label>
-                            <span class="filter-label">Bán thời gian</span>
-                        </li>
-                    </ul>
                 </div>
 
                 <div class="mb-3">
@@ -98,45 +87,10 @@
                         </li>
                         <li>
                             <label class="switch">
-                                <input name="status" id="filterPendingContract" type="checkbox"/>
-                                <span class="slider"></span>
-                            </label>
-                            <span class="filter-label">Chờ kí hợp đồng</span>
-                        </li>
-                        <li>
-                            <label class="switch">
-                                <input name="status" id="filterWorking" type="checkbox"/>
-                                <span class="slider"></span>
-                            </label>
-                            <span class="filter-label">Đang làm việc</span>
-                        </li>
-                        <li>
-                            <label class="switch">
-                                <input name="status" id="filterDisputed" type="checkbox"/>
-                                <span class="slider"></span>
-                            </label>
-                            <span class="filter-label">Có khiếu nại</span>
-                        </li>
-                        <li>
-                            <label class="switch">
-                                <input name="status" id="filterPendingPayment" type="checkbox"/>
-                                <span class="slider"></span>
-                            </label>
-                            <span class="filter-label">Chờ thanh toán</span>
-                        </li>
-                        <li>
-                            <label class="switch">
-                                <input name="status" id="filterCompleted" type="checkbox"/>
-                                <span class="slider"></span>
-                            </label>
-                            <span class="filter-label">Hoàn thành</span>
-                        </li>
-                        <li>
-                            <label class="switch">
                                 <input name="status" id="filterCancelled" type="checkbox"/>
                                 <span class="slider"></span>
                             </label>
-                            <span class="filter-label">Đã hủy</span>
+                            <span class="filter-label">Hết hạn</span>
                         </li>
                     </ul>
                 </div>
@@ -187,284 +141,81 @@
                                 </button>
                             </form>
                         </div>
+
+
                         <div id="account-list">
-                            <!-- Job 1 -->
-                            <div class="post-box account_in4 user-card" data-type="fulltime" data-status="recruiting" data-speciality="it">
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <a class="d-flex justify-content-center" href="job-details.html?jobId=1">
-                                            <img src="https://via.placeholder.com/100" alt="Company_logo" class="user-avatar"/>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <div class="seller-content">
-                                            <h4 class="mb-2 d-flex align-items-center user-name-01">
-                                                <a href="job-details.html?jobId=1" class="name_value">Chuyên viên phát triển phần mềm</a>
-                                                <i class="fas fa-check-circle verified text-primary ms-2" title="Verified"></i>
-                                            </h4>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <p class="user-speciality">Lập trình Web</p>
-                                                <span class="status-badge recruiting-status">Đang tuyển</span>
-                                            </div>
-                                            <ul class="list-inline mb-lg-0 mt-2">
-                                                <li class="list-inline-item mb-2">
-                                                    <i class="fas fa-clock"></i> Toàn thời gian
-                                                </li>
-                                                <li class="list-inline-item">
-                                                    <i class="fas fa-map-marked-alt"></i> TP. Hồ Chí Minh
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 text-center d-flex flex-column justify-content-center">
-                                        <div class="mx-auto mb-2">
-                                            <span class="user-point-label">Lương: </span>
-                                            <span class="point_value">15-20 triệu</span>
-                                        </div>
-                                        <a class="detail-link" href="job-details.html?jobId=1">
-                                            Xem chi tiết
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+                            
 
-                            <!-- Job 2 -->
-                            <div class="post-box account_in4 user-card" data-type="parttime" data-status="working" data-speciality="design">
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <a class="d-flex justify-content-center" href="job-details.html?jobId=2">
-                                            <img src="https://via.placeholder.com/100" alt="Company_logo" class="user-avatar"/>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <div class="seller-content">
-                                            <h4 class="mb-2 d-flex align-items-center user-name-01">
-                                                <a href="job-details.html?jobId=2" class="name_value">Thiết kế đồ họa</a>
-                                                <i class="fas fa-check-circle verified text-primary ms-2" title="Verified"></i>
-                                            </h4>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <p class="user-speciality">UI/UX Designer</p>
-                                                <span class="status-badge working-status">Đang làm việc</span>
-                                            </div>
-                                            <ul class="list-inline mb-lg-0 mt-2">
-                                                <li class="list-inline-item mb-2">
-                                                    <i class="fas fa-clock"></i> Bán thời gian
-                                                </li>
-                                                <li class="list-inline-item">
-                                                    <i class="fas fa-map-marked-alt"></i> Hà Nội
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 text-center d-flex flex-column justify-content-center">
-                                        <div class="mx-auto mb-2">
-                                            <span class="user-point-label">Lương: </span>
-                                            <span class="point_value">8-10 triệu</span>
-                                        </div>
-                                        <a class="detail-link" href="job-details.html?jobId=2">
-                                            Xem chi tiết
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+                            <c:if test="${not empty job && fn:length(job) > 0}">
 
-                            <!-- Job 3 -->
-                            <div class="post-box account_in4 user-card" data-type="fulltime" data-status="completed" data-speciality="it">
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <a class="d-flex justify-content-center" href="job-details.html?jobId=3">
-                                            <img src="https://via.placeholder.com/100" alt="Company_logo" class="user-avatar"/>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <div class="seller-content">
-                                            <h4 class="mb-2 d-flex align-items-center user-name-01">
-                                                <a href="job-details.html?jobId=3" class="name_value">Kỹ sư DevOps</a>
-                                            </h4>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <p class="user-speciality">Cloud Infrastructure</p>
-                                                <span class="status-badge completed-status">Hoàn thành</span>
-                                            </div>
-                                            <ul class="list-inline mb-lg-0 mt-2">
-                                                <li class="list-inline-item mb-2">
-                                                    <i class="fas fa-clock"></i> Toàn thời gian
-                                                </li>
-                                                <li class="list-inline-item">
-                                                    <i class="fas fa-map-marked-alt"></i> Đà Nẵng
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 text-center d-flex flex-column justify-content-center">
-                                        <div class="mx-auto mb-2">
-                                            <span class="user-point-label">Lương: </span>
-                                            <span class="point_value">25-30 triệu</span>
-                                        </div>
-                                        <a class="detail-link" href="job-details.html?jobId=3">
-                                            Xem chi tiết
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <!-- Job 4 -->
-                            <div class="post-box account_in4 user-card" data-type="parttime" data-status="disputed" data-speciality="marketing">
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <a class="d-flex justify-content-center" href="job-details.html?jobId=4">
-                                            <img src="https://via.placeholder.com/100" alt="Company_logo" class="user-avatar"/>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <div class="seller-content">
-                                            <h4 class="mb-2 d-flex align-items-center user-name-01">
-                                                <a href="job-details.html?jobId=4" class="name_value">Content Creator</a>
-                                                <i class="fas fa-check-circle verified text-primary ms-2" title="Verified"></i>
-                                            </h4>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <p class="user-speciality">Digital Marketing</p>
-                                                <span class="status-badge disputed-status">Có khiếu nại</span>
+                                <c:forEach var="job" items="${job}">
+                                    <div class="post-box account_in4 user-card" data-type="${job.jobCategory.categoryName}" data-status="${job.statusPost}" data-speciality="${job.jobCategory.categoryName}">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <a class="d-flex justify-content-center" href="${pageContext.request.contextPath}/job?action=details-job-posted&jobId=${job.jobId}">
+                                                    <c:choose>
+                                                        <c:when test="${not empty AccountDAO.getAccountById(job.postAccountId).avatar}">
+                                                            <img src="${pageContext.request.contextPath}/${AccountDAO.getAccountById(job.postAccountId).avatar}" alt="Avatar" class="user-avatar"/>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <img src="${pageContext.request.contextPath}/img/default-avatar.jpg" alt="Default Avatar" class="user-avatar"/>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </a>
                                             </div>
-                                            <ul class="list-inline mb-lg-0 mt-2">
-                                                <li class="list-inline-item mb-2">
-                                                    <i class="fas fa-clock"></i> Bán thời gian
-                                                </li>
-                                                <li class="list-inline-item">
-                                                    <i class="fas fa-map-marked-alt"></i> TP. Hồ Chí Minh
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 text-center d-flex flex-column justify-content-center">
-                                        <div class="mx-auto mb-2">
-                                            <span class="user-point-label">Lương: </span>
-                                            <span class="point_value">7-12 triệu</span>
-                                        </div>
-                                        <a class="detail-link" href="job-details.html?jobId=4">
-                                            Xem chi tiết
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+                                            <div class="col-md-7">
+                                                <div class="seller-content">
+                                                    <h4 class="mb-2 d-flex align-items-center user-name-01">
+                                                        <a href="${pageContext.request.contextPath}/job?action=details-job-posted&jobId=${job.jobId}" class="name_value">${job.jobTitle}</a>
+                                                        <i class="fas fa-check-circle verified text-primary ms-2" title="Verified"></i>
+                                                    </h4>
+                                                    <div class="d-flex align-items-center gap-2">
 
-                            <!-- Job 5 -->
-                            <div class="post-box account_in4 user-card" data-type="fulltime" data-status="pendingContract" data-speciality="it">
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <a class="d-flex justify-content-center" href="job-details.html?jobId=5">
-                                            <img src="https://via.placeholder.com/100" alt="Company_logo" class="user-avatar"/>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <div class="seller-content">
-                                            <h4 class="mb-2 d-flex align-items-center user-name-01">
-                                                <a href="job-details.html?jobId=5" class="name_value">Kỹ sư Machine Learning</a>
-                                                <i class="fas fa-check-circle verified text-primary ms-2" title="Verified"></i>
-                                            </h4>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <p class="user-speciality">Artificial Intelligence</p>
-                                                <span class="status-badge pending-contract-status">Chờ kí hợp đồng</span>
-                                            </div>
-                                            <ul class="list-inline mb-lg-0 mt-2">
-                                                <li class="list-inline-item mb-2">
-                                                    <i class="fas fa-clock"></i> Toàn thời gian
-                                                </li>
-                                                <li class="list-inline-item">
-                                                    <i class="fas fa-map-marked-alt"></i> Hà Nội
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 text-center d-flex flex-column justify-content-center">
-                                        <div class="mx-auto mb-2">
-                                            <span class="user-point-label">Lương: </span>
-                                            <span class="point_value">30-40 triệu</span>
-                                        </div>
-                                        <a class="detail-link" href="job-details.html?jobId=5">
-                                            Xem chi tiết
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <!-- Job 6 -->
-                            <div class="post-box account_in4 user-card" data-type="fulltime" data-status="pendingPayment" data-speciality="translation">
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <a class="d-flex justify-content-center" href="job-details.html?jobId=6">
-                                            <img src="https://via.placeholder.com/100" alt="Company_logo" class="user-avatar"/>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <div class="seller-content">
-                                            <h4 class="mb-2 d-flex align-items-center user-name-01">
-                                                <a href="job-details.html?jobId=6" class="name_value">Biên dịch viên Nhật - Việt</a>
-                                                <i class="fas fa-check-circle verified text-primary ms-2" title="Verified"></i>
-                                            </h4>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <p class="user-speciality">Dịch thuật</p>
-                                                <span class="status-badge pending-payment-status">Chờ thanh toán</span>
-                                            </div>
-                                            <ul class="list-inline mb-lg-0 mt-2">
-                                                <li class="list-inline-item mb-2">
-                                                    <i class="fas fa-clock"></i> Toàn thời gian
-                                                </li>
-                                                <li class="list-inline-item">
-                                                    <i class="fas fa-map-marked-alt"></i> Hà Nội
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 text-center d-flex flex-column justify-content-center">
-                                        <div class="mx-auto mb-2">
-                                            <span class="user-point-label">Lương: </span>
-                                            <span class="point_value">15-20 triệu</span>
-                                        </div>
-                                        <a class="detail-link" href="job-details.html?jobId=6">
-                                            Xem chi tiết
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+                                                        <c:choose>
+                                                            <c:when test="${job.statusPost == 'Đang tuyển'}">
+                                                                <span class="status-badge recruiting-status">Đang tuyển</span>
+                                                            </c:when>
+                                                            <c:when test="${job.statusPost == 'Hết hạn'}">
+                                                                <span class="status-badge completed-status">Hết hạn</span>
+                                                            </c:when>
+                                                            <%-- Thêm các trạng thái khác nếu cần --%>
+                                                        </c:choose>
+                                                    </div>
+                                                    <ul class="list-inline mb-lg-0 mt-2">
+                                                        <li class="list-inline-item mb-2">
+                                                            <i class="fas fa-tags"></i> <span class="user-speciality">${job.jobCategory.categoryName}</span>
+                                                        </li>
 
-                            <!-- Job 7 -->
-                            <div class="post-box account_in4 user-card" data-type="parttime" data-status="cancelled" data-speciality="coaching">
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <a class="d-flex justify-content-center" href="job-details.html?jobId=7">
-                                            <img src="https://via.placeholder.com/100" alt="Company_logo" class="user-avatar"/>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <div class="seller-content">
-                                            <h4 class="mb-2 d-flex align-items-center user-name-01">
-                                                <a href="job-details.html?jobId=7" class="name_value">Tư vấn tài chính cá nhân</a>
-                                            </h4>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <p class="user-speciality">Tư vấn tài chính</p>
-                                                <span class="status-badge cancelled-status">Đã hủy</span>
+                                                        <li class="list-inline-item mb-2">
+                                                            <i class="fas fa-calendar-alt"></i> Ngày đăng:
+                                                            <span>
+                                                            <fmt:formatDate value="${job.postDate}" pattern="HH:mm:ss dd/MM/yyyy"/>
+                                                            </span>
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
                                             </div>
-                                            <ul class="list-inline mb-lg-0 mt-2">
-                                                <li class="list-inline-item mb-2">
-                                                    <i class="fas fa-clock"></i> Bán thời gian
-                                                </li>
-                                                <li class="list-inline-item">
-                                                    <i class="fas fa-map-marked-alt"></i> TP. Hồ Chí Minh
-                                                </li>
-                                            </ul>
+                                            <div class="col-md-3 text-center d-flex flex-column justify-content-center">
+                                                <div class="mx-auto mb-2">
+                                                    <span class="user-point-label">Lương: </span>
+                                                    <span class="point_value">${job.getFormattedBudgetMin()}-${job.getFormattedBudgetMax()}</span>
+                                                </div>
+                                                <a class="detail-link" href="${pageContext.request.contextPath}/job?action=details-job-posted&jobId=${job.jobId}">
+                                                    Xem chi tiết
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3 text-center d-flex flex-column justify-content-center">
-                                        <div class="mx-auto mb-2">
-                                            <span class="user-point-label">Lương: </span>
-                                            <span class="point_value">5-8 triệu</span>
-                                        </div>
-                                        <a class="detail-link" href="job-details.html?jobId=7">
-                                            Xem chi tiết
-                                        </a>
-                                    </div>
+                                </c:forEach>
+                            </c:if>
+                            <c:if test="${empty job || fn:length(job) == 0}">
+                                <div class="post-box account_in4 user-card">
+                                    <div class="alert alert-info text-center">Không có công việc nào để hiển thị.</div>
                                 </div>
-                            </div>
+                            </c:if>
                         </div>
 
                         <!-- Phân trang -->
@@ -500,11 +251,6 @@
         // Các checkbox trạng thái
         const statusCheckboxes = {
             recruiting: document.getElementById('filterRecruiting'),
-            pendingContract: document.getElementById('filterPendingContract'),
-            working: document.getElementById('filterWorking'),
-            disputed: document.getElementById('filterDisputed'),
-            pendingPayment: document.getElementById('filterPendingPayment'),
-            completed: document.getElementById('filterCompleted'),
             cancelled: document.getElementById('filterCancelled'),
         };
 
@@ -524,37 +270,34 @@
         function filterList() {
             // Lấy loại công việc đã chọn
             const selectedTypes = [];
-            if (typeCheckboxes.fulltime.checked) selectedTypes.push('fulltime');
-            if (typeCheckboxes.parttime.checked) selectedTypes.push('parttime');
+            if (typeCheckboxes.fulltime && typeCheckboxes.fulltime.checked) selectedTypes.push('fulltime');
+            if (typeCheckboxes.parttime && typeCheckboxes.parttime.checked) selectedTypes.push('parttime');
 
             // Lấy chuyên môn đã chọn
             const selectedSpecialities = [];
-            if (specialityCheckboxes.marketing.checked) selectedSpecialities.push('marketing');
-            if (specialityCheckboxes.it.checked) selectedSpecialities.push('it');
-            if (specialityCheckboxes.design.checked) selectedSpecialities.push('design');
-            if (specialityCheckboxes.translation.checked) selectedSpecialities.push('translation');
-            if (specialityCheckboxes.coaching.checked) selectedSpecialities.push('coaching');
-            if (specialityCheckboxes.other.checked) selectedSpecialities.push('other');
+            if (specialityCheckboxes.marketing && specialityCheckboxes.marketing.checked) selectedSpecialities.push('marketing');
+            if (specialityCheckboxes.it && specialityCheckboxes.it.checked) selectedSpecialities.push('congnghe&it');
+            if (specialityCheckboxes.design && specialityCheckboxes.design.checked) selectedSpecialities.push('design');
+            if (specialityCheckboxes.translation && specialityCheckboxes.translation.checked) selectedSpecialities.push('dichthuat');
+            if (specialityCheckboxes.coaching && specialityCheckboxes.coaching.checked) selectedSpecialities.push('tuvan,coaching');
+            if (specialityCheckboxes.other && specialityCheckboxes.other.checked) selectedSpecialities.push('khac');
 
             // Lấy trạng thái đã chọn
             const selectedStatuses = [];
-            if (statusCheckboxes.recruiting.checked) selectedStatuses.push('recruiting');
-            if (statusCheckboxes.pendingContract.checked) selectedStatuses.push('pendingContract');
-            if (statusCheckboxes.working.checked) selectedStatuses.push('working');
-            if (statusCheckboxes.disputed.checked) selectedStatuses.push('disputed');
-            if (statusCheckboxes.pendingPayment.checked) selectedStatuses.push('pendingPayment');
-            if (statusCheckboxes.completed.checked) selectedStatuses.push('completed');
-            if (statusCheckboxes.cancelled.checked) selectedStatuses.push('cancelled');
+            if (statusCheckboxes.recruiting && statusCheckboxes.recruiting.checked) selectedStatuses.push('đangtuyen');
+            if (statusCheckboxes.cancelled && statusCheckboxes.cancelled.checked) selectedStatuses.push('hethan');
 
-            // Lọc theo tất cả tiêu chí
             let filteredItems = items.filter(item => {
-                const type = item.dataset.type;
-                const status = item.dataset.status;
-                const speciality = item.dataset.speciality;
-
-                const matchType = selectedTypes.length === 0 || selectedTypes.includes(type);
-                const matchStatus = selectedStatuses.length === 0 || selectedStatuses.includes(status);
-                const matchSpeciality = selectedSpecialities.length === 0 || selectedSpecialities.includes(speciality);
+                let type = (item.dataset.type || '').toLowerCase().replace(/\s+/g, '').normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                let status = (item.dataset.status || '').toLowerCase().replace(/\s+/g, '').normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                let speciality = (item.dataset.speciality || '').toLowerCase().replace(/\s+/g, '').normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                const selectedTypesLowerTrimmed = selectedTypes.map(type => type.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
+                const selectedStatusesLowerTrimmed = selectedStatuses.map(status => status.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
+                const selectedSpecialitiesLowerTrimmed = selectedSpecialities.map(speciality => speciality.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
+console.log(status);
+                const matchType = selectedTypesLowerTrimmed.length === 0 || selectedTypesLowerTrimmed.includes(type);
+                const matchStatus = selectedStatusesLowerTrimmed.length === 0 || selectedStatusesLowerTrimmed.includes(status);
+                const matchSpeciality = selectedSpecialitiesLowerTrimmed.length === 0 || selectedSpecialitiesLowerTrimmed.includes(speciality);
 
                 return matchType && matchStatus && matchSpeciality;
             });
@@ -568,22 +311,22 @@
         }
 
         function sortItems(items) {
-            if (sortCheckboxes.az.checked) {
+            if (sortCheckboxes.az && sortCheckboxes.az.checked) {
                 items.sort((a, b) => {
-                    const nameA = a.querySelector('.name_value').innerText.toLowerCase();
-                    const nameB = b.querySelector('.name_value').innerText.toLowerCase();
+                    const nameA = a.querySelector('.name_value')?.innerText.toLowerCase() || '';
+                    const nameB = b.querySelector('.name_value')?.innerText.toLowerCase() || '';
                     return nameA.localeCompare(nameB);
                 });
-            } else if (sortCheckboxes.za.checked) {
+            } else if (sortCheckboxes.za && sortCheckboxes.za.checked) {
                 items.sort((a, b) => {
-                    const nameA = a.querySelector('.name_value').innerText.toLowerCase();
-                    const nameB = b.querySelector('.name_value').innerText.toLowerCase();
+                    const nameA = a.querySelector('.name_value')?.innerText.toLowerCase() || '';
+                    const nameB = b.querySelector('.name_value')?.innerText.toLowerCase() || '';
                     return nameB.localeCompare(nameA);
                 });
-            } else if (sortCheckboxes.salary.checked){
+            } else if (sortCheckboxes.salary && sortCheckboxes.salary.checked){
                 items.sort((a, b) => {
-                    const salaryA = parseSalary(a.querySelector('.point_value').innerText);
-                    const salaryB = parseSalary(b.querySelector('.point_value').innerText);
+                    const salaryA = parseSalary(a.querySelector('.point_value')?.innerText || '0');
+                    const salaryB = parseSalary(b.querySelector('.point_value')?.innerText || '0');
                     return salaryB - salaryA;
                 });
             }
@@ -601,6 +344,7 @@
             const end = start + itemsPerPage;
 
             const listContainer = document.getElementById('account-list');
+            if (!listContainer) return;
 
             // Xóa các item hiện tại
             listContainer.innerHTML = '';
@@ -616,11 +360,13 @@
 
             // Hiển thị các item của trang hiện tại
             filteredItems.slice(start, end).forEach(item => {
-                listContainer.appendChild(item);
+                listContainer.appendChild(item.cloneNode(true));
             });
         }
 
         function setupPagination(currentFilteredItems) {
+            if (!paginationContainer) return;
+
             const totalPages = Math.ceil(currentFilteredItems.length / itemsPerPage);
             paginationContainer.innerHTML = '';
 
@@ -701,102 +447,120 @@
 
         // Xử lý tìm kiếm
         const searchForm = document.getElementById('jobSearchForm');
-        const searchInput = searchForm.querySelector('.search-input');
+        if (searchForm) {
+            const searchInput = searchForm.querySelector('.search-input');
 
-        searchForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const searchTerm = searchInput.value.toLowerCase().trim();
+            searchForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const searchTerm = searchInput.value.toLowerCase().trim();
 
-            if (searchTerm) {
-                // Lọc theo từ khóa tìm kiếm
-                const searchResults = items.filter(item => {
-                    const jobTitle = item.querySelector('.name_value').textContent.toLowerCase();
-                    const jobType = item.querySelector('.user-speciality').textContent.toLowerCase();
-                    return jobTitle.includes(searchTerm) || jobType.includes(searchTerm);
-                });
+                if (searchTerm) {
+                    // Lọc theo từ khóa tìm kiếm
+                    const searchResults = items.filter(item => {
+                        const jobTitle = item.querySelector('.name_value')?.textContent.toLowerCase() || '';
+                        const jobType = item.querySelector('.user-speciality')?.textContent.toLowerCase() || '';
+                        return jobTitle.includes(searchTerm) || jobType.includes(searchTerm);
+                    });
 
-                currentFilteredItems = searchResults;
-                currentPage = 1;
-                renderPage(currentFilteredItems, currentPage);
-                setupPagination(currentFilteredItems);
-            } else {
-                // Nếu không có từ khóa, hiển thị tất cả (hoặc theo bộ lọc hiện tại)
-                filterList();
-            }
-        });
+                    currentFilteredItems = searchResults;
+                    currentPage = 1;
+                    renderPage(currentFilteredItems, currentPage);
+                    setupPagination(currentFilteredItems);
+                } else {
+                    // Nếu không có từ khóa, hiển thị tất cả (hoặc theo bộ lọc hiện tại)
+                    filterList();
+                }
+            });
+        }
 
         // Xử lý khi người dùng thay đổi các checkbox loại công việc
         Object.values(typeCheckboxes).forEach(cb => {
-            cb.addEventListener('change', () => {
-                currentPage = 1; // Reset về trang đầu tiên
-                filterList();
-            });
+            if (cb) {
+                cb.addEventListener('change', () => {
+                    currentPage = 1; // Reset về trang đầu tiên
+                    filterList();
+                });
+            }
         });
 
         // Xử lý khi người dùng thay đổi các checkbox chuyên môn
         Object.values(specialityCheckboxes).forEach(cb => {
-            cb.addEventListener('change', () => {
-                currentPage = 1;
-                filterList();
-            });
+            if (cb) {
+                cb.addEventListener('change', () => {
+                    currentPage = 1;
+                    filterList();
+                });
+            }
         });
 
         // Xử lý khi người dùng thay đổi các checkbox trạng thái
         Object.values(statusCheckboxes).forEach(cb => {
-            cb.addEventListener('change', () => {
-                currentPage = 1;
-                filterList();
-            });
+            if (cb) {
+                cb.addEventListener('change', () => {
+                    currentPage = 1;
+                    filterList();
+                });
+            }
         });
 
         // Xử lý khi người dùng thay đổi các checkbox sắp xếp
         Object.values(sortCheckboxes).forEach(cb => {
-            cb.addEventListener('change', () => {
-                // Đảm bảo chỉ chọn một loại sắp xếp
-                if (cb.checked) {
-                    Object.values(sortCheckboxes).forEach(checkbox => {
-                        if (checkbox !== cb) checkbox.checked = false;
-                    });
-                }
+            if (cb) {
+                cb.addEventListener('change', () => {
+                    // Đảm bảo chỉ chọn một loại sắp xếp
+                    if (cb.checked) {
+                        Object.values(sortCheckboxes).forEach(checkbox => {
+                            if (checkbox !== cb) checkbox.checked = false;
+                        });
+                    }
 
-                currentPage = 1;
-                filterList();
-            });
+                    currentPage = 1;
+                    filterList();
+                });
+            }
         });
 
         // CSS để hiển thị màu sắc cho các trạng thái khác nhau
         const styleElement = document.createElement('style');
         styleElement.textContent = `
-            .recruiting-status {
-                background-color: #28a745;
-                color: white;
-            }
-            .pending-contract-status {
-                background-color: #17a2b8;
-                color: white;
-            }
-            .working-status {
-                background-color: #007bff;
-                color: white;
-            }
-            .disputed-status {
-                background-color: #dc3545;
-                color: white;
-            }
-            .pending-payment-status {
-                background-color: #ffc107;
-                color: black;
-            }
-            .completed-status {
-                background-color: #6c757d;
-                color: white;
-            }
-            .cancelled-status {
-                background-color: #343a40;
-                color: white;
-            }
-        `;
+        .recruiting-status {
+            background-color: #28a745;
+            color: white;
+        }
+        .pending-contract-status {
+            background-color: #17a2b8;
+            color: white;
+        }
+        .working-status {
+            background-color: #007bff;
+            color: white;
+        }
+        .disputed-status {
+            background-color: #dc3545;
+            color: white;
+        }
+        .pending-payment-status {
+            background-color: #ffc107;
+            color: black;
+        }
+        .completed-status {
+            background-color: #6c757d;
+            color: white;
+        }
+        .cancelled-status {
+            background-color: #343a40;
+            color: white;
+        }
+    `;
         document.head.appendChild(styleElement);
+
+        // Kiểm tra console để debug
+        console.log("Speciality checkboxes:", specialityCheckboxes);
+        console.log("Items data:", items.map(item => ({
+            type: item.dataset.type,
+            status: item.dataset.status,
+            speciality: item.dataset.speciality
+        })));
 
         // Khởi tạo khi trang tải xong
         filterList();

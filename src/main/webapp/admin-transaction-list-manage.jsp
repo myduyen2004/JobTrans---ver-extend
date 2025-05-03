@@ -1,747 +1,636 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: admin
-  Date: 4/26/2025
-  Time: 8:48 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="jobtrans.model.Transaction" %>
+<%@ page import="java.util.List" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quản Lý Giao Dịch - Admin Dashboard</title>
-  <style>
-    body {
-      background-color: #f5f7fa;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    .header {
-      background: linear-gradient(to right, rgb(21, 42, 105), rgb(54, 75, 140));
-      color: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .header h1 {
-      font-size: 24px;
-      animation: fadeIn 1s ease-in-out;
-    }
-
-    .user-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .user-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background-color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: rgb(21, 42, 105);
-      font-weight: bold;
-    }
-
-    .card {
-      background-color: white;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      margin-bottom: 20px;
-      animation: slideUp 0.5s ease-out;
-    }
-
-    .filter-section {
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-      margin-bottom: 15px;
-    }
-
-    .filter-item {
-      flex: 1;
-      min-width: 200px;
-    }
-
-    .filter-item label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: 500;
-      color: #555;
-    }
-
-    .filter-item input, .filter-item select {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      outline: none;
-      transition: border 0.3s;
-    }
-
-    .filter-item input:focus, .filter-item select:focus {
-      border-color: rgb(54, 75, 140);
-    }
-
-    .button {
-      background: linear-gradient(to right, rgb(21, 42, 105), rgb(54, 75, 140));
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-
-    .button:hover {
-      opacity: 0.9;
-      transform: translateY(-2px);
-    }
-
-    .button-small {
-      padding: 5px 10px;
-      font-size: 12px;
-    }
-
-    .button-add {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .table-container {
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      padding: 12px 15px;
-      text-align: left;
-      border-bottom: 1px solid #eee;
-    }
-
-    th {
-      background-color: rgba(21, 42, 105, 0.1);
-      color: rgb(21, 42, 105);
-      font-weight: 600;
-    }
-
-    tr:hover {
-      background-color: rgba(54, 75, 140, 0.05);
-    }
-
-    .status {
-      padding: 5px 10px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 500;
-    }
-
-    .status-success {
-      background-color: rgba(39, 174, 96, 0.1);
-      color: #27ae60;
-    }
-
-    .status-pending {
-      background-color: rgba(241, 196, 15, 0.1);
-      color: #f1c40f;
-    }
-
-    .status-failed {
-      background-color: rgba(231, 76, 60, 0.1);
-      color: #e74c3c;
-    }
-
-    .action-buttons {
-      display: flex;
-      gap: 5px;
-    }
-
-    .pagination {
-      display: flex;
-      justify-content: flex-end;
-      gap: 5px;
-      margin-top: 20px;
-    }
-
-    .pagination button {
-      background-color: white;
-      border: 1px solid #ddd;
-      padding: 5px 10px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .pagination button.active {
-      background: linear-gradient(to right, rgb(21, 42, 105), rgb(54, 75, 140));
-      color: white;
-      border: none;
-    }
-
-    .stats-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-      margin-bottom: 20px;
-    }
-
-    .stat-card {
-      background: white;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      animation: pulse 2s infinite ease-in-out;
-    }
-
-    .stat-card h3 {
-      font-size: 14px;
-      color: #777;
-      margin-bottom: 10px;
-    }
-
-    .stat-card .value {
-      font-size: 24px;
-      font-weight: bold;
-      color: rgb(21, 42, 105);
-    }
-
-    .stat-card.income .value {
-      color: #27ae60;
-    }
-
-    .stat-card.expense .value {
-      color: #e74c3c;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 100;
-      animation: fadeIn 0.3s;
-    }
-
-    .modal-content {
-      background-color: white;
-      margin: 10% auto;
-      padding: 20px;
-      width: 80%;
-      max-width: 500px;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-      animation: slideDown 0.5s;
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .close {
-      font-size: 24px;
-      cursor: pointer;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: 500;
-    }
-
-    .form-group input, .form-group select, .form-group textarea {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-    }
-
-    .form-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .loader {
-      border: 4px solid #f3f3f3;
-      border-radius: 50%;
-      border-top: 4px solid rgb(21, 42, 105);
-      width: 20px;
-      height: 20px;
-      animation: spin 1s linear infinite;
-      margin: 0 auto;
-      display: none;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes slideUp {
-      from {
-        transform: translateY(20px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
-    @keyframes slideDown {
-      from {
-        transform: translateY(-20px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.03); }
-      100% { transform: scale(1); }
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    @media (max-width: 768px) {
-      .stats-cards {
-        grid-template-columns: 1fr;
-      }
-
-      .filter-section {
-        flex-direction: column;
-      }
-
-      .filter-item {
-        min-width: 100%;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Giao Dịch - Admin Dashboard</title>
+    <link href="./css/admin-transaction-list-manage.css" rel="stylesheet"/>
 </head>
-<body>
-<%@include file="includes/header-01.jsp"%>
+<%@include file="includes/header-01.jsp" %>
 <div class="container">
-  <header class="header">
-    <h1>HỆ THỐNG QUẢN LÝ GIAO DỊCH</h1>
-    <div class="user-info">
-      <span>Admin</span>
-      <div class="user-avatar">A</div>
-    </div>
-  </header>
+    <header class="header">
+        <h1>HỆ THỐNG QUẢN LÝ GIAO DỊCH</h1>
+        <div class="user-info">
+            <span>Admin</span>
+            <div class="user-avatar">A</div>
+        </div>
+    </header>
 
-  <div class="stats-cards">
-    <div class="stat-card">
-      <h3>TỔNG SỐ GIAO DỊCH</h3>
-      <div class="value">1,234</div>
-    </div>
-    <div class="stat-card income">
-      <h3>TỔNG THU</h3>
-      <div class="value">2,500,000,000 ₫</div>
-    </div>
-    <div class="stat-card expense">
-      <h3>TỔNG CHI</h3>
-      <div class="value">1,800,000,000 ₫</div>
-    </div>
-    <div class="stat-card">
-      <h3>SỐ DƯ</h3>
-      <div class="value">700,000,000 ₫</div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-      <h2>Danh Sách Giao Dịch</h2>
-      <button class="button button-add" onclick="openAddModal()">
-        <span>+</span> Thêm Giao Dịch
-      </button>
+    <div class="stats-cards">
+        <div class="stat-card">
+            <h3>TỔNG SỐ GIAO DỊCH</h3>
+            <div class="value">${allTransactions}</div>
+        </div>
+        <div class="stat-card income">
+            <h3>TỔNG THU</h3>
+            <div class="value"><fmt:formatNumber value="${totalIncome}" pattern="#,###" /> VND</div>
+        </div>
+        <div class="stat-card expense">
+            <h3>TỔNG CHI</h3>
+            <div class="value"><fmt:formatNumber value="${totalExpense}" pattern="#,###" /> VND</div>
+        </div>
+        <div class="stat-card">
+            <h3>SỐ DƯ</h3>
+            <div class="value"><fmt:formatNumber value="${balance}" pattern="#,###" /> VND</div>
+        </div>
     </div>
 
-    <div class="filter-section">
-      <div class="filter-item">
-        <label for="search">Tìm kiếm</label>
-        <input type="text" id="search" placeholder="Nhập mã hoặc mô tả...">
-      </div>
-      <div class="filter-item">
-        <label for="dateFrom">Từ ngày</label>
-        <input type="date" id="dateFrom">
-      </div>
-      <div class="filter-item">
-        <label for="dateTo">Đến ngày</label>
-        <input type="date" id="dateTo">
-      </div>
-      <div class="filter-item">
-        <label for="status">Trạng thái</label>
-        <select id="status">
-          <option value="">Tất cả</option>
-          <option value="success">Thành công</option>
-          <option value="pending">Đang xử lý</option>
-          <option value="failed">Thất bại</option>
-        </select>
-      </div>
-      <div class="filter-item">
-        <label for="type">Loại giao dịch</label>
-        <select id="type">
-          <option value="">Tất cả</option>
-          <option value="income">Thu</option>
-          <option value="expense">Chi</option>
-        </select>
-      </div>
-      <div class="filter-item" style="display: flex; align-items: flex-end;">
-        <button class="button" style="width: 100%;">Lọc</button>
-      </div>
-    </div>
+    <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2>Danh Sách Giao Dịch</h2>
+        </div>
+        <!-- Fix the form to submit with the correct parameters -->
+        <form class="search-form" method="get" action="/JobTrans/trans-manage" id="transactionSearchForm">
+            <!-- Add the action parameter as a hidden input field -->
+            <input type="hidden" name="action" value="search">
+            <div class="form-group">
+                <label for="search">Tìm kiếm</label>
+                <input type="text" id="search" name="search" placeholder="Nhập mã hoặc mô tả..." class="form-control">
+            </div>
+            <div class="form-group" style="display: flex; align-items: flex-end;">
+                <button type="submit" class="btn btn-primary" style="width: 100%; background: linear-gradient(to right, rgb(21, 42, 105), rgb(54, 75, 140));
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;">
+                    <i class="fas fa-search"></i> Tìm kiếm
+                </button>
+            </div>
+        </form>
 
-    <div class="table-container">
-      <table>
-        <thead>
-        <tr>
-          <th>Mã GD</th>
-          <th>Ngày</th>
-          <th>Mô tả</th>
-          <th>Loại</th>
-          <th>Số tiền</th>
-          <th>Trạng thái</th>
-          <th>Thao tác</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td>GD0001</td>
-          <td>26/04/2025</td>
-          <td>Thu tiền dự án A</td>
-          <td>Thu</td>
-          <td>500,000,000 ₫</td>
-          <td><span class="status status-success">Thành công</span></td>
-          <td>
-            <div class="action-buttons">
-              <button class="button button-small" onclick="openViewModal('GD0001')">Xem</button>
-              <button class="button button-small" onclick="openEditModal('GD0001')">Sửa</button>
+        <form action="/JobTrans/trans-manage" method="get"  class="filter-section">
+            <input type="hidden" name="action" value="filterTransaction">
+            <div class="filter-item">
+                <label for="dateFrom">Từ ngày</label>
+                <input type="date" id="dateFrom" name="startDate">
             </div>
-          </td>
-        </tr>
-        <tr>
-          <td>GD0002</td>
-          <td>25/04/2025</td>
-          <td>Chi tiền lương nhân viên</td>
-          <td>Chi</td>
-          <td>300,000,000 ₫</td>
-          <td><span class="status status-success">Thành công</span></td>
-          <td>
-            <div class="action-buttons">
-              <button class="button button-small" onclick="openViewModal('GD0002')">Xem</button>
-              <button class="button button-small" onclick="openEditModal('GD0002')">Sửa</button>
+            <div class="filter-item">
+                <label for="dateTo">Đến ngày</label>
+                <input type="date" id="dateTo" name="endDate">
             </div>
-          </td>
-        </tr>
-        <tr>
-          <td>GD0003</td>
-          <td>24/04/2025</td>
-          <td>Thu tiền dự án B</td>
-          <td>Thu</td>
-          <td>800,000,000 ₫</td>
-          <td><span class="status status-pending">Đang xử lý</span></td>
-          <td>
-            <div class="action-buttons">
-              <button class="button button-small" onclick="openViewModal('GD0003')">Xem</button>
-              <button class="button button-small" onclick="openEditModal('GD0003')">Sửa</button>
+            <div class="filter-item">
+                <label for="status">Trạng thái</label>
+                <select id="status" name="status">
+                    <option value="">Tất cả</option>
+                    <option value="true">Thành công</option>
+                    <option value="false">Thất bại</option>
+                </select>
             </div>
-          </td>
-        </tr>
-        <tr>
-          <td>GD0004</td>
-          <td>23/04/2025</td>
-          <td>Chi tiền văn phòng phẩm</td>
-          <td>Chi</td>
-          <td>15,000,000 ₫</td>
-          <td><span class="status status-success">Thành công</span></td>
-          <td>
-            <div class="action-buttons">
-              <button class="button button-small" onclick="openViewModal('GD0004')">Xem</button>
-              <button class="button button-small" onclick="openEditModal('GD0004')">Sửa</button>
+            <div class="filter-item">
+                <label for="type">Loại giao dịch</label>
+                <select id="type" name="transactionType">
+                    <option value="">Tất cả</option>
+                    <option value="income">Thu</option>
+                    <option value="expense">Chi</option>
+                </select>
             </div>
-          </td>
-        </tr>
-        <tr>
-          <td>GD0005</td>
-          <td>22/04/2025</td>
-          <td>Chi tiền thuê văn phòng</td>
-          <td>Chi</td>
-          <td>50,000,000 ₫</td>
-          <td><span class="status status-failed">Thất bại</span></td>
-          <td>
-            <div class="action-buttons">
-              <button class="button button-small" onclick="openViewModal('GD0005')">Xem</button>
-              <button class="button button-small" onclick="openEditModal('GD0005')">Sửa</button>
+            <div class="filter-item" style="display: flex; align-items: flex-end;">
+                <button type="submit" class="button" style="width: 100%;">Lọc</button>
             </div>
-          </td>
-        </tr>
-        <tr>
-          <td>GD0006</td>
-          <td>21/04/2025</td>
-          <td>Thu tiền hợp đồng C</td>
-          <td>Thu</td>
-          <td>1,200,000,000 ₫</td>
-          <td><span class="status status-success">Thành công</span></td>
-          <td>
-            <div class="action-buttons">
-              <button class="button button-small" onclick="openViewModal('GD0006')">Xem</button>
-              <button class="button button-small" onclick="openEditModal('GD0006')">Sửa</button>
-            </div>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
+        </form>
+        <div class="table-container">
+            <%-- Phần bảng hiển thị giao dịch --%>
+                <%
+                    List<Transaction> transactions = (List<Transaction>) request.getAttribute("transactions");
+                    int currentPage = (Integer) request.getAttribute("currentPage");
+                    int totalPages = (Integer) request.getAttribute("totalPages");
 
-    <div class="pagination">
-      <button>&lt;</button>
-      <button class="active">1</button>
-      <button>2</button>
-      <button>3</button>
-      <button>&gt;</button>
+                    // Get the filter parameters from the request
+                    String action = request.getParameter("action");
+                    String startDate = request.getParameter("startDate");
+                    String endDate = request.getParameter("endDate");
+                    String status = request.getParameter("status");
+                    String transactionType = request.getParameter("transactionType");
+                    String search = request.getParameter("search");
+                %>
+
+
+            <table>
+                <thead>
+                <tr>
+                    <th>Số giao dịch</th>
+                    <th>Ngày</th>
+                    <th>Mô tả</th>
+                    <th>Loại</th>
+                    <th>Số tiền</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="transaction" items="${transactions}">
+
+                    <tr>
+                        <td>${transaction.transactionId}</td>
+                        <td><fmt:formatDate value="${transaction.createdDate}" pattern="HH:mm:ss dd/MM/yyyy"/></td>
+                        <td>${transaction.description}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${transaction.transactionType == 'Trừ tiền'}">
+                                    <span>Chi</span>
+                                </c:when>
+                                <c:when test="${transaction.transactionType == 'Rút tiền'}">
+                                    <span>Chi</span>
+                                </c:when>
+                                <c:when test="${transaction.transactionType == 'Thêm tiền'}">
+                                    <span>Thu</span>
+                                </c:when>
+                                <c:otherwise>
+                                    <span>${transaction.transactionType}</span>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td><fmt:formatNumber value="${transaction.amount}" pattern="#,###" /> VND</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${transaction.status == true}">
+                                    <span class="status status-success">Thành công</span>
+                                </c:when>
+                                <c:when test="${transaction.status == false}">
+                                    <span class="status status-failed">Thất bại</span>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:choose>
+                                        <c:when test="${transaction.transactionType == 'Trừ tiền'}">
+                                            <span class="status status-success">Thành công</span>
+                                        </c:when>
+                                        <c:when test="${transaction.transactionType == 'Rút tiền'}">
+                                            <span class="status status-pending">Đang xử lý</span>
+                                        </c:when>
+                                        <c:when test="${transaction.transactionType == 'Thêm tiền'}">
+                                            <span class="status status-failed">Thất bại</span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span>${transaction.transactionType}</span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="button button-small"
+                                        onclick="openViewModal('${transaction.transactionId}',
+                                                '${transaction.createdDate}',
+                                                '${transaction.status}',
+                                                '${transaction.description}',
+                                                '${transaction.transactionType}',
+                                                '${transaction.amount}',
+                                                '${transaction.category.categoryName}',
+                                                '${transaction.job.jobTitle}',
+                                                '${transaction.sender.accountName}',
+                                                '${transaction.receiver.accountName}',
+                                                '${transaction.sender.accountId}',
+                                                '${transaction.receiver.accountId}'
+                                                )">Xem</button>
+                                <button class="button button-small" onclick="openEditModal('${transaction.transactionId}')">Sửa</button>
+                            </div>
+                        </td>
+                    </tr>
+                </c:forEach>
+
+                <c:if test="${empty transactions}">
+                    <tr><td colspan="7">Không có giao dịch nào.</td></tr>
+                </c:if>
+                </tbody>
+            </table>
+        </div>
+        <style>
+            .pagination {
+                display: flex;
+                justify-content: center;
+                margin: 25px auto;
+                padding: 8px;
+                background: linear-gradient(to right, rgb(21, 42, 105), rgb(54, 75, 140));
+                border-radius: 10px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+
+            .pagination a, .pagination span.ellipsis {
+                color: white;
+                background-color: rgba(255, 255, 255, 0.1);
+                padding: 12px 18px;
+                text-decoration: none;
+                margin: 0 4px;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-width: 20px;
+                font-size: 14px;
+                border-radius: 8px;
+                position: relative;
+                font-weight: 500;
+            }
+
+            .pagination a:hover {
+                background-color: rgba(255, 255, 255, 0.2);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
+
+            .pagination a.active {
+                background-color: white;
+                color: rgb(21, 42, 105);
+                font-weight: 600;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+            }
+
+            .pagination a.disabled {
+                opacity: 0.5;
+                pointer-events: none;
+                background-color: transparent;
+                box-shadow: none;
+            }
+
+            .pagination span.ellipsis {
+                background-color: transparent;
+                box-shadow: none;
+                pointer-events: none;
+                padding: 12px 8px;
+            }
+
+            /* Next/prev arrow styling */
+            .pagination a:first-child, .pagination a:last-child {
+                background-color: rgba(255, 255, 255, 0.15);
+                font-weight: bold;
+                padding: 12px 20px;
+            }
+
+            .pagination a:first-child:hover, .pagination a:last-child:hover {
+                background-color: rgba(255, 255, 255, 0.25);
+            }
+
+            /* For smaller screens */
+            @media (max-width: 576px) {
+                .pagination {
+                    padding: 6px;
+                }
+
+                .pagination a, .pagination span.ellipsis {
+                    padding: 10px 12px;
+                    min-width: 18px;
+                    margin: 0 2px;
+                    font-size: 13px;
+                }
+
+                .pagination a:first-child, .pagination a:last-child {
+                    padding: 10px 14px;
+                }
+            }
+
+            /* For very small screens */
+            @media (max-width: 360px) {
+                .pagination a, .pagination span.ellipsis {
+                    padding: 8px 10px;
+                    min-width: 16px;
+                    margin: 0 1px;
+                }
+            }</style>
+        <div class="pagination">
+            <a href="?action=<%= action %>&startDate=<%= startDate %>&endDate=<%= endDate %>&status=<%= status %>&transactionType=<%= transactionType %>&search=<%= search %>&page=<%= Math.max(1, currentPage - 1) %>" class="<%= currentPage == 1 ? "disabled" : "" %>">&laquo;</a>
+            <% for (int i = 1; i <= totalPages; i++) { %>
+            <a href="?action=<%= action %>&startDate=<%= startDate %>&endDate=<%= endDate %>&status=<%= status %>&transactionType=<%= transactionType %>&search=<%= search %>&page=<%= i %>" class="<%= currentPage == i ? "active" : "" %>"><%= i %></a>
+            <% } %>
+            <a href="?action=<%= action %>&startDate=<%= startDate %>&endDate=<%= endDate %>&status=<%= status %>&transactionType=<%= transactionType %>&search=<%= search %>&page=<%= Math.min(totalPages, currentPage + 1) %>" class="<%= currentPage == totalPages ? "disabled" : "" %>">&raquo;</a>
+        </div>
     </div>
-  </div>
 </div>
 
-<!-- Modal Thêm Giao Dịch -->
-<div id="addModal" class="modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2>Thêm Giao Dịch Mới</h2>
-      <span class="close" onclick="closeModal('addModal')">&times;</span>
-    </div>
-    <form id="addForm">
-      <div class="form-group">
-        <label for="transactionType">Loại giao dịch</label>
-        <select id="transactionType" required>
-          <option value="income">Thu</option>
-          <option value="expense">Chi</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="amount">Số tiền (VNĐ)</label>
-        <input type="number" id="amount" required placeholder="Ví dụ: 5000000">
-      </div>
-      <div class="form-group">
-        <label for="description">Mô tả</label>
-        <textarea id="description" rows="3" required placeholder="Mô tả chi tiết giao dịch"></textarea>
-      </div>
-      <div class="form-group">
-        <label for="date">Ngày giao dịch</label>
-        <input type="date" id="date" required>
-      </div>
-      <div class="form-group">
-        <label for="category">Danh mục</label>
-        <select id="category" required>
-          <option value="salary">Lương</option>
-          <option value="project">Dự án</option>
-          <option value="office">Văn phòng</option>
-          <option value="tax">Thuế</option>
-          <option value="other">Khác</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="paymentMethod">Phương thức thanh toán</label>
-        <select id="paymentMethod" required>
-          <option value="bank">Chuyển khoản</option>
-          <option value="cash">Tiền mặt</option>
-          <option value="card">Thẻ tín dụng</option>
-        </select>
-      </div>
-      <div class="form-actions">
-        <div class="loader" id="submitLoader"></div>
-        <button type="button" class="button" style="background-color: #ccc;" onclick="closeModal('addModal')">Hủy</button>
-        <button type="submit" class="button">Lưu</button>
-      </div>
-    </form>
-  </div>
-</div>
 
-<!-- Modal Xem Chi Tiết -->
+<%-- Modal Xem Chi Tiết --%>
 <div id="viewModal" class="modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2>Chi Tiết Giao Dịch</h2>
-      <span class="close" onclick="closeModal('viewModal')">&times;</span>
-    </div>
-    <div id="transactionDetails">
-      <p><strong>Mã giao dịch:</strong> <span id="viewId">GD0001</span></p>
-      <p><strong>Ngày:</strong> <span id="viewDate">26/04/2025</span></p>
-      <p><strong>Mô tả:</strong> <span id="viewDescription">Thu tiền dự án A</span></p>
-      <p><strong>Loại:</strong> <span id="viewType">Thu</span></p>
-      <p><strong>Số tiền:</strong> <span id="viewAmount">500,000,000 ₫</span></p>
-      <p><strong>Danh mục:</strong> <span id="viewCategory">Dự án</span></p>
-      <p><strong>Phương thức thanh toán:</strong> <span id="viewPaymentMethod">Chuyển khoản</span></p>
-      <p><strong>Trạng thái:</strong> <span class="status status-success">Thành công</span></p>
-      <p><strong>Người tạo:</strong> <span id="viewCreatedBy">Admin</span></p>
-      <p><strong>Ngày tạo:</strong> <span id="viewCreatedDate">26/04/2025 08:30</span></p>
-      <p><strong>Ghi chú bổ sung:</strong> <span id="viewNotes">Hợp đồng dự án A đã hoàn thành 100%. Khách hàng đã thanh toán đủ.</span></p>
-    </div>
-    <div class="form-actions">
-      <button type="button" class="button" onclick="closeModal('viewModal')">Đóng</button>
-    </div>
-  </div>
-</div>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Chi Tiết Giao Dịch</h2>
+            <span class="close" onclick="closeModal('viewModal')">&times;</span>
+        </div>
+        <div id="transactionDetails">
+            <p><strong>Mã giao dịch: </strong> <span id="viewId"></span></p>
+            <p><strong>Ngày tạo: </strong> <span id="viewDate"></span></p>
+            <p><strong>Tên dự án: </strong> <span id="viewJob"></span></p>
+            <p><strong>Mô tả: </strong> <span id="viewDescription"></span></p>
+            <p><strong>Phân loại: </strong> <span id="viewCategory"></span></p>
+            <p><strong>Người nhận: </strong> <span id="viewReceiver"></span></p>
+            <p><strong>Người gửi: </strong> <span id="viewSender"></span></p>
+            <p><strong>Loại: </strong> <span id="viewType"></span></p>
+            <p><strong>Số tiền: </strong> <span id="viewAmount"></span></p>
+            <p><strong>Phương thức thanh toán: </strong> <span id="viewPaymentMethod"></span></p>
+            <p><strong>Trạng thái: </strong> <span id="viewStatus"  ></span></p>
 
-<!-- Modal Sửa Giao Dịch -->
+        </div>
+        <div class="form-actions">
+            <button type="button" class="button" onclick="closeModal('viewModal')">Đóng</button>
+        </div>
+    </div>
+</div>
 <div id="editModal" class="modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2>Sửa Giao Dịch</h2>
-      <span class="close" onclick="closeModal('editModal')">&times;</span>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Sửa Giao Dịch</h2>
+            <span class="close" onclick="closeModal('editModal')">&times;</span>
+        </div>
+        <form id="editForm" action="/trans-manage?action=edit" method="post">
+            <div class="form-group" style="display:none;">
+                <label for="editId">Mã giao dịch</label>
+                <input type="hidden" id="editId" name="id"  class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="editType">Loại giao dịch</label>
+                <select id="editType" name="transactionType" required class="form-control">
+                    <option value="Thêm tiền">Thu</option>
+                    <option value="Trừ tiền">Chi</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="editAmount">Số tiền (VNĐ)</label>
+                <input type="number" id="editAmount" name="amount" required class="form-control" step="0.01">
+            </div>
+            <div class="form-group">
+                <label for="editDescription">Mô tả</label>
+                <textarea id="editDescription" name="description" rows="3" required class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="editDate">Ngày giao dịch</label>
+                <input type="date" id="editDate" name="createdDate" required class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="editStatus">Trạng thái</label>
+                <select id="editStatus" name="status" required class="form-control">
+                    <option value="true">Thành công</option>
+                    <option value="false">Thất bại</option>
+                </select>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" onclick="closeModal('editModal')">
+                    Hủy
+                </button>
+                <button type="submit" class="btn btn-primary">Cập nhật</button>
+            </div>
+        </form>
     </div>
-    <form id="editForm">
-      <div class="form-group">
-        <label for="editId">Mã giao dịch</label>
-        <input type="text" id="editId" readonly>
-      </div>
-      <div class="form-group">
-        <label for="editType">Loại giao dịch</label>
-        <select id="editType" required>
-          <option value="income">Thu</option>
-          <option value="expense">Chi</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="editAmount">Số tiền (VNĐ)</label>
-        <input type="number" id="editAmount" required>
-      </div>
-      <div class="form-group">
-        <label for="editDescription">Mô tả</label>
-        <textarea id="editDescription" rows="3" required></textarea>
-      </div>
-      <div class="form-group">
-        <label for="editDate">Ngày giao dịch</label>
-        <input type="date" id="editDate" required>
-      </div>
-      <div class="form-group">
-        <label for="editCategory">Danh mục</label>
-        <select id="editCategory" required>
-          <option value="salary">Lương</option>
-          <option value="project">Dự án</option>
-          <option value="office">Văn phòng</option>
-          <option value="tax">Thuế</option>
-          <option value="other">Khác</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="editStatus">Trạng thái</label>
-        <select id="editStatus" required>
-          <option value="success">Thành công</option>
-          <option value="pending">Đang xử lý</option>
-          <option value="failed">Thất bại</option>
-        </select>
-      </div>
-      <div class="form-actions">
-        <button type="button" class="button" style="background-color: #ccc;" onclick="closeModal('editModal')">Hủy</button>
-        <button type="submit" class="button">Cập nhật</button>
-      </div>
-    </form>
-  </div>
 </div>
-<%@include file="includes/footer.jsp"%>
+<%@include file="includes/footer.jsp" %>
 <script>
-  // Các hàm để mở/đóng các modal
-  function openAddModal() {
-    document.getElementById('addModal').style.display = 'block';
-    document.getElementById('date').valueAsDate = new Date();
-  }
-
-  function openViewModal(id) {
-    document.getElementById('viewModal').style.display = 'block';
-    // Trong thực tế, bạn sẽ tải dữ liệu giao dịch từ máy chủ dựa trên ID
-    document.getElementById('viewId').textContent = id;
-  }
-
-  function openEditModal(id) {
-    document.getElementById('editModal').style.display = 'block';
-    document.getElementById('editId').value = id;
-
-    // Trong thực tế, bạn sẽ tải dữ liệu giao dịch từ máy chủ dựa trên ID
-    if (id === 'GD0001') {
-      document.getElementById('editType').value = 'income';
-      document.getElementById('editAmount').value = '500000000';
-      document.getElementById('editDescription').value = 'Thu tiền dự án A';
-      document.getElementById('editDate').value = '2025-04-26';
-      document.getElementById('editCategory').value = 'project';
-      document.getElementById('editStatus').value = 'success';
+    // Các hàm để mở/đóng các modal
+    function openAddModal() {
+        document.getElementById('addModal').style.display = 'block';
+        document.getElementById('date').valueAsDate = new Date();
     }
-  }
+    // Fixed code sample for handling links with senderAccountId
+    function createSenderLink(viewSender, senderName, senderAccountId) {
+        // Debug the actual value we received
+        console.log("Raw senderAccountId:", senderAccountId);
+        console.log("Type of senderAccountId:", typeof senderAccountId);
 
-  function closeModal(modalId) {
-    document.getElementById(modalId).style.display = 'none';
-  }
+        // Always convert to string and trim, no matter what
+        let safeAccountId = String(senderAccountId || '').trim();
+        console.log("After conversion safeAccountId:", safeAccountId);
 
-  // Đóng modal khi click ra ngoài
-  window.onclick = function(event) {
-    if (event.target.className === 'modal') {
-      event.target.style.display = 'none';
+        // Create the link with explicit account ID
+        const senderLink = document.createElement('a');
+
+        // Explicitly set the href with the account ID
+        senderLink.href = "acc-manage?action=viewAccountDetails&accId=" + safeAccountId;
+        console.log("Full href:", senderLink.href);
+
+        // Set the text and add to DOM
+        senderLink.textContent = senderName || 'Unknown';
+
+        // Add debugging on click
+        senderLink.onclick = function(e) {
+            console.log("Link clicked with href:", this.href);
+            // Uncomment this line to check if the link is working without actually navigating
+            // e.preventDefault();
+        };
+
+        // Clear previous content and add new link
+        viewSender.innerHTML = '';
+        viewSender.appendChild(senderLink);
     }
-  }
+    function openViewModal(id, createdDate, status, description, transactionType, amount, categoryName, jobTitle, senderName, receiverName, senderAccountId, receiverAccountId) {
+        // Get modal elements
+        const viewModal = document.getElementById('viewModal');
+        const viewId = document.getElementById('viewId');
+        const viewDate = document.getElementById('viewDate');
+        const viewDescription = document.getElementById('viewDescription');
+        const viewType = document.getElementById('viewType');
+        const viewAmount = document.getElementById('viewAmount');
+        const viewPaymentMethod = document.getElementById('viewPaymentMethod');
+        const viewStatus = document.getElementById('viewStatus');
+        const viewCategory = document.getElementById('viewCategory');
+        const viewJob = document.getElementById('viewJob');
+        const viewSender = document.getElementById('viewSender');
+        const viewReceiver = document.getElementById('viewReceiver');
 
-  // Xử lý sự kiện submit form
-  document.getElementById('addForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    document.getElementById('submitLoader').style.display = 'block';
+        // Debug values first
+        console.log("Opening modal with values:");
+        console.log("Job Title:", jobTitle);
+        console.log("Sender Name:", senderName);
+        console.log("Receiver Name:", receiverName);
+        console.log("Sender Account ID:", senderAccountId, typeof senderAccountId);
+        console.log("Receiver Account ID:", receiverAccountId, typeof receiverAccountId);
 
-    // Giả lập việc gửi dữ liệu
-    setTimeout(function() {
-      document.getElementById('submitLoader').style.display = 'none';
-      closeModal('addModal');
-      alert('Thêm giao dịch thành công!');
-      // Trong thực tế, bạn sẽ làm mới danh sách giao dịch
-    }, 1000);
-  });
+        // Show the modal
+        viewModal.style.display = 'block';
 
-  document.getElementById('editForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+        // Update the modal's content
+        viewId.textContent = id;
 
-    // Giả lập việc cập nhật dữ liệu
-    setTimeout(function() {
-      closeModal('editModal');
-      alert('Cập nhật giao dịch thành công!');
-      // Trong thực tế, bạn sẽ làm mới danh sách giao dịch
-    }, 500);
-  });
+        // Format the date
+        const formattedDate = new Intl.DateTimeFormat('vi-VN', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            day: '2-digit',
+            month: 'numeric',
+            year: 'numeric'
+        }).format(new Date(createdDate));
+        viewDate.textContent = formattedDate;
+
+        viewDescription.textContent = description;
+
+        // Set transaction type text
+        let displayType = '';
+        if (transactionType === 'Trừ tiền' || transactionType === 'Rút tiền') {
+            displayType = 'Chi';
+        } else if (transactionType === 'Thêm tiền') {
+            displayType = 'Thu';
+        } else {
+            displayType = transactionType; // Keep original if not a known type
+        }
+        viewType.textContent = displayType;
+
+        // Format the amount
+        const formattedAmount = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+        }).format(amount);
+        viewAmount.textContent = formattedAmount;
+
+        viewPaymentMethod.textContent = 'Chuyển khoản'; // Default payment method
+
+        // Handle the status using a switch for clarity
+        let statusText = '';
+        let statusClass = '';
+        switch (status) {
+            case 'true':
+                statusText = 'Thành công';
+                statusClass = 'status-success';
+                break;
+            case 'false':
+                statusText = 'Thất bại';
+                statusClass = 'status-failed';
+                break;
+            default:
+                // Handle cases where status is not 'true' or 'false'
+                if (transactionType === 'Trừ tiền') {
+                    statusText = 'Thành công';
+                    statusClass = 'status-success';
+                } else if (transactionType === 'Rút tiền') {
+                    statusText = 'Đang xử lý';
+                    statusClass = 'status-pending';
+                } else if (transactionType === 'Thêm tiền') {
+                    statusText = 'Thất bại';
+                    statusClass = 'status-failed';
+                } else {
+                    statusText = 'Không xác định';
+                    statusClass = ''; // Or some default class
+                }
+        }
+        viewStatus.textContent = statusText;
+        viewStatus.className = `status ${statusClass}`;
+
+        viewCategory.textContent = categoryName;
+        viewJob.textContent = jobTitle;
+        createSenderLink(viewSender, senderName, senderAccountId);
+        // Use our new function for sender link
+        createSenderLink(viewReceiver, receiverName, receiverAccountId);
+
+    }
+    function openEditModal(id) {
+        const modal = document.getElementById('editModal');
+        const form = document.getElementById('editForm');
+
+        // Lấy thông tin giao dịch từ bảng (hoặc từ server nếu cần)
+        let row = null;
+        const idCells = document.querySelectorAll("td:first-child");
+        for (let i = 0; i < idCells.length; i++) {
+            if (idCells[i].textContent.trim() === id.toString()) {
+                row = idCells[i].parentNode;
+                break;
+            }
+        }
+        if (!row) {
+            console.error("Row with id " + id + " not found");
+            return;
+        }
+
+        const transactionType = row.cells[3].textContent;
+        const amount = row.cells[4].textContent;
+        const description = row.cells[2].textContent;
+        const dateString = row.cells[1].textContent.split(" ")[0];
+        const status = row.cells[5].textContent;
+
+
+        form.editId.value = id;
+        form.editType.value = transactionType;
+        form.editAmount.value = amount;
+        form.editDescription.value = description;
+        form.editDate.value = dateString;
+        form.editStatus.value = status === "Thành công" ? "true" : "false";
+
+        modal.style.display = 'block';
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = "none";
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
+    // Đóng modal khi click ra ngoài
+    window.onclick = function (event) {
+        if (event.target.className === 'modal') {
+            event.target.style.display = 'none';
+        }
+    }
+
+    document.getElementById('editForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        // Lấy dữ liệu từ form
+        const editId = document.getElementById('editId').value;
+        const editType = document.getElementById('editType').value;
+        const editAmount = document.getElementById('editAmount').value;
+        const editDescription = document.getElementById('editDescription').value;
+        const editDate = document.getElementById('editDate').value;
+        const editStatus = document.getElementById('editStatus').value;
+
+        // In các giá trị để kiểm tra
+        console.log("Giá trị của các thuộc tính:");
+        console.log("id:", editId);
+        console.log("transactionType:", editType);
+        console.log("amount:", editAmount);
+        console.log("description:", editDescription);
+        console.log("createdDate:", editDate);
+        console.log("status:", editStatus);
+
+        // Tạo đối tượng giao dịch (để gửi lên server)
+        const updatedTransaction = {
+            id: editId,
+            transactionType: editType,
+            amount: editAmount,
+            description: editDescription,
+            createdDate: editDate,
+            status: editStatus
+        };
+
+        // Gửi dữ liệu lên server (sử dụng fetch hoặc XMLHttpRequest)
+        fetch('trans-manage?action=edit', {  // Địa chỉ URL của Servlet để sửa giao dịch
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json' // Chỉ định kiểu dữ liệu là JSON
+            },
+            body: JSON.stringify(updatedTransaction)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Cập nhật giao dịch không thành công!'); // Xử lý lỗi HTTP
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Xử lý phản hồi từ server (nếu cần)
+                console.log('Giao dịch đã được cập nhật:', data);
+                alert('Cập nhật giao dịch thành công!');
+                closeModal('editModal');
+                window.location.href = 'trans-manage?action=trans-management';
+            })
+            .catch(error => {
+                // Xử lý lỗi
+                console.error('Lỗi:', error);
+                alert('Đã xảy ra lỗi khi cập nhật giao dịch: ' + error.message);
+            });
+    });
 </script>
+
+
 </body>
 </html>
