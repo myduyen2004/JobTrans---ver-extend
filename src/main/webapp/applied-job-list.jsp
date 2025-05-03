@@ -65,6 +65,7 @@
                 </div>
 
                 <div class="row justify-content-center">
+
                     <div class="search-result col-lg-9">
                         <c:forEach var="o" items="${job}" varStatus="status">
                             <div class="post-box">
