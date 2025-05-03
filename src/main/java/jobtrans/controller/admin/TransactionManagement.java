@@ -115,8 +115,7 @@ AccountDAO accountDAO = new AccountDAO();
         req.setAttribute("currentPage", currentPage);
         req.setAttribute("totalPages", (int) Math.ceil((double) transactions.size() / TRANSACTIONS_PER_PAGE));
 
-        //req.setAttribute("transactions", transactions); //remove this line
-        req.getRequestDispatcher("admin-transaction-list-manage.jsp").forward(req, resp);
+        transManage(req,resp);
     }
 
     @Override
@@ -219,8 +218,9 @@ AccountDAO accountDAO = new AccountDAO();
         request.setAttribute("transactions", transactionsToDisplay);
         request.setAttribute("currentPage", currentPage);
         request.setAttribute("totalPages", (int) Math.ceil((double) transactions.size() / TRANSACTIONS_PER_PAGE));
-        // Chuyển hướng đến trang JSP
-        request.getRequestDispatcher("admin-transaction-list-manage.jsp").forward(request, response);
+
+
+        transManage(request,response);
     }
 
     private void editTransaction(HttpServletRequest req, HttpServletResponse resp) throws  IOException {

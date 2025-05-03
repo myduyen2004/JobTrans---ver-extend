@@ -565,4 +565,21 @@ console.log(status);
         // Khởi tạo khi trang tải xong
         filterList();
     });
+
+// cấu hình thẻ a vào div
+    document.addEventListener('DOMContentLoaded', function() {
+        const jobCards = document.querySelectorAll('.post-box.account_in4.user-card');
+
+        jobCards.forEach(card => {
+            card.style.cursor = 'pointer'; // Để hiển thị con trỏ chuột dạng pointer khi di chuột qua
+
+            card.addEventListener('click', function() {
+                const linkElement = this.querySelector('a.name_value');
+                if (linkElement && linkElement.href) {
+                    window.location.href = linkElement.href;
+                }
+            });
+        });
+    });
+
 </script>

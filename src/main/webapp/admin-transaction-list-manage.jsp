@@ -204,99 +204,8 @@
                 </tbody>
             </table>
         </div>
-        <style>
-            .pagination {
-                display: flex;
-                justify-content: center;
-                margin: 25px auto;
-                padding: 8px;
-                background: linear-gradient(to right, rgb(21, 42, 105), rgb(54, 75, 140));
-                border-radius: 10px;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            }
 
-            .pagination a, .pagination span.ellipsis {
-                color: white;
-                background-color: rgba(255, 255, 255, 0.1);
-                padding: 12px 18px;
-                text-decoration: none;
-                margin: 0 4px;
-                transition: all 0.3s ease;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                min-width: 20px;
-                font-size: 14px;
-                border-radius: 8px;
-                position: relative;
-                font-weight: 500;
-            }
 
-            .pagination a:hover {
-                background-color: rgba(255, 255, 255, 0.2);
-                transform: translateY(-2px);
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            }
-
-            .pagination a.active {
-                background-color: white;
-                color: rgb(21, 42, 105);
-                font-weight: 600;
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-            }
-
-            .pagination a.disabled {
-                opacity: 0.5;
-                pointer-events: none;
-                background-color: transparent;
-                box-shadow: none;
-            }
-
-            .pagination span.ellipsis {
-                background-color: transparent;
-                box-shadow: none;
-                pointer-events: none;
-                padding: 12px 8px;
-            }
-
-            /* Next/prev arrow styling */
-            .pagination a:first-child, .pagination a:last-child {
-                background-color: rgba(255, 255, 255, 0.15);
-                font-weight: bold;
-                padding: 12px 20px;
-            }
-
-            .pagination a:first-child:hover, .pagination a:last-child:hover {
-                background-color: rgba(255, 255, 255, 0.25);
-            }
-
-            /* For smaller screens */
-            @media (max-width: 576px) {
-                .pagination {
-                    padding: 6px;
-                }
-
-                .pagination a, .pagination span.ellipsis {
-                    padding: 10px 12px;
-                    min-width: 18px;
-                    margin: 0 2px;
-                    font-size: 13px;
-                }
-
-                .pagination a:first-child, .pagination a:last-child {
-                    padding: 10px 14px;
-                }
-            }
-
-            /* For very small screens */
-            @media (max-width: 360px) {
-                .pagination a, .pagination span.ellipsis {
-                    padding: 8px 10px;
-                    min-width: 16px;
-                    margin: 0 1px;
-                }
-            }</style>
         <div class="pagination">
             <a href="?action=<%= action %>&startDate=<%= startDate %>&endDate=<%= endDate %>&status=<%= status %>&transactionType=<%= transactionType %>&search=<%= search %>&page=<%= Math.max(1, currentPage - 1) %>" class="<%= currentPage == 1 ? "disabled" : "" %>">&laquo;</a>
             <% for (int i = 1; i <= totalPages; i++) { %>
@@ -326,7 +235,7 @@
             <p><strong>Loại: </strong> <span id="viewType"></span></p>
             <p><strong>Số tiền: </strong> <span id="viewAmount"></span></p>
             <p><strong>Phương thức thanh toán: </strong> <span id="viewPaymentMethod"></span></p>
-            <p><strong>Trạng thái: </strong> <span id="viewStatus"  ></span></p>
+            <p><strong>Trạng thái: </strong> <span id="viewStatus"  class="status"></span></p>
 
         </div>
         <div class="form-actions">
@@ -433,13 +342,7 @@
         const viewSender = document.getElementById('viewSender');
         const viewReceiver = document.getElementById('viewReceiver');
 
-        // Debug values first
-        console.log("Opening modal with values:");
-        console.log("Job Title:", jobTitle);
-        console.log("Sender Name:", senderName);
-        console.log("Receiver Name:", receiverName);
-        console.log("Sender Account ID:", senderAccountId, typeof senderAccountId);
-        console.log("Receiver Account ID:", receiverAccountId, typeof receiverAccountId);
+
 
         // Show the modal
         viewModal.style.display = 'block';
@@ -492,24 +395,24 @@
                 statusText = 'Thất bại';
                 statusClass = 'status-failed';
                 break;
-            default:
-                // Handle cases where status is not 'true' or 'false'
-                if (transactionType === 'Trừ tiền') {
-                    statusText = 'Thành công';
-                    statusClass = 'status-success';
-                } else if (transactionType === 'Rút tiền') {
-                    statusText = 'Đang xử lý';
-                    statusClass = 'status-pending';
-                } else if (transactionType === 'Thêm tiền') {
-                    statusText = 'Thất bại';
-                    statusClass = 'status-failed';
-                } else {
-                    statusText = 'Không xác định';
-                    statusClass = ''; // Or some default class
-                }
         }
+        // Update the text content
         viewStatus.textContent = statusText;
-        viewStatus.className = `status ${statusClass}`;
+        console.log("Giá trị statusClass trước khi gán:", statusClass);
+
+        // PHƯƠNG PHÁP 1: Sử dụng classList thay vì className (phương pháp được khuyến nghị)
+        // Xóa tất cả các class status cũ
+        viewStatus.classList.remove('status-success', 'status-failed', 'status-pending', 'status-unknown');
+        // Đảm bảo có class 'status' cơ bản
+        viewStatus.classList.add('status');
+        // Thêm class trạng thái cụ thể nếu có
+        if (statusClass) {
+            viewStatus.classList.add(statusClass);
+        }
+
+
+        // Kiểm tra xem class đã được gán đúng chưa
+        console.log("Giá trị className sau khi gán:", viewStatus.className);
 
         viewCategory.textContent = categoryName;
         viewJob.textContent = jobTitle;
