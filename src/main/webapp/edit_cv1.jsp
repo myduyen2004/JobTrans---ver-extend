@@ -387,6 +387,7 @@
             transform: translateY(-3px);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
+
         .banner_title {
             background-image: url(./img/anh1/anh1.png);
             background-size: 100%;
@@ -406,7 +407,7 @@
 </div>
 <div style="display: flex">
     <div style="margin-top: 80px">
-    <%@include file="./includes/sidebar_createCV.jsp" %>
+        <%@include file="./includes/sidebar_createCV.jsp" %>
     </div>
     <main class="cv-content">
         <form action="cv?action=update" method="POST" enctype="multipart/form-data">
@@ -441,7 +442,8 @@
                         <input value="${CV.email}" type="email" class="form-control" name="email" placeholder="Email">
                     </div>
                     <div class="form-group">
-                        <input value="${CV.address}" type="text" class="form-control" name="address" placeholder="Địa chỉ">
+                        <input value="${CV.address}" type="text" class="form-control" name="address"
+                               placeholder="Địa chỉ">
                     </div>
 
                     <div class="skill-section">
@@ -517,7 +519,8 @@
                 <!-- Main CV Content -->
                 <div class="cv-main">
                     <div class="main-info">
-                        <input value="${CV.cvName}" type="text" name="cvname" class="form-control" placeholder="Họ và tên"
+                        <input value="${CV.cvName}" type="text" name="cvname" class="form-control"
+                               placeholder="Họ và tên"
                                style="font-size: 24px; font-weight: 600; border: none; border-bottom: 2px solid #eee; padding: 10px 0; margin-bottom: 15px;">
                         <input value="${CV.jobPosition}" type="text" name="position" class="form-control"
                                placeholder="Vị trí ứng tuyển"
@@ -574,7 +577,8 @@
                                 <div class="date-group">
                                     <input value="${o.startDate}" type="date" class="form-control"
                                            name="educationStartDate[]">
-                                    <input value="${o.endDate}" type="date" class="form-control" name="educationEndDate[]">
+                                    <input value="${o.endDate}" type="date" class="form-control"
+                                           name="educationEndDate[]">
                                 </div>
                                 <div class="form-group">
                                     <input value="${o.fieldOfStudy}" type="text" class="form-control" name="major[]"
@@ -599,7 +603,6 @@
                     </div>
 
                     <div class="experience-section">
-                        <!-- ... existing header ... -->
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <h3 class="main-section-title">Kinh nghiệm làm việc</h3>
                             <div>
@@ -608,32 +611,26 @@
                                 </button>
                             </div>
                         </div>
+                        <div class="section-divider"></div>
                         <c:forEach items="${CV.experienceList}" var="o">
                             <div class="experience-item">
                                 <div class="form-group">
-                                    <select class="form-control"  id="companySelect" name="Company[] required>
-                                    <option value="${o.experienceId}" ${o.experienceId == selectedExperience ? 'selected' : ''}>
-                                        ${o.companyName}
-                                    </option>
-                                    <c:forEach items="${CVDAO.allCompanyName}" var="h">
-                                        <option value="${CVDAO.getCompanyIdByName(h)}">${h}</option>
-                                    </c:forEach>
-
+                                    <select class="form-control" name="Company[]" required>
+                                        <option value="${o.experienceId}" ${o.experienceId == selectedExperience ? 'selected' : ''}>
+                                                ${o.companyName}
+                                        </option>
+                                        <c:forEach items="${CVDAO.allCompanyName}" var="h">
+                                            <option value="${CVDAO.getCompanyIdByName(h)}">${h}</option>
+                                        </c:forEach>
                                     </select>
                                 </div>
-                                    <%--                            <div class="form-group">--%>
-                                    <%--                                <input value="1" type="text" name="otherCompanyName[]"--%>
-                                    <%--                                       placeholder="${o.customCompany}"--%>
-                                    <%--                                       class="form-control other-company-input" style="display: none;">--%>
-                                    <%--                            </div>--%>
                                 <div class="form-group">
-                                    <input type="text" name="otherCompanyName[]" placeholder="Tên công ty khác"
+                                    <input value="${o.customCompany}" type="text" name="otherCompanyName[]"
+                                           placeholder="Tên công ty khác"
                                            class="form-control other-company-input" style="display: none;">
                                 </div>
-
                                 <div class="date-group">
-                                    <input value="${o.startAt}" type="date" class="form-control" name="companyStartDate[]"
-                                           required>
+                                    <input value="${o.startAt}" type="date" class="form-control" name="companyStartDate[]" required>
                                     <input value="${o.endAt}" type="date" class="form-control" name="companyEndDate[]">
                                 </div>
                                 <div class="form-group">
@@ -645,8 +642,8 @@
                                            placeholder="Thông tin công việc">
                                 </div>
                                 <div class="form-group">
-                            <textarea class="form-control" name="work_achievements[]"
-                                      placeholder="Thành tích">${o.achievement}</textarea>
+                <textarea class="form-control" name="work_achievements[]"
+                          placeholder="Thành tích">${o.achievement}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <input value="${o.address}" type="text" class="form-control" name="address[]"
@@ -657,10 +654,10 @@
                                         <i class="fas fa-trash"></i> Xóa
                                     </button>
                                 </div>
-
                             </div>
                         </c:forEach>
                     </div>
+
 
                     <div class="certification-section">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -671,31 +668,30 @@
                                 </button>
                             </div>
                         </div>
+                        <div class="section-divider"></div>
                         <c:forEach items="${CV.certificationList}" var="o">
-                            <div class="section-divider"></div>
                             <div class="certification-item">
                                 <div class="form-group">
                                     <select class="form-control" name="certificationId[]">
                                         <option value="${o.certificationId}" ${o.certificationId == selectedCertification? 'selected' : ''}>
                                                 ${o.certificationName}
                                         </option>
-
                                         <c:forEach items="${CVDAO.allCertificationNames}" var="h">
                                             <option value="${CVDAO.getCertificationIdByName(h)}">${h}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <input value="1" type="text" name="otherCertificationName[]"
-                                           placeholder="${o.customCertification}"
+                                    <input value="${o.customCertification}" type="text" name="otherCertificationName[]"
+                                           placeholder="Chứng chỉ khác"
                                            class="form-control other-certification-input" style="display: none;">
                                 </div>
                                 <div class="form-group">
                                     <input value="${o.awardYear}" type="date" class="form-control" name="awardYear[]">
                                 </div>
                                 <div class="form-group">
-                            <textarea class="form-control" name="prizeDescription[]"
-                                      placeholder="Mô tả giải thưởng">${o.description}</textarea>
+                <textarea class="form-control" name="prizeDescription[]"
+                          placeholder="Mô tả giải thưởng">${o.description}</textarea>
                                 </div>
                                 <div style="text-align: right;">
                                     <button type="button" class="btn-remove remove-certification">
@@ -718,11 +714,11 @@
     </main>
 </div>
 
-<%@include file="includes/footer.jsp"%>
+<%@include file="includes/footer.jsp" %>
 
 <script>
     //
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         // Get the form element
         const cvForm = document.querySelector('form[action="cv?action=create"]');
 
@@ -821,7 +817,7 @@
         }
 
         // Add submit event listener to the form
-        cvForm.addEventListener('submit', function(event) {
+        cvForm.addEventListener('submit', function (event) {
             // Reset previous error messages
             clearErrorMessages();
 
@@ -874,7 +870,7 @@
 
             // Validate experience items
             const experienceItems = document.querySelectorAll('.experience-item');
-            experienceItems.forEach(function(item, index) {
+            experienceItems.forEach(function (item, index) {
                 const company = item.querySelector('select[name="Company[]"]');
                 const startDate = item.querySelector('input[name="companyStartDate[]"]');
                 const endDate = item.querySelector('input[name="companyEndDate[]"]');
@@ -899,7 +895,7 @@
 
             // Validate education items
             const educationItems = document.querySelectorAll('.education-item');
-            educationItems.forEach(function(item) {
+            educationItems.forEach(function (item) {
                 const school = item.querySelector('select[name="schoolId[]"]');
                 const startDate = item.querySelector('input[name="educationStartDate[]"]');
                 const endDate = item.querySelector('input[name="educationEndDate[]"]');
@@ -920,7 +916,7 @@
                 // Scroll to first error
                 const firstError = document.querySelector('.error-input');
                 if (firstError) {
-                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstError.scrollIntoView({behavior: 'smooth', block: 'center'});
                     firstError.focus();
                 }
             }
@@ -947,7 +943,7 @@
 
     });
 
-    document.getElementById('certificationSelect').addEventListener('change', function() {
+    document.getElementById('certificationSelect').addEventListener('change', function () {
         var otherInput = document.querySelector('.other-certification-input');
         if (this.value === '1') {
             otherInput.style.display = 'block';
@@ -956,7 +952,7 @@
             otherInput.value = ''; // Xóa giá trị khi không chọn "Khác"
         }
     });
-    document.getElementById('companySelect').addEventListener('change', function() {
+    document.getElementById('companySelect').addEventListener('change', function () {
         var otherInput = document.querySelector('.other-company-input');
         if (this.value === '1') {
             otherInput.style.display = 'block';
@@ -965,7 +961,7 @@
             otherInput.value = ''; // Clear the input when not selecting "Other"
         }
     });
-    document.getElementById('skillSelect').addEventListener('change', function() {
+    document.getElementById('skillSelect').addEventListener('change', function () {
         var otherInput = document.querySelector('.other-skill-input');
         if (this.value === '1') {
             otherInput.style.display = 'block';

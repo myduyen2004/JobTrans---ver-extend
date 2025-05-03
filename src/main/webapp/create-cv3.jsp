@@ -190,11 +190,15 @@
         }
 
         .cv-sidebar {
+            margin-top: 20px;
+            margin-left: 30px;
             width: 300px;
-            background: #4a5568;
+            background: #8492a6;
             color: white;
             padding: 30px 20px;
             height: 250px;
+            border-top-left-radius:20px ;
+            border-bottom-left-radius:20px ;
         }
 
         .cv-main {
@@ -213,6 +217,7 @@
             margin: 0 auto 25px;
             background-color: #f5f5f5;
             cursor: pointer;
+
         }
 
         .cv-picture-avatar img {
@@ -277,7 +282,7 @@
             margin: 25px 0 15px;
             color: #0a0a2b;
             padding-bottom: 8px;
-            #4a5568 border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* hoặc màu khác tùy mục đích */
         }
 
         .main-section-title {
@@ -390,9 +395,14 @@
         }
 
         .main-info {
-            background-color: #4a5568;
+
+            background-color: #8492a6;
             height: 250px;
             margin: -30px;
+            margin-top: -10px;
+            margin-right: -0px;
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
         }
 
 
@@ -425,7 +435,7 @@
                         </label>
                         <input type="file" id="avatar_cv" name="avatar_cv" accept="image/*">
                     </div>
-                    <div style="margin-top:50px;border:1px solid #0a0a2b;border-radius:20px; padding:30px">
+                    <div style="margin-top:50px;border:1px solid #0a0a2b;border-radius:20px; padding:30px;margin-left: -19px">
                         <h2  class="section-title">Liên hệ</h2>
 
                         <div class="form-group">
@@ -450,11 +460,11 @@
                             <input type="text" class="form-control" name="address" placeholder="Địa chỉ">
                         </div>
                     </div>
-                    <div style="border-radius: 20px; margin-top:40px;padding:30px;border: 1px #0a0a2b solid " class="skill-section">
+                    <div style="border-radius: 20px; margin-top:40px;padding:30px;border: 1px #0a0a2b solid; margin-left: -19px " class="skill-section">
                             <h2 id="skillTitle" class="section-title">Kỹ Năng</h2>
                             <div class="skill-item">
                                 <div class="form-group">
-                                    <select class="form-control" name="mainSkillId[]" required>
+                                    <select class="form-control" name="mainSkillId[]" >
                                         <option value="">Chọn tiêu đề kỹ năng</option>
                                         <c:forEach items="${CVDAO.allMainSkill}" var="o">
                                             <option value="${o.mainSkillId}">${o.mainSkillName}</option>
@@ -463,7 +473,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <select class="form-control" name="skillId[]" id="skillSelect" required>
+                                    <select class="form-control" name="skillId[]" id="skillSelect">
                                         <option value="">Chọn kỹ năng</option>
                                         <c:forEach items="${CVDAO.allMainSkill}" var="o">
                                             <optgroup label="${o.mainSkillName}">
@@ -495,7 +505,7 @@
                                 </script>
 
                                 <div class="form-group">
-                                    <select class="form-control" name="levelSkill[]" required>
+                                    <select class="form-control" name="levelSkill[]" >
                                         <option value="">Chọn level</option>
                                         <% for (int i = 1; i <= 100; i++) { %>
                                         <option value="<%= i %>"><%= i %>%</option>
@@ -511,7 +521,7 @@
                                 </button>
                             </div>
                         </div>
-<div style="border-radius: 20px; margin-top:40px;padding:30px;border: 1px #0a0a2b solid">
+<div style="border-radius: 20px; margin-top:40px;padding:30px;border: 1px #0a0a2b solid; margin-left: -19px">
                         <h2 id="extraInfoTitle" class="section-title">Thông tin bổ sung</h2>
                         <div class="form-group">
                             <textarea name="more_infor" class="form-control" placeholder="Thông tin bổ sung"></textarea>
@@ -604,7 +614,7 @@
                             </div>
                             <div class="experience-item">
                                 <div class="form-group">
-                                    <select class="form-control" name="Company[]" id="companySelect" required>
+                                    <select class="form-control" name="Company[]" id="companySelect" >
                                         <option value="">Chọn công ty</option>
                                         <c:forEach items="${CVDAO.allCompanyName}" var="o">
                                             <option value="${CVDAO.getCompanyIdByName(o)}">${o}</option>
@@ -619,12 +629,12 @@
 
 
                                 <div class="date-group">
-                                    <input type="date" class="form-control" name="companyStartDate[]" required>
+                                    <input type="date" class="form-control" name="companyStartDate[]" >
                                     <input type="date" class="form-control" name="companyEndDate[]">
                                 </div>
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="position[]" placeholder="Vị trí"
-                                           required>
+                                          >
                                 </div>
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="description[]"
@@ -1173,21 +1183,19 @@
                 const endDate = item.querySelector('input[name="companyEndDate[]"]');
                 const position = item.querySelector('input[name="position[]"]');
 
-                if (!validateRequired(company, 'Vui lòng chọn công ty')) {
-                    isValid = false;
-                }
 
-                if (!validateRequired(startDate, 'Ngày bắt đầu không được để trống')) {
-                    isValid = false;
-                }
 
-                if (endDate.value && !validateDateRange(startDate, endDate, 'Ngày kết thúc phải sau ngày bắt đầu')) {
-                    isValid = false;
-                }
-
-                if (!validateRequired(position, 'Vị trí không được để trống')) {
-                    isValid = false;
-                }
+                // if (!validateRequired(startDate, 'Ngày bắt đầu không được để trống')) {
+                //     isValid = false;
+                // }
+                //
+                // if (endDate.value && !validateDateRange(startDate, endDate, 'Ngày kết thúc phải sau ngày bắt đầu')) {
+                //     isValid = false;
+                // }
+                //
+                // if (!validateRequired(position, 'Vị trí không được để trống')) {
+                //     isValid = false;
+                // }
             });
 
             // Validate education items
@@ -1197,9 +1205,6 @@
                 const startDate = item.querySelector('input[name="educationStartDate[]"]');
                 const endDate = item.querySelector('input[name="educationEndDate[]"]');
 
-                if (!validateRequired(school, 'Vui lòng chọn trường học')) {
-                    isValid = false;
-                }
 
                 if (startDate.value && endDate.value && !validateDateRange(startDate, endDate, 'Ngày kết thúc phải sau ngày bắt đầu')) {
                     isValid = false;
