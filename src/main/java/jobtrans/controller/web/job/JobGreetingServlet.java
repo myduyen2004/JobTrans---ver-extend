@@ -6,6 +6,7 @@ import jobtrans.model.*;
 import jobtrans.model.Account;
 import jobtrans.model.Job;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -42,18 +43,18 @@ public class JobGreetingServlet extends HttpServlet {
             case "view-applied":
                 viewListApplied(request, response);
                 break;
-            case "show-send-application":
-                showSendApplication(request, response);
-                break;
+//            case "show-send-application":
+//                showSendApplication(request, response);
+//                break;
             case "view-details-greeting":
                 viewDetailsGreeting(request, response);
                 break;
-            case "accept-to-interview":
-                acceptToInterview(request, response);
-                break;
-            case "refuse-candidate":
-                refuseCandidate(request, response);
-                break;
+//            case "accept-to-interview":
+//                acceptToInterview(request, response);
+//                break;
+//            case "refuse-candidate":
+//                refuseCandidate(request, response);
+//                break;
             case "list-job-by-status":
                 listJobByStatus(request,response);
                 break;
@@ -294,6 +295,7 @@ public class JobGreetingServlet extends HttpServlet {
             request.getRequestDispatcher("error.jsp").forward(request, response);
         }
     }
+
     /**
      * Processes the attachment file upload
      */
@@ -517,115 +519,132 @@ public class JobGreetingServlet extends HttpServlet {
 //    /**
 //     * Sends notification to job poster
 //     */
-////    private void sendNotification(int recipientId, int jobId, String applicantName, String jobTitle) {
-////        try {
-////            NotificationDAO notificationDAO = new NotificationDAO();
-////
-////            Notification notification = new Notification();
-////            notification.setAccountId(recipientId);
-////            notification.setTitle("Ứng viên mới");
-////            notification.setContent(applicantName + " đã ứng tuyển vào vị trí " + jobTitle);
-////            notification.setType("job_application");
-////            notification.setReferenceId(jobId);
-////            notification.setIsRead(false);
-////            notification.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-////
-////            notificationDAO.createNotification(notification);
-////        } catch (Exception e) {
-////            e.printStackTrace();
-////        }
-////    }
+
+    /// /    private void sendNotification(int recipientId, int jobId, String applicantName, String jobTitle) {
+    /// /        try {
+    /// /            NotificationDAO notificationDAO = new NotificationDAO();
+    /// /
+    /// /            Notification notification = new Notification();
+    /// /            notification.setAccountId(recipientId);
+    /// /            notification.setTitle("Ứng viên mới");
+    /// /            notification.setContent(applicantName + " đã ứng tuyển vào vị trí " + jobTitle);
+    /// /            notification.setType("job_application");
+    /// /            notification.setReferenceId(jobId);
+    /// /            notification.setIsRead(false);
+    /// /            notification.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+    /// /
+    /// /            notificationDAO.createNotification(notification);
+    /// /        } catch (Exception e) {
+    /// /            e.printStackTrace();
+    /// /        }
+    /// /    }
 //
-//    private void showSendApplication(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        HttpSession session = request.getSession();
-//        try {
-//            Account account = (Account) session.getAttribute("sessionAccount");
-//            if (account == null) {
-//                response.sendRedirect("login.jsp");
-//                return;
-//            }
-//            Account account01 = accountDAO.getAccountById(account.getAccountId());
-//
-//            int jobId = Integer.parseInt(request.getParameter("jobId"));
-//            JobDAO jobDAO = new JobDAO();
-//            Job job = jobDAO.getJobById(jobId);
-//            System.out.println(job);
-//
-//            //Xử lý ngân sách dự án
-//            NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-//            String formattedBudgetMin = currencyFormat.format(job.getBudgetMin());
-//            String formattedBudgetMax = currencyFormat.format(job.getBudgetMax());
-//            request.setAttribute("formattedBudgetMin", formattedBudgetMin);
-//            request.setAttribute("formattedBudgetMax", formattedBudgetMax);
-//
-//            CvDAO cvDAO = new CvDAO();
-//            List<CV> cvList = cvDAO.getCVsByAccountId(account01.getAccountId());
-//
-//            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-//
-//            request.setAttribute("job", job);
-//            request.setAttribute("cvList", cvList);
-//            request.setAttribute("account", account01);
-//            request.getRequestDispatcher("greeting.jsp").forward(request, response);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    private void viewListApplied(HttpServletRequest request, HttpServletResponse response)
-//            throws ServletException, IOException {
-//        HttpSession session = request.getSession();
-//        Account account = (Account) session.getAttribute("sessionAccount");
-//        int accountId = account.getAccountId();// tạm fix cứng, sau này lấy từ session
-//        JobGreetingDAO jobGreetingDAO = new JobGreetingDAO();
-//        List<JobGreeting> jobGreetings = jobGreetingDAO.getListJobGreetingBySeekerId(account);
-//        request.setAttribute("job", jobGreetings);  // "jobGreetings" là key để jsp lấy ra
-//        request.getRequestDispatcher("applied-job-list.jsp").forward(request, response);
-//    }
-//    private void listJobByStatus(HttpServletRequest request, HttpServletResponse response)
-//            throws ServletException, IOException {
-//        String status = request.getParameter("status"); // Lấy tham số từ request
-//
-//        int accountId = 1; // Tạm fix cứng, sau này lấy từ session
-//        JobDAO jobDAO = new JobDAO();
-//
-//        List<JobGreeting> jobGreetings;
-//        if (status == null || status.isEmpty() || "tất cả".equals(status)) {
-//            jobGreetings = jobDAO.getJobGreetingByJobSeekerId(accountId);
-//        } else {
-//            jobGreetings = jobDAO.getJobGreetingByStatus(accountId, status);
-//        }
-//
-//        request.setAttribute("job", jobGreetings);
-//        request.getRequestDispatcher("applied-job-list.jsp").forward(request, response);
-//    }
-//    private void sapxep(HttpServletRequest request, HttpServletResponse response)
-//            throws ServletException, IOException {
-//        String sort = request.getParameter("sort"); // Lấy tham số từ request
-//
-//        int accountId = 1; // Tạm fix cứng, sau này lấy từ session
-//        JobDAO jobDAO = new JobDAO();
-//
-//        List<JobGreeting> jobGreetings;
-//        jobGreetings = jobDAO.search(accountId,sort);
-//
-//        request.setAttribute("job", jobGreetings);
-//        request.getRequestDispatcher("applied-job-list.jsp").forward(request, response);
-//    }
-//     private void detail(HttpServletRequest request, HttpServletResponse response)
-//            throws ServletException, IOException {
-//        String jobGreetingId  = request.getParameter("jobGreetingId").trim();
-//        String jobId = request.getParameter("jobId").trim();
-//
-//        int jgId = Integer.parseInt(jobGreetingId);
-//        int j = Integer.parseInt(jobId);
-//        JobDAO jd = new JobDAO();
-//        JobGreeting jobGreeting = jd.getJobGreetingById(jgId);
-//
-//        Job job =jd.getJobById(j);
-//        request.setAttribute("jobGreeting", jobGreeting );
-//        request.setAttribute("job", job);
-//
-//        request.getRequestDispatcher("infor-applied-job-detail.jsp").forward(request, response);
-//    }
-//}
+    private void showSendApplication(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        try {
+            Account account = (Account) session.getAttribute("sessionAccount");
+            if (account == null) {
+                response.sendRedirect("login.jsp");
+                return;
+            }
+            Account account01 = accountDAO.getAccountById(account.getAccountId());
+
+            int jobId = Integer.parseInt(request.getParameter("jobId"));
+            JobDAO jobDAO = new JobDAO();
+            Job job = jobDAO.getJobById(jobId);
+            System.out.println(job);
+
+            //Xử lý ngân sách dự án
+            NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+            String formattedBudgetMin = currencyFormat.format(job.getBudgetMin());
+            String formattedBudgetMax = currencyFormat.format(job.getBudgetMax());
+            request.setAttribute("formattedBudgetMin", formattedBudgetMin);
+            request.setAttribute("formattedBudgetMax", formattedBudgetMax);
+
+            CvDAO cvDAO = new CvDAO();
+            List<CV> cvList = cvDAO.getCVsByAccountId(account01.getAccountId());
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+            request.setAttribute("job", job);
+            request.setAttribute("cvList", cvList);
+            request.setAttribute("account", account01);
+            request.getRequestDispatcher("greeting.jsp").forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void viewListApplied(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("sessionAccount");
+        int accountId = account.getAccountId();//
+        JobGreetingDAO jobGreetingDAO = new JobGreetingDAO();
+        List<JobGreeting> jobGreetings = jobGreetingDAO.getListJobGreetingBySeekerId(accountId);
+        request.setAttribute("job", jobGreetings);  // "jobGreetings" là key để jsp lấy ra
+        request.getRequestDispatcher("applied-job-list.jsp").forward(request, response);
+    }
+
+    private void listJobByStatus(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String status = request.getParameter("status"); // Lấy tham số từ request
+
+
+        Account account = (Account) session.getAttribute("sessionAccount");
+        int accountId = account.getAccountId();// // Tạm fix cứng, sau này lấy từ session
+        JobDAO jobDAO = new JobDAO();
+
+        List<JobGreeting> jobGreetings;
+        if (status == null || status.isEmpty() || "tất cả".equals(status)) {
+            jobGreetings = jobDAO.getJobGreetingByJobSeekerId(accountId);
+        } else {
+            jobGreetings = jobDAO.getJobGreetingByStatus(accountId, status);
+        }
+
+        request.setAttribute("job", jobGreetings);
+        request.getRequestDispatcher("applied-job-list.jsp").forward(request, response);
+    }
+    private void sapxep(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String sort = request.getParameter("sort"); // Lấy tham số từ request
+
+
+        HttpSession session = request.getSession();
+        String status = request.getParameter("status"); // Lấy tham số từ request
+
+
+        Account account = (Account) session.getAttribute("sessionAccount");
+        int accountId = account.getAccountId();// // Tạm fix cứng, sau này lấy từ session
+        JobDAO jobDAO = new JobDAO();
+
+        List<JobGreeting> jobGreetings;
+        jobGreetings = jobDAO.search(accountId,sort);
+
+        request.setAttribute("job", jobGreetings);
+        request.getRequestDispatcher("applied-job-list.jsp").forward(request, response);
+    }
+     private void detail(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+         String jobGreetingIdParam = request.getParameter("jobGreetingId");
+         String jobIdParam = request.getParameter("jobId");
+         if (jobGreetingIdParam == null || jobIdParam == null) {
+             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing jobGreetingId or jobId parameter");
+             return;
+         }String jobGreetingId = jobGreetingIdParam.trim();
+         String jobId = jobIdParam.trim();
+         System.out.println("kjdsbchdj"+jobIdParam);
+         System.out.println("kjdsbchdj"+jobGreetingIdParam);
+        int jgId = Integer.parseInt(jobGreetingId);
+        int j = Integer.parseInt(jobId);
+        JobDAO jd = new JobDAO();
+        JobGreeting jobGreeting = jd.getJobGreetingById(jgId);
+
+        Job job =jd.getJobById(j);
+        request.setAttribute("jobGreeting", jobGreeting );
+        request.setAttribute("job", job);
+
+        request.getRequestDispatcher("infor-applied-job-detail.jsp").forward(request, response);
+    }
+}

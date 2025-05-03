@@ -557,7 +557,7 @@ public class JobDAO {
                 greeting.setAttachment(rs.getString("attachment"));
                 greeting.setPrice(rs.getInt("price"));
                 greeting.setStatus(rs.getString("status"));
-                greeting.setExpectedDay(rs.getInt("expectedDay"));
+                greeting.setExpectedDay(rs.getInt("expected_day"));
                 // greeting.setComments(rs.getString("comments"));
                 greeting.setCvId(rs.getInt("cv_id"));
 

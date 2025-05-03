@@ -54,14 +54,12 @@ public class JobGreetingDAO {
         }
     }
 
-    public List<JobGreeting> getListJobGreetingBySeekerId(Account account) {
+    public List<JobGreeting> getListJobGreetingBySeekerId(int seekerId) {
         List<JobGreeting> list = new ArrayList<>();
-        String sql = "SELECT greeting_id, job_seeker_id, job_id, cv_id, price, expected_day, " +
-                "introduction, attachment, have_read, status " +
-                "FROM JobGreeting WHERE job_seeker_id = ?";
+        String sql = "SELECT * FROM JobGreeting WHERE job_seeker_id = ?";
 
         try (PreparedStatement ps = dbConnection.openConnection().prepareStatement(sql)) {
-            ps.setInt(1, account.getAccountId());
+            ps.setInt(1, seekerId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(mapToJobGreeting(rs));
@@ -69,7 +67,6 @@ public class JobGreetingDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return list;
     }
 

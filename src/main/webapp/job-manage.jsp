@@ -31,7 +31,7 @@
         </div>
 
         <!-- Applied Jobs -->
-        <div class="feature-card" onclick="location.href='job?action=view-applied'">
+        <div class="feature-card" onclick="location.href='job-greeting?action=view-applied'">
             <div class="feature-header">
                 <i class="fas fa-paper-plane feature-icon"></i>
                 <h2>Công Việc Đã Ứng Tuyển</h2>
@@ -39,7 +39,7 @@
             <div class="feature-content">
                 <div class="job-count">${jobDao.countJobGreetingByJobSeekerId(account.accountId)}</div>
                 <p class="feature-desc">Theo dõi trạng thái ứng tuyển, phản hồi từ nhà tuyển dụng và lịch phỏng vấn.</p>
-                <button class="feature-button" onclick="location.href='job?action=view-applied'">Xem Tất Cả</button>
+                <button class="feature-button" onclick="location.href='job-greeting?action=view-applied'">Xem Tất Cả</button>
             </div>
         </div>
     </div>
