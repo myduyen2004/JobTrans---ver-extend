@@ -73,6 +73,24 @@ public class JobGreetingDAO {
         return list;
     }
 
+    public List<JobGreeting> getAcceptedListJobGreetingByJobId(int jobId) {
+        List<JobGreeting> list = new ArrayList<>();
+        String sql = "SELECT greeting_id, job_seeker_id, job_id, cv_id, price, expected_day, " +
+                "introduction, attachment, have_read, status " +
+                "FROM JobGreeting WHERE job_id = ? and status = N'Được nhận'";
+
+        try (PreparedStatement ps = dbConnection.openConnection().prepareStatement(sql)) {
+            ps.setInt(1, jobId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(mapToJobGreeting(rs));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public List<JobGreeting> getJobGreetingsByJobId(int jobId) throws Exception {
         List<JobGreeting> greetings = new ArrayList<>();
         Connection conn = null;

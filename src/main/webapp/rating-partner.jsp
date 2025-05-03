@@ -1,162 +1,158 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
 <!DOCTYPE html>
 <html lang="en-US">
 
-<!-- Mirrored from themebing.com/wp/prolancer/services/?services-layout=services_left_sidebar by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Jan 2025 09:33:48 GMT -->
-<!-- Added by HTTrack -->
 <meta http-equiv="content-type" content="text/html;charset=UTF-8"/><!-- /Added by HTTrack -->
 <head>
+    <jsp:useBean id="jobDao" class="jobtrans.dal.JobDAO" scope="session"/>
+    <jsp:useBean id="accDAO" class="jobtrans.dal.AccountDAO" scope="session"/>
+    <jsp:useBean id="feedbackDAO" class="jobtrans.dal.FeedbackDAO" scope="session"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="profile" href="https://gmpg.org/xfn/11">
 
-    <title>Đánh giá đối tác &#8211; JobTrans</title>
+    <title>JobTrans &#8211; Đánh giá đối tác</title>
     <meta name='robots' content='max-image-preview:large'/>
-    <link rel="icon" type="image/png" href="wp-content/uploads/2021/09/logo.png">
+    <!--new css -->
+    <link href="./css/post_job.css" rel="stylesheet"/>
+    <style>
+        .star-rating {
+            display: inline-flex;
+            font-size: 24px;
+            cursor: pointer;
+        }
 
+        .star-rating i {
+            color: #ccc; /* Màu mặc định cho ngôi sao chưa chọn */
+            margin-right: 5px;
+        }
+
+        .star-rating i.filled {
+            color: #f8d825; /* Màu cho ngôi sao đã chọn */
+        }
+
+        .error-message{
+            color: red;
+        }
+    </style>
 </head>
+<%@include file="includes/header-01.jsp" %>
+<body style="font-family: Inter, sans-serif ">
+<div class="container">
+    <form class="form-container" action="job" method="post">
+        <h3 style="color: #0a0a2b; font-weight: bolder">Đánh giá đối tác
+            - ${accDAO.getAccountById(toUserId).accountName}</h3>
+        <br>
+        <input type="hidden" name="action" value="postFeedback">
+        <input type="hidden" name="toUserId" value="${toUserId}">
+        <input type="hidden" name="jobId" value="${jobId}">
+        <input type="hidden" name="rating" id="rating" value="0">
 
-<body class="archive post-type-archive post-type-archive-services wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
-
-<!-- Preloading -->
-<div id="preloader">
-    <div class="spinner">
-        <div class="uil-ripple-css">
-            <div></div>
-            <div></div>
+        <div class="form-group">
+            <label class="form-label">Đánh giá:</label>
+            <div class="star-rating" id="star-rating">
+                <i class="far fa-star" style="color: #f8d825;"></i>
+                <i class="far fa-star" style="color: #f8d825;"></i>
+                <i class="far fa-star" style="color: #f8d825;"></i>
+                <i class="far fa-star" style="color: #f8d825;"></i>
+                <i class="far fa-star" style="color: #f8d825;"></i>
+            </div>
+<%--            <div id="rating-error" class="error-message" style="display: none;">Vui lòng chọn số sao đánh giá!</div>--%>
         </div>
-    </div>
+
+        <div class="form-group">
+            <label class="form-label" for="content">Nội dụng:</label>
+            <input id="content" name="content" class="form-control" type="text" placeholder="Nhập nội dung đánh giá...">
+        </div>
+
+        <div class="button-group">
+            <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+            <button type="reset" class="btn btn-outline">Làm mới</button>
+        </div>
+    </form>
 </div>
+<%@include file="includes/footer.jsp" %>
 
-<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+<%--Xử lí validate--%>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const stars = document.querySelectorAll("#star-rating i");
+        const ratingInput = document.getElementById("rating");
+        const ratingError = document.getElementById("rating-error");
 
+        // Hàm cập nhật giao diện ngôi sao
+        function updateStars(rating) {
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.remove("far");
+                    star.classList.add("fas", "filled");
+                } else {
+                    star.classList.remove("fas", "filled");
+                    star.classList.add("far");
+                }
+            });
+        }
 
-<!--Mobile Navigation Toggler-->
-<div class="off-canvas-menu-bar">
-    <div class="container">
-        <div class="row">
-            <div class="col-6 my-auto">
-                <a href="../index.html" class="custom-logo-link" rel="home"><img width="500" height="71"
-                                                                                 src="../wp-content/uploads/2021/09/logo.png"
-                                                                                 class="custom-logo" alt="ProLancer"
-                                                                                 decoding="async"
-                                                                                 srcset="https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo.png 500w, https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo-300x43.png 300w"
-                                                                                 sizes="(max-width: 500px) 100vw, 500px"/></a>
-            </div>
-            <div class="col-6">
-                <div class="mobile-nav-toggler float-end"><span class="fal fa-bars"></span></div>
-            </div>
-        </div>
-    </div>
-</div>
+        // Xử lý hover
+        stars.forEach((star, index) => {
+            star.addEventListener("mouseover", () => {
+                updateStars(index + 1);
+            });
 
-<!-- Mobile Menu  -->
-<div class="off-canvas-menu">
-    <div class="menu-backdrop"></div>
-    <i class="close-btn fa fa-close"></i>
-    <nav class="mobile-nav">
-        <div class="text-center pt-3 pb-3">
-            <a href="../index.html" class="custom-logo-link" rel="home"><img width="500" height="71"
-                                                                             src="../wp-content/uploads/2021/09/logo.png"
-                                                                             class="custom-logo" alt="ProLancer"
-                                                                             decoding="async"
-                                                                             srcset="https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo.png 500w, https://themebing.com/wp/prolancer/wp-content/uploads/2021/09/logo-300x43.png 300w"
-                                                                             sizes="(max-width: 500px) 100vw, 500px"/></a>
-        </div>
+            star.addEventListener("mouseout", () => {
+                // Khi chuột rời đi, hiển thị lại số sao đã chọn (nếu có)
+                updateStars(ratingInput.value);
+            });
 
-        <ul class="navigation"><!--Keep This Empty / Menu will come through Javascript--></ul>
-        <div class="text-center">
-            <a href="../frontend-dashboard/index6f28.html?fed=dashboard" class="prolancer-btn mt-4">
-                Dashboard </a>
-        </div>
-    </nav>
-</div>
+            // Xử lý click
+            star.addEventListener("click", () => {
+                ratingInput.value = index + 1; // Lưu giá trị số sao vào input hidden
+                updateStars(index + 1); // Cập nhật giao diện
+                ratingError.style.display = "none"; // Ẩn thông báo lỗi nếu có
+            });
+        });
 
+        // Validate form khi submit
+        document.querySelector("form").addEventListener("submit", function (e) {
+            let isValid = true;
 
-<section>
-    <div class="breadcrumbs">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 my-auto">
+            // Xóa các thông báo lỗi cũ
+            document.querySelectorAll(".error-message").forEach(el => el.remove());
 
-                    <ul class="trail-items" itemscope itemtype="http://schema.org/BreadcrumbList">
-                        <li class="trail-item trail-begin"><a href="../index.html"><span itemprop="name">Home</span></a>
-                            <meta itemprop="position" content="1"/>
-                        </li>
-                        <li class="trail-item trail-end"><span itemprop="item"><span
-                                itemprop="name">Services</span></span>
-                            <meta itemprop="position" content="2"/>
-                        </li>
-                    </ul>
-                </div>
-                <h1>
-                    Đánh giá </h1>
-            </div>
+            // Validate rating
+            const starRating = document.getElementById("star-rating");
+            if (ratingInput.value === "0") {
+                const error = document.createElement("div");
+                error.className = "error-message";
+                error.style.color = "red";
+                error.style.marginTop = "4px";
+                error.style.fontStyle = "italic";
+                error.style.fontSize = "14px";
+                error.textContent = "Vui lòng chọn số sao đánh giá!";
+                starRating.insertAdjacentElement("afterend", error);
+                isValid = false;
+            }
 
-        </div>
-    </div>
-</section>
+            // Validate content
+            const content = document.getElementById("content");
+            if (!content.value.trim()) {
+                const error = document.createElement("div");
+                error.className = "error-message";
+                error.style.color = "red";
+                error.style.marginTop = "4px";
+                error.style.fontStyle = "italic";
+                error.style.fontSize = "14px";
+                error.textContent = "Nội dung này không được để trống!";
+                content.insertAdjacentElement("afterend", error);
+                isValid = false;
+            }
 
+            if (!isValid) {
+                e.preventDefault(); // Ngăn form submit nếu có lỗi
+            }
+        });
+    });
+</script>
 
-<section class="section-padding">
-    <div class="container">
-        <div class="row justify-content-center flex-row-reverse">
-            <div class="search-result col-xl-9">
-                <h1>Đánh giá [TÊN ĐỐI TÁC]</h1>
-                <div class="row">
-                    <div style="margin-top: auto; font-weight: bolder;" class="col-xl-3">Xếp hạng</div>
-                    <div class="col-xl-9">
-                        <div id="rating">
-                            <input type="radio" id="star5" name="rating" value="5"/>
-                            <label class="full" for="star5" title="Awesome - 5 stars"></label>
-
-                            <input type="radio" id="star4" name="rating" value="4"/>
-                            <label class="full" for="star4" title="Pretty good - 4 stars"></label>
-
-                            <input type="radio" id="star3" name="rating" value="3"/>
-                            <label class="full" for="star3" title="Meh - 3 stars"></label>
-
-                            <input type="radio" id="star2" name="rating" value="2"/>
-                            <label class="full" for="star2" title="Kinda bad - 2 stars"></label>
-
-                            <input type="radio" id="star1" name="rating" value="1"/>
-                            <label class="full" for="star1" title="Sucks big time - 1 star"></label>
-                        </div>
-                    </div>
-                </div>
-                <div style="margin-top: 20px;" class="row">
-                    <div style="margin-top: auto; font-weight: bolder;" class="col-xl-3">Đánh giá</div>
-                    <div class="col-xl-9">
-                        <textarea id="noi-dung"></textarea>
-                    </div>
-                </div>
-
-                <div style="display: flex; justify-content: center; margin-top: 20px;">
-                    <button style="background-color: #2C3776;" class="btn-submit">Gửi đánh giá</button>
-                </div>
-
-            </div>
-            <div class="col-xl-3 position-relative">
-
-                <div class="filter-box">
-
-                </div>
-                </form>
-
-            </div>
-            </aside>
-        </div>
-    </div>
-    </div>
-</section>
-
-
-
-<!--======= Back to Top =======-->
-<div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
 </body>
-
 </html>
-
-
