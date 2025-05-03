@@ -75,9 +75,97 @@ public class JobServlet extends HttpServlet {
             case "download":
                 downloadFileJob(request, response);
                 break;
+            case "viewPartnerList":
+                viewPartnerList(request, response);
+                break;
+            case "loadPostFeedback":
+                loadPostFeedback(request, response);
+                break;
+            case "viewFeedback":
+                viewFeedback(request, response);
+                break;
             default:
                 response.getWriter().print("Lỗi rồi má");
                 break;
+        }
+    }
+
+    private void viewPartnerList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        if (session.getAttribute("sessionAccount") != null) {
+            JobDAO jobDAO = new JobDAO();
+            AccountDAO accountDAO = new AccountDAO();
+            JobGreetingDAO jobGreetingDAO = new JobGreetingDAO();
+            FeedbackDAO feedbackDAO = new FeedbackDAO();
+
+            //Lấy acc đang đăng nhập
+            Account account = (Account) session.getAttribute("sessionAccount");
+            Account account1 = accountDAO.getAccountById(account.getAccountId());
+            request.setAttribute("loggedAccount", account1);
+
+            //Lay job can xem doi tac
+            int jobId = Integer.parseInt(request.getParameter("jobId"));
+            Job job = jobDAO.getJobById(jobId);
+            request.setAttribute("jobId", jobId);
+
+            //Lấy danh sách feedBack của tài khoản "Tôi" đang đăng nhập
+            List<Feedback> feedbackList = feedbackDAO.getFeedbackBytoUserIdAndJobId(account1.getAccountId(), jobId);
+            request.setAttribute("feedbackList", feedbackList);
+
+            //Lay danh sach partner
+            List<Account> partnerList = new ArrayList<>();
+            List<JobGreeting> greetingList = jobGreetingDAO.getAcceptedListJobGreetingByJobId(jobId);
+
+            //Nếu tài khoản đang đăng nhập không phải là tài khoản đăng công việc thì thêm tài khoản người đăng vào partner list luôn
+            if(account1.getAccountId() != job.getPostAccountId()){
+                partnerList.add(accountDAO.getAccountById(job.getPostAccountId()));
+                NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                String jobFee = currencyFormatter.format(jobDAO.getJobFeeByJobIdAndApplicantId(jobId, account1.getAccountId()));
+                request.setAttribute("jobFee", jobFee);
+            }
+            for(JobGreeting greeting : greetingList) {
+                if(account1.getAccountId() != greeting.getJobSeekerId()){
+                    partnerList.add(accountDAO.getAccountById(greeting.getJobSeekerId()));
+                }
+            }
+            request.setAttribute("partnerList", partnerList);
+
+            request.getRequestDispatcher("partner-list.jsp").forward(request, response);
+        }else{
+            response.sendRedirect("home");
+        }
+    }
+
+    private void viewFeedback(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        if (session.getAttribute("sessionAccount") != null) {
+            AccountDAO accountDAO = new AccountDAO();
+            JobDAO jobDAO = new JobDAO();
+            FeedbackDAO feedbackDAO = new FeedbackDAO();
+
+            //Lấy acc đang đăng nhập
+            Account account = (Account) session.getAttribute("sessionAccount");
+            Account account1 = accountDAO.getAccountById(account.getAccountId());
+            req.setAttribute("loggedAccount", account1);
+
+            //Lay jobId can xem doi tac
+            int jobId = Integer.parseInt(req.getParameter("jobId"));
+            Job job = jobDAO.getJobById(jobId);
+            req.setAttribute("jobId", jobId);
+
+            //Lấy toUserId
+            int toUserId = Integer.parseInt(req.getParameter("toUserId"));
+            req.setAttribute("toUserId", toUserId);
+
+            //Lấy fromUserId
+            int fromUserId = Integer.parseInt(req.getParameter("fromUserId"));
+            req.setAttribute("fromUserId", fromUserId);
+
+            Feedback feedback = feedbackDAO.getFeedbackByToUserIdAndJobIdAndFromUserId(toUserId, jobId, fromUserId);
+            req.setAttribute("feedback", feedback);
+            req.getRequestDispatcher("rating-partner-detail.jsp").forward(req, resp);
+        }else{
+            resp.sendRedirect("home");
         }
     }
 
@@ -167,6 +255,28 @@ public class JobServlet extends HttpServlet {
         }
     }
 
+    private void loadPostFeedback(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        if (session.getAttribute("sessionAccount") != null) {
+            AccountDAO accountDAO = new AccountDAO();
+
+            //Lấy acc đang đăng nhập
+            Account account = (Account) session.getAttribute("sessionAccount");
+            Account account1 = accountDAO.getAccountById(account.getAccountId());
+            request.setAttribute("loggedAccount", account1);
+
+            //Lay jobId can xem doi tac
+            int jobId = Integer.parseInt(request.getParameter("jobId"));
+            request.setAttribute("jobId", jobId);
+
+            //Lấy toUserId
+            int toUserId = Integer.parseInt(request.getParameter("toUserId"));
+            request.setAttribute("toUserId", toUserId);
+            request.getRequestDispatcher("rating-partner.jsp").forward(request, response);
+        }else{
+            response.sendRedirect("home");
+        }
+    }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
@@ -181,9 +291,66 @@ public class JobServlet extends HttpServlet {
             case "update-job":
                 updateJob(req, resp);
                 break;
+            case "postFeedback":
+                postFeedback(req, resp);
+                break;
             default:
                 resp.getWriter().print("Lỗi rồi má");
                 break;
+        }
+    }
+
+    private void postFeedback(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        if (session.getAttribute("sessionAccount") != null) {
+            AccountDAO accountDAO = new AccountDAO();
+            JobDAO jobDAO = new JobDAO();
+            FeedbackDAO feedbackDAO = new FeedbackDAO();
+
+            //Lấy acc đang đăng nhập
+            Account account = (Account) session.getAttribute("sessionAccount");
+            Account account1 = accountDAO.getAccountById(account.getAccountId());
+            req.setAttribute("loggedAccount", account1);
+
+            //Lay jobId can xem doi tac
+            int jobId = Integer.parseInt(req.getParameter("jobId"));
+            Job job = jobDAO.getJobById(jobId);
+            req.setAttribute("jobId", jobId);
+
+            //Lấy toUserId
+            int toUserId = Integer.parseInt(req.getParameter("toUserId"));
+            req.setAttribute("toUserId", toUserId);
+
+            int rating = Integer.parseInt(req.getParameter("rating"));
+            String content = req.getParameter("content");
+
+            String type = "";
+            if(account1.getAccountId() == job.getPostAccountId()){
+                type = "EmployerToSeeker";
+            }
+
+            if(account1.getAccountId() != job.getPostAccountId()){
+                if(toUserId == job.getPostAccountId()){
+                    type = "SeekerToEmployer";
+                }
+                if(toUserId != job.getPostAccountId()){
+                    type = "SeekerToSeeker";
+                }
+            }
+
+            Feedback f = new Feedback();
+            f.setContent(content);
+            f.setJobId(jobId);
+            f.setFromUserId(account1.getAccountId());
+            f.setToUserId(toUserId);
+            f.setType(type);
+            f.setRating(rating);
+            feedbackDAO.addFeedback(f);
+            Feedback feedback = feedbackDAO.getFeedbackByToUserIdAndJobIdAndFromUserId(toUserId, jobId, account1.getAccountId());
+            req.setAttribute("feedback", feedback);
+            req.getRequestDispatcher("rating-partner-detail.jsp").forward(req, resp);
+        }else{
+            resp.sendRedirect("home");
         }
     }
 

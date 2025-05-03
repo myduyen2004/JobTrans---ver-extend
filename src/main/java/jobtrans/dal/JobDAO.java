@@ -839,12 +839,22 @@ public class JobDAO {
         return test;
     }
 
+    public BigDecimal getJobFeeByJobIdAndApplicantId(int jobId, int applicantId) {
+        BigDecimal jobFee = null;
+        String query = "SELECT job_fee FROM Contract WHERE job_id = ? AND applicant_id = ?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, jobId);
+            ps.setInt(2, applicantId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                jobFee = new BigDecimal(rs.getDouble("job_fee"));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return jobFee;
+    }
 }
-
-
-
-
-
-
-
-

@@ -91,4 +91,18 @@ public class Feedback {
     public void setType(String type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "Feedback{" +
+                "feedbackId=" + feedbackId +
+                ", jobId=" + jobId +
+                ", fromUserId=" + fromUserId +
+                ", toUserId=" + toUserId +
+                ", rating=" + rating +
+                ", content='" + content + '\'' +
+                ", createdAt=" + createdAt +
+                ", type='" + type + '\'' +
+                '}';
+    }
 }
