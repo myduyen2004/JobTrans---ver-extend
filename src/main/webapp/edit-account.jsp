@@ -87,21 +87,20 @@
                     <h2 class="section-title">Thông tin chuyên môn</h2>
                     <div class="form-grid">
 
-                        <div class="form-row">
-                            <label for="experience" class="form-label">Kinh nghiệm (năm)</label>
-                            <input type="number" id="experience" class="form-input" name="experienceYears" value="${account.experienceYears}"
-                                   min="0" max="50">
+                        <div class="form-row form-full-width">
+                            <label for="experienceYears" class="form-label">Kinh nghiệm (năm)</label>
+                            <input type="number" id="experienceYears" class="form-input" name="experienceYears" value="${account.experienceYears}">
                         </div>
-                        <div class="form-row">
-                            <label for="status" class="form-label">Trạng thái</label>
-                            <select id="status" class="form-select" name="status" style="padding: 12px 15px;">
-                                <option value="Đang hoạt động" ${account.status == 'Đang hoạt động' ? 'selected' : ''}>Đang
-                                    hoạt động
-                                </option>
-                                <option value="Bị cấm" ${account.status == 'Bị cấm' ? 'selected' : ''}>Bị cấm</option>
-                                <option value="Chờ xử lí" ${account.status == 'Chờ xử lí' ? 'selected' : ''}>Chờ xử lí</option>
-                            </select>
-                        </div>
+<%--                        <div class="form-row">--%>
+<%--                            <label for="status" class="form-label">Trạng thái</label>--%>
+<%--                            <select id="status" class="form-select" name="status" style="padding: 12px 15px;">--%>
+<%--                                <option value="Đang hoạt động" ${account.status == 'Đang hoạt động' ? 'selected' : ''}>Đang--%>
+<%--                                    hoạt động--%>
+<%--                                </option>--%>
+<%--                                <option value="Bị cấm" ${account.status == 'Bị cấm' ? 'selected' : ''}>Bị cấm</option>--%>
+<%--                                <option value="Chờ xử lí" ${account.status == 'Chờ xử lí' ? 'selected' : ''}>Chờ xử lí</option>--%>
+<%--                            </select>--%>
+<%--                        </div>--%>
                         <c:if test="${account.typeAccount == 'Cá nhân'}">
                             <div class="form-row form-full-width">
                                 <label for="education" class="form-label">Học vấn</label>
@@ -119,30 +118,10 @@
                             </div>
                         </div>
                         <c:if test="${account.typeAccount == 'Cá nhân'}">
-<%--                            <div class="form-row form-full-width">--%>
-<%--                                <label for="skills" class="form-label">Kỹ năng</label>--%>
-<%--                                <div class="tags-input-container">--%>
-<%--                                    <div class="tag">--%>
-<%--                                        Photoshop--%>
-<%--                                        <span class="tag-close">&times;</span>--%>
-<%--                                    </div>--%>
-<%--                                    <div class="tag">--%>
-<%--                                        Illustrator--%>
-<%--                                        <span class="tag-close">&times;</span>--%>
-<%--                                    </div>--%>
-<%--                                    <div class="tag">--%>
-<%--                                        UI/UX--%>
-<%--                                        <span class="tag-close">&times;</span>--%>
-<%--                                    </div>--%>
 <%--                                    <div class="tag">--%>
 <%--                                        Web Design--%>
 <%--                                        <span class="tag-close">&times;</span>--%>
 <%--                                    </div>--%>
-<%--                                    <input type="text" id="skills" class="tags-input" name="skills" placeholder="Thêm kỹ năng...">--%>
-<%--                                </div>--%>
-<%--                                <div class="autocomplete-results" id="skills-results"></div>--%>
-<%--                                <p class="help-text">Nhấn Enter để thêm kỹ năng mới</p>--%>
-<%--                            </div>--%>
                             <div class="form-row form-full-width">
                                 <label for="skills-display" class="form-label">Kỹ năng</label>
                                 <div class="tags-input-container">
@@ -162,11 +141,11 @@
                 <div class="form-section">
                     <h2 class="section-title">Thông tin liên hệ</h2>
                     <div class="form-grid">
-                        <div class="form-row">
-                            <label for="email" class="form-label required-label">Email</label>
-                            <input type="email" id="email" class="form-input" value="${account.email}" required>
-                        </div>
-                        <div class="form-row">
+<%--                        <div class="form-row">--%>
+<%--                            <label for="email" class="form-label required-label">Email</label>--%>
+<%--                            <input type="email" id="email" class="form-input" value="${account.email}" required>--%>
+<%--                        </div>--%>
+                        <div class="form-row form-full-width">
                             <label for="phone" class="form-label">Điện thoại</label>
                             <input type="tel" id="phone" class="form-input" name="phone" value="${account.phone}">
                         </div>
@@ -178,33 +157,6 @@
                 </div>
 
                 <div class="section-divider"></div>
-
-                <!-- Social media -->
-    <%--            <div class="form-section">--%>
-    <%--                <h2 class="section-title">Mạng xã hội</h2>--%>
-    <%--                <div class="form-grid">--%>
-    <%--                    <div class="form-row">--%>
-    <%--                        <label for="facebook" class="form-label">Facebook</label>--%>
-    <%--                        <input type="url" id="facebook" class="form-input" placeholder="https://facebook.com/username">--%>
-    <%--                    </div>--%>
-    <%--                    <div class="form-row">--%>
-    <%--                        <label for="linkedin" class="form-label">LinkedIn</label>--%>
-    <%--                        <input type="url" id="linkedin" class="form-input"--%>
-    <%--                               placeholder="https://linkedin.com/in/username">--%>
-    <%--                    </div>--%>
-    <%--                    <div class="form-row">--%>
-    <%--                        <label for="instagram" class="form-label">Instagram</label>--%>
-    <%--                        <input type="url" id="instagram" class="form-input"--%>
-    <%--                               placeholder="https://instagram.com/username">--%>
-    <%--                    </div>--%>
-    <%--                    <div class="form-row">--%>
-    <%--                        <label for="portfolio" class="form-label">Website/Portfolio</label>--%>
-    <%--                        <input type="url" id="portfolio" class="form-input" placeholder="https://yourportfolio.com">--%>
-    <%--                    </div>--%>
-    <%--                </div>--%>
-    <%--            </div>--%>
-
-    <%--            <div class="section-divider"></div>--%>
 
                 <!-- Signature as image -->
                 <div class="form-section">
@@ -244,41 +196,9 @@
 
                 <div class="section-divider"></div>
 
-                <!-- Privacy settings -->
-                <div class="form-section">
-                    <h2 class="section-title">Cài đặt riêng tư</h2>
-                    <div class="form-row">
-                        <div class="toggle-container">
-                            <span class="toggle-label">Hiển thị thông tin liên hệ</span>
-                            <label class="toggle-switch">
-                                <input type="checkbox" checked>
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="toggle-container">
-                            <span class="toggle-label">Hiển thị báo cáo nhận được</span>
-                            <label class="toggle-switch">
-                                <input type="checkbox">
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="toggle-container">
-                            <span class="toggle-label">Hiển thị trạng thái hoạt động</span>
-                            <label class="toggle-switch">
-                                <input type="checkbox" checked>
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="form-actions">
-                    <button type="button" class="btn btn-secondary">Hủy</button>
-                    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                    <button type="button" class="btn btn-secondary" onclick="history.back();" style="border-radius: 30px; padding: 10px 20px;">Hủy</button>
+                    <button type="submit" class="btn btn-primary" style="background-image: linear-gradient(to right, rgb(21, 32, 112), rgb(39, 64, 179));color: white; border-radius: 30px; padding: 10px 20px;">Lưu thay đổi</button>
                 </div>
         </form>
     </div>
@@ -471,8 +391,20 @@
         const dobError = document.getElementById('dob-error');
         const specialityInput = document.getElementById('speciality');
         const educationInput = document.getElementById('education');
+        const experienceYearsInput = document.getElementById('experienceYears');
         let addressInput = document.getElementById('address');
         const phoneInput = document.getElementById('phone');
+        // Thêm các trường input khác để kiểm tra ký tự đặc biệt
+        const nameInput = document.getElementById('name'); // Giả sử có trường tên
+
+        // Kiểm tra các phần tử có tồn tại không
+        if (!form) {
+            console.error('Không tìm thấy form trong trang');
+            return;
+        }
+
+        // Regex kiểm tra ký tự đặc biệt (không bao gồm dấu cách)
+        const specialCharRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
 
         // Danh sách 63 tỉnh thành Việt Nam
         const vietnamProvinces = [
@@ -493,6 +425,8 @@
 
         // Hàm tạo và hiển thị thông báo lỗi
         function showError(element, message) {
+            if (!element) return false;
+
             // Kiểm tra xem đã có thông báo lỗi chưa
             let errorElement = element.nextElementSibling;
             if (!errorElement || !errorElement.classList.contains('error-message')) {
@@ -513,6 +447,8 @@
 
         // Hàm ẩn thông báo lỗi
         function hideError(element) {
+            if (!element) return true;
+
             const errorElement = element.nextElementSibling;
             if (errorElement && errorElement.classList.contains('error-message')) {
                 errorElement.style.display = 'none';
@@ -520,13 +456,66 @@
             return true;
         }
 
-        // Hàm viết hoa chữ cái đầu của mỗi từ
+        // Hàm viết hoa chữ cái đầu của mỗi từ và giữ nguyên các chữ cái khác
         function capitalizeFirstLetter(string) {
-            return string.replace(/\b\w/g, function(l) { return l.toUpperCase(); });
+            return string.toLowerCase() // Chuyển toàn bộ về chữ thường trước
+                .split(' ')   // Tách thành các từ
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Viết hoa chữ cái đầu mỗi từ
+                .join(' ');    // Ghép lại thành chuỗi
+        }
+
+        // Hàm kiểm tra ký tự đặc biệt trong một chuỗi
+        function hasSpecialChars(str) {
+            return specialCharRegex.test(str);
+        }
+
+        // Hàm xử lý validation cho trường không nhận ký tự đặc biệt
+        function validateNoSpecialChars(input, fieldName) {
+            if(!input) return true;
+
+            if(input.value.trim() !== '' && hasSpecialChars(input.value)) {
+                showError(input, `${fieldName} không được chứa ký tự đặc biệt`);
+                return false;
+            } else {
+                hideError(input);
+                return true;
+            }
+        }
+
+        // Hàm kiểm tra tuổi từ ngày sinh
+        function validateAge(dobValue) {
+            if (!dobValue) return { valid: false, age: 0, message: 'Vui lòng nhập ngày sinh' };
+
+            const dobDate = new Date(dobValue);
+            const today = new Date();
+
+            // Kiểm tra ngày sinh hợp lệ
+            if (isNaN(dobDate.getTime())) {
+                return { valid: false, age: 0, message: 'Ngày sinh không hợp lệ' };
+            }
+
+            // Tính tuổi
+            let age = today.getFullYear() - dobDate.getFullYear();
+            const monthDiff = today.getMonth() - dobDate.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dobDate.getDate())) {
+                age--;
+            }
+
+            // Kiểm tra tuổi >= 18 và không phải ngày ở tương lai
+            if (dobDate > today) {
+                return { valid: false, age: age, message: 'Ngày sinh không thể là ngày trong tương lai' };
+            } else if (age < 18) {
+                return { valid: false, age: age, message: 'Bạn phải đủ 18 tuổi trở lên' };
+            }
+
+            return { valid: true, age: age, message: '' };
         }
 
         // Thêm datalist cho tỉnh thành Việt Nam
         if (addressInput) {
+            // Lấy giá trị hiện tại từ input (đây là giá trị từ database)
+            const currentAddress = addressInput.value;
+
             // Tạo hoặc thay thế input text bằng dropdown select
             const parentElement = addressInput.parentElement;
             const labelText = parentElement.querySelector('label') ? parentElement.querySelector('label').textContent : 'Địa chỉ';
@@ -542,8 +531,13 @@
             const defaultOption = document.createElement('option');
             defaultOption.value = "";
             defaultOption.textContent = "-- Chọn tỉnh thành --";
-            defaultOption.selected = true;
             defaultOption.disabled = true;
+
+            // Chỉ chọn option mặc định nếu không có giá trị từ database
+            if (!currentAddress || currentAddress.trim() === "") {
+                defaultOption.selected = true;
+            }
+
             selectElement.appendChild(defaultOption);
 
             // Thêm các option cho tỉnh thành
@@ -551,6 +545,12 @@
                 const option = document.createElement('option');
                 option.value = province;
                 option.textContent = province;
+
+                // Chọn option nếu trùng với giá trị từ database
+                if (province === currentAddress) {
+                    option.selected = true;
+                }
+
                 selectElement.appendChild(option);
             });
 
@@ -597,47 +597,86 @@
             });
         }
 
+        // Thực hiện validation ban đầu cho các trường bắt buộc
+        function initialValidation() {
+            // Kiểm tra các trường bắt buộc khi trang được tải
+            if (dobInput && dobInput.required && dobInput.value.trim() === '') {
+                showError(dobInput, 'Vui lòng nhập ngày sinh');
+            }
+
+            if (addressInput && addressInput.required && addressInput.value.trim() === '') {
+                showError(addressInput, 'Vui lòng chọn tỉnh thành');
+            }
+
+            if (phoneInput && phoneInput.required && phoneInput.value.trim() === '') {
+                showError(phoneInput, 'Vui lòng nhập số điện thoại');
+            }
+
+            if (experienceYearsInput && experienceYearsInput.required && experienceYearsInput.value.trim() === '') {
+                showError(experienceYearsInput, 'Vui lòng nhập số năm kinh nghiệm');
+            }
+
+            // Thêm validation ban đầu cho trường name nếu tồn tại
+            if (nameInput && nameInput.required && nameInput.value.trim() === '') {
+                showError(nameInput, 'Vui lòng nhập họ tên');
+            } else if (nameInput && nameInput.value.trim() !== '' && hasSpecialChars(nameInput.value)) {
+                showError(nameInput, 'Họ tên không được chứa ký tự đặc biệt');
+            }
+        }
+
         // Validation khi submit form
         form.addEventListener('submit', function(event) {
             let isValid = true;
 
             // Kiểm tra ngày sinh
             if(dobInput) {
-                const dobValue = new Date(dobInput.value);
-                const today = new Date();
-
-                // Tính tuổi
-                let age = today.getFullYear() - dobValue.getFullYear();
-                const monthDiff = today.getMonth() - dobValue.getMonth();
-                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dobValue.getDate())) {
-                    age--;
-                }
-
-                // Kiểm tra tuổi >= 18 và không phải ngày ở tương lai
                 if (dobInput.value === "") {
-                    isValid = showError(dobInput, 'Vui lòng nhập ngày sinh');
-                } else if (age < 18 || dobValue > today) {
-                    dobError.textContent = age < 18 ? 'Bạn phải đủ 18 tuổi trở lên.' : 'Ngày sinh không thể là ngày trong tương lai.';
-                    dobError.style.display = 'block';
-                    isValid = false;
+                    isValid = showError(dobInput, 'Vui lòng nhập ngày sinh') && isValid;
                 } else {
-                    dobError.style.display = 'none';
+                    const ageCheck = validateAge(dobInput.value);
+                    if (!ageCheck.valid) {
+                        if (dobError) {
+                            dobError.textContent = ageCheck.message;
+                            dobError.style.display = 'block';
+                        } else {
+                            isValid = showError(dobInput, ageCheck.message) && isValid;
+                        }
+                    } else if (dobError) {
+                        dobError.style.display = 'none';
+                    } else {
+                        hideError(dobInput);
+                    }
                 }
             }
 
-            // Kiểm tra chuyên môn không chỉ chứa số
+            // Kiểm tra tên (nếu có) không chứa ký tự đặc biệt
+            if (nameInput) {
+                if (nameInput.value.trim() === '' && nameInput.required) {
+                    isValid = showError(nameInput, 'Vui lòng nhập họ tên') && isValid;
+                } else if (nameInput.value.trim() !== '' && hasSpecialChars(nameInput.value)) {
+                    isValid = showError(nameInput, 'Họ tên không được chứa ký tự đặc biệt') && isValid;
+                } else {
+                    hideError(nameInput);
+                }
+            }
+
+            // Kiểm tra chuyên môn không chỉ chứa số và không có ký tự đặc biệt
             if(specialityInput && specialityInput.value.trim() !== '') {
                 if(/^\d+$/.test(specialityInput.value.trim())) {
-                    isValid = showError(specialityInput, 'Chuyên môn không được chỉ chứa số');
+                    isValid = showError(specialityInput, 'Chuyên môn không được chỉ chứa số') && isValid;
+                } else if (hasSpecialChars(specialityInput.value)) {
+                    isValid = showError(specialityInput, 'Chuyên môn không được chứa ký tự đặc biệt') && isValid;
                 } else {
                     hideError(specialityInput);
                 }
             }
 
-            // Kiểm tra học vấn không chỉ chứa số
+            // Kiểm tra học vấn không chỉ chứa số và không có ký tự đặc biệt
             if(educationInput && educationInput.value.trim() !== '') {
                 if(/^\d+$/.test(educationInput.value.trim())) {
-                    isValid = showError(educationInput, 'Học vấn không được chỉ chứa số');
+                    isValid = showError(educationInput, 'Học vấn không được chỉ chứa số') && isValid;
+                } else if (hasSpecialChars(educationInput.value)) {
+                    isValid = showError(educationInput, 'Học vấn không được chứa ký tự đặc biệt') && isValid;
                 } else {
                     hideError(educationInput);
                 }
@@ -645,7 +684,7 @@
 
             // Kiểm tra địa chỉ được chọn
             if(addressInput && addressInput.value.trim() === '') {
-                isValid = showError(addressInput, 'Vui lòng chọn tỉnh thành');
+                isValid = showError(addressInput, 'Vui lòng chọn tỉnh thành') && isValid;
             } else if(addressInput) {
                 hideError(addressInput);
             }
@@ -653,13 +692,50 @@
             // Kiểm tra số điện thoại
             if(phoneInput) {
                 if(phoneInput.value.trim() === '') {
-                    isValid = showError(phoneInput, 'Vui lòng nhập số điện thoại');
+                    isValid = showError(phoneInput, 'Vui lòng nhập số điện thoại') && isValid;
                 } else if(!/^\d{10}$/.test(phoneInput.value.trim())) {
-                    isValid = showError(phoneInput, 'Số điện thoại phải có đúng 10 chữ số');
+                    isValid = showError(phoneInput, 'Số điện thoại phải có đúng 10 chữ số') && isValid;
                 } else {
                     hideError(phoneInput);
                 }
             }
+
+            // Kiểm tra số năm kinh nghiệm
+            if (experienceYearsInput) {
+                const expValue = experienceYearsInput.value.trim();
+
+                if (expValue === '') {
+                    isValid = showError(experienceYearsInput, 'Vui lòng nhập số năm kinh nghiệm') && isValid;
+                } else if (!/^\d+$/.test(expValue)) {
+                    isValid = showError(experienceYearsInput, 'Số năm kinh nghiệm phải là số nguyên dương') && isValid;
+                } else {
+                    // Nếu có dobInput và hợp lệ, kiểm tra so với tuổi
+                    if (dobInput && dobInput.value) {
+                        const ageCheck = validateAge(dobInput.value);
+                        if (ageCheck.valid) {
+                            const experience = parseInt(expValue);
+
+                            if (experience < 0) {
+                                isValid = showError(experienceYearsInput, 'Số năm kinh nghiệm không thể âm') && isValid;
+                            } else if (experience >= ageCheck.age) {
+                                isValid = showError(experienceYearsInput, 'Số năm kinh nghiệm phải nhỏ hơn tuổi của bạn') && isValid;
+                            } else {
+                                hideError(experienceYearsInput);
+                            }
+                        }
+                    } else {
+                        // Chỉ kiểm tra có phải là số nguyên dương không
+                        const experience = parseInt(expValue);
+                        if (experience < 0) {
+                            isValid = showError(experienceYearsInput, 'Số năm kinh nghiệm không thể âm') && isValid;
+                        } else {
+                            hideError(experienceYearsInput);
+                        }
+                    }
+                }
+            }
+
+            // Kiểm tra email (nếu có) - không cần kiểm tra ký tự đặc biệt vì email có thể chứa ký tự đặc biệt hợp lệ
 
             if(!isValid) {
                 event.preventDefault();
@@ -674,49 +750,79 @@
                     return;
                 }
 
-                const dobValue = new Date(this.value);
-                const today = new Date();
-
-                // Tính tuổi
-                let age = today.getFullYear() - dobValue.getFullYear();
-                const monthDiff = today.getMonth() - dobValue.getMonth();
-                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dobValue.getDate())) {
-                    age--;
-                }
-
-                // Kiểm tra tuổi >= 18 và không phải ngày ở tương lai
-                if (age < 18 || dobValue > today) {
-                    dobError.textContent = age < 18 ? 'Bạn phải đủ 18 tuổi trở lên.' : 'Ngày sinh không thể là ngày trong tương lai.';
-                    dobError.style.display = 'block';
-                } else {
+                const ageCheck = validateAge(this.value);
+                if (!ageCheck.valid) {
+                    if (dobError) {
+                        dobError.textContent = ageCheck.message;
+                        dobError.style.display = 'block';
+                    } else {
+                        showError(this, ageCheck.message);
+                    }
+                } else if (dobError) {
                     dobError.style.display = 'none';
+                } else {
+                    hideError(this);
                 }
             });
         }
 
-        // Chuyên môn - viết hoa chữ cái đầu
+        // Thêm validation cho name (nếu có)
+        if (nameInput) {
+            nameInput.addEventListener('input', function() {
+                // Xóa thông báo lỗi ngay khi người dùng bắt đầu nhập
+                hideError(this);
+            });
+
+            nameInput.addEventListener('blur', function() {
+                if (this.value.trim() === '' && this.required) {
+                    showError(this, 'Vui lòng nhập họ tên');
+                } else if (this.value.trim() !== '' && hasSpecialChars(this.value)) {
+                    showError(this, 'Họ tên không được chứa ký tự đặc biệt');
+                } else {
+                    hideError(this);
+                    // Viết hoa chữ cái đầu
+                    this.value = capitalizeFirstLetter(this.value.trim());
+                }
+            });
+        }
+
+        // Chuyên môn - viết hoa chữ cái đầu và kiểm tra ký tự đặc biệt
         if(specialityInput) {
+            specialityInput.addEventListener('input', function() {
+                // Xóa thông báo lỗi ngay khi người dùng bắt đầu nhập
+                hideError(this);
+            });
+
             specialityInput.addEventListener('blur', function() {
                 if(this.value.trim() !== '') {
                     if(/^\d+$/.test(this.value.trim())) {
                         showError(this, 'Chuyên môn không được chỉ chứa số');
+                    } else if (hasSpecialChars(this.value)) {
+                        showError(this, 'Chuyên môn không được chứa ký tự đặc biệt');
                     } else {
                         hideError(this);
-                        this.value = capitalizeFirstLetter(this.value);
+                        this.value = capitalizeFirstLetter(this.value.trim());
                     }
                 }
             });
         }
 
-        // Học vấn - viết hoa chữ cái đầu
+        // Học vấn - viết hoa chữ cái đầu và kiểm tra ký tự đặc biệt
         if(educationInput) {
+            educationInput.addEventListener('input', function() {
+                // Xóa thông báo lỗi ngay khi người dùng bắt đầu nhập
+                hideError(this);
+            });
+
             educationInput.addEventListener('blur', function() {
                 if(this.value.trim() !== '') {
                     if(/^\d+$/.test(this.value.trim())) {
                         showError(this, 'Học vấn không được chỉ chứa số');
+                    } else if (hasSpecialChars(this.value)) {
+                        showError(this, 'Học vấn không được chứa ký tự đặc biệt');
                     } else {
                         hideError(this);
-                        this.value = capitalizeFirstLetter(this.value);
+                        this.value = capitalizeFirstLetter(this.value.trim());
                     }
                 }
             });
@@ -732,6 +838,9 @@
                 if(this.value.length > 10) {
                     this.value = this.value.slice(0, 10);
                 }
+
+                // Xóa thông báo lỗi ngay khi người dùng bắt đầu nhập
+                hideError(this);
             });
 
             // Kiểm tra đúng 10 chữ số khi blur
@@ -745,6 +854,61 @@
                 }
             });
         }
+
+        // Validation cho số năm kinh nghiệm
+        if (experienceYearsInput) {
+            // Chỉ cho phép nhập số và loại bỏ các ký tự khác
+            experienceYearsInput.addEventListener('input', function() {
+                this.value = this.value.replace(/\D/g, '');
+
+                // Giới hạn tối đa 2 chữ số (99 năm kinh nghiệm)
+                if (this.value.length > 2) {
+                    this.value = this.value.slice(0, 2);
+                }
+
+                // Xóa thông báo lỗi ngay khi người dùng bắt đầu nhập
+                hideError(this);
+            });
+
+            // Kiểm tra so với tuổi khi blur
+            experienceYearsInput.addEventListener('blur', function() {
+                const expValue = this.value.trim();
+
+                if (expValue === '') {
+                    showError(this, 'Vui lòng nhập số năm kinh nghiệm');
+                    return;
+                }
+
+                if (!/^\d+$/.test(expValue)) {
+                    showError(this, 'Số năm kinh nghiệm phải là số nguyên dương');
+                    return;
+                }
+
+                const experience = parseInt(expValue);
+
+                if (experience < 0) {
+                    showError(this, 'Số năm kinh nghiệm không thể âm');
+                    return;
+                }
+
+                // Nếu có ngày sinh và hợp lệ, kiểm tra so với tuổi
+                if (dobInput && dobInput.value) {
+                    const ageCheck = validateAge(dobInput.value);
+                    if (ageCheck.valid) {
+                        if (experience >= ageCheck.age) {
+                            showError(this, 'Số năm kinh nghiệm phải nhỏ hơn tuổi của bạn');
+                        } else {
+                            hideError(this);
+                        }
+                    }
+                } else {
+                    hideError(this);
+                }
+            });
+        }
+
+        // Chạy validation ban đầu
+        initialValidation();
     });
 </script>
 <%--Cập Nhật Avatar--%>
@@ -840,8 +1004,7 @@
                 })
                 .catch(error => {
                     console.error('Lỗi:', error);
-                    // Hiển thị thông báo lỗi
-                    alert('Có lỗi xảy ra khi tải lên chữ ký. Vui lòng thử lại sau.');
+
                 });
         }
     });

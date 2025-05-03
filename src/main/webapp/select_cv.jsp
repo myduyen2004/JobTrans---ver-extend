@@ -281,6 +281,63 @@
 			flex-direction: column;
 		}
 	}
+	.banner_title {
+		background-image: url(./img/anh1/anh1.png);
+		background-size: 100%;
+		font-size: 40px;
+		height: 200px;
+		display: flex;
+		margin-top: 15px;
+		align-items: center;
+	}
+	.upload-cv-form {
+		background: #f9f9f9;
+		padding: 20px;
+		border-radius: 12px;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+		max-width: 400px;
+		margin: 30px auto;
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		font-family: 'Segoe UI', sans-serif;
+	}
+
+	.upload-cv-form input[type="file"] {
+		padding: 10px;
+		border: 2px dashed #ccc;
+		border-radius: 8px;
+		background: #fff;
+		cursor: pointer;
+		transition: border-color 0.3s;
+	}
+
+	.upload-cv-form input[type="file"]:hover {
+		border-color: #4a90e2;
+	}
+
+	.upload-cv-form .custom-file-label {
+		font-weight: bold;
+		color: #333;
+	}
+
+	.upload-cv-form .create-btn {
+		background: #4a90e2;
+		color: white;
+		padding: 12px;
+		border: none;
+		border-radius: 8px;
+		font-size: 16px;
+		font-weight: bold;
+		cursor: pointer;
+		transition: background 0.3s;
+	}
+
+	.upload-cv-form .create-btn:hover {
+		background: #357ab8;
+	}
+
+
 </style>
 
 <body class="archive post-type-archive post-type-archive-projects wp-custom-logo theme-prolancer woocommerce-no-js elementor-default elementor-kit-1806">
@@ -328,13 +385,16 @@
 											</c:when>
 										</c:choose>
 									</div>
+
 								</div>
+
 							</div>
 						</c:forEach>
 					</c:when>
 				</c:choose>
 			</div>
 		</div>
+
 
 		<!-- Navigation Arrows (optional) -->
 		<div class="scroll-arrows">

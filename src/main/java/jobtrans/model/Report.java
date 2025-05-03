@@ -12,12 +12,12 @@ public class Report {
     private String attachment;
     private Timestamp reportTime;
     private String status;
+    private String noteByAdmin;
 
     public Report() {
     }
 
-    public Report(int reportId, Integer jobId, int reportedAccount, int reportBy, int criteriaId,
-                  String contentReport, String attachment, Timestamp reportTime, String status) {
+    public Report(int reportId, Integer jobId, int reportedAccount, int reportBy, int criteriaId, String contentReport, String attachment, Timestamp reportTime, String status, String noteByAdmin) {
         this.reportId = reportId;
         this.jobId = jobId;
         this.reportedAccount = reportedAccount;
@@ -27,6 +27,7 @@ public class Report {
         this.attachment = attachment;
         this.reportTime = reportTime;
         this.status = status;
+        this.noteByAdmin = noteByAdmin;
     }
 
     public int getReportId() {
@@ -99,5 +100,29 @@ public class Report {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getNoteByAdmin() {
+        return noteByAdmin;
+    }
+
+    public void setNoteByAdmin(String noteByAdmin) {
+        this.noteByAdmin = noteByAdmin;
+    }
+
+    @Override
+    public String toString() {
+        return "Report{" +
+                "reportId=" + reportId +
+                ", jobId=" + jobId +
+                ", reportedAccount=" + reportedAccount +
+                ", reportBy=" + reportBy +
+                ", criteriaId=" + criteriaId +
+                ", contentReport='" + contentReport + '\'' +
+                ", attachment='" + attachment + '\'' +
+                ", reportTime=" + reportTime +
+                ", status='" + status + '\'' +
+                ", noteByAdmin='" + noteByAdmin + '\'' +
+                '}';
     }
 }

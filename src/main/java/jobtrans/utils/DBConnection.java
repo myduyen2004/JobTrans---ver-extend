@@ -11,7 +11,7 @@ public class DBConnection implements Configuration{
     public DBConnection() {
     }
 
-    public Connection openConnection() throws Exception{
+    public static Connection openConnection() throws Exception{
         Class.forName(driverName);
         Connection con = DriverManager.getConnection(url, user, pass);
         return con;

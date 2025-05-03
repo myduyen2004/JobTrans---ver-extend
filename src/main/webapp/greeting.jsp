@@ -1,17 +1,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="budget-min" content="${job.budgetMin}" />
+  <meta name="budget-max" content="${job.budgetMax}" />
+
   <title>Tạo Job Greeting</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <link href="css/greeting.css" rel="stylesheet">
   <jsp:useBean id="jobDAO" class="jobtrans.dal.JobDAO" scope="page" />
   <jsp:useBean id="accountDAO" class="jobtrans.dal.AccountDAO" scope="page" />
-
 </head>
 <body>
 <%@include file="includes/header-01.jsp"%>
@@ -43,7 +46,6 @@
 
   <div class="form-container">
     <h2 class="form-title">Tạo Job Greeting</h2>
-
     <form action="job-greeting" method="POST" enctype="multipart/form-data">
       <input type="hidden" name="jobId" value="${job.jobId}">
 
@@ -56,9 +58,9 @@
             <i class="fas fa-exclamation-circle" style="font-size: 50px; color: #ff9800; margin-bottom: 15px;"></i>
             <h3 style="margin-bottom: 10px; color: #555;">Bạn chưa có CV nào</h3>
             <p style="color: #777; margin-bottom: 20px;">Hãy tạo CV mới để có thể ứng tuyển vào vị trí này</p>
-            <button id="create-cv-btn" class="submit-btn" style="background: linear-gradient(to right, #ff9800, #ff5722);">
+            <a href="cv?action=type" id="create-cv-btn" class="submit-btn" style="text-decoration: none ;background: linear-gradient(to right, #ff9800, #ff5722);">
               <i class="fas fa-plus"></i> Tạo CV mới
-            </button>
+            </a>
           </div>
         </div>
         </c:if>
@@ -77,8 +79,10 @@
               </div>
             </c:forEach>
           </div>
-        <div class="error-message" id="cv-error"></div>
-      </c:if>
+          <div class="error-message" id="cv-error"></div>
+        </c:if>
+      </div>
+
       <div class="form-group">
         <label class="form-label" for="price" style="margin-top: 20px">Mức lương mong muốn</label>
         <div class="price-container">
@@ -114,15 +118,15 @@
           <span class="remove-file" onclick="removeFile()"><i class="fas fa-times"></i></span>
         </div>
       </div>
-        <div class="error-message" id="form-error"></div>
 
-        <button type="submit" class="submit-btn">
-        <i class="fas fa-paper-plane"></i> Gửi chào giá cho công việc
+      <div class="error-message" id="form-error"></div>
+
+      <button type="submit" class="submit-btn">
+      <i class="fas fa-paper-plane"></i> Gửi chào giá cho công việc
       </button>
     </form>
   </div>
 </div>
-
 
 <%@include file="includes/footer.jsp"%>
 <script>
@@ -151,21 +155,31 @@
       element.style.fontSize = '14px';
       element.style.marginTop = '5px';
       element.style.transition = 'all 0.3s ease';
-
       element.style.display = 'none'; // Hide initially
     });
 
     // Show error function
     function showError(errorElement, message) {
-      errorElement.textContent = message;
-      errorElement.style.display = 'block';
+      if (errorElement) {
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+      }
       return false;
     }
 
     // Clear error function
     function clearError(errorElement) {
-      errorElement.textContent = '';
-      errorElement.style.display = 'none';
+      if (errorElement) {
+        errorElement.textContent = '';
+        errorElement.style.display = 'none';
+      }
+    }
+
+    // Check if user has any CVs
+    function hasCVs() {
+      // Check if cvList is not empty by checking if there are any CV items
+      const cvItems = document.querySelectorAll('.cv-item');
+      return cvItems.length > 0;
     }
 
     // Price validation
@@ -182,18 +196,44 @@
         return showError(priceError, 'Mức lương phải là số dương');
       }
 
-      // Định nghĩa budgetMin và budgetMax (kiểu BigDecimal - dùng số nguyên để tránh sai số)
-      const budgetMin = parseFloat(${job.budgetMin}); // Chuyển sang số
-      const budgetMax = parseFloat(${job.budgetMax}); // Chuyển sang số
+      try {
+        // Lấy giá trị từ các phần tử meta nếu có
+        let budgetMin = 0;
+        let budgetMax = Infinity;
 
-      // Kiểm tra nếu budgetMin hoặc budgetMax không hợp lệ
-      if (isNaN(budgetMin) || isNaN(budgetMax)) {
-        return showError(priceError, 'Khoảng lương không hợp lệ');
-      }
+        // Thử lấy giá trị từ meta data nếu có
+        const minElement = document.querySelector('meta[name="budget-min"]');
+        const maxElement = document.querySelector('meta[name="budget-max"]');
 
-      // So sánh với budgetMin và budgetMax
-      if (price < budgetMin || price > budgetMax) {
-        return showError(priceError, `Mức lương phải nằm trong khoảng <fmt:formatNumber value="${job.budgetMin}" type="currency" currencySymbol="₫" groupingUsed="true" /> - <fmt:formatNumber value="${job.budgetMax}" type="currency" currencySymbol="₫" groupingUsed="true" />`);
+        if (minElement) {
+          budgetMin = parseFloat(minElement.getAttribute('content'));
+        }
+
+        if (maxElement) {
+          budgetMax = parseFloat(maxElement.getAttribute('content'));
+        }
+
+        // Nếu không có meta data, thử lấy từ biến toàn cục
+        if (isNaN(budgetMin) && typeof jobBudgetMin !== 'undefined') {
+          budgetMin = parseFloat(jobBudgetMin);
+        }
+
+        if (isNaN(budgetMax) && typeof jobBudgetMax !== 'undefined') {
+          budgetMax = parseFloat(jobBudgetMax);
+        }
+
+        // Kiểm tra nếu có thể lấy được budgetMin và budgetMax
+        if (!isNaN(budgetMin) && !isNaN(budgetMax)) {
+          // So sánh với budgetMin và budgetMax
+          if (price < budgetMin || price > budgetMax) {
+            const minFormatted = new Intl.NumberFormat('vi-VN').format(budgetMin);
+            const maxFormatted = new Intl.NumberFormat('vi-VN').format(budgetMax);
+            return showError(priceError, `Mức lương phải nằm trong khoảng ${formattedBudgetMin} - ${formattedBudgetMax}`);
+          }
+        }
+      } catch (e) {
+        console.error("Lỗi khi kiểm tra khoảng lương:", e);
+        // Không hiển thị lỗi cho người dùng, chỉ ghi log
       }
 
       return true;
@@ -232,6 +272,9 @@
 
     // CV selection
     window.selectCV = function(cvId) {
+      // Đảm bảo rằng event hiện hữu
+      if (!event) return;
+
       // Remove selected class from all CV items
       const cvItems = document.querySelectorAll('.cv-item');
       cvItems.forEach(item => {
@@ -243,15 +286,19 @@
 
       // Check the radio button
       const radio = event.currentTarget.querySelector('.cv-radio');
-      radio.checked = true;
+      if (radio) radio.checked = true;
 
       // Clear error message
       clearError(cvError);
     };
 
-    // File upload handler
+    // File upload handler - Sửa lỗi upload file 2 lần
     attachmentInput.addEventListener('change', function() {
-      if (!this.files.length) return;
+      // Reset file preview first
+      filePreview.style.display = 'none';
+      fileName.textContent = '';
+
+      if (!this.files || !this.files.length) return;
 
       const file = this.files[0];
       const validTypes = ['.pdf', '.docx', '.jpg', '.jpeg'];
@@ -260,14 +307,14 @@
       // Kiểm tra loại file
       if (!validTypes.includes(extension)) {
         alert('Chỉ chấp nhận file PDF, DOCX, JPG, JPEG');
-        this.value = '';
+        this.value = ''; // Reset input file
         return;
       }
 
       // Kiểm tra kích thước (5MB)
       if (file.size > 5 * 1024 * 1024) {
         alert('File không được vượt quá 5MB');
-        this.value = '';
+        this.value = ''; // Reset input file
         return;
       }
 
@@ -287,13 +334,22 @@
       let isValid = true;
       clearError(formError);
 
-      // Validate CV selection
-      const cvList = document.querySelectorAll('.cv-radio');
-      if (cvList.length > 0) {
+      // Kiểm tra xem người dùng có CV nào không
+      if (!hasCVs()) {
+        // Nếu không có CV, ngăn form submit
+        showError(formError, 'Bạn cần tạo CV trước khi ứng tuyển');
+        event.preventDefault();
+        return false;
+      }
+
+      // Validate CV selection - chỉ kiểm tra khi có CVs
+      if (hasCVs()) {
         let cvSelected = false;
-        cvList.forEach(radio => {
+        const cvRadios = document.querySelectorAll('.cv-radio');
+        cvRadios.forEach(radio => {
           if (radio.checked) cvSelected = true;
         });
+
         if (!cvSelected) {
           showError(cvError, 'Vui lòng chọn CV của bạn');
           isValid = false;
@@ -305,16 +361,38 @@
         showError(priceError, 'Vui lòng nhập mức lương mong muốn');
         isValid = false;
       } else {
-        const price = parseInt(priceInput.value.replace(/,/g, '')) || 0;
-        const budgetMax = ${job.budgetMax.intValue()};
-        const budgetMin = ${job.budgetMin.intValue()};
+        try {
+          const price = parseFloat(priceInput.value.replace(/,/g, ''));
 
-        if (price <= 0) {
-          showError(priceError, 'Mức lương phải là số dương');
-          isValid = false;
-        }
-        else if (price < budgetMin || price > budgetMax) {
-          showError(priceError, `Mức lương phải nằm trong khoảng <fmt:formatNumber value="${job.budgetMin}" type="currency" currencySymbol="₫" groupingUsed="true" /> - <fmt:formatNumber value="${job.budgetMax}" type="currency" currencySymbol="₫" groupingUsed="true" />`);
+          // Lấy giá trị từ các phần tử meta nếu có
+          let budgetMin = 0;
+          let budgetMax = Infinity;
+
+          // Thử lấy giá trị từ meta data nếu có
+          const minElement = document.querySelector('meta[name="budget-min"]');
+          const maxElement = document.querySelector('meta[name="budget-max"]');
+
+          if (minElement) {
+            budgetMin = parseFloat(minElement.getAttribute('content'));
+          }
+
+          if (maxElement) {
+            budgetMax = parseFloat(maxElement.getAttribute('content'));
+          }
+
+          if (isNaN(price) || price <= 0) {
+            showError(priceError, 'Mức lương phải là số dương');
+            isValid = false;
+          }
+          else if (!isNaN(budgetMin) && !isNaN(budgetMax) && (price < budgetMin || price > budgetMax)) {
+            const minFormatted = new Intl.NumberFormat('vi-VN').format(budgetMin);
+            const maxFormatted = new Intl.NumberFormat('vi-VN').format(budgetMax);
+            showError(priceError, `Mức lương phải nằm trong khoảng ${minFormatted} ₫ - ${maxFormatted} ₫`);
+            isValid = false;
+          }
+        } catch (e) {
+          console.error("Lỗi khi kiểm tra giá:", e);
+          showError(priceError, 'Mức lương không hợp lệ');
           isValid = false;
         }
       }
@@ -323,9 +401,12 @@
       if (expectedDayInput.value === '') {
         showError(expectedDayError, 'Vui lòng nhập thời gian hoàn thành');
         isValid = false;
-      } else if (parseInt(expectedDayInput.value) <= 0) {
-        showError(expectedDayError, 'Thời gian hoàn thành phải là số ngày dương');
-        isValid = false;
+      } else {
+        const days = parseInt(expectedDayInput.value);
+        if (isNaN(days) || days <= 0) {
+          showError(expectedDayError, 'Thời gian hoàn thành phải là số ngày dương');
+          isValid = false;
+        }
       }
 
       // Introduction validation
@@ -337,53 +418,64 @@
         isValid = false;
       }
 
-      // Chỉ preventDefault khi không hợp lệ
+      // Hiển thị lỗi tổng quát nếu có lỗi
       if (!isValid) {
         event.preventDefault();
         showError(formError, 'Vui lòng kiểm tra lại các thông tin đã nhập');
+
+        // Cuộn lên đầu trang để người dùng thấy lỗi
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return false;
       }
-      // Nếu hợp lệ, form sẽ tự submit mà không cần gọi submit() lại
+      // Nếu hợp lệ, form sẽ tự submit
     });
 
-// Hàm format tiền tệ
+    // Hàm format tiền tệ (không dùng thuộc tính style: 'currency' để tránh lỗi)
     function formatCurrency(value) {
+      if (value == null || isNaN(value)) return '0 ₫';
+
       return new Intl.NumberFormat('vi-VN', {
-        style: 'currency',
-        currency: 'VND'
-      }).format(value);
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      }).format(value) + ' ₫';
     }
 
-    // Add style to make attachment area look interactive
-    // const attachmentArea = document.querySelector('.attachment-area');
-    // if (attachmentArea) {
-    //   attachmentArea.addEventListener('click', function() {
-    //     attachmentInput.click();
-    //   });
-    //
-    //   // Add drag and drop functionality for attachment
-    //   attachmentArea.addEventListener('dragover', function(e) {
-    //     e.preventDefault();
-    //     this.classList.add('drag-over');
-    //   });
-    //
-    //   attachmentArea.addEventListener('dragleave', function() {
-    //     this.classList.remove('drag-over');
-    //   });
-    //
-    //   attachmentArea.addEventListener('drop', function(e) {
-    //     e.preventDefault();
-    //     this.classList.remove('drag-over');
-    //
-    //     if (e.dataTransfer.files.length > 0) {
-    //       attachmentInput.files = e.dataTransfer.files;
-    //
-    //       // Trigger change event manually
-    //       const event = new Event('change');
-    //       attachmentInput.dispatchEvent(event);
-    //     }
-    //   });
-    // }
+    // Thêm logic để xử lý phần kéo thả file
+    const attachmentArea = document.querySelector('.attachment-area');
+    if (attachmentArea) {
+      // Bỏ xử lý click vào area để tránh mở file browser 2 lần
+      // Chỉ giữ lại xử lý cho các sự kiện kéo thả
+
+      // Add drag and drop functionality for attachment
+      attachmentArea.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        this.classList.add('drag-over');
+      });
+
+      attachmentArea.addEventListener('dragleave', function() {
+        this.classList.remove('drag-over');
+      });
+
+      attachmentArea.addEventListener('drop', function(e) {
+        e.preventDefault();
+        this.classList.remove('drag-over');
+
+        if (e.dataTransfer.files.length > 0) {
+          // Xóa file cũ trước khi set file mới
+          attachmentInput.value = '';
+          filePreview.style.display = 'none';
+          fileName.textContent = '';
+
+          // Set file mới
+          attachmentInput.files = e.dataTransfer.files;
+
+          // Trigger change event manually để kích hoạt handler đã đăng ký
+          const event = new Event('change');
+          attachmentInput.dispatchEvent(event);
+        }
+      });
+    }
   });
 </script>
-  </body>
+</body>
 </html>

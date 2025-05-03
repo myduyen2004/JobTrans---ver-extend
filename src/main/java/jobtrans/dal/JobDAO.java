@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 public class JobDAO {
     private final DBConnection dbConnection;
     List<Job> jobs = new ArrayList<>();
-
     //tao setter
     public void setJobs(List<Job> jobs) {
         this.jobs = jobs;
@@ -46,7 +45,6 @@ public class JobDAO {
         job.setStatusJobId(rs.getInt("status_job_id"));
         return job;
     }
-
 
     public List<Job> getAllJobs() {
         List<Job> list = new ArrayList<>();
@@ -132,6 +130,7 @@ public class JobDAO {
         return list;
     }
 
+
     public int getNumOfJobGreetingByJobId(int jobId) {
         int numOfJobGreeting = 0;
         String query = "Select COUNT(*) num_of_jobGreeting FROM JobGreeting WHERE job_id=?";
@@ -199,7 +198,7 @@ public class JobDAO {
 
     public int getMaxJobId() {
         String sql = "SELECT MAX(job_id) AS maxJobId FROM Job";
-        try {
+        try{
             Connection conn = dbConnection.openConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -218,20 +217,21 @@ public class JobDAO {
         String sql = "INSERT INTO Interview (start_date, interview_link, job_id) " +
                 "VALUES (?, ?, ?)";
 
-        try {
-            Connection conn = dbConnection.openConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
-
-            ps.setTimestamp(1, new java.sql.Timestamp(interview.getStartDate().getTime()));  // LocalDateTime -> Timestamp
-            ps.setString(2, interview.getInterviewLink());
-            ps.setInt(3, interview.getJobId());
-
-            ps.executeUpdate();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Connection conn = dbConnection.openConnection();
+//            PreparedStatement ps = conn.prepareStatement(sql);
+//
+//            ps.setTimestamp(1, new java.sql.Timestamp(interview .getStartDate().getTime()));  // LocalDateTime -> Timestamp
+//            ps.setString(2, interview.getInterviewLink());
+//            ps.setInt(3, interview.getJobId());
+//
+//            ps.executeUpdate();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
+
 
     public void insertTest(Test test) {
         String sql = "INSERT INTO Test(job_id, test_link, have_required) " +
@@ -242,7 +242,7 @@ public class JobDAO {
             PreparedStatement ps = conn.prepareStatement(sql);
 
             ps.setInt(1, test.getJobId());
-            ps.setString(2, test.getTestLink());
+            ps.setNString(2, test.getTestLink());
             ps.setBoolean(3, test.isHaveRequired());
 
             ps.executeUpdate();
@@ -251,6 +251,27 @@ public class JobDAO {
             e.printStackTrace();
         }
     }
+
+    public void updateTest(Test test) {
+        String sql = "UPDATE Test SET "
+                + "test_link = ?, "
+                + "have_required = ? "
+                + "WHERE job_id = ?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setString(1, test.getTestLink());
+            ps.setBoolean(2, test.isHaveRequired());
+            ps.setInt(3, test.getJobId());
+
+            int rowsAffected = ps.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public int addJob(Job job) {
         int jobId = -1;
@@ -312,27 +333,27 @@ public class JobDAO {
         }
     }
 
-    public void updateInterviewByJobId(Interview interview) {
+    public void updateInterviewByJobId(Interview interview){
         String sql = "UPDATE Interview SET "
                 + "start_date = ?, "
                 + "interview_link = ?, "
                 + "WHERE job_id = ?";
 
-        try {
-            Connection con = dbConnection.openConnection();
-            PreparedStatement ps = con.prepareStatement(sql);
-
-            ps.setTimestamp(1, new java.sql.Timestamp(interview.getStartDate().getTime()));  // LocalDateTime -> Timestamp
-            ps.setString(2, interview.getInterviewLink());
-            ps.setInt(3, interview.getJobId());
-
-            int rowsAffected = ps.executeUpdate();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            Connection con = dbConnection.openConnection();
+//            PreparedStatement ps = con.prepareStatement(sql);
+//
+//            ps.setTimestamp(1, new java.sql.Timestamp(interview.getStartDate().getTime()));  // LocalDateTime -> Timestamp
+//            ps.setString(2, interview.getInterviewLink());
+//            ps.setInt(3, interview.getJobId());
+//
+//            int rowsAffected = ps.executeUpdate();
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
-    public void deleteJobTagByJobId(int jobId) {
+    public void deleteJobTagByJobId(int jobId){
         String sql = "DELETE FROM JobTag WHERE job_id = ?";
 
         try {
@@ -345,7 +366,7 @@ public class JobDAO {
         }
     }
 
-    public void updateJobByJobId(Job job) {
+    public void updateJobByJobId(Job job){
         String sql = "UPDATE Job SET " +
                 "job_title = ?, " +
                 "job_description = ?, " +
@@ -358,7 +379,7 @@ public class JobDAO {
                 "due_date_post = ?, " +
                 "have_interviewed = ?, " +
                 "have_tested = ?, " +
-                "num_of_member = ?, " +
+                "num_of_member = ? " +
                 "WHERE job_id = ?";
 
         try {
@@ -389,17 +410,19 @@ public class JobDAO {
     public boolean deleteJobByJobId(int jobId) {
         String sql = "DELETE FROM Job WHERE job_id = ?";
 
-        try {
-            Connection con = dbConnection.openConnection();
-            PreparedStatement ps = con.prepareStatement(sql);
+        try (Connection con = dbConnection.openConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setInt(1, jobId);
             int rowsAffected = ps.executeUpdate();
             return rowsAffected > 0;
+
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return false; // hoặc throw nếu muốn xử lý ở nơi khác
         }
     }
+
 
     public JobCategory getCategoryById(int categoryId) {
         JobCategory jobCategory = null;
@@ -407,7 +430,6 @@ public class JobDAO {
 
         try (Connection con = dbConnection.openConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
-
 
             ps.setInt(1, categoryId);
             try (ResultSet rs = ps.executeQuery()) {
@@ -463,7 +485,6 @@ public class JobDAO {
 
         return list;
     }
-
     public List<JobGreeting> search(int accountId, String sort) {
         List<JobGreeting> list = new ArrayList<>();
 
@@ -517,7 +538,6 @@ public class JobDAO {
         }
         return list;
     }
-
     public List<JobGreeting> getJobGreetingByJobSeekerId(int jobSeekerId) {
         List<JobGreeting> list = new ArrayList<>();
         String sql = "SELECT * FROM JobGreeting WHERE job_seeker_id = ?";
@@ -661,7 +681,6 @@ public class JobDAO {
         return jobs;
     }
 
-
     public int getNumOfCompleteJobByJobSeekerId(int jobSeekerId) {
         int numOfComplete = 0;
         String query = "select count(*) as num_job_complete from Job join JobGreeting on Job.job_id = JobGreeting.job_id where JobGreeting.status = N'Được nhận' and job.status_job_id = 6 and JobGreeting.job_seeker_id = ?;";
@@ -679,6 +698,25 @@ public class JobDAO {
         }
 
         return numOfComplete;
+    }
+
+    public int countJobGreetingByJobSeekerId(int jobSeekerId) {
+        int nums = 0;
+        String query = "select count(*) as nums from JobGreeting where job_seeker_id = ?;";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, jobSeekerId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                nums = rs.getInt("nums");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return nums;
     }
 
     public JobGreeting getJobGreetingById(int greetingId) {
@@ -721,6 +759,7 @@ public class JobDAO {
         JobDAO jobDAO = new JobDAO();
         System.out.println(jobDAO.getAllJobs().size());
     }
+
 
     public int countTotalJobsByAccountId(int accountId) {
         String query = "SELECT COUNT(*) FROM Job WHERE post_account_id = ?";
@@ -765,8 +804,57 @@ public class JobDAO {
         return (completed * 100.0) / total;
     }
 
+    public boolean isPostOwner(int jobId, int accountId) throws Exception {
+        String query = "SELECT 1 FROM Job WHERE job_id = ? AND post_account_id = ?";
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, jobId);
+            stmt.setInt(2, accountId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next();
+            }
+        }
+    }
+    public Test getTestByJobId(int jobId) {
+        Test test = null;
+        String query = "SELECT * FROM Test WHERE job_id = ?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, jobId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                test = new Test();
+                test.setTestId(rs.getInt("test_id"));
+                test.setJobId(rs.getInt("job_id"));
+                test.setTestLink(rs.getString("test_link"));
+                test.setHaveRequired(rs.getBoolean("have_required"));
+                test.setCreatedAt(rs.getTimestamp("created_at"));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return test;
+    }
+
+    public BigDecimal getJobFeeByJobIdAndApplicantId(int jobId, int applicantId) {
+        BigDecimal jobFee = null;
+        String query = "SELECT job_fee FROM Contract WHERE job_id = ? AND applicant_id = ?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, jobId);
+            ps.setInt(2, applicantId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                jobFee = new BigDecimal(rs.getDouble("job_fee"));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return jobFee;
+    }
 }
-
-
-
-

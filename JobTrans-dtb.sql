@@ -15,13 +15,13 @@ CREATE TABLE Account (
     phone VARCHAR(50),
 	address NVARCHAR(MAX),
 	education NVARCHAR(255),
-	speciality NVARCHAR(500), 
+	speciality NVARCHAR(500),
 	experience_years INT,
 	skills NVARCHAR(MAX), -- xử lí như tách tag
 	bio NVARCHAR(MAX),
-	point INT DEFAULT 0, 
+	point INT DEFAULT 0,
 	star_rate FLOAT DEFAULT 0,
-	amount_wallet DECIMAL(18, 2) DEFAULT 0, 
+	amount_wallet DECIMAL(18, 2) DEFAULT 0,
 	verified_link NVARCHAR(MAX),
     verified_account BIT,
 	complete_percent DECIMAL(5, 4),
@@ -315,18 +315,25 @@ CREATE TABLE Conversation (
                               CONSTRAINT FK_Conversation_Job FOREIGN KEY (job_id) REFERENCES Job(job_id) ON DELETE CASCADE
 );
 CREATE TABLE Message (
-                         message_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-                         job_id INT NOT NULL,
-                         sender_id INT NOT NULL,
+                         message_id INT IDENTITY(1,1) PRIMARY KEY,
                          conversation_id INT NOT NULL,
-                         attachment VARCHAR(MAX),
-    content NVARCHAR(MAX),
-    sent_time DATETIME DEFAULT GETDATE(),
-    CONSTRAINT FK_Message_Job FOREIGN KEY (job_id) REFERENCES Job(job_id),
-    CONSTRAINT FK_Message_Account FOREIGN KEY (sender_id) REFERENCES Account(account_id),
-    CONSTRAINT FK_Message_Conversation FOREIGN KEY (conversation_id) REFERENCES Conversation(conversation_id) 
-	ON DELETE CASCADE 
-	ON UPDATE CASCADE
+                         sender_id INT NOT NULL,
+                         content NVARCHAR(MAX),
+                         sent_time DATETIME DEFAULT GETDATE(),
+                         replied_to_id INT,
+                         is_sticker BIT DEFAULT 0,
+                         attachment_url VARCHAR(255),
+                         CONSTRAINT FK_Message_Account FOREIGN KEY (sender_id) REFERENCES Account(account_id),
+                         CONSTRAINT FK_Message_Conversation FOREIGN KEY (conversation_id) REFERENCES Conversation(conversation_id)
+                             ON DELETE CASCADE
+                             ON UPDATE CASCADE
+);
+ALTER TABLE Message
+    ADD is_sticker BIT DEFAULT 0;
+CREATE TABLE Stickers (
+                          sticker_id INT IDENTITY(1,1) PRIMARY KEY,
+                          sticker_url VARCHAR(255) NOT NULL,
+                          sticker_name NVARCHAR(50)
 );
 CREATE TABLE Shipment (
                           shipment_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -366,6 +373,10 @@ CREATE TABLE Feedback (
                           FOREIGN KEY (from_user_id) REFERENCES Account(account_id),
                           FOREIGN KEY (to_user_id) REFERENCES Account(account_id)
 );
+
+--Vào thẳng Constrain của bảng Feedback để xóa constraint cũ của check type
+ALTER TABLE Feedback ADD CONSTRAINT CK_Feedback_Type CHECK (type IN (N'EmployerToSeeker', N'SeekerToEmployer', N'SeekerToSeeker'));
+
 CREATE TABLE CancelRequest (
                                cancel_request_id INT IDENTITY(1,1) PRIMARY KEY,
                                job_id INT NOT NULL,
@@ -382,18 +393,29 @@ CREATE TABLE CancelRequest (
 );
 CREATE TABLE Contract (
                           contract_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+                          applicant_id INT NOT NULL,
+                          employer_id INT NOT NULL,
                           job_id INT NOT NULL,
+                          contract_preview  NVARCHAR(MAX),
                           contract_link NVARCHAR(MAX),
                           status NVARCHAR(100),
                           A_name NVARCHAR(100) NOT NULL,
+                          A_identity VARCHAR(50) NOT NULL, --số cccd/cmnd
+                          A_identity_date DATE NOT NULL, --ngày cấp
+                          A_identity_address  NVARCHAR(100) NOT NULL, --nơi cấp
+                          A_birthday DATE,
                           A_address NVARCHAR(500),
-                          A_representative NVARCHAR(500) NOT NULL, --đại diện
+                          A_representative NVARCHAR(500), --đại diện
+                          A_tax_code NVARCHAR(20) NOT NULL, --mã số thuế
+                          A_phone_number VARCHAR(50),
                           A_email VARCHAR(200),
                           A_signature BIT NOT NULL,
-                          B_identity VARCHAR(50) NOT NULL,
-                          B_identity_date DATE NOT NULL,
+                          B_identity VARCHAR(50) NOT NULL, --số cccd/cmnd
+                          B_identity_date DATE NOT NULL, --ngày cấp
+                          B_identity_address  NVARCHAR(100) NOT NULL, --nơi cấp
                           B_birthday DATE,
                           B_address NVARCHAR(500),
+                          B_representative NVARCHAR(500), --đại diện
                           B_phone_number VARCHAR(50),
                           B_email VARCHAR(200),
                           B_signature BIT NOT NULL,
@@ -401,7 +423,7 @@ CREATE TABLE Contract (
                           job_requirement NVARCHAR(MAX) NOT NULL,
                           start_date DATE NOT NULL,
                           end_date DATE NOT NULL,
-                          job_address NVARCHAR(MAX),
+                          job_address NVARCHAR(MAX) NOT NULL,
                           job_fee DECIMAL(18,2) NOT NULL,
                           job_deposit_A DECIMAL(18,2) NOT NULL,
                           job_deposit_A_date DATE NOT NULL,
@@ -411,8 +433,12 @@ CREATE TABLE Contract (
                           job_deposit_B_text NVARCHAR(200),
                           CONSTRAINT FK_Contract_Job FOREIGN KEY (job_id) REFERENCES Job(job_id)
                               ON DELETE CASCADE
-                              ON UPDATE CASCADE
+                              ON UPDATE CASCADE,
+                          FOREIGN KEY (applicant_id) REFERENCES Account(account_id),
+                          FOREIGN KEY (employer_id) REFERENCES Account(account_id)
+
 );
+DROP TABLE Contract
 -- Tạo bảng Transaction
 CREATE TABLE [Transaction] (
                                transaction_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -468,3 +494,16 @@ CREATE TABLE Report (
                         FOREIGN KEY (report_by) REFERENCES Account(account_id),
                         FOREIGN KEY (criteria_id) REFERENCES Criteria(criteria_id)
 );
+
+INSERT INTO [JobTransnew].[dbo].[Stickers] ([sticker_url], [sticker_name])
+VALUES
+    ('stickers/corgi.png', 'corgi'),
+    ('stickers/so-cute.png', 'so-cute'),
+    ('stickers/strawberry-milk.png', 'strawberry-milk'),
+    ('stickers/paper-plane.png', 'paper-plane'),
+    ('stickers/sun.png', 'sun'),
+    ('stickers/book.png', 'book'),
+    ('stickers/heart-shape.png', 'heart-shape'),
+    ('stickers/cat.png', 'cat'),
+    ('stickers/emoticon.png', 'emoticon'),
+    ('stickers/smile.png', 'smile');

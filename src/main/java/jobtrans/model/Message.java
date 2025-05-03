@@ -1,51 +1,41 @@
 package jobtrans.model;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 public class Message {
     private int messageId;
-    private int jobId;
-    private int senderId;
     private int conversationId;
-    private String attachment;
+    private int senderId;
+    private String senderName;
     private String content;
-    private Timestamp sentTime;
+    private Date sentTime;
+    private Integer repliedToId; // Cho phép null
+    private boolean isSticker;
+    private String attachmentUrl;
+    private String repliedContent;
 
-    public Message() {
-    }
+    // Constructors
+    public Message() {}
 
-    public Message(int messageId, int jobId, int senderId, int conversationId, String attachment, String content, Timestamp sentTime) {
+    public Message(int messageId, int conversationId, int senderId, String content, Date sentTime,
+                   Integer repliedToId, boolean isSticker, String attachmentUrl) {
         this.messageId = messageId;
-        this.jobId = jobId;
-        this.senderId = senderId;
         this.conversationId = conversationId;
-        this.attachment = attachment;
+        this.senderId = senderId;
         this.content = content;
         this.sentTime = sentTime;
+        this.repliedToId = repliedToId;
+        this.isSticker = isSticker;
+        this.attachmentUrl = attachmentUrl;
     }
 
+    // Getters and Setters
     public int getMessageId() {
         return messageId;
     }
 
     public void setMessageId(int messageId) {
         this.messageId = messageId;
-    }
-
-    public int getJobId() {
-        return jobId;
-    }
-
-    public void setJobId(int jobId) {
-        this.jobId = jobId;
-    }
-
-    public int getSenderId() {
-        return senderId;
-    }
-
-    public void setSenderId(int senderId) {
-        this.senderId = senderId;
     }
 
     public int getConversationId() {
@@ -56,12 +46,12 @@ public class Message {
         this.conversationId = conversationId;
     }
 
-    public String getAttachment() {
-        return attachment;
+    public int getSenderId() {
+        return senderId;
     }
 
-    public void setAttachment(String attachment) {
-        this.attachment = attachment;
+    public void setSenderId(int senderId) {
+        this.senderId = senderId;
     }
 
     public String getContent() {
@@ -72,12 +62,51 @@ public class Message {
         this.content = content;
     }
 
-    public Timestamp getSentTime() {
+    public Date getSentTime() {
         return sentTime;
     }
 
-    public void setSentTime(Timestamp sentTime) {
+    public void setSentTime(Date sentTime) {
         this.sentTime = sentTime;
     }
-}
 
+    public Integer getRepliedToId() {
+        return repliedToId;
+    }
+
+    public void setRepliedToId(Integer repliedToId) {
+        this.repliedToId = repliedToId;
+    }
+
+    public boolean isSticker() {
+        return isSticker;
+    }
+
+    public void setSticker(boolean isSticker) {
+        this.isSticker = isSticker;
+    }
+
+    public String getAttachmentUrl() {
+        return attachmentUrl;
+    }
+
+    public void setAttachmentUrl(String attachmentUrl) {
+        this.attachmentUrl = attachmentUrl;
+    }
+
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
+
+    public String getRepliedContent() {
+        return repliedContent;
+    }
+
+    public void setRepliedContent(String repliedContent) {
+        this.repliedContent = repliedContent;
+    }
+}

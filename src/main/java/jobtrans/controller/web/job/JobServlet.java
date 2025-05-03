@@ -1,23 +1,16 @@
 package jobtrans.controller.web.job;
-
-
 import jobtrans.dal.*;
 import jobtrans.model.*;
 import jobtrans.dal.AccountDAO;
 import jobtrans.dal.JobDAO;
-import jobtrans.model.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -75,10 +68,21 @@ public class JobServlet extends HttpServlet {
                 break;
             case "downloadFile":
                 downloadFile(request, response);
+                break;
             case "view-candidates-list":
                 viewCandidatesList(request, response);
+                break;
             case "download":
-                downloadFile(request, response);
+                downloadFileJob(request, response);
+                break;
+            case "viewPartnerList":
+                viewPartnerList(request, response);
+                break;
+            case "loadPostFeedback":
+                loadPostFeedback(request, response);
+                break;
+            case "viewFeedback":
+                viewFeedback(request, response);
                 break;
             default:
                 response.getWriter().print("Lỗi rồi má");
@@ -86,15 +90,102 @@ public class JobServlet extends HttpServlet {
         }
     }
 
+    private void viewPartnerList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        if (session.getAttribute("sessionAccount") != null) {
+            JobDAO jobDAO = new JobDAO();
+            AccountDAO accountDAO = new AccountDAO();
+            JobGreetingDAO jobGreetingDAO = new JobGreetingDAO();
+            FeedbackDAO feedbackDAO = new FeedbackDAO();
+
+            //Lấy acc đang đăng nhập
+            Account account = (Account) session.getAttribute("sessionAccount");
+            Account account1 = accountDAO.getAccountById(account.getAccountId());
+            request.setAttribute("loggedAccount", account1);
+
+            //Lay job can xem doi tac
+            int jobId = Integer.parseInt(request.getParameter("jobId"));
+            Job job = jobDAO.getJobById(jobId);
+            request.setAttribute("jobId", jobId);
+
+            //Lấy danh sách feedBack của tài khoản "Tôi" đang đăng nhập
+            List<Feedback> feedbackList = feedbackDAO.getFeedbackBytoUserIdAndJobId(account1.getAccountId(), jobId);
+            request.setAttribute("feedbackList", feedbackList);
+
+            //Lay danh sach partner
+            List<Account> partnerList = new ArrayList<>();
+            List<JobGreeting> greetingList = jobGreetingDAO.getAcceptedListJobGreetingByJobId(jobId);
+
+            //Nếu tài khoản đang đăng nhập không phải là tài khoản đăng công việc thì thêm tài khoản người đăng vào partner list luôn
+            if(account1.getAccountId() != job.getPostAccountId()){
+                partnerList.add(accountDAO.getAccountById(job.getPostAccountId()));
+                NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                String jobFee = currencyFormatter.format(jobDAO.getJobFeeByJobIdAndApplicantId(jobId, account1.getAccountId()));
+                request.setAttribute("jobFee", jobFee);
+            }
+            for(JobGreeting greeting : greetingList) {
+                if(account1.getAccountId() != greeting.getJobSeekerId()){
+                    partnerList.add(accountDAO.getAccountById(greeting.getJobSeekerId()));
+                }
+            }
+            request.setAttribute("partnerList", partnerList);
+
+            request.getRequestDispatcher("partner-list.jsp").forward(request, response);
+        }else{
+            response.sendRedirect("home");
+        }
+    }
+
+    private void viewFeedback(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        if (session.getAttribute("sessionAccount") != null) {
+            AccountDAO accountDAO = new AccountDAO();
+            JobDAO jobDAO = new JobDAO();
+            FeedbackDAO feedbackDAO = new FeedbackDAO();
+
+            //Lấy acc đang đăng nhập
+            Account account = (Account) session.getAttribute("sessionAccount");
+            Account account1 = accountDAO.getAccountById(account.getAccountId());
+            req.setAttribute("loggedAccount", account1);
+
+            //Lay jobId can xem doi tac
+            int jobId = Integer.parseInt(req.getParameter("jobId"));
+            Job job = jobDAO.getJobById(jobId);
+            req.setAttribute("jobId", jobId);
+
+            //Lấy toUserId
+            int toUserId = Integer.parseInt(req.getParameter("toUserId"));
+            req.setAttribute("toUserId", toUserId);
+
+            //Lấy fromUserId
+            int fromUserId = Integer.parseInt(req.getParameter("fromUserId"));
+            req.setAttribute("fromUserId", fromUserId);
+
+            Feedback feedback = feedbackDAO.getFeedbackByToUserIdAndJobIdAndFromUserId(toUserId, jobId, fromUserId);
+            req.setAttribute("feedback", feedback);
+            req.getRequestDispatcher("rating-partner-detail.jsp").forward(req, resp);
+        }else{
+            resp.sendRedirect("home");
+        }
+    }
+
     private void viewCandidatesList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         try {
-//            Account account = (Account) session.getAttribute("sessionAccount");
-//            int accountId = account.getAccountId();
-            int jobId = Integer.parseInt(request.getParameter("jobId"));
+            Account account = (Account) session.getAttribute("sessionAccount");
+            if (account == null) {
+                response.sendRedirect("login.jsp");
+                return;
+            }
 
+            int jobId = Integer.parseInt(request.getParameter("jobId"));
             JobDAO jobDAO = new JobDAO();
             Job job = jobDAO.getJobById(jobId);
+
+            if (job == null) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Job not found");
+                return;
+            }
 
             AccountDAO accountDAO = new AccountDAO();
             Account poster = accountDAO.getAccountById(job.getPostAccountId());
@@ -102,75 +193,90 @@ public class JobServlet extends HttpServlet {
             JobGreetingDAO jobGreetingDAO = new JobGreetingDAO();
             List<JobGreeting> jobGreetingsList = jobGreetingDAO.getJobGreetingsByJobId(jobId);
 
-            job.setJobGreetingList(jobGreetingsList);
-            request.setAttribute("numOfApplicants", jobGreetingsList.size());
+            // Set job greetings list safely
+            job.setJobGreetingList(jobGreetingsList != null ? jobGreetingsList : new ArrayList<>());
+            request.setAttribute("numOfApplicants", jobGreetingsList != null ? jobGreetingsList.size() : 0);
 
+            // Format currency
             NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
             String formattedBudgetMin = currencyFormat.format(job.getBudgetMin());
             String formattedBudgetMax = currencyFormat.format(job.getBudgetMax());
             request.setAttribute("budgetRange", formattedBudgetMin + " - " + formattedBudgetMax);
 
-            // Xử lý thông tin deadline
+            // Format dates
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-            // Xử lý dueDatePost
+            // Handle dueDatePost
             if (job.getDueDatePost() != null) {
                 String formattedDueDatePost = dateFormat.format(job.getDueDatePost());
                 request.setAttribute("dueDatePostFormatted", formattedDueDatePost);
+
+                // Calculate days left
+                long currentTime = System.currentTimeMillis();
+                long duePostTime = job.getDueDatePost().getTime();
+                long daysLeft = (duePostTime - currentTime) / (1000 * 60 * 60 * 24);
+                request.setAttribute("daysLeft", daysLeft);
             } else {
                 request.setAttribute("dueDatePostFormatted", "Chưa xác định");
+                request.setAttribute("daysLeft", "N/A");
             }
 
-            // Xử lý postDate (java.sql.Timestamp)
+            // Handle postDate
             if (job.getPostDate() != null) {
-                // Convert Timestamp to java.util.Date
                 java.util.Date postDateUtil = new java.util.Date(job.getPostDate().getTime());
-                String formattedPostDate = dateFormat.format(postDateUtil);
-                request.setAttribute("postDateFormatted", formattedPostDate);
+                request.setAttribute("postDateFormatted", dateFormat.format(postDateUtil));
             } else {
                 request.setAttribute("postDateFormatted", "Chưa xác định");
             }
 
-            // Xử lý joinDate (java.time.LocalDateTime)
-            if (poster.getJoinDate() != null) {
-                // Convert LocalDateTime to java.util.Date
+            // Handle joinDate
+            if (poster != null && poster.getJoinDate() != null) {
                 java.util.Date joinDateUtil = java.util.Date.from(poster.getJoinDate().atZone(ZoneId.systemDefault()).toInstant());
-                String formattedJoinDate = dateFormat.format(joinDateUtil);
-                request.setAttribute("joinDateFormatted", formattedJoinDate);
+                request.setAttribute("joinDateFormatted", dateFormat.format(joinDateUtil));
             } else {
                 request.setAttribute("joinDateFormatted", "Chưa xác định");
             }
 
-            // Tính thời gian còn lại đến deadline
-            try {
-                if (job.getDueDatePost() != null) {
-                    long currentTime = System.currentTimeMillis();
-                    long duePostTime = job.getDueDatePost().getTime();
-                    long daysLeft = (duePostTime - currentTime) / (1000 * 60 * 60 * 24);
-                    request.setAttribute("daysLeft", daysLeft);
-                } else {
-                    request.setAttribute("daysLeft", "N/A");
-                }
-            } catch (Exception e) {
-                System.err.println("Lỗi khi tính ngày còn lại: " + e.getMessage());
-                request.setAttribute("daysLeft", "N/A");
-            }
-
-            System.out.println(jobGreetingsList);
-            System.out.println(job);
-            System.out.println(poster);
-            System.out.println(jobGreetingsList.size());
-
+            // Set attributes for JSP
             request.setAttribute("poster", poster);
             request.setAttribute("job", job);
             request.setAttribute("jobGreetingsList", jobGreetingsList);
-            request.getRequestDispatcher("candidate-list.jsp").forward(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
+            // Forward to JSP
+            request.getRequestDispatcher("candidate-list.jsp").forward(request, response);
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid job ID");
+        } catch (Exception e) {
+            // Log the error properly
+            e.printStackTrace();
+            if (!response.isCommitted()) {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Server error: " + e.getMessage());
+            }
+        }
     }
 
+    private void loadPostFeedback(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        if (session.getAttribute("sessionAccount") != null) {
+            AccountDAO accountDAO = new AccountDAO();
+
+            //Lấy acc đang đăng nhập
+            Account account = (Account) session.getAttribute("sessionAccount");
+            Account account1 = accountDAO.getAccountById(account.getAccountId());
+            request.setAttribute("loggedAccount", account1);
+
+            //Lay jobId can xem doi tac
+            int jobId = Integer.parseInt(request.getParameter("jobId"));
+            request.setAttribute("jobId", jobId);
+
+            //Lấy toUserId
+            int toUserId = Integer.parseInt(request.getParameter("toUserId"));
+            request.setAttribute("toUserId", toUserId);
+            request.getRequestDispatcher("rating-partner.jsp").forward(request, response);
+        }else{
+            response.sendRedirect("home");
+        }
+    }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
@@ -185,9 +291,66 @@ public class JobServlet extends HttpServlet {
             case "update-job":
                 updateJob(req, resp);
                 break;
+            case "postFeedback":
+                postFeedback(req, resp);
+                break;
             default:
                 resp.getWriter().print("Lỗi rồi má");
                 break;
+        }
+    }
+
+    private void postFeedback(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        if (session.getAttribute("sessionAccount") != null) {
+            AccountDAO accountDAO = new AccountDAO();
+            JobDAO jobDAO = new JobDAO();
+            FeedbackDAO feedbackDAO = new FeedbackDAO();
+
+            //Lấy acc đang đăng nhập
+            Account account = (Account) session.getAttribute("sessionAccount");
+            Account account1 = accountDAO.getAccountById(account.getAccountId());
+            req.setAttribute("loggedAccount", account1);
+
+            //Lay jobId can xem doi tac
+            int jobId = Integer.parseInt(req.getParameter("jobId"));
+            Job job = jobDAO.getJobById(jobId);
+            req.setAttribute("jobId", jobId);
+
+            //Lấy toUserId
+            int toUserId = Integer.parseInt(req.getParameter("toUserId"));
+            req.setAttribute("toUserId", toUserId);
+
+            int rating = Integer.parseInt(req.getParameter("rating"));
+            String content = req.getParameter("content");
+
+            String type = "";
+            if(account1.getAccountId() == job.getPostAccountId()){
+                type = "EmployerToSeeker";
+            }
+
+            if(account1.getAccountId() != job.getPostAccountId()){
+                if(toUserId == job.getPostAccountId()){
+                    type = "SeekerToEmployer";
+                }
+                if(toUserId != job.getPostAccountId()){
+                    type = "SeekerToSeeker";
+                }
+            }
+
+            Feedback f = new Feedback();
+            f.setContent(content);
+            f.setJobId(jobId);
+            f.setFromUserId(account1.getAccountId());
+            f.setToUserId(toUserId);
+            f.setType(type);
+            f.setRating(rating);
+            feedbackDAO.addFeedback(f);
+            Feedback feedback = feedbackDAO.getFeedbackByToUserIdAndJobIdAndFromUserId(toUserId, jobId, account1.getAccountId());
+            req.setAttribute("feedback", feedback);
+            req.getRequestDispatcher("rating-partner-detail.jsp").forward(req, resp);
+        }else{
+            resp.sendRedirect("home");
         }
     }
 
@@ -195,11 +358,15 @@ public class JobServlet extends HttpServlet {
             throws ServletException, IOException {
         String jobIdStr = request.getParameter("jobId");
         int jobId;
-//        HttpSession session = request.getSession();
-//        Account account = (Account) session.getAttribute("account");
+        HttpSession session = request.getSession();
         try {
-            jobId = Integer.parseInt(jobIdStr);
+            Account account = (Account) session.getAttribute("sessionAccount");
+            if (account == null) {
+                response.sendRedirect("login.jsp");
+                return;
+            }
 
+            jobId = Integer.parseInt(jobIdStr);
             JobDAO jobDAO = new JobDAO();
             Job job = jobDAO.getJobById(jobId);
 
@@ -302,6 +469,7 @@ public class JobServlet extends HttpServlet {
                 System.out.println(job.isHaveTested());
 
                 // Thêm các thông tin khác cho interface
+                session.setAttribute("account", account);
                 request.setAttribute("job", job);
                 request.setAttribute("poster", poster);
                 request.setAttribute("interviewRequired", job.isHaveInterviewed());
@@ -403,13 +571,33 @@ public class JobServlet extends HttpServlet {
         int jobId = Integer.parseInt(request.getParameter("jobId"));
         HttpSession session = request.getSession();
         JobDAO jobDAO = new JobDAO();
+        AccountDAO accountDAO = new AccountDAO();
+        TagDAO tagDAO = new TagDAO();
         if (session.getAttribute("sessionAccount") != null) {
+            Account account = (Account) session.getAttribute("sessionAccount");
+            Account account1 = accountDAO.getAccountById(account.getAccountId());
+            int accountId = account1.getAccountId();
             Job job = jobDAO.getJobById(jobId);
             List<JobGreeting> greetings = jobDAO.getJobGreetingsByJobId(jobId);
+            Test test = jobDAO.getTestByJobId(job.getJobId());
+            Account postAcc = accountDAO.getAccountById(job.getPostAccountId());
+            List<Tag> tagList;
+            try {
+                tagList = tagDAO.getTagsByJobId(jobId);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+            String formattedBudgetMin = currencyFormat.format(job.getBudgetMin());
+            String formattedBudgetMax = currencyFormat.format(job.getBudgetMax());
+            request.setAttribute("budgetRange", formattedBudgetMin + " - " + formattedBudgetMax);
+            request.setAttribute("test", test);
+            request.setAttribute("loggedAccountId", accountId);
+            request.setAttribute("postAcc", postAcc);
+            request.setAttribute("tagList", tagList);
             request.setAttribute("job", job);
             request.setAttribute("greetings", greetings);
-//        response.getWriter().print(job);
-            request.getRequestDispatcher("job-post-detail.jsp").forward(request, response);
+            request.getRequestDispatcher("job-post-detail-employee.jsp").forward(request, response);
         }else {
             response.sendRedirect("home");
         }
@@ -419,6 +607,7 @@ public class JobServlet extends HttpServlet {
         JobDAO jobDAO = new JobDAO();
         AccountDAO accountDAO = new AccountDAO();
         Job job = new Job();
+        TagDAO tagDAO = new TagDAO();
         //Login ok thì mở comment
         HttpSession session = request.getSession();
         if(session.getAttribute("sessionAccount") != null) {
@@ -437,11 +626,9 @@ public class JobServlet extends HttpServlet {
             job.setBudgetMax(new BigDecimal(request.getParameter("budgetMax")));
             //Xu li test
             Test testO = new Test();
-            String test = request.getParameter("kiemtra");
             String testLink = request.getParameter("kiemtra-content");
             String testRequired = request.getParameter("kiemtra-required");
-            if ("yes".equals(test)) {
-                // Người dùng chọn "Có"
+            if (!testLink.isEmpty()) {
                 job.setHaveTested(true);
                 testO.setTestLink(testLink);
                 if ("yes".equals(testRequired)) {
@@ -449,11 +636,7 @@ public class JobServlet extends HttpServlet {
                 } else {
                     testO.setHaveRequired(false);
                 }
-            } else if ("no".equals(test)) {
-                // Người dùng chọn "Không"
-                job.setHaveTested(false);
             } else {
-                // Không chọn gì
                 job.setHaveTested(false);
             }
             Part p = request.getPart("file");
@@ -474,20 +657,21 @@ public class JobServlet extends HttpServlet {
             job.setAttachment(fileName);
 
             //Xu ly Interview
-            Interview interview = new Interview();
-            String interDate = request.getParameter("interviewDate");
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            if (interDate != null && !interDate.isEmpty()) {
-                // Convert từ String sang java.util.Date
-                job.setHaveInterviewed(true);
-                try {
-                    interview.setStartDate(dateFormat.parse(interDate));
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
-            } else {
-                job.setHaveInterviewed(false);
-            }
+//            Interview interview = new Interview();
+//            String interDate = request.getParameter("interviewDate");
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//            if (interDate != null && !interDate.isEmpty()) {
+//                // Convert từ String sang java.util.Date
+//                job.setHaveInterviewed(true);
+//                try {
+//                    interview.setStartDate(dateFormat.parse(interDate));
+//                } catch (ParseException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            } else {
+//                job.setHaveInterviewed(false);
+//            }
+
 
             String dueDateStr = request.getParameter("dueDate");
             if (dueDateStr != null && !dueDateStr.isEmpty()) {
@@ -499,8 +683,9 @@ public class JobServlet extends HttpServlet {
             int jobId = jobDAO.addJob(job);
 
             //Them Interview
-            interview.setJobId(jobId);
-            jobDAO.insertInterview(interview);
+//            interview.setJobId(jobId);
+//            jobDAO.insertInterview(interview);
+
 
             //Them test moi
             testO.setJobId(jobId);
@@ -516,10 +701,26 @@ public class JobServlet extends HttpServlet {
             }
 
             Job jobNew = jobDAO.getJobById(jobId);
+            List<Tag> tagList;
+            try {
+                tagList = tagDAO.getTagsByJobId(jobId);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
             List<JobGreeting> greetings = jobDAO.getJobGreetingsByJobId(jobId);
+            Account postAcc = accountDAO.getAccountById(jobNew.getPostAccountId());
+            Test test = jobDAO.getTestByJobId(jobId);
+            NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+            String formattedBudgetMin = currencyFormat.format(job.getBudgetMin());
+            String formattedBudgetMax = currencyFormat.format(job.getBudgetMax());
+            request.setAttribute("budgetRange", formattedBudgetMin + " - " + formattedBudgetMax);
+            request.setAttribute("test", test);
+            request.setAttribute("loggedAccountId", accountId);
+            request.setAttribute("postAcc", postAcc);
+            request.setAttribute("tagList", tagList);
             request.setAttribute("job", jobNew);
             request.setAttribute("greetings", greetings);
-            request.getRequestDispatcher("job-post-detail.jsp").forward(request, response);
+            request.getRequestDispatcher("job-post-detail-employee.jsp").forward(request, response);
         }else {
             response.sendRedirect("home");
         }
@@ -542,6 +743,12 @@ public class JobServlet extends HttpServlet {
         HttpSession session = request.getSession();
         if (session.getAttribute("sessionAccount") != null) {
             JobDAO jobDAO = new JobDAO();
+            AccountDAO accountDAO = new AccountDAO();
+            TagDAO tagDAO = new TagDAO();
+            Account account = (Account) session.getAttribute("sessionAccount");
+            Account account1 = accountDAO.getAccountById(account.getAccountId());
+            int accountId = account1.getAccountId();
+
             Job job = new Job();
             int jobId = Integer.parseInt(request.getParameter("jobId"));
             Job oldJob = jobDAO.getJobById(jobId);
@@ -555,13 +762,11 @@ public class JobServlet extends HttpServlet {
             job.setBenefit(request.getParameter("benefit"));
             job.setBudgetMin(new BigDecimal(request.getParameter("budgetMin")));
             job.setBudgetMax(new BigDecimal(request.getParameter("budgetMax")));
-            //Xu li test
+            //Xử lý test
             Test testO = new Test();
-            String test = request.getParameter("kiemtra");
             String testLink = request.getParameter("kiemtra-content");
             String testRequired = request.getParameter("kiemtra-required");
-            if ("yes".equals(test)) {
-                // Người dùng chọn "Có"
+            if (!testLink.isEmpty()) {
                 job.setHaveTested(true);
                 testO.setTestLink(testLink);
                 if ("yes".equals(testRequired)) {
@@ -569,11 +774,7 @@ public class JobServlet extends HttpServlet {
                 } else {
                     testO.setHaveRequired(false);
                 }
-            } else if ("no".equals(test)) {
-                // Người dùng chọn "Không"
-                job.setHaveTested(false);
             } else {
-                // Không chọn gì
                 job.setHaveTested(false);
             }
             Part p = request.getPart("file");
@@ -597,17 +798,18 @@ public class JobServlet extends HttpServlet {
             Interview interview = new Interview();
             String interDate = request.getParameter("interviewDate");
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            if (interDate != null && !interDate.isEmpty()) {
-                // Convert từ String sang java.util.Date
-                job.setHaveInterviewed(true);
-                try {
-                    interview.setStartDate(dateFormat.parse(interDate));
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
-            } else {
-                job.setHaveInterviewed(false);
-            }
+//            if (interDate != null && !interDate.isEmpty()) {
+//                // Convert từ String sang java.util.Date
+//                job.setHaveInterviewed(true);
+//                try {
+//                    interview.setStartDate(dateFormat.parse(interDate));
+//                } catch (ParseException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            } else {
+//                job.setHaveInterviewed(false);
+//            }
+
 
             String dueDateStr = request.getParameter("dueDate");
             if (dueDateStr != null && !dueDateStr.isEmpty()) {
@@ -615,15 +817,16 @@ public class JobServlet extends HttpServlet {
                 job.setDueDatePost(Date.valueOf(dueDateStr));
             }
 
-            jobDAO.updateJobByJobId(job);
+            job.setHaveInterviewed(false);
 
             //Them Interview
-            interview.setJobId(jobId);
-            jobDAO.updateInterviewByJobId(interview);
+//            interview.setJobId(jobId);
+//            jobDAO.updateInterviewByJobId(interview);
 
-            //Them test moi
+
+            //add test moi
             testO.setJobId(jobId);
-            jobDAO.insertTest(testO);
+            jobDAO.updateTest(testO);
 
             //Them JobTag moi
             String[] tags = request.getParameterValues("tag");
@@ -637,10 +840,26 @@ public class JobServlet extends HttpServlet {
             }
 
             Job jobNew = jobDAO.getJobById(jobId);
+            List<Tag> tagList;
+            try {
+                tagList = tagDAO.getTagsByJobId(jobId);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
             List<JobGreeting> greetings = jobDAO.getJobGreetingsByJobId(jobId);
+            Account postAcc = accountDAO.getAccountById(jobNew.getPostAccountId());
+            Test test = jobDAO.getTestByJobId(jobId);
+            NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+            String formattedBudgetMin = currencyFormat.format(job.getBudgetMin());
+            String formattedBudgetMax = currencyFormat.format(job.getBudgetMax());
+            request.setAttribute("budgetRange", formattedBudgetMin + " - " + formattedBudgetMax);
+            request.setAttribute("test", test);
+            request.setAttribute("loggedAccountId", accountId);
+            request.setAttribute("postAcc", postAcc);
+            request.setAttribute("tagList", tagList);
             request.setAttribute("job", jobNew);
             request.setAttribute("greetings", greetings);
-            request.getRequestDispatcher("job-post-detail.jsp").forward(request, response);
+            request.getRequestDispatcher("job-post-detail-employee.jsp").forward(request, response);
         }else{
             response.sendRedirect("home");
         }
@@ -712,7 +931,64 @@ public class JobServlet extends HttpServlet {
 //        }
 //    }
 
-    private void downloadFile(HttpServletRequest request, HttpServletResponse response)
+protected void downloadFile(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    // Get file path from request parameter
+    String filePath = request.getParameter("filePath");
+
+
+    try {
+        if (filePath == null || filePath.isEmpty()) {
+            // Check if response is committed before sending error
+            if (!response.isCommitted()) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "File path is required");
+            }
+            return;
+        }
+
+        File file = new File(filePath);
+
+        // Verify file exists
+        if (!file.exists()) {
+            if (!response.isCommitted()) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "File not found");
+            }
+            return;
+        }
+
+        // Set response headers before writing content
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
+        response.setContentLength((int) file.length());
+
+        // Stream the file content
+        try (InputStream in = new FileInputStream(file);
+             OutputStream out = response.getOutputStream()) {
+
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = in.read(buffer)) != -1) {
+                out.write(buffer, 0, bytesRead);
+            }
+        }
+
+    } catch (Exception e) {
+        // Log the error
+        e.printStackTrace();
+
+        // Only send error if response isn't committed yet
+        if (!response.isCommitted()) {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error downloading file");
+        }
+    }
+}
+
+    // Phương thức trợ giúp để lấy đường dẫn upload
+    private String getUploadPath(HttpServletRequest request) {
+        return request.getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
+    }
+
+    private void downloadFileJob(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Lấy tên tệp từ request parameter
         String fileName = request.getParameter("file");
@@ -729,7 +1005,7 @@ public class JobServlet extends HttpServlet {
             // Kiểm tra quyền truy cập tệp (xác thực người dùng có quyền truy cập công việc này)
             // Ví dụ: người dùng đã đăng nhập và là người đăng công việc hoặc ứng viên đã được chấp nhận
             HttpSession session = request.getSession();
-            Account loggedInUser = (Account) session.getAttribute("account");
+            Account loggedInUser = (Account) session.getAttribute("sessionAccount");
 
             if (loggedInUser == null) {
                 response.sendRedirect(request.getContextPath() + "/login.jsp");
@@ -746,7 +1022,7 @@ public class JobServlet extends HttpServlet {
             }
 
             // Tạo đường dẫn tệp
-            String filePath = getUploadPath(request) + File.separator + fileName;
+            String filePath = getServletContext().getRealPath("") + "job_docs" + File.separator + fileName;
             File file = new File(filePath);
 
             if (!file.exists()) {
@@ -783,11 +1059,6 @@ public class JobServlet extends HttpServlet {
         } catch (NumberFormatException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID công việc không hợp lệ");
         }
-    }
-
-    // Phương thức trợ giúp để lấy đường dẫn upload
-    private String getUploadPath(HttpServletRequest request) {
-        return request.getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
     }
 //
 //    // Phương thức trợ giúp để lấy kích thước tệp
