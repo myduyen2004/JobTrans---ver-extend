@@ -211,6 +211,9 @@ public class JobGreetingServlet extends HttpServlet {
                 return; // Thêm return để tránh tiếp tục thực thi code
             }
 
+            int loginId = account.getAccountId();
+            request.setAttribute("loginId", loginId);
+
             // Lấy thông tin greeting
             int greetingId = Integer.parseInt(request.getParameter("greetingId"));
             JobGreetingDAO jobGreetingDAO = new JobGreetingDAO();
@@ -223,11 +226,7 @@ public class JobGreetingServlet extends HttpServlet {
                 return;
             }
 
-            // Lấy thông tin CV và tài khoản ứng viên
-            CvDAO cvDAO = new CvDAO();
             CV cv = cvDAO.getCvById(jobGreeting.getCvId());
-
-            AccountDAO accountDAO = new AccountDAO();
             Account candidateAccount = accountDAO.getAccountById(jobGreeting.getJobSeekerId());
 
             // Format giá tiền sang định dạng tiền Việt Nam
@@ -250,37 +249,37 @@ public class JobGreetingServlet extends HttpServlet {
             Interview interview = interviewDAO.getInterviewByGreetingId(greetingId);
 
             // Kiểm tra xem phỏng vấn đã kết thúc chưa
-            boolean isInterviewCompleted = false;
-            if (jobGreeting.getStatus().equals("Chờ phỏng vấn") && interview != null) {
-                // Tạo đối tượng datetime từ interview_date và interview_time
-                Calendar interviewCalendar = Calendar.getInstance();
-                // Giả sử interview có các phương thức getInterviewDate() và getInterviewTime() trả về java.sql.Date và java.sql.Time
-                interviewCalendar.setTime(interview.getInterviewDate());
-
-                Calendar timeCalendar = Calendar.getInstance();
-                timeCalendar.setTime(interview.getInterviewTime());
-
-                // Lấy giờ, phút, giây từ interview_time
-                interviewCalendar.set(Calendar.HOUR_OF_DAY, timeCalendar.get(Calendar.HOUR_OF_DAY));
-                interviewCalendar.set(Calendar.MINUTE, timeCalendar.get(Calendar.MINUTE));
-                interviewCalendar.set(Calendar.SECOND, timeCalendar.get(Calendar.SECOND));
-
-                // Thêm thời gian dự kiến cho buổi phỏng vấn (ví dụ: 1 giờ)
-                interviewCalendar.add(Calendar.HOUR_OF_DAY, 1); // Giả sử phỏng vấn kéo dài 1 tiếng
-
-                // So sánh với thời gian hiện tại
-                long currentTime = System.currentTimeMillis();
-                long interviewEndTime = interviewCalendar.getTimeInMillis();
-                isInterviewCompleted = currentTime > interviewEndTime;
-            }
+//            boolean isInterviewCompleted = false;
+//            if (jobGreeting.getStatus().equals("Chờ phỏng vấn") && interview != null) {
+//                // Tạo đối tượng datetime từ interview_date và interview_time
+//                Calendar interviewCalendar = Calendar.getInstance();
+//                // Giả sử interview có các phương thức getInterviewDate() và getInterviewTime() trả về java.sql.Date và java.sql.Time
+//                interviewCalendar.setTime(interview.getInterviewDate());
+//
+//                Calendar timeCalendar = Calendar.getInstance();
+//                timeCalendar.setTime(interview.getInterviewTime());
+//
+//                // Lấy giờ, phút, giây từ interview_time
+//                interviewCalendar.set(Calendar.HOUR_OF_DAY, timeCalendar.get(Calendar.HOUR_OF_DAY));
+//                interviewCalendar.set(Calendar.MINUTE, timeCalendar.get(Calendar.MINUTE));
+//                interviewCalendar.set(Calendar.SECOND, timeCalendar.get(Calendar.SECOND));
+//
+//                // Thêm thời gian dự kiến cho buổi phỏng vấn (ví dụ: 1 giờ)
+//                interviewCalendar.add(Calendar.HOUR_OF_DAY, 0.1); // Giả sử phỏng vấn kéo dài 1 tiếng
+//
+//                // So sánh với thời gian hiện tại
+//                long currentTime = System.currentTimeMillis();
+//                long interviewEndTime = interviewCalendar.getTimeInMillis();
+//                isInterviewCompleted = currentTime > interviewEndTime;
+//            }
 
             // Set thuộc tính cho trang JSP
             request.setAttribute("formattedPrice", formattedPrice);
             request.setAttribute("cv", cv);
             request.setAttribute("jobGreeting", jobGreeting);
-            request.setAttribute("candidateAccount", candidateAccount);
+            request.setAttribute("account", candidateAccount);
             request.setAttribute("interview", interview);
-            request.setAttribute("isInterviewCompleted", isInterviewCompleted);
+//            request.setAttribute("isInterviewCompleted", isInterviewCompleted);
 
             // Chuyển hướng đến trang JSP
             request.getRequestDispatcher("details-job-greeting.jsp").forward(request, response);

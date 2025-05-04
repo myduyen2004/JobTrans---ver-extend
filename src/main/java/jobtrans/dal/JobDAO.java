@@ -866,4 +866,36 @@ public class JobDAO {
         }
 
     }
+
+    public JobGreeting getJobGreetingByJobSeekerIdAndJobId(int jobSeekerId, int jobId) {
+        JobGreeting gt = null;
+        String sql = "SELECT * FROM JobGreeting WHERE job_seeker_id = ? AND job_id = ?";
+
+        try (Connection con = dbConnection.openConnection();
+             PreparedStatement ps = con.prepareStatement(sql))
+        {
+
+            ps.setInt(1, jobSeekerId);
+            ps.setInt(2, jobId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                 gt = new JobGreeting();
+                gt.setGreetingId(rs.getInt("greeting_id"));
+                gt.setJobSeekerId(rs.getInt("job_seeker_id"));
+                gt.setJobId(rs.getInt("job_id"));
+                gt.setIntroduction(rs.getString("introduction"));
+                gt.setAttachment(rs.getString("attachment"));
+                gt.setPrice(rs.getInt("price"));
+                gt.setStatus(rs.getString("status"));
+                gt.setExpectedDay(rs.getInt("expected_day"));
+                // greeting.setComments(rs.getString("comments"));
+                gt.setCvId(rs.getInt("cv_id"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return gt;
+    }
+
 }

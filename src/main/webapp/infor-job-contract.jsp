@@ -351,7 +351,14 @@
 
                     <div class="btn-container">
                         <button type="button" class="btn-a btn-outline">Trở lại</button>
-                        <a href="contract?action=show-form-terms-of-agreement&greetingId=${jobGreeting.greetingId}" type="button" class="btn-a" style="text-decoration: none">Cập nhật Điều khoản thỏa thuận</a>
+
+                            <c:if test="${account.accountId == poster.accountId}">
+                                <a href="contract?action=show-form-terms-of-agreement&greetingId=${jobGreeting.greetingId}" type="button" class="btn-a" style="text-decoration: none">Cập nhật Điều khoản thỏa thuận</a>
+                            </c:if>
+
+                            <c:if test="${account.accountId == jobSeeker.accountId}">
+                                <a href="contract?action=view-contract-of-job&jobId=${job.jobId}" type="button" class="btn-a" style="text-decoration: none">Xem hợp đồng từ nhà tuyển dụng</a>
+                            </c:if>
                     </div>
                 </div>
             </main>

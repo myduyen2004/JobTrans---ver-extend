@@ -577,6 +577,8 @@ public class JobServlet extends HttpServlet {
             Account account = (Account) session.getAttribute("sessionAccount");
             Account account1 = accountDAO.getAccountById(account.getAccountId());
             int accountId = account1.getAccountId();
+            request.setAttribute("loggedAccountId", accountId);
+        }
             Job job = jobDAO.getJobById(jobId);
             List<JobGreeting> greetings = jobDAO.getJobGreetingsByJobId(jobId);
             Test test = jobDAO.getTestByJobId(job.getJobId());
@@ -592,15 +594,11 @@ public class JobServlet extends HttpServlet {
             String formattedBudgetMax = currencyFormat.format(job.getBudgetMax());
             request.setAttribute("budgetRange", formattedBudgetMin + " - " + formattedBudgetMax);
             request.setAttribute("test", test);
-            request.setAttribute("loggedAccountId", accountId);
             request.setAttribute("postAcc", postAcc);
             request.setAttribute("tagList", tagList);
             request.setAttribute("job", job);
             request.setAttribute("greetings", greetings);
             request.getRequestDispatcher("job-post-detail-employee.jsp").forward(request, response);
-        } else {
-            response.sendRedirect("home");
-        }
     }
 
     public void postJob(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

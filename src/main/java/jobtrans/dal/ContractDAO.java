@@ -125,49 +125,6 @@ public class ContractDAO {
         return success;
     }
 
-    public List<Contract> getContractsByEmployerId(int employerId) {
-        List<Contract> contracts = new ArrayList<>();
-        String query = "SELECT * FROM Contract WHERE employer_id = ?";
-
-        try {
-            conn = DBConnection.openConnection();
-            ps = conn.prepareStatement(query);
-            ps.setInt(1, employerId);
-            rs = ps.executeQuery();
-
-            while (rs.next()) {
-                contracts.add(mapResultSetToContract(rs));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            closeResources();
-        }
-
-        return contracts;
-    }
-
-    public List<Contract> getContractsByApplicantId(int applicantId) {
-        List<Contract> contracts = new ArrayList<>();
-        String query = "SELECT * FROM Contract WHERE applicant_id = ?";
-
-        try {
-            conn = DBConnection.openConnection();
-            ps = conn.prepareStatement(query);
-            ps.setInt(1, applicantId);
-            rs = ps.executeQuery();
-
-            while (rs.next()) {
-                contracts.add(mapResultSetToContract(rs));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            closeResources();
-        }
-
-        return contracts;
-    }
 
     public boolean updateContractStatus(int contractId, String status) {
         boolean success = false;
@@ -242,14 +199,15 @@ public class ContractDAO {
         return contract;
     }
 
-    public Contract getContractByJobId(int job_id) throws SQLException {
+    public Contract getContractByJobIdAndApplicantId(int job_id, int applicantId) throws SQLException {
         Contract contract = null;
-        String sql = "SELECT * FROM Contract WHERE job_id = ?";
+        String sql = "SELECT * FROM Contract WHERE job_id = ? AND applicant_id = ?";
 
         try (Connection conn = DBConnection.openConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, job_id);
+            stmt.setInt(2, applicantId);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -303,5 +261,25 @@ public class ContractDAO {
         return success;
     }
 
+    public List<Contract> getContractListByJobId(int jobId) throws Exception {
+        List<Contract> contractList = new ArrayList<>();
+        String sql = "SELECT * FROM Contract WHERE job_id = ?";
 
+        try (Connection conn = DBConnection.openConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, jobId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    contractList.add(mapResultSetToContract(rs));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+
+        return contractList;
+    }
 }

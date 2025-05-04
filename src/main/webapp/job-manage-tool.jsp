@@ -743,7 +743,7 @@
         <div class="row justify-content-center">
 
             <!-- First row -->
-            <a href="#" class="task-card">
+            <a href="contract?action=list-contract-of-job&jobId=${job.jobId}" class="task-card">
                 <div class="icon-container contract-icon">
                     <i class="fas fa-file-contract"></i>
                 </div>

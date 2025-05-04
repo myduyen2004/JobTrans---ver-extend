@@ -114,7 +114,7 @@
 
                         <c:if test="${not empty jobList && fn:length(jobList) > 0}">
                             <c:forEach var="job" items="${jobList}">
-                                <div class="card mb-3" onclick="window.location.href='${pageContext.request.contextPath}/job?action=details-job-posted&jobId=${job.jobId}'">
+                                <div class="card mb-3" onclick="window.location.href='job?action=posted-job-detail&jobId=${job.jobId}'">
                                     <div class="card-body">
                                         <!-- Avatar của người đăng bài -->
                                         <c:choose>
@@ -142,7 +142,7 @@
                                             <div class="job-info-right">
                                                 <p class="job-salary">${job.getFormattedBudgetMax()}</p>
                                                 <div class="job-details">
-                                                    <a href="${pageContext.request.contextPath}/job?action=details-job-posted&jobId=${job.jobId}"
+                                                    <a href="job?action=posted-job-detail&jobId=${job.jobId}"
                                                        class="details-link">
                                                         <i class="fas fa-info-circle"></i> Chi tiết
                                                     </a>
