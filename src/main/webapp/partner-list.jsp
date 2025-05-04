@@ -21,7 +21,7 @@
 <%@include file="includes/header-01.jsp" %>
 <div class="row">
     <div class="col-6">
-        <h3 class="text-center mb-3 bg-custom-gradient" style="font-size: 24px; font-weight: 500; border-radius: 0; clip-path: polygon(0 0, 95% 0, 100% 50%, 95% 100%, 0 100%);">Danh sách chính thức tham gia công việc</h3>
+        <h3 class="text-center mb-3 bg-custom-gradient" style="font-size: 24px; font-weight: 500; border-radius: 0; clip-path: polygon(0 0, 95% 0, 100% 50%, 95% 100%, 0 100%);">Đối tác của tôi</h3>
     </div>
     <div class="col-6">
     </div>
@@ -106,7 +106,7 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div class="col-md-6 my-auto">
+                                <div class="col-md-8 my-auto">
                                     <div class="my-auto01">
                                         <span class="mb-3"
                                               style="font-weight: bold; font-size: 16px;">${accDAO.getAccountById(o.fromUserId).accountName}
@@ -181,7 +181,7 @@
                                     <div class="service-content">
                                         <div class="service-item-seller">
                                             <div class="row">
-                                                <div class="col-6">
+                                                <div class="col-5">
                                                     <div class="d-flex">
                                                         <div class="my-auto">
                                                         <span class="mb-3"
@@ -206,7 +206,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-6" style="padding: 0;">
+                                                <div class="col-7" style="padding: 0;">
                                                     <div class="d-flex"
                                                          style="flex-direction: row; justify-content: end;">
                                                         <div style="margin-right: 10px;">
@@ -215,7 +215,7 @@
                                                             </a>
                                                         </div>
                                                         <div style="margin-right: 10px;">
-                                                            <a href="#" class="btn"
+                                                            <a href="job-manage-process?action=view-report-form&jobId=${jobId}&accountId=${o.accountId}" class="btn"
                                                                style="color: white; background-color: #FF6363;">Báo cáo
                                                             </a>
                                                         </div>
