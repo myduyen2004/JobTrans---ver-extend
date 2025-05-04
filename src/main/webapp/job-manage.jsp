@@ -65,84 +65,42 @@
         </h2>
 
         <div class="job-grid">
-            <!-- Job 1 -->
-            <div class="job-card">
-                <span class="job-badge">Mới</span>
-                <h3 class="job-title">Lập Trình Viên Frontend React</h3>
-                <p class="job-company">
-                    <i class="fas fa-building"></i>
-                    Tech Solutions Vietnam
-                </p>
-                <div class="job-info">
-                        <span class="job-salary">
-                            <i class="fas fa-money-bill-wave"></i>
-                            15-20 triệu
-                        </span>
-                    <span class="job-location">
-                            <i class="fas fa-map-marker-alt"></i>
-                            Hà Nội
-                        </span>
-                </div>
-                <p class="job-posted">Đăng tải: 23/04/2025</p>
-                <div class="job-actions">
-                    <a href="jobs?action=view-job&jobId=101" class="job-btn job-btn-primary">Chi Tiết</a>
-                    <a href="jobs?action=save-job&jobId=101" class="job-btn job-btn-secondary">
-                        <i class="far fa-bookmark"></i> Lưu
-                    </a>
-                </div>
-            </div>
+            <c:forEach var="job" items="${jobList}" varStatus="loop" begin="0" end="2">
+                <div class="job-card">
 
-            <!-- Job 2 -->
-            <div class="job-card">
-                <h3 class="job-title">UI/UX Designer (Senior)</h3>
-                <p class="job-company">
-                    <i class="fas fa-building"></i>
-                    Creative Design Studio
-                </p>
-                <div class="job-info">
-                        <span class="job-salary">
-                            <i class="fas fa-money-bill-wave"></i>
-                            25-30 triệu
-                        </span>
-                    <span class="job-location">
-                            <i class="fas fa-map-marker-alt"></i>
-                            TP.HCM
-                        </span>
+                    <h3 class="job-title">${job.jobTitle}</h3>
+                    <div class="job-info">
+         <span class="job-salary">
+            <i class="fas fa-money-bill-wave"></i>
+            <c:if test="${not empty job.budgetMin && not empty job.budgetMax}">
+                <fmt:formatNumber value="${job.budgetMin}" type="currency" currencySymbol="&#8363;"/> -
+                <fmt:formatNumber value="${job.budgetMax}" type="currency" currencySymbol="&#8363;"/>
+            </c:if>
+            <c:if test="${empty job.budgetMin && not empty job.budgetMax}">
+                Tối đa: <fmt:formatNumber value="${job.budgetMax}" type="currency" currencySymbol="&#8363;"/>
+            </c:if>
+            <c:if test="${not empty job.budgetMin && empty job.budgetMax}">
+                Tối thiểu: <fmt:formatNumber value="${job.budgetMin}" type="currency" currencySymbol="&#8363;"/>
+            </c:if>
+            <c:if test="${empty job.budgetMin && empty job.budgetMax}">
+                Thỏa thuận
+            </c:if>
+        </span>
+                        <span class="job-location">
+            <i class="fas fa-map-marker-alt"></i>
+        </span>
+                    </div>
+                    <p class="job-posted">Đăng tải:
+                        <fmt:formatDate value="${job.postDate}" pattern="HH:mm:ss dd/MM/yyyy"/>
+                    </p>
+                    <div class="job-actions">
+                        <a href="/JobTrans/job?action=details-job-posted&jobId=${job.jobId}" class="job-btn job-btn-primary">Chi Tiết</a>
+                        <a href="jobs?action=save-job&jobId=${job.jobId}" class="job-btn job-btn-secondary">
+                            <i class="far fa-bookmark"></i> Lưu
+                        </a>
+                    </div>
                 </div>
-                <p class="job-posted">Đăng tải: 22/04/2025</p>
-                <div class="job-actions">
-                    <a href="jobs?action=view-job&jobId=102" class="job-btn job-btn-primary">Chi Tiết</a>
-                    <a href="jobs?action=save-job&jobId=102" class="job-btn job-btn-secondary">
-                        <i class="far fa-bookmark"></i> Lưu
-                    </a>
-                </div>
-            </div>
-
-            <!-- Job 3 -->
-            <div class="job-card">
-                <h3 class="job-title">Chuyên Viên Digital Marketing</h3>
-                <p class="job-company">
-                    <i class="fas fa-building"></i>
-                    Ecommerce Solutions
-                </p>
-                <div class="job-info">
-                        <span class="job-salary">
-                            <i class="fas fa-money-bill-wave"></i>
-                            18-22 triệu
-                        </span>
-                    <span class="job-location">
-                            <i class="fas fa-map-marker-alt"></i>
-                            Đà Nẵng
-                        </span>
-                </div>
-                <p class="job-posted">Đăng tải: 20/04/2025</p>
-                <div class="job-actions">
-                    <a href="jobs?action=view-job&jobId=103" class="job-btn job-btn-primary">Chi Tiết</a>
-                    <a href="jobs?action=save-job&jobId=103" class="job-btn job-btn-secondary">
-                        <i class="far fa-bookmark"></i> Lưu
-                    </a>
-                </div>
-            </div>
+            </c:forEach>
         </div>
     </div>
 </div>
