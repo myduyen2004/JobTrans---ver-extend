@@ -84,7 +84,6 @@
         }
 
         .salary-2 {
-            border-radius: 16px;
             font-size: 16px;
             font-weight: 700;
             color: rgb(21, 42, 105);
@@ -217,70 +216,74 @@
                 </div>
 
                 <div class="row justify-content-center">
-                    <div class="search-result col-lg-9">
+                    <div class="search-result col-lg-10">
                         <c:forEach items="${job}" var="o">
-                        <c:set var="jobDetail" value="${jobDAO.getJobById(o.jobId)}"/>
-                        <c:set var="accountDetail" value="${accountDAO.getAccountById(o.jobSeekerId)}"/>
-                        <c:set var="accountCompany" value="${accountDAO.getAccountById(jobDetail.postAccountId)}"/>
-                        <div class="job-card-2">
-                            <div class="greeting-box">
+                            <c:set var="jobDetail" value="${jobDAO.getJobById(o.jobId)}"/>
+                            <c:set var="accountDetail" value="${accountDAO.getAccountById(o.jobSeekerId)}"/>
+                            <c:set var="accountCompany" value="${accountDAO.getAccountById(jobDetail.postAccountId)}"/>
+                            <div class="job-card-2">
+                                <div class="greeting-box">
                                     ${jobDAO.getNumOfJobGreetingByJobId(jobDetail.jobId)} Chào giá <i style="color: #ffcc00; margin-left: 4px;" class="fas fa-bolt"></i>
-                            </div>
-                            <div class="row">
+                                </div>
+                                <div class="row">
                                 <div class="col-md-6" style="display: flex; flex-direction: column; justify-content: center;">
-                                    <div class="job-header-2">
-                                        <div style="display: flex;">
-                                            <div style="justify-content: space-between; display: flex">
-                                                <div class="job-title-2">${jobDetail.jobTitle}</div>
-                                                <div class="job-category-2">${accountCompany.accountName}</div>
-                                                <c:choose>
-                                                    <c:when test="${o.status == 'Chờ xét duyệt'}">
-                                                        <button class="jobG-status pending">Chờ xét duyệt</button>
-                                                    </c:when>
-                                                    <c:when test="${o.status == 'Chờ phỏng vấn'}">
-                                                        <button class="jobG-status interview">Chờ phỏng vấn</button>
-                                                    </c:when>
-                                                    <c:when test="${o.status == 'Được nhận'}">
-                                                        <button class="jobG-status accepted">Được nhận</button>
-                                                    </c:when>
-                                                    <c:when test="${o.status == 'Bị từ chối'}">
-                                                        <button class="jobG-status rejected">Bị từ chối</button>
-                                                    </c:when>
-                                                </c:choose>
+                                        <div class="job-header-2">
+                                            <div style="display: flex;">
+                                                <div style="justify-content: space-between; display: flex">
+                                                    <div class="job-title-2">${jobDetail.jobTitle}</div>
+                                                    <div class="job-category-2">${accountCompany.accountName}</div>
+                                                    <c:choose>
+                                                        <c:when test="${o.status == 'Chờ xét duyệt'}">
+                                                            <button class="jobG-status pending">Chờ xét duyệt</button>
+                                                        </c:when>
+                                                        <c:when test="${o.status == 'Chờ phỏng vấn'}">
+                                                            <button class="jobG-status interview">Chờ phỏng vấn</button>
+                                                        </c:when>
+                                                        <c:when test="${o.status == 'Được nhận'}">
+                                                            <button class="jobG-status accepted">Được nhận</button>
+                                                        </c:when>
+                                                        <c:when test="${o.status == 'Bị từ chối'}">
+                                                            <button class="jobG-status rejected">Bị từ chối</button>
+                                                        </c:when>
+                                                    </c:choose>
+                                                </div>
                                             </div>
                                         </div>
+                                        <div class="job-info-2">
+                                            <i class="fas fa-clock"></i>
+                                            Hạn tuyển: <fmt:formatDate value="${jobDetail.dueDatePost}"
+                                                                       pattern="dd/MM/yyyy"/>
+                                        </div>
+                                        <div class="job-info-2">
+                                            CV đã ứng tuyển:
+                                            <a href="cv?action=view&cvId=${o.cvId}"><span
+                                                    class="cv-name-2">Xem CV</span></a>
+                                        </div>
                                     </div>
-                                    <div class="job-info-2">
-                                        <i class="fas fa-clock"></i>
-                                        Hạn tuyển: <fmt:formatDate value="${jobDetail.dueDatePost}"
-                                                                   pattern="dd/MM/yyyy"/>
-                                    </div>
-                                    <div class="job-info-2">
-                                        CV đã ứng tuyển:
-                                        <a href="cv?action=view&cvId=${o.cvId}"><span
-                                                class="cv-name-2">Xem CV</span></a>
-                                    </div>
-                                </div>
                                 <div class="col-md-6" style="display: flex; flex-direction: column; align-items: center;">
-                                    <div class="salary-range-2">
-                                        <span class="salary-2">${jobDetail.budgetMin}&#8363;</span>
-                                        <span>-</span>
-                                        <span class="salary-2">${jobDetail.budgetMax}&#8363;</span>
-                                    </div>
-                                    <div style="display: flex; gap: 10px;">
-                                        <a href="job-manage-process?action=process-tool&jobId=${jobDetail.jobId}">
-                                            <button class="detail-link">
-                                                <i class="fas fa-cogs "></i> Quản lí công việc
-                                            </button>
-                                        </a>
-                                        <a href="job-greeting?action=detail&jobGreetingId=${o.greetingId}&jobId=${jobDetail.jobId}"
-                                           class="detail-link" style="text-decoration: none;">
-                                            Xem chi tiết
-                                        </a>
+                                        <div class="salary-range-2">
+                                            <span class="salary-2">
+                                                    <fmt:formatNumber value="${jobDetail.budgetMin}" pattern="#,##0.00 ₫"/>
+                                            </span>
+                                            <span>-</span>
+                                            <span class="salary-2">
+                                                <fmt:formatNumber value="${jobDetail.budgetMax}" pattern="#,##0.00 ₫"/>
+                                            </span>
+                                        </div>
+                                        <div style="display: flex; gap: 10px;">
+                                            <a href="job-manage-process?action=process-tool&jobId=${jobDetail.jobId}">
+                                                <button class="detail-link">
+                                                    <i class="fas fa-cogs "></i> Quản lí công việc
+                                                </button>
+                                            </a>
+                                            <a href="job-greeting?action=detail&jobGreetingId=${o.greetingId}&jobId=${jobDetail.jobId}"
+                                               class="detail-link" style="text-decoration: none;">
+                                                Xem chi tiết
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         </c:forEach>
                     </div>
                 </div>

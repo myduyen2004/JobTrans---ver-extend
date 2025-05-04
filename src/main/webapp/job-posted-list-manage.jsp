@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="vi">
@@ -21,7 +22,8 @@
             <div class="container">
                 <div class="page-title-container">
                     <h1 class="page-title">Quản Lý Công Việc Đã Đăng</h1>
-                    <p class="page-subtitle">Theo dõi, cập nhật và quản lý danh sách các công việc bạn đã đăng trên nền tảng JobTrans</p>
+                    <p class="page-subtitle">Theo dõi, cập nhật và quản lý danh sách các công việc bạn đã đăng trên nền
+                        tảng JobTrans</p>
                 </div>
                 <div class="new-job-btn-container">
                     <a href="post_job.jsp">
@@ -58,7 +60,7 @@
                                 <input type="hidden" name="jobId" value="${o.jobId}"/>
                                 <div class="greeting-badge">
                                         ${jobDao.getNumOfJobGreetingByJobId(o.jobId)} Chào giá <i
-                                        class="fas fa-bolt" ></i>
+                                        class="fas fa-bolt"></i>
                                 </div>
                                 <div class="row m-3">
                                     <div class="col-md-6">
@@ -72,26 +74,30 @@
                                     </div>
                                     <div class="col-md-6 d-flex flex-column align-items-center justify-content-center">
                                         <div class="price-display">
-                                                ${o.budgetMin}<span class="currency-symbol">&#8363;</span>
-                                            -
-                                                ${o.budgetMax}<span class="currency-symbol">&#8363;</span>
+                                            <span class="salary-2">
+                                                <fmt:formatNumber value="${o.budgetMin}" pattern="#,##0.00 ₫"/>
+                                            </span>
+                                            <span>-</span>
+                                            <span class="salary-2">
+                                                <fmt:formatNumber value="${o.budgetMax}" pattern="#,##0.00 ₫"/>
+                                            </span>
                                         </div>
                                         <div class="job-card-actions">
                                             <c:if test="${o.statusJobId >=1}">
-                                            <a href="job-manage-process?action=process-tool&jobId=${o.jobId}">
-                                                <button class="detail-btn">
-                                                    <i class="fas fa-cogs "></i> Quản lí công việc
-                                                </button>
-                                            </a>
+                                                <a href="job-manage-process?action=process-tool&jobId=${o.jobId}">
+                                                    <button class="detail-btn">
+                                                        <i class="fas fa-cogs "></i> Quản lí công việc
+                                                    </button>
+                                                </a>
                                             </c:if>
                                             <a href="job?action=pre-update&jobId=${o.jobId}">
                                                 <button class="edit-btn">
                                                     <i class="fas fa-edit"></i> Sửa
                                                 </button>
                                             </a>
-<%--                                            <button class="delete-btn" onclick="confirmDelete(${o.jobId})">--%>
-<%--                                                <i class="fas fa-trash"></i> Xóa--%>
-<%--                                            </button>--%>
+                                                <%--                                            <button class="delete-btn" onclick="confirmDelete(${o.jobId})">--%>
+                                                <%--                                                <i class="fas fa-trash"></i> Xóa--%>
+                                                <%--                                            </button>--%>
                                             <a href="javascript:void(0)" onclick="openDeleteModal('${o.jobId}')"
                                                class="delete-btn" style="text-decoration: none">
                                                 <i class="fas fa-trash-alt"></i> Xóa
