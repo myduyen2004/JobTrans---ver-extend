@@ -25,7 +25,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         body {
@@ -707,13 +707,15 @@
                     </a>
                 </c:if>
                 <c:if test="${jobGreeting.status == 'Chờ phỏng vấn'}">
-                    <button class="btn-a btn-outline" id="interviewBtn">
-                        <i class="fas fa-calendar-check"></i> Cập nhật phỏng vấn
-                    </button>
+                    <c:if test="${interview != null}">
+                        <button class="btn-a btn-outline" id="interviewBtn">
+                            <i class="fas fa-calendar-check"></i> Cập nhật phỏng vấn
+                        </button>
+                    </c:if>
 
                     <!-- Nút chấp nhận ứng viên chỉ hiển thị sau khi phỏng vấn kết thúc -->
                     <c:if test="${isInterviewCompleted}">
-                        <a href="job-greeting?action=approve-candidate&greetingId=${jobGreeting.greetingId}" class="btn-a btn-primary" id="approveBtn" style="text-decoration: none">
+                        <a href="contract?action=view-infor-project-contract&greetingId=${jobGreeting.greetingId}" class="btn-a btn-primary" id="approveBtn" style="text-decoration: none">
                             <i class="fas fa-check"></i> Chấp nhận ứng viên
                         </a>
                     </c:if>

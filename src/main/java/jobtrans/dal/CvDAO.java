@@ -11,8 +11,52 @@ import java.util.List;
 public class CvDAO {
     private final DBConnection dbConnection;
 
+
     public CvDAO() {
         dbConnection = DBConnection.getInstance();
+    }
+
+    public CV findPDFById(int cvId) {
+        String sql = "SELECT CV_id, CV_upload FROM CV WHERE CV_id = ?";
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, cvId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                CV cv = new CV();
+                cv.setCvId(rs.getInt("CV_id"));
+                cv.setCvUpload(rs.getString("CV_upload"));
+                return cv;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    public boolean uploadCVFile(int accountId, String cvUploadPath, String linkCVReview) {
+        String sql = "INSERT INTO CV (account_id, CV_upload, link_cv_review) VALUES (?, ?, ?)";
+
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, accountId);
+            ps.setString(2, cvUploadPath);
+            ps.setString(3, linkCVReview); // Có thể là null nếu không cần xem trước
+
+            int rows = ps.executeUpdate();
+            return rows > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public int addCV(CV cv) throws SQLException, Exception {

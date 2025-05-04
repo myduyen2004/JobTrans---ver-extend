@@ -139,4 +139,107 @@ public class ReportDAO {
         }
         return reports;
     }
+
+    public Integer addReport(Report report) {
+        String sql = "INSERT INTO Report (job_id, reported_account, report_by, criteria_id, content_report, attachment) " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            ps.setObject(1, report.getJobId()); // có thể là null
+            ps.setInt(2, report.getReportedAccount());
+            ps.setInt(3, report.getReportBy());
+            ps.setInt(4, report.getCriteriaId());
+            ps.setNString(5, report.getContentReport());
+            ps.setNString(6, report.getAttachment());
+
+            int affectedRows = ps.executeUpdate();
+            if (affectedRows == 0) {
+                return null; // Không có dòng nào được chèn
+            }
+
+            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1); // Trả về report_id
+                } else {
+                    return null; // Không lấy được ID
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // hoặc log
+            return null;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public Report getReportById(int reportId) {
+        String sql = "SELECT * FROM Report WHERE report_id = ?";
+
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, reportId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return mapResultSetToReport(rs);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // hoặc log lỗi
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return null; // không tìm thấy
+    }
+
+
+    public boolean updateReport(Report report) {
+        String sql = "UPDATE Report SET status = ?, note_by_admin = ? WHERE report_id = ?";
+
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, report.getStatus());
+            ps.setString(2, report.getNoteByAdmin());
+            ps.setInt(3, report.getReportId());
+
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Or use logging
+            return false;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Report> getReportsByJobId(int jobId) {
+        List<Report> reports = new ArrayList<>();
+        String sql = "SELECT * FROM Report WHERE job_id = ? ORDER BY report_time DESC";
+
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, jobId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Report report = mapResultSetToReport(rs);
+                    reports.add(report);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Hoặc log lỗi
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return reports;
+    }
+
 }

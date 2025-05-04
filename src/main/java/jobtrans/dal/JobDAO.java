@@ -46,6 +46,7 @@ public class JobDAO {
         return job;
     }
 
+
     public List<Job> getAllJobs() {
         List<Job> list = new ArrayList<>();
         String sql = "SELECT * FROM Job";
@@ -213,15 +214,15 @@ public class JobDAO {
         return -1; // Trả về -1 nếu có lỗi hoặc bảng rỗng
     }
 
-    public void insertInterview(Interview interview) {
-        String sql = "INSERT INTO Interview (start_date, interview_link, job_id) " +
-                "VALUES (?, ?, ?)";
-
+//    public void insertInterview(Interview interview) {
+//        String sql = "INSERT INTO Interview (start_date, interview_link, job_id) " +
+//                "VALUES (?, ?, ?)";
+//
 //        try {
 //            Connection conn = dbConnection.openConnection();
 //            PreparedStatement ps = conn.prepareStatement(sql);
 //
-//            ps.setTimestamp(1, new java.sql.Timestamp(interview .getStartDate().getTime()));  // LocalDateTime -> Timestamp
+//            ps.setTimestamp(1, new java.sql.Timestamp(interview.getStartDate().getTime()));  // LocalDateTime -> Timestamp
 //            ps.setString(2, interview.getInterviewLink());
 //            ps.setInt(3, interview.getJobId());
 //
@@ -230,8 +231,7 @@ public class JobDAO {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-    }
-
+//    }
 
     public void insertTest(Test test) {
         String sql = "INSERT INTO Test(job_id, test_link, have_required) " +
@@ -333,12 +333,12 @@ public class JobDAO {
         }
     }
 
-    public void updateInterviewByJobId(Interview interview){
-        String sql = "UPDATE Interview SET "
-                + "start_date = ?, "
-                + "interview_link = ?, "
-                + "WHERE job_id = ?";
-
+//    public void updateInterviewByJobId(Interview interview){
+//        String sql = "UPDATE Interview SET "
+//                + "start_date = ?, "
+//                + "interview_link = ?, "
+//                + "WHERE job_id = ?";
+//
 //        try {
 //            Connection con = dbConnection.openConnection();
 //            PreparedStatement ps = con.prepareStatement(sql);
@@ -351,7 +351,7 @@ public class JobDAO {
 //        } catch (Exception e) {
 //            throw new RuntimeException(e);
 //        }
-    }
+//    }
 
     public void deleteJobTagByJobId(int jobId){
         String sql = "DELETE FROM JobTag WHERE job_id = ?";
@@ -422,7 +422,6 @@ public class JobDAO {
             return false; // hoặc throw nếu muốn xử lý ở nơi khác
         }
     }
-
 
     public JobCategory getCategoryById(int categoryId) {
         JobCategory jobCategory = null;
@@ -557,7 +556,7 @@ public class JobDAO {
                 greeting.setAttachment(rs.getString("attachment"));
                 greeting.setPrice(rs.getInt("price"));
                 greeting.setStatus(rs.getString("status"));
-                greeting.setExpectedDay(rs.getInt("expectedDay"));
+                greeting.setExpectedDay(rs.getInt("expected_day"));
                 // greeting.setComments(rs.getString("comments"));
                 greeting.setCvId(rs.getInt("cv_id"));
 
@@ -817,6 +816,7 @@ public class JobDAO {
         return test;
     }
 
+
     public List<Job> get3LatestJobs() {
         List<Job> list = new ArrayList<>();
         String sql = "SELECT TOP 3 *  FROM Job ORDER BY post_date DESC"; // Sử dụng TOP cho SQL Server
@@ -848,4 +848,22 @@ public class JobDAO {
 
 
 
+    public BigDecimal getJobFeeByJobIdAndApplicantId(int jobId, int applicantId) {
+        BigDecimal jobFee = null;
+        String query = "SELECT job_fee FROM Contract WHERE job_id = ? AND applicant_id = ?";
 
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, jobId);
+            ps.setInt(2, applicantId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                jobFee = new BigDecimal(rs.getDouble("job_fee"));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return jobFee;
+    }
+}

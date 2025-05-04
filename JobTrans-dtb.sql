@@ -373,6 +373,10 @@ CREATE TABLE Feedback (
                           FOREIGN KEY (from_user_id) REFERENCES Account(account_id),
                           FOREIGN KEY (to_user_id) REFERENCES Account(account_id)
 );
+
+--Vào thẳng Constrain của bảng Feedback để xóa constraint cũ của check type
+ALTER TABLE Feedback ADD CONSTRAINT CK_Feedback_Type CHECK (type IN (N'EmployerToSeeker', N'SeekerToEmployer', N'SeekerToSeeker'));
+
 CREATE TABLE CancelRequest (
                                cancel_request_id INT IDENTITY(1,1) PRIMARY KEY,
                                job_id INT NOT NULL,
@@ -387,20 +391,32 @@ CREATE TABLE CancelRequest (
                                    ON UPDATE CASCADE,
                                CONSTRAINT FK_CancelRequest_Account FOREIGN KEY (requester_id) REFERENCES Account(account_id)
 );
+-- Tạo Bảng Contract
 CREATE TABLE Contract (
                           contract_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+                          applicant_id INT NOT NULL,
+                          employer_id INT NOT NULL,
                           job_id INT NOT NULL,
+                          contract_preview  NVARCHAR(MAX),
                           contract_link NVARCHAR(MAX),
                           status NVARCHAR(100),
                           A_name NVARCHAR(100) NOT NULL,
+                          A_identity VARCHAR(50) NOT NULL, --số cccd/cmnd
+                          A_identity_date DATE NOT NULL, --ngày cấp
+                          A_identity_address  NVARCHAR(100) NOT NULL, --nơi cấp
+                          A_birthday DATE,
                           A_address NVARCHAR(500),
                           A_representative NVARCHAR(500) NOT NULL, --đại diện
+                          A_tax_code NVARCHAR(20) NOT NULL, --mã số thuế
+                          A_phone_number VARCHAR(50),
                           A_email VARCHAR(200),
                           A_signature BIT NOT NULL,
-                          B_identity VARCHAR(50) NOT NULL,
-                          B_identity_date DATE NOT NULL,
+                          B_identity VARCHAR(50) NOT NULL, --số cccd/cmnd
+                          B_identity_date DATE NOT NULL, --ngày cấp
+                          B_identity_address  NVARCHAR(100) NOT NULL, --nơi cấp
                           B_birthday DATE,
                           B_address NVARCHAR(500),
+                          B_representative NVARCHAR(500), --đại diện
                           B_phone_number VARCHAR(50),
                           B_email VARCHAR(200),
                           B_signature BIT NOT NULL,
@@ -408,7 +424,7 @@ CREATE TABLE Contract (
                           job_requirement NVARCHAR(MAX) NOT NULL,
                           start_date DATE NOT NULL,
                           end_date DATE NOT NULL,
-                          job_address NVARCHAR(MAX),
+                          job_address NVARCHAR(MAX) NOT NULL,
                           job_fee DECIMAL(18,2) NOT NULL,
                           job_deposit_A DECIMAL(18,2) NOT NULL,
                           job_deposit_A_date DATE NOT NULL,
@@ -418,7 +434,10 @@ CREATE TABLE Contract (
                           job_deposit_B_text NVARCHAR(200),
                           CONSTRAINT FK_Contract_Job FOREIGN KEY (job_id) REFERENCES Job(job_id)
                               ON DELETE CASCADE
-                              ON UPDATE CASCADE
+                              ON UPDATE CASCADE,
+                          FOREIGN KEY (applicant_id) REFERENCES Account(account_id),
+                          FOREIGN KEY (employer_id) REFERENCES Account(account_id)
+
 );
 -- Tạo bảng Transaction
 CREATE TABLE [Transaction] (
@@ -488,3 +507,5 @@ VALUES
     ('stickers/cat.png', 'cat'),
     ('stickers/emoticon.png', 'emoticon'),
     ('stickers/smile.png', 'smile');
+ALTER TABLE CV
+    add color NVARCHAR(MAX);

@@ -47,7 +47,12 @@ public class ChatServlet extends HttpServlet {
         MessageDAO messageDAO = new MessageDAO();
         StickerDAO  stickerDAO = new StickerDAO();
         int jobId = Integer.parseInt(req.getParameter("jobId"));
-        int conversationId = conversationDAO.getConversationByJobId(jobId);
+        int conversationId = 0;
+        if(conversationDAO.conversationExists(jobId)) {
+            conversationId = conversationDAO.getConversationByJobId(jobId);
+        }else{
+            conversationId = conversationDAO.addConversation(jobId);
+        }
         req.setAttribute("conversationId", conversationId);
         req.setAttribute("jobId", jobId);
         List<Sticker> stickerList = stickerDAO.getAllStickers();

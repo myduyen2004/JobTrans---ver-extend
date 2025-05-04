@@ -406,6 +406,7 @@
 
             <input type="hidden" name="typeId" value="${param.typeId}">
 
+
             <%--        <p>${typeId}</p>--%>
             <div class="cv-box">
                 <!-- Left Sidebar (CV Personal Info) -->
@@ -418,7 +419,8 @@
                         <input type="file" id="avatar_cv" name="avatar_cv" accept="image/*">
                     </div>
 
-                    <h2 class="section-title">Liên hệ</h2>
+                    <h2  class="section-title">Liên hệ</h2>
+
 
                     <div class="form-group">
                         <select class="form-control" name="sex" id="sex">
@@ -446,7 +448,7 @@
                         <h2 id="skillTitle" class="section-title">Kỹ Năng</h2>
                         <div class="skill-item">
                             <div class="form-group">
-                                <select class="form-control" name="mainSkillId[]" required>
+                                <select class="form-control" name="mainSkillId[]">
                                     <option value="">Chọn tiêu đề kỹ năng</option>
                                     <c:forEach items="${CVDAO.allMainSkill}" var="o">
                                         <option value="${o.mainSkillId}">${o.mainSkillName}</option>
@@ -455,7 +457,7 @@
                             </div>
 
                             <div class="form-group">
-                                <select class="form-control" name="skillId[]" id="skillSelect" required>
+                                <select class="form-control" name="skillId[]" id="skillSelect">
                                     <option value="">Chọn kỹ năng</option>
                                     <c:forEach items="${CVDAO.allMainSkill}" var="o">
                                         <optgroup label="${o.mainSkillName}">
@@ -487,7 +489,7 @@
                             </script>
 
                             <div class="form-group">
-                                <select class="form-control" name="levelSkill[]" required>
+                                <select class="form-control" name="levelSkill[]" >
                                     <option value="">Chọn level</option>
                                     <% for (int i = 1; i <= 100; i++) { %>
                                     <option value="<%= i %>"><%= i %>%</option>
@@ -590,7 +592,7 @@
                         </div>
                         <div class="experience-item">
                             <div class="form-group">
-                                <select class="form-control" name="Company[]" id="companySelect" required>
+                                <select class="form-control" name="Company[]" id="companySelect" >
                                     <option value="">Chọn công ty</option>
                                     <c:forEach items="${CVDAO.allCompanyName}" var="o">
                                         <option value="${CVDAO.getCompanyIdByName(o)}">${o}</option>
@@ -605,12 +607,12 @@
 
 
                             <div class="date-group">
-                                <input type="date" class="form-control" name="companyStartDate[]" required>
+                                <input type="date" class="form-control" name="companyStartDate[]" >
                                 <input type="date" class="form-control" name="companyEndDate[]">
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control" name="position[]" placeholder="Vị trí"
-                                       required>
+                                      >
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control" name="description[]"
@@ -654,20 +656,7 @@
 
                             <script>
 
-                                // document.getElementById("careerGoalTitle").addEventListener("click", function(e) {
-                                //     e.preventDefault();
-                                //
-                                //     // Lấy nội dung từ phần tử ẩn
-                                //     const careerGuideContent = document.getElementById("careerGuideContent").innerHTML;
-                                //
-                                //     // Cập nhật sidebar
-                                //     const instructionContainer = document.getElementById("cvInstructions");
-                                //     instructionContainer.innerHTML = careerGuideContent;
-                                //     instructionContainer.style.display = "block";
-                                //
-                                //     // Ẩn các container khác nếu cần
-                                //     document.getElementById("cvTemplates").style.display = "none";
-                                // });
+
 
 
                                 document.getElementById('certificationSelect').addEventListener('change', function () {
@@ -711,21 +700,6 @@
 </body>
 
 
-<%--<script>--%>
-<%--    document.getElementById('mainSkill').addEventListener('change', function () {--%>
-<%--        var mainSkillId = this.value;--%>
-<%--        var skillSelect = document.getElementById('skill');--%>
-<%--        skillSelect.innerHTML = '<option value="">Chọn kỹ năng</option>'; // reset--%>
-
-<%--        fetch('CV?action=getSkillByMainSkill&mainSkillId=' + mainSkillId)--%>
-<%--            .then(response => response.json())--%>
-<%--            .then(data => {--%>
-<%--                data.forEach(skill => {--%>
-<%--                    skillSelect.innerHTML += `<option value="${skill.skillId}">${skill.skillName}</option>`;--%>
-<%--                });--%>
-<%--            });--%>
-<%--    });--%>
-<%--</script>--%>
 <script>
     document.getElementById('companySelect').addEventListener('change', function () {
         var otherInput = document.querySelector('.other-company-input');
@@ -1158,21 +1132,13 @@
                 const endDate = item.querySelector('input[name="companyEndDate[]"]');
                 const position = item.querySelector('input[name="position[]"]');
 
-                if (!validateRequired(company, 'Vui lòng chọn công ty')) {
-                    isValid = false;
-                }
 
-                if (!validateRequired(startDate, 'Ngày bắt đầu không được để trống')) {
-                    isValid = false;
-                }
+
 
                 if (endDate.value && !validateDateRange(startDate, endDate, 'Ngày kết thúc phải sau ngày bắt đầu')) {
                     isValid = false;
                 }
 
-                if (!validateRequired(position, 'Vị trí không được để trống')) {
-                    isValid = false;
-                }
             });
 
             // Validate education items
@@ -1182,9 +1148,7 @@
                 const startDate = item.querySelector('input[name="educationStartDate[]"]');
                 const endDate = item.querySelector('input[name="educationEndDate[]"]');
 
-                if (!validateRequired(school, 'Vui lòng chọn trường học')) {
-                    isValid = false;
-                }
+
 
                 if (startDate.value && endDate.value && !validateDateRange(startDate, endDate, 'Ngày kết thúc phải sau ngày bắt đầu')) {
                     isValid = false;
@@ -1351,13 +1315,13 @@
         const container = document.getElementById("cvTemplates");
 
         // Kiểm tra nếu hướng dẫn chưa hiển thị => không làm gì
-        if ((instructionContainer.style.display !== "block") &&((container.style.display === "none"))) {
+        if ((instructionContainer.style.display !== "block") && ((container.style.display === "none"))) {
             alert("Vui lòng nhấn vào 'Hướng dẫn tạo CV' trước khi xem nội dung chi tiết.");
             return;
         }
 
         // Nếu đang hiển thị hướng dẫn, ẩn nó và hiển thị nội dung tương ứng
-        if( (instructionContainer.style.display === "block") || (container.style.display === "block")) {
+        if ((instructionContainer.style.display === "block") || (container.style.display === "block")) {
             instructionContainer.style.display = "none";
             container.innerHTML = htmlContent;
             container.style.display = "block";
@@ -1536,6 +1500,85 @@
     </div>`;
         showCVInstruction("extraInfo", htmlContent);
     });
+    ///
+    ///
+
+    ///
+    ///
+    ///
+    window.getFullCVData = function() {
+        const cvBox = document.querySelector('.cv-box');
+        if (!cvBox) return null;
+
+        // Hàm helper để lấy giá trị từ selector
+        const getValue = (selector) => cvBox.querySelector(selector)?.value || '';
+        const getText = (selector) => cvBox.querySelector(selector)?.textContent || '';
+
+        return {
+            // === THÔNG TIN CÁ NHÂN ===
+            personalInfo: {
+                name: getValue('input[name="cvname"]'),
+                position: getValue('input[name="position"]'),
+                sex: getValue('select[name="sex"]'),
+                dateOfBirth: getValue('input[name="date_of_birth"]'),
+                phone: getValue('input[name="sdt"]'),
+                email: getValue('input[name="email"]'),
+                address: getValue('input[name="address"]'),
+                avatar: cvBox.querySelector('#avatar-preview')?.src || ''
+            },
+
+            // === MỤC TIÊU NGHỀ NGHIỆP ===
+            careerGoal: getValue('textarea[name="experienceDescription"]'),
+
+            // === KỸ NĂNG ===
+            skills: Array.from(cvBox.querySelectorAll('.skill-item')).map(skill => ({
+                mainSkill: skill.querySelector('select[name="mainSkillId[]"]')?.value || '',
+                mainSkillName: skill.querySelector('select[name="mainSkillId[]"] option:checked')?.text || '',
+                skill: skill.querySelector('select[name="skillId[]"]')?.value || '',
+                skillName: skill.querySelector('select[name="skillId[]"] option:checked')?.text || '',
+                otherSkill: skill.querySelector('input[name="otherSkillName[]"]')?.value || '',
+                level: skill.querySelector('select[name="levelSkill[]"]')?.value || ''
+            })),
+
+            // === HỌC VẤN ===
+            educations: Array.from(cvBox.querySelectorAll('.education-item')).map(edu => ({
+                schoolId: getValue.call(edu, 'select[name="schoolId[]"]'),
+                schoolName: edu.querySelector('select[name="schoolId[]"] option:checked')?.text || '',
+                otherSchool: getValue.call(edu, 'input[name="otherSchoolName[]"]'),
+                startDate: getValue.call(edu, 'input[name="educationStartDate[]"]'),
+                endDate: getValue.call(edu, 'input[name="educationEndDate[]"]'),
+                major: getValue.call(edu, 'input[name="major[]"]'),
+                degree: getValue.call(edu, 'input[name="degree[]"]'),
+                description: getValue.call(edu, 'textarea[name="school_Description[]"]')
+            })),
+
+            // === KINH NGHIỆM ===
+            experiences: Array.from(cvBox.querySelectorAll('.experience-item')).map(exp => ({
+                companyId: getValue.call(exp, 'select[name="Company[]"]'),
+                companyName: exp.querySelector('select[name="Company[]"] option:checked')?.text || '',
+                otherCompany: getValue.call(exp, 'input[name="otherCompanyName[]"]'),
+                startDate: getValue.call(exp, 'input[name="companyStartDate[]"]'),
+                endDate: getValue.call(exp, 'input[name="companyEndDate[]"]'),
+                position: getValue.call(exp, 'input[name="position[]"]'),
+                description: getValue.call(exp, 'input[name="description[]"]'),
+                achievements: getValue.call(exp, 'textarea[name="work_achievements[]"]'),
+                address: getValue.call(exp, 'input[name="address[]"]')
+            })),
+
+            // === CHỨNG CHỈ ===
+            certifications: Array.from(cvBox.querySelectorAll('.certification-item')).map(cert => ({
+                certificationId: getValue.call(cert, 'select[name="certificationId[]"]'),
+                certificationName: cert.querySelector('select[name="certificationId[]"] option:checked')?.text || '',
+                otherCertification: getValue.call(cert, 'input[name="otherCertificationName[]"]'),
+                year: getValue.call(cert, 'input[name="awardYear[]"]'),
+                description: getValue.call(cert, 'textarea[name="prizeDescription[]"]')
+            })),
+
+            // === THÔNG TIN KHÁC ===
+            additionalInfo: getValue('textarea[name="more_infor"]')
+        };
+    };
+
 
 </script>
 

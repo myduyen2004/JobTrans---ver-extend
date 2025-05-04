@@ -63,7 +63,7 @@
         /* Sidebar (Left Section) */
         .cv_header {
             width: 320px;
-            background: #5D7B6F;
+            background: #7a785c;
             color: white;
             padding: 40px 25px;
             position: relative;
@@ -168,9 +168,12 @@
             flex: 1;
             padding: 40px;
             color: #333;
-            border: 0.5px solid black;
-
+            border:1px solid #7a785c;
+            margin: 20px;
+            border-radius: 10px;
         }
+
+
 
         .main-infor h1 {
             font-family: 'Poppins', sans-serif;
@@ -407,7 +410,7 @@
 
 <%@include file="includes/header-01.jsp" %>
 
-    <h1 class="text-white font-weight-bold" style="padding-left: 50px;">Chỉnh sửa CV</h1>
+<h1 class="text-white font-weight-bold" style="padding-left: 50px;">Chỉnh sửa CV</h1>
 </div>
 
 <div >
@@ -650,7 +653,7 @@
             alert('Đã xảy ra lỗi khi tạo PDF: ' + error.message);
         }
     }
-    </script>
+</script>
 
 </body>
 

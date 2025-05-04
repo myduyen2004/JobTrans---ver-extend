@@ -53,17 +53,18 @@
             max-width: 1000px;
             margin: 0 auto;
             min-height: 1000px;
-            border-radius: 10px;
+            border: 1px solid black;
         }
 
         /* Sidebar (Left Section) */
         .cv-sidebar {
-            width: 300px;
+            width: 250px;
             background: linear-gradient(135deg, #4a6fa5 0%, #3a5a8a 100%);
 
             padding: 30px 20px;
             height: 250px;
             border-radius: 20px;
+            margin: 30px;
         }
 
         .cv-avatar {
@@ -322,7 +323,7 @@
                     <i class="fas fa-file-pdf" style="margin-right: 8px;"></i>
                     Tải CV dạng PDF
                 </a>
-                <a href="edit-cv?id=${CV.cvId}" class="action-btn edit-cv">
+                <a href="cv?action=load-editing&cvId=${CV.cvId}" class="action-btn edit-cv">
                     <i class="fas fa-edit" style="margin-right: 8px;"></i>
                     Chỉnh sửa CV
                 </a>
@@ -416,7 +417,7 @@
                             <div class="item-header">
                                 <div class="item-title">
                                     <c:choose>
-                                        <c:when test="${o.educationId == 504}">${o.customSchool}</c:when>
+                                        <c:when test="${o.educationId == 1}">${o.customSchool}</c:when>
                                         <c:otherwise>${CvDAO.getSchoolNameById(o.educationId)}</c:otherwise>
                                     </c:choose>
                                 </div>
@@ -461,73 +462,76 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // PDF Generation
-        const downloadPdfBtn = document.getElementById('downloadPdfBtn');
-        if (downloadPdfBtn) {
-            downloadPdfBtn.addEventListener('click', function(e) {
+        // Gắn sự kiện click cho nút download PDF
+        const downloadBtn = document.getElementById('downloadPdfBtn');
+        if (downloadBtn) {
+            downloadBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 generatePDF();
             });
-        }
-
-        function generatePDF() {
-            try {
-                const element = document.querySelector('.cv-box');
-                if (!element) {
-                    throw new Error('CV content not found');
-                }
-
-                const opt = {
-                    margin: 10,
-                    filename: 'my_cv.pdf',
-                    image: { type: 'jpeg', quality: 0.98 },
-                    html2canvas: {
-                        scale: 2,
-                        logging: true,
-                        useCORS: true
-                    },
-                    jsPDF: {
-                        unit: 'mm',
-                        format: 'a4',
-                        orientation: 'portrait'
-                    }
-                };
-
-                // Show loading indicator
-                const loading = document.createElement('div');
-                loading.style.position = 'fixed';
-                loading.style.top = '0';
-                loading.style.left = '0';
-                loading.style.width = '100%';
-                loading.style.height = '100%';
-                loading.style.backgroundColor = 'rgba(0,0,0,0.5)';
-                loading.style.display = 'flex';
-                loading.style.justifyContent = 'center';
-                loading.style.alignItems = 'center';
-                loading.style.zIndex = '9999';
-                loading.innerHTML = '<div style="color: white; font-size: 24px;">Đang tạo PDF...</div>';
-                document.body.appendChild(loading);
-
-                // Generate PDF
-                html2pdf()
-                    .set(opt)
-                    .from(element)
-                    .save()
-                    .then(() => {
-                        document.body.removeChild(loading);
-                    })
-                    .catch(err => {
-                        document.body.removeChild(loading);
-                        console.error('PDF generation failed:', err);
-                        alert('Tạo PDF thất bại. Vui lòng thử lại.');
-                    });
-
-            } catch (error) {
-                console.error('Error in generatePDF:', error);
-                alert('Đã xảy ra lỗi khi tạo PDF: ' + error.message);
-            }
+        } else {
+            console.error('Download PDF button not found');
         }
     });
+
+    function generatePDF() {
+        try {
+            const element = document.querySelector('.cv-box');
+            if (!element) {
+                throw new Error('CV content not found');
+            }
+
+            // Tạo options cho PDF
+            const opt = {
+                margin: 10,
+                filename: 'my_cv.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: {
+                    scale: 2,
+                    logging: true,
+                    useCORS: true
+                },
+                jsPDF: {
+                    unit: 'mm',
+                    format: 'a4',
+                    orientation: 'portrait'
+                }
+            };
+
+            // Hiển thị thông báo loading
+            const loading = document.createElement('div');
+            loading.style.position = 'fixed';
+            loading.style.top = '0';
+            loading.style.left = '0';
+            loading.style.width = '100%';
+            loading.style.height = '100%';
+            loading.style.backgroundColor = 'rgba(0,0,0,0.5)';
+            loading.style.display = 'flex';
+            loading.style.justifyContent = 'center';
+            loading.style.alignItems = 'center';
+            loading.style.zIndex = '9999';
+            loading.innerHTML = '<div style="color: white; font-size: 24px;">Đang tạo PDF...</div>';
+            document.body.appendChild(loading);
+
+            // Tạo PDF
+            html2pdf()
+                .set(opt)
+                .from(element)
+                .save()
+                .then(() => {
+                    document.body.removeChild(loading);
+                })
+                .catch(err => {
+                    document.body.removeChild(loading);
+                    console.error('Lỗi khi tạo PDF:', err);
+                    alert('Không thể tạo PDF. Vui lòng thử lại.');
+                });
+
+        } catch (error) {
+            console.error('Lỗi trong generatePDF:', error);
+            alert('Đã xảy ra lỗi khi tạo PDF: ' + error.message);
+        }
+    }
 </script>
 </body>
 </html>

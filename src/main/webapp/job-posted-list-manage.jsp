@@ -58,7 +58,7 @@
                                 <input type="hidden" name="jobId" value="${o.jobId}"/>
                                 <div class="greeting-badge">
                                         ${jobDao.getNumOfJobGreetingByJobId(o.jobId)} Chào giá <i
-                                        class="fas fa-bolt"></i>
+                                        class="fas fa-bolt" ></i>
                                 </div>
                                 <div class="row m-3">
                                     <div class="col-md-6">
@@ -77,11 +77,13 @@
                                                 ${o.budgetMax}<span class="currency-symbol">&#8363;</span>
                                         </div>
                                         <div class="job-card-actions">
-                                            <a href="job?action=posted-job-detail&jobId=${o.jobId}">
+                                            <c:if test="${o.statusJobId >=1}">
+                                            <a href="job-manage-process?action=process-tool&jobId=${o.jobId}">
                                                 <button class="detail-btn">
-                                                    <i class="fas fa-eye"></i> Chi tiết
+                                                    <i class="fas fa-cogs "></i> Quản lí công việc
                                                 </button>
                                             </a>
+                                            </c:if>
                                             <a href="job?action=edit-job&jobId=${o.jobId}">
                                                 <button class="edit-btn">
                                                     <i class="fas fa-edit"></i> Sửa
