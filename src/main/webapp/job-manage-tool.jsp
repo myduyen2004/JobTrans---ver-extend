@@ -806,24 +806,33 @@
                 </div>
             </div>
         </div>
-
+        <c:if test="${job.statusJobId >=3 && sessionScope.sessionAccount.accountId == job.postAccountId}">
         <!-- Các nút hành động -->
         <div class="action-buttons">
-            <button class="confirm-button create-button">
-                <i class="fas fa-plus-circle button-icon"></i>
-                Tạo yêu cầu hủy công việc
-            </button>
-
-            <button class="confirm-button">
-                <i class="fas fa-check-circle button-icon"></i>
-                Xác nhận hoàn thành
-            </button>
-
+            <c:if test="${job.statusJobId != 6 && job.statusJobId != 7}">
+                <button class="confirm-button" onclick="location.href='job-manage-process?action=confirm-complete&jobId=${job.jobId}'">
+                    <i class="fas fa-check-circle button-icon"></i>
+                    Xác nhận hoàn thành
+                </button>
+            </c:if>
+            <c:if test="${job.statusJobId == 6}">
+                <button class="confirm-button">
+                    <i class="fas fa-check-circle button-icon"></i>
+                    Công việc đã hoàn thành
+                </button>
+            </c:if>
+            <c:if test="${job.statusJobId == 7}">
+                <button class="confirm-button cancel-button">
+                    <i class="fas fa-times-circle button-icon"></i>
+                    Công việc đã bị hủy
+                </button>
+            </c:if>
             <button class="confirm-button cancel-button">
                 <i class="fas fa-times-circle button-icon"></i>
-                Hủy công việc
+                Yêu cầu hủy công việc
             </button>
         </div>
+        </c:if>
     </div>
     </body>
     <%@include file="includes/footer.jsp"%>>

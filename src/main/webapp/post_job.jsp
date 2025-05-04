@@ -309,20 +309,6 @@
             isValid = false;
         }
 
-        // Validate kiemtra-content
-        const testContent = document.getElementById("kiemtra-content");
-        if (!testContent.value.trim()) {
-            showError(testContent, "Nội dung này không được để trống!");
-            isValid = false;
-        }
-
-        // Validate kiemtra-required
-        const testRequired = document.getElementById("kiemtra-required");
-        if (!testRequired.value.trim()) {
-            showError(testRequired, "Nội dung này không được để trống!");
-            isValid = false;
-        }
-
         // Validate ngày hết hạn tuyển dụng
         const dueDate = document.getElementById("dueDate");
 

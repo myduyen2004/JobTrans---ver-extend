@@ -1,13 +1,7 @@
 package jobtrans.controller.web.job;
 
-import jobtrans.dal.AccountDAO;
-import jobtrans.dal.CriteriaDAO;
-import jobtrans.dal.JobDAO;
-import jobtrans.dal.ReportDAO;
-import jobtrans.model.Account;
-import jobtrans.model.Criteria;
-import jobtrans.model.Job;
-import jobtrans.model.Report;
+import jobtrans.dal.*;
+import jobtrans.model.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -43,6 +37,9 @@ public class JobProcessServlet extends HttpServlet {
                 break;
             case "view-report-list-job":
                 viewListReport(req,resp);
+                break;
+            case "confirm-complete":
+                confirmComplete(req,resp);
                 break;
         }
     }
@@ -131,5 +128,15 @@ public class JobProcessServlet extends HttpServlet {
         req.setAttribute("jobId", jobId);
         req.setAttribute("reportList", reportList);
         req.getRequestDispatcher("/reports-of-job.jsp").forward(req, resp);
+    }
+    private void confirmComplete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String jobId = req.getParameter("jobId");
+        JobDAO jobDAO = new JobDAO();
+        Job job = jobDAO.getJobById(Integer.parseInt(jobId));
+        AccountDAO accountDAO = new AccountDAO();
+        Account accountPost = accountDAO.getAccountById(job.getPostAccountId());
+        ContractDAO contractDAO = new ContractDAO();
+        Contract contract = contractDAO.
+        if(accountPost.getAmountWallet() >= )
     }
 }
