@@ -811,7 +811,7 @@
         <div class="action-buttons">
             <button class="confirm-button create-button">
                 <i class="fas fa-plus-circle button-icon"></i>
-                Tạo yêu cầu
+                Tạo yêu cầu hủy công việc
             </button>
 
             <button class="confirm-button">

@@ -507,3 +507,5 @@ VALUES
     ('stickers/cat.png', 'cat'),
     ('stickers/emoticon.png', 'emoticon'),
     ('stickers/smile.png', 'smile');
+ALTER TABLE CV
+    add color NVARCHAR(MAX);
