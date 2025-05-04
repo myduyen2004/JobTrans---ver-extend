@@ -184,4 +184,25 @@ public class JobGreetingDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public JobGreeting getJobGreetingByJobIdAndJobSeekerId(int jobId, int jobSeekerId) throws SQLException {
+        JobGreeting jobGreeting = null;
+        String sql = "SELECT * FROM JobGreeting WHERE job_id = ? AND job_seeker_id = ?";
+
+        try (Connection conn = DBConnection.getInstance().openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, jobId);
+            ps.setInt(2, jobSeekerId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    jobGreeting = mapToJobGreeting(rs);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return jobGreeting;
+    }
 }
