@@ -679,49 +679,49 @@
                     </a>
                 </c:if>
             </div>
-            <c:if test="${jobGreeting.status == 'Chờ phỏng vấn'}">
-                <!-- Thông báo cập nhật lịch phỏng vấn chỉ hiển thị khi chưa có lịch phỏng vấn -->
-                <c:if test="${interview == null}">
-                    <div>
-                        <p style="color: red; font-style: italic; font-size: 16px; margin-bottom: 10px;text-align: right; margin-right: 40px;">
-                            Vui lòng cập nhật lịch phỏng vấn tới ứng viên
-                        </p>
-                    </div>
-                </c:if>
-                <c:if test="${interview != null}">
-                    <div>
-                        <p style="color: green; font-style: italic; font-size: 16px; margin-bottom: 10px;text-align: right; margin-right: 40px;">
-                            Đã cập nhật lịch phỏng vấn tới ứng viên
-                        </p>
-                    </div>
-                </c:if>
-            </c:if>
-            <div class="actions">
-
-                <button class="btn-a btn-outline" id="rejectBtn">
-                    <i class="fas fa-times"></i> Từ chối
-                </button>
-                <c:if test="${jobGreeting.status == 'Chờ xét duyệt'}">
-                    <a href="job-greeting?action=accept-to-interview&greetingId=${jobGreeting.greetingId}" class="btn-a btn-primary" style="text-decoration: none">
-                        <i class="fas fa-check"></i> Duyệt CV
-                    </a>
-                </c:if>
+            <c:if test="${sessionScope.sessionAccount.accountId != jobGreeting.jobSeekerId}">
                 <c:if test="${jobGreeting.status == 'Chờ phỏng vấn'}">
-                    <c:if test="${interview != null}">
-                        <button class="btn-a btn-outline" id="interviewBtn">
-                            <i class="fas fa-calendar-check"></i> Cập nhật phỏng vấn
-                        </button>
+                    <!-- Thông báo cập nhật lịch phỏng vấn chỉ hiển thị khi chưa có lịch phỏng vấn -->
+                    <c:if test="${interview == null}">
+                        <div>
+                            <p style="color: red; font-style: italic; font-size: 16px; margin-bottom: 10px;text-align: right; margin-right: 40px;">
+                                Vui lòng cập nhật lịch phỏng vấn tới ứng viên
+                            </p>
+                        </div>
                     </c:if>
-
-                    <!-- Nút chấp nhận ứng viên chỉ hiển thị sau khi phỏng vấn kết thúc -->
-                    <c:if test="${isInterviewCompleted}">
-                        <a href="contract?action=view-infor-project-contract&greetingId=${jobGreeting.greetingId}" class="btn-a btn-primary" style="text-decoration: none">
-                            <i class="fas fa-check"></i> Chấp nhận ứng viên
+                    <c:if test="${interview != null}">
+                        <div>
+                            <p style="color: green; font-style: italic; font-size: 16px; margin-bottom: 10px;text-align: right; margin-right: 40px;">
+                                Đã cập nhật lịch phỏng vấn tới ứng viên
+                            </p>
+                        </div>
+                    </c:if>
+                </c:if>
+                <div class="actions">
+                    <button class="btn-a btn-outline" id="rejectBtn">
+                        <i class="fas fa-times"></i> Từ chối
+                    </button>
+                    <c:if test="${jobGreeting.status == 'Chờ xét duyệt'}">
+                        <a href="job-greeting?action=accept-to-interview&greetingId=${jobGreeting.greetingId}" class="btn-a btn-primary" style="text-decoration: none">
+                            <i class="fas fa-check"></i> Duyệt CV
                         </a>
                     </c:if>
-                </c:if>
-            </div>
+                    <c:if test="${jobGreeting.status == 'Chờ phỏng vấn'}">
+                        <c:if test="${interview == null}">
+                            <button class="btn-a btn-outline" id="interviewBtn">
+                                <i class="fas fa-calendar-check"></i> Cập nhật phỏng vấn
+                            </button>
+                        </c:if>
 
+                        <!-- Nút chấp nhận ứng viên chỉ hiển thị sau khi phỏng vấn kết thúc -->
+                        <c:if test="${interview != null}">
+                            <a href="contract?action=view-infor-project-contract&greetingId=${jobGreeting.greetingId}" class="btn-a btn-primary" style="text-decoration: none">
+                                <i class="fas fa-check"></i> Chấp nhận ứng viên
+                            </a>
+                        </c:if>
+                    </c:if>
+                </div>
+            </c:if>
         </div>
     </div>
 </div>

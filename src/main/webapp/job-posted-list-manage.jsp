@@ -84,7 +84,7 @@
                                                 </button>
                                             </a>
                                             </c:if>
-                                            <a href="job?action=edit-job&jobId=${o.jobId}">
+                                            <a href="job?action=pre-update&jobId=${o.jobId}">
                                                 <button class="edit-btn">
                                                     <i class="fas fa-edit"></i> Sửa
                                                 </button>

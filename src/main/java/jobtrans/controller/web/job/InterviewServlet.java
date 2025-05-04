@@ -99,13 +99,11 @@ public class InterviewServlet extends HttpServlet {
             interview.setJobId(jobGreeting.getJobId());
             interview.setGreetingId(greetingId);
 
-            // Xử lý địa chỉ hoặc link tùy thuộc vào hình thức phỏng vấn
             if ("Offline".equals(interviewForm)) {
                 String interviewAddress = request.getParameter("interviewAddress");
                 if (interviewAddress != null && !interviewAddress.isEmpty()) {
                     interview.setInterviewAddress(interviewAddress);
                 } else {
-                    // Nếu không có địa chỉ nhập vào, có thể lấy địa chỉ mặc định từ công ty
                     interview.setInterviewAddress("Trụ sở công ty"); // Hoặc một địa chỉ mặc định khác
                 }
             } else if ("Online".equals(interviewForm)) {

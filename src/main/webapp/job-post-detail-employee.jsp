@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>=
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,6 +16,14 @@
     <link rel="stylesheet" href="css/job-post-detail-employee.css">
     <jsp:useBean id="jobDAO" class="jobtrans.dal.JobDAO" scope="page"/>
     <jsp:useBean id="accountDAO" class="jobtrans.dal.AccountDAO" scope="page"/>
+    <jsp:useBean id="now" class="java.util.Date" />
+
+    <c:set var="accountName" value="${accountDAO.getAccountById(greeting.jobSeekerId).accountName}" />
+    <style>
+        .btn1 {
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
 <%@include file="includes/header-01.jsp" %>
@@ -62,16 +71,12 @@
 
             <div class="card">
                 <h2>Yêu cầu</h2>
-                <ul style="padding-left: 20px;">
-                    <li>${job.requirements}</li>
-                </ul>
+                <p>${job.requirements}</p>
             </div>
 
             <div class="card">
                 <h2>Quyền lợi</h2>
-                <ul style="padding-left: 20px;">
-                    <li>${job.benefit}</li>
-                </ul>
+                <p>${job.benefit}</p>
             </div>
 
             <div class="card">
@@ -173,14 +178,26 @@
             <c:if test="${job.postAccountId != loggedAccountId}">
                 <div class="card">
                     <div>
-                        <a href="job-greeting?action=show-send-application&jobId=${job.jobId}" class="btn btn-gradient"
-                           style="color: white;">
-                            <i class="bi bi-send me-2"></i>Gửi chào giá
-                        </a>
-                        <a class="btn btn-outline-secondary">
+<%--                        <c:if test="${not empty job.dueDatePost and job.dueDatePost.time gt now.time}">--%>
+                            <c:if test="${jobDAO.getJobGreetingByJobSeekerIdAndJobId(loggedAccountId,job.jobId) == null}">
+                                <a href="job-greeting?action=show-send-application&jobId=${job.jobId}" class="btn1 btn-gradient"
+                                   style="color: white;">
+                                    <i class="bi bi-send me-2"></i>Gửi chào giá
+                                </a>
+                            </c:if>
+
+                            <c:if test="${jobDAO.getJobGreetingByJobSeekerIdAndJobId(loggedAccountId,job.jobId) != null}">
+                                <a href="job-greeting?action=view-details-greeting&greetingId=${jobDAO.getJobGreetingByJobSeekerIdAndJobId(loggedAccountId,job.jobId).greetingId}" class="btn1 btn-gradient"
+                                   style="color: white;">
+                                    <i class="bi bi-send me-2"></i>Xem chào giá của tôi
+                                </a>
+                            </c:if>
+<%--                        </c:if>--%>
+
+                        <a class="btn1 btn-outline-secondary">
                             <i class="bi bi-bookmark me-2"></i>Lưu công việc
                         </a>
-                        <a class="btn btn-outline-secondary">
+                        <a class="btn1 btn-outline-secondary">
                             <i class="bi bi-flag me-2"></i>Báo cáo vi phạm
                         </a>
                     </div>
@@ -190,11 +207,14 @@
             <%--                side bar postUser--%>
             <c:if test="${job.postAccountId == loggedAccountId}">
                 <div class="card">
+                    <!-- Lấy ngày hiện tại -->
                     <div>
-                        <a href="job?action=pre-update&jobId=${job.jobId}" class="btn btn-gradient"
-                           style="color: white;">
-                            <i class="bi bi-send me-2"></i> Cập nhật công việc
-                        </a>
+                        <c:if test="${not empty job.dueDatePost and job.dueDatePost.time gt now.time}">
+                            <a href="job?action=pre-update&jobId=${job.jobId}" class="btn1 btn-gradient"
+                               style="color: white;">
+                                <i class="bi bi-send me-2"></i> Cập nhật công việc
+                            </a>
+                        </c:if>
                         <a href="javascript:void(0)" onclick="openDeleteModal('${job.jobId}')"
                            class="btn-delete" style="width: 100%">
                             <i class="fas fa-trash-alt"></i> Xóa công việc
@@ -258,37 +278,41 @@
     <div class="card">
         <div style="display: flex; align-items: center; justify-content: space-between;">
             <h2>Danh sách ứng viên (${jobDAO.getNumOfJobGreetingByJobId(job.jobId)})</h2>
-            <span>
-                <a href="job?action=view-candidates-list&jobId=${job.jobId}" class="btn btn-gradient" style="color: white;">
-                    Danh sách ứng viên >>
-                </a>
-            </span>
+            <c:if test="${job.postAccountId == loggedAccountId}">
+                <span>
+                    <a href="job?action=view-candidates-list&jobId=${job.jobId}" class="btn1 btn-gradient" style="color: white;">
+                        Danh sách ứng viên >>
+                    </a>
+                </span>
+            </c:if>
         </div>
         <c:if test="${not empty jobDAO.getJobGreetingsByJobId(job.jobId)}">
             <ul class="applicant-list">
                 <c:forEach var="greeting" items="${jobDAO.getJobGreetingsByJobId(job.jobId)}">
                     <li class="applicant-item">
                         <img src="${accountDAO.getAccountById(greeting.jobSeekerId).avatar}"
-                             alt="${accountDAO.getAccountById(greeting.jobSeekerId).accountName}"
+                             alt=""
                              class="applicant-avatar">
                         <div class="applicant-info">
                             <div class="applicant-name">${accountDAO.getAccountById(greeting.jobSeekerId).accountName}</div>
                             <div class="applicant-meta">
-                                <span class="meta-icon"><i class="fas fa-money-bill-wave"></i> ${greeting.price}</span>
+                                <span class="meta-icon"><i class="fas fa-money-bill-wave"></i> <fmt:formatNumber value="${greeting.price}" pattern="#,##0" /> VNĐ</span>
                                 <span class="meta-icon"><i class="fas fa-calendar-alt"></i>${greeting.expectedDay} ngày</span>
                             </div>
                         </div>
-                        <c:if test="${greeting.status == 'Chờ xét duyệt'}">
-                            <div class="status-badge status-pending">${greeting.status}</div>
-                        </c:if>
-                        <c:if test="${greeting.status == 'Chờ phỏng vấn'}">
-                            <div class="status-badge status-interview">${greeting.status}</div>
-                        </c:if>
-                        <c:if test="${greeting.status == 'Bị từ chối'}">
-                            <div class="status-badge status-rejected">${greeting.status}</div>
-                        </c:if>
-                        <c:if test="${greeting.status == 'Được nhận'}">
-                            <div class="status-badge status-accepted">${greeting.status}</div>
+                        <c:if test="${job.postAccountId == loggedAccountId}">
+                            <c:if test="${greeting.status == 'Chờ xét duyệt'}">
+                                <div class="status-badge status-pending">${greeting.status}</div>
+                            </c:if>
+                            <c:if test="${greeting.status == 'Chờ phỏng vấn'}">
+                                <div class="status-badge status-interview">${greeting.status}</div>
+                            </c:if>
+                            <c:if test="${greeting.status == 'Bị từ chối'}">
+                                <div class="status-badge status-rejected">${greeting.status}</div>
+                            </c:if>
+                            <c:if test="${greeting.status == 'Được nhận'}">
+                                <div class="status-badge status-accepted">${greeting.status}</div>
+                            </c:if>
                         </c:if>
                     </li>
                 </c:forEach>
@@ -306,7 +330,7 @@
         <h5 style="margin-bottom: 20px; margin-top: 20px;">Bạn có chắc chắn muốn xóa công việc không?</h5>
         <div class="d-flex justify-content-center">
             <button id="confirmDeleteBtn" class="btn-delete" style="color: white; width: 100%">Xóa</button>
-            <button onclick="closeDeleteModal()" class="btn btn-outline-secondary">Không</button>
+            <button onclick="closeDeleteModal()" class="btn1 btn-outline-secondary">Không</button>
         </div>
     </div>
 </div>
