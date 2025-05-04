@@ -2,6 +2,7 @@ package jobtrans.controller.admin;
 
 import jobtrans.dal.AccountDAO;
 import jobtrans.dal.GroupMemberDAO;
+import jobtrans.dal.ReportDAO;
 import jobtrans.model.Account;
 import jobtrans.model.Criteria;
 import jobtrans.model.GroupMember;
@@ -42,18 +43,18 @@ public class ReportManagement extends HttpServlet {
                     showReports(req, resp);
                     break;
                 case "viewReportDetail":
-                    int id = Integer.parseInt(req.getParameter("reportId"));
-                    showReportDetail(req, resp, id);
+//                    int id = Integer.parseInt(req.getParameter("reportId"));
+                    showReportDetail(req, resp);
                     break;
                 case "download":
                     downloadFile(req, resp);
                     break;
-                case "acceptReport":
-                    resolveReport(req, resp);
-                    break;
-                case "rejectReport":
-                    rejectReport(req, resp);
-                    break;
+//                case "acceptReport":
+//                    resolveReport(req, resp);
+//                    break;
+//                case "rejectReport":
+//                    rejectReport(req, resp);
+//                    break;
                 case "banAccount":
                     banUser(req, resp);
                     break;
@@ -78,21 +79,29 @@ public class ReportManagement extends HttpServlet {
             resp.sendRedirect("home");
         }
     }
+    private void showReportDetail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String reportId = req.getParameter("reportId");
+        ReportDAO reportDAO = new ReportDAO();
+        Report report = reportDAO.getReportById(Integer.parseInt(reportId));
+        req.setAttribute("report", report);
+        req.getRequestDispatcher("/view-report-detail.jsp").forward(req, resp);
 
-    private void showReportDetail(HttpServletRequest req, HttpServletResponse resp, int id) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        if (session.getAttribute("sessionAccount") != null) {
-            Account account = (Account) session.getAttribute("sessionAccount");
-            Account account1 = accountDAO.getAccountById(account.getAccountId());
-            Report report = accountDAO.getReportById(id);
-
-            req.setAttribute("report", report);
-            req.setAttribute("accountLogged", account1);
-            req.getRequestDispatcher("report-detail.jsp").forward(req, resp);
-        } else {
-            resp.sendRedirect("home");
-        }
     }
+
+//    private void showReportDetail(HttpServletRequest req, HttpServletResponse resp, int id) throws ServletException, IOException {
+//        HttpSession session = req.getSession();
+//        if (session.getAttribute("sessionAccount") != null) {
+//            Account account = (Account) session.getAttribute("sessionAccount");
+//            Account account1 = accountDAO.getAccountById(account.getAccountId());
+//            Report report = accountDAO.getReportById(id);
+//
+//            req.setAttribute("report", report);
+//            req.setAttribute("accountLogged", account1);
+//            req.getRequestDispatcher("report-detail.jsp").forward(req, resp);
+//        } else {
+//            resp.sendRedirect("home");
+//        }
+//    }
 
     private void downloadFile(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
@@ -127,81 +136,84 @@ public class ReportManagement extends HttpServlet {
         }
     }
 
-    private void resolveReport(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        if (session.getAttribute("sessionAccount") != null) {
-            int reportId = Integer.parseInt(req.getParameter("reportId"));
-            Report report = accountDAO.getReportById(reportId);
-            Account reportedAccount = accountDAO.getAccountById(report.getReportedAccount());
+//    private void resolveReport(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        HttpSession session = req.getSession();
+//        if (session.getAttribute("sessionAccount") != null) {
+//            int reportId = Integer.parseInt(req.getParameter("reportId"));
+//            String noteAdimin = req.getParameter("noteAdimin");
+//            Report report = accountDAO.getReportById(reportId);
+//            report.setNoteByAdmin(noteAdimin);
+//
+//            Account reportedAccount = accountDAO.getAccountById(report.getReportedAccount());
+//
+//            Criteria criteria = accountDAO.getCriteriaById(report.getCriteriaId());
+//
+//            if (accountDAO.updateReportStatus(report.getReportId(), "Đã xử lí")) {
+//                req.setAttribute("toastMessage", "Xử lí báo cáo thành công.");
+//            } else {
+//                req.setAttribute("toastMessage", "Xử lí báo cáo thất bại - có lỗi xảy ra!");
+//                req.setAttribute("toastType", "error");
+//            }
+//
+//            int count = reportedAccount.getCount();
+//
+//            if (accountDAO.updatePointAccount(reportedAccount.getAccountId(), criteria.getCriteriaPoint())) {
+//                req.setAttribute("toastMessage", "Xử lí báo cáo thành công.");
+//            } else {
+//                req.setAttribute("toastMessage", "Cập nhật điểm thất bại.");
+//                req.setAttribute("toastType", "error");
+//            }
+//
+//            reportedAccount = accountDAO.getAccountById(report.getReportedAccount());
+//
+//            if (reportedAccount.getPoint() < 0) {
+//                count += 1;
+//                if (accountDAO.updateCountAccount(reportedAccount.getAccountId(), count)) {
+//                    req.setAttribute("toastMessage", "Xử lí báo cáo thành công.");
+//                } else {
+//                    req.setAttribute("toastMessage", "Cập nhật số lần âm điểm thất bại.");
+//                    req.setAttribute("toastType", "error");
+//                }
+//            }
+//
+//            report = accountDAO.getReportById(reportId);
+//
+//            Account account = (Account) session.getAttribute("sessionAccount");
+//            Account account1 = accountDAO.getAccountById(account.getAccountId());
+//            req.setAttribute("report", report);
+//            req.setAttribute("accountLogged", account1);
+//            req.getRequestDispatcher("report-detail.jsp").forward(req, resp);
+//        } else {
+//            resp.sendRedirect("home");
+//        }
+//    }
 
-            Criteria criteria = accountDAO.getCriteriaById(report.getCriteriaId());
-
-            if (accountDAO.updateReportStatus(report.getReportId(), "Đã xử lí")) {
-                req.setAttribute("toastMessage", "Xử lí báo cáo thành công.");
-            } else {
-                req.setAttribute("toastMessage", "Xử lí báo cáo thất bại - có lỗi xảy ra!");
-                req.setAttribute("toastType", "error");
-            }
-
-            int count = reportedAccount.getCount();
-
-            if (accountDAO.updatePointAccount(reportedAccount.getAccountId(), criteria.getCriteriaPoint())) {
-                req.setAttribute("toastMessage", "Xử lí báo cáo thành công.");
-            } else {
-                req.setAttribute("toastMessage", "Cập nhật điểm thất bại.");
-                req.setAttribute("toastType", "error");
-            }
-
-            reportedAccount = accountDAO.getAccountById(report.getReportedAccount());
-
-            if (reportedAccount.getPoint() < 0) {
-                count += 1;
-                if (accountDAO.updateCountAccount(reportedAccount.getAccountId(), count)) {
-                    req.setAttribute("toastMessage", "Xử lí báo cáo thành công.");
-                } else {
-                    req.setAttribute("toastMessage", "Cập nhật số lần âm điểm thất bại.");
-                    req.setAttribute("toastType", "error");
-                }
-            }
-
-            report = accountDAO.getReportById(reportId);
-
-            Account account = (Account) session.getAttribute("sessionAccount");
-            Account account1 = accountDAO.getAccountById(account.getAccountId());
-            req.setAttribute("report", report);
-            req.setAttribute("accountLogged", account1);
-            req.getRequestDispatcher("report-detail.jsp").forward(req, resp);
-        } else {
-            resp.sendRedirect("home");
-        }
-    }
-
-    private void rejectReport(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        if (session.getAttribute("sessionAccount") != null) {
-            int reportId = Integer.parseInt(req.getParameter("reportId"));
-            Report report = accountDAO.getReportById(reportId);
-
-            Account account = (Account) session.getAttribute("sessionAccount");
-            Account account1 = accountDAO.getAccountById(account.getAccountId());
-            report = accountDAO.getReportById(reportId);
-
-            if (accountDAO.updateReportStatus(report.getReportId(), "Bị từ chối")) {
-                req.setAttribute("toastMessage", "Từ chối báo cáo thành công.");
-            } else {
-                req.setAttribute("toastMessage", "Từ chối báo cáo thất bại - có lỗi xảy ra!");
-                req.setAttribute("toastType", "error");
-            }
-
-            report = accountDAO.getReportById(reportId);
-
-            req.setAttribute("report", report);
-            req.setAttribute("accountLogged", account1);
-            req.getRequestDispatcher("report-detail.jsp").forward(req, resp);
-        } else {
-            resp.sendRedirect("home");
-        }
-    }
+//    private void rejectReport(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        HttpSession session = req.getSession();
+//        if (session.getAttribute("sessionAccount") != null) {
+//            int reportId = Integer.parseInt(req.getParameter("reportId"));
+//            Report report = accountDAO.getReportById(reportId);
+//
+//            Account account = (Account) session.getAttribute("sessionAccount");
+//            Account account1 = accountDAO.getAccountById(account.getAccountId());
+//            report = accountDAO.getReportById(reportId);
+//
+//            if (accountDAO.updateReportStatus(report.getReportId(), "Bị từ chối")) {
+//                req.setAttribute("toastMessage", "Từ chối báo cáo thành công.");
+//            } else {
+//                req.setAttribute("toastMessage", "Từ chối báo cáo thất bại - có lỗi xảy ra!");
+//                req.setAttribute("toastType", "error");
+//            }
+//
+//            report = accountDAO.getReportById(reportId);
+//
+//            req.setAttribute("report", report);
+//            req.setAttribute("accountLogged", account1);
+//            req.getRequestDispatcher("report-detail.jsp").forward(req, resp);
+//        } else {
+//            resp.sendRedirect("home");
+//        }
+//    }
 
     private void banUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
@@ -253,5 +265,39 @@ public class ReportManagement extends HttpServlet {
             req.setAttribute("accountLogged", account1);
             req.getRequestDispatcher("report-detail.jsp").forward(req, resp);
         }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+
+        String reportIdParam = request.getParameter("reportId");
+        int reportId = Integer.parseInt(reportIdParam);
+        Report report = accountDAO.getReportById(reportId);
+        String action = request.getParameter("action"); // Đây là giá trị của button được nhấn
+        if(action.equals("accept")){
+            report.setStatus("Được xử lí");
+        }else if(action.equals("reject")){
+            report.setStatus("Bị từ chối");
+        }
+        String adminNote = request.getParameter("adminNote");
+        report.setNoteByAdmin(adminNote);
+        ReportDAO reportDAO = new ReportDAO();
+        reportDAO.updateReport(report);
+        if(report.getStatus() == "Đã xử lí") {
+            Criteria criteria = accountDAO.getCriteriaById(report.getCriteriaId());
+            int subtractpoint = criteria.getCriteriaPoint();
+            Account reportedAccount = accountDAO.getAccountById(report.getReportedAccount());
+            reportedAccount.setPoint(reportedAccount.getPoint() - subtractpoint);
+            accountDAO.updateAccountById(reportedAccount);
+            reportedAccount = accountDAO.getAccountById(report.getReportedAccount());
+            if(reportedAccount.getPoint()<0) {
+                reportedAccount.setCount(reportedAccount.getCount()+1);
+                accountDAO.updateAccountById(reportedAccount);
+            }
+        }
+        request.setAttribute("report", report);
+        request.getRequestDispatcher("view-report-detail.jsp").forward(request, response);
     }
 }

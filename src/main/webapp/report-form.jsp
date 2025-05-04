@@ -253,6 +253,147 @@
             }
         }
     </style>
+    <style>
+        .progress-section {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+
+        .progress-title {
+            font-weight: 500;
+            font-size: 16px;
+            color: #1a2b5f;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .progress-percentage {
+            color: #6787fe;
+            font-weight: 700;
+        }
+
+        .progress {
+            height: 12px;
+            border-radius: 10px;
+            background-color: #e9ecef;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-bar {
+            background: linear-gradient(to right, #6787fe, #9dabff);
+            border-radius: 10px;
+            transition: width 1.5s ease;
+            position: relative;
+        }
+
+        .progress-milestones {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            position: relative;
+            padding: 0 1%;
+        }
+
+        .milestone {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            width: 18%;
+            text-align: center;
+        }
+
+        .milestone-dot {
+            width: 12px;
+            height: 12px;
+            background-color: #c6d0f5;
+            border-radius: 50%;
+            margin-bottom: 6px;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .milestone.active .milestone-dot {
+            background-color: #6787fe;
+            box-shadow: 0 0 0 3px rgba(103, 135, 254, 0.2);
+        }
+
+        .milestone-label {
+            font-size: 12px;
+            color: #728095;
+            transition: all 0.3s ease;
+        }
+
+        .milestone.active .milestone-label {
+            color: #1a2b5f;
+            font-weight: 500;
+        }
+
+    </style>
+    <style>
+        .btn-report-list {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: linear-gradient(to right, #f8f9fa, #e9ecef);
+            color: #3a4a63;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .btn-report-list:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: rgba(103, 135, 254, 0.1);
+            transition: width 0.4s ease;
+            z-index: 1;
+        }
+
+        .btn-report-list:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            color: #152a69;
+        }
+
+        .btn-report-list:hover:before {
+            width: 100%;
+        }
+
+        .btn-report-list:active {
+            transform: translateY(1px);
+        }
+
+        .btn-report-list i,
+        .btn-report-list span {
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-report-list i {
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-report-list:hover i {
+            transform: translateX(-3px);
+        }
+    </style>
 </head>
 <%@include file="includes/header-01.jsp"%>
 
@@ -263,9 +404,34 @@
         <h4>Đối tác ${account.accountName} vi phạm trong công việc "${job.jobTitle}"</h4>
         <p>Vui lòng điền đầy đủ thông tin để chúng tôi xử lý nhanh chóng</p>
     </div>
+    <div class="progress-section">
+        <div class="progress-title">
+            <span>Trạng thái báo cáo</span>
+                <span class="progress-percentage">25%</span>
+        </div>
+
+        <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+
+        </div>
+        <div class="progress-milestones">
+            <div class="milestone active">
+                <div class="milestone-dot"></div>
+                <div class="milestone-label">Tạo báo cáo</div>
+            </div>
+            <div class="milestone active">
+                <div class="milestone-dot"></div>
+                <div class="milestone-label">Chờ xử lí</div>
+            </div>
+            <div class="milestone active">
+                <div class="milestone-dot"></div>
+                <div class="milestone-label">Kết quả xử lí</div>
+            </div>
+        </div>
+    </div>
 
     <div class="form-content">
-        <form id="report-form" action="job-manage-process" method="POST" enctype="multipart/form-data">
+        <form action="job-manage-process" method="POST" enctype="multipart/form-data" accept-charset="UTF-8">
             <input type="hidden" name="jobId" value="${job.jobId}">
             <input type="hidden" name="accountId" value="${account.accountId}">
             <div class="form-group">
@@ -286,7 +452,7 @@
 
             <div class="form-group">
                 <label for="evidence">Bằng chứng</label>
-                <div class="file-input-wrapper">
+                <div class="file-input-wrapper" style="width: 30%">
                     <input type="file" id="evidence" class="file-input" name="evidences" multiple>
                     <label for="evidence" class="file-input-label" style="color: whitesmoke">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -304,11 +470,26 @@
                 <button type="submit" class="submit-btn">Gửi báo cáo</button>
             </div>
         </form>
+        <button type="button" class="btn-report-list" onclick="window.location.href='your-report-list-url'">
+            <i class="fas fa-arrow-left"></i>
+            <span>Xem danh sách báo cáo đã tạo</span>
+        </button>
+
     </div>
 </div>
-
 <script>
-
+    document.getElementById('evidence').addEventListener('change', function() {
+        const fileNameDiv = document.getElementById('file-name');
+        if(this.files.length > 0) {
+            if(this.files.length === 1) {
+                fileNameDiv.textContent = 'Đã chọn: ' + this.files[0].name;
+            } else {
+                fileNameDiv.textContent = 'Đã chọn ' + this.files.length + ' tệp';
+            }
+        } else {
+            fileNameDiv.textContent = '';
+        }
+    });
 </script>
 </body>
 </html>

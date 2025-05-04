@@ -417,7 +417,7 @@
                             <div class="item-header">
                                 <div class="item-title">
                                     <c:choose>
-                                        <c:when test="${o.educationId == 504}">${o.customSchool}</c:when>
+                                        <c:when test="${o.educationId == 1}">${o.customSchool}</c:when>
                                         <c:otherwise>${CvDAO.getSchoolNameById(o.educationId)}</c:otherwise>
                                     </c:choose>
                                 </div>

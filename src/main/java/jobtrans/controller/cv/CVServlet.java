@@ -9,9 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -151,6 +149,56 @@ public class CVServlet extends HttpServlet {
                 throw new RuntimeException(e);
             }
         }
+        if ("createPDF".equals(action)) {
+//            Part filePart = request.getPart("cvFile");
+////            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+//
+//            // Thư mục lưu file trên server (ví dụ trong /uploads)
+//            String uploadPath = getServletContext().getRealPath("") + File.separator + "uploads";
+//            File uploadDir = new File(uploadPath);
+//            if (!uploadDir.exists()) uploadDir.mkdirs();
+//
+//            String filePath = uploadPath + File.separator + fileName;
+//            filePart.write(filePath);
+//
+//            // Đường dẫn lưu trong DB (có thể chỉ lưu tên file hoặc URL)
+//            String dbPath = "uploads/" + fileName;
+//
+//            // Giả sử accountId lấy từ session
+////            int accountId = ((Account) request.getSession().getAttribute("account")).getAccountId();
+//            HttpSession session = request.getSession();
+//            Account account = (Account) session.getAttribute("sessionAccount");
+//            int accountId = account.getAccountId();
+//            // Gọi DAO để lưu
+//            CvDAO dao = new CvDAO();
+//            dao.uploadCVFile(accountId, dbPath, null);
+
+
+            Part p = request.getPart("cvFile");
+            String fileName = p.getSubmittedFileName();
+            if (fileName != null && !fileName.isEmpty()) {
+                // Đường dẫn build cụ thể
+                String path = getServletContext().getRealPath("") + "cv_docs";
+                File file = new File(path);
+                if (!file.exists()) {
+                    file.mkdirs();
+                }
+                p.write(path + File.separator + fileName);  // Ghi file vào thư mục build
+                response.getWriter().print("File saved at: " + path + File.separator + fileName);
+            } else {
+                fileName = "";
+                response.getWriter().print("No file uploaded.");
+            }
+                        HttpSession session = request.getSession();
+            Account account = (Account) session.getAttribute("sessionAccount");
+            int accountId = account.getAccountId();
+
+            CvDAO dao = new CvDAO();
+            dao.uploadCVFile(accountId, fileName, null);
+
+//            response.sendRedirect("cv_success.jsp");
+        }
+
     }
 
     @Override
@@ -176,6 +224,9 @@ public class CVServlet extends HttpServlet {
             case "delete":
                 deleteCv(request, response);
                 break;
+            case "pdf":
+                 showPDF(request,response);
+                break;
 //        case "load-editing":
 //            loadEditing(request, response);
 //            break;
@@ -195,6 +246,92 @@ public class CVServlet extends HttpServlet {
         }
 
     }
+    private void showPDF(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Get CV ID parameter
+        String cvIdParam = request.getParameter("cvId");
+
+        // Validate parameter exists
+        if (cvIdParam == null || cvIdParam.isEmpty()) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing required parameter: cvId");
+            return;
+        }
+
+        try {
+            int cvId = Integer.parseInt(cvIdParam);
+
+            // Get CV data
+            CvDAO dao = new CvDAO();
+            CV cv = dao.findPDFById(cvId);
+
+            if (cv == null || cv.getCvUpload() == null) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "CV not found or cannot be displayed.");
+                return;
+            }
+
+            // Set PDF data as attribute
+            request.setAttribute("pdfData", cv.getCvUpload());
+
+            // Forward to JSP
+            request.getRequestDispatcher("showPDF.jsp").forward(request, response);
+
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid cvId format. Must be a number.");
+        }
+    }
+
+    public static boolean showCVFile(int cvId, HttpServletResponse response) throws IOException {
+        System.out.println("Attempting to display CV with ID: " + cvId);
+
+        // Get CV from database
+        CvDAO dao = new CvDAO();
+        CV cv = dao.findPDFById(cvId);
+
+        // Check if CV exists
+        if (cv == null) {
+            System.out.println("CV record not found in database for ID: " + cvId);
+            return false;
+        }
+
+        // Check if CV has upload path
+        if (cv.getCvUpload() == null || cv.getCvUpload().isEmpty()) {
+            System.out.println("CV upload path is null or empty for CV ID: " + cvId);
+            return false;
+        }
+
+        System.out.println("CV upload path: " + cv.getCvUpload());
+
+        // Check if file exists
+        File file = new File(cv.getCvUpload());
+        if (!file.exists()) {
+            System.out.println("File does not exist at path: " + file.getAbsolutePath());
+            return false;
+        }
+
+        System.out.println("File found, attempting to serve: " + file.getAbsolutePath());
+
+        // Set content type for PDF
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "inline; filename=\"" + file.getName() + "\"");
+
+        try (FileInputStream in = new FileInputStream(file);
+             OutputStream out = response.getOutputStream()) {
+
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = in.read(buffer)) != -1) {
+                out.write(buffer, 0, bytesRead);
+            }
+            out.flush();
+            System.out.println("Successfully served PDF file for CV ID: " + cvId);
+            return true;
+
+        } catch (Exception e) {
+            System.err.println("Error serving PDF file for CV ID: " + cvId);
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
     private void updateCV(HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -295,7 +432,7 @@ public class CVServlet extends HttpServlet {
                     experience.setExperienceId(experienceId);
 
                     String customCompany = null;
-                    if (experienceId == 32) { // Assuming 32 is "Other" option
+                    if (experienceId == 1) { // Assuming 32 is "Other" option
                         customCompany = (otherCompanyNames != null && i < otherCompanyNames.length)
                                 ? otherCompanyNames[i] : null;
                     }
@@ -337,7 +474,7 @@ public class CVServlet extends HttpServlet {
                     int certificationId = Integer.parseInt(certificationIds[i]);
                     String otherCertificationName = null;
 
-                    if (certificationId == 35) {
+                    if (certificationId == 1) {
                         otherCertificationName = otherCertificationNames[i];
                     }
 
@@ -379,7 +516,7 @@ public class CVServlet extends HttpServlet {
                     education.setEndDate(dateFormat.parse(educationEndDates[i]));
                     education.setMoreInfor(schoolDescriptions[i]);
 
-                    if (education.getEducationId() == 95 && otherSchoolNames != null && i < otherSchoolNames.length) {
+                    if (education.getEducationId() == 1 && otherSchoolNames != null && i < otherSchoolNames.length) {
                         education.setCustomSchool(otherSchoolNames[i]);
                     }
 
@@ -410,7 +547,7 @@ public class CVServlet extends HttpServlet {
                     int mainSkillId = Integer.parseInt(mainSkillIds[i].trim());
                     int levelSkill = Integer.parseInt(levelSkills[i].trim());
 
-                    String skillCustom = (skillId == 31 && otherSkillNames != null && i < otherSkillNames.length)
+                    String skillCustom = (skillId == 1 && otherSkillNames != null && i < otherSkillNames.length)
                             ? otherSkillNames[i] : null;
 
                     skill.setSkillId(skillId);
@@ -561,6 +698,7 @@ public class CVServlet extends HttpServlet {
                         customCompany = (otherCompanyNames != null && i < otherCompanyNames.length)
                                 ? otherCompanyNames[i] : null;
                     }
+
                     experience.setCustomCompany(customCompany);
 
                     // Parse dates
@@ -654,7 +792,17 @@ public class CVServlet extends HttpServlet {
                     int educationId = Integer.parseInt(schoolIds[i]);
 
                     education.setEducationId(educationId);
-
+//                    String customCompany = null;
+//                    if (experienceId == 1) { // Assuming 32 is "Other" option
+//                        customCompany = (otherCompanyNames != null && i < otherCompanyNames.length)
+//                                ? otherCompanyNames[i] : null;
+//                    }
+                    String customSchool = null;
+                    if (educationId == 1) {
+                        customSchool = (otherSchoolNames != null && i < otherSchoolNames.length)
+                                ? otherSchoolNames[i] : null;
+                    }
+                    education.setCustomSchool(customSchool);
 
                     education.setDegree(degrees[i]);
                     education.setFieldOfStudy(majors[i]);
@@ -662,9 +810,7 @@ public class CVServlet extends HttpServlet {
                     education.setEndDate(dateFormat.parse(educationEndDates[i]));
                     education.setMoreInfor(schoolDescriptions[i]);
 
-                    if (education.getEducationId() == 1 && otherSchoolNames != null && i < otherSchoolNames.length) {
-                        education.setCustomSchool(otherSchoolNames[i]);
-                    }
+
 
                     educations.add(education);
                 }

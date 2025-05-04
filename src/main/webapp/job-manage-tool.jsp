@@ -601,6 +601,7 @@
                 }
             }
         </style>
+
     </head>
     <%@include file="includes/header-01.jsp"%>
     <body>
@@ -768,7 +769,7 @@
                 </div>
                 <span class="task-card-title">Đối tác</span>
             </a>
-            <a href="#" class="task-card">
+            <a href="job-manage-process?action=view-report-list-job&jobId=${job.jobId}" class="task-card">
                 <div class="icon-container report-icon">
                     <i class="fas fa-chart-line"></i>
                 </div>

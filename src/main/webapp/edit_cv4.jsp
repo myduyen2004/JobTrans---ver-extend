@@ -549,7 +549,7 @@
               <div class="education-item">
 
                 <div class="form-group">
-                  <select data-value="" class="form-control" name="schoolId[]">
+                  <select id="schoolSelect" data-value="" class="form-control" name="schoolId[]">
                     <option value="${o.educationId}" ${o.educationId == selectedEducation ? 'selected' : ''}>
                         ${o.schoolName}
                     </option>
@@ -614,7 +614,7 @@
             <c:forEach items="${CV.experienceList}" var="o">
               <div class="experience-item">
                 <div class="form-group">
-                  <select class="form-control" name="Company[]" required>
+                  <select id="companySelect" class="form-control" name="Company[]" required>
                     <option value="${o.experienceId}" ${o.experienceId == selectedExperience ? 'selected' : ''}>
                         ${o.companyName}
                     </option>
@@ -671,7 +671,7 @@
             <c:forEach items="${CV.certificationList}" var="o">
               <div class="certification-item">
                 <div class="form-group">
-                  <select class="form-control" name="certificationId[]">
+                  <select id="certificationSelect" class="form-control" name="certificationId[]">
                     <option value="${o.certificationId}" ${o.certificationId == selectedCertification? 'selected' : ''}>
                         ${o.certificationName}
                     </option>
@@ -716,6 +716,87 @@
 <%@include file="includes/footer.jsp"%>
 
 <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Company Select Logic
+    const companySelect = document.getElementById('companySelect');
+    const otherCompanyInput = document.querySelector('.other-company-input');
+
+    if (companySelect && otherCompanyInput) {
+      companySelect.addEventListener('change', function() {
+        if (this.value === '1') {
+          otherCompanyInput.style.display = 'block';
+        } else {
+          otherCompanyInput.style.display = 'none';
+          otherCompanyInput.value = '';
+        }
+      });
+
+      // Set initial state
+      if (companySelect.value === '1') {
+        otherCompanyInput.style.display = 'block';
+      }
+    }
+
+    // Certification Select Logic
+    const certificationSelect = document.getElementById('certificationSelect');
+    const otherCertificationInput = document.querySelector('.other-certification-input');
+
+    if (certificationSelect && otherCertificationInput) {
+      certificationSelect.addEventListener('change', function() {
+        if (this.value === '1') {
+          otherCertificationInput.style.display = 'block';
+        } else {
+          otherCertificationInput.style.display = 'none';
+          otherCertificationInput.value = '';
+        }
+      });
+
+      // Set initial state
+      if (certificationSelect.value === '1') {
+        otherCertificationInput.style.display = 'block';
+      }
+    }
+
+    // School Select Logic
+    const schoolSelect = document.getElementById('schoolSelect');
+    const otherSchoolInput = document.querySelector('.other-school-input');
+
+    if (schoolSelect && otherSchoolInput) {
+      schoolSelect.addEventListener('change', function() {
+        if (this.value === '1') {
+          otherSchoolInput.style.display = 'block';
+        } else {
+          otherSchoolInput.style.display = 'none';
+          otherSchoolInput.value = '';
+        }
+      });
+
+      // Set initial state
+      if (schoolSelect.value === '1') {
+        otherSchoolInput.style.display = 'block';
+      }
+    }
+
+    // Skill Select Logic
+    const skillSelect = document.querySelector('select[name="skillId[]"]');
+    const otherSkillInput = document.querySelector('.other-skill-input');
+
+    if (skillSelect && otherSkillInput) {
+      skillSelect.addEventListener('change', function() {
+        if (this.value === '1') {
+          otherSkillInput.style.display = 'block';
+        } else {
+          otherSkillInput.style.display = 'none';
+          otherSkillInput.value = '';
+        }
+      });
+
+      // Set initial state
+      if (skillSelect.value === '1') {
+        otherSkillInput.style.display = 'block';
+      }
+    }
+  });
   //
   document.addEventListener('DOMContentLoaded', function() {
     // Get the form element
@@ -1092,12 +1173,12 @@
     newExperience.innerHTML = `
                 <div class="section-divider"></div>
                   <div class="form-group">
-                            <select class="form-control" name="Company[]" required>
+                            <select id="companySelect" class="form-control" name="Company[]" required>
                                 <option value="">Chọn công ty</option>
                                 <c:forEach items="${CVDAO.allCompanyName}" var="o">
                                     <option value="${CVDAO.getCompanyIdByName(o)}">${o}</option>
                                 </c:forEach>
-                                <option value="32">Khác</option> <!-- Value 32 for "Other" -->
+
                             </select>
                         </div>
                         <div class="form-group">
