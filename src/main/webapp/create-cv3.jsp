@@ -614,7 +614,7 @@
                             </div>
                             <div class="experience-item">
                                 <div class="form-group">
-                                    <select class="form-control" name="Company[]" id="companySelect" >
+                                    <select id="companySelect" class="form-control" name="Company[]" id="companySelect" >
                                         <option value="">Chọn công ty</option>
                                         <c:forEach items="${CVDAO.allCompanyName}" var="o">
                                             <option value="${CVDAO.getCompanyIdByName(o)}">${o}</option>
@@ -872,7 +872,7 @@
         newExperience.innerHTML = `
                 <div class="section-divider"></div>
                   <div class="form-group">
-                            <select class="form-control" name="Company[]" required>
+                            <select id="companySelect" class="form-control" name="Company[]" required>
                                 <option value="">Chọn công ty</option>
                                 <c:forEach items="${CVDAO.allCompanyName}" var="o">
                                     <option value="${CVDAO.getCompanyIdByName(o)}">${o}</option>
