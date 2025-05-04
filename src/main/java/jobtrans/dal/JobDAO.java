@@ -214,24 +214,24 @@ public class JobDAO {
         return -1; // Trả về -1 nếu có lỗi hoặc bảng rỗng
     }
 
-    public void insertInterview(Interview interview) {
-        String sql = "INSERT INTO Interview (start_date, interview_link, job_id) " +
-                "VALUES (?, ?, ?)";
-
-        try {
-            Connection conn = dbConnection.openConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
-
-            ps.setTimestamp(1, new java.sql.Timestamp(interview.getStartDate().getTime()));  // LocalDateTime -> Timestamp
-            ps.setString(2, interview.getInterviewLink());
-            ps.setInt(3, interview.getJobId());
-
-            ps.executeUpdate();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public void insertInterview(Interview interview) {
+//        String sql = "INSERT INTO Interview (start_date, interview_link, job_id) " +
+//                "VALUES (?, ?, ?)";
+//
+//        try {
+//            Connection conn = dbConnection.openConnection();
+//            PreparedStatement ps = conn.prepareStatement(sql);
+//
+//            ps.setTimestamp(1, new java.sql.Timestamp(interview.getStartDate().getTime()));  // LocalDateTime -> Timestamp
+//            ps.setString(2, interview.getInterviewLink());
+//            ps.setInt(3, interview.getJobId());
+//
+//            ps.executeUpdate();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public void insertTest(Test test) {
         String sql = "INSERT INTO Test(job_id, test_link, have_required) " +
@@ -333,25 +333,25 @@ public class JobDAO {
         }
     }
 
-    public void updateInterviewByJobId(Interview interview){
-        String sql = "UPDATE Interview SET "
-                + "start_date = ?, "
-                + "interview_link = ?, "
-                + "WHERE job_id = ?";
-
-        try {
-            Connection con = dbConnection.openConnection();
-            PreparedStatement ps = con.prepareStatement(sql);
-
-            ps.setTimestamp(1, new java.sql.Timestamp(interview.getStartDate().getTime()));  // LocalDateTime -> Timestamp
-            ps.setString(2, interview.getInterviewLink());
-            ps.setInt(3, interview.getJobId());
-
-            int rowsAffected = ps.executeUpdate();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    public void updateInterviewByJobId(Interview interview){
+//        String sql = "UPDATE Interview SET "
+//                + "start_date = ?, "
+//                + "interview_link = ?, "
+//                + "WHERE job_id = ?";
+//
+//        try {
+//            Connection con = dbConnection.openConnection();
+//            PreparedStatement ps = con.prepareStatement(sql);
+//
+//            ps.setTimestamp(1, new java.sql.Timestamp(interview.getStartDate().getTime()));  // LocalDateTime -> Timestamp
+//            ps.setString(2, interview.getInterviewLink());
+//            ps.setInt(3, interview.getJobId());
+//
+//            int rowsAffected = ps.executeUpdate();
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     public void deleteJobTagByJobId(int jobId){
         String sql = "DELETE FROM JobTag WHERE job_id = ?";
