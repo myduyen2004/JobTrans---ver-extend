@@ -1059,7 +1059,7 @@
           <a class="nav-link " href="http://localhost:8080/JobTrans/home?action=top100">Top 100</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="http://localhost:8080/JobTrans/employer.jsp">Chính sách</a>
+          <a class="nav-link" href="http://localhost:8080/JobTrans/policy.jsp">Chính sách</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="http://localhost:8080/JobTrans/about-me.jsp">Về chúng tôi</a>
