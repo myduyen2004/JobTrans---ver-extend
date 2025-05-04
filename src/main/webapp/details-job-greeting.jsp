@@ -722,9 +722,20 @@
                     </c:if>
                 </div>
             </c:if>
+            <c:if test="${sessionScope.sessionAccount.accountId == jobGreeting.jobSeekerId}">
+
+                <div class="actions">
+                    <c:if test="${interview != null}">
+                        <button class="btn-a btn-outline" id="viewInterviewBtn">
+                            <i class="fas fa-calendar-check"></i> Xem thông tin buổi phỏng vấn
+                        </button>
+                    </c:if>
+                </div>
+            </c:if>
         </div>
     </div>
 </div>
+
 
 <!-- Modal phỏng vấn -->
 <div class="modal" id="interviewModal">
