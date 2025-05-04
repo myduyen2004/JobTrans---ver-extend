@@ -58,7 +58,7 @@
                                 <input type="hidden" name="jobId" value="${o.jobId}"/>
                                 <div class="greeting-badge">
                                         ${jobDao.getNumOfJobGreetingByJobId(o.jobId)} Chào giá <i
-                                        class="fas fa-bolt"></i>
+                                        class="fas fa-bolt" ></i>
                                 </div>
                                 <div class="row m-3">
                                     <div class="col-md-6">
