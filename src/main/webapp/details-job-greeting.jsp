@@ -590,13 +590,13 @@
                             <div class="info-value">${account.experienceYears}</div>
                         </div>
                     </div>
-<%--                    <div class="tags">--%>
-<%--                        <span class="tag">JavaScript</span>--%>
-<%--                        <span class="tag">ReactJS</span>--%>
-<%--                        <span class="tag">NodeJS</span>--%>
-<%--                        <span class="tag">SQL Server</span>--%>
-<%--                        <span class="tag">UI/UX</span>--%>
-<%--                    </div>--%>
+                    <%--                    <div class="tags">--%>
+                    <%--                        <span class="tag">JavaScript</span>--%>
+                    <%--                        <span class="tag">ReactJS</span>--%>
+                    <%--                        <span class="tag">NodeJS</span>--%>
+                    <%--                        <span class="tag">SQL Server</span>--%>
+                    <%--                        <span class="tag">UI/UX</span>--%>
+                    <%--                    </div>--%>
                 </div>
             </div>
 
@@ -621,15 +621,15 @@
                             <div class="param-value">${jobGreeting.expectedDay} ngày</div>
                         </div>
                     </div>
-<%--                    <div class="job-param">--%>
-<%--                        <div class="icon-circle">--%>
-<%--                            <i class="fas fa-clock"></i>--%>
-<%--                        </div>--%>
-<%--                        <div>--%>
-<%--                            <div class="param-label">Ngày ứng tuyển</div>--%>
-<%--                            <div class="param-value">${jobGreeting.introduction}</div>--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
+                    <%--                    <div class="job-param">--%>
+                    <%--                        <div class="icon-circle">--%>
+                    <%--                            <i class="fas fa-clock"></i>--%>
+                    <%--                        </div>--%>
+                    <%--                        <div>--%>
+                    <%--                            <div class="param-label">Ngày ứng tuyển</div>--%>
+                    <%--                            <div class="param-value">${jobGreeting.introduction}</div>--%>
+                    <%--                        </div>--%>
+                    <%--                    </div>--%>
                 </div>
             </div>
 
@@ -645,12 +645,12 @@
                     <div class="cv-overlay">
                         <div class="btn-group">
                             <a href="cv?action=view&cvId=${jobGreeting.cvId}" class="btn-a btn-primary"
-<%--                               id="viewCvBtn"--%>
+                            <%--                               id="viewCvBtn"--%>
                                style="text-decoration: none">
                                 <i class="fas fa-eye"></i> Xem CV
                             </a>
                             <a class="btn-a btn-outline"
-<%--                               id="downloadCvBtn" --%>
+                            <%--                               id="downloadCvBtn" --%>
                                style="background-color: #FFFFFF; text-decoration: none">
                                 <i class="fas fa-download"></i> Tải xuống
                             </a>
@@ -715,7 +715,7 @@
 
                     <!-- Nút chấp nhận ứng viên chỉ hiển thị sau khi phỏng vấn kết thúc -->
                     <c:if test="${isInterviewCompleted}">
-                        <a href="contract?action=view-infor-project-contract&greetingId=${jobGreeting.greetingId}" class="btn-a btn-primary" id="approveBtn" style="text-decoration: none">
+                        <a href="contract?action=view-infor-project-contract&greetingId=${jobGreeting.greetingId}" class="btn-a btn-primary" style="text-decoration: none">
                             <i class="fas fa-check"></i> Chấp nhận ứng viên
                         </a>
                     </c:if>

@@ -22,16 +22,18 @@ public class Contract {
     private String aTaxCode;
     private String aPhoneNumber;
     private String aEmail;
-    private boolean aSignature;
+    private String aSignature;
 
+    private String bName;
     private String bIdentity;
     private Date bIdentityDate;
     private String bIdentityAddress;
     private Date bBirthday;
     private String bAddress;
+    private String bRepresentative;
     private String bPhoneNumber;
     private String bEmail;
-    private boolean bSignature;
+    private String bSignature;
 
     private String jobGoal;
     private String jobRequirement;
@@ -49,7 +51,12 @@ public class Contract {
     public Contract() {
     }
 
-    public Contract(int contractId, int applicantId, int employerId, int jobId, String contractPreview, String contractLink, String status, String aName, String aIdentity, Date aIdentityDate, String aIdentityAddress, Date aBirthday, String aAddress, String aRepresentative, String aTaxCode, String aPhoneNumber, String aEmail, boolean aSignature, String bIdentity, Date bIdentityDate, String bIdentityAddress, Date bBirthday, String bAddress, String bPhoneNumber, String bEmail, boolean bSignature, String jobGoal, String jobRequirement, Date startDate, Date endDate, String jobAddress, BigDecimal jobFee, BigDecimal jobDepositA, Date jobDepositADate, String jobDepositAText, BigDecimal jobDepositB, Date jobDepositBDate, String jobDepositBText) {
+    public Contract(int contractId, int applicantId, int employerId, int jobId, String contractPreview, String contractLink, String status,
+                    String aName, String aIdentity, Date aIdentityDate, String aIdentityAddress, Date aBirthday, String aAddress, String aRepresentative,
+                    String aTaxCode, String aPhoneNumber, String aEmail, String aSignature, String bName, String bIdentity, Date bIdentityDate,
+                    String bIdentityAddress, Date bBirthday, String bAddress, String bRepresentative, String bPhoneNumber, String bEmail, String bSignature,
+                    String jobGoal, String jobRequirement, Date startDate, Date endDate, String jobAddress, BigDecimal jobFee, BigDecimal jobDepositA,
+                    Date jobDepositADate, String jobDepositAText, BigDecimal jobDepositB, Date jobDepositBDate, String jobDepositBText) {
         this.contractId = contractId;
         this.applicantId = applicantId;
         this.employerId = employerId;
@@ -68,11 +75,13 @@ public class Contract {
         this.aPhoneNumber = aPhoneNumber;
         this.aEmail = aEmail;
         this.aSignature = aSignature;
+        this.bName = bName;
         this.bIdentity = bIdentity;
         this.bIdentityDate = bIdentityDate;
         this.bIdentityAddress = bIdentityAddress;
         this.bBirthday = bBirthday;
         this.bAddress = bAddress;
+        this.bRepresentative = bRepresentative;
         this.bPhoneNumber = bPhoneNumber;
         this.bEmail = bEmail;
         this.bSignature = bSignature;
@@ -91,8 +100,6 @@ public class Contract {
     }
 
     // Getters and Setters
-
-
     public int getContractId() {
         return contractId;
     }
@@ -165,8 +172,8 @@ public class Contract {
         this.aIdentity = aIdentity;
     }
 
-    public Date getaIdentityDate() {
-        return aIdentityDate;
+    public java.sql.Date getaIdentityDate() {
+        return (java.sql.Date) aIdentityDate;
     }
 
     public void setaIdentityDate(Date aIdentityDate) {
@@ -181,8 +188,8 @@ public class Contract {
         this.aIdentityAddress = aIdentityAddress;
     }
 
-    public Date getaBirthday() {
-        return aBirthday;
+    public java.sql.Date getaBirthday() {
+        return (java.sql.Date) aBirthday;
     }
 
     public void setaBirthday(Date aBirthday) {
@@ -229,12 +236,20 @@ public class Contract {
         this.aEmail = aEmail;
     }
 
-    public boolean isaSignature() {
+    public String getaSignature() {
         return aSignature;
     }
 
-    public void setaSignature(boolean aSignature) {
+    public void setaSignature(String aSignature) {
         this.aSignature = aSignature;
+    }
+
+    public String getbName() {
+        return bName;
+    }
+
+    public void setbName(String bName) {
+        this.bName = bName;
     }
 
     public String getbIdentity() {
@@ -245,8 +260,8 @@ public class Contract {
         this.bIdentity = bIdentity;
     }
 
-    public Date getbIdentityDate() {
-        return bIdentityDate;
+    public java.sql.Date getbIdentityDate() {
+        return (java.sql.Date) bIdentityDate;
     }
 
     public void setbIdentityDate(Date bIdentityDate) {
@@ -261,8 +276,8 @@ public class Contract {
         this.bIdentityAddress = bIdentityAddress;
     }
 
-    public Date getbBirthday() {
-        return bBirthday;
+    public java.sql.Date getbBirthday() {
+        return (java.sql.Date) bBirthday;
     }
 
     public void setbBirthday(Date bBirthday) {
@@ -275,6 +290,14 @@ public class Contract {
 
     public void setbAddress(String bAddress) {
         this.bAddress = bAddress;
+    }
+
+    public String getbRepresentative() {
+        return bRepresentative;
+    }
+
+    public void setbRepresentative(String bRepresentative) {
+        this.bRepresentative = bRepresentative;
     }
 
     public String getbPhoneNumber() {
@@ -293,11 +316,11 @@ public class Contract {
         this.bEmail = bEmail;
     }
 
-    public boolean isbSignature() {
+    public String getbSignature() {
         return bSignature;
     }
 
-    public void setbSignature(boolean bSignature) {
+    public void setbSignature(String bSignature) {
         this.bSignature = bSignature;
     }
 
@@ -317,16 +340,16 @@ public class Contract {
         this.jobRequirement = jobRequirement;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public java.sql.Date getStartDate() {
+        return (java.sql.Date) startDate;
     }
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public java.sql.Date getEndDate() {
+        return (java.sql.Date) endDate;
     }
 
     public void setEndDate(Date endDate) {
@@ -357,8 +380,8 @@ public class Contract {
         this.jobDepositA = jobDepositA;
     }
 
-    public Date getJobDepositADate() {
-        return jobDepositADate;
+    public java.sql.Date getJobDepositADate() {
+        return (java.sql.Date) jobDepositADate;
     }
 
     public void setJobDepositADate(Date jobDepositADate) {
@@ -381,8 +404,8 @@ public class Contract {
         this.jobDepositB = jobDepositB;
     }
 
-    public Date getJobDepositBDate() {
-        return jobDepositBDate;
+    public java.sql.Date getJobDepositBDate() {
+        return (java.sql.Date) jobDepositBDate;
     }
 
     public void setJobDepositBDate(Date jobDepositBDate) {
@@ -418,6 +441,7 @@ public class Contract {
                 ", aPhoneNumber='" + aPhoneNumber + '\'' +
                 ", aEmail='" + aEmail + '\'' +
                 ", aSignature=" + aSignature +
+                ", bName='" + bName + '\'' +
                 ", bIdentity='" + bIdentity + '\'' +
                 ", bIdentityDate=" + bIdentityDate +
                 ", bIdentityAddress='" + bIdentityAddress + '\'' +
