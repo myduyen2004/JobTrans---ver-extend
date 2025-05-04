@@ -151,7 +151,7 @@
 
         .cv-sidebar {
             width: 300px;
-            background: linear-gradient(135deg, #4a6fa5 0%, #3a5a8a 100%);
+            background: ${CV.backroundColor};
             color: white;
             padding: 30px 20px;
             height: 270px;

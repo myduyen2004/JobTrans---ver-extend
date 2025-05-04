@@ -1,4 +1,5 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="jobtrans.model.CV" %>
 <!DOCTYPE html>
@@ -226,8 +227,8 @@
 
     .section-box {
       border-radius: 20px;
-      margin-top: 20px;
-      padding: 30px;
+      margin-top: 10px;
+      padding: 10px;
       border: 1px solid;
     }
 
@@ -327,7 +328,7 @@
       <h2 class="section-title">Liên hệ</h2>
       <div class="contact-info">
         <p><i class="fas fa-venus-mars"></i> ${CV.sex}</p>
-        <p><i class="fas fa-birthday-cake"></i> ${CV.dateOfBirth}</p>
+        <p><i class="fas fa-birthday-cake"></i> <fmt:formatDate value="${CV.dateOfBirth}" pattern="dd/MM/yyyy" /></p>
         <p><i class="fas fa-phone"></i> ${CV.sdt}</p>
         <p><i class="fas fa-envelope"></i> ${CV.email}</p>
         <p><i class="fas fa-map-marker-alt"></i> ${CV.address}</p>
@@ -388,7 +389,10 @@
                 <c:otherwise>${CvDAO.getSchoolNameById(o.educationId)}</c:otherwise>
               </c:choose>
             </div>
-            <div class="item-period">${o.startDate} - ${o.endDate}</div>
+            <div class="item-period">
+              <fmt:formatDate value="${o.startDate}" pattern="MM/yyyy" /> -
+              <fmt:formatDate value="${o.endDate}" pattern="MM/yyyy" />
+            </div>
           </div>
           <div class="item-subtitle">Chuyên ngành ${o.fieldOfStudy}</div>
           <div class="item-description">
@@ -414,7 +418,10 @@
                 <c:otherwise>${CvDAO.getCompanyNameById(o.experienceId)}</c:otherwise>
               </c:choose>
             </div>
-            <div class="item-period">${o.startAt} - ${o.endAt}</div>
+            <div class="item-period">
+              <fmt:formatDate value="${o.startAt}" pattern="MM/yyyy" /> -
+              <fmt:formatDate value="${o.endAt}" pattern="MM/yyyy" />
+            </div>
           </div>
           <div class="item-subtitle">${o.jobPosition}</div>
           <div class="item-description">
@@ -443,7 +450,9 @@
                 <c:otherwise>${CvDAO.getCertificationNameById(o.certificationId)}</c:otherwise>
               </c:choose>
             </div>
-            <div class="item-period">${o.awardYear}</div>
+            <div class="item-period">
+              <fmt:formatDate value="${o.awardYear}" pattern="yyyy" />
+            </div>
           </div>
           <div class="item-description">
               ${o.description}

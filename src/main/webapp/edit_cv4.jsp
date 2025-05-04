@@ -192,7 +192,7 @@
 
     .cv-sidebar {
       width: 300px;
-      background: #7a785c;
+      background: ${CV.backroundColor};
       color: white;
       padding: 30px 20px;
     }

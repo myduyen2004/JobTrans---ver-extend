@@ -95,8 +95,9 @@
 	}
 
 	.cv-card-compact:hover {
-		transform: translateY(-5px);
+		transform: translateY(+5px);
 		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+
 	}
 
 	/* CV Image */
@@ -104,6 +105,13 @@
 		position: relative;
 		padding-top: 120%; /* 4:3 aspect ratio */
 		overflow: hidden;
+	}
+	.cv-image-container-compact img{
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		border: 2px solid #95a5a6;
+
 	}
 
 	.cv-image-compact {

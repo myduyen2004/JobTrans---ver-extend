@@ -929,7 +929,7 @@ public class CvDAO {
     }
     ///  update
     public boolean updateCV(CV cv) throws SQLException, Exception {
-        String queryUpdateCV = "UPDATE CV SET job_position = ?, summary = ?, more_infor = ?, sex = ?, dateOfBirth = ?, phone = ?, email = ?, address = ?, CV_upload = ?, avatar_cv = ?, name = ?, type_id = ?, color = ? WHERE CV_id = ?";
+        String queryUpdateCV = "UPDATE CV SET job_position = ?, summary = ?, more_infor = ?, sex = ?, dateOfBirth = ?, phone = ?, email = ?, address = ?, CV_upload = ?, avatar_cv = ?, name = ?, type_id = ?, color = ?  WHERE CV_id = ?";
 
         boolean isUpdated = false;
 
@@ -948,8 +948,8 @@ public class CvDAO {
             stmt.setString(10, cv.getAvatarCv());
             stmt.setString(11, cv.getCvName());
             stmt.setInt(12, cv.getCvType());
-            stmt.setInt(13, cv.getCvId()); // WHERE CV_id = ?
-            stmt.setString(14,cv.getBackroundColor());
+            stmt.setString(13, cv.getBackroundColor());  // color
+            stmt.setInt(14, cv.getCvId());               // CV_id
             int affectedRows = stmt.executeUpdate();
             if (affectedRows > 0) {
                 isUpdated = true;

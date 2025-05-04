@@ -354,7 +354,7 @@ public class CVServlet extends HttpServlet {
         String TypeCV = request.getParameter("typeId");
         int cvType = (TypeCV != null) ? Integer.parseInt(TypeCV) : existingCV.getCvType();
 
-        String backGroundColor = request.getParameter("backGroundColor");
+        String backGroundColor = request.getParameter("color");
         if (backGroundColor == null || backGroundColor.isEmpty()) {
             backGroundColor = existingCV.getBackroundColor();
         }
