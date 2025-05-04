@@ -453,28 +453,31 @@ public class ContractServlet extends HttpServlet {
             conn.setAutoCommit(false);
 
             try {
-                // 4.1. Cập nhật chữ ký cho hợp đồng
                 boolean signatureUpdated = contractDAO.updateBSignatureContract(account.getSignature(), contractId);
                 if (!signatureUpdated) {
                     throw new SQLException("Không thể cập nhật chữ ký cho hợp đồng");
                 }
 
-                // 4.2. Trừ tiền từ ví người dùng
                 Account updatedAccount = accountDAO.deductFromWallet(account.getAccountId(), depositB);
                 if (updatedAccount == null) {
                     throw new SQLException("Không thể trừ tiền từ ví, số dư không đủ hoặc tài khoản không tồn tại");
                 }
 
-                // 4.3. Thêm tiền vào secure_wallet của job
                 int jobId = contract.getJobId();
                 boolean secureWalletUpdated = jobDAO.addToSecureWallet(jobId, depositB);
                 if (!secureWalletUpdated) {
                     throw new SQLException("Không thể cập nhật ví bảo mật của công việc");
                 }
 
-                // 4.4. Commit transaction
-                conn.commit();
+                int jobSeekerId = contract.getApplicantId();
+                JobGreeting jobGreeting = jobGreetingDAO.getJobGreetingByJobIdAndJobSeekerId(jobId, jobSeekerId);
+                if (jobGreeting == null) {
+                    throw new SQLException("Không thể tìm được JobGreeting");
+                } else {
+                    jobGreeting.setStatus("Được nhận");
+                }
 
+                conn.commit();
                 Contract contractt = contractDAO.getContractById(contractId);
 
                 contract.setStatus("Kí kết thành công");
