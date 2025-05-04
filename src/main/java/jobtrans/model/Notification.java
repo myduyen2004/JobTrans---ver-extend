@@ -1,6 +1,7 @@
 package jobtrans.model;
 
 import java.time.LocalDateTime;
+import java.time.Duration;
 
 public class Notification {
     private int notificationId;
@@ -93,5 +94,22 @@ public class Notification {
 
     public void setHaveRead(boolean haveRead) {
         this.haveRead = haveRead;
+    }
+
+    public String formatTimeDifference() {
+        LocalDateTime now = LocalDateTime.now();
+        Duration duration = Duration.between(notificationTime, now);
+
+        long days = duration.toDays();
+        long hours = duration.toHours() % 24;
+        long minutes = duration.toMinutes() % 60;
+
+        if (days > 0) {
+            return days + " ngày " + hours + " giờ " + minutes + " phút";
+        } else if (hours > 0) {
+            return hours + " giờ " + minutes + " phút";
+        } else {
+            return minutes + " phút";
+        }
     }
 }

@@ -64,6 +64,43 @@ public class NotificationDAO {
         return list;
     }
 
+    //Lấy top 5 unread
+    public List<Notification> getTop5NotificationByUnRead(int accountId) {
+        List<Notification> list = new ArrayList<>();
+        String sql = "SELECT Top 5 * FROM Notification WHERE account_id = ? AND have_read = 0 ORDER BY notification_time DESC";
+
+        try (PreparedStatement ps = dbConnection.openConnection().prepareStatement(sql)) {
+            ps.setInt(1, accountId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(mapResultSetToNotification(rs));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    //Lấy số lượng thông báo chưa đọc
+    public int countNotificationByUnRead(int accountId) {
+        List<Notification> list = new ArrayList<>();
+        int nums = 0;
+        String sql = "SELECT Count(*) nums FROM Notification WHERE account_id = ? AND have_read = 0";
+
+        try (PreparedStatement ps = dbConnection.openConnection().prepareStatement(sql)) {
+            ps.setInt(1, accountId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                nums = rs.getInt("nums");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return nums;
+    }
+
     // Lấy thông báo theo loại (type) cho accountId
     public List<Notification> getNotificationByType(int accountId, String type) {
         List<Notification> list = new ArrayList<>();
