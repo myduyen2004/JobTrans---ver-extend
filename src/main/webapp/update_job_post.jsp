@@ -5,169 +5,387 @@
 --%>
 
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html lang="en-US">
 
-<!-- Mirrored from themebing.com/wp/prolancer/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Jan 2025 09:30:18 GMT -->
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 <head>
+    <jsp:useBean id="jobDao" class="jobtrans.dal.JobDAO" scope="session"/>
+    <jsp:useBean id="tagDao" class="jobtrans.dal.TagDAO" scope="session"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--<link rel="profile" href="https://gmpg.org/xfn/11">-->
 
     <title>JobTrans &#8211; Nền tảng hỗ trợ thuê, làm việc cho freelancer</title>
     <meta name='robots' content='max-image-preview:large' />
 
     <!--new css -->
-    <script src="https://cdn.tailwindcss.com"></script>
+<%--    <script src="https://cdn.tailwindcss.com"></script>--%>
     <link href="./css/update_job_post.css" rel="stylesheet"/>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+<%--    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">--%>
+<%--    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">--%>
 </head>
-
+<%@include file="includes/header-01.jsp"%>
 <body style="font-family: Inter, sans-serif">
-
-<!-- Preloading -->
-<div id="preloader">
-    <div class="spinner">
-        <div class="uil-ripple-css"><div></div><div></div></div>
-    </div>
-</div>
 
 <div class="py-4 banner_title">
     <h1 class="text-white font-weight-bold" style="padding-left: 50px;">CẬP NHẬT TIN TUYỂN DỤNG</h1>
 </div>
 
 <div class="mt-3 mb-3" style="border: solid 1px #6787FE; border-radius: 20px; margin-left: 90px; margin-right: 90px;">
-    <form class="p-6">
-        <div style="padding-left: 20px; padding-right: 20px">
-            <div class="mb-4 form-group">
-                <label class="block text-gray-700 font-bold mb-2">
-                    Tiêu đề:
-                </label>
-                <input class="px-2 py-2" type="text" value="Tiêu đề cũ"/>
-            </div>
-            <div class="mb-4 flex space-x-4">
-                <div class="d-flex w-1/2 form-group">
-                    <label class="block text-gray-700 font-bold mb-2">
-                        Phân loại:
-                    </label>
-                    <select class="px-2 py-2">
-                        <option>
-                            Lập trình
-                        </option>
-                    </select>
-                </div>
-                <div class="d-flex w-1/2 form-group">
-                    <label class="block text-gray-700 font-bold mb-2">
-                        Tag:
-                    </label>
-                    <select class="px-2 py-2">
-                        <option>
-                            Lập Trình web
-                        </option>
+    <form class="form-container" action="job" method="post" enctype="multipart/form-data">
+        <h3 style="color: #0a0a2b; font-weight: bolder">CẬP NHẬT CÔNG VIỆC</h3>
+        <br>
+        <input type="hidden" name="action" value="update-job">
+        <input type="hidden" name="jobId" value="${job.jobId}">
+        <input type="hidden" name="post-account-id" value="${job.postAccountId}">
+
+        <div class="form-group">
+            <label class="form-label" for="title">Tiêu đề:</label>
+            <input id="title" name="title" class="form-control" type="text" placeholder="Nhập tiêu đề công việc" value="${job.jobTitle}">
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label class="form-label" for="category">Phân loại:</label>
+                    <select id="category" name="category" class="form-control">
+                        <option value="${jobDao.getCategoryById(job.categoryId).categoryId}" selected>${jobDao.getCategoryById(job.categoryId).categoryName}</option>
+                        <c:forEach var="category" items="${jobDao.getAllCategory()}">
+                            <option value="${category.categoryId}">${category.categoryName}</option>
+                        </c:forEach>
                     </select>
                 </div>
             </div>
-            <div class="d-flex  mb-4 form-group">
-                <label class="block text-gray-700 font-bold mb-2">
-                    Số người tuyển dụng:
-                </label>
-                <input class="px-2 py-2" type="number" value="3"/>
-            </div>
-            <div class="d-flex mb-4 form-group">
-                <label class="block text-gray-700 font-bold mb-2">
-                    Mô tả:
-                </label>
-                <textarea class="px-2 py-2h-32">
-                    - Xây dựng quy trình làm việc, quy trình phát triển phần mềm, quy trình quản lý chất lượng phần mềm trong công ty.
-                    - Tham gia dự án dự án xây dựng sản phẩm riêng của công ty.
-                    - Tiến hành estimate, review source code và quản lý tiến độ dự án.
-                    - Đánh giá năng lực, phân công công việc của các member trong dự án.
-                    - Báo cáo tiến độ dự án, đề xuất giải pháp với PM.
-                        </textarea>
-            </div>
-            <div class="mb-4 flex space-x-4">
-                <div class="d-flex form-group">
-                    <label class="block text-gray-700 font-bold mb-2">
-                        Ngân sách:
-                    </label>
-                    <div class="flex space-x-2">
-                        <input class="px-2 py-2 min text-center" placeholder="MIN" type="text" value="MIN"/>
-                        <input class="px-2 py-2 text-center" style="margin-right: 50px;" type="text" value="2000000 đ"/>
-                        <input class="px-2 py-2 max text-center" placeholder="MAX" type="text" value="MAX"/>
-                        <input class="px-2 py-2 text-center" type="text" value="5000000 đ"/>
+
+            <div class="col-6">
+                <div class="form-group">
+                    <label class="form-label">Tag:</label>
+                    <div class="tag-container">
+<%--                        Tag dã có--%>
+                        <c:forEach items="${tagDao.getTagsByJobId(job.jobId)}" var="o">
+                            <div class="tag-item">
+                                <select name="tag" class="form-control">
+                                    <option value="${o.tagId}" selected>${o.tagName}</option>
+                                    <c:forEach var="tag" items="${jobDao.getAllTag()}">
+                                        <option value="${tag.tagId}">${tag.tagName}</option>
+                                    </c:forEach>
+                                </select>
+                                <button type="button" class="btn-add remove-tag">
+                                    <i class="fas fa-times-circle fa-lg"></i>
+                                </button>
+                            </div>
+                        </c:forEach>
+<%--                    Thêm tag mới--%>
+                        <div class="tag-item">
+                            <select id="tag" name="tag" class="form-control">
+                                <option value="" disabled selected>Chọn Tag</option>
+                                <c:forEach var="tag" items="${jobDao.getAllTag()}">
+                                    <option value="${tag.tagId}">${tag.tagName}</option>
+                                </c:forEach>
+                            </select>
+                            <button type="button" id="add-tag" class="btn-add">
+                                <i class="fas fa-plus-circle fa-lg"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="d-flex mb-4 form-group">
-                <label class="block text-gray-700 font-bold mb-2">
-                    Kiểm tra:
-                </label>
-                <div class="flex items-center space-x-4">
-                    <label class="flex items-center">
-                        <input class="mr-2" name="kiemtra" type="radio"/>
-                        Có
-                    </label>
-                    <label class="flex items-center">
-                        <input class="mr-2" name="kiemtra" type="radio"/>
-                        Không
-                    </label>
-                    <button class="px-4 py-2 text-blue-700 rounded-lg" style="border: solid 1px #6787FE; background-color: #6787FE50;">
-                        <i class="fas fa-upload mr-2"></i>
-                        Tải lên bài kiểm tra
-                    </button>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="numOfMems">Số người tuyển dụng:</label>
+            <input id="numOfMems" name="numOfMems" class="form-control" type="number" placeholder="Nhập số lượng cần tuyển" value="${job.numOfMember}">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="description">Mô tả:</label>
+            <textarea id="description" name="description" class="form-control" placeholder="Mô tả chi tiết về công việc">${job.jobDescription}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="requirement">Yêu cầu:</label>
+            <textarea id="requirement" name="requirement" class="form-control" placeholder="Yêu cầu đối với ứng viên">${job.requirements}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="benefit">Quyền lợi:</label>
+            <textarea id="benefit" name="benefit" class="form-control" placeholder="Quyền lợi dành cho ứng viên">${job.benefit}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Ngân sách:</label>
+            <div class="row">
+                <div class="col-6">
+                    <div class="budget-group" id="budgetMin">
+                        <span class="budget-label">MIN</span>
+                        <input class="budget-input" name="budgetMin" id="budgetMinInput" type="number" value="${job.budgetMin}">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="budget-group" id="budgetMax">
+                        <span class="budget-label">MAX</span>
+                        <input class="budget-input" name="budgetMax" id="budgetMaxInput" type="number" value="${job.budgetMax}">
+                    </div>
                 </div>
             </div>
-            <div class="d-flex mb-4 form-group">
-                <label class="block text-gray-700 font-bold mb-2">
-                    Tệp đính kèm:
+        </div>
+
+        <div id="kiemtra-options">
+            <div class="row">
+                <div class="col-12">
+                    <label class="form-label" for="kiemtra-content">Đường dẫn kiểm tra:</label>
+                    <input id="kiemtra-content" name="kiemtra-content" class="form-control" value="${jobDao.getTestByJobId(job.jobId).testLink}"/>
+                </div>
+                <div class="col-6">
+                    <label class="form-label" for="kiemtra-required">Bắt buộc:</label>
+                    <select id="kiemtra-required" name="kiemtra-required" class="form-control">
+                        <option value="<c:choose>
+                                <c:when test="${jobDao.getTestByJobId(job.jobId).haveRequired}">
+                                    yes
+                                </c:when>
+                                <c:otherwise>
+                                    no
+                                </c:otherwise>
+                            </c:choose>" disabled selected>
+                            <c:choose>
+                                <c:when test="${jobDao.getTestByJobId(job.jobId).haveRequired}">
+                                    Có
+                                </c:when>
+                                <c:otherwise>
+                                    Không
+                                </c:otherwise>
+                            </c:choose>
+                        </option>
+                        <option value="yes">Có</option>
+                        <option value="no">Không</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Tệp đính kèm:</label>
+            <div class="file-upload">
+                <label class="file-upload-label" for="upload">
+                    <i class="fas fa-upload"></i>
+                    Chọn tệp
                 </label>
-                <button class="px-4 py-2 text-blue-700 rounded-lg" style="border: solid 1px #6787FE; background-color: #6787FE50;">
-                    <i class="fas fa-upload mr-2"></i>
-                    Tải lên tệp đính kèm
-                </button>
+                <input type="file" name="file" id="upload" multiple style="display: none;">
+                <div id="file-names" style="margin-top: 10px; font-style: italic;"></div>
             </div>
-            <div class="d-flex w-1/2 form-group">
-                <label class="block text-gray-700 font-bold mb-2">
-                    Ngày phỏng vấn:
-                </label>
-                <input class="px-2 py-2" type="date" value="2025-02-10"/>
+        </div>
+
+        <div class="row">
+            <c:if test="${job.dueDatePost != null}">
+            <div class="col-6">
+                <div class="form-group">
+                    <label class="form-label" for="dueDate">Ngày hết hạn tuyển dụng:</label>
+                    <input id="dueDate" name="dueDate" class="form-control" type="date" value="${job.dueDatePost}">
+                </div>
             </div>
-            <div class="d-flex form-group">
-                <label class="block text-gray-700 font-bold mb-2">
-                    Đường dẫn phỏng vấn:
-                </label>
-                <input class="px-2 py-2" type="text"/>
-            </div>
-            <div class="d-flex w-1/2 mb-4 form-group">
-                <label class="block text-gray-700 font-bold mb-2">
-                    Ngày hết hạn:
-                </label>
-                <input class="px-2 py-2" type="date" value="2025-02-07"/>
-            </div>
-            <div class="flex space-x-4 justify-content-center">
-                <button class="w-1/4 px-4 py-2 text-white" style="background-color: #6787FE; border: solid 1px #6787FE; border-radius: 50px;">
-                    <i class="fas fa-save mr-2">
-                    </i>
-                    Cập nhật tin tuyển dụng
-                </button>
-                <button class="w-1/4 px-4 py-2 text-white" style="background-color: #6787FE; border: solid 1px #6787FE; border-radius: 50px;">
-                    <i class="fas fa-redo mr-2">
-                    </i>
-                    Làm mới
-                </button>
-            </div>
+            </c:if>
+        </div>
+
+        <div class="button-group">
+            <button type="submit" class="btn btn-primary">Cập nhật tin tuyển dụng</button>
+            <button type="reset" class="btn btn-outline">Làm mới</button>
         </div>
     </form>
 </div>
-
-<!--======= Back to Top =======-->
-<div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
-
 <%@include file="includes/footer.jsp"%>
+<script>
+    // Add Tag Section
+    document.getElementById('add-tag').addEventListener('click', function () {
+        const tagContainer = document.querySelector('.tag-section');
+        const newTag = document.createElement('div');
+        newTag.classList.add('tag-item');
+        newTag.classList.add('mt-2');
+        newTag.innerHTML = `
+                <select name="tag" class="px-2 py-2 text-center" style="width: 300px;">
+                                <option disabled selected>Chọn Tag</option>
+                                <c:forEach var="tag" items="${jobDao.allTag}">
+                                    <option value="${tag.tagId}">${tag.tagName}</option>
+                                </c:forEach>
+                </select>
+                <button type="button" class="btn-remove">
+                    <i class="fas fa-trash p-2 remove-tag" style="border-radius: 10px; border: 1px solid #6787FE50;"></i>
+                </button>
+            `;
+        tagContainer.appendChild(newTag);
+    });
 
-<!--======= Back to Top =======-->
-<div id="backtotop"><i class="fal fa-lg fa-arrow-up"></i></div>
+    // Remove Skill
+    document.addEventListener('click', function (e) {
+        if (e.target.classList.contains('remove-tag')) {
+            e.target.closest('.tag-item').remove();
+        }
+    });
+</script>
+<script>
+    <%--// Hiển thị tên file khi upload--%>
+    <%--document.getElementById('upload').addEventListener('change', function() {--%>
+    <%--    const fileName = this.files.length > 0 ?--%>
+    <%--        (this.files.length > 1 ? `${this.files.length} tệp đã chọn` : this.files[0].name) :--%>
+    <%--        'Chọn tệp';--%>
+    <%--    this.previousElementSibling.textContent = fileName;--%>
+    <%--});--%>
+
+    // Thêm tag mới
+    document.getElementById('add-tag').addEventListener('click', function() {
+        const tagContainer = document.querySelector('.tag-container');
+        const newTagItem = document.createElement('div');
+        newTagItem.className = 'tag-item';
+        newTagItem.innerHTML = `
+                <select name="tag" class="form-control">
+                    <option disabled selected>Chọn Tag</option>
+                    <c:forEach var="tag" items="${jobDao.getAllTag()}">
+                        <option value="${tag.tagId}">${tag.tagName}</option>
+                    </c:forEach>
+                </select>
+                <button type="button" class="btn-add remove-tag">
+                    <i class="fas fa-times-circle fa-lg"></i>
+                </button>
+            `;
+        tagContainer.appendChild(newTagItem);
+
+        // Thêm sự kiện xóa tag
+        newTagItem.querySelector('.remove-tag').addEventListener('click', function() {
+            newTagItem.remove();
+        });
+    });
+</script>
+<script>
+    document.getElementById("upload").addEventListener("change", function () {
+        const fileList = this.files;
+        const fileNames = Array.from(fileList).map(file => file.name);
+        document.getElementById("file-names").innerHTML = fileNames.length
+            ? "Đã chọn: " + fileNames.join(", ")
+            : "Không có tệp nào được chọn";
+    });
+</script>
+
+<%--Xử lí validate--%>
+<script>
+    document.querySelector("form").addEventListener("submit", function (e) {
+        let isValid = true;
+        const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+
+        // Xóa các thông báo lỗi cũ
+        document.querySelectorAll(".error-message").forEach(el => el.remove());
+
+        function showError(input, message) {
+            const error = document.createElement("div");
+            error.className = "error-message";
+            error.style.color = "red";
+            error.style.marginTop = "4px";
+            error.textContent = message;
+            input.insertAdjacentElement("afterend", error);
+        }
+
+        // Validate Tiêu đề
+        const title = document.getElementById("title");
+        if (!title.value.trim()) {
+            showError(title, "Nội dung này không được để trống!");
+            isValid = false;
+        }
+
+        // Validate Phân loại
+        const category = document.getElementById("category");
+        if (!category.value.trim()) {
+            showError(category, "Nội dung này không được để trống!");
+            isValid = false;
+        }
+
+        // Validate Tag
+        // const tag = document.getElementById("tag");
+        // if (!tag.value) {
+        //     showError(tag, "Nội dung này không được để trống!");
+        //     isValid = false;
+        // }
+
+        // Validate Số người tuyển dụng
+        const numOfMems = document.getElementById("numOfMems");
+        if (!numOfMems.value || numOfMems.value <= 0) {
+            showError(numOfMems, "Nội dung này không được để trống và phải lớn hơn 0!");
+            isValid = false;
+        }
+
+        // Validate Mô tả
+        const description = document.getElementById("description");
+        if (!description.value.trim()) {
+            showError(description, "Nội dung này không được để trống!");
+            isValid = false;
+        }
+
+        // Validate yêu cầu
+        const requirement = document.getElementById("requirement");
+        if (!requirement.value.trim()) {
+            showError(requirement, "Nội dung này không được để trống!");
+            isValid = false;
+        }
+
+        // Validate benefit
+        const benefit = document.getElementById("benefit");
+        if (!benefit.value.trim()) {
+            showError(benefit, "Nội dung này không được để trống!");
+            isValid = false;
+        }
+
+        // Validate Ngân sách
+        const budgetMin = document.getElementById("budgetMin");
+        const budgetMinInput = document.getElementById("budgetMinInput");
+        if (!budgetMinInput.value || budgetMinInput.value <= 0) {
+            showError(budgetMin, "Ngân sách Min không được để trống và phải lớn hơn 0!");
+            isValid = false;
+        }
+
+        const budgetMax = document.getElementById("budgetMax");
+        const budgetMaxInput = document.getElementById("budgetMaxInput");
+        let budgetError = "";
+
+        if (!budgetMaxInput.value || budgetMaxInput.value <= 0) {
+            budgetError = "Ngân sách Max không được để trống và phải lớn hơn 0!";
+            showError(budgetMax, budgetError);
+            isValid = false;
+        } else if (parseInt(budgetMaxInput.value) <= parseInt(budgetMinInput.value)) {
+            budgetError = "Ngân sách Max phải lớn hơn Min";
+            showError(budgetMax, budgetError);
+            isValid = false;
+        }
+
+        // Validate kiemtra-content
+        const testContent = document.getElementById("kiemtra-content");
+        if (!testContent.value.trim()) {
+            showError(testContent, "Nội dung này không được để trống!");
+            isValid = false;
+        }
+
+        // Validate kiemtra-required
+        const testRequired = document.getElementById("kiemtra-required");
+        if (!testRequired.value.trim()) {
+            showError(testRequired, "Nội dung này không được để trống!");
+            isValid = false;
+        }
+
+        // Validate ngày hết hạn tuyển dụng
+        const dueDate = document.getElementById("dueDate");
+
+        if (!dueDate.value.trim()) {
+            showError(dueDate, "Nội dung này không được để trống!")
+            isValid = false;
+        } else {
+            if (dueDate.value && dueDate.value <= today) {
+                showError(dueDate, "Ngày hết hạn tuyển dụng phải lớn hơn ngày hiện tại!");
+                isValid = false;
+            }
+        }
+
+        if (!isValid) {
+            e.preventDefault(); // Ngăn form submit nếu có lỗi
+        }
+    });
+</script>
 </body>
 </html>

@@ -3,6 +3,7 @@ package jobtrans.controller.cv;
 import jobtrans.dal.AccountDAO;
 import jobtrans.dal.CvDAO;
 import jobtrans.model.*;
+import jobtrans.utils.DBConnection;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -12,6 +13,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -106,6 +110,47 @@ public class CVServlet extends HttpServlet {
                 Logger.getLogger(CVServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+
+        if ("SaveCVload".equals(action)) {
+            String cvId = request.getParameter("cvId");
+            String reviewLink = request.getParameter("reviewLink");
+
+            if (cvId == null || reviewLink == null) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Thiếu tham số cvId hoặc reviewLink");
+                return;
+            }
+
+            System.out.println("Đang lưu link CV review: " + reviewLink);
+
+            // Sửa lại câu SQL để update đúng tên bảng và tên cột
+            String sql = "UPDATE CV SET link_cv_review = ? WHERE CV_id = ?";
+
+            try (Connection conn = DBConnection.openConnection();
+                 PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+                stmt.setString(1, reviewLink);
+                stmt.setInt(2, Integer.parseInt(cvId));
+
+                int affectedRows = stmt.executeUpdate();
+
+                if (affectedRows == 0) {
+                    // Nếu không có bản ghi nào được cập nhật
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "Không tìm thấy CV với ID: " + cvId);
+                    return;
+                }
+
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.getWriter().write("Lưu link CV review thành công");
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi database: " + e.getMessage());
+            } catch (NumberFormatException e) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID CV không hợp lệ");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     @Override
@@ -113,16 +158,6 @@ public class CVServlet extends HttpServlet {
             throws ServletException, IOException {
         String action = request.getParameter("action");
         switch (action) {
-//            case "create": {
-//                try {
-//
-//                    createCV(request, response);
-//                } catch (ParseException ex) {
-//                    response.getWriter().print("Lỗi à" + ex);
-//                    Logger.getLogger(CVServlet.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-            //           break;
             case "list":
                 viewList(request, response);
                 break;
@@ -185,10 +220,6 @@ public class CVServlet extends HttpServlet {
             request.getRequestDispatcher("errorPage.jsp").forward(request, response);
             return;
         }
-
-
-
-
 
 
         // Update basic CV information
@@ -406,34 +437,38 @@ public class CVServlet extends HttpServlet {
             return;
         }
 
-        if (existingCV.getCvType() == 1){
+        if (existingCV.getCvType() == 1) {
             request.setAttribute("CV", existingCV);
-
             request.getRequestDispatcher("showCV1.jsp").forward(request, response);
-        } else if (existingCV.getCvType()==2){
+        } else if (existingCV.getCvType() == 2) {
             request.setAttribute("CV", existingCV);
-
             request.getRequestDispatcher("showCV2.jsp").forward(request, response);
-
+        }else if (existingCV.getCvType()==3){
+            request.setAttribute("CV", existingCV);
+            request.getRequestDispatcher("showCV3.jsp").forward(request, response);
+        }
+        else if (existingCV.getCvType()==4){
+            request.setAttribute("CV", existingCV);
+            request.getRequestDispatcher("showCV4.jsp").forward(request, response);
         }
 
 
-
     }
+
     private void createCV(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ParseException {
         PrintWriter out = response.getWriter();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         HttpSession session = request.getSession();
-//        String email = (String) session.getAttribute("account");
+        Account account = (Account) session.getAttribute("sessionAccount");
 
         CvDAO cvDao = new CvDAO();
         AccountDAO accountDAO = new AccountDAO();
 
 //        Account u = accountDAO.getAccountByEmail(email);
         CV cv = new CV();
-        int accountId = 1;
-        Account u = accountDAO.getAccountById(accountId);
+        int accountId = account.getAccountId();
+        Account u = accountDAO.getAccountById(account.getAccountId());
 
         String TypeCV = request.getParameter("typeId");
 
@@ -517,11 +552,12 @@ public class CVServlet extends HttpServlet {
 
                     // Handle company ID (which is actually experience_id in your DB)
                     int experienceId = Integer.parseInt(companyIds[i]);
+
                     experience.setExperienceId(experienceId);
 
                     // Handle custom company name (for "other" selection)
                     String customCompany = null;
-                    if (experienceId == 32) { // Assuming 32 is "Other" option
+                    if (experienceId == 1) { // Assuming 32 is "Other" option
                         customCompany = (otherCompanyNames != null && i < otherCompanyNames.length)
                                 ? otherCompanyNames[i] : null;
                     }
@@ -534,6 +570,7 @@ public class CVServlet extends HttpServlet {
                             ? dateFormat1.parse(experienceEndDates[i]) : null;
                     experience.setStartAt(startDate);
                     experience.setEndAt(endDate);
+
 
                     // Set other fields
                     experience.setJobPosition(positions[i]);
@@ -571,7 +608,7 @@ public class CVServlet extends HttpServlet {
                     int certificationId = Integer.parseInt(certificationIds[i]);
                     String otherCertificationName = null;
 
-                    if (certificationId == 35) {
+                    if (certificationId == 1) {
                         otherCertificationName = otherCertificationNames[i];
                     } else {
                         otherCertificationName = null;
@@ -625,7 +662,7 @@ public class CVServlet extends HttpServlet {
                     education.setEndDate(dateFormat.parse(educationEndDates[i]));
                     education.setMoreInfor(schoolDescriptions[i]);
 
-                    if (education.getEducationId() == 95 && otherSchoolNames != null && i < otherSchoolNames.length) {
+                    if (education.getEducationId() == 1 && otherSchoolNames != null && i < otherSchoolNames.length) {
                         education.setCustomSchool(otherSchoolNames[i]);
                     }
 
@@ -657,7 +694,7 @@ public class CVServlet extends HttpServlet {
                     int levelSkill = Integer.parseInt(levelSkills[i]);
 
                     // Handle custom skill name
-                    String skillCustom = (skillId == 31 && otherSkillNames != null && i < otherSkillNames.length)
+                    String skillCustom = (skillId == 1 && otherSkillNames != null && i < otherSkillNames.length)
                             ? otherSkillNames[i] : null;
 
                     // Set skill properties
@@ -686,19 +723,24 @@ public class CVServlet extends HttpServlet {
             Logger.getLogger(CVServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        System.out.println("test 2"+cvType);
-        System.out.println("test 3"+cv.getCvType());
+        System.out.println("test 2" + cvType);
+        System.out.println("test 3" + cv.getCvType());
 
 
-        if (cv.getCvType() == 1){
+        if (cv.getCvType() == 1) {
             request.setAttribute("CV", cv);
-
             request.getRequestDispatcher("showCV1.jsp").forward(request, response);
-        } else if (cv.getCvType()==2){
+        } else if (cv.getCvType() == 2) {
             request.setAttribute("CV", cv);
-
             request.getRequestDispatcher("showCV2.jsp").forward(request, response);
-
+        }
+        else if (cv.getCvType()==3){
+            request.setAttribute("CV", cv);
+            request.getRequestDispatcher("showCV3.jsp").forward(request, response);
+        }
+        else if (cv.getCvType()==4){
+            request.setAttribute("CV", cv);
+            request.getRequestDispatcher("showCV4.jsp").forward(request, response);
         }
 
 
@@ -749,6 +791,9 @@ public class CVServlet extends HttpServlet {
         } else if (cv.getCvType() == 3) {
             request.setAttribute("CV", cv);
             request.getRequestDispatcher("showCV3.jsp").forward(request, response);
+        } else if (cv.getCvType() == 4) {
+            request.setAttribute("CV", cv);
+            request.getRequestDispatcher("showCV4.jsp").forward(request, response);
         }
 
     }
@@ -757,8 +802,7 @@ public class CVServlet extends HttpServlet {
     /// /// view List CV
     private void viewList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        HttpSession session = request.getSession();
-//        String email = (String) session.getAttribute("account");
+        HttpSession session = request.getSession();
 //        if (email == null) {
 //            // Nếu không có email trong session, điều hướng người dùng đến trang đăng nhập
 //            response.sendRedirect("404.html");
@@ -769,7 +813,8 @@ public class CVServlet extends HttpServlet {
         AccountDAO accountDAO = new AccountDAO();
 //        Account u = accountDAO.getAccountByEmail(email);
 
-        int accountId = 1;
+        Account account = (Account) session.getAttribute("sessionAccount");
+        int accountId = account.getAccountId();
         List<CV> listCV = Cvdao.getCVByUserId(accountId);
         request.setAttribute("listcv", listCV);
         request.getRequestDispatcher("my_cv.jsp").forward(request, response);
@@ -793,6 +838,9 @@ public class CVServlet extends HttpServlet {
         }
         if (typeId == 3) {
             request.getRequestDispatcher("mau_cv3.jsp").forward(request, response);
+        }
+        if (typeId == 4) {
+            request.getRequestDispatcher("mau_cv4.jsp").forward(request, response);
         }
 
     }
@@ -820,6 +868,9 @@ public class CVServlet extends HttpServlet {
         } else if (cv.getCvType() == 3) {
             request.setAttribute("CV", cv);
             request.getRequestDispatcher("edit_cv3.jsp").forward(request, response);
+        }else if (cv.getCvType() == 4) {
+            request.setAttribute("CV", cv);
+            request.getRequestDispatcher("edit_cv4.jsp").forward(request, response);
         }
 
 

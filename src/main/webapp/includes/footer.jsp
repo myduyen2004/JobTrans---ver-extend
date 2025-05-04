@@ -8,6 +8,7 @@
 		padding: 60px 0 40px;
 		position: relative;
 		overflow: hidden;
+		margin-bottom: 0;
 	}
 
 	.footer-container {
@@ -102,7 +103,7 @@
 <footer class="footer">
 	<div class="footer-container">
 		<div class="footer-logo">
-			<img src="img/logo/logo.png" alt="JobTrans Logo">
+			<img src="http://localhost:8080/JobTrans/img/logo/logo.png" alt="JobTrans Logo">
 			<div class="copyright">Copyright © 2025 JobTrans All Rights Reserved.</div>
 		</div>
 

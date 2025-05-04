@@ -1,0 +1,506 @@
+:root {
+    --primary-gradient: linear-gradient(to right, rgb(21, 32, 112), rgb(39, 64, 179));
+    --primary-color: rgb(39, 64, 179);
+    --primary-dark: rgb(21, 32, 112);
+    --secondary-color: #f5f7ff;
+    --text-color: #333;
+    --text-light: #6e6e6e;
+    --border-color: #e0e0e0;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --pending-color: #6c757d;
+    --white: #ffffff;
+    --shadow: 0 4px 12px rgba(21, 32, 112, 0.1);
+    --radius: 30px;
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f9faff;
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section-padding {
+    padding: 40px 0;
+}
+
+/* Header Styling */
+.contract-header {
+    background: var(--primary-gradient);
+    color: var(--white);
+    padding: 25px 30px;
+    border-radius: var(--radius);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow);
+    animation: fadeIn 0.8s ease-out;
+}
+
+.contract-title {
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.contract-status {
+    padding: 8px 15px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+.contract-status::before {
+    content: "";
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.status-active {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.status-active::before {
+    background-color: #2ecc71;
+    box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.3);
+    animation: pulse 1.5s infinite;
+}
+
+/* Progress Steps */
+.contract-progress {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    position: relative;
+    padding: 0 10px;
+}
+
+.contract-progress::before {
+    content: "";
+    position: absolute;
+    top: 25px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: var(--border-color);
+    z-index: 1;
+}
+
+.contract-progress::after {
+    content: "";
+    position: absolute;
+    top: 25px;
+    left: 0;
+    width: 25%;  /* 25% for first step active */
+    height: 3px;
+    background: var(--primary-gradient);
+    z-index: 2;
+    transition: var(--transition);
+    animation: progressGrow 1.5s ease-out;
+}
+
+.progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 3;
+    width: 25%;
+}
+
+.step-number {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--white);
+    border: 3px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    margin-bottom: 10px;
+    position: relative;
+    transition: var(--transition);
+}
+
+.step-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-light);
+    text-align: center;
+    transition: var(--transition);
+}
+
+.progress-step.active .step-number {
+    border-color: var(--primary-color);
+    background: var(--primary-gradient);
+    color: var(--white);
+    box-shadow: 0 0 0 5px rgba(39, 64, 179, 0.2);
+}
+
+.progress-step.active .step-label {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* Contract Body */
+.contract-body {
+    background-color: var(--white);
+    border-radius: var(--radius);
+    padding: 30px;
+    box-shadow: var(--shadow);
+    animation: slideUpFade 0.6s ease-out;
+}
+
+.form-section {
+    margin-bottom: 30px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid var(--border-color);
+    animation: fadeIn 0.8s ease-out;
+}
+
+.form-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin-bottom: 20px;
+    position: relative;
+    padding-left: 15px;
+}
+
+.section-title::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: var(--primary-gradient);
+    border-radius: 4px;
+}
+
+.info-group {
+    margin-bottom: 20px;
+}
+
+.info-label {
+    font-size: 14px;
+    color: var(--text-light);
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.info-value {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.form-row {
+    display: flex;
+    margin: 0 -15px 20px;
+}
+
+.form-col {
+    flex: 1;
+    padding: 0 15px;
+}
+
+/* Skill Tags */
+.skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.skill-tag {
+    background: var(--secondary-color);
+    color: var(--primary-color);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: var(--transition);
+    border: 1px solid rgba(39, 64, 179, 0.2);
+}
+
+.skill-tag:hover {
+    background: var(--primary-gradient);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+/* Milestone Styling */
+.milestone-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.milestone-item {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 20px;
+    transition: var(--transition);
+    background-color: var(--white);
+}
+
+.milestone-item:hover {
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+}
+
+.milestone-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.milestone-name {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.milestone-amount {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.milestone-description {
+    color: var(--text-light);
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.milestone-status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.milestone-status.completed {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: var(--success-color);
+}
+
+.milestone-status.active {
+    background-color: rgba(39, 64, 179, 0.1);
+    color: var(--primary-color);
+}
+
+.milestone-status.pending {
+    background-color: rgba(108, 117, 125, 0.1);
+    color: var(--pending-color);
+}
+
+/* File Upload */
+.uploaded-files {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    background-color: var(--secondary-color);
+    border-radius: var(--radius);
+    transition: var(--transition);
+}
+
+.file-item:hover {
+    background-color: rgba(39, 64, 179, 0.08);
+}
+
+.file-item i {
+    margin-right: 10px;
+    color: var(--primary-color);
+}
+
+.file-name {
+    flex: 1;
+}
+
+.download-file {
+    cursor: pointer;
+    color: var(--primary-color);
+    padding: 5px;
+    border-radius: 4px;
+    transition: var(--transition);
+}
+
+.download-file:hover {
+    background-color: rgba(39, 64, 179, 0.1);
+}
+
+/* Project Status */
+.project-status {
+    margin-top: 10px;
+}
+
+.status-bar {
+    height: 10px;
+    background-color: var(--border-color);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.status-progress {
+    height: 100%;
+    background: var(--primary-gradient);
+    border-radius: 10px;
+    width: 40%;
+    animation: progressLoad 1.5s ease-out;
+}
+
+.status-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--primary-color);
+}
+
+
+
+/* Icons */
+.fas {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.fa-file-pdf {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 384 512'%3E%3Cpath fill='%232740b3' d='M181.9 256.1c-5-16-4.9-46.9-2-46.9 8.4 0 7.6 36.9 2 46.9zm-1.7 47.2c-7.7 20.2-17.3 43.3-28.4 62.7 18.3-7 39-17.2 62.9-21.9-12.7-9.6-24.9-23.4-34.5-40.8zM86.1 428.1c0 .8 13.2-5.4 34.9-40.2-6.7 6.3-29.1 24.5-34.9 40.2zM248 160h136v328c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V24C0 10.7 10.7 0 24 0h200v136c0 13.2 10.8 24 24 24zm-8 171.8c-20-12.2-33.3-29-42.7-53.8 4.5-18.5 11.6-46.6 6.2-64.2-4.7-29.4-42.4-26.5-47.8-6.8-5 18.3-.4 44.1 8.1 77-11.6 27.6-28.7 64.6-40.8 85.8-.1 0-.1.1-.2.1-27.1 13.9-73.6 44.5-54.5 68 5.6 6.9 16 10 21.5 10 17.9 0 35.7-18 61.1-61.8 25.8-8.5 54.1-19.1 79-23.2 21.7 11.8 47.1 19.5 64 19.5 29.2 0 31.2-32 19.7-43.4-13.9-13.6-54.3-9.7-73.6-7.2zM377 105L279 7c-4.5-4.5-10.6-7-17-7h-6v128h128v-6.1c0-6.3-2.5-12.4-7-16.9zm-74.1 255.3c4.1-2.7-2.5-11.9-42.8-9 37.1 15.8 42.8 9 42.8 9z'%3E%3C/path%3E%3C/svg%3E");
+}
+
+.fa-file-word {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 384 512'%3E%3Cpath fill='%232740b3' d='M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm57.1 120H305c7.7 0 13.4 7.1 11.7 14.7l-38 168c-1.2 5.5-6.1 9.3-11.7 9.3h-38c-5.5 0-10.3-3.8-11.6-9.1-25.8-103.5-20.8-81.2-25.6-110.5h-.5c-1.1 14.3-2.4 17.4-25.6 110.5-1.3 5.3-6.1 9.1-11.6 9.1H117c-5.6 0-10.5-3.9-11.7-9.4l-37.8-168c-1.7-7.5 4-14.6 11.7-14.6h24.5c5.7 0 10.7 4 11.8 9.7 15.6 78 20.1 109.5 21 122.2 1.6-10.2 7.3-32.7 29.4-122.7 1.3-5.4 6.1-9.1 11.7-9.1h29.1c5.6 0 10.4 3.8 11.7 9.2 24 100.4 28.8 124 29.6 129.4-.2-11.2-2.6-17.8 21.6-129.2 1-5.6 5.9-9.5 11.5-9.5zM384 121.9v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z'%3E%3C/path%3E%3C/svg%3E");
+}
+
+.fa-download {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%232740b3' d='M216 0h80c13.3 0 24 10.7 24 24v168h87.7c17.8 0 26.7 21.5 14.1 34.1L269.7 378.3c-7.5 7.5-19.8 7.5-27.3 0L90.1 226.1c-12.6-12.6-3.7-34.1 14.1-34.1H192V24c0-13.3 10.7-24 24-24zm296 376v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h146.7l49 49c20.1 20.1 52.5 20.1 72.6 0l49-49H488c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z'%3E%3C/path%3E%3C/svg%3E");
+}
+
+.fa-check-circle {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%2328a745' d='M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z'%3E%3C/path%3E%3C/svg%3E");
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUpFade {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes progressLoad {
+    from {
+        width: 0;
+    }
+    to {
+        width: 40%;
+    }
+}
+
+@keyframes progressGrow {
+    from {
+        width: 0;
+    }
+    to {
+        width: 25%;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 6px rgba(46, 204, 113, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(46, 204, 113, 0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+    }
+
+    .form-col {
+        padding: 0;
+    }
+
+    .contract-progress {
+        overflow-x: auto;
+        padding-bottom: 15px;
+    }
+
+    .step-label {
+        font-size: 12px;
+    }
+
+    .contract-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .contract-status {
+        margin-top: 10px;
+    }
+
+    .btn-container {
+        flex-direction: column;
+    }
+
+    .btn-a {
+        width: 100%;
+    }
+}

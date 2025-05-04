@@ -1,201 +1,165 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="vi">
 <head>
+    <jsp:useBean id="jobDao" class="jobtrans.dal.JobDAO" scope="session"/>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Danh sách công việc đã đăng &#8211; JobTrans</title>
     <meta name='robots' content='max-image-preview:large'/>
     <link href="./css/job-posted-list-manage.css" rel="stylesheet"/>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
 </head>
 
 <body style="font-family: Inter, sans-serif">
-<div class="py-4 banner_title">
-    <h1 class="text-white font-weight-bold" style="padding-left: 50px;">Danh sách công việc</h1>
-</div>
-<section class="section-padding">
-    <div class="row mt-4 mb-4">
-        <div class="col-8"></div>
-        <div class="row col-4 px-4">
-            <input class="col-4 mr-4"
-                   style="color: white; background-color: red; border-radius: 15px; padding: 5px 10px 5px 10px; width: 100px"
-                   type="button" value="Hết hạn"/>
-            <input class="col-4"
-                   style="color: white; background-color: #0F1B63; border-radius: 15px; padding: 5px 10px 5px 10px; width: 120px"
-                   type="button" value="Đang tuyển"/>
-            <div class="col-4 dropdown">
-                <button class="btn btn-light dropdown-toggle w-100" type="button" id="sortDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border-radius: 15px;">
-                    Sắp xếp <i class="fas fa-filter"></i>
-                </button>
-                <div class="dropdown-menu mt-2" aria-labelledby="sortDropdown">
-                    <a class="dropdown-item" href="#">Mới nhất</a>
-                    <a class="dropdown-item" href="#">A - Z</a>
-                    <a class="dropdown-item" href="#">Z - A</a>
-                    <a class="dropdown-item" href="#">Lương tăng dần</a>
-                    <a class="dropdown-item" href="#">Lương giảm dần</a>
+<%@include file="includes/header-01.jsp" %>
+<div class="content" id="content">
+    <div class="main-content">
+        <section class="section-padding">
+            <div class="container">
+                <div class="page-title-container">
+                    <h1 class="page-title">Quản Lý Công Việc Đã Đăng</h1>
+                    <p class="page-subtitle">Theo dõi, cập nhật và quản lý danh sách các công việc bạn đã đăng trên nền tảng JobTrans</p>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="container mb-4">
-        <div class="row justify-content-center ">
-            <div class="search-result col-lg-8 space-y-4">
-                <div class="post-box bg-white rounded-lg shadow-md items-center justify-between"
-                     style="border-radius: 30px; border: 2px solid #6787FE50">
-                    <p style="background-color: #6787FE50; width: 120px; padding: 5px 10px 5px 10px; border-bottom-right-radius: 15px;">
-                        5 Chào giá <i class="fas fa-bolt"></i></p>
-                    <div class="row m-3">
-                        <div class="col-md-9 my-auto">
-                            <a class="project-title" href="#"><h3 style="font-size: 20px; font-weight: 400;">Swift /
-                                SwiftUI Developer for B2B iOS apps</h3></a>
-                            <ul class="list-inline" style="color: darkgray">
-                                <li class="list-inline-item"><i class="fas fa-clock"></i></li>
-                                Hạn tuyển: 15- 03 -2024
-                            </ul>
-                        </div>
-                        <div class="col-md-3">
-                            <h2 style="text-align: center;">
-                                <span class="woocommerce-Price-amount amount">
-                                    <bdi>
-                                        <span class="woocommerce-Price-currencySymbol">&#36;</span>10 Triệu - 15 Triệu
-                                    </bdi>
-                                </span>
-                            </h2>
-                            <div class="d-flex flex-row justify-content-center">
-                                <button class="text-white mt-3" style="border-radius: 30px; background-color: #6787FE; padding: 5px 10px 5px 10px;">
-                                    Chi tiết
-                                </button>
+                <div class="new-job-btn-container">
+                    <a href="post_job.jsp">
+                        <button class="new-job-btn">
+                            <i class="fas fa-plus-circle"></i> Đăng việc mới
+                        </button>
+                    </a>
+                </div>
+                <div class="row mb-4 filter-container">
+                    <div class="col-md-8"></div>
+                    <div class="col-md-4 d-flex gap-2 align-items-center justify-content-end">
+                        <button class="filter-btn expired-btn">Hết hạn</button>
+                        <button class="filter-btn active-btn">Đang tuyển</button>
+                        <div class="sort-dropdown">
+                            <button class="btn dropdown-toggle" type="button" id="sortDropdown" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                Sắp xếp <i class="fas fa-filter"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="sortDropdown">
+                                <a class="dropdown-item" href="#">Mới nhất</a>
+                                <a class="dropdown-item" href="#">A - Z</a>
+                                <a class="dropdown-item" href="#">Z - A</a>
+                                <a class="dropdown-item" href="#">Lương tăng dần</a>
+                                <a class="dropdown-item" href="#">Lương giảm dần</a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="post-box bg-white rounded-lg shadow-md items-center justify-between"
-                     style="border-radius: 30px; border: 2px solid #6787FE50">
-                    <p style="background-color: #6787FE50; width: 120px; padding: 5px 10px 5px 10px; border-bottom-right-radius: 15px;">
-                        5 Chào giá <i class="fas fa-bolt"></i></p>
-                    <div class="row m-3">
-                        <div class="col-md-9 my-auto">
-                            <a class="project-title" href="#"><h3 style="font-size: 20px; font-weight: 400;">Swift /
-                                SwiftUI Developer for B2B iOS apps</h3></a>
-                            <ul class="list-inline" style="color: darkgray">
-                                <li class="list-inline-item"><i class="fas fa-clock"></i></li>
-                                Hạn tuyển: 15- 03 -2024
-                            </ul>
-                        </div>
-                        <div class="col-md-3">
-                            <h2 style="text-align: center;">
-                                <span class="woocommerce-Price-amount amount">
-                                    <bdi>
-                                        <span class="woocommerce-Price-currencySymbol">&#36;</span>10 Triệu - 15 Triệu
-                                    </bdi>
-                                </span>
-                            </h2>
-                            <div class="d-flex flex-row justify-content-center">
-                                <button class="text-white mt-3" style="border-radius: 30px; background-color: #6787FE; padding: 5px 10px 5px 10px;">
-                                    Chi tiết
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="post-box bg-white rounded-lg shadow-md items-center justify-between"
-                     style="border-radius: 30px; border: 2px solid #6787FE50">
-                    <p style="background-color: #6787FE50; width: 120px; padding: 5px 10px 5px 10px; border-bottom-right-radius: 15px;">
-                        5 Chào giá <i class="fas fa-bolt"></i></p>
-                    <div class="row m-3">
-                        <div class="col-md-9 my-auto">
-                            <a class="project-title" href="#"><h3 style="font-size: 20px; font-weight: 400;">Swift /
-                                SwiftUI Developer for B2B iOS apps</h3></a>
-                            <ul class="list-inline" style="color: darkgray">
-                                <li class="list-inline-item"><i class="fas fa-clock"></i></li>
-                                Hạn tuyển: 15- 03 -2024
-                            </ul>
-                        </div>
-                        <div class="col-md-3">
-                            <h2 style="text-align: center;">
-                                <span class="woocommerce-Price-amount amount">
-                                    <bdi>
-                                        <span class="woocommerce-Price-currencySymbol">&#36;</span>10 Triệu - 15 Triệu
-                                    </bdi>
-                                </span>
-                            </h2>
-                            <div class="d-flex flex-row justify-content-center">
-                                <button class="text-white mt-3" style="border-radius: 30px; background-color: #6787FE; padding: 5px 10px 5px 10px;">
-                                    Chi tiết
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="post-box bg-white rounded-lg shadow-md items-center justify-between"
-                     style="border-radius: 30px; border: 2px solid #6787FE50">
-                    <p style="background-color: #6787FE50; width: 120px; padding: 5px 10px 5px 10px; border-bottom-right-radius: 15px;">
-                        5 Chào giá <i class="fas fa-bolt"></i></p>
-                    <div class="row m-3">
-                        <div class="col-md-9 my-auto">
-                            <a class="project-title" href="#"><h3 style="font-size: 20px; font-weight: 400;">Swift /
-                                SwiftUI Developer for B2B iOS apps</h3></a>
-                            <ul class="list-inline" style="color: darkgray">
-                                <li class="list-inline-item"><i class="fas fa-clock"></i></li>
-                                Hạn tuyển: 15- 03 -2024
-                            </ul>
-                        </div>
-                        <div class="col-md-3">
-                            <h2 style="text-align: center;">
-                                <span class="woocommerce-Price-amount amount">
-                                    <bdi>
-                                        <span class="woocommerce-Price-currencySymbol">&#36;</span>10 Triệu - 15 Triệu
-                                    </bdi>
-                                </span>
-                            </h2>
-                            <div class="d-flex flex-row justify-content-center">
-                                <button class="text-white mt-3" style="border-radius: 30px; background-color: #6787FE; padding: 5px 10px 5px 10px;">
-                                    Chi tiết
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="pagination" class="mt-4 d-flex justify-content-center">
-                <div class="mt-4 d-flex justify-content-center">
-                    <nav>
-                        <ul class="pagination">
-<%--                            <c:if test="${currentPage > 1}">--%>
-<%--                                <li class="page-item">--%>
-<%--                                    <a class="page-link" href="?page=${currentPage - 1}">Trang trước</a>--%>
-<%--                                </li>--%>
-<%--                            </c:if>--%>
-<%--                            <c:forEach begin="1" end="${totalPages}" var="i">--%>
-<%--                                <li class="page-item ${i == currentPage ? 'active' : ''}">--%>
-<%--                                    <a class="page-link" href="?page=${i}">${i}</a>--%>
-<%--                                </li>--%>
-<%--                            </c:forEach>--%>
-<%--                            <c:if test="${currentPage < totalPages}">--%>
-<%--                                <li class="page-item">--%>
-<%--                                    <a class="page-link" href="?page=${currentPage + 1}">Trang sau</a>--%>
-<%--                                </li>--%>
-<%--                            </c:if>--%>
-                            <li class="page_item mx-1 px-3 py-1 border rounded">Trang Trước</li>
-                            <li class="page_item mx-1 px-3 py-1 border rounded">1</li>
-                            <li class="page_item mx-1 px-3 py-1 border rounded">2</li>
-                            <li class="page_item mx-1 px-3 py-1 border rounded">3</li>
-                            <li class="page_item mx-1 px-3 py-1 border rounded">4</li>
-                            <li class="page_item mx-1 px-3 py-1 border rounded">Trang sau</li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
 
+                <div class="row justify-content-center">
+                    <div class="search-result col-lg-10">
+                        <c:forEach var="o" items="${jobList}" varStatus="status">
+                            <div class="post-box">
+                                <input type="hidden" name="jobId" value="${o.jobId}"/>
+                                <div class="greeting-badge">
+                                        ${jobDao.getNumOfJobGreetingByJobId(o.jobId)} Chào giá <i
+                                        class="fas fa-bolt"></i>
+                                </div>
+                                <div class="row m-3">
+                                    <div class="col-md-6">
+                                        <a class="project-title" href="job?action=posted-job-detail&jobId=${o.jobId}">
+                                            <h3>${o.jobTitle}</h3>
+                                        </a>
+                                        <div class="job-meta">
+                                            <i class="fas fa-clock"></i>
+                                            Hạn tuyển: <span>${o.dueDatePost}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 d-flex flex-column align-items-center justify-content-center">
+                                        <div class="price-display">
+                                                ${o.budgetMin}<span class="currency-symbol">&#8363;</span>
+                                            -
+                                                ${o.budgetMax}<span class="currency-symbol">&#8363;</span>
+                                        </div>
+                                        <div class="job-card-actions">
+                                            <c:if test="${o.statusJobId >=1}">
+                                            <a href="job-manage-process?action=process-tool&jobId=${o.jobId}">
+                                                <button class="detail-btn">
+                                                    <i class="fas fa-cogs "></i> Quản lí công việc
+                                                </button>
+                                            </a>
+                                            </c:if>
+                                            <a href="job?action=edit-job&jobId=${o.jobId}">
+                                                <button class="edit-btn">
+                                                    <i class="fas fa-edit"></i> Sửa
+                                                </button>
+                                            </a>
+<%--                                            <button class="delete-btn" onclick="confirmDelete(${o.jobId})">--%>
+<%--                                                <i class="fas fa-trash"></i> Xóa--%>
+<%--                                            </button>--%>
+                                            <a href="javascript:void(0)" onclick="openDeleteModal('${o.jobId}')"
+                                               class="delete-btn" style="text-decoration: none">
+                                                <i class="fas fa-trash-alt"></i> Xóa
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </div>
+
+                    <div id="pagination" class="mt-4 d-flex justify-content-center">
+                        <nav>
+                            <ul class="pagination">
+                                <li class="page_item prev-next">Trang Trước</li>
+                                <li class="page_item active">1</li>
+                                <li class="page_item">2</li>
+                                <li class="page_item">3</li>
+                                <li class="page_item">4</li>
+                                <li class="page_item prev-next">Trang sau</li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <%@include file="includes/footer.jsp" %>
+</div>
+
+</body>
+<%--<script>--%>
+<%--    function confirmDelete(jobId) {--%>
+<%--        if (confirm("Bạn có chắc chắn muốn xóa công việc này không?")) {--%>
+<%--            window.location.href = "job?action=delete-job&jobId=" + jobId;--%>
+<%--        }--%>
+<%--    }--%>
+<%--</script>--%>
+
+<%--Popup--%>
+<div id="deleteConfirmModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 9999;">
+    <div style="background: white; padding: 20px; border-radius: 8px; width: 500px; text-align: center;">
+        <h5 style="margin-bottom: 20px;">Bạn có chắc chắn muốn xóa công việc này không?</h5>
+        <div class="d-flex justify-content-center gap-2">
+            <button id="confirmDeleteBtn" class="delete-btn" style="color: white; width: 100%">Xóa</button>
+            <button onclick="closeDeleteModal()" class="btn btn-outline-secondary" style="width: 100%">Không</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let jobIdToDelete = null;
+
+    function openDeleteModal(jobId) {
+        jobIdToDelete = jobId;
+        document.getElementById('deleteConfirmModal').style.display = 'flex';
+    }
+
+    function closeDeleteModal() {
+        document.getElementById('deleteConfirmModal').style.display = 'none';
+        jobIdToDelete = null;
+    }
+
+    document.getElementById('confirmDeleteBtn').addEventListener('click', function () {
+        if (jobIdToDelete) {
+            window.location.href = 'job?action=deleteJob&jobId=' + jobIdToDelete;
+        }
+    });
+</script>
 </html>

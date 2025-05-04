@@ -55,4 +55,9 @@ public class PasswordEncoder {
             return false;
         }
     }
+
+    public static void main(String[] args) {
+        System.out.println(encode("admin12345678"));
+        System.out.println(encode("12345678910"));
+    }
 }

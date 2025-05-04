@@ -100,8 +100,8 @@ body {
 }
 
 .edit-button {
-    background-color: red;
-    color: black;
+    background-color: #DC2626;
+    color: white;
     padding: 5px 10px 5px 10px;
     border-radius: 5px;
     text-decoration: none;
@@ -599,4 +599,277 @@ body {
     font-size: 16px;
     max-width: 300px;
     margin: 0 auto;
+}
+
+/* CSS Member */
+.page-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    padding: 30px 0;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.page-header::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+    animation: rotate 25s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.header-container {
+    position: relative;
+    z-index: 1;
+}
+
+.card {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    margin-bottom: 30px;
+    background-color: white;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    /*border: 2px solid #6787fe;*/
+}
+
+.member-header {
+    background: linear-gradient(45deg, #f3f4f6 0%, #ffffff 100%);
+    padding: 25px 20px 15px;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    position: relative;
+}
+
+.member-avatar-wrapper {
+    position: relative;
+    margin-right: 20px;
+}
+
+.member-avatar {
+    width: 110px;
+    height: 110px;
+    border-radius: 20px;
+    object-fit: cover;
+    border: 5px solid white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.status-indicator {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: var(--success-color);
+    border: 2px solid white;
+}
+
+.member-name {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--dark-color);
+    margin-bottom: 5px;
+}
+
+.member-role {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+}
+
+.badge-custom {
+    padding: 8px 15px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    margin-right: 10px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.badge-custom i {
+    margin-right: 5px;
+}
+
+.badge-specialty {
+    background-color: #e8f0fe;
+    color: #4285f4;
+}
+
+.badge-experience {
+    background-color: #e6f4ea;
+    color: #34a853;
+}
+
+.member-info {
+    padding: 20px;
+}
+
+.bio-section {
+    background-color: var(--accent-color);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.bio-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 10px;
+    font-size: 60px;
+    color: rgba(78, 84, 200, 0.1);
+    line-height: 1;
+}
+
+.bio-text {
+    position: relative;
+    z-index: 1;
+}
+
+.info-group {
+    margin-bottom: 25px;
+}
+
+.info-label {
+    display: block;
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-bottom: 5px;
+}
+
+.info-value {
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.info-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: var(--accent-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+    margin-right: 15px;
+}
+
+.btn-action {
+    border-radius: 50px;
+    padding: 10px 25px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.btn-action i {
+    margin-right: 8px;
+}
+
+.btn-edit {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+.btn-edit:hover {
+    background-color: #3a40b5;
+    border-color: #3a40b5;
+    color: white;
+}
+
+.btn-delete {
+    background-color: white;
+    border-color: var(--danger-color);
+    color: var(--danger-color);
+}
+
+.btn-delete:hover {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.actions-container {
+    border-top: 1px solid rgba(0,0,0,0.05);
+    padding: 20px;
+    background-color: #fafbfc;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-add-container {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-add {
+    background-color: var(--success-color);
+    border-color: var(--success-color);
+    padding: 12px 25px;
+    font-size: 1rem;
+    color: white;
+}
+
+.btn-add:hover {
+    background-color: #43a047;
+    border-color: #43a047;
+    color: white;
+}
+
+.btn-details {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+    border: none;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s;
+}
+
+.btn-details:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-details .fa-chevron-down {
+    transition: transform 0.3s ease;
+}
+
+[aria-expanded="true"] .fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+.collapse {
+    visibility: visible;
+}
+
+.collapse-content {
+    padding: 0;
+    overflow: hidden;
+    visibility: visible;
+}
+
+.collapsing {
+    transition: height 0.35s ease;
 }

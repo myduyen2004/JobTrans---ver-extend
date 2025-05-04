@@ -73,11 +73,11 @@ public class GroupMemberDAO {
 
             if (rs.next()) {
                 member = new GroupMember();
-                member.setMemberId(rs.getInt("memberId"));
-                member.setMemberName(rs.getString("memberName"));
-                member.setAccountId(rs.getInt("accountId"));
+                member.setMemberId(rs.getInt("member_id"));
+                member.setMemberName(rs.getString("member_name"));
+                member.setAccountId(rs.getInt("account_id"));
                 member.setBio(rs.getString("bio"));
-                member.setDateOfBirth(rs.getDate("dateOfBirth"));
+                member.setDateOfBirth(rs.getDate("date_of_birth"));
                 member.setSpeciality(rs.getString("speciality"));
                 member.setGender(rs.getString("gender"));
                 member.setExperienceYears(rs.getInt("experienceYears"));
@@ -122,14 +122,16 @@ public class GroupMemberDAO {
                 member.setExperienceYears(rs.getInt("experience_years"));
                 member.setEducation(rs.getString("education"));
                 member.setStatus(rs.getString("status"));
-                member.setAvatarMember(rs.getString("avatarMember"));
+                member.setAvatarMember(rs.getString("avatar_member"));
                 member.setPosition(rs.getString("position"));
                 member.setSkills(rs.getString("skills"));
                 member.setAddress(rs.getString("address"));
                 member.setPhone(rs.getString("phone"));
-                member.setSkills(rs.getString("skills"));
             }
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         } finally {
             // Đóng các resource
             if (rs != null) rs.close();
@@ -140,44 +142,41 @@ public class GroupMemberDAO {
         return member;
     }
 
-    // Phương thức cập nhật thông tin thành viên
     public boolean updateMember(GroupMember member) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        int result = 0;
+        String sql = "UPDATE Group_Member SET member_name = ?, account_id = ?, bio = ?, date_of_birth = ?, "
+                + "speciality = ?, gender = ?, experience_years = ?, status = ?, education = ?, "
+                + "avatar_member = ?, position = ?, skills = ? WHERE member_id = ?";
 
-        try {
-            conn = DBConnection.getInstance().openConnection();
-            String sql = "UPDATE Group_Member SET member_name = ?, account_id = ?, bio = ?, date_of_birth = ?, "
-                    + "speciality = ?, gender = ?, experience_years = ?, status = ?, education = ?, "
-                    + "avatar_member = ?, position = ?, skills = ? WHERE member_id = ?";
+        try (Connection conn = DBConnection.getInstance().openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, member.getMemberName());
+            ps.setNString(1, member.getMemberName());
             ps.setInt(2, member.getAccountId());
-            ps.setString(3, member.getBio());
+            ps.setNString(3, member.getBio());
             ps.setDate(4, new java.sql.Date(member.getDateOfBirth().getTime()));
-            ps.setString(5, member.getSpeciality());
-            ps.setString(6, member.getGender());
+            ps.setNString(5, member.getSpeciality());
+            ps.setNString(6, member.getGender());
             ps.setInt(7, member.getExperienceYears());
-            ps.setString(8, member.getStatus());
-            ps.setString(9, member.getEducation());
-            ps.setString(10, member.getAvatarMember());
-            ps.setString(11, member.getPosition());
-            ps.setString(12, member.getSkills());
+            ps.setNString(8, member.getStatus());
+            ps.setNString(9, member.getEducation());
+            ps.setNString(10, member.getAvatarMember());
+            ps.setNString(11, member.getPosition());
+            ps.setNString(12, member.getSkills());
             ps.setInt(13, member.getMemberId());
 
-            result = ps.executeUpdate();
+            System.out.println("Tên thành viên (DAO): " + member.getMemberName());
+
+            int result = ps.executeUpdate();
             return result > 0;
         } catch (SQLException e) {
+            System.err.println("Lỗi khi cập nhật thành viên: " + e.getMessage());
             e.printStackTrace();
             return false;
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.err.println("Lỗi không xác định: " + e.getMessage());
+            e.printStackTrace();
+            return false;
         }
-//        finally {
-//            closeResources(conn, ps, null);
-//        }
     }
 
     // Delete member
@@ -267,10 +266,10 @@ public class GroupMemberDAO {
             ps.setInt(7, member.getExperienceYears());
             ps.setNString(8, member.getStatus());
             ps.setNString(9, member.getEducation());
-            ps.setString(10, member.getAvatarMember());
+            ps.setNString(10, member.getAvatarMember());
             ps.setNString(11, member.getPosition());
             ps.setNString(12, member.getSkills());
-            ps.setString(13, member.getPhone());
+            ps.setNString(13, member.getPhone());
             ps.setNString(14, member.getAddress());
 
             result = ps.executeUpdate();
@@ -280,38 +279,6 @@ public class GroupMemberDAO {
             return false;
         } catch (Exception e) {
             throw new RuntimeException(e);
-        }
-//        finally {
-//            closeResources(conn, ps, null);
-//        }
-    }
-
-
-    public static void main(String[] args) {
-        // Tạo đối tượng GroupMember để cập nhật thông tin
-        GroupMember member = new GroupMember();
-
-        member.setMemberId(1);
-        member.setMemberName("Nguyen Van A");
-        member.setBio("Giới thiệu bản thân");
-        member.setDateOfBirth(new java.util.Date(1990, 4, 15)); // Ngày sinh 15 tháng 4, 1990 (lưu ý sử dụng (1990-1900) vì Date có lỗi về năm)
-        member.setSpeciality("Lập trình viên");
-        member.setGender("Nam");
-        member.setExperienceYears(5);
-        member.setEducation("Cử nhân Công nghệ Thông tin");
-
-        // Gọi phương thức updateMember để cập nhật thông tin thành viên
-        GroupMemberDAO memberDAO = new GroupMemberDAO();
-        try {
-            boolean isUpdated = memberDAO.updateMember(member);
-            if (isUpdated) {
-                System.out.println("Cập nhật thông tin thành viên thành công.");
-            } else {
-                System.out.println("Cập nhật thông tin thành viên không thành công.");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Có lỗi trong quá trình cập nhật.");
         }
     }
 }

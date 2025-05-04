@@ -1,4 +1,15 @@
-
+.star-rating {
+    color: gold;
+    font-size: 24px;
+    unicode-bidi: bidi-override;
+    direction: ltr;
+    margin-left: 50px;
+}
+.rating-text {
+    font-size: 16px;
+    margin-left: 10px;
+    vertical-align: middle;
+}
     /* Base font style */
 body {
     font-family: 'Inter', sans-serif;
@@ -266,6 +277,8 @@ body, html {
     font-size: 20px;
     font-weight: 700; /* Changed from 500 to 700 for bolder text */
     margin-bottom: 1.5rem;
+    height: 40px; /* Đặt chiều cao cố định, điều chỉnh giá trị này */
+
 }
 
 .job-meta {
@@ -289,6 +302,7 @@ body, html {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 9px;
 }
 
 .job-salary {
@@ -525,6 +539,7 @@ body, html {
     border-radius: 50%;
     margin: 0 auto 20px;
     display: block;
+    height: 280px;
 }
 
 

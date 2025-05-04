@@ -1,0 +1,331 @@
+/* Variables */
+:root {
+    --primary-color: rgb(21, 42, 105);
+    --secondary-color: rgb(54, 75, 140);
+    --primary-gradient: linear-gradient(to right, rgb(21, 42, 105), rgb(54, 75, 140));
+    --text-color: #333;
+    --text-light: #666;
+    --background-color: #f8f9fa;
+    --card-bg: #ffffff;
+    --border-radius: 12px;
+    --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    --transition-speed: 0.3s;
+}
+
+/* Global Styles */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.main-container {
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes slideInFromLeft {
+    from { transform: translateX(-20px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 0.8s ease forwards;
+}
+
+/* Stats Cards */
+.stats-card {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: var(--box-shadow);
+    transition: all var(--transition-speed);
+    text-align: center;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+}
+
+.stats-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--primary-gradient);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+}
+
+.stats-card:hover::before {
+    transform: scaleX(1);
+}
+
+.stats-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+    background: rgba(21, 42, 105, 0.1);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    transition: transform 0.5s ease;
+}
+
+.stats-number {
+    font-size: 2.2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.stats-label {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Report Cards */
+.reports-container {
+    margin-top: 2rem;
+}
+
+.report-card {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+    box-shadow: var(--box-shadow);
+    transition: all var(--transition-speed);
+    overflow: hidden;
+    position: relative;
+}
+
+.report-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+}
+
+.report-card::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: var(--primary-gradient);
+    transition: width 0.3s ease;
+}
+
+.report-card:hover::after {
+    width: 8px;
+}
+
+.report-card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.card-body {
+    padding: 1.5rem;
+    position: relative;
+}
+
+.report-icon {
+    background: rgba(21, 42, 105, 0.1);
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1.5rem;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    transition: transform 0.5s ease, background 0.3s ease;
+}
+
+.report-card:hover .report-icon {
+    background: var(--primary-gradient);
+    color: white;
+}
+
+.report-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+}
+
+.report-card:hover .report-title {
+    color: var(--primary-color);
+}
+
+.report-date {
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+/* Status Indicators */
+.report-status {
+    padding: 0.35rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.status-pending {
+    background-color: rgba(255, 193, 7, 0.2);
+    color: #ffc107;
+}
+
+.status-in-progress {
+    background-color: rgba(220, 53, 69, 0.2);
+    color: #dc3545;
+}
+
+.status-completed {
+    background-color: rgba(40, 167, 69, 0.2);
+    color: #28a745;
+}
+
+/* Filter & Actions */
+.filter-actions {
+    padding: 1rem 0;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.dropdown-toggle {
+    border: 1px solid #e0e0e0;
+    background: white;
+}
+
+.dropdown-menu {
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border: none;
+    padding: 0.5rem;
+}
+
+.dropdown-item {
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background: rgba(21, 42, 105, 0.1);
+    color: var(--primary-color);
+}
+
+/* Pagination */
+#pagination {
+    margin-top: 2rem;
+}
+
+.page-btn {
+    min-width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0.3rem;
+    border: 1px solid #dee2e6;
+    background: white;
+    color: var(--text-color);
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.page-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.page-btn.active {
+    color: white;
+    font-weight: 600;
+    background: var(--primary-gradient);
+    border-color: var(--primary-color);
+    transform: scale(1.05);
+}
+
+.page-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .stats-card {
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .report-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+        margin-right: 1rem;
+    }
+
+    .report-title {
+        font-size: 1rem;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .stats-number {
+        font-size: 1.8rem;
+    }
+
+    .filter-actions {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .filter-actions h3 {
+        margin-bottom: 1rem;
+    }
+}

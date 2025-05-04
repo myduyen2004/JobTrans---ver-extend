@@ -176,19 +176,19 @@
       transition: var(--transition) !important;
       padding: 0 !important;
       outline: none !important;
-      margin-top: 750px;
+      margin-top: 650px;
     }
 
     /* Đặt sidebar ở bên phải */
     .dashboard-sidebar {
-      width: 350px;
+      width: 450px;
       background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
       border-radius: var(--radius-md) 0 0 var(--radius-md); /* Bo góc trái thay vì phải */
       box-shadow: var(--shadow-md);
       padding: 0;
       transition: var(--transition);
       position: fixed;
-      right: -350px; /* Thay đổi từ left sang right */
+      right: -450px; /* Thay đổi từ left sang right */
       top: 0;
       z-index: 1000;
       height: 100vh;
