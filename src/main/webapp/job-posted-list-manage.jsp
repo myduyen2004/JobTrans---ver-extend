@@ -77,8 +77,8 @@
                                                 ${o.budgetMax}<span class="currency-symbol">&#8363;</span>
                                         </div>
                                         <div class="job-card-actions">
-                                            <c:if test="${o.statusJobId >=2}">
-                                            <a href="job?action=posted-job-detail&jobId=${o.jobId}">
+                                            <c:if test="${o.statusJobId >=1}">
+                                            <a href="job-manage-process?action=process-tool&jobId=${o.jobId}">
                                                 <button class="detail-btn">
                                                     <i class="fas fa-cogs "></i> Quản lí công việc
                                                 </button>
