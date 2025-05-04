@@ -736,10 +736,6 @@ public class JobDAO {
         return jobGreeting;
     }
 
-    public static void main(String[] args) throws Exception {
-        JobDAO jobDAO = new JobDAO();
-        System.out.println(jobDAO.getAllJobs().size());
-    }
 
 
     public int countTotalJobsByAccountId(int accountId) {
@@ -819,6 +815,38 @@ public class JobDAO {
 
         return test;
     }
+
+
+    public List<Job> get3LatestJobs() {
+        List<Job> list = new ArrayList<>();
+        String sql = "SELECT TOP 3 *  FROM Job ORDER BY post_date DESC"; // Sử dụng TOP cho SQL Server
+        try (PreparedStatement ps = dbConnection.openConnection().prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(mapToJob(rs));
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+
+        }
+        return list;
+    }
+
+    public static void main(String[] args) throws Exception {
+        JobDAO jobDAO = new JobDAO();
+        System.out.println(jobDAO.get3LatestJobs());
+
+    }
+
+}
+
+
+
+
+
+
 
     public BigDecimal getJobFeeByJobIdAndApplicantId(int jobId, int applicantId) {
         BigDecimal jobFee = null;

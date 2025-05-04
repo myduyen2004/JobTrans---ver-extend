@@ -44,6 +44,7 @@ import jobtrans.model.Transaction;
 public class ProfileServlet extends HttpServlet {
     private AccountDAO accountDAO = new AccountDAO();
     private ReportDAO reportDAO = new ReportDAO();
+    private JobDAO jobDAO = new JobDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -370,6 +371,8 @@ public class ProfileServlet extends HttpServlet {
         if (session.getAttribute("sessionAccount") != null) {
             Account account = (Account) session.getAttribute("sessionAccount");
             Account account1 = accountDAO.getAccountById(account.getAccountId());
+            List<Job> jobs = jobDAO.get3LatestJobs();
+            request.setAttribute("jobList", jobs);
             request.setAttribute("account", account1);
             request.getRequestDispatcher("job-manage.jsp").forward(request, response);
         }else{
