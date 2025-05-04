@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -133,10 +134,23 @@ public class JobProcessServlet extends HttpServlet {
         String jobId = req.getParameter("jobId");
         JobDAO jobDAO = new JobDAO();
         Job job = jobDAO.getJobById(Integer.parseInt(jobId));
-        AccountDAO accountDAO = new AccountDAO();
-        Account accountPost = accountDAO.getAccountById(job.getPostAccountId());
         ContractDAO contractDAO = new ContractDAO();
-        Contract contract = contractDAO.
-        if(accountPost.getAmountWallet() >= )
+        List<Contract> contract = contractDAO.getContractsByJobId(job.getJobId());
+        req.setAttribute("contractList", contract);
+        req.setAttribute("job", job);
+        req.getRequestDispatcher("payment-job-complete.jsp").forward(req, resp);
     }
+
+    private void completePayment(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String jobIdParam = req.getParameter("jobId");
+        int jobId = Integer.parseInt(jobIdParam);
+        String contractIdParam = req.getParameter("contractId");
+        int contractId = Integer.parseInt(contractIdParam);
+        JobDAO jobDAO = new JobDAO();
+        Job job = jobDAO.getJobById(jobId);
+        ContractDAO contractDAO = new ContractDAO();
+        Contract contract = contractDAO.getContractById(contractId);
+
+    }
+
 }

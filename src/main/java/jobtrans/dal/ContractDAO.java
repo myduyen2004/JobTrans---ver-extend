@@ -190,6 +190,8 @@ public class ContractDAO {
         return success;
     }
 
+
+
     private Contract mapResultSetToContract(ResultSet rs) throws SQLException {
         Contract contract = new Contract();
 
@@ -240,6 +242,26 @@ public class ContractDAO {
         }
 
         return contract;
+    }
+    public List<Contract> getContractsByJobId(int jobId) {
+        List<Contract> contracts = new ArrayList<>();
+        String sql = "SELECT * FROM Contract WHERE job_id = ?";
+
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, jobId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Contract contract = mapResultSetToContract(rs);
+                    contracts.add(contract);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // hoặc log lỗi
+        }
+
+        return contracts;
     }
 
     public Contract getContractByJobId(int job_id) throws SQLException {
@@ -303,5 +325,9 @@ public class ContractDAO {
         return success;
     }
 
+    public static void main(String[] args) {
+        ContractDAO contractDAO = new ContractDAO();
+        System.out.println(contractDAO.getContractsByJobId(1));
+    }
 
 }
