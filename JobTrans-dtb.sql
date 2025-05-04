@@ -399,18 +399,19 @@ CREATE TABLE Contract (
                           job_id INT NOT NULL,
                           contract_preview  NVARCHAR(MAX),
                           contract_link NVARCHAR(MAX),
-                          status NVARCHAR(100),
+                          status NVARCHAR(100) DEFAULT N'Chưa ký kết' CHECK (status IN (, N'Chờ bên B xác nhận kí kết', N'Kí kết thành công', N'Kí kết thất bại')),
                           A_name NVARCHAR(100) NOT NULL,
                           A_identity VARCHAR(50) NOT NULL, --số cccd/cmnd
                           A_identity_date DATE NOT NULL, --ngày cấp
                           A_identity_address  NVARCHAR(100) NOT NULL, --nơi cấp
                           A_birthday DATE,
                           A_address NVARCHAR(500),
-                          A_representative NVARCHAR(500) NOT NULL, --đại diện
+                          A_representative NVARCHAR(500), --đại diện
                           A_tax_code NVARCHAR(20) NOT NULL, --mã số thuế
                           A_phone_number VARCHAR(50),
                           A_email VARCHAR(200),
-                          A_signature BIT NOT NULL,
+                          A_signature NVARCHAR(MAX) NOT NULL,
+                          B_name NVARCHAR(100) NOT NULL,
                           B_identity VARCHAR(50) NOT NULL, --số cccd/cmnd
                           B_identity_date DATE NOT NULL, --ngày cấp
                           B_identity_address  NVARCHAR(100) NOT NULL, --nơi cấp
@@ -419,7 +420,7 @@ CREATE TABLE Contract (
                           B_representative NVARCHAR(500), --đại diện
                           B_phone_number VARCHAR(50),
                           B_email VARCHAR(200),
-                          B_signature BIT NOT NULL,
+                          B_signature NVARCHAR(MAX) NULL,
                           job_goal NVARCHAR(MAX) NOT NULL,
                           job_requirement NVARCHAR(MAX) NOT NULL,
                           start_date DATE NOT NULL,

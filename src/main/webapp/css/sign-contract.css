@@ -1,0 +1,984 @@
+:root {
+    --primary-gradient: linear-gradient(to right, rgb(21, 32, 112), rgb(39, 64, 179));
+    --primary-color: rgb(39, 64, 179);
+    --primary-dark: rgb(21, 32, 112);
+    --secondary-color: #f5f7ff;
+    --text-color: #333;
+    --text-light: #6e6e6e;
+    --border-color: #e0e0e0;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --pending-color: #6c757d;
+    --white: #ffffff;
+    --shadow: 0 4px 12px rgba(21, 32, 112, 0.1);
+    --radius: 30px;
+    --transition: all 0.3s ease;
+}
+
+* {
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: #f9faff;
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section-padding {
+    padding: 40px 0;
+}
+
+/* Header Styling */
+.contract-header {
+    background: var(--primary-gradient);
+    color: var(--white);
+    padding: 25px 30px;
+    border-radius: var(--radius);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow);
+    animation: fadeIn 0.8s ease-out;
+}
+
+.contract-title {
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.contract-status {
+    padding: 8px 15px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+.contract-status::before {
+    content: "";
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.status-signing {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.status-signing::before {
+    background-color: #ffc107;
+    box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.3);
+    animation: pulse 1.5s infinite;
+}
+
+/* Progress Steps */
+.contract-progress {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    position: relative;
+    padding: 0 10px;
+}
+
+.contract-progress::before {
+    content: "";
+    position: absolute;
+    top: 25px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: var(--border-color);
+    z-index: 1;
+}
+
+.contract-progress::after {
+    content: "";
+    position: absolute;
+    top: 25px;
+    left: 0;
+    width: 75%;  /* 75% for third step active */
+    height: 3px;
+    background: var(--primary-gradient);
+    z-index: 2;
+    transition: var(--transition);
+    animation: progressGrow 1.5s ease-out;
+}
+
+.progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 3;
+    width: 25%;
+}
+
+.step-number {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--white);
+    border: 3px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    margin-bottom: 10px;
+    position: relative;
+    transition: var(--transition);
+}
+
+.step-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-light);
+    text-align: center;
+    transition: var(--transition);
+}
+
+.progress-step.active .step-number {
+    border-color: var(--primary-color);
+    background: var(--primary-gradient);
+    color: var(--white);
+    box-shadow: 0 0 0 5px rgba(39, 64, 179, 0.2);
+}
+
+.progress-step.active .step-label {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.progress-step.completed .step-number {
+    border-color: var(--success-color);
+    background-color: var(--success-color);
+    color: var(--white);
+}
+
+/* Các step đã hoàn thành có màu xanh */
+.progress-step.completed .step-number::after {
+    content: "✓";
+    font-size: 24px;
+    line-height: 1;
+}
+
+.progress-step.completed .step-label {
+    color: var(--success-color);
+    font-weight: 600;
+}
+
+/* Contract Body */
+.contract-body {
+    background-color: var(--white);
+    border-radius: var(--radius);
+    padding: 30px;
+    box-shadow: var(--shadow);
+    animation: slideUpFade 0.6s ease-out;
+}
+
+.form-section {
+    margin-bottom: 30px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid var(--border-color);
+    animation: fadeIn 0.8s ease-out;
+}
+
+.form-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin-bottom: 20px;
+    position: relative;
+    padding-left: 15px;
+}
+
+.section-title::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: var(--primary-gradient);
+    border-radius: 4px;
+}
+
+/* Contract Summary */
+.contract-summary {
+    background-color: var(--secondary-color);
+    border-radius: var(--radius);
+    padding: 25px;
+    margin-bottom: 30px;
+}
+
+.summary-header {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.summary-section {
+    margin-bottom: 20px;
+}
+
+.summary-section-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--primary-color);
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.summary-item:last-child {
+    margin-bottom: 0;
+}
+
+.summary-label {
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+.summary-value {
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+/*Infor Poster And */
+.contract-parties {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.party-info {
+    flex: 1;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    margin-right: 20px;
+}
+
+.party-info:last-child {
+    margin-right: 0;
+}
+
+/* Signature Section */
+.signature-container {
+    display: block;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.signature-box {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 20px;
+    position: relative;
+    margin: 20px 0;
+}
+
+.signature-box-title {
+    font-weight: 600;
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: var(--primary-dark);
+}
+
+.signature-canvas-container {
+    border: 1px dashed var(--border-color);
+    height: 150px;
+    width: 100%;
+    margin-bottom: 15px;
+    position: relative;
+    /*cursor: pointer;*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fafafa;
+    overflow: hidden;
+
+}
+
+.signature-placeholder {
+    color: var(--text-light);
+    text-align: center;
+    font-size: 14px;
+}
+
+.signature-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    font-size: 16px;
+    margin-bottom: 12px;
+}
+
+.signature-date {
+    font-size: 14px;
+    color: var(--text-light);
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.clear-signature {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: var(--danger-color);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    text-decoration: underline;
+}
+
+/* Upload ID Section */
+.upload-section {
+    margin-top: 30px;
+}
+
+.file-upload {
+    margin-bottom: 20px;
+}
+
+.file-input-container {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.file-input {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.file-upload-btn {
+    padding: 12px 24px;
+    background: var(--secondary-color);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--radius);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.file-upload-btn:hover {
+    background-color: rgba(39, 64, 179, 0.1);
+}
+
+.file-name {
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--text-light);
+}
+
+.info-text {
+    font-size: 14px;
+    color: var(--text-light);
+    margin-top: 5px;
+    font-style: italic;
+}
+
+/* Agreement Box */
+.agreement-box {
+    background-color: #f9f9f9;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 30px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.agreement-text {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* Checkbox Style */
+.checkbox-group {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.checkbox-input {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    margin-top: 3px;
+    cursor: pointer;
+    accent-color: var(--primary-color);
+}
+
+.checkbox-label {
+    font-size: 14px;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+/* Buttons */
+.btn-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+
+/* Icons */
+.fas {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.fa-signature {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%232740b3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 3h6v6'%3E%3C/path%3E%3Cpath d='M14 15L21 3'%3E%3C/path%3E%3Cpath d='M9 14l3-3 2 2'%3E%3C/path%3E%3Cpath d='M5 18l3-3'%3E%3C/path%3E%3Cpath d='M3 3v18h18'%3E%3C/path%3E%3C/svg%3E");
+}
+
+.fa-upload {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%232740b3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'%3E%3C/path%3E%3Cpolyline points='17 8 12 3 7 8'%3E%3C/polyline%3E%3Cline x1='12' y1='3' x2='12' y2='15'%3E%3C/line%3E%3C/svg%3E");
+}
+
+.fa-info-circle {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236e6e6e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'%3E%3C/circle%3E%3Cline x1='12' y1='16' x2='12' y2='12'%3E%3C/line%3E%3Cline x1='12' y1='8' x2='12.01' y2='8'%3E%3C/line%3E%3C/svg%3E");
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.fa-check-circle {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2328a745' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 11.08V12a10 10 0 1 1-5.93-9.14'%3E%3C/path%3E%3Cpolyline points='22 4 12 14.01 9 11.01'%3E%3C/polyline%3E%3C/svg%3E");
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUpFade {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes progressGrow {
+    from {
+        width: 50%;
+    }
+    to {
+        width: 75%;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 6px rgba(255, 193, 7, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 193, 7, 0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .signature-container {
+        flex-direction: column;
+    }
+
+    .contract-progress {
+        overflow-x: auto;
+        padding-bottom: 15px;
+    }
+
+    .step-label {
+        font-size: 12px;
+    }
+
+    .contract-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .contract-status {
+        margin-top: 10px;
+    }
+
+    .btn-container {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+
+.document-preview {
+    width: 100%;
+    height: 300px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 20px;
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.document-icon {
+    font-size: 48px;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.signature-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.signature-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+.signature-date {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+/* Popup Styling */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-container {
+    background-color: white;
+    width: 90%;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: var(--primary-gradient);
+    color: white;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.popup-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.popup-close {
+    cursor: pointer;
+    font-size: 24px;
+    transition: transform 0.2s;
+}
+
+.popup-close:hover {
+    transform: scale(1.2);
+}
+
+.popup-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.popup-button {
+    padding: 8px 15px;
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.popup-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.popup-content {
+    padding: 30px;
+}
+
+/* Contract Styling */
+.container {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.contract-header-a {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.national-title {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.independence-title {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.contract-title-a {
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    color: #000000;
+}
+
+.contract-number {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.legal-basis {
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+.party-info-a {
+    margin-bottom: 10px;
+    padding: 15px;
+    border: none;
+}
+
+.party-info-a p {
+    margin: 10px 0;
+}
+
+.section-title-contract {
+    font-size: 18px;
+    font-weight: bold;
+    color: #000000;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.section-subtitle {
+    font-weight: 500;
+    color: #000000;
+    margin-top: 10px;
+}
+
+.signature-area-contract-a {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.signature-box-a {
+    position: relative;
+    width: 30%;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.signature-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.signature-note {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.signature-date-a {
+    margin-bottom: 100px;
+}
+
+.signature-img img {
+    position: absolute;
+    top: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 60px;
+    z-index: 2;
+    margin-top: 22px;
+}
+
+.signature-JobTrans img {
+    z-index: 1;
+    position: absolute;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%) rotate(2deg);
+    width: 120px;
+    height: 120px;
+}
+
+.signature-name {
+    margin-top: 70px;
+}
+
+.signature-name strong {
+    color: black;
+}
+
+.footer-pdf {
+    text-align: center;
+    font-size: 12px;
+    color: #666;
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+/* Processing Modal */
+.processing-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.processing-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.spinner {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(74, 109, 239, 0.3);
+    border-radius: 50%;
+    border-top: 4px solid #4a6def;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .popup-container {
+        width: 95%;
+        max-height: 95vh;
+    }
+
+    .popup-content {
+        padding: 20px;
+    }
+
+    .signature-box {
+        width: 100%;
+        margin-bottom: 40px;
+    }
+
+    .signature-area-contract {
+        flex-direction: column;
+    }
+}
+
+/* Thêm vào file CSS của bạn */
+/* Custom Error Box */
+.custom-alert {
+    position: relative;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    background-color: #fff0f0;
+    border-left: 4px solid #ff3b30;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.custom-alert-danger {
+    color: #721c24;
+    background-color: #fff0f0;
+}
+
+.custom-alert-icon {
+    margin-right: 10px;
+    color: #ff3b30;
+    vertical-align: middle;
+}
+
+.custom-alert-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-alert-title {
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+.custom-alert .missing-amount {
+    margin-top: 12px;
+    padding: 8px 0;
+    font-size: 14px;
+}
+
+.custom-alert .missing-amount-value {
+    color: #ff3b30;
+    font-weight: 600;
+}
+
+.custom-alert .action-btn {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 8px 16px;
+    background-color: #ff9500;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.custom-alert .action-btn:hover {
+    background-color: #f08300;
+}
+
+.custom-alert .action-btn i {
+    margin-right: 6px;
+}
+
+.custom-alert .close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #888;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+.custom-alert .close-btn:hover {
+    opacity: 1;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -919,6 +919,39 @@ public class AccountDAO {
             return false;
         }
     }
+
+    public BigDecimal getAccountBalance(int accountId) throws SQLException {
+        String sql = "SELECT amount_wallet FROM Account WHERE account_id = ?";
+        try (Connection conn = DBConnection.openConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, accountId);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next() ? rs.getBigDecimal("amount_wallet") : BigDecimal.ZERO;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Account deductFromWallet(int accountId, BigDecimal amount) throws Exception {
+
+        String sql = "UPDATE Account SET amount_wallet = amount_wallet - ? "
+                + "OUTPUT INSERTED.* "
+                + "WHERE account_id = ? AND amount_wallet >= ?";
+
+        try (Connection conn = DBConnection.openConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setBigDecimal(1, amount);
+            stmt.setInt(2, accountId);
+            stmt.setBigDecimal(3, amount);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return mapRowToAccount(rs); // Trả về Account với số dư mới
+            }
+            return null;
+        }
+    }
 }
 
 

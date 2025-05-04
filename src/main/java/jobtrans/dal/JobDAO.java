@@ -838,4 +838,32 @@ public class JobDAO {
         }
         return jobFee;
     }
+
+    public boolean addToSecureWallet(int jobId, BigDecimal amount) throws SQLException {
+        if (jobId <= 0) {
+            throw new IllegalArgumentException("ID công việc không hợp lệ");
+        }
+
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Số tiền phải lớn hơn 0");
+        }
+
+        String sql = "UPDATE Job SET secure_wallet = secure_wallet + ? OUTPUT INSERTED.job_id, INSERTED.secure_wallet WHERE job_id = ?";
+
+        try (Connection conn = DBConnection.openConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setBigDecimal(1, amount);
+            stmt.setInt(2, jobId);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 }
