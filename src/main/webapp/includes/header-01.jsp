@@ -5,6 +5,8 @@
   Account account = (Account) session.getAttribute("sessionAccount");
 %>
 <!-- Bootstrap CSS -->
+<jsp:useBean id="notiDao" class="jobtrans.dal.NotificationDAO" scope="session"/>
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <!-- Font Awesome -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -472,13 +474,13 @@
   }
 
   .message-content,
-  .notification-content {
+  .notification-header-content {
     flex-grow: 1;
     min-width: 0;
   }
 
   .message-sender,
-  .notification-title {
+  .notification-header-title {
     font-weight: 600;
     margin-bottom: 3px;
     white-space: nowrap;
@@ -1078,63 +1080,38 @@
           <div class="dropdown">
             <div class="icon-btn" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="fas fa-bell"></i>
-              <span class="icon-badge">3</span>
+              <c:set var="accId" value="<%=account.getAccountId()%>"/>
+              <span class="icon-badge">${notiDao.countNotificationByUnRead(accId)}</span>
             </div>
             <div class="dropdown-menu dropdown-menu-end notification-dropdown" aria-labelledby="notificationDropdown">
               <div class="dropdown-header">
                 <span>Thông báo</span>
-                <span class="badge">3 mới</span>
+                <span class="badge">${notiDao.countNotificationByUnRead(accId)} mới</span>
               </div>
-              <div class="notification-item unread">
-                <div class="icon-container notification-icon">
-                  <i class="fas fa-briefcase"></i>
+              <c:forEach var="o" items="${notiDao.getTop5NotificationByUnRead(accId)}">
+                <div class="notification-item unread">
+                  <c:if test="${o.notificationType == 'Giao dịch'}">
+                    <div class="icon-container notification-icon">
+                      <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                  </c:if>
+                  <c:if test="${o.notificationType == 'Hệ thống'}">
+                    <div class="icon-container notification-icon">
+                      <i class="fas fa-cog"></i>
+                    </div>
+                  </c:if>
+                  <c:if test="${o.notificationType == 'Tương tác'}">
+                    <div class="icon-container notification-icon">
+                      <i class="fas fa-tag"></i>
+                    </div>
+                  </c:if>
+                  <div class="notification-header-content">
+                    <div class="notification-header-title">${o.notificationTitle}</div>
+                    <div class="notification-text">${o.notificationContent}</div>
+                    <div class="notification-time">${o.formatTimeDifference()}</div>
+                  </div>
                 </div>
-                <div class="notification-content">
-                  <div class="notification-title">Đơn ứng tuyển được chấp nhận</div>
-                  <div class="notification-text">Đơn ứng tuyển vị trí Frontend Developer tại ABC Company đã được chấp nhận</div>
-                  <div class="notification-time">30 phút trước</div>
-                </div>
-              </div>
-              <div class="notification-item unread">
-                <div class="icon-container notification-icon success">
-                  <i class="fas fa-check-circle"></i>
-                </div>
-                <div class="notification-content">
-                  <div class="notification-title">CV của bạn đã hoàn thành</div>
-                  <div class="notification-text">CV của bạn đã được hoàn thành 100%. Tăng cơ hội ứng tuyển thành công!</div>
-                  <div class="notification-time">2 giờ trước</div>
-                </div>
-              </div>
-              <div class="notification-item unread">
-                <div class="icon-container notification-icon alert">
-                  <i class="fas fa-exclamation-triangle"></i>
-                </div>
-                <div class="notification-content">
-                  <div class="notification-title">Sắp hết hạn ứng tuyển</div>
-                  <div class="notification-text">Việc làm "UX/UI Designer" mà bạn đã lưu sắp hết hạn ứng tuyển</div>
-                  <div class="notification-time">5 giờ trước</div>
-                </div>
-              </div>
-              <div class="notification-item">
-                <div class="icon-container notification-icon">
-                  <i class="fas fa-star"></i>
-                </div>
-                <div class="notification-content">
-                  <div class="notification-title">Việc làm phù hợp mới</div>
-                  <div class="notification-text">Chúng tôi tìm thấy 5 việc làm phù hợp với kỹ năng của bạn</div>
-                  <div class="notification-time">1 ngày trước</div>
-                </div>
-              </div>
-              <div class="notification-item">
-                <div class="icon-container notification-icon">
-                  <i class="fas fa-graduation-cap"></i>
-                </div>
-                <div class="notification-content">
-                  <div class="notification-title">Khóa học mới</div>
-                  <div class="notification-text">Khóa học "Phát triển kỹ năng phỏng vấn" đã được thêm vào hệ thống</div>
-                  <div class="notification-time">2 ngày trước</div>
-                </div>
-              </div>
+              </c:forEach>
               <div class="dropdown-footer">
                 <a href="notification?action=notification">Xem tất cả thông báo</a>
               </div>
@@ -1273,4 +1250,20 @@
   </div>
 </nav>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<%--Tính khoảng thời gian đã thông báo--%>
+<script>
+  function calculateTimeDifference(notificationTime) {
+    const notificationDate = new Date(notificationTime);
+    const now = new Date();
+
+    const diffInMilliseconds = now - notificationDate;
+    const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
+    const days = Math.floor(diffInSeconds / (24 * 3600));
+    const hours = Math.floor((diffInSeconds % (24 * 3600)) / 3600);
+    const minutes = Math.floor((diffInSeconds % 3600) / 60);
+
+    return `${days} ngày, ${hours} giờ, ${minutes} phút`;
+  }
+</script>
 
