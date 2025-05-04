@@ -744,6 +744,87 @@
 </div>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Company Select Logic
+        const companySelect = document.getElementById('companySelect');
+        const otherCompanyInput = document.querySelector('.other-company-input');
+
+        if (companySelect && otherCompanyInput) {
+            companySelect.addEventListener('change', function() {
+                if (this.value === '1') {
+                    otherCompanyInput.style.display = 'block';
+                } else {
+                    otherCompanyInput.style.display = 'none';
+                    otherCompanyInput.value = '';
+                }
+            });
+
+            // Set initial state
+            if (companySelect.value === '1') {
+                otherCompanyInput.style.display = 'block';
+            }
+        }
+
+        // Certification Select Logic
+        const certificationSelect = document.getElementById('certificationSelect');
+        const otherCertificationInput = document.querySelector('.other-certification-input');
+
+        if (certificationSelect && otherCertificationInput) {
+            certificationSelect.addEventListener('change', function() {
+                if (this.value === '1') {
+                    otherCertificationInput.style.display = 'block';
+                } else {
+                    otherCertificationInput.style.display = 'none';
+                    otherCertificationInput.value = '';
+                }
+            });
+
+            // Set initial state
+            if (certificationSelect.value === '1') {
+                otherCertificationInput.style.display = 'block';
+            }
+        }
+
+        // School Select Logic
+        const schoolSelect = document.getElementById('schoolSelect');
+        const otherSchoolInput = document.querySelector('.other-school-input');
+
+        if (schoolSelect && otherSchoolInput) {
+            schoolSelect.addEventListener('change', function() {
+                if (this.value === '1') {
+                    otherSchoolInput.style.display = 'block';
+                } else {
+                    otherSchoolInput.style.display = 'none';
+                    otherSchoolInput.value = '';
+                }
+            });
+
+            // Set initial state
+            if (schoolSelect.value === '1') {
+                otherSchoolInput.style.display = 'block';
+            }
+        }
+
+        // Skill Select Logic
+        const skillSelect = document.querySelector('select[name="skillId[]"]');
+        const otherSkillInput = document.querySelector('.other-skill-input');
+
+        if (skillSelect && otherSkillInput) {
+            skillSelect.addEventListener('change', function() {
+                if (this.value === '1') {
+                    otherSkillInput.style.display = 'block';
+                } else {
+                    otherSkillInput.style.display = 'none';
+                    otherSkillInput.value = '';
+                }
+            });
+
+            // Set initial state
+            if (skillSelect.value === '1') {
+                otherSkillInput.style.display = 'block';
+            }
+        }
+    });
     // Avatar Upload Preview
     document.getElementById('avatar_cv').addEventListener('change', function (e) {
         const file = e.target.files[0];

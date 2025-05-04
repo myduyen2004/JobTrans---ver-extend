@@ -502,10 +502,10 @@
                             <hr>
                             <c:forEach items="${CV.educationList}" var="o">
                                 <div>
-                                    <c:if test="${o.educationId == 504}">
+                                    <c:if test="${o.educationId == 1}">
                                         <div class="school">${o.customSchool}</div>
                                     </c:if>
-                                    <c:if test="${o.educationId != 504}">
+                                    <c:if test="${o.educationId != 1}">
                                         <div class="school">${CvDAO.getSchoolNameById(o.educationId)}</div>
                                     </c:if>
                                     <div class="date">${o.startDate} - ${o.endDate}</div>

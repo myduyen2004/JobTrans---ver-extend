@@ -327,9 +327,22 @@
                             <p><strong>Mã CV:</strong> CV0${o.cvId}</p>
 
                             <div class="button-group">
-                                <a href="cv?action=view&cvId=${o.cvId}">
-                                    <button class="view-btn">Xem CV</button>
-                                </a>
+<%--                                <a href="cv?action=view&cvId=${o.cvId}">--%>
+<%--                                    <button class="view-btn">Xem CV</button>--%>
+<%--                                </a>--%>
+    <c:choose>
+
+        <c:when test="${o.summary != null || not empty o.summary}">  <!-- Nếu cvUpload KHÔNG null -->
+            <a href="cv?action=view&cvId=${o.cvId}&hehe=${o.summary}">
+                <button class="view-btn">Xem CV</button>
+            </a>
+        </c:when>
+        <c:otherwise>  <!-- Ngược lại (cvUpload null) -->
+            <a href="cv?action=pdf&cvId=${o.cvId}&hehe=${o.summary}" target="_blank">
+                <button class="view-btn">Xem CV</button>
+            </a>
+        </c:otherwise>
+    </c:choose>
                                 <a href="cv?action=load-editing&cvId=${o.cvId}">
                                     <button class="edit-btn">Sửa CV</button>
                                 </a>

@@ -296,7 +296,7 @@
 		border-radius: 12px;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 		max-width: 400px;
-		margin: 30px auto;
+
 		display: flex;
 		flex-direction: column;
 		gap: 16px;
@@ -319,6 +319,7 @@
 	.upload-cv-form .custom-file-label {
 		font-weight: bold;
 		color: #333;
+		margin-top: 400px;
 	}
 
 	.upload-cv-form .create-btn {
@@ -388,8 +389,15 @@
 
 								</div>
 
+
 							</div>
 						</c:forEach>
+						<form class="upload-cv-form" action="cv?action=createPDF" method="post" enctype="multipart/form-data">
+
+							<label for="cvFile" class="custom-file-label">Chọn file CV (PDF)</label>
+							<input type="file" name="cvFile" id="cvFile" required />
+							<button class="create-btn" type="submit">📤 Tải lên CV</button>
+						</form>
 					</c:when>
 				</c:choose>
 			</div>
