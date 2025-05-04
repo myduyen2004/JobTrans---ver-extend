@@ -1029,7 +1029,7 @@
                     <a class="nav-link active" href="http://localhost:8080/JobTrans/home">Trang chủ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/JobTrans/viec-lam">Công việc</a>
+                    <a class="nav-link" href="http://localhost:8080/JobTrans/viec-lam?action=viewJobs">Công việc</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
