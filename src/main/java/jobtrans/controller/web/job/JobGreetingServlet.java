@@ -295,7 +295,6 @@ public class JobGreetingServlet extends HttpServlet {
             request.getRequestDispatcher("error.jsp").forward(request, response);
         }
     }
-
     /**
      * Processes the attachment file upload
      */

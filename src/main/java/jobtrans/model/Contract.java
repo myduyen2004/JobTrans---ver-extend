@@ -29,7 +29,6 @@ public class Contract {
     private String bIdentityAddress;
     private Date bBirthday;
     private String bAddress;
-    private String bRepresentative;
     private String bPhoneNumber;
     private String bEmail;
     private boolean bSignature;
@@ -50,15 +49,7 @@ public class Contract {
     public Contract() {
     }
 
-    public Contract(int contractId, int applicantId, int employerId, int jobId, String contractPreview,
-                    String contractLink, String status, String aName, String aIdentity, Date aIdentityDate,
-                    String aIdentityAddress, Date aBirthday, String aAddress, String aRepresentative,
-                    String aTaxCode, String aPhoneNumber, String aEmail, boolean aSignature,
-                    String bIdentity, Date bIdentityDate, String bIdentityAddress, Date bBirthday,
-                    String bAddress, String bRepresentative, String bPhoneNumber, String bEmail, boolean bSignature,
-                    String jobGoal, String jobRequirement, Date startDate, Date endDate, String jobAddress,
-                    BigDecimal jobFee, BigDecimal jobDepositA, Date jobDepositADate, String jobDepositAText,
-                    BigDecimal jobDepositB, Date jobDepositBDate, String jobDepositBText) {
+    public Contract(int contractId, int applicantId, int employerId, int jobId, String contractPreview, String contractLink, String status, String aName, String aIdentity, Date aIdentityDate, String aIdentityAddress, Date aBirthday, String aAddress, String aRepresentative, String aTaxCode, String aPhoneNumber, String aEmail, boolean aSignature, String bIdentity, Date bIdentityDate, String bIdentityAddress, Date bBirthday, String bAddress, String bPhoneNumber, String bEmail, boolean bSignature, String jobGoal, String jobRequirement, Date startDate, Date endDate, String jobAddress, BigDecimal jobFee, BigDecimal jobDepositA, Date jobDepositADate, String jobDepositAText, BigDecimal jobDepositB, Date jobDepositBDate, String jobDepositBText) {
         this.contractId = contractId;
         this.applicantId = applicantId;
         this.employerId = employerId;
@@ -82,7 +73,6 @@ public class Contract {
         this.bIdentityAddress = bIdentityAddress;
         this.bBirthday = bBirthday;
         this.bAddress = bAddress;
-        this.bRepresentative = bRepresentative;
         this.bPhoneNumber = bPhoneNumber;
         this.bEmail = bEmail;
         this.bSignature = bSignature;
@@ -101,6 +91,8 @@ public class Contract {
     }
 
     // Getters and Setters
+
+
     public int getContractId() {
         return contractId;
     }
@@ -283,14 +275,6 @@ public class Contract {
 
     public void setbAddress(String bAddress) {
         this.bAddress = bAddress;
-    }
-
-    public String getbRepresentative() {
-        return bRepresentative;
-    }
-
-    public void setbRepresentative(String bRepresentative) {
-        this.bRepresentative = bRepresentative;
     }
 
     public String getbPhoneNumber() {

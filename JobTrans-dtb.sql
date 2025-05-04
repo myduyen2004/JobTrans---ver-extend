@@ -391,6 +391,7 @@ CREATE TABLE CancelRequest (
                                    ON UPDATE CASCADE,
                                CONSTRAINT FK_CancelRequest_Account FOREIGN KEY (requester_id) REFERENCES Account(account_id)
 );
+-- Tạo Bảng Contract
 CREATE TABLE Contract (
                           contract_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
                           applicant_id INT NOT NULL,
@@ -405,7 +406,7 @@ CREATE TABLE Contract (
                           A_identity_address  NVARCHAR(100) NOT NULL, --nơi cấp
                           A_birthday DATE,
                           A_address NVARCHAR(500),
-                          A_representative NVARCHAR(500), --đại diện
+                          A_representative NVARCHAR(500) NOT NULL, --đại diện
                           A_tax_code NVARCHAR(20) NOT NULL, --mã số thuế
                           A_phone_number VARCHAR(50),
                           A_email VARCHAR(200),
@@ -438,7 +439,6 @@ CREATE TABLE Contract (
                           FOREIGN KEY (employer_id) REFERENCES Account(account_id)
 
 );
-DROP TABLE Contract
 -- Tạo bảng Transaction
 CREATE TABLE [Transaction] (
                                transaction_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,

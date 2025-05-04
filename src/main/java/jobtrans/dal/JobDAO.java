@@ -46,6 +46,7 @@ public class JobDAO {
         return job;
     }
 
+
     public List<Job> getAllJobs() {
         List<Job> list = new ArrayList<>();
         String sql = "SELECT * FROM Job";
@@ -217,21 +218,20 @@ public class JobDAO {
         String sql = "INSERT INTO Interview (start_date, interview_link, job_id) " +
                 "VALUES (?, ?, ?)";
 
-//        try {
-//            Connection conn = dbConnection.openConnection();
-//            PreparedStatement ps = conn.prepareStatement(sql);
-//
-//            ps.setTimestamp(1, new java.sql.Timestamp(interview .getStartDate().getTime()));  // LocalDateTime -> Timestamp
-//            ps.setString(2, interview.getInterviewLink());
-//            ps.setInt(3, interview.getJobId());
-//
-//            ps.executeUpdate();
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-    }
+        try {
+            Connection conn = dbConnection.openConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
 
+            ps.setTimestamp(1, new java.sql.Timestamp(interview.getStartDate().getTime()));  // LocalDateTime -> Timestamp
+            ps.setString(2, interview.getInterviewLink());
+            ps.setInt(3, interview.getJobId());
+
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public void insertTest(Test test) {
         String sql = "INSERT INTO Test(job_id, test_link, have_required) " +
@@ -339,18 +339,18 @@ public class JobDAO {
                 + "interview_link = ?, "
                 + "WHERE job_id = ?";
 
-//        try {
-//            Connection con = dbConnection.openConnection();
-//            PreparedStatement ps = con.prepareStatement(sql);
-//
-//            ps.setTimestamp(1, new java.sql.Timestamp(interview.getStartDate().getTime()));  // LocalDateTime -> Timestamp
-//            ps.setString(2, interview.getInterviewLink());
-//            ps.setInt(3, interview.getJobId());
-//
-//            int rowsAffected = ps.executeUpdate();
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setTimestamp(1, new java.sql.Timestamp(interview.getStartDate().getTime()));  // LocalDateTime -> Timestamp
+            ps.setString(2, interview.getInterviewLink());
+            ps.setInt(3, interview.getJobId());
+
+            int rowsAffected = ps.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void deleteJobTagByJobId(int jobId){
@@ -422,7 +422,6 @@ public class JobDAO {
             return false; // hoặc throw nếu muốn xử lý ở nơi khác
         }
     }
-
 
     public JobCategory getCategoryById(int categoryId) {
         JobCategory jobCategory = null;
