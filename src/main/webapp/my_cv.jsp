@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-
+    <jsp:useBean id="CvDAO" class="jobtrans.dal.CvDAO" scope="session"></jsp:useBean>
 <!-- Mirrored from themebing.com/wp/prolancer/projects/?projects-layout=projects_left_sidebar by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Jan 2025 09:33:33 GMT -->
 <!-- Added by HTTrack -->
 <meta http-equiv="content-type" content="text/html;charset=UTF-8"/><!-- /Added by HTTrack -->
@@ -323,8 +323,9 @@
                 <c:when test="${not empty listcv}">
                     <c:forEach items="${listcv}" var="o">
                         <div class="cv-card">
-                            <p><strong>Ngày tạo:</strong> ${o.createdAt}</p>
-                            <p><strong>Mã CV:</strong> CV0${o.cvId}</p>
+                            <p style="font-weight: bolder"><strong style="margin-right: 5px">Loại cv:</strong>${CvDAO.getTypeNameById(o.cvType)}</p>
+                            <p><strong style="font-weight: bolder">Ngày tạo:</strong> ${o.createdAt}</p>
+                            <p style="margin-left: 25px"><strong style="font-weight: bolder">Mã CV:</strong> CV0${o.cvId}</p>
 
                             <div class="button-group">
 <%--                                <a href="cv?action=view&cvId=${o.cvId}">--%>

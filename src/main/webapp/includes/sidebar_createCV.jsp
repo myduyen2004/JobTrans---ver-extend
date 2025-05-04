@@ -1,6 +1,4 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<!DOCTYPE html>
-<html lang="vi">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -168,7 +166,7 @@
             transition: var(--transition);
         }
 
-        .menu-text:hover{
+        .menu-text:hover {
             color: #ffd700; /* Vàng nhạt để tạo điểm nhấn */
             transform: scale(1.05);
         }
@@ -192,7 +190,6 @@
             margin-right: 0;
             font-size: 20px;
         }
-
 
 
         .htoggle-btn {
@@ -239,7 +236,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.7);
+            background-color: rgba(0, 0, 0, 0.7);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -260,7 +257,9 @@
         }
 
         @keyframes spinner-border {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         /* Responsive Design */
@@ -313,7 +312,7 @@
             padding-bottom: 15px;
 
             padding: 10px;
-            background:whitesmoke;
+            background: whitesmoke;
             color: #0b1638;
             padding-top: 6px;
             background-color: whitesmoke;
@@ -365,9 +364,10 @@
             margin-bottom: 10px;
 
         }
-        .template-card a{
+
+        .template-card a {
             margin-top: 20px;
-            border:1px solid black;
+            border: 1px solid black;
             padding: 5px 46px;
             border-radius: 20px;
             color: whitesmoke;
@@ -487,180 +487,179 @@
 
 </body>
 <script>
-    document.getElementById("comment").addEventListener("click", async function(e) {
-        e.preventDefault();
+    <%--document.getElementById("comment").addEventListener("click", async function(e) {--%>
+    <%--    e.preventDefault();--%>
 
-        // Show loading indicator
-        const chatMessages = document.getElementById('chatMessages');
-        chatMessages.innerHTML = `
-        <div class="response">
-            <h2><i class="fas fa-spinner fa-spin"></i> AI đang phân tích CV...</h2>
-        </div>
-    `;
-        chatMessages.style.display = "block";
+    <%--    // Show loading indicator--%>
+    <%--    const chatMessages = document.getElementById('chatMessages');--%>
+    <%--    chatMessages.innerHTML = `--%>
+    <%--    <div class="response">--%>
+    <%--        <h2><i class="fas fa-spinner fa-spin"></i> AI đang phân tích CV...</h2>--%>
+    <%--    </div>--%>
+    <%--`;--%>
+    <%--    chatMessages.style.display = "block";--%>
 
-        try {
-            // Get the parent window's CV data
-            const cvData = await getParentCVData();
+    <%--    try {--%>
+    <%--        // Get the parent window's CV data--%>
+    <%--        const cvData = await getParentCVData();--%>
 
-            if (!cvData) {
-                throw new Error("Không thể lấy dữ liệu CV");
-            }
+    <%--        if (!cvData) {--%>
+    <%--            throw new Error("Không thể lấy dữ liệu CV");--%>
+    <%--        }--%>
 
-            // Create the prompt for AI
-            const prompt = createAIPrompt(cvData);
+    <%--        // Create the prompt for AI--%>
+    <%--        const prompt = createAIPrompt(cvData);--%>
 
-            // Send to AI (you'll need to implement this)
-            const analysis = await sendToAI(prompt);
+    <%--        // Send to AI (you'll need to implement this)--%>
+    <%--        const analysis = await sendToAI(prompt);--%>
 
-            // Display results
-            chatMessages.innerHTML = `
-            <div class="response">
-                <h3>Nhận xét từ AI:</h3>
-                <div class="ai-response">${analysis}</div>
-            </div>
-        `;
-        } catch (error) {
-            chatMessages.innerHTML = `
-            <div class="response-error">
-                <p>❌ Lỗi: ${error.message}</p>
-            </div>
-        `;
-        }
-    });
+    <%--        // Display results--%>
+    <%--        chatMessages.innerHTML = `--%>
+    <%--        <div class="response">--%>
+    <%--            <h3>Nhận xét từ AI:</h3>--%>
+    <%--            <div class="ai-response">${analysis}</div>--%>
+    <%--        </div>--%>
+    <%--    `;--%>
+    <%--    } catch (error) {--%>
+    <%--        chatMessages.innerHTML = `--%>
+    <%--        <div class="response-error">--%>
+    <%--            <p>❌ Lỗi: ${error.message}</p>--%>
+    <%--        </div>--%>
+    <%--    `;--%>
+    <%--    }--%>
+    <%--});--%>
 
     // Function to get CV data from parent window
-    async function getParentCVData() {
-        try {
-            // Access the parent window's CV form
-            const parentWindow = window.opener || window.parent;
-            if (!parentWindow) throw new Error("Không thể truy cập cửa sổ chính");
+    <%--    async function getParentCVData() {--%>
+    <%--        try {--%>
+    <%--            // Access the parent window's CV form--%>
+    <%--            const parentWindow = window.opener || window.parent;--%>
+    <%--            if (!parentWindow) throw new Error("Không thể truy cập cửa sổ chính");--%>
 
-            // Get the form element
-            const form = parentWindow.document.querySelector('form[action="cv?action=create"]');
-            if (!form) throw new Error("Không tìm thấy form CV");
+    <%--            // Get the form element--%>
+    <%--            const form = parentWindow.document.querySelector('form[action="cv?action=create"]');--%>
+    <%--            if (!form) throw new Error("Không tìm thấy form CV");--%>
 
-            // Collect all form data
-            const formData = new FormData(form);
-            const data = {};
+    <%--            // Collect all form data--%>
+    <%--            const formData = new FormData(form);--%>
+    <%--            const data = {};--%>
 
-            // Convert FormData to object
-            for (let [key, value] of formData.entries()) {
-                if (!data[key]) {
-                    data[key] = value;
-                } else if (Array.isArray(data[key])) {
-                    data[key].push(value);
-                } else {
-                    data[key] = [data[key], value];
-                }
-            }
+    <%--            // Convert FormData to object--%>
+    <%--            for (let [key, value] of formData.entries()) {--%>
+    <%--                if (!data[key]) {--%>
+    <%--                    data[key] = value;--%>
+    <%--                } else if (Array.isArray(data[key])) {--%>
+    <%--                    data[key].push(value);--%>
+    <%--                } else {--%>
+    <%--                    data[key] = [data[key], value];--%>
+    <%--                }--%>
+    <%--            }--%>
 
-            // Structure the data for AI analysis
-            return {
-                personalInfo: {
-                    name: data.cvname || '',
-                    position: data.position || '',
-                    sex: data.sex || '',
-                    dateOfBirth: data.date_of_birth || '',
-                    phone: data.sdt || '',
-                    email: data.email || '',
-                    address: data.address || '',
-                    avatar: parentWindow.document.getElementById('avatar-preview')?.src || ''
-                },
-                careerGoal: data.experienceDescription || '',
-                skills: collectSkills(data),
-                educations: collectEducations(data),
-                experiences: collectExperiences(data),
-                certifications: collectCertifications(data),
-                additionalInfo: data.more_infor || ''
-            };
-        } catch (error) {
-            console.error("Error getting CV data:", error);
-            throw error;
-        }
-    }
+    <%--            // Structure the data for AI analysis--%>
+    <%--            return {--%>
+    <%--                personalInfo: {--%>
+    <%--                    name: data.cvname || '',--%>
+    <%--                    position: data.position || '',--%>
+    <%--                    sex: data.sex || '',--%>
+    <%--                    dateOfBirth: data.date_of_birth || '',--%>
+    <%--                    phone: data.sdt || '',--%>
+    <%--                    email: data.email || '',--%>
+    <%--                    address: data.address || '',--%>
+    <%--                    avatar: parentWindow.document.getElementById('avatar-preview')?.src || ''--%>
+    <%--                },--%>
+    <%--                careerGoal: data.experienceDescription || '',--%>
+    <%--                skills: collectSkills(data),--%>
+    <%--                educations: collectEducations(data),--%>
+    <%--                experiences: collectExperiences(data),--%>
+    <%--                certifications: collectCertifications(data),--%>
+    <%--                additionalInfo: data.more_infor || ''--%>
+    <%--            };--%>
+    <%--        } catch (error) {--%>
+    <%--            console.error("Error getting CV data:", error);--%>
+    <%--            throw error;--%>
+    <%--        }--%>
+    <%--    }--%>
 
-    // Helper functions to structure array data
-    function collectSkills(data) {
-        const skills = [];
-        const count = Math.max(
-            data['mainSkillId[]']?.length || 0,
-            data['skillId[]']?.length || 0,
-            data['levelSkill[]']?.length || 0
-        );
+    <%--    // Helper functions to structure array data--%>
+    <%--    function collectSkills(data) {--%>
+    <%--        const skills = [];--%>
+    <%--        const count = Math.max(--%>
+    <%--            data['mainSkillId[]']?.length || 0,--%>
+    <%--            data['skillId[]']?.length || 0,--%>
+    <%--            data['levelSkill[]']?.length || 0--%>
+    <%--        );--%>
 
-        for (let i = 0; i < count; i++) {
-            skills.push({
-                mainSkillId: arrayValue(data['mainSkillId[]'], i),
-                skillId: arrayValue(data['skillId[]'], i),
-                otherSkill: arrayValue(data['otherSkillName[]'], i),
-                level: arrayValue(data['levelSkill[]'], i)
-            });
-        }
-        return skills;
-    }
+    <%--        for (let i = 0; i < count; i++) {--%>
+    <%--            skills.push({--%>
+    <%--                mainSkillId: arrayValue(data['mainSkillId[]'], i),--%>
+    <%--                skillId: arrayValue(data['skillId[]'], i),--%>
+    <%--                otherSkill: arrayValue(data['otherSkillName[]'], i),--%>
+    <%--                level: arrayValue(data['levelSkill[]'], i)--%>
+    <%--            });--%>
+    <%--        }--%>
+    <%--        return skills;--%>
+    <%--    }--%>
 
-    // Similar functions for educations, experiences, certifications...
-    function collectEducations(data) {
-        const educations = [];
-        const count = Math.max(
-            data['schoolId[]']?.length || 0,
-            data['educationStartDate[]']?.length || 0
-        );
+    <%--    // Similar functions for educations, experiences, certifications...--%>
+    <%--    function collectEducations(data) {--%>
+    <%--        const educations = [];--%>
+    <%--        const count = Math.max(--%>
+    <%--            data['schoolId[]']?.length || 0,--%>
+    <%--            data['educationStartDate[]']?.length || 0--%>
+    <%--        );--%>
 
-        for (let i = 0; i < count; i++) {
-            educations.push({
-                schoolId: arrayValue(data['schoolId[]'], i),
-                otherSchool: arrayValue(data['otherSchoolName[]'], i),
-                startDate: arrayValue(data['educationStartDate[]'], i),
-                endDate: arrayValue(data['educationEndDate[]'], i),
-                major: arrayValue(data['major[]'], i),
-                degree: arrayValue(data['degree[]'], i),
-                description: arrayValue(data['school_Description[]'], i)
-            });
-        }
-        return educations;
-    }
+    <%--        for (let i = 0; i < count; i++) {--%>
+    <%--            educations.push({--%>
+    <%--                schoolId: arrayValue(data['schoolId[]'], i),--%>
+    <%--                otherSchool: arrayValue(data['otherSchoolName[]'], i),--%>
+    <%--                startDate: arrayValue(data['educationStartDate[]'], i),--%>
+    <%--                endDate: arrayValue(data['educationEndDate[]'], i),--%>
+    <%--                major: arrayValue(data['major[]'], i),--%>
+    <%--                degree: arrayValue(data['degree[]'], i),--%>
+    <%--                description: arrayValue(data['school_Description[]'], i)--%>
+    <%--            });--%>
+    <%--        }--%>
+    <%--        return educations;--%>
+    <%--    }--%>
 
-    function arrayValue(arr, index) {
-        return Array.isArray(arr) ? arr[index] : arr;
-    }
-    function createAIPrompt(cvData) {
-        return `
-        Phân tích CV ứng viên ${cvData.personalInfo.name} ứng tuyển vị trí ${cvData.personalInfo.position}:
+    <%--    function arrayValue(arr, index) {--%>
+    <%--        return Array.isArray(arr) ? arr[index] : arr;--%>
+    <%--    }--%>
+    <%--    function createAIPrompt(cvData) {--%>
+    <%--        return `--%>
+    <%--        Phân tích CV ứng viên ${cvData.personalInfo.name} ứng tuyển vị trí ${cvData.personalInfo.position}:--%>
 
-        === THÔNG TIN CÁ NHÂN ===
-        - Giới tính: ${cvData.personalInfo.sex || 'Chưa cung cấp'}
-        - Ngày sinh: ${cvData.personalInfo.dateOfBirth || 'Chưa cung cấp'}
-        - Liên hệ: ${cvData.personalInfo.phone || 'Chưa cung cấp'} | ${cvData.personalInfo.email || 'Chưa cung cấp'}
-        - Địa chỉ: ${cvData.personalInfo.address || 'Chưa cung cấp'}
+    <%--        === THÔNG TIN CÁ NHÂN ===--%>
+    <%--        - Giới tính: ${cvData.personalInfo.sex || 'Chưa cung cấp'}--%>
+    <%--        - Ngày sinh: ${cvData.personalInfo.dateOfBirth || 'Chưa cung cấp'}--%>
+    <%--        - Liên hệ: ${cvData.personalInfo.phone || 'Chưa cung cấp'} | ${cvData.personalInfo.email || 'Chưa cung cấp'}--%>
+    <%--        - Địa chỉ: ${cvData.personalInfo.address || 'Chưa cung cấp'}--%>
 
-        === MỤC TIÊU NGHỀ NGHIỆP ===
-<%--        ${cvData.careerGoal || 'Chưa cung cấp'}--%>
+    <%--        === MỤC TIÊU NGHỀ NGHIỆP ===--%>
+    <%--&lt;%&ndash;        ${cvData.careerGoal || 'Chưa cung cấp'}&ndash;%&gt;--%>
 
-<%--        === KỸ NĂNG ===--%>
-<%--        ${cvData.skills.map(s => `- ${s.skillId || s.otherSkill || 'Kỹ năng khác'}: ${s.level}%`).join('\n') || 'Chưa cung cấp'}--%>
+    <%--&lt;%&ndash;        === KỸ NĂNG ===&ndash;%&gt;--%>
+    <%--&lt;%&ndash;        ${cvData.skills.map(s => `- ${s.skillId || s.otherSkill || 'Kỹ năng khác'}: ${s.level}%`).join('\n') || 'Chưa cung cấp'}&ndash;%&gt;--%>
 
-<%--        === HỌC VẤN ===--%>
-<%--        ${cvData.educations.map(e => `- ${e.schoolId || e.otherSchool || 'Trường khác'}: ${e.major || 'Chưa cung cấp'} (${e.degree || 'Chưa cung cấp'})`).join('\n') || 'Chưa cung cấp'}--%>
+    <%--&lt;%&ndash;        === HỌC VẤN ===&ndash;%&gt;--%>
+    <%--&lt;%&ndash;        ${cvData.educations.map(e => `- ${e.schoolId || e.otherSchool || 'Trường khác'}: ${e.major || 'Chưa cung cấp'} (${e.degree || 'Chưa cung cấp'})`).join('\n') || 'Chưa cung cấp'}&ndash;%&gt;--%>
 
-<%--        === KINH NGHIỆM ===--%>
-<%--        ${cvData.experiences.map(exp =>--%>
-<%--            `- ${exp.companyId || exp.otherCompany || 'Công ty khác'} (${exp.startDate || '?'} đến ${exp.endDate || 'hiện tại'})--%>
-<%--              + Vị trí: ${exp.position || 'Chưa cung cấp'}--%>
-<%--              + Thành tích: ${exp.achievements || 'Chưa cung cấp'}`).join('\n') || 'Chưa cung cấp'}--%>
+    <%--&lt;%&ndash;        === KINH NGHIỆM ===&ndash;%&gt;--%>
+    <%--&lt;%&ndash;        ${cvData.experiences.map(exp =>&ndash;%&gt;--%>
+    <%--&lt;%&ndash;            `- ${exp.companyId || exp.otherCompany || 'Công ty khác'} (${exp.startDate || '?'} đến ${exp.endDate || 'hiện tại'})&ndash;%&gt;--%>
+    <%--&lt;%&ndash;              + Vị trí: ${exp.position || 'Chưa cung cấp'}&ndash;%&gt;--%>
+    <%--&lt;%&ndash;              + Thành tích: ${exp.achievements || 'Chưa cung cấp'}`).join('\n') || 'Chưa cung cấp'}&ndash;%&gt;--%>
 
-<%--        === CHỨNG CHỈ ===--%>
-<%--        ${cvData.certifications.map(c => `- ${c.certificationId || c.otherCertification || 'Chứng chỉ khác'} (${c.year || '?'})`).join('\n') || 'Chưa cung cấp'}--%>
+    <%--&lt;%&ndash;        === CHỨNG CHỈ ===&ndash;%&gt;--%>
+    <%--&lt;%&ndash;        ${cvData.certifications.map(c => `- ${c.certificationId || c.otherCertification || 'Chứng chỉ khác'} (${c.year || '?'})`).join('\n') || 'Chưa cung cấp'}&ndash;%&gt;--%>
 
-        Hãy phân tích chi tiết theo:
-        1. Độ hoàn thiện thông tin
-        2. Sự phù hợp với vị trí ${cvData.personalInfo.position || 'đang ứng tuyển'}
-        3. Điểm mạnh/điểm yếu
-        4. Gợi ý cải thiện
-    `;
-    }
-
+    <%--        Hãy phân tích chi tiết theo:--%>
+    <%--        1. Độ hoàn thiện thông tin--%>
+    <%--        2. Sự phù hợp với vị trí ${cvData.personalInfo.position || 'đang ứng tuyển'}--%>
+    <%--        3. Điểm mạnh/điểm yếu--%>
+    <%--        4. Gợi ý cải thiện--%>
+    <%--    `;--%>
+    <%--    }--%>
 
 
     document.getElementById("cvTemplateBtn").addEventListener("click", function (e) {
@@ -747,4 +746,5 @@
     //     container.style.display = "block";
     // });
 </script>
+
 </html>

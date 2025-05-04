@@ -79,8 +79,8 @@ public class CvDAO {
     }
 
     public int addCV(CV cv) throws SQLException, Exception {
-        String queryAddCV = "INSERT INTO CV (account_id, job_position, summary, more_infor, sex, dateOfBirth, phone, email, address, CV_upload, avatar_cv, name, type_id) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String queryAddCV = "INSERT INTO CV (account_id, job_position, summary, more_infor, sex, dateOfBirth, phone, email, address, CV_upload, avatar_cv, name, type_id,color) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
 
         int cvId = 0;
 
@@ -100,7 +100,7 @@ public class CvDAO {
             stmt.setString(11, cv.getAvatarCv());
             stmt.setString(12, cv.getCvName());  // Thêm giá trị cho cột name
             stmt.setInt(13, cv.getCvType());   // Thêm giá trị cho cột type_id
-
+            stmt.setString(14,cv.getBackroundColor());
             int affectedRows = stmt.executeUpdate(); // Dùng executeUpdate() thay vì executeQuery()
             if (affectedRows > 0) {
                 try (ResultSet rs = stmt.getGeneratedKeys()) {
@@ -646,7 +646,7 @@ public class CvDAO {
     public CV getCvById(int cvId) throws Exception {
         CV cv = null;
         String query = "SELECT CV_id, account_id, job_position, summary, more_infor, created_at, "
-                + "sex, dateOfBirth, phone, email, address, CV_upload, avatar_cv, name, type_id "
+                + "sex, dateOfBirth, phone, email, address, CV_upload, avatar_cv, name, type_id ,color "
                 + "FROM CV WHERE CV_id = ?";
 
         try (Connection conn = dbConnection.openConnection();
@@ -671,7 +671,7 @@ public class CvDAO {
                     cv.setAvatarCv(resultSet.getString("avatar_cv"));
                     cv.setCvName(resultSet.getString("name"));
                     cv.setCvType(resultSet.getInt("type_id")); // Lấy type_id từ bảng CV
-
+                    cv.setBackroundColor(resultSet.getString("color"));
                     // Lấy danh sách liên quan
                     cv.setSkillList(getListSkillByCvId(cvId));
                     cv.setEducationList(getEducationByCVId(cvId));
@@ -803,8 +803,9 @@ public class CvDAO {
                 String title = resultSet.getString("job_position");
                 String summary = resultSet.getString("summary");
                 Date createdAt = resultSet.getDate("created_at");
+                int cvType = resultSet.getInt("type_id");
 
-                CV cv = new CV(cvId,accountId,title,summary,createdAt);
+                CV cv = new CV(cvId,accountId,title,summary,createdAt,cvType);
 //                cv.setEducationList(getEducationByCVId(cvId));
 //                cv.setCertificationList(getListCertificationByCvId(cvId));
 //                cv.setExperienceList(getListExperienceByCvId(cvId));
@@ -883,6 +884,26 @@ public class CvDAO {
         }
         return list;
     }
+    public String getTypeNameById(int typeId) {
+        String typeName = null;
+        String sql = "SELECT type_name FROM CV_Type WHERE type_id = ?";
+
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, typeId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                typeName = rs.getString("type_name");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return typeName;
+    }
     public List<Skill> getSkillByMainSkill(int mainSkill_id) {
         List<Skill> list = new ArrayList<>();
         String sql = "SELECT s.mainSkill_id, s.skill_id, s.skill " +
@@ -908,7 +929,7 @@ public class CvDAO {
     }
     ///  update
     public boolean updateCV(CV cv) throws SQLException, Exception {
-        String queryUpdateCV = "UPDATE CV SET job_position = ?, summary = ?, more_infor = ?, sex = ?, dateOfBirth = ?, phone = ?, email = ?, address = ?, CV_upload = ?, avatar_cv = ?, name = ?, type_id = ? WHERE CV_id = ?";
+        String queryUpdateCV = "UPDATE CV SET job_position = ?, summary = ?, more_infor = ?, sex = ?, dateOfBirth = ?, phone = ?, email = ?, address = ?, CV_upload = ?, avatar_cv = ?, name = ?, type_id = ?, color = ? WHERE CV_id = ?";
 
         boolean isUpdated = false;
 
@@ -928,7 +949,7 @@ public class CvDAO {
             stmt.setString(11, cv.getCvName());
             stmt.setInt(12, cv.getCvType());
             stmt.setInt(13, cv.getCvId()); // WHERE CV_id = ?
-
+            stmt.setString(14,cv.getBackroundColor());
             int affectedRows = stmt.executeUpdate();
             if (affectedRows > 0) {
                 isUpdated = true;
@@ -1083,6 +1104,7 @@ public class CvDAO {
                     cv.setAvatarCv(rs.getString("avatar_cv"));
                     cv.setCvName(rs.getString("name"));
                     cv.setCvType(rs.getInt("type_id"));
+                    cv.setBackroundColor(rs.getString("color"));
                     list.add(cv);
                 }
             }

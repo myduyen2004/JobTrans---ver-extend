@@ -446,6 +446,7 @@
           <div class="form-group">
             <input value="${CV.address}" type="text" class="form-control" name="address" placeholder="Địa chỉ">
           </div>
+          <input name="color" type="hidden" value="${CV.backroundColor}">
 
           <div class="skill-section">
             <h2 class="section-title">Kỹ Năng</h2>

@@ -49,7 +49,7 @@
 
     .cv-sidebar {
       width: 300px;
-      background: #8492a6;
+      background: ${CV.backroundColor};
       color: white;
       padding: 30px 20px;
       border-top-left-radius: 20px;

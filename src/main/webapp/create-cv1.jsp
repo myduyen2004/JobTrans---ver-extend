@@ -191,7 +191,7 @@
 
         .cv-sidebar {
             width: 300px;
-            background: #5D7B6F;
+            background-color: #5D7B6F;
             color: white;
             padding: 30px 20px;
         }
@@ -403,6 +403,7 @@
     <!-- CV Content Area -->
     <main class="cv-content">
         <form action="cv?action=create" method="POST" enctype="multipart/form-data">
+            <input type="hidden" id="backGroundColor" name="backGroundColor" value="#ffffff">
 
             <input type="hidden" name="typeId" value="${param.typeId}">
 
@@ -410,7 +411,7 @@
             <%--        <p>${typeId}</p>--%>
             <div class="cv-box">
                 <!-- Left Sidebar (CV Personal Info) -->
-                <div class="cv-sidebar">
+                <div  id="cv-sidebar" class="cv-sidebar">
                     <div class="cv-picture-avatar">
                         <img id="avatar-preview" src="https://via.placeholder.com/200" alt="Profile Photo">
                         <label for="avatar_cv" class="upload-label">
@@ -448,7 +449,7 @@
                         <h2 id="skillTitle" class="section-title">Kỹ Năng</h2>
                         <div class="skill-item">
                             <div class="form-group">
-                                <select class="form-control" name="mainSkillId[]">
+                                <select class="form-control" name="mainSkillId[]" id="mainSkillSelect">
                                     <option value="">Chọn tiêu đề kỹ năng</option>
                                     <c:forEach items="${CVDAO.allMainSkill}" var="o">
                                         <option value="${o.mainSkillId}">${o.mainSkillName}</option>
@@ -460,14 +461,12 @@
                                 <select class="form-control" name="skillId[]" id="skillSelect">
                                     <option value="">Chọn kỹ năng</option>
                                     <c:forEach items="${CVDAO.allMainSkill}" var="o">
-                                        <optgroup label="${o.mainSkillName}">
+                                        <optgroup label="${o.mainSkillName}" data-mainskill="${o.mainSkillId}" class="skill-optgroup">
                                             <c:forEach items="${CVDAO.getSkillByMainSkill(o.mainSkillId)}" var="h">
-                                                <option value="${h.skillId}"
-                                                        data-mainskill="${o.mainSkillId}">${h.skillName}</option>
+                                                <option value="${h.skillId}" data-mainskill="${o.mainSkillId}">${h.skillName}</option>
                                             </c:forEach>
                                         </optgroup>
                                     </c:forEach>
-
                                 </select>
                             </div>
 
@@ -694,13 +693,114 @@
 
 </div>
 
-
 </div>
 
 </body>
+</html>
+<script>
+    document.getElementById("mainSkillSelect").addEventListener("change", function () {
+        const selectedMainSkill = this.value;
+        const skillSelect = document.getElementById("skillSelect");
 
+        // Lấy tất cả option (trừ option đầu tiên mặc định)
+        const options = Array.from(skillSelect.querySelectorAll("option[data-mainskill]"));
+        const defaultOption = skillSelect.querySelector("option[value='']");
+
+        // Lọc option theo selected mainSkill
+        const matchedOptions = options.filter(opt => opt.getAttribute("data-mainskill") === selectedMainSkill);
+        const unmatchedOptions = options.filter(opt => opt.getAttribute("data-mainskill") !== selectedMainSkill);
+
+        // Reset select
+        skillSelect.innerHTML = ""; // Xoá tất cả option
+        skillSelect.appendChild(defaultOption); // Thêm lại option mặc định
+
+        // Thêm option khớp trước (hiển thị), sau đó option không khớp (ẩn)
+        matchedOptions.forEach(opt => {
+            opt.style.display = "block";
+            opt.disabled = false;
+            skillSelect.appendChild(opt);
+        });
+
+        // Đảm bảo rằng option có value = "1" luôn được hiển thị
+        unmatchedOptions.forEach(opt => {
+            // Nếu option có value = 1, thì luôn luôn hiển thị
+            if (opt.value === "1") {
+                opt.style.display = "block";
+                opt.disabled = false;
+            } else {
+                opt.style.display = "none";
+                opt.disabled = true;
+            }
+            skillSelect.appendChild(opt);
+        });
+
+        // Reset chọn
+        skillSelect.value = "";
+    });
+</script>
 
 <script>
+
+    // Lắng nghe sự kiện thay đổi màu từ header
+    // Lắng nghe tin nhắn từ parent window (nếu trong iframe)
+    window.addEventListener('message', function(event) {
+        if (event.data.type === 'colorChange') {
+            applyBackgroundColor(event.data.color);
+            // Lưu màu vào localStorage để duy trì qua các lần truy cập
+            localStorage.setItem('cvBackgroundColor', event.data.color);
+        }
+    });
+
+    // Áp dụng màu nền cho CV
+    function applyBackgroundColor(color) {
+        const cvSidebar = document.getElementById('cv-sidebar');
+        if (cvSidebar) {
+            cvSidebar.style.backgroundColor = color || '#5D7B6F';
+
+            // Đồng thời cập nhật input ẩn để gửi về server
+            const colorInput = document.getElementById('backGroundColor');
+            if (colorInput) {
+                colorInput.value = color || '#5D7B6F';
+            }
+
+            // Cập nhật màu chữ cho phù hợp
+            updateTextColor(color || '#5D7B6F');
+        }
+    }
+
+    // Hàm cập nhật màu chữ tương phản
+    function updateTextColor(bgColor) {
+        const sectionTitles = document.querySelectorAll('.section-title');
+        const brightness = calculateBrightness(bgColor || '#5D7B6F');
+        const textColor = brightness > 128 ? '#000000' : '#FFFFFF';
+
+        sectionTitles.forEach(title => {
+            title.style.color = textColor;
+        });
+    }
+
+    // Hàm tính độ sáng màu
+    function calculateBrightness(hexColor) {
+        const r = parseInt(hexColor.substr(1, 2), 16);
+        const g = parseInt(hexColor.substr(3, 2), 16);
+        const b = parseInt(hexColor.substr(5, 2), 16);
+        return (r * 299 + g * 587 + b * 114) / 1000;
+    }
+
+    // Áp dụng màu mặc định #5D7B6F khi tải trang
+    document.addEventListener('DOMContentLoaded', function() {
+        // Lấy màu từ localStorage nếu có, nếu không thì dùng màu mặc định #5D7B6F
+        const savedColor = localStorage.getItem('cvBackgroundColor') || '#5D7B6F';
+        applyBackgroundColor(savedColor);
+
+        // Debug - kiểm tra xem màu đã được áp dụng chưa
+        console.log('Applied color:', savedColor);
+    });
+</script>
+<script>
+
+
+
     document.getElementById('companySelect').addEventListener('change', function () {
         var otherInput = document.querySelector('.other-company-input');
         if (this.value === '1') {
@@ -918,7 +1018,7 @@
         newSkill.classList.add('skill-item');
         newSkill.innerHTML = `
                  <div class="form-group">
-                            <select class="form-control" name="mainSkillId[]" required>
+                            <select class="form-control" name="mainSkillId[]" id="mainSkillSelect" required>
                                 <option value="">Chọn tiêu đề kỹ năng</option>
                                 <c:forEach items="${CVDAO.allMainSkill}" var="o">
                                     <option value="${o.mainSkillId}">${o.mainSkillName}</option>
@@ -1076,7 +1176,7 @@
         cvForm.addEventListener('submit', function (event) {
             // Reset previous error messages
             clearErrorMessages();
-
+            localStorage.clear();
             // Validate form
             let isValid = true;
 

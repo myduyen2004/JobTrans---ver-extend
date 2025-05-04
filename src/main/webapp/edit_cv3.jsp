@@ -460,6 +460,7 @@
             <div class="form-group">
               <input type="text" class="form-control" name="address" value="${CV.address}" placeholder="Địa chỉ">
             </div>
+            <input name="color" type="hidden" value="${CV.backroundColor}">
           </div>
           <div style="border-radius: 20px; margin-top:40px;padding:30px;border: 1px #0a0a2b solid; margin-left: -19px " class="skill-section">
             <h2 id="skillTitle" class="section-title">Kỹ Năng</h2>

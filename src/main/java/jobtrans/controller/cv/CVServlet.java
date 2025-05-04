@@ -236,6 +236,7 @@ public class CVServlet extends HttpServlet {
         }
 
     }
+
     private void showPDF(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Get CV ID parameter
         String cvIdParam = request.getParameter("cvId");
@@ -357,7 +358,7 @@ public class CVServlet extends HttpServlet {
         if (backGroundColor == null || backGroundColor.isEmpty()) {
             backGroundColor = existingCV.getBackroundColor();
         }
-
+        String color = request.getParameter("color");
         String name = request.getParameter("cvname");
         String position = request.getParameter("position");
         String more_infor = request.getParameter("more_infor");
@@ -401,6 +402,7 @@ public class CVServlet extends HttpServlet {
         existingCV.setEmail(email_cv != null ? email_cv : existingCV.getEmail());
         existingCV.setAddress(address != null ? address : existingCV.getAddress());
         existingCV.setCvType(cvType);
+        existingCV.setBackroundColor(color);
 
         // Update experiences
         String[] companyIds = request.getParameterValues("Company[]");
@@ -591,7 +593,8 @@ public class CVServlet extends HttpServlet {
 
         CvDAO cvDao = new CvDAO();
         AccountDAO accountDAO = new AccountDAO();
-
+        String backGroundColor = request.getParameter("backGroundColor");
+        System.out.println("kjdbvhdf"+backGroundColor);
 //        Account u = accountDAO.getAccountByEmail(email);
         CV cv = new CV();
         int accountId = account.getAccountId();
@@ -606,8 +609,7 @@ public class CVServlet extends HttpServlet {
             request.setAttribute("fail", "Tạo CV thất bại");
         }
 
-//        String backGroundColor = request.getParameter("backGroundColor");
-        String backGroundColor = "#ffffff"; // Giá trị mặc đ��nh
+
 
         String name = request.getParameter("cvname");
         String position = request.getParameter("position");
