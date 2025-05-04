@@ -150,28 +150,7 @@ public class CVServlet extends HttpServlet {
             }
         }
         if ("createPDF".equals(action)) {
-//            Part filePart = request.getPart("cvFile");
-////            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-//
-//            // Thư mục lưu file trên server (ví dụ trong /uploads)
-//            String uploadPath = getServletContext().getRealPath("") + File.separator + "uploads";
-//            File uploadDir = new File(uploadPath);
-//            if (!uploadDir.exists()) uploadDir.mkdirs();
-//
-//            String filePath = uploadPath + File.separator + fileName;
-//            filePart.write(filePath);
-//
-//            // Đường dẫn lưu trong DB (có thể chỉ lưu tên file hoặc URL)
-//            String dbPath = "uploads/" + fileName;
-//
-//            // Giả sử accountId lấy từ session
-////            int accountId = ((Account) request.getSession().getAttribute("account")).getAccountId();
-//            HttpSession session = request.getSession();
-//            Account account = (Account) session.getAttribute("sessionAccount");
-//            int accountId = account.getAccountId();
-//            // Gọi DAO để lưu
-//            CvDAO dao = new CvDAO();
-//            dao.uploadCVFile(accountId, dbPath, null);
+
 
 
             Part p = request.getPart("cvFile");
@@ -195,8 +174,19 @@ public class CVServlet extends HttpServlet {
 
             CvDAO dao = new CvDAO();
             dao.uploadCVFile(accountId, fileName, null);
+            try {
+                System.out.println("kjdbvdf"+dao.getLatestCVIDByAccountId(accountId));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                int h = dao.getLatestCVIDByAccountId(accountId);
+                response.sendRedirect("cv?action=pdf&cvId=" + h);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
 
-//            response.sendRedirect("cv_success.jsp");
+
         }
 
     }

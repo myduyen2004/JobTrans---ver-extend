@@ -333,12 +333,12 @@
     <c:choose>
 
         <c:when test="${o.summary != null || not empty o.summary}">  <!-- Nếu cvUpload KHÔNG null -->
-            <a href="cv?action=view&cvId=${o.cvId}&hehe=${o.summary}">
+            <a href="cv?action=view&cvId=${o.cvId}">
                 <button class="view-btn">Xem CV</button>
             </a>
         </c:when>
         <c:otherwise>  <!-- Ngược lại (cvUpload null) -->
-            <a href="cv?action=pdf&cvId=${o.cvId}&hehe=${o.summary}" target="_blank">
+            <a href="cv?action=pdf&cvId=${o.cvId}" target="_blank">
                 <button class="view-btn">Xem CV</button>
             </a>
         </c:otherwise>

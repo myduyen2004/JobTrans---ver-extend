@@ -8,7 +8,7 @@
 <%@include file="./includes/header-01.jsp" %>
 <c:choose>
   <c:when test="${not empty pdfData}">
-    <img src="./cv_docs/${pdfData}" alt="CV Image" style="max-width:100%; height:auto;margin-left: 400px;margin-top: 50px;margin-bottom: 20px">
+    <img src="./cv_docs/${pdfData}" alt="CV Image" style="max-width:100%; height:auto;margin-left: 20%;margin-top: 50px;margin-bottom: 20px">
   </c:when>
   <c:otherwise>
     <p>Không có ảnh để hiển thị.</p>

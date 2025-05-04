@@ -55,6 +55,7 @@
         padding: 30px;
         border-radius: 8px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        border-top: #4460f1 20px solid;
     }
     .hello .content2 {
 
@@ -62,6 +63,7 @@
         padding: 30px;
         border-radius: 8px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        border-top: #4460f1 20px solid;
     }
 
 
@@ -76,7 +78,7 @@
 
     /* Typography */
     .hello .header-title {
-        font-size: 24px;
+        font-size: 20px;
         font-weight: 600;
         color: #2B3D9F;
         margin-bottom: 15px;
@@ -159,13 +161,41 @@
         font-size: 18px;
         color: #2B3D9F;
     }
+    .header-under {
+        background: linear-gradient(135deg, #4460f1 0%, #6787FE 100%);
+        color: white;
+        padding: 40px 0;
+        text-align: center;
+        margin-bottom: 40px;
+        border-bottom: 5px solid #2B3D9F;
+    }
 
+    .header-under-content {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .page-title {
+        font-size: 36px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .page-subtitle {
+        font-size: 18px;
+        opacity: 0.9;
+    }
 </style>
 
 <body>
 
 <%@include file="includes/header-01.jsp" %>
-
+<div class="header-under">
+    <div class="header-under-content">
+        <h1 class="page-title">Chi tiết công việc</h1>
+        <p class="page-subtitle">Khám phá thông tin đầy đủ về công việc bạn quan tâm</p>
+    </div>
+</div>
 <div class="hello">
     <%--Main--%>
     <div class="container_main_employee">
@@ -208,7 +238,9 @@
             <p class="text-center" style="font-size: 35px;
 border-radius: 30px;
 border: #0a0a2b 1px solid;
+background-color: #a1a8c3;
 /* padding: 10px; */
+color: white;
 margin-left: 120px;
 margin-right: 120px;
 padding-bottom: 10px;"><strong>${jobGreeting.price}</strong></p>

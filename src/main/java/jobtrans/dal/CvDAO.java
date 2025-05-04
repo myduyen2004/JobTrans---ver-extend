@@ -15,6 +15,25 @@ public class CvDAO {
     public CvDAO() {
         dbConnection = DBConnection.getInstance();
     }
+    public int getLatestCVIDByAccountId(int accountId) throws SQLException {
+        int cvId = -1;
+        String sql = "SELECT TOP 1 CV_id FROM CV WHERE account_id = ? ORDER BY CV_id DESC";
+
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, accountId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    cvId = rs.getInt("CV_id");
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return cvId;
+    }
 
     public CV findPDFById(int cvId) {
         String sql = "SELECT CV_id, CV_upload FROM CV WHERE CV_id = ?";
