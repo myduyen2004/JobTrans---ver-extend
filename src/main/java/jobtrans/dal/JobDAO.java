@@ -839,15 +839,6 @@ public class JobDAO {
         System.out.println(jobDAO.get3LatestJobs());
 
     }
-
-}
-
-
-
-
-
-
-
     public BigDecimal getJobFeeByJobIdAndApplicantId(int jobId, int applicantId) {
         BigDecimal jobFee = null;
         String query = "SELECT job_fee FROM Contract WHERE job_id = ? AND applicant_id = ?";
@@ -908,7 +899,7 @@ public class JobDAO {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                 gt = new JobGreeting();
+                gt = new JobGreeting();
                 gt.setGreetingId(rs.getInt("greeting_id"));
                 gt.setJobSeekerId(rs.getInt("job_seeker_id"));
                 gt.setJobId(rs.getInt("job_id"));
@@ -927,3 +918,12 @@ public class JobDAO {
     }
 
 }
+
+
+
+
+
+
+
+
+

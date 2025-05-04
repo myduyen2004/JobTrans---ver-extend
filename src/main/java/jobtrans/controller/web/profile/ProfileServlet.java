@@ -26,17 +26,11 @@ import java.util.logging.Logger;
 //import jobtrans.model.GroupMember;
 //import org.mindrot.jbcrypt.BCrypt;
 import jobtrans.dal.AccountDAO;
+import jobtrans.dal.JobDAO;
 import jobtrans.dal.NotificationDAO;
 import jobtrans.dal.ReportDAO;
 import jobtrans.dal.TransactionDAO;
-import jobtrans.model.Account;
-import jobtrans.model.GroupMember;
-
-import jobtrans.model.Notification;
-
-import jobtrans.model.Report;
-
-import jobtrans.model.Transaction;
+import jobtrans.model.*;
 
 @WebServlet(name = "ProfileServlet", urlPatterns = {"/profile"})
 @MultipartConfig
