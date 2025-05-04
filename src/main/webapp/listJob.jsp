@@ -142,7 +142,7 @@
                                             <div class="job-info-right">
                                                 <p class="job-salary">${job.getFormattedBudgetMax()}</p>
                                                 <div class="job-details">
-                                                    <a href="${pageContext.request.contextPath}/job?action=details-job-posted&jobId=${job.jobId}"
+                                                    <a href="/JobTrans/job?action=details-job-posted&jobId=${job.jobId}"
                                                        class="details-link">
                                                         <i class="fas fa-info-circle"></i> Chi tiết
                                                     </a>

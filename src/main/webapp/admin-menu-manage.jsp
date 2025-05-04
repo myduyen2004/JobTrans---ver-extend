@@ -64,7 +64,7 @@
             </div>
             <ul class="submenu-list">
                 <li class="submenu-item">
-                    <a href="job-manage?action=job-management" class="submenu-link">
+                    <a href="/JobTrans/viec-lam?action=manageUsers" class="submenu-link">
                         <i class="fas fa-list"></i>
                         <span class="link-text">
                                 Danh sách công việc
