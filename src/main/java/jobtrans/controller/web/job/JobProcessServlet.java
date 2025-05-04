@@ -42,6 +42,10 @@ public class JobProcessServlet extends HttpServlet {
             case "confirm-complete":
                 confirmComplete(req,resp);
                 break;
+            case "handle-completion":
+                handleCompletion(req,resp);
+                break;
+
         }
     }
 
@@ -135,22 +139,88 @@ public class JobProcessServlet extends HttpServlet {
         JobDAO jobDAO = new JobDAO();
         Job job = jobDAO.getJobById(Integer.parseInt(jobId));
         ContractDAO contractDAO = new ContractDAO();
-//        List<Contract> contract = contractDAO.getContractListByJobIdWasSuccess(job.getJobId());
-//        req.setAttribute("contractList", contract);
-        req.setAttribute("job", job);
+        List<Contract> contract = null;
+        try {
+            contract = contractDAO.getContractListByJobId(Integer.parseInt(jobId));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        req.setAttribute("contractList", contract);
+        req.setAttribute("jobId", jobId);
         req.getRequestDispatcher("payment-job-complete.jsp").forward(req, resp);
     }
 
-    private void completePayment(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String jobIdParam = req.getParameter("jobId");
-        int jobId = Integer.parseInt(jobIdParam);
-        String contractIdParam = req.getParameter("contractId");
-        int contractId = Integer.parseInt(contractIdParam);
-        JobDAO jobDAO = new JobDAO();
-        Job job = jobDAO.getJobById(jobId);
+//    private void completePayment(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        String jobIdParam = req.getParameter("jobId");
+//        int jobId = Integer.parseInt(jobIdParam);
+//        String contractIdParam = req.getParameter("contractId");
+//        int contractId = Integer.parseInt(contractIdParam);
+//        JobDAO jobDAO = new JobDAO();
+//        Job job = jobDAO.getJobById(jobId);
+//        ContractDAO contractDAO = new ContractDAO();
+//        Contract contract = contractDAO.getContractById(contractId);
+//
+//    }
+    private void handleCompletion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        Account account = (Account) session.getAttribute("sessionAccount");
+        String jobId = req.getParameter("jobId");
+        int contractId = Integer.parseInt(req.getParameter("contractId"));
+        String paymentAmountStr = req.getParameter("paymentAmount");
+        // Chuyển đổi từ chuỗi thành BigDecimal
+        BigDecimal percentSystem = new BigDecimal("0.03");
+        BigDecimal percent = new BigDecimal("0.97");
+        BigDecimal paymentAmount = new BigDecimal(paymentAmountStr);
+
+        // Lấy thông tin hợp đồng hiện tại
         ContractDAO contractDAO = new ContractDAO();
         Contract contract = contractDAO.getContractById(contractId);
-
+        AccountDAO accountDAO = new AccountDAO();
+        Account acountRecieve = accountDAO.getAccountById(contract.getApplicantId());
+        Account admin = accountDAO.getAdmin();
+        JobDAO jobDAO = new JobDAO();
+        Job job = jobDAO.getJobById(Integer.parseInt(jobId));
+        TransactionDAO transactionDAO = new TransactionDAO();
+        Transaction transaction = null;
+        if (account.getAmountWallet().compareTo(paymentAmount) < 0) {
+            req.getRequestDispatcher("profile?action=wallet").forward(req, resp);
+        }else{
+            account.setAmountWallet(account.getAmountWallet().subtract(paymentAmount));
+            accountDAO.updateAccountById(account);
+            acountRecieve.setAmountWallet(acountRecieve.getAmountWallet().add(paymentAmount.multiply(percent)));
+            accountDAO.updateAccountById(acountRecieve);
+            admin.setAmountWallet(admin.getAmountWallet().add(paymentAmount.multiply(percentSystem)));
+            accountDAO.updateAccountById(admin);
+            //Của người trả
+            transaction.setSenderId(account.getAccountId());
+            transaction.setReceiverId(contract.getApplicantId());
+            transaction.setJob(job);
+            transaction.setAmount(paymentAmount);
+            transaction.setDescription("Thanh toán hợp đồng");
+            transaction.setTransactionType("Trừ tiền");
+            transactionDAO.addTransaction(transaction);
+            //Của người nhận
+            transaction.setSenderId(account.getAccountId());
+            transaction.setReceiverId(contract.getApplicantId());
+            transaction.setJob(job);
+            transaction.setAmount(paymentAmount);
+            transaction.setDescription("Thanh toán hợp đồng");
+            transaction.setTransactionType("Thêm tiền");
+            transactionDAO.addTransaction(transaction);
+            //
+            //Của admin
+            transaction.setSenderId(account.getAccountId());
+            transaction.setReceiverId(admin.getAccountId());
+            transaction.setJob(job);
+            transaction.setAmount(paymentAmount);
+            transaction.setDescription("Hoa hồng từ công việc hoàn thành");
+            transaction.setTransactionType("Thêm tiền");
+            transactionDAO.addTransaction(transaction);
+            //
+            job.setSecureWallet(job.getSecureWallet()-paymentAmount.intValue());
+            job.setStatusJobId(5);
+            jobDAO.updateJobByJobId(job);
+        }
     }
 
 }
