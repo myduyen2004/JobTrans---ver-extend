@@ -61,24 +61,43 @@
                     <div class="contract-status status-active">Đang thực hiện</div>
                 </div>
 
-                <div class="contract-progress">
-                    <div class="progress-step active">
-                        <div class="step-number">1</div>
-                        <div class="step-label">Thông tin dự án</div>
+                <c:if test="${sessionScope.sessionAccount.accountId == poster.accountId}">
+                    <div class="contract-progress">
+                        <div class="progress-step active">
+                            <div class="step-number">1</div>
+                            <div class="step-label">Thông tin dự án</div>
+                        </div>
+                        <div class="progress-step">
+                            <div class="step-number">2</div>
+                            <div class="step-label">Điều khoản</div>
+                        </div>
+                        <div class="progress-step">
+                            <div class="step-number">3</div>
+                            <div class="step-label">Ký kết</div>
+                        </div>
+                        <div class="progress-step">
+                            <div class="step-number">4</div>
+                            <div class="step-label">Hoàn thành</div>
+                        </div>
                     </div>
-                    <div class="progress-step">
-                        <div class="step-number">2</div>
-                        <div class="step-label">Điều khoản</div>
+                </c:if>
+
+                <c:if test="${sessionScope.sessionAccount.accountId == jobSeeker.accountId}">
+                    <div class="contract-progress">
+                        <div class="progress-step active">
+                            <div class="step-number">1</div>
+                            <div class="step-label">Thông tin dự án</div>
+                        </div>
+                        <div class="progress-step">
+                            <div class="step-number">2</div>
+                            <div class="step-label">Ký kết</div>
+                        </div>
+                        <div class="progress-step">
+                            <div class="step-number">3</div>
+                            <div class="step-label">Hoàn thành</div>
+                        </div>
                     </div>
-                    <div class="progress-step">
-                        <div class="step-number">3</div>
-                        <div class="step-label">Ký kết</div>
-                    </div>
-                    <div class="progress-step">
-                        <div class="step-number">4</div>
-                        <div class="step-label">Hoàn thành</div>
-                    </div>
-                </div>
+                </c:if>
 
                 <div class="contract-body">
                     <div class="form-section">
@@ -352,11 +371,11 @@
                     <div class="btn-container">
                         <button type="button" class="btn-a btn-outline">Trở lại</button>
 
-                            <c:if test="${account.accountId == poster.accountId}">
+                            <c:if test="${sessionScope.sessionAccount.accountId == poster.accountId}">
                                 <a href="contract?action=show-form-terms-of-agreement&greetingId=${jobGreeting.greetingId}" type="button" class="btn-a" style="text-decoration: none">Cập nhật Điều khoản thỏa thuận</a>
                             </c:if>
 
-                            <c:if test="${account.accountId == jobSeeker.accountId}">
+                            <c:if test="${sessionScope.sessionAccount.accountId == jobSeeker.accountId}">
                                 <a href="contract?action=view-contract-of-job&jobId=${job.jobId}" type="button" class="btn-a" style="text-decoration: none">Xem hợp đồng từ nhà tuyển dụng</a>
                             </c:if>
                     </div>

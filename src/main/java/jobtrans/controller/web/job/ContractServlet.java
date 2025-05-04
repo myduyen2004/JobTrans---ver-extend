@@ -52,9 +52,30 @@ public class ContractServlet extends HttpServlet {
             case "list-contract-of-job":
                 listContractOfJob(request,response);
                 break;
+            case "view-details-contract":
+                viewDetailsContract(request,response);
+                break;
             default:
                 response.getWriter().print("????????");
                 break;
+        }
+    }
+
+    private void viewDetailsContract(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        try {
+            Account account = (Account) session.getAttribute("sessionAccount");
+            if (account == null) {
+                response.sendRedirect("login.jsp");
+                return;
+            }
+            int jobId = Integer.parseInt(request.getParameter("jobId"));
+            int applicantId = Integer.parseInt(request.getParameter("applicantId"));
+            Contract contract = contractDAO.getContractByJobIdAndApplicantId(jobId,applicantId);
+            request.setAttribute("contract", contract);
+            request.getRequestDispatcher("contract.jsp").forward(request, response);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -360,6 +381,8 @@ public class ContractServlet extends HttpServlet {
                     throw new SQLException("Không thể cập nhật ví bảo mật của công việc");
                 }
 
+                jobDAO.updateStatusJobId(jobId,2);
+
                 // 4.4. Thêm hợp đồng vào database
                 boolean contractInserted = contractDAO.insertContract(contract);
                 if (!contractInserted) {
@@ -436,8 +459,9 @@ public class ContractServlet extends HttpServlet {
                 return;
             }
 
+
             BigDecimal depositB = contract.getJobDepositB();
-            BigDecimal balance = accountDAO.getAccountBalance(account.getAccountId());
+            BigDecimal balance = account.getAmountWallet();
 
             if (balance == null || balance.compareTo(depositB) < 0) {
                 BigDecimal missingAmount = depositB.subtract(balance != null ? balance : BigDecimal.ZERO);
@@ -473,16 +497,22 @@ public class ContractServlet extends HttpServlet {
                 JobGreeting jobGreeting = jobGreetingDAO.getJobGreetingByJobIdAndJobSeekerId(jobId, jobSeekerId);
                 if (jobGreeting == null) {
                     throw new SQLException("Không thể tìm được JobGreeting");
-                } else {
-                    jobGreeting.setStatus("Được nhận");
+                }
+
+                boolean jg = jobGreetingDAO.updateStatus(jobGreeting.getGreetingId(),"Được nhận");
+                if (!jg) {
+                    throw new SQLException("Không thể tìm được JobGreeting");
+                }
+
+                boolean contractUpdate = contractDAO.updateContractStatus(contractId,"Kí kết thành công");
+                if (!contractUpdate) {
+                    throw new SQLException("Không thể tìm được Contract Update");
                 }
 
                 conn.commit();
-                Contract contractt = contractDAO.getContractById(contractId);
 
-                contract.setStatus("Kí kết thành công");
                 request.setAttribute("account", account);
-                request.setAttribute("contract", contractt);
+                request.setAttribute("contract", contract);
                 request.setAttribute("successMessage", "Ký hợp đồng thành công!");
                 request.getRequestDispatcher("contract-complete.jsp").forward(request, response);
 
@@ -509,10 +539,10 @@ public class ContractServlet extends HttpServlet {
                 return;
             }
             int greetingId = Integer.parseInt(request.getParameter("greetingId"));
-            Account poster = accountDAO.getAccountById(account.getAccountId());
             JobGreeting jobGreeting = jobGreetingDAO.getJobGreetingById(greetingId);
             Account account02 = accountDAO.getAccountById(jobGreeting.getJobSeekerId());
             Job job = jobDAO.getJobById(jobGreeting.getJobId());
+            Account poster = accountDAO.getAccountById(job.getPostAccountId());
 
             if (job != null) {
                 // Lấy thông tin các tag của job
@@ -612,7 +642,6 @@ public class ContractServlet extends HttpServlet {
                 request.getRequestDispatcher("error.jsp").forward(request, response);
             }
 
-            request.setAttribute("account", account);
             request.setAttribute("jobGreeting", jobGreeting);
             request.setAttribute("poster", poster);
             request.setAttribute("jobSeeker", account02);
@@ -656,7 +685,7 @@ public class ContractServlet extends HttpServlet {
             return;
         }
         int jobId = Integer.parseInt(request.getParameter("jobId"));
-        List<Contract> contractList = contractDAO.getContractListByJobId(jobId);
+        List<Contract> contractList = contractDAO.getContractListByJobIdWasSuccess(jobId);
         Job job = jobDAO.getJobById(jobId);
         System.out.println(contractList);
         request.setAttribute("job", job);

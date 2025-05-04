@@ -135,8 +135,8 @@ public class JobProcessServlet extends HttpServlet {
         JobDAO jobDAO = new JobDAO();
         Job job = jobDAO.getJobById(Integer.parseInt(jobId));
         ContractDAO contractDAO = new ContractDAO();
-        List<Contract> contract = contractDAO.getContractsByJobId(job.getJobId());
-        req.setAttribute("contractList", contract);
+//        List<Contract> contract = contractDAO.getContractListByJobIdWasSuccess(job.getJobId());
+//        req.setAttribute("contractList", contract);
         req.setAttribute("job", job);
         req.getRequestDispatcher("payment-job-complete.jsp").forward(req, resp);
     }

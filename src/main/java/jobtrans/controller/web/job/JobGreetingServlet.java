@@ -34,6 +34,7 @@ public class JobGreetingServlet extends HttpServlet {
     JobGreetingDAO jobGreetingDAO = new JobGreetingDAO();
     JobDAO jobDAO = new JobDAO();
     CvDAO cvDAO = new CvDAO();
+    InterviewDAO interviewDAO = new InterviewDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -244,8 +245,6 @@ public class JobGreetingServlet extends HttpServlet {
             jobGreeting.setHaveRead(true);
 //            jobGreetingDAO.updateJobGreeting(jobGreeting);
 
-            // Lấy thông tin phỏng vấn từ bảng Interview
-            InterviewDAO interviewDAO = new InterviewDAO();
             Interview interview = interviewDAO.getInterviewByGreetingId(greetingId);
 
             // Kiểm tra xem phỏng vấn đã kết thúc chưa

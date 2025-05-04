@@ -917,6 +917,19 @@ public class JobDAO {
         return gt;
     }
 
+    public void updateStatusJobId(int jobId, int newStatusJobId) throws Exception {
+        String sql = "UPDATE Job SET status_job_id = ? WHERE job_id = ?";
+        try (Connection con = dbConnection.openConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, newStatusJobId);
+            ps.setInt(2, jobId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
 }
 
 

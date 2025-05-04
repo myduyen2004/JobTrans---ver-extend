@@ -261,9 +261,9 @@ public class ContractDAO {
         return success;
     }
 
-    public List<Contract> getContractListByJobId(int jobId) throws Exception {
+    public List<Contract> getContractListByJobIdWasSuccess(int jobId) throws Exception {
         List<Contract> contractList = new ArrayList<>();
-        String sql = "SELECT * FROM Contract WHERE job_id = ?";
+        String sql = "SELECT * FROM Contract WHERE job_id = ? AND status LIKE N'Kí kết thành công%'";
 
         try (Connection conn = DBConnection.openConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

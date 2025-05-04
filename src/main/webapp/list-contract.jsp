@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -11,7 +11,7 @@
     <jsp:useBean id="jobDAO" class="jobtrans.dal.JobDAO" scope="page" />
 </head>
 <body>
-
+<%@include file="includes/header-01.jsp"%>
 <div class="container">
     <div class="header">
         <h1>Danh sách hợp đồng đã ký kết của công việc</h1>
@@ -37,7 +37,8 @@
 <%--        </select>--%>
 <%--    </div>--%>
 
-    <div class="contracts-list">
+    <c:if test="${not empty contractList}">
+        <div class="contracts-list">
         <c:forEach var="contract" items="${contractList}" >
             <div class="contract-card">
                 <div class="contract-header">
@@ -81,18 +82,23 @@
                     </div>
                 </div>
                 <div class="contract-footer">
-                    <button class="view-btn">
+                    <a href="contract?action=view-details-contract&jobId=${job.jobId}&applicantId=${contract.applicantId}" class="view-btn" style="text-decoration: none">
                         <i class="fas fa-eye"></i> Xem chi tiết
-                    </button>
+                    </a>
                     <button class="download-btn">
                         <i class="fas fa-download"></i> Tải xuống
                     </button>
                 </div>
             </div>
         </c:forEach>
-
     </div>
+    </c:if>
 
+    <c:if test="${empty contractList}">
+        <div style="padding: 15px; margin: 20px auto; max-width: 100%; background: #f0f4f8; text-align: center; border-radius: 5px; ">
+            <p style="color: #555; font-size: 16px; margin: 0;">Hiện tại chưa có hợp đồng nào được kí kết.</p>
+        </div>
+    </c:if>
     <div class="pagination">
         <button class="page-btn active">1</button>
         <button class="page-btn">2</button>
@@ -106,6 +112,7 @@
         </button>
     </div>
 </div>
+<%@include file="includes/footer.jsp"%>
 
 <script>
     // Animation for cards
@@ -135,26 +142,6 @@
                 } else {
                     card.style.display = 'none';
                 }
-            });
-        });
-
-        // Pagination
-        const pageButtons = document.querySelectorAll('.page-btn');
-        pageButtons.forEach((btn, index) => {
-            btn.addEventListener('click', function() {
-                // Remove active class from all buttons
-                pageButtons.forEach(b => b.classList.remove('active'));
-
-                // Add active class to clicked button
-                this.classList.add('active');
-
-                // Simulate page change with animation
-                const contractsList = document.querySelector('.contracts-list');
-                contractsList.style.opacity = '0';
-
-                setTimeout(() => {
-                    contractsList.style.opacity = '1';
-                }, 300);
             });
         });
 
