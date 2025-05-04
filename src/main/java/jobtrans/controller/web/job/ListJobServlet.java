@@ -26,6 +26,8 @@ public class ListJobServlet extends HttpServlet {
     JobDAO jobDAO = new JobDAO();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        String action = request.getParameter("action");
         String priceFilter = request.getParameter("price");
         String jobTypeFilter = request.getParameter("jobType");
         System.out.println(jobTypeFilter);
@@ -170,13 +172,19 @@ public class ListJobServlet extends HttpServlet {
         request.setAttribute("jobTypeFilter", jobTypeFilter);
 
 
-
-
-
         if (account != null && "Admin".equals(account.getRole())) {
-            // Admin xem danh sách job
-            request.getRequestDispatcher("/admin-job-list-manage.jsp").forward(request, response);
+            if ("viewJobs".equals(action)) {
+
+                request.getRequestDispatcher("/listJob.jsp").forward(request, response);
+            } else if ("manageUsers".equals(action)) {
+                // Admin xem danh sách quản lý
+                request.getRequestDispatcher("/admin-job-list-manage.jsp").forward(request, response);
+            } else {
+                // Mặc định admin về listJob.jsp
+                response.sendRedirect("job?command=viewJobs");
+            }
         } else {
+            // Người dùng thường
             request.getRequestDispatcher("/listJob.jsp").forward(request, response);
         }
     }
