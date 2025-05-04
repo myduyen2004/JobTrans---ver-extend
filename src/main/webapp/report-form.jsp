@@ -333,6 +333,67 @@
         }
 
     </style>
+    <style>
+        .btn-report-list {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: linear-gradient(to right, #f8f9fa, #e9ecef);
+            color: #3a4a63;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .btn-report-list:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: rgba(103, 135, 254, 0.1);
+            transition: width 0.4s ease;
+            z-index: 1;
+        }
+
+        .btn-report-list:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            color: #152a69;
+        }
+
+        .btn-report-list:hover:before {
+            width: 100%;
+        }
+
+        .btn-report-list:active {
+            transform: translateY(1px);
+        }
+
+        .btn-report-list i,
+        .btn-report-list span {
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-report-list i {
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-report-list:hover i {
+            transform: translateX(-3px);
+        }
+    </style>
 </head>
 <%@include file="includes/header-01.jsp"%>
 
@@ -370,7 +431,7 @@
     </div>
 
     <div class="form-content">
-        <form id="report-form" action="job-manage-process" method="POST" enctype="multipart/form-data">
+        <form action="job-manage-process" method="POST" enctype="multipart/form-data" accept-charset="UTF-8">
             <input type="hidden" name="jobId" value="${job.jobId}">
             <input type="hidden" name="accountId" value="${account.accountId}">
             <div class="form-group">
@@ -409,11 +470,26 @@
                 <button type="submit" class="submit-btn">Gửi báo cáo</button>
             </div>
         </form>
+        <button type="button" class="btn-report-list" onclick="window.location.href='your-report-list-url'">
+            <i class="fas fa-arrow-left"></i>
+            <span>Xem danh sách báo cáo đã tạo</span>
+        </button>
+
     </div>
 </div>
-
 <script>
-
+    document.getElementById('evidence').addEventListener('change', function() {
+        const fileNameDiv = document.getElementById('file-name');
+        if(this.files.length > 0) {
+            if(this.files.length === 1) {
+                fileNameDiv.textContent = 'Đã chọn: ' + this.files[0].name;
+            } else {
+                fileNameDiv.textContent = 'Đã chọn ' + this.files.length + ' tệp';
+            }
+        } else {
+            fileNameDiv.textContent = '';
+        }
+    });
 </script>
 </body>
 </html>

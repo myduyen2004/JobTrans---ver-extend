@@ -5,6 +5,9 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+    <jsp:useBean id="criteriaDAO" class="jobtrans.dal.CriteriaDAO" scope="page" />
+    <jsp:useBean id="accountDAO" class="jobtrans.dal.AccountDAO" scope="page" />
+    <jsp:useBean id="jobDAO" class="jobtrans.dal.JobDAO" scope="page" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chi Tiết Báo Cáo Vi Phạm</title>
@@ -265,8 +268,12 @@
 
         .admin-actions {
             margin-top: 30px;
-            border-top: 2px solid #eee;
+            border-top: 3px solid #ffcdd2;
             padding-top: 20px;
+            background-color: #fff8f8;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(211, 47, 47, 0.1);
         }
 
         .action-buttons {
@@ -489,13 +496,10 @@
         <div class="progress-title">
             <span>Trạng thái xử lý</span>
             <c:choose>
-                <c:when test="${report.status == 'PENDING'}">
-                    <span class="progress-percentage">25%</span>
-                </c:when>
-                <c:when test="${report.status == 'PROCESSING'}">
+                <c:when test="${report.status == 'Chờ xử lí'}">
                     <span class="progress-percentage">50%</span>
                 </c:when>
-                <c:when test="${report.status == 'RESOLVED' || report.status == 'REJECTED'}">
+                <c:when test="${report.status == 'Bị từ chối' || report.status == 'Đã xử lí'}">
                     <span class="progress-percentage">100%</span>
                 </c:when>
             </c:choose>
@@ -503,13 +507,10 @@
 
         <div class="progress">
             <c:choose>
-                <c:when test="${report.status == 'PENDING'}">
-                    <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                </c:when>
-                <c:when test="${report.status == 'PROCESSING'}">
+                <c:when test="${report.status == 'Chờ xử lí'}">
                     <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                 </c:when>
-                <c:when test="${report.status == 'RESOLVED' || report.status == 'REJECTED'}">
+                <c:when test="${report.status == 'Bị từ chối' || report.status == 'Đã xử lí'}">
                     <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                 </c:when>
             </c:choose>
@@ -519,11 +520,11 @@
                 <div class="milestone-dot"></div>
                 <div class="milestone-label">Báo cáo đã tạo</div>
             </div>
-            <div class="milestone ${report.status != 'PENDING' ? 'active' : ''}">
+            <div class="milestone ${report.status == 'Chờ xử lí'}">
                 <div class="milestone-dot"></div>
                 <div class="milestone-label">Đang xử lý</div>
             </div>
-            <div class="milestone ${report.status == 'RESOLVED' || report.status == 'REJECTED' ? 'active' : ''}">
+            <div class="milestone ${report.status == 'Đã xử lí' || report.status == 'Bị từ chối'}">
                 <div class="milestone-dot"></div>
                 <div class="milestone-label">Đã xử lý</div>
             </div>
@@ -537,18 +538,15 @@
                 <line x1="12" y1="8" x2="12" y2="12"></line>
                 <line x1="12" y1="16" x2="12" y2="16"></line>
             </svg>
-            Thông tin báo cáo
+            Chi tiết nội dung báo cáo
             <c:choose>
-                <c:when test="${report.status == 'PENDING'}">
+                <c:when test="${report.status == 'Chờ xử lí'}">
                     <span class="badge badge-pending">Chờ xử lý</span>
                 </c:when>
-                <c:when test="${report.status == 'PROCESSING'}">
-                    <span class="badge badge-processing">Đang xử lý</span>
-                </c:when>
-                <c:when test="${report.status == 'RESOLVED'}">
+                <c:when test="${report.status == 'Đã xử lí'}">
                     <span class="badge badge-resolved">Đã giải quyết</span>
                 </c:when>
-                <c:when test="${report.status == 'REJECTED'}">
+                <c:when test="${report.status == 'Bị từ chối'}">
                     <span class="badge badge-rejected">Đã từ chối</span>
                 </c:when>
             </c:choose>
@@ -558,36 +556,36 @@
             <div class="info-card">
                 <div class="info-label">Ngày báo cáo</div>
                 <div class="info-value">
-                    <fmt:formatDate value="${report.createdDate}" pattern="dd/MM/yyyy HH:mm" />
+                    <fmt:formatDate value="${report.reportTime}" pattern="dd/MM/yyyy HH:mm" />
                 </div>
             </div>
             <div class="info-card">
                 <div class="info-label">Tiêu chí vi phạm</div>
-                <div class="info-value">${criteria.content}</div>
+                <div class="info-value">${criteriaDAO.getCriteriaById(report.criteriaId).content}</div>
             </div>
             <div class="info-card">
                 <div class="info-label">Người báo cáo</div>
-                <div class="info-value">${reporter.accountName}</div>
+                <div class="info-value">${accountDAO.getAccountById(report.reportBy).accountName}</div>
             </div>
             <div class="info-card">
                 <div class="info-label">Email người báo cáo</div>
-                <div class="info-value">${reporter.email}</div>
+                <div class="info-value">${accountDAO.getAccountById(report.reportBy).email}</div>
             </div>
             <div class="info-card">
                 <div class="info-label">Người bị báo cáo</div>
-                <div class="info-value">${reported.accountName}</div>
+                <div class="info-value">${accountDAO.getAccountById(report.reportedAccount).accountName}</div>
             </div>
             <div class="info-card">
                 <div class="info-label">Email người bị báo cáo</div>
-                <div class="info-value">${reported.email}</div>
+                <div class="info-value">${accountDAO.getAccountById(report.reportedAccount).email}</div>
             </div>
             <div class="info-card full-width">
                 <div class="info-label">Công việc liên quan</div>
-                <div class="info-value">${job.jobTitle}</div>
+                <div class="info-value">${jobDAO.getJobById(report.jobId).jobTitle}</div>
             </div>
             <div class="info-card full-width">
                 <div class="info-label">Nội dung vi phạm</div>
-                <div class="info-value" style="white-space: pre-line;">${report.content}</div>
+                <div class="info-value" style="white-space: pre-line;">${report.contentReport}</div>
             </div>
         </div>
 
@@ -600,8 +598,7 @@
                 Bằng chứng đính kèm
             </div>
             <div class="evidence-files">
-                <c:forEach var="evidence" items="${evidences}">
-                    <a href="download-evidence?evidenceId=${evidence.evidenceId}" class="evidence-file">
+                    <a href="${report.attachment}" class="evidence-file">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                             <polyline points="14 2 14 8 20 8"></polyline>
@@ -609,10 +606,9 @@
                             <line x1="16" y1="17" x2="8" y2="17"></line>
                             <polyline points="10 9 9 9 8 9"></polyline>
                         </svg>
-                        <span class="evidence-name">${evidence.fileName}</span>
+                        <span class="evidence-name">${report.attachment}</span>
                     </a>
-                </c:forEach>
-                <c:if test="${empty evidences}">
+                <c:if test="${empty report.attachment}">
                     <div class="evidence-file" style="color: #6c757d;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="10"></circle>
@@ -624,7 +620,6 @@
             </div>
         </div>
 
-        <c:if test="${not empty reportHistories}">
             <div class="history-section">
                 <div class="section-title">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -634,96 +629,88 @@
                     Lịch sử xử lý
                 </div>
                 <div class="timeline">
-                    <c:forEach var="history" items="${reportHistories}">
+
                         <div class="timeline-item">
                             <div class="timeline-dot"></div>
                             <div class="timeline-content">
                                 <div class="timeline-date">
-                                    <fmt:formatDate value="${history.actionDate}" pattern="dd/MM/yyyy HH:mm" />
+                                    <fmt:formatDate value="${report.reportTime}" pattern="dd/MM/yyyy HH:mm" />
                                 </div>
                                 <p class="timeline-text">
-                                    <strong>${history.actionType}:</strong> ${history.note}
+                                    <strong>Kêt quả xử lí:</strong> ${report.status}
+                                    <br>
+                                    <strong>Note từ admin: ${report.noteByAdmin}</strong>
                                 </p>
                             </div>
                         </div>
-                    </c:forEach>
                 </div>
             </div>
-        </c:if>
 
         <div class="admin-actions">
-            <div class="section-title">
+            <div class="section-title" style="color: #d32f2f; border-bottom: 2px solid #ffcdd2;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                 </svg>
-                Xử lý báo cáo
+                QUYẾT ĐỊNH XỬ LÝ BÁO CÁO
             </div>
-
-            <form id="admin-action-form" action="admin-report-action" method="POST">
+            <%if(account.getRole().equals("Admin")){%>
+            <form id="admin-action-form" action="report-manage" method="POST">
                 <input type="hidden" name="reportId" value="${report.reportId}">
-                <input type="hidden" name="actionType" id="actionType" value="">
-
+<%--                <input type="hidden" name="action" id="actionType" value="acceptReport">--%>
+                <c:if test="${report.status == 'Chờ xử lí'}">
                 <div class="admin-note">
-                    <label for="adminNote" class="info-label">Ghi chú của Admin</label>
-                    <textarea name="adminNote" id="adminNote" class="note-textarea" placeholder="Nhập ghi chú về việc xử lý báo cáo này..."></textarea>
+                    <label for="adminNote" class="info-label" style="color: #d32f2f; font-weight: bold; font-size: 16px;">GHI CHÚ XỬ LÝ CỦA ADMIN</label>
+                    <div style="color: #757575; font-style: italic; margin-bottom: 10px; font-size: 13px;">
+                        * Vui lòng cung cấp lý do chi tiết cho quyết định của bạn. Ghi chú này sẽ được hiển thị cho cả người báo cáo và người bị báo cáo.
+                    </div>
+                    <textarea name="adminNote" id="adminNote" class="note-textarea"
+                              style="border: 2px solid #d32f2f; min-height: 150px;"
+                              placeholder="Nhập chi tiết lý do xử lý báo cáo này... (bắt buộc)" required></textarea>
                 </div>
 
-                <div class="action-buttons">
-                    <c:if test="${report.status == 'PENDING'}">
-                        <button type="button" class="btn btn-primary" onclick="submitForm('PROCESSING')">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="9 11 12 14 22 4"></polyline>
-                                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-                            </svg>
-                            Tiếp nhận và xử lý
-                        </button>
-                    </c:if>
+<%--                <div class="action-buttons">--%>
+<%--                    <c:if test="${report.status == 'C'}">--%>
+<%--                        <button type="button" class="btn btn-primary" onclick="submitForm('PROCESSING')">--%>
+<%--                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">--%>
+<%--                                <polyline points="9 11 12 14 22 4"></polyline>--%>
+<%--                                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>--%>
+<%--                            </svg>--%>
+<%--                            Tiếp nhận và xử lý--%>
+<%--                        </button>--%>
+<%--                    </c:if>--%>
 
-                    <c:if test="${report.status == 'PROCESSING' || report.status == 'PENDING'}">
-                        <button type="button" class="btn btn-success" onclick="submitForm('RESOLVED')">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+
+                        <button name="action" value="accept" type="submit" class="btn btn-success" style="font-size: 16px; padding: 14px 25px;" onclick="submitForm('RESOLVED')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                                 <polyline points="22 4 12 14.01 9 11.01"></polyline>
                             </svg>
-                            Xác nhận vi phạm
+                            <strong>CHẤP NHẬN BÁO CÁO</strong>
                         </button>
 
-                        <button type="button" class="btn btn-danger" onclick="submitForm('REJECTED')">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <button name="action" value="reject" type="submit" class="btn btn-danger" style="font-size: 16px; padding: 14px 25px;" onclick="submitForm('REJECTED')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="12" cy="12" r="10"></circle>
                                 <line x1="15" y1="9" x2="9" y2="15"></line>
                                 <line x1="9" y1="9" x2="15" y2="15"></line>
                             </svg>
-                            Từ chối báo cáo
+                            <strong>TỪ CHỐI BÁO CÁO</strong>
                         </button>
                     </c:if>
 
-                    <button type="button" class="btn btn-neutral" onclick="window.location.href='admin-reports'">
+                    <button type="button" class="btn btn-neutral" onclick="history.back()">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="19" y1="12" x2="5" y2="12"></line>
                             <polyline points="12 19 5 12 12 5"></polyline>
                         </svg>
-                        Quay lại danh sách
+                        Quay lại
                     </button>
                 </div>
             </form>
+            <%}%>
+
         </div>
     </div>
 </div>
-
-<script>
-    function submitForm(action) {
-        if(action === 'RESOLVED' || action === 'REJECTED') {
-            const note = document.getElementById('adminNote').value;
-            if(!note.trim()) {
-                alert('Vui lòng nhập ghi chú trước khi xử lý báo cáo!');
-                return;
-            }
-        }
-
-        document.getElementById('actionType').value = action;
-        document.getElementById('admin-action-form').submit();
-    }
-</script>
 </body>
 </html>

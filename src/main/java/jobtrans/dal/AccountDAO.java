@@ -335,7 +335,7 @@ public class AccountDAO {
                 "experience_years = ?, skills = ?, bio = ?, point = ?, star_rate = ?, amount_wallet = ?, " +
                 "verified_link = ?, verified_account = ?, complete_percent = ?, label_tag = ?, count = ?, " +
                 "role = ?, type_account = ?, level_account = ?, signature = ?, join_date = ?, count_member = ?, status = ? " +
-                "WHERE account_id = ?";
+                "WHERE email = ?";
 
         try (Connection conn = dbConnection.openConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
