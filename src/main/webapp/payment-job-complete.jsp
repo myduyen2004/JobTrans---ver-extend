@@ -583,20 +583,23 @@
         </h1>
         <p class="page-subtitle">Theo dõi và quản lý các khoản thanh toán cho đối tác</p>
     </div>
-<%
-    String jobIdParam = (String) request.getAttribute("jobId");
-    int jobId = Integer.parseInt(jobIdParam);
-    ContractDAO contractDAO = new ContractDAO();
-    List<Contract> contractList = contractDAO.getContractsByJobId(jobId);
-    BigDecimal needToPay = new BigDecimal(0);
-    BigDecimal paid = new BigDecimal(0);
-    BigDecimal rest = new BigDecimal(0);
-    for (Contract con : contractList){
-        needToPay.add(con.getJobFee());
-        paid.add(con.getJobDepositA());
-    }
-    rest = needToPay.subtract(paid);
-%>
+    <%
+        String jobIdParam = (String) request.getAttribute("jobId");
+        int jobId = Integer.parseInt(jobIdParam);
+        ContractDAO contractDAO = new ContractDAO();
+        List<Contract> contractList = contractDAO.getContractListByJobId(jobId);
+        BigDecimal needToPay = new BigDecimal(0);
+        BigDecimal paid = new BigDecimal(0);
+        BigDecimal rest;
+
+        for (Contract con : contractList){
+            needToPay = needToPay.add(con.getJobFee());
+            paid = paid.add(con.getJobDepositA());
+        }
+
+        rest = needToPay.subtract(paid);
+    %>
+
     <!-- Thống kê tổng quan -->
     <div class="summary-section">
         <div class="summary-cards">
@@ -605,7 +608,9 @@
                     <i class="fas fa-money-bill-wave"></i>
                 </div>
                 <div class="summary-data">
-                    <div class="summary-value"><%=needToPay%> đ</div>
+                    <div class="summary-value">
+                        <fmt:formatNumber value="<%=needToPay%>" type="number" maxFractionDigits="0" /> ₫
+                        </div>
                     <div class="summary-label">Tổng số tiền cần trả</div>
                 </div>
             </div>
@@ -614,7 +619,8 @@
                     <i class="fas fa-clock"></i>
                 </div>
                 <div class="summary-data">
-                    <div class="summary-value"><%=paid%> đ</div>
+                    <div class="summary-value">
+                        <fmt:formatNumber value="<%=paid%>" type="number" maxFractionDigits="0" /> đ</div>
                     <div class="summary-label">Số tiền đã trả</div>
                 </div>
             </div>
@@ -623,46 +629,13 @@
                     <i class="fas fa-check-circle"></i>
                 </div>
                 <div class="summary-data">
-                    <div class="summary-value"><%=rest%> đ</div>
+                    <div class="summary-value">
+                        <fmt:formatNumber value="<%=rest%>" type="number" maxFractionDigits="0" /> đ</div>
                     <div class="summary-label">Còn thiếu</div>
                 </div>
             </div>
-<%--&lt;%&ndash;            <div class="summary-card">&ndash;%&gt;--%>
-<%--&lt;%&ndash;                <div class="summary-icon icon-overdue">&ndash;%&gt;--%>
-<%--&lt;%&ndash;                    <i class="fas fa-exclamation-circle"></i>&ndash;%&gt;--%>
-<%--&lt;%&ndash;                </div>&ndash;%&gt;--%>
-<%--&lt;%&ndash;                <div class="summary-data">&ndash;%&gt;--%>
-<%--&lt;%&ndash;                    <div class="summary-value">6.200.000 đ</div>&ndash;%&gt;--%>
-<%--&lt;%&ndash;                    <div class="summary-label">Quá hạn</div>&ndash;%&gt;--%>
-<%--&lt;%&ndash;                </div>&ndash;%&gt;--%>
-<%--&lt;%&ndash;            </div>&ndash;%&gt;--%>
-<%--        </div>--%>
-<%--    </div>--%>
-
-    <!-- Thanh công cụ -->
-    <div class="toolbar">
-        <div class="search-bar">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Tìm kiếm người dùng...">
-        </div>
-        <div class="toolbar-actions">
-            <button class="btn btn-outline">
-                <i class="fas fa-filter"></i> Lọc
-            </button>
-            <button class="btn btn-primary">
-                <i class="fas fa-plus"></i> Thêm thanh toán
-            </button>
         </div>
     </div>
-
-    <!-- Tab điều hướng -->
-    <div class="filter-tabs">
-        <div class="tab active">Tất cả</div>
-        <div class="tab">Chờ thanh toán</div>
-        <div class="tab">Đã thanh toán</div>
-        <div class="tab">Quá hạn</div>
-    </div>
-
     <!-- Danh sách thanh toán -->
             <div class="payment-grid">
                 <c:forEach var="item" items="${contractList}">
@@ -684,13 +657,15 @@
                             <div class="amount-row">
                                 <div class="amount-label">Số tiền cần trả:</div>
                                 <div class="amount-value">
-                                    <fmt:formatNumber value="${item.jobFee}" type="currency" currencySymbol="đ" groupingUsed="true"/>
+                                    <fmt:formatNumber value="${item.jobFee}" type="number" maxFractionDigits="0"/> đ
                                 </div>
                             </div>
                             <div class="payment-meta">
                                 <div class="meta-item">
-                                    <div class="meta-label">Mã hợp đồng</div>
-                                    <div class="meta-value">${item.contractId}</div>
+                                    <div class="meta-label">Số tiền đã cọc trước</div>
+                                    <div class="meta-value">
+                                        <fmt:formatNumber value="${item.jobDepositA}" type="number" maxFractionDigits="0"/> đ
+                                            </div>
                                 </div>
                                 <div class="meta-item">
                                     <div class="meta-label">Ngày hẹn trả</div>
@@ -704,10 +679,9 @@
                                 </div>
                             </div>
                         </div>
+
+
                         <div class="payment-footer">
-                            <div class="status-badge status-overdue">
-                                <i class="fas fa-exclamation-circle"></i> Quá hạn
-                            </div>
                             <button class="btn btn-primary btn-sm">
                                 <i class="fas fa-check"></i> Xác nhận
                             </button>
@@ -717,30 +691,232 @@
             </div>
 
 </div>
-<%@include file="includes/footer.jsp"%>
+<!-- Thêm đoạn mã này vào phần cuối trang ngay trước đóng body -->
+
+<!-- Thêm đoạn mã này vào phần cuối trang ngay trước đóng body -->
+
+<!-- Modal Popup -->
+<div id="paymentModal" class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h3>Xác nhận thanh toán</h3>
+            <span class="close-modal">&times;</span>
+        </div>
+        <div class="modal-body">
+            <p>Bạn có chắc chắn muốn thanh toán số tiền còn lại?</p>
+            <div class="payment-amount">
+                <span class="amount-label">Số tiền thanh toán:</span>
+                <span class="amount-value" id="remainingAmount"></span>
+            </div>
+            <form id="paymentForm" action="job-manage-process" method="GET">
+                <input type="hidden" name="action" value="">
+                <input type="hidden" name="contractId" id="contractIdInput">
+                <input type="hidden" name="paymentAmount" id="paymentAmountInput">
+                <input type="hidden" name="jobId" value="<%=jobId%>">
+                <div class="form-group">
+                    <label for="paymentNote">Ghi chú (không bắt buộc):</label>
+                    <textarea id="paymentNote" name="paymentNote" class="form-control" rows="2"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline cancel-btn">Hủy</button>
+                    <button type="submit" class="btn btn-primary confirm-btn">Xác nhận thanh toán</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- CSS cho Modal -->
+<style>
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        animation: fadeIn 0.3s ease;
+    }
+
+    .modal-container {
+        background-color: var(--card-bg);
+        border-radius: 12px;
+        width: 90%;
+        max-width: 500px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        animation: slideIn 0.3s ease;
+    }
+
+    .modal-header {
+        padding: 1.25rem;
+        border-bottom: 1px solid var(--border-light);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .modal-header h3 {
+        color: var(--primary-dark);
+        margin: 0;
+        font-size: 1.25rem;
+    }
+
+    .close-modal {
+        font-size: 1.5rem;
+        color: var(--accent-light);
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+    .close-modal:hover {
+        color: var(--accent-red);
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+    }
+
+    .payment-amount {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        background-color: var(--bg-light);
+        border-radius: 8px;
+        margin: 1rem 0;
+    }
+
+    .amount-label {
+        font-weight: 500;
+    }
+
+    #remainingAmount {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--primary-dark);
+    }
+
+    .form-group {
+        margin-bottom: 1.25rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: var(--text-dark);
+        font-weight: 500;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.75rem;
+        border-radius: 8px;
+        border: 1px solid var(--border-light);
+        background-color: var(--bg-light);
+        font-size: 0.95rem;
+        transition: border 0.2s, box-shadow 0.2s;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--accent-light);
+        box-shadow: 0 0 0 2px rgba(82, 113, 196, 0.2);
+    }
+
+    .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .cancel-btn {
+        border: 1px solid var(--accent-light);
+        color: var(--accent-light);
+    }
+
+    .confirm-btn {
+        background: linear-gradient(to right, var(--primary-dark), var(--primary-light));
+        color: white;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+        from { transform: translateY(-20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+</style>
+
+<!-- JavaScript cho Modal -->
 <script>
-    // JavaScript để demo các hiệu ứng tương tác
     document.addEventListener('DOMContentLoaded', function() {
-        // Xử lý tabs
-        const tabs = document.querySelectorAll('.tab');
-        tabs.forEach(tab => {
-            tab.addEventListener('click', function() {
-                tabs.forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
+        // Lấy tất cả các nút xác nhận
+        var confirmBtns = document.querySelectorAll('.payment-footer .btn-primary');
+        var modal = document.getElementById('paymentModal');
+        var closeBtn = document.querySelector('.close-modal');
+        var cancelBtn = document.querySelector('.cancel-btn');
+
+        // Mở modal khi nhấn vào nút xác nhận
+        confirmBtns.forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                // Lấy thông tin từ card này
+                var card = this.closest('.payment-card');
+                var jobFeeText = card.querySelector('.amount-value').textContent.trim();
+                var depositText = card.querySelector('.meta-value').textContent.trim();
+
+                // Lấy contractId từ card hoặc data attribute
+                // Giả sử mỗi card có data-contract-id, nếu không, bạn cần thêm attribute này
+                var contractId = card.getAttribute('data-contract-id');
+
+                // Xử lý chuỗi để lấy số (loại bỏ tất cả trừ số)
+                var jobFee = jobFeeText.replace(/[^\d]/g, '');
+                var deposit = depositText.replace(/[^\d]/g, '');
+
+                // Chuyển đổi sang số nguyên (để tránh vấn đề với số thập phân)
+                jobFee = parseInt(jobFee, 10);
+                deposit = parseInt(deposit, 10);
+                var remainingAmount = jobFee - deposit;
+
+                // Định dạng số tiền với dấu phân cách hàng nghìn
+                var formattedAmount = new Intl.NumberFormat('vi-VN').format(remainingAmount) + ' đ';
+
+                // Cập nhật thông tin vào modal
+                document.getElementById('remainingAmount').textContent = formattedAmount;
+                document.getElementById('contractIdInput').value = contractId;
+                document.getElementById('paymentAmountInput').value = remainingAmount;
+
+                // Hiển thị modal
+                modal.style.display = 'flex';
             });
         });
 
-        // Xử lý phân trang
-        const pageItems = document.querySelectorAll('.page-item');
-        pageItems.forEach(item => {
-            item.addEventListener('click', function() {
-                if (!this.classList.contains('active') && !this.querySelector('i')) {
-                    pageItems.forEach(p => p.classList.remove('active'));
-                    this.classList.add('active');
-                }
-            });
+        // Đóng modal
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        closeBtn.addEventListener('click', closeModal);
+        cancelBtn.addEventListener('click', closeModal);
+
+        // Đóng modal khi click bên ngoài
+        window.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
         });
     });
 </script>
+<%@include file="includes/footer.jsp"%>
 </body>
 </html>

@@ -952,6 +952,27 @@ public class AccountDAO {
             return null;
         }
     }
+    public Account getAdmin() {
+        Account admin = new Account();
+        String sql = "SELECT * FROM Account WHERE role = 'admin'";
+
+        try (
+                Connection conn = dbConnection.openConnection(); // Hoặc your connection method
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery();
+        ) {
+            while (rs.next()) {
+                admin = mapRowToAccount(rs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Hoặc log lỗi nếu cần
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return admin;
+    }
+
 }
 
 
