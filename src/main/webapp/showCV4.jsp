@@ -1,4 +1,5 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="jobtrans.model.CV" %>
 <!DOCTYPE html>
@@ -400,7 +401,8 @@
             }
 
             .item-period {
-                margin-top: 3px;
+                margin-top: 5px;
+
             }
         }
     </style>
@@ -442,10 +444,7 @@
                                 <i class="fas fa-venus-mars"></i>
                                 <span class="info-text">${CV.sex}</span>
                             </div>
-                            <div class="info-item">
-                                <i class="fas fa-birthday-cake"></i>
-                                <span class="info-text">${CV.dateOfBirth}</span>
-                            </div>
+                            <p><i class="fas fa-birthday-cake"></i> <fmt:formatDate value="${CV.dateOfBirth}" pattern="dd/MM/yyyy" /></p>
                             <div class="info-item">
                                 <i class="fas fa-envelope"></i>
                                 <span class="info-text">${CV.email}</span>
@@ -508,7 +507,10 @@
                                     <c:if test="${o.educationId != 1}">
                                         <div class="school">${CvDAO.getSchoolNameById(o.educationId)}</div>
                                     </c:if>
-                                    <div class="date">${o.startDate} - ${o.endDate}</div>
+                                    <div class="item-period">
+                                        <fmt:formatDate value="${o.startDate}" pattern="MM/yyyy" /> -
+                                        <fmt:formatDate value="${o.endDate}" pattern="MM/yyyy" />
+                                    </div>
                                 </div>
                                 <div class="timeline">
                                     <div>
@@ -533,7 +535,10 @@
                                     <c:if test="${o.experienceId == 1}">
                                         <div class="name_conpany">${o.customCompany}</div>
                                     </c:if>
-                                    <div class="date">${o.startAt} - ${o.endAt}</div>
+                                    <div class="item-period">
+                                        <fmt:formatDate value="${o.startAt}" pattern="MM/yyyy" /> -
+                                        <fmt:formatDate value="${o.endAt}" pattern="MM/yyyy" />
+                                    </div>
                                 </div>
                                 <div class="timeline">
                                     <div>
@@ -559,7 +564,9 @@
                                     <c:if test="${o.certificationId == 1}">
                                         <div class="name_cc">${o.customCertification}</div>
                                     </c:if>
-                                    <div class="date">${o.awardYear}</div>
+                                    <div class="item-period">
+                                        <fmt:formatDate value="${o.awardYear}" pattern="yyyy" />
+                                    </div>
                                 </div>
                                 <div class="timeline">
                                     <div>

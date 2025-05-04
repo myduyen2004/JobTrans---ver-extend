@@ -323,7 +323,11 @@
         <option name="mau"  value="#198754" class="color-circle" style="background-color: #198754;">🟢</option>
         <option name="mau"  value="#ff6f61" class="color-circle" style="background-color: #ff6f61;">🟠</option>
         <option name="mau"  value="#5D7B6F" class="color-circle" style="background-color: #5D7B6F;">🟢</option>
-        <!-- ... các option khác ... -->
+          <option name="mau" value="#4a6fa5" class="color-circle" style="background-color: #4a6fa5;">🔵</option>
+          <option name="mau" value="#8492a6" class="color-circle" style="background-color: #8492a6;">🔘</option>
+          <option name="mau" value="#7a785c" class="color-circle" style="background-color: #7a785c;">🟤</option>
+
+          <!-- ... các option khác ... -->
       </select>
 
     <div class="toolbar-item">

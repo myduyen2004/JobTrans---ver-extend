@@ -1569,23 +1569,23 @@
     function applyBackgroundColor(color) {
         const cvSidebar = document.getElementById('cv-sidebar');
         if (cvSidebar) {
-            cvSidebar.style.backgroundColor = color || '#5D7B6F';
+            cvSidebar.style.backgroundColor = color || '#8492a6';
 
             // Đồng thời cập nhật input ẩn để gửi về server
             const colorInput = document.getElementById('backGroundColor');
             if (colorInput) {
-                colorInput.value = color || '#5D7B6F';
+                colorInput.value = color || '#8492a6';
             }
 
             // Cập nhật màu chữ cho phù hợp
-            updateTextColor(color || '#5D7B6F');
+            updateTextColor(color || '#8492a6');
         }
     }
 
     // Hàm cập nhật màu chữ tương phản
     function updateTextColor(bgColor) {
         const sectionTitles = document.querySelectorAll('.section-title');
-        const brightness = calculateBrightness(bgColor || '#5D7B6F');
+        const brightness = calculateBrightness(bgColor || '#8492a6');
         const textColor = brightness > 128 ? '#000000' : '#FFFFFF';
 
         sectionTitles.forEach(title => {
@@ -1604,7 +1604,7 @@
     // Áp dụng màu mặc định #5D7B6F khi tải trang
     document.addEventListener('DOMContentLoaded', function() {
         // Lấy màu từ localStorage nếu có, nếu không thì dùng màu mặc định #5D7B6F
-        const savedColor = localStorage.getItem('cvBackgroundColor') || '#5D7B6F';
+        const savedColor = localStorage.getItem('cvBackgroundColor') || '#8492a6';
         applyBackgroundColor(savedColor);
 
         // Debug - kiểm tra xem màu đã được áp dụng chưa

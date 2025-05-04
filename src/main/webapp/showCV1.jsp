@@ -230,7 +230,8 @@
             font-size: 14px;
             color: #666;
             font-style: italic;
-            margin: 5px 0;
+            margin-top: 20px;
+            margin-left: auto;
         }
 
         .timeline {
@@ -498,7 +499,8 @@
                             <h2>Học vấn</h2>
                             <hr>
                             <c:forEach items="${CV.educationList}" var="o">
-                                <div>
+                                <div style="display: flex">
+
                                     <c:if test="${o.educationId == 1}">
                                         <div class="school">${o.customSchool}</div>
                                     </c:if>
@@ -523,7 +525,7 @@
                             <h2>Kinh nghiệm làm việc</h2>
                             <hr>
                             <c:forEach items="${CV.experienceList}" var="o">
-                                <div>
+                                <div style="display: flex">
                                     <c:if test="${o.experienceId != 1}">
                                         <div class="name_conpany">${CvDAO.getCompanyNameById(o.experienceId)}</div>
                                     </c:if>

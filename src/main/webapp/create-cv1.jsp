@@ -1018,7 +1018,7 @@
         newSkill.classList.add('skill-item');
         newSkill.innerHTML = `
                  <div class="form-group">
-                            <select class="form-control" name="mainSkillId[]" id="mainSkillSelect" required>
+                            <select class="form-control" name="mainSkillId[]" id="mainSkillSelect" >
                                 <option value="">Chọn tiêu đề kỹ năng</option>
                                 <c:forEach items="${CVDAO.allMainSkill}" var="o">
                                     <option value="${o.mainSkillId}">${o.mainSkillName}</option>
@@ -1231,7 +1231,6 @@
                 const startDate = item.querySelector('input[name="companyStartDate[]"]');
                 const endDate = item.querySelector('input[name="companyEndDate[]"]');
                 const position = item.querySelector('input[name="position[]"]');
-
 
 
 
