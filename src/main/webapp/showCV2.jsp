@@ -59,7 +59,7 @@
         /* Sidebar (Left Section) */
         .cv-sidebar {
             width: 250px;
-            background: linear-gradient(135deg, #4a6fa5 0%, #3a5a8a 100%);
+            background:${CV.backroundColor};
 
             padding: 30px 20px;
             height: 250px;

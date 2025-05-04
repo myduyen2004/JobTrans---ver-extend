@@ -63,7 +63,7 @@
         /* Sidebar (Left Section) */
         .cv_header {
             width: 320px;
-            background: #5D7B6F;
+            background: ${CV.backroundColor};
             color: white;
             padding: 40px 25px;
             position: relative;

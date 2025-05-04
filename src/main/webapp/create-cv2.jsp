@@ -148,7 +148,7 @@
 
         .cv-sidebar {
             width: 300px;
-            background: linear-gradient(135deg, #4a6fa5 0%, #3a5a8a 100%);
+            background-color: #4a6fa5;
             color: white;
             padding: 30px 20px;
             height: 270px;
@@ -448,10 +448,11 @@
     <main class="cv-content">
         <form action="cv?action=create" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="typeId" value="${param.typeId}">
+            <input type="hidden" id="backGroundColor" name="backGroundColor" value="#ffffff">
 
             <div class="cv-box">
                 <!-- Left Sidebar (CV Personal Info) -->
-                <div class="cv-sidebar">
+                <div id="cv-sidebar" class="cv-sidebar">
                     <div class="cv-picture-avatar">
                         <img id="avatar-preview" src="https://via.placeholder.com/200" alt="Profile Photo">
                         <label for="avatar_cv" class="upload-label">
@@ -486,7 +487,7 @@
                         <h2 id="skillTitle" class="section-title">Kỹ Năng</h2>
                         <div class="skill-item">
                             <div class="form-group">
-                                <select class="form-control" name="mainSkillId[]" >
+                                <select class="form-control" id="mainSkillSelect" name="mainSkillId[] " >
                                     <option value="">Chọn tiêu đề kỹ năng</option>
                                     <c:forEach items="${CVDAO.allMainSkill}" var="o">
                                         <option value="${o.mainSkillId}">${o.mainSkillName}</option>
@@ -844,7 +845,7 @@
         newSkill.classList.add('skill-item');
         newSkill.innerHTML = `
             <div class="form-group">
-                <select class="form-control" name="mainSkillId[]" required>
+                <select class="form-control" id="mainSkillSelect" name="mainSkillId[]" required>
                     <option value="">Chọn tiêu đề kỹ năng</option>
                     <c:forEach items="${CVDAO.allMainSkill}" var="o">
                         <option value="${o.mainSkillId}">${o.mainSkillName}</option>
@@ -1007,7 +1008,7 @@
     cvForm.addEventListener('submit', function (event) {
         // Reset previous error messages
         clearErrorMessages();
-
+        localStorage.clear();
         // Validate form
         let isValid = true;
 
@@ -1125,125 +1126,7 @@
 
 </script>
 <script>
-    // const instructionContainer = document.getElementById("cvInstructions");
-    // const container = document.getElementById("cvTemplates");
-    //
-    // const templates = {
-    //     careerGoal: `
-    //         <div class="template">
-    //             <h2 class="template-heading">Hướng dẫn viết Mục tiêu nghề nghiệp</h2>
-    //             <div style="padding: 20px; color: #333; line-height: 1.6">
-    //                 <p><strong>Mục tiêu ngắn hạn:</strong> Nêu rõ bạn muốn học hỏi và phát triển kỹ năng gì trong 6 tháng đến 1 năm đầu làm việc.</p>
-    //                 <p><strong>Mục tiêu dài hạn:</strong> Mô tả định hướng sự nghiệp bạn muốn đạt được trong 3-5 năm tới.</p>
-    //                 <p><strong>Lưu ý:</strong> Hãy viết mục tiêu rõ ràng, thực tế và phù hợp với vị trí ứng tuyển.</p>
-    //             </div>
-    //         </div>
-    //     `,
-    //     education: `
-    //         <div class="template">
-    //             <h2 class="template-heading">Hướng dẫn viết Học vấn</h2>
-    //             <div style="padding: 20px; color: #333; line-height: 1.6">
-    //                 <div style="border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; font-family: Arial, sans-serif; color: #333; max-width: 500px;">
-    //                     <h3 style="font-weight: bold; margin-bottom: 10px;">Gợi ý nội dung cho</h3>
-    //                     <div style="background-color: #f5f7fa; padding: 10px 15px; border-radius: 6px; font-weight: bold; margin-bottom: 15px;">Nhân viên kinh doanh</div>
-    //                     <div>
-    //                         <strong>Đại học TopCV</strong><br>
-    //                         Quản trị kinh doanh<br>
-    //                         2014 - 2019<br>
-    //                         Chuyên ngành Quản trị doanh nghiệp
-    //                     </div>
-    //                     <h4 style="margin-top: 20px; font-weight: bold;">Cách viết</h4>
-    //                     <div style="margin-bottom: 10px; font-weight: bold; color: #1d8348;">👍 Cách viết học vấn hay:</div>
-    //                     <ul style="padding-left: 20px; line-height: 1.6;">
-    //                         <li>Chỉ đưa thông tin học vấn từ sau THPT + các khoá học ngắn hạn, chứng chỉ.</li>
-    //                         <li>Ghi rõ tên ngành học, tên trường, thời gian bắt đầu và kết thúc.</li>
-    //                         <li>Có thể bổ sung điểm số nếu cao hoặc liên quan.</li>
-    //                         <li>Thêm học vấn online nếu liên quan công việc ứng tuyển.</li>
-    //                     </ul>
-    //                     <a href="#" style="display: inline-block; margin-top: 10px; background-color: #e8f0fe; color: #1a73e8; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-weight: bold;">
-    //                         📘 Tham khảo hướng dẫn chi tiết
-    //                     </a>
-    //                 </div>
-    //             </div>
-    //         </div>
-    //     `,
-    //     experience: `
-    //         <div class="template">
-    //             <h2 class="template-heading">Hướng dẫn viết Kinh nghiệm làm việc</h2>
-    //             <div style="padding: 20px; color: #333; line-height: 1.6">
-    //                 <div style="border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; font-family: Arial, sans-serif; color: #333; max-width: 600px;">
-    //                     <h3 style="font-weight: bold;">Gợi ý nội dung cho</h3>
-    //                     <div style="background-color: #f5f7fa; padding: 10px 15px; border-radius: 6px; font-weight: bold; margin-bottom: 15px;">Nhân viên kinh doanh</div>
-    //                     <div>
-    //                         <strong>Công ty ABC</strong><br>
-    //                         Vị trí: Nhân viên Kinh doanh<br>
-    //                         06/2020 - 12/2023<br>
-    //                         - Tìm kiếm, tư vấn khách hàng và ký kết hợp đồng dịch vụ.<br>
-    //                         - Đạt doanh số trung bình 120% mục tiêu hàng quý.<br>
-    //                         - Phối hợp phòng Marketing để triển khai chiến dịch khuyến mãi.
-    //                     </div>
-    //                     <h4 style="margin-top: 20px; font-weight: bold;">Cách viết</h4>
-    //                     <div style="margin-bottom: 10px; font-weight: bold; color: #1d8348;">👍 Cách viết kinh nghiệm làm việc hay:</div>
-    //                     <ul style="padding-left: 20px; line-height: 1.6;">
-    //                         <li>Chỉ nên liệt kê những công việc liên quan.</li>
-    //                         <li>Ghi rõ công ty, chức danh, thời gian, mô tả nhiệm vụ.</li>
-    //                         <li>Dùng số liệu để chứng minh kết quả.</li>
-    //                         <li>Ưu tiên viết từ mới nhất đến cũ nhất.</li>
-    //                     </ul>
-    //                     <a href="#" style="display: inline-block; margin-top: 10px; background-color: #e8f0fe; color: #1a73e8; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-weight: bold;">
-    //                         📘 Tham khảo hướng dẫn chi tiết
-    //                     </a>
-    //                 </div>
-    //             </div>
-    //         </div>
-    //     `,
-    //     certificate: `
-    //         <div class="template">
-    //             <h2 class="template-heading">Hướng dẫn viết Chứng chỉ - Giải thưởng</h2>
-    //             <div style="padding: 20px; color: #333; line-height: 1.6">
-    //                 <div style="border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; font-family: Arial, sans-serif; color: #333; max-width: 600px;">
-    //                     <h3 style="font-weight: bold;">Gợi ý nội dung cho</h3>
-    //                     <div style="background-color: #f5f7fa; padding: 10px 15px; border-radius: 6px; font-weight: bold; margin-bottom: 15px;">Nhân viên kinh doanh</div>
-    //                     <div>
-    //                         <strong>Chứng chỉ:</strong><br>
-    //                         - Chứng chỉ Kỹ năng bán hàng chuyên nghiệp (VietED) - 2022<br>
-    //                         - IELTS 6.5 - 2021<br><br>
-    //                         <strong>Giải thưởng:</strong><br>
-    //                         - Nhân viên kinh doanh xuất sắc quý III - Công ty ABC (2023)<br>
-    //                         - Top 5 cá nhân có doanh số cao nhất năm - Công ty XYZ (2022)
-    //                     </div>
-    //                     <h4 style="margin-top: 20px; font-weight: bold;">Cách viết</h4>
-    //                     <div style="margin-bottom: 10px; font-weight: bold; color: #1d8348;">👍 Cách viết chứng chỉ - giải thưởng hay:</div>
-    //                     <ul style="padding-left: 20px; line-height: 1.6;">
-    //                         <li>Chỉ liệt kê chứng chỉ liên quan công việc ứng tuyển.</li>
-    //                         <li>Ghi rõ tên chứng chỉ/giải thưởng, đơn vị cấp và thời gian nhận.</li>
-    //                         <li>Không nên liệt kê quá nhiều nếu không liên quan.</li>
-    //                         <li>Chứng chỉ nên còn hiệu lực hoặc giá trị thực tiễn.</li>
-    //                     </ul>
-    //                     <a href="#" style="display: inline-block; margin-top: 10px; background-color: #e8f0fe; color: #1a73e8; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-weight: bold;">
-    //                         📘 Tham khảo hướng dẫn chi tiết
-    //                     </a>
-    //                 </div>
-    //             </div>
-    //         </div>
-    //     `
-    // };
-    //
-    // function registerClickHandler(id, templateKey) {
-    //     document.getElementById(id).addEventListener("click", function () {
-    //         if (instructionContainer.style.display === "block") {
-    //             instructionContainer.style.display = "none";
-    //             container.innerHTML = templates[templateKey];
-    //             container.style.display = "block";
-    //         }
-    //     });
-    // }
-    //
-    // registerClickHandler("careerGoalTitle", "careerGoal");
-    // registerClickHandler("educationTitle", "education");
-    // registerClickHandler("experienceTitle", "experience");
-    // registerClickHandler("certificateTitle", "certificate");
-    // //////
+
     function showCVInstruction(title, htmlContent) {
         const instructionContainer = document.getElementById("cvInstructions");
         const container = document.getElementById("cvTemplates");
@@ -1433,6 +1316,100 @@
         </div>
     </div>`;
         showCVInstruction("extraInfo", htmlContent);
+    });
+
+
+    window.addEventListener('message', function(event) {
+        if (event.data.type === 'colorChange') {
+            applyBackgroundColor(event.data.color);
+            // Lưu màu vào localStorage để duy trì qua các lần truy cập
+            localStorage.setItem('cvBackgroundColor', event.data.color);
+        }
+    });
+
+    // Áp dụng màu nền cho CV
+    function applyBackgroundColor(color) {
+        const cvSidebar = document.getElementById('cv-sidebar');
+        if (cvSidebar) {
+            cvSidebar.style.backgroundColor = color || '#5D7B6F';
+
+            // Đồng thời cập nhật input ẩn để gửi về server
+            const colorInput = document.getElementById('backGroundColor');
+            if (colorInput) {
+                colorInput.value = color || '#5D7B6F';
+            }
+
+            // Cập nhật màu chữ cho phù hợp
+            updateTextColor(color || '#5D7B6F');
+        }
+    }
+
+    // Hàm cập nhật màu chữ tương phản
+    function updateTextColor(bgColor) {
+        const sectionTitles = document.querySelectorAll('.section-title');
+        const brightness = calculateBrightness(bgColor || '#5D7B6F');
+        const textColor = brightness > 128 ? '#000000' : '#FFFFFF';
+
+        sectionTitles.forEach(title => {
+            title.style.color = textColor;
+        });
+    }
+
+    // Hàm tính độ sáng màu
+    function calculateBrightness(hexColor) {
+        const r = parseInt(hexColor.substr(1, 2), 16);
+        const g = parseInt(hexColor.substr(3, 2), 16);
+        const b = parseInt(hexColor.substr(5, 2), 16);
+        return (r * 299 + g * 587 + b * 114) / 1000;
+    }
+
+    // Áp dụng màu mặc định #5D7B6F khi tải trang
+    document.addEventListener('DOMContentLoaded', function() {
+        // Lấy màu từ localStorage nếu có, nếu không thì dùng màu mặc định #5D7B6F
+        const savedColor = localStorage.getItem('cvBackgroundColor') || '#5D7B6F';
+        applyBackgroundColor(savedColor);
+
+        // Debug - kiểm tra xem màu đã được áp dụng chưa
+        console.log('Applied color:', savedColor);
+    });
+    document.getElementById("mainSkillSelect").addEventListener("change", function () {
+        const selectedMainSkill = this.value;
+        const skillSelect = document.getElementById("skillSelect");
+
+        // Lấy tất cả option (trừ option đầu tiên mặc định)
+        const options = Array.from(skillSelect.querySelectorAll("option[data-mainskill]"));
+        const defaultOption = skillSelect.querySelector("option[value='']");
+
+        // Lọc option theo selected mainSkill
+        const matchedOptions = options.filter(opt => opt.getAttribute("data-mainskill") === selectedMainSkill);
+        const unmatchedOptions = options.filter(opt => opt.getAttribute("data-mainskill") !== selectedMainSkill);
+
+        // Reset select
+        skillSelect.innerHTML = ""; // Xoá tất cả option
+        skillSelect.appendChild(defaultOption); // Thêm lại option mặc định
+
+        // Thêm option khớp trước (hiển thị), sau đó option không khớp (ẩn)
+        matchedOptions.forEach(opt => {
+            opt.style.display = "block";
+            opt.disabled = false;
+            skillSelect.appendChild(opt);
+        });
+
+        // Đảm bảo rằng option có value = "1" luôn được hiển thị
+        unmatchedOptions.forEach(opt => {
+            // Nếu option có value = 1, thì luôn luôn hiển thị
+            if (opt.value === "1") {
+                opt.style.display = "block";
+                opt.disabled = false;
+            } else {
+                opt.style.display = "none";
+                opt.disabled = true;
+            }
+            skillSelect.appendChild(opt);
+        });
+
+        // Reset chọn
+        skillSelect.value = "";
     });
 </script>
 </body>

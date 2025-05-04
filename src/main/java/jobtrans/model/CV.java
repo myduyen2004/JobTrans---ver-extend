@@ -38,12 +38,13 @@ public class CV {
         this.linkCVReview = linkCVReview;
     }
 
-    public CV(int cvId, int accountId, String jobPosition, String summary, Date createdAt) {
+    public CV(int cvId, int accountId, String jobPosition, String summary, Date createdAt, int cvType) {
         this.cvId = cvId;
         this.accountId = accountId;
         this.jobPosition = jobPosition;
         this.summary = summary;
         this.createdAt = createdAt;
+        this.cvType = cvType;
     }
 
     public CV(int cvId, String cvName, int accountId, String jobPosition, String summary, Date createdAt, String cvUpload, String backroundColor, String moreInfo, String sex, Date dateOfBirth, String sdt, String email, String address, String avatarCv, int cvType, List<Skill> skillList, List<Education> educationList, List<Certification> certificationList, List<Experience> experienceList) {

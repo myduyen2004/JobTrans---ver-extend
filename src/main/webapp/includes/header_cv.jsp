@@ -1,6 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="vi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -304,9 +303,29 @@
 
     </div>
     <div class="toolbar-item">
+
       <label>Màu chủ đề:</label>
-      <div class="color-circle" style="background-color: #5A7D6C;"></div>
-    </div>
+
+
+      <select id="mau" onchange="changeCVBackground(this.value)">
+        <!-- Các option màu như của bạn -->
+<%--        <option name="mau" value="blank" class="color-circle" style="" selected disabled></option>--%>
+        <option name="mau" value="#28a745" class="color-circle" style="background-color: #28a745;">🟢</option>
+        <option name="mau"  value="#dc3545" class="color-circle" style="background-color: #dc3545;">🔴</option>
+        <option name="mau"  value="#ffc107" class="color-circle" style="background-color: #ffc107;">🟡</option>
+        <option name="mau"  value="#795548" class="color-circle" style="background-color: #795548;">🟤</option>
+        <option name="mau"  value="#007bff" class="color-circle" style="background-color: #007bff;">🔵</option>
+        <option name="mau"  value="#6f42c1" class="color-circle" style="background-color: #6f42c1;">🟣</option>
+        <option name="mau"  value="#343a40" class="color-circle" style="background-color: #343a40;">⚫</option>
+        <option name="mau"  value="#f8f9fa" class="color-circle" style="background-color: #f8f9fa;">⚪</option>
+        <option name="mau"  value="#fd7e14" class="color-circle" style="background-color: #fd7e14;">🟠</option>
+        <option name="mau"  value="#0d6efd" class="color-circle" style="background-color: #0d6efd;">🔵</option>
+        <option name="mau"  value="#198754" class="color-circle" style="background-color: #198754;">🟢</option>
+        <option name="mau"  value="#ff6f61" class="color-circle" style="background-color: #ff6f61;">🟠</option>
+        <option name="mau"  value="#5D7B6F" class="color-circle" style="background-color: #5D7B6F;">🟢</option>
+        <!-- ... các option khác ... -->
+      </select>
+
     <div class="toolbar-item">
       <label>Font:</label>
       <select>
@@ -333,24 +352,62 @@
       </select>
     </div>
 
-    <%--        <button class="custom-layout">📑 Tùy chỉnh bố cục</button>--%>
-    <%--        <div class="divider"></div>--%>
-    <%--        <button class="undo" title="Hoàn tác">⟲</button>--%>
-    <%--        <button class="redo" title="Làm lại">⟳</button>--%>
-    <%--    </div>--%>
     <div class="right-section">
       <button style="margin-left: 200px" class="preview-btn">👁 Xem trước</button>
     </div>
   </div>
+  </div>
+</div>
 
-  <%--<!-- Giả lập nội dung để hiển thị header -->--%>
-  <%--<div style="height: 800px; padding: 30px; background-color: #f5f5f5; display: flex; justify-content: center;">--%>
-  <%--    <div style="width: 800px; height: 100%; background-color: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">--%>
-  <%--        <div style="padding: 40px; text-align: center; color: #555;">--%>
-  <%--            Khu vực nội dung CV sẽ hiển thị ở đây--%>
-  <%--        </div>--%>
-  <%--    </div>--%>
-  <%--</div>--%>
 
 </body>
 </html>
+<script>
+  function changeCVBackground(color) {
+    // Gửi màu đến trang chứa CV
+    if (window.parent) {
+      window.parent.postMessage({
+        type: 'colorChange',
+        color: color
+      }, '*');
+    }
+
+    // Lưu vào localStorage để duy trì khi refresh
+    localStorage.setItem('cvBackgroundColor', color);
+  }
+</script>
+<script>
+  document.getElementById('mau').addEventListener('change', function() {
+    const selectedColor = this.value;
+    // Lưu màu vào localStorage để có thể sử dụng ở các trang khác
+    localStorage.setItem('cvThemeColor', selectedColor);
+
+    // Gửi event đến parent window (nếu cần)
+    if (window.parent) {
+      window.parent.postMessage({
+        type: 'colorChange',
+        color: selectedColor
+      }, '*');
+    }
+
+    // Cập nhật màu ngay lập tức nếu có thể
+    updateCVColor(selectedColor);
+  });
+
+  function updateCVColor(color) {
+    // Tìm phần tử sidebar của CV và thay đổi màu
+    const cvSidebar = document.querySelector('.cv-sidebar');
+    if (cvSidebar) {
+      cvSidebar.style.backgroundColor = color;
+    }
+  }
+
+  // Kiểm tra nếu có màu đã lưu trong localStorage
+  document.addEventListener('DOMContentLoaded', function() {
+    const savedColor = localStorage.getItem('cvThemeColor');
+    if (savedColor) {
+      document.getElementById('mau').value = savedColor;
+      updateCVColor(savedColor);
+    }
+  });
+</script>

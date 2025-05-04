@@ -503,6 +503,7 @@
                         <input type="text" class="form-control" name="address" value="${CV.address}"
                                placeholder="Địa chỉ">
                     </div>
+                    <input name="color" type="hidden" value="${CV.backroundColor}">
 
                     <div class="skill-section">
                         <h2 id="skillTitle" class="section-title">Kỹ Năng</h2>
@@ -594,6 +595,7 @@
                                 </button>
                             </div>
                         </div>
+
                         <c:forEach items="${CV.educationList}" var="o">
                             <div class="education-item">
                                 <div class="form-group">
@@ -675,6 +677,7 @@
                                     <input value="${o.description}" type="text" class="form-control" name="description[]"
                                            placeholder="Thông tin công việc">
                                 </div>
+
                                 <div class="form-group">
                 <textarea class="form-control" name="work_achievements[]"
                           placeholder="Thành tích">${o.achievement}</textarea>
