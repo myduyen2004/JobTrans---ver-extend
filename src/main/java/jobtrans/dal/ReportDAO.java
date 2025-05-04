@@ -139,4 +139,51 @@ public class ReportDAO {
         }
         return reports;
     }
+
+    public boolean addReport(Report report) {
+        String sql = "INSERT INTO Report (job_id, reported_account, report_by, criteria_id, content_report, attachment, report_time, status, note_by_admin) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setObject(1, report.getJobId()); // can be null
+            ps.setInt(2, report.getReportedAccount());
+            ps.setInt(3, report.getReportBy());
+            ps.setInt(4, report.getCriteriaId());
+            ps.setString(5, report.getContentReport());
+            ps.setString(6, report.getAttachment());
+            ps.setTimestamp(7, report.getReportTime());
+            ps.setString(8, report.getStatus());
+            ps.setString(9, report.getNoteByAdmin());
+
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Or use logging
+            return false;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean updateReport(Report report) {
+        String sql = "UPDATE Report SET status = ?, note_by_admin = ? WHERE report_id = ?";
+
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, report.getStatus());
+            ps.setString(2, report.getNoteByAdmin());
+            ps.setInt(3, report.getReportId());
+
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Or use logging
+            return false;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
