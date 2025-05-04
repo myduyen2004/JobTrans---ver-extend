@@ -601,6 +601,7 @@
                 }
             }
         </style>
+
     </head>
     <%@include file="includes/header-01.jsp"%>
     <body>

@@ -3,17 +3,16 @@ package jobtrans.controller.web.job;
 import jobtrans.dal.AccountDAO;
 import jobtrans.dal.CriteriaDAO;
 import jobtrans.dal.JobDAO;
+import jobtrans.dal.ReportDAO;
 import jobtrans.model.Account;
 import jobtrans.model.Criteria;
 import jobtrans.model.Job;
+import jobtrans.model.Report;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
+import javax.servlet.http.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -44,6 +43,8 @@ public class JobProcessServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Lấy dữ liệu từ form
+        HttpSession session = req.getSession();
+        Account account = (Account) session.getAttribute("sessionAccount");
         String jobId = req.getParameter("jobId");
         String accountId = req.getParameter("accountId");
         String violationType = req.getParameter("violationType");
@@ -51,7 +52,7 @@ public class JobProcessServlet extends HttpServlet {
 
         // Xử lý file upload
         Collection<Part> parts = req.getParts();
-        List<String> savedFiles = new ArrayList<>();
+        String savedFiles = "";
 
         for (Part part : parts) {
             if (part.getName().equals("evidences") && part.getSize() > 0) {
@@ -62,12 +63,18 @@ public class JobProcessServlet extends HttpServlet {
                 String filePath = uploadPath + fileName;
                 part.write(filePath);
 
-                savedFiles.add("uploads/" + fileName);
+                savedFiles = "uploads/"+ fileName;
             }
         }
-
-
-        // TODO: Lưu report vào DB (bao gồm jobId, accountId, violationType, content, savedFiles)
+        Report report = new Report();
+        report.setJobId(Integer.parseInt(jobId));
+        report.setReportBy(account.getAccountId());
+        report.setReportedAccount(Integer.parseInt(accountId));
+        report.setContentReport(content);
+        report.setAttachment(savedFiles);
+        report.setCriteriaId(Integer.parseInt(violationType));
+        ReportDAO reportDAO = new ReportDAO();
+        reportDAO.addReport(report);
 
         resp.sendRedirect("report-success.jsp");
 
