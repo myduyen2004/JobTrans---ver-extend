@@ -4,8 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hợp Đồng Dịch Vụ Freelance - ProLancer</title>
+    <title>JobTrans</title>
     <link rel="stylesheet" href="css/infor-job-contract.css">
+    <jsp:useBean id="jobCategoryDAO" class="jobtrans.dal.JobCategoryDAO" scope="page"/>
+    <jsp:useBean id="tagDAO" class="jobtrans.dal.TagDAO" scope="page"/>
     <style>
         /* Buttons */
         .btn-container {
@@ -55,7 +57,7 @@
         <div class="justify-content-center">
             <main class="container">
                 <div class="contract-header">
-                    <div class="contract-title">Hợp Đồng Dịch Vụ Freelance</div>
+                    <div class="contract-title">Hợp Đồng Dịch Vụ JobTrans</div>
                     <div class="contract-status status-active">Đang thực hiện</div>
                 </div>
 
@@ -80,33 +82,30 @@
 
                 <div class="contract-body">
                     <div class="form-section">
-                        <div class="section-title">Thông tin cơ bản</div>
+                        <div class="section-title">Thông tin công việc cơ bản</div>
                         <div class="info-group">
                             <div class="info-label">Tên dự án</div>
-                            <div class="info-value">Website thương mại điện tử ABC Store</div>
+                            <div class="info-value">${job.jobTitle}</div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-col">
                                 <div class="info-group">
                                     <div class="info-label">Loại dự án</div>
-                                    <div class="info-value">Thiết kế website</div>
+                                    <div class="info-value">${jobCategoryDAO.getCategoryById(job.categoryId)}</div>
                                 </div>
                             </div>
                             <div class="form-col">
                                 <div class="info-group">
                                     <div class="info-label">Danh mục</div>
-                                    <div class="info-value">Thương mại điện tử</div>
+                                    <div class="info-value">${tagDAO.getTagsByJobId(job.jobId)}</div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="info-group">
                             <div class="info-label">Mô tả dự án</div>
-                            <div class="info-value">Xây dựng website thương mại điện tử bán hàng trực tuyến với đầy đủ
-                                tính năng: danh mục sản phẩm, giỏ hàng, thanh toán trực tuyến, quản lý đơn hàng, tích
-                                hợp các cổng thanh toán và vận chuyển phổ biến tại Việt Nam. Website cần thiết kế
-                                responsive, tối ưu SEO và tích hợp các công cụ phân tích.
+                            <div class="info-value">${job.jobDescription}
                             </div>
                         </div>
                     </div>
@@ -117,13 +116,13 @@
                             <div class="form-col">
                                 <div class="info-group">
                                     <div class="info-label">Tên công ty</div>
-                                    <div class="info-value">Công ty TNHH Thương mại ABC</div>
+                                    <div class="info-value">${poster.accountName}</div>
                                 </div>
                             </div>
                             <div class="form-col">
                                 <div class="info-group">
-                                    <div class="info-label">Người đại diện</div>
-                                    <div class="info-value">Nguyễn Văn A</div>
+                                    <div class="info-label">Địa chỉ</div>
+                                    <div class="info-value">${poster.address}</div>
                                 </div>
                             </div>
                         </div>
@@ -131,19 +130,15 @@
                             <div class="form-col">
                                 <div class="info-group">
                                     <div class="info-label">Email</div>
-                                    <div class="info-value">contact@abcstore.vn</div>
+                                    <div class="info-value">${poster.email}</div>
                                 </div>
                             </div>
                             <div class="form-col">
                                 <div class="info-group">
                                     <div class="info-label">Số điện thoại</div>
-                                    <div class="info-value">0912 345 678</div>
+                                    <div class="info-value">${poster.phone}</div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="info-group">
-                            <div class="info-label">Địa chỉ</div>
-                            <div class="info-value">123 Đường Lê Lợi, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh</div>
                         </div>
                     </div>
 
@@ -153,13 +148,13 @@
                             <div class="form-col">
                                 <div class="info-group">
                                     <div class="info-label">Tên công ty</div>
-                                    <div class="info-value">Công ty TNHH Thương mại ABC</div>
+                                    <div class="info-value">${jobSeeker.accountName}</div>
                                 </div>
                             </div>
                             <div class="form-col">
                                 <div class="info-group">
-                                    <div class="info-label">Người đại diện</div>
-                                    <div class="info-value">Nguyễn Văn A</div>
+                                    <div class="info-label">Địa chỉ</div>
+                                    <div class="info-value">${jobSeeker.address}</div>
                                 </div>
                             </div>
                         </div>
@@ -167,19 +162,15 @@
                             <div class="form-col">
                                 <div class="info-group">
                                     <div class="info-label">Email</div>
-                                    <div class="info-value">contact@abcstore.vn</div>
+                                    <div class="info-value">${jobSeeker.email}</div>
                                 </div>
                             </div>
                             <div class="form-col">
                                 <div class="info-group">
                                     <div class="info-label">Số điện thoại</div>
-                                    <div class="info-value">0912 345 678</div>
+                                    <div class="info-value">${jobSeeker.phone}</div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="info-group">
-                            <div class="info-label">Địa chỉ</div>
-                            <div class="info-value">123 Đường Lê Lợi, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh</div>
                         </div>
                     </div>
 
@@ -189,13 +180,13 @@
                             <div class="form-col">
                                 <div class="info-group">
                                     <div class="info-label">Tên công ty</div>
-                                    <div class="info-value">Công ty TNHH Thương mại ABC</div>
+                                    <div class="info-value">Công ty TNHH JobTrans</div>
                                 </div>
                             </div>
                             <div class="form-col">
                                 <div class="info-group">
                                     <div class="info-label">Người đại diện</div>
-                                    <div class="info-value">Nguyễn Văn A</div>
+                                    <div class="info-value">Võ Thị Mỹ Duyên</div>
                                 </div>
                             </div>
                         </div>
@@ -203,41 +194,41 @@
                             <div class="form-col">
                                 <div class="info-group">
                                     <div class="info-label">Email</div>
-                                    <div class="info-value">contact@abcstore.vn</div>
+                                    <div class="info-value">jobtranship@gmail.com</div>
                                 </div>
                             </div>
                             <div class="form-col">
                                 <div class="info-group">
                                     <div class="info-label">Số điện thoại</div>
-                                    <div class="info-value">0912 345 678</div>
+                                    <div class="info-value">0900000000</div>
                                 </div>
                             </div>
                         </div>
                         <div class="info-group">
                             <div class="info-label">Địa chỉ</div>
-                            <div class="info-value">123 Đường Lê Lợi, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh</div>
+                            <div class="info-value">Khu đô thị FPT City, Quận Ngũ Hành Sơn, TP. Đà Nẵng</div>
                         </div>
                     </div>
 
-<%--                    <div class="form-section">--%>
-<%--                        <div class="section-title">Yêu cầu kỹ năng</div>--%>
-<%--                        <div class="info-group">--%>
-<%--                            <div class="info-label">Kỹ năng yêu cầu</div>--%>
-<%--                            <div class="skill-tags">--%>
-<%--                                <div class="skill-tag">HTML/CSS</div>--%>
-<%--                                <div class="skill-tag">JavaScript</div>--%>
-<%--                                <div class="skill-tag">Responsive Design</div>--%>
-<%--                                <div class="skill-tag">PHP</div>--%>
-<%--                                <div class="skill-tag">MySQL</div>--%>
-<%--                                <div class="skill-tag">WordPress/WooCommerce</div>--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
+                    <%--                    <div class="form-section">--%>
+                    <%--                        <div class="section-title">Yêu cầu kỹ năng</div>--%>
+                    <%--                        <div class="info-group">--%>
+                    <%--                            <div class="info-label">Kỹ năng yêu cầu</div>--%>
+                    <%--                            <div class="skill-tags">--%>
+                    <%--                                <div class="skill-tag">HTML/CSS</div>--%>
+                    <%--                                <div class="skill-tag">JavaScript</div>--%>
+                    <%--                                <div class="skill-tag">Responsive Design</div>--%>
+                    <%--                                <div class="skill-tag">PHP</div>--%>
+                    <%--                                <div class="skill-tag">MySQL</div>--%>
+                    <%--                                <div class="skill-tag">WordPress/WooCommerce</div>--%>
+                    <%--                            </div>--%>
+                    <%--                        </div>--%>
 
-<%--                        <div class="info-group">--%>
-<%--                            <div class="info-label">Mức độ kinh nghiệm</div>--%>
-<%--                            <div class="info-value">Cao cấp (3-5 năm)</div>--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
+                    <%--                        <div class="info-group">--%>
+                    <%--                            <div class="info-label">Mức độ kinh nghiệm</div>--%>
+                    <%--                            <div class="info-value">Cao cấp (3-5 năm)</div>--%>
+                    <%--                        </div>--%>
+                    <%--                    </div>--%>
 
                     <div class="form-section">
                         <div class="section-title">Thời gian và ngân sách</div>
@@ -246,13 +237,13 @@
                             <div class="form-col">
                                 <div class="info-group">
                                     <div class="info-label">Ngày bắt đầu dự kiến</div>
-                                    <div class="info-value">01/04/2025</div>
+                                    <div class="info-value">${joinDateFormatted}</div>
                                 </div>
                             </div>
                             <div class="form-col">
                                 <div class="info-group">
                                     <div class="info-label">Ngày kết thúc dự kiến</div>
-                                    <div class="info-value">30/06/2025</div>
+                                    <div class="info-value">${joinDateFormatted}</div>
                                 </div>
                             </div>
                         </div>
@@ -261,7 +252,7 @@
                             <div class="form-col">
                                 <div class="info-group">
                                     <div class="info-label">Ngân sách</div>
-                                    <div class="info-value">45,000,000 VNĐ</div>
+                                    <div class="info-value">${budgetRange}</div>
                                 </div>
                             </div>
                             <div class="form-col">
@@ -277,26 +268,26 @@
                             <div class="milestone-list">
                                 <div class="milestone-item">
                                     <div class="milestone-header">
-                                        <div class="milestone-name">Đặt cọc</div>
+                                        <div class="milestone-name">Đặt cọc dự kiến (10%)</div>
                                         <div class="milestone-amount">15,000,000 VNĐ</div>
                                     </div>
                                     <div class="milestone-description">Thanh toán trước khi bắt đầu dự án</div>
                                     <div class="milestone-status pending">Đang thực hiện</div>
                                 </div>
 
-<%--================================Phần EXTEND==================================--%>
-<%--                                <div class="milestone-item">--%>
-<%--                                    <div class="milestone-header">--%>
-<%--                                        <div class="milestone-name">Bàn giao giao diện</div>--%>
-<%--                                        <div class="milestone-amount">15,000,000 VNĐ</div>--%>
-<%--                                    </div>--%>
-<%--                                    <div class="milestone-description">Sau khi hoàn thành và duyệt giao diện</div>--%>
-<%--                                    <div class="milestone-status completed">Đã hoàn thành</div>--%>
-<%--                                </div>--%>
+                                <%--================================Để sau các kì sau mở rộng thêm cho dự án==================================--%>
+                                <%--                                <div class="milestone-item">--%>
+                                <%--                                    <div class="milestone-header">--%>
+                                <%--                                        <div class="milestone-name">Bàn giao giao diện</div>--%>
+                                <%--                                        <div class="milestone-amount">15,000,000 VNĐ</div>--%>
+                                <%--                                    </div>--%>
+                                <%--                                    <div class="milestone-description">Sau khi hoàn thành và duyệt giao diện</div>--%>
+                                <%--                                    <div class="milestone-status completed">Đã hoàn thành</div>--%>
+                                <%--                                </div>--%>
 
                                 <div class="milestone-item">
                                     <div class="milestone-header">
-                                        <div class="milestone-name">Bàn giao hoàn thiện</div>
+                                        <div class="milestone-name">Bàn giao hoàn thiện dự kiến (90%)</div>
                                         <div class="milestone-amount">15,000,000 VNĐ</div>
                                     </div>
                                     <div class="milestone-description">Sau khi hoàn thành toàn bộ chức năng và test</div>
@@ -313,51 +304,54 @@
                             <div class="uploaded-files">
                                 <div class="file-item">
                                     <i class="fas fa-file-pdf"></i>
-                                    <span class="file-name">mau-thiet-ke-website.pdf</span>
+                                    <span class="file-name">${job.attachment}</span>
                                     <span class="download-file"><i class="fas fa-download"></i></span>
                                 </div>
-                                <div class="file-item">
-                                    <i class="fas fa-file-word"></i>
-                                    <span class="file-name">yeu-cau-chi-tiet.docx</span>
-                                    <span class="download-file"><i class="fas fa-download"></i></span>
-                                </div>
+
+                                <%--                                <div class="file-item">--%>
+                                <%--                                    <i class="fas fa-file-word"></i>--%>
+                                <%--                                    <span class="file-name">yeu-cau-chi-tiet.docx</span>--%>
+                                <%--                                    <span class="download-file"><i class="fas fa-download"></i></span>--%>
+                                <%--                                </div>--%>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-section">
-                        <div class="section-title">Điều khoản bổ sung</div>
-                        <div class="info-group">
-                            <div class="info-label">Các điều khoản khác</div>
-                            <div class="info-value">Freelancer đồng ý cung cấp dịch vụ hỗ trợ kỹ thuật trong thời gian 3
-                                tháng sau khi bàn giao sản phẩm. Mọi thay đổi về yêu cầu trong quá trình thực hiện cần
-                                được thảo luận và đồng thuận từ cả hai bên. Freelancer có trách nhiệm đào tạo cơ bản cho
-                                nhân viên của khách hàng về cách sử dụng và quản trị website.
-                            </div>
-                        </div>
-                        <div class="info-group">
-                            <div class="info-label">Thỏa thuận bảo mật</div>
-                            <div class="info-value"><i class="fas fa-check-circle"></i> Dự án này yêu cầu ký
-                                thỏa thuận bảo mật (NDA)
-                            </div>
-                        </div>
-                    </div>
+                    <%--================================Để sau các kì sau mở rộng thêm cho dự án==================================--%>
+                    <%--                    <div class="form-section">--%>
+                    <%--                        <div class="section-title">Điều khoản bổ sung</div>--%>
+                    <%--                        <div class="info-group">--%>
+                    <%--                            <div class="info-label">Các điều khoản khác</div>--%>
+                    <%--                            <div class="info-value">Freelancer đồng ý cung cấp dịch vụ hỗ trợ kỹ thuật trong thời gian 3--%>
+                    <%--                                tháng sau khi bàn giao sản phẩm. Mọi thay đổi về yêu cầu trong quá trình thực hiện cần--%>
+                    <%--                                được thảo luận và đồng thuận từ cả hai bên. Freelancer có trách nhiệm đào tạo cơ bản cho--%>
+                    <%--                                nhân viên của khách hàng về cách sử dụng và quản trị website.--%>
+                    <%--                            </div>--%>
+                    <%--                        </div>--%>
+                    <%--                        <div class="info-group">--%>
+                    <%--                            <div class="info-label">Thỏa thuận bảo mật</div>--%>
+                    <%--                            <div class="info-value"><i class="fas fa-check-circle"></i> Dự án này yêu cầu ký--%>
+                    <%--                                thỏa thuận bảo mật (NDA)--%>
+                    <%--                            </div>--%>
+                    <%--                        </div>--%>
+                    <%--                    </div>--%>
 
-                    <div class="form-section">
-                        <div class="section-title">Trạng thái dự án</div>
-                        <div class="info-group">
-                            <div class="project-status">
-                                <div class="status-bar">
-                                    <div class="status-progress" style="width: 40%;"></div>
-                                </div>
-                                <div class="status-text">Đang thực hiện (40% hoàn thành)</div>
-                            </div>
-                        </div>
-                    </div>
+                    <%--================================Để sau các kì sau mở rộng thêm cho dự án==================================--%>
+                    <%--                    <div class="form-section">--%>
+                    <%--                        <div class="section-title">Trạng thái dự án</div>--%>
+                    <%--                        <div class="info-group">--%>
+                    <%--                            <div class="project-status">--%>
+                    <%--                                <div class="status-bar">--%>
+                    <%--                                    <div class="status-progress" style="width: 40%;"></div>--%>
+                    <%--                                </div>--%>
+                    <%--                                <div class="status-text">Đang thực hiện (40% hoàn thành)</div>--%>
+                    <%--                            </div>--%>
+                    <%--                        </div>--%>
+                    <%--                    </div>--%>
 
                     <div class="btn-container">
                         <button type="button" class="btn-a btn-outline">Trở lại</button>
-                        <button type="button" class="btn-a">Cập nhật Điều khoản thỏa thuận</button>
+                        <a href="contract?action=show-form-terms-of-agreement&greetingId=${jobGreeting.greetingId}" type="button" class="btn-a" style="text-decoration: none">Cập nhật Điều khoản thỏa thuận</a>
                     </div>
                 </div>
             </main>
