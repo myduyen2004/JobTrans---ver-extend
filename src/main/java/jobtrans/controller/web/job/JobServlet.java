@@ -361,11 +361,6 @@ public class JobServlet extends HttpServlet {
         HttpSession session = request.getSession();
         try {
             Account account = (Account) session.getAttribute("sessionAccount");
-            if (account == null) {
-                response.sendRedirect("login.jsp");
-                return;
-            }
-
             jobId = Integer.parseInt(jobIdStr);
             JobDAO jobDAO = new JobDAO();
             Job job = jobDAO.getJobById(jobId);
@@ -486,6 +481,12 @@ public class JobServlet extends HttpServlet {
 //                        request.getRequestDispatcher("job-post-detail-employee.jsp").forward(request, response);
 //                    }
 //                } else {
+                Test test = jobDAO.getTestByJobId(jobId);
+                request.setAttribute("test", test);
+                request.setAttribute("postAcc", accountDAO.getAccountById(job.getPostAccountId()));
+                request.setAttribute("tagList", tagList);
+//                request.setAttribute("job", job);
+                request.setAttribute("greetings", greetings);
                 request.getRequestDispatcher("job-post-detail-employee.jsp").forward(request, response);
 //                }
             } else {

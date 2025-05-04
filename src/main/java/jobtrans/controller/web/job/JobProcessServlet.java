@@ -1,13 +1,7 @@
 package jobtrans.controller.web.job;
 
-import jobtrans.dal.AccountDAO;
-import jobtrans.dal.CriteriaDAO;
-import jobtrans.dal.JobDAO;
-import jobtrans.dal.ReportDAO;
-import jobtrans.model.Account;
-import jobtrans.model.Criteria;
-import jobtrans.model.Job;
-import jobtrans.model.Report;
+import jobtrans.dal.*;
+import jobtrans.model.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -15,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -43,6 +38,9 @@ public class JobProcessServlet extends HttpServlet {
                 break;
             case "view-report-list-job":
                 viewListReport(req,resp);
+                break;
+            case "confirm-complete":
+                confirmComplete(req,resp);
                 break;
         }
     }
@@ -132,4 +130,27 @@ public class JobProcessServlet extends HttpServlet {
         req.setAttribute("reportList", reportList);
         req.getRequestDispatcher("/reports-of-job.jsp").forward(req, resp);
     }
+    private void confirmComplete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String jobId = req.getParameter("jobId");
+        JobDAO jobDAO = new JobDAO();
+        Job job = jobDAO.getJobById(Integer.parseInt(jobId));
+        ContractDAO contractDAO = new ContractDAO();
+        List<Contract> contract = contractDAO.getContractsByJobId(job.getJobId());
+        req.setAttribute("contractList", contract);
+        req.setAttribute("job", job);
+        req.getRequestDispatcher("payment-job-complete.jsp").forward(req, resp);
+    }
+
+    private void completePayment(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String jobIdParam = req.getParameter("jobId");
+        int jobId = Integer.parseInt(jobIdParam);
+        String contractIdParam = req.getParameter("contractId");
+        int contractId = Integer.parseInt(contractIdParam);
+        JobDAO jobDAO = new JobDAO();
+        Job job = jobDAO.getJobById(jobId);
+        ContractDAO contractDAO = new ContractDAO();
+        Contract contract = contractDAO.getContractById(contractId);
+
+    }
+
 }

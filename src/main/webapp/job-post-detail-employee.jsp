@@ -175,24 +175,24 @@
                 </div>
             </div>
 
-            <c:if test="${job.postAccountId != loggedAccountId}">
+            <c:if test="${job.postAccountId != sessionScope.sessionAccount.accountId}">
                 <div class="card">
                     <div>
-<%--                        <c:if test="${not empty job.dueDatePost and job.dueDatePost.time gt now.time}">--%>
-                            <c:if test="${jobDAO.getJobGreetingByJobSeekerIdAndJobId(loggedAccountId,job.jobId) == null}">
-                                <a href="job-greeting?action=show-send-application&jobId=${job.jobId}" class="btn1 btn-gradient"
-                                   style="color: white;">
-                                    <i class="bi bi-send me-2"></i>Gửi chào giá
-                                </a>
-                            </c:if>
+                            <%--                        <c:if test="${not empty job.dueDatePost and job.dueDatePost.time gt now.time}">--%>
+                        <c:if test="${jobDAO.getJobGreetingByJobSeekerIdAndJobId(sessionScope.sessionAccount.accountId,job.jobId) == null}">
+                            <a href="job-greeting?action=show-send-application&jobId=${job.jobId}" class="btn1 btn-gradient"
+                               style="color: white;">
+                                <i class="bi bi-send me-2"></i>Gửi chào giá
+                            </a>
+                        </c:if>
 
-                            <c:if test="${jobDAO.getJobGreetingByJobSeekerIdAndJobId(loggedAccountId,job.jobId) != null}">
-                                <a href="job-greeting?action=view-details-greeting&greetingId=${jobDAO.getJobGreetingByJobSeekerIdAndJobId(loggedAccountId,job.jobId).greetingId}" class="btn1 btn-gradient"
-                                   style="color: white;">
-                                    <i class="bi bi-send me-2"></i>Xem chào giá của tôi
-                                </a>
-                            </c:if>
-<%--                        </c:if>--%>
+                        <c:if test="${jobDAO.getJobGreetingByJobSeekerIdAndJobId(sessionScope.sessionAccount.accountId,job.jobId) != null}">
+                            <a href="job-greeting?action=view-details-greeting&greetingId=${jobDAO.getJobGreetingByJobSeekerIdAndJobId(sessionScope.sessionAccount.accountId,job.jobId).greetingId}" class="btn1 btn-gradient"
+                               style="color: white;">
+                                <i class="bi bi-send me-2"></i>Xem chào giá của tôi
+                            </a>
+                        </c:if>
+                            <%--                        </c:if>--%>
 
                         <a class="btn1 btn-outline-secondary">
                             <i class="bi bi-bookmark me-2"></i>Lưu công việc
@@ -205,7 +205,7 @@
             </c:if>
 
             <%--                side bar postUser--%>
-            <c:if test="${job.postAccountId == loggedAccountId}">
+            <c:if test="${job.postAccountId == sessionScope.sessionAccount.accountId}">
                 <div class="card">
                     <!-- Lấy ngày hiện tại -->
                     <div>
@@ -278,7 +278,7 @@
     <div class="card">
         <div style="display: flex; align-items: center; justify-content: space-between;">
             <h2>Danh sách ứng viên (${jobDAO.getNumOfJobGreetingByJobId(job.jobId)})</h2>
-            <c:if test="${job.postAccountId == loggedAccountId}">
+            <c:if test="${job.postAccountId == sessionScope.sessionAccount.accountId}">
                 <span>
                     <a href="job?action=view-candidates-list&jobId=${job.jobId}" class="btn1 btn-gradient" style="color: white;">
                         Danh sách ứng viên >>
@@ -300,7 +300,7 @@
                                 <span class="meta-icon"><i class="fas fa-calendar-alt"></i>${greeting.expectedDay} ngày</span>
                             </div>
                         </div>
-                        <c:if test="${job.postAccountId == loggedAccountId}">
+                        <c:if test="${job.postAccountId == sessionScope.sessionAccount.accountId}">
                             <c:if test="${greeting.status == 'Chờ xét duyệt'}">
                                 <div class="status-badge status-pending">${greeting.status}</div>
                             </c:if>

@@ -100,7 +100,7 @@
                     </div>
                     <div class="applicant-info">
                         <div class="applicant-name">
-                            Nguyễn Văn A
+                                ${accountDAO.getAccountById(greeting.jobSeekerId).accountName}
                             <i class="fas fa-check-circle verified-badge" title="Đã xác thực"></i>
                         </div>
                         <div class="applicant-meta">
