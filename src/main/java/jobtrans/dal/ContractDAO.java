@@ -263,7 +263,9 @@ public class ContractDAO {
 
     public List<Contract> getContractListByJobIdWasSuccess(int jobId) throws Exception {
         List<Contract> contractList = new ArrayList<>();
-        String sql = "SELECT * FROM Contract WHERE job_id = ? AND status LIKE N'Kí kết thành công%'";
+        String sql = "SELECT * FROM Contract \n" +
+                "WHERE job_id = ? \n" +
+                "  AND (status LIKE N'Kí kết thành công%' OR status LIKE N'Hoàn tất thanh lí%')\n";
 
         try (Connection conn = DBConnection.openConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -281,5 +283,31 @@ public class ContractDAO {
         }
 
         return contractList;
+    }
+    public List<Contract> getContractListByJobId(int jobId) throws Exception {
+        List<Contract> contractList = new ArrayList<>();
+        String sql = "SELECT * FROM Contract WHERE job_id = ?";
+
+        try (Connection conn = DBConnection.openConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, jobId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    contractList.add(mapResultSetToContract(rs));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+
+        return contractList;
+    }
+
+    public static void main(String[] args) {
+        ContractDAO contractDAO = new ContractDAO();
+        System.out.println(contractDAO.getContractListByJobIdWasSuccess(2));
     }
 }

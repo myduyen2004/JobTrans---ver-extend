@@ -1,5 +1,6 @@
 package jobtrans.dal;
 
+import jobtrans.model.Job;
 import jobtrans.model.Transaction;
 import jobtrans.utils.DBConnection;
 
@@ -307,7 +308,17 @@ public class TransactionDAO {
     public static void main(String[] args) throws Exception {
         // 2. Tạo một đối tượng TransactionDAO
         TransactionDAO transactionDAO = new TransactionDAO();
-
+        Transaction transaction1 = new Transaction();
+        transaction1.setSenderId(3);
+        transaction1.setReceiverId(1);
+        JobDAO jobDAO = new JobDAO();
+        Job job = jobDAO.getJobById(1);
+        transaction1.setJob(job);
+        transaction1.setAmount(new BigDecimal(3000));
+        transaction1.setDescription("Thanh toán hợp đồng");
+        transaction1.setTransactionType("Trừ tiền");
+        transaction1.setStatus(true);
+        transactionDAO.addTransaction(transaction1);
         System.out.println( transactionDAO.getTransactionsByDefaultFilter());
 
 

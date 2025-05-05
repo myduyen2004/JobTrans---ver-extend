@@ -26,24 +26,24 @@ public class JobProcessServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
-        switch(action) {
+        switch (action) {
             case "process-tool":
                 processTool(req, resp);
                 break;
             case "view-report-form":
-                reportForm(req,resp);
+                reportForm(req, resp);
                 break;
             case "view-report":
-                viewReport(req,resp);
+                viewReport(req, resp);
                 break;
             case "view-report-list-job":
-                viewListReport(req,resp);
+                viewListReport(req, resp);
                 break;
             case "confirm-complete":
-                confirmComplete(req,resp);
+                confirmComplete(req, resp);
                 break;
             case "handle-completion":
-                handleCompletion(req,resp);
+                handleCompletion(req, resp);
                 break;
 
         }
@@ -74,7 +74,7 @@ public class JobProcessServlet extends HttpServlet {
                 String filePath = uploadPath + fileName;
                 part.write(filePath);
 
-                savedFiles = "uploads/"+ fileName;
+                savedFiles = "uploads/" + fileName;
             }
         }
         Report report = new Report();
@@ -91,6 +91,7 @@ public class JobProcessServlet extends HttpServlet {
         req.setAttribute("report", report);
         req.getRequestDispatcher("/view-report-detail.jsp").forward(req, resp);
     }
+
     private void processTool(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String jobId = req.getParameter("jobId");
         JobDAO jobDAO = new JobDAO();
@@ -98,6 +99,7 @@ public class JobProcessServlet extends HttpServlet {
         req.setAttribute("job", job);
         req.getRequestDispatcher("/job-manage-tool.jsp").forward(req, resp);
     }
+
     private void reportForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String jobId = req.getParameter("jobId");
         String accountId = req.getParameter("accountId");
@@ -118,6 +120,7 @@ public class JobProcessServlet extends HttpServlet {
         req.setAttribute("criteriaList", criteriaList);
         req.getRequestDispatcher("report-form.jsp").forward(req, resp);
     }
+
     private void viewReport(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String reportId = req.getParameter("reportId");
         ReportDAO reportDAO = new ReportDAO();
@@ -125,6 +128,7 @@ public class JobProcessServlet extends HttpServlet {
         req.setAttribute("report", report);
         req.getRequestDispatcher("/view-report-detail.jsp").forward(req, resp);
     }
+
     private void viewListReport(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String jobIdParam = req.getParameter("jobId");
         int jobId = Integer.parseInt(jobIdParam);
@@ -134,6 +138,7 @@ public class JobProcessServlet extends HttpServlet {
         req.setAttribute("reportList", reportList);
         req.getRequestDispatcher("/reports-of-job.jsp").forward(req, resp);
     }
+
     private void confirmComplete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String jobId = req.getParameter("jobId");
         JobDAO jobDAO = new JobDAO();
@@ -150,7 +155,7 @@ public class JobProcessServlet extends HttpServlet {
         req.getRequestDispatcher("payment-job-complete.jsp").forward(req, resp);
     }
 
-//    private void completePayment(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    //    private void completePayment(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //        String jobIdParam = req.getParameter("jobId");
 //        int jobId = Integer.parseInt(jobIdParam);
 //        String contractIdParam = req.getParameter("contractId");
@@ -162,6 +167,10 @@ public class JobProcessServlet extends HttpServlet {
 //
 //    }
     private void handleCompletion(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8"); // Đọc request bằng UTF-8
+        resp.setContentType("text/html; charset=UTF-8"); // Gửi response dưới dạng HTML với UTF-8
+        resp.setCharacterEncoding("UTF-8"); // Set encoding cho response writer
+
         HttpSession session = req.getSession();
         Account account = (Account) session.getAttribute("sessionAccount");
         String jobId = req.getParameter("jobId");
@@ -171,20 +180,23 @@ public class JobProcessServlet extends HttpServlet {
         BigDecimal percentSystem = new BigDecimal("0.03");
         BigDecimal percent = new BigDecimal("0.97");
         BigDecimal paymentAmount = new BigDecimal(paymentAmountStr);
-
+        resp.getWriter().print(account);
         // Lấy thông tin hợp đồng hiện tại
         ContractDAO contractDAO = new ContractDAO();
         Contract contract = contractDAO.getContractById(contractId);
         AccountDAO accountDAO = new AccountDAO();
         Account acountRecieve = accountDAO.getAccountById(contract.getApplicantId());
+        resp.getWriter().print(acountRecieve);
         Account admin = accountDAO.getAdmin();
         JobDAO jobDAO = new JobDAO();
         Job job = jobDAO.getJobById(Integer.parseInt(jobId));
         TransactionDAO transactionDAO = new TransactionDAO();
-        Transaction transaction = null;
+        Transaction transaction = new Transaction();
+        Transaction transaction1= new Transaction();
+        Transaction transaction2= new Transaction();
         if (account.getAmountWallet().compareTo(paymentAmount) < 0) {
             req.getRequestDispatcher("profile?action=wallet").forward(req, resp);
-        }else{
+        } else {
             account.setAmountWallet(account.getAmountWallet().subtract(paymentAmount));
             accountDAO.updateAccountById(account);
             acountRecieve.setAmountWallet(acountRecieve.getAmountWallet().add(paymentAmount.multiply(percent)));
@@ -192,35 +204,44 @@ public class JobProcessServlet extends HttpServlet {
             admin.setAmountWallet(admin.getAmountWallet().add(paymentAmount.multiply(percentSystem)));
             accountDAO.updateAccountById(admin);
             //Của người trả
-            transaction.setSenderId(account.getAccountId());
-            transaction.setReceiverId(contract.getApplicantId());
-            transaction.setJob(job);
-            transaction.setAmount(paymentAmount);
-            transaction.setDescription("Thanh toán hợp đồng");
-            transaction.setTransactionType("Trừ tiền");
-            transactionDAO.addTransaction(transaction);
+            transaction1.setSenderId(account.getAccountId());
+            transaction1.setReceiverId(contract.getApplicantId());
+            transaction1.setJob(job);
+            transaction1.setAmount(paymentAmount);
+            transaction1.setDescription("Thanh toán hợp đồng");
+            transaction1.setTransactionType("Trừ tiền");
+            transaction1.setStatus(true);
+            transactionDAO.addTransaction(transaction1);
+            resp.getWriter().print(transaction1);
+
             //Của người nhận
-            transaction.setSenderId(account.getAccountId());
-            transaction.setReceiverId(contract.getApplicantId());
-            transaction.setJob(job);
-            transaction.setAmount(paymentAmount);
-            transaction.setDescription("Thanh toán hợp đồng");
-            transaction.setTransactionType("Thêm tiền");
-            transactionDAO.addTransaction(transaction);
+            transaction2.setSenderId(account.getAccountId());
+            transaction2.setReceiverId(contract.getApplicantId());
+            transaction2.setJob(job);
+            transaction2.setAmount(paymentAmount.multiply(percent).add(contract.getJobDepositB()));
+            transaction2.setDescription("Thanh toán hợp đồng");
+            transaction2.setTransactionType("Thêm tiền");
+            transaction2.setStatus(true);
+            transactionDAO.addTransaction(transaction2);
             //
             //Của admin
             transaction.setSenderId(account.getAccountId());
             transaction.setReceiverId(admin.getAccountId());
             transaction.setJob(job);
-            transaction.setAmount(paymentAmount);
+            transaction.setAmount(paymentAmount.multiply(percentSystem));
             transaction.setDescription("Hoa hồng từ công việc hoàn thành");
             transaction.setTransactionType("Thêm tiền");
+            transaction.setStatus(true);
             transactionDAO.addTransaction(transaction);
             //
-            job.setSecureWallet(job.getSecureWallet()-paymentAmount.intValue());
+            job.setSecureWallet(job.getSecureWallet() - paymentAmount.intValue());
             job.setStatusJobId(5);
-            jobDAO.updateJobByJobId(job);
-        }
-    }
+            jobDAO.updateJobById(job);
 
+            contractDAO.updateContractStatus(contractId,"Hoàn tất thanh lí");
+
+        }
+        req.getRequestDispatcher("profile?action=wallet").forward(req, resp);
+
+    }
 }

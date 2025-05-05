@@ -836,7 +836,7 @@ public class JobDAO {
 
     public static void main(String[] args) throws Exception {
         JobDAO jobDAO = new JobDAO();
-        System.out.println(jobDAO.get3LatestJobs());
+        System.out.println(jobDAO.addToSecureWallet(1, new BigDecimal(300)));
 
     }
     public BigDecimal getJobFeeByJobIdAndApplicantId(int jobId, int applicantId) {
@@ -929,6 +929,42 @@ public class JobDAO {
             throw new RuntimeException(e);
         }
     }
+    public boolean updateJobById(Job job) {
+        String sql = "UPDATE Job SET " +
+                "post_account_id = ?, job_title = ?, post_date = ?, job_description = ?, requirements = ?, benefit = ?, " +
+                "attachment = ?, category_id = ?, budget_max = ?, budget_min = ?, due_date_post = ?, due_date_job = ?, " +
+                "have_interviewed = ?, have_tested = ?, num_of_member = ?, secure_wallet = ?, status_post = ?, status_job_id = ? " +
+                "WHERE job_id = ?";
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, job.getPostAccountId());
+            ps.setString(2, job.getJobTitle());
+            ps.setTimestamp(3, job.getPostDate());
+            ps.setString(4, job.getJobDescription());
+            ps.setString(5, job.getRequirements());
+            ps.setString(6, job.getBenefit());
+            ps.setString(7, job.getAttachment());
+            ps.setInt(8, job.getCategoryId());
+            ps.setBigDecimal(9, job.getBudgetMax());
+            ps.setBigDecimal(10, job.getBudgetMin());
+            ps.setDate(11, job.getDueDatePost());
+            ps.setDate(12, job.getDueDateJob());
+            ps.setBoolean(13, job.isHaveInterviewed());
+            ps.setBoolean(14, job.isHaveTested());
+            ps.setInt(15, job.getNumOfMember());
+            ps.setInt(16, job.getSecureWallet());
+            ps.setString(17, job.getStatusPost());
+            ps.setInt(18, job.getStatusJobId());
+            ps.setInt(19, job.getJobId());
+
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
 }
 

@@ -489,6 +489,9 @@ public class ContractServlet extends HttpServlet {
 
                 int jobId = contract.getJobId();
                 boolean secureWalletUpdated = jobDAO.addToSecureWallet(jobId, depositB);
+                Job job = jobDAO.getJobById(jobId);
+                job.setStatusJobId(3);
+                jobDAO.updateStatusJobId(jobId, 3);
                 if (!secureWalletUpdated) {
                     throw new SQLException("Không thể cập nhật ví bảo mật của công việc");
                 }

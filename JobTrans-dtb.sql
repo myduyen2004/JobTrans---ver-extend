@@ -399,7 +399,7 @@ CREATE TABLE Contract (
                           job_id INT NOT NULL,
                           contract_preview  NVARCHAR(MAX),
                           contract_link NVARCHAR(MAX),
-                          status NVARCHAR(100) DEFAULT N'Chưa ký kết' CHECK (status IN (, N'Chờ bên B xác nhận kí kết', N'Kí kết thành công', N'Kí kết thất bại')),
+                          status NVARCHAR(100) DEFAULT N'Chưa ký kết' CHECK (status IN (N'Chờ bên B xác nhận kí kết', N'Kí kết thành công', N'Kí kết thất bại', N'Hoàn tất thanh lí')),
                           A_name NVARCHAR(100) NOT NULL,
                           A_identity VARCHAR(50) NOT NULL, --số cccd/cmnd
                           A_identity_date DATE NOT NULL, --ngày cấp
@@ -510,3 +510,23 @@ VALUES
     ('stickers/smile.png', 'smile');
 ALTER TABLE CV
     add color NVARCHAR(MAX);
+
+UPDATE CV_Type
+SET image_cv = './img/anh1/cv1.png'
+WHERE type_id = 1;
+UPDATE CV_Type
+SET image_cv = './img/anh1/cv2.png'
+WHERE type_id = 2;
+UPDATE CV_Type
+SET image_cv = './img/anh1/cv3.png'
+WHERE type_id = 3;
+UPDATE CV_Type
+SET image_cv = './img/anh1/cv4.png'
+WHERE type_id = 4;
+
+INSERT INTO CV_Type (type_name, description, price_cv, image_cv)
+VALUES
+    ('Mordern CV', N'CV hiện đại với thông tin cá nhân và kinh nghiệm làm việc.', 0, 'img/cv/basic_cv_image.jpg'),
+    ('Professional CV', N'CV chuyên nghiệp với các kỹ năng, chứng chỉ, và dự án đã thực hiện.', 0 , 'img/cv/professional_cv.jpg')
+ALTER TABLE Job
+    ADD CONSTRAINT DF_Job_SecureWallet DEFAULT 0.00 FOR secure_wallet;

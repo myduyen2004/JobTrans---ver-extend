@@ -954,7 +954,7 @@ public class AccountDAO {
     }
     public Account getAdmin() {
         Account admin = new Account();
-        String sql = "SELECT * FROM Account WHERE role = 'admin'";
+        String sql = "SELECT * FROM Account WHERE role = 'Admin'";
 
         try (
                 Connection conn = dbConnection.openConnection(); // Hoặc your connection method

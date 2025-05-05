@@ -276,7 +276,7 @@
                                                     <i class="fas fa-cogs "></i> Quản lí công việc
                                                 </button>
                                             </a>
-                                            <a href="job-greeting?action=detail&jobGreetingId=${o.greetingId}&jobId=${jobDetail.jobId}"
+                                            <a href="${pageContext.request.contextPath}/job?action=details-job-posted&jobId=${jobDetail.jobId}"
                                                class="detail-link" style="text-decoration: none;">
                                                 Xem chi tiết
                                             </a>

@@ -637,58 +637,63 @@
         </div>
     </div>
     <!-- Danh sách thanh toán -->
-            <div class="payment-grid">
-                <c:forEach var="item" items="${contractList}">
-                    <div class="payment-card">
-                        <div class="payment-header">
-                            <div class="user-info">
-                                <div class="avatar">
-                                    <i class="fas fa-user"></i>
-                                </div>
-                                <div>
-                                    <div class="user-name">${item.bName}</div>
-                                </div>
-                            </div>
-                            <div class="payment-action">
-                                <i class="fas fa-ellipsis-vertical"></i>
-                            </div>
+    <div class="payment-grid">
+        <c:forEach var="item" items="${contractList}">
+            <div class="payment-card" data-contract-id="${item.contractId}">
+                <div class="payment-header">
+                    <div class="user-info">
+                        <div class="avatar">
+                            <i class="fas fa-user"></i>
                         </div>
-                        <div class="payment-details">
-                            <div class="amount-row">
-                                <div class="amount-label">Số tiền cần trả:</div>
-                                <div class="amount-value">
-                                    <fmt:formatNumber value="${item.jobFee}" type="number" maxFractionDigits="0"/> đ
-                                </div>
-                            </div>
-                            <div class="payment-meta">
-                                <div class="meta-item">
-                                    <div class="meta-label">Số tiền đã cọc trước</div>
-                                    <div class="meta-value">
-                                        <fmt:formatNumber value="${item.jobDepositA}" type="number" maxFractionDigits="0"/> đ
-                                            </div>
-                                </div>
-                                <div class="meta-item">
-                                    <div class="meta-label">Ngày hẹn trả</div>
-                                    <div class="meta-value">
-                                        <fmt:formatDate value="${item.endDate}" pattern="dd/MM/yyyy"/>
-                                    </div>
-                                </div>
-                                <div class="meta-item">
-                                    <div class="meta-label">Phương thức</div>
-                                    <div class="meta-value">Chuyển khoản</div> <!-- Có thể tùy biến -->
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="payment-footer">
-                            <button class="btn btn-primary btn-sm">
-                                <i class="fas fa-check"></i> Xác nhận
-                            </button>
+                        <div>
+                            <div class="user-name">${item.bName}</div>
                         </div>
                     </div>
-                </c:forEach>
+                    <div class="payment-action">
+                        <i class="fas fa-ellipsis-vertical"></i>
+                    </div>
+                </div>
+                <div class="payment-details">
+                    <div class="amount-row">
+                        <div class="amount-label">Số tiền cần trả:</div>
+                        <div class="amount-value">
+                            <fmt:formatNumber value="${item.jobFee}" type="number" maxFractionDigits="0"/> đ
+                        </div>
+                    </div>
+                    <div class="payment-meta">
+                        <div class="meta-item">
+                            <div class="meta-label">Số tiền đã cọc trước</div>
+                            <div class="meta-value">
+                                <fmt:formatNumber value="${item.jobDepositA}" type="number" maxFractionDigits="0"/> đ
+                            </div>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-label">Ngày hẹn trả</div>
+                            <div class="meta-value">
+                                <fmt:formatDate value="${item.endDate}" pattern="dd/MM/yyyy"/>
+                            </div>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-label">Phương thức</div>
+                            <div class="meta-value">Chuyển khoản</div> <!-- Có thể tùy biến -->
+                        </div>
+                    </div>
+                </div>
+                <c:if test="${item.status != 'Hoàn tất thanh lí'}">
+                <div class="payment-footer">
+                    <button class="btn btn-primary btn-sm">
+                        <i class="fas fa-check"></i> Xác nhận
+                    </button>
+                </div>
+                </c:if>
+                <c:if test="${item.status == 'Hoàn tất thanh lí'}">
+                    <div class="payment-footer" style="color: green; font-weight: bold; padding: 10px; background-color: #f0fff0; border: 1px solid #c0e0c0; border-radius: 5px;">
+                        <i class="fas fa-check"></i> Đã trả tiền
+                    </div>
+                </c:if>
             </div>
+        </c:forEach>
+    </div>
 
 </div>
 <!-- Thêm đoạn mã này vào phần cuối trang ngay trước đóng body -->
@@ -709,7 +714,7 @@
                 <span class="amount-value" id="remainingAmount"></span>
             </div>
             <form id="paymentForm" action="job-manage-process" method="GET">
-                <input type="hidden" name="action" value="">
+                <input type="hidden" name="action" value="handle-completion">
                 <input type="hidden" name="contractId" id="contractIdInput">
                 <input type="hidden" name="paymentAmount" id="paymentAmountInput">
                 <input type="hidden" name="jobId" value="<%=jobId%>">
@@ -872,12 +877,13 @@
 
                 // Lấy thông tin từ card này
                 var card = this.closest('.payment-card');
+
+                // Lấy contractId từ data attribute
+                var contractId = card.getAttribute('data-contract-id');
+                console.log("Contract ID:", contractId); // Để debug
+
                 var jobFeeText = card.querySelector('.amount-value').textContent.trim();
                 var depositText = card.querySelector('.meta-value').textContent.trim();
-
-                // Lấy contractId từ card hoặc data attribute
-                // Giả sử mỗi card có data-contract-id, nếu không, bạn cần thêm attribute này
-                var contractId = card.getAttribute('data-contract-id');
 
                 // Xử lý chuỗi để lấy số (loại bỏ tất cả trừ số)
                 var jobFee = jobFeeText.replace(/[^\d]/g, '');
